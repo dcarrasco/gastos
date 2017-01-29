@@ -1,0 +1,252 @@
+.reporte {
+	font-size: 85%;
+}
+
+.search_found {
+	background-color: #D3F3FF;
+}
+
+body {
+	font-family: "TelefonicaWeb-Light", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
+	background-color: #fff
+}
+
+.radio > label,
+.checkbox > label,
+label.checkbox-inline,
+label.radio-inline {
+	font-family: "TelefonicaWeb-Light", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+.btn {
+	font-family: "TelefonicaWeb-Light", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+.navbar {
+	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+table.table > thead,
+label {
+	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+fieldset > legend {
+	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+.nav-tabs, .panel-heading {
+	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+}
+
+.well > div > h2 {
+	font-family: "TelefonicaWeb-Regular";
+}
+
+.navbar-inverse {
+	/*background-color:#005466;*/
+	background-color:#006476;
+	border-color:#080808
+}
+
+.navbar-inverse .navbar-nav>.active>a,
+.navbar-inverse .navbar-nav>.active>a:hover,
+.navbar-inverse .navbar-nav>.active>a:focus {
+	color:#fff;
+	background-color:#004B59;
+}
+
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:hover,
+.navbar-inverse .navbar-nav>.open>a:focus {
+	background-color:#004B59;
+	color:#fff
+}
+
+.navbar-inverse .navbar-brand {
+	color:#dfdfdf;
+	font-size: 20px;
+}
+
+.navbar-inverse .navbar-text{
+	color:#dfdfdf
+}
+
+.navbar-inverse .navbar-nav>li>a{
+	color:#dfdfdf
+}
+
+.tab-pane {
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.nav-tabs > li > a {
+	background-color: #f9f9f9;
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: transparent;
+}
+
+.navbar-nav > li > ul.dropdown-menu,
+.navbar-nav > li > ul.dropdown-menu > li,
+.navbar-nav > li > ul.dropdown-menu > li > a {
+	background-color: #005466;
+	color: #dfdfdf;
+}
+
+.navbar-nav > li > ul.dropdown-menu > li.active > a {
+	background-color: #004B59;
+}
+
+.navbar-nav > li > ul.dropdown-menu > li > a:hover {
+	background-color: #004B59;
+	color: #FFF;
+}
+
+.nav-sidebar > li.active {
+	/*background-color: #D3F3FF;*/
+	background-color: #F0F0F0;
+}
+
+table .header-fixed {
+	position: fixed;
+	top: 0px;
+	z-index: 1020; /* 10 less than .navbar-fixed to prevent any overlap */
+	border-bottom: 1px solid #d5d5d5;
+
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); /* IE6-9 */
+}
+
+.rotate-table-header {
+	-webkit-transform: rotate(270deg);
+	   -moz-transform: rotate(270deg);
+	    -ms-transform: rotate(270deg);
+	     -o-transform: rotate(270deg);
+	transform: rotate(270deg);
+}
+
+@media print {
+	html, body, input, select, option, form, .form-control, .btn {
+		font-size: 9px;
+	}
+
+	a[href]:after {
+		content: none;
+	}
+}
+
+
+
+
+/*
+==============================================================================
+Pie de pagina fijo
+==============================================================================
+*/
+
+html, body, #container { height: 100%; }
+body > #container { height: auto; min-height: 80%; }
+
+/*
+==============================================================================
+Hoja de estilos para tipografias corporativas
+==============================================================================
+*/
+@font-face {
+	font-family: 'TelefonicaCapWeb-Regular';
+	src: local('☺'),
+		 url('../fonts/TelefonicaCapWeb-Regular.eot') format('embedded-opentype'),
+		 url('../fonts/TelefonicaCapWeb-Regular.svg') format('svg'),
+		 url('../fonts/TelefonicaCapWeb-Regular.woff') format('woff'),
+		 url('../fonts/TelefonicaCapWeb-Regular.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TelefonicaWeb-Light';
+	src: local('☺'),
+		 url('../fonts/TelefonicaWeb-Light.eot') format('embedded-opentype'),
+		 url('../fonts/TelefonicaWeb-Light.svg') format('svg'),
+		 url('../fonts/TelefonicaWeb-Light.woff') format('woff'),
+		 url('../fonts/TelefonicaWeb-Light.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TelefonicaWeb-ExtraLight';
+	src: local('☺'),
+		 url('../fonts/TelefonicaWeb-ExtraLight.eot') format('embedded-opentype'),
+		 url('../fonts/TelefonicaWeb-ExtraLight.svg') format('svg'),
+		 url('../fonts/TelefonicaWeb-ExtraLight.woff') format('woff'),
+		 url('../fonts/TelefonicaWeb-ExtraLight.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TelefonicaWeb-Regular';
+	src: local('☺'),
+		 url('../fonts/TelefonicaWeb-Regular.eot') format('embedded-opentype'),
+		 url('../fonts/TelefonicaWeb-Regular.svg') format('svg'),
+		 url('../fonts/TelefonicaWeb-Regular.woff') format('woff'),
+		 url('../fonts/TelefonicaWeb-Regular.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TelefonicaWeb-RegularItalic';
+	src: local('☺'),
+		 url('../fonts/TelefonicaWeb-RegularItalic.eot') format('embedded-opentype'),
+		 url('../fonts/TelefonicaWeb-RegularItalic.svg') format('svg'),
+		 url('../fonts/TelefonicaWeb-RegularItalic.woff') format('woff'),
+		 url('../fonts/TelefonicaWeb-RegularItalic.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'movistarheadlinebold';
+	src: local('☺'),
+		 url('../fonts/movistarheadlinebold.eot') format('embedded-opentype'),
+		 url('../fonts/movistarheadlinebold.svg') format('svg'),
+		 url('../fonts/movistarheadlinebold.woff') format('woff'),
+		 url('../fonts/movistarheadlinebold.ttf') format('ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'movistarheadlineregular';
+	src: local('☺'),
+		 url('../fonts/movistarheadlineregular.eot') format('embedded-opentype'),
+		 url('../fonts/movistarheadlineregular.svg') format('svg'),
+		 url('../fonts/movistarheadlineregular.woff') format('woff'),
+		 url('../fonts/movistarheadlineregular.ttf') format('ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'movistarmarket';
+	src: local('☺'),
+		 url('../fonts/movistarmarket.eot') format('embedded-opentype'),
+		 url('../fonts/movistarmarket.svg') format('svg'),
+		 url('../fonts/movistarmarket.woff') format('woff'),
+		 url('../fonts/movistarmarket.ttf') format('ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
