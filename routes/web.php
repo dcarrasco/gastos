@@ -35,6 +35,11 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'mid
     Route::delete('{modelName}/{modelID}', 'InventarioConfigController@destroy')->name('destroy');
 });
 
+// Inventario
+Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'middleware' => 'auth'], function () {
+    Route::get('ingresar', 'InventarioController@index')->name('index');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
