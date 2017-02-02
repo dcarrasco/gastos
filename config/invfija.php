@@ -1,10 +1,10 @@
 <?php
 // Nombres de las bases de datos
-define('BD_INVENTARIO', '');
-define('BD_TOA', '');
-define('BD_LOGISTICA', '');
-define('BD_CONTROLES', 'bd_controles..');
-define('BD_PLANIFICACION', 'bd_planificacion..');
+define('BD_INVENTARIO', 'bd_inventario.dbo.');
+define('BD_TOA', 'bd_toa.dbo.');
+define('BD_LOGISTICA', 'bd_logistica.dbo.');
+define('BD_CONTROLES', 'bd_controles.dbo.');
+define('BD_PLANIFICACION', 'bd_planificacion.dbo.');
 
 return [
     /*
