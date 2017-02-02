@@ -28,6 +28,7 @@ class OrmModel extends Model
 
     public $timestamps = false;
     protected $fillable = [];
+    protected $perPage = 12;
 
     public function __construct(array $attributes = [])
     {
