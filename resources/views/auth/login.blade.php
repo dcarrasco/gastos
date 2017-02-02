@@ -19,12 +19,12 @@
 
 		{{ Form::open(['id' => 'frm_login', 'class' => 'form-horizontal']) }}
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12 {{ $errors->has('usr') ? 'has-error' : '' }}">
-				<label class="control-label" for="usr">
+			<div class="control-group col-md-8 col-md-offset-2 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
+				<label class="control-label" for="username">
 					{{ trans('login.input_user') }}
 				</label>
 				<div class="controls">
-					{{ Form::text('usr', old('usr'), ['maxlength' => '45', 'class' => 'form-control', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
+					{{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
 				</div>
 			</div>
 
