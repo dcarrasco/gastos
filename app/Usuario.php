@@ -12,7 +12,7 @@ class Usuario extends UserACL
     public $modelLabel = 'Usuario';
 
     protected $fillable = [
-        'nombre', 'activo', 'usr', 'correo',
+        'nombre', 'activo', 'username', 'email',
     ];
 
     protected $guarded = [];
@@ -35,7 +35,7 @@ class Usuario extends UserACL
             'texto_ayuda'    => 'Indica se el usuario est&aacute; activo dentro del sistema.',
             'es_obligatorio' => true,
         ],
-        'usr' => [
+        'username' => [
             'label'          => 'Username',
             'tipo'           => OrmModel::TIPO_CHAR,
             'largo'          => 30,
