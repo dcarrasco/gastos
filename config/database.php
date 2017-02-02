@@ -68,11 +68,11 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => 'sirio',
-            'port' => '',
-            'database' => 'BD_inventario',
-            'username' => 'invfija',
-            'password' => 'fijainv2014!',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE', 'database'),
+            'username' => env('DB_USERNAME', 'username'),
+            'password' => env('DB_PASSWORD', 'password'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
