@@ -53,4 +53,14 @@ class Inventario extends OrmModel
     {
         return $this->belongsTo(TipoInventario::class, 'tipo_inventario');
     }
+
+    public static function getIDInventarioActivo()
+    {
+        return static::where('activo', '=', 1)->first()->getKey();
+    }
+
+    public static function getInventarioActivo()
+    {
+        return static::find(static::getIDInventarioActivo());
+    }
 }

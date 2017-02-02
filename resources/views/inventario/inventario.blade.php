@@ -1,8 +1,11 @@
+@extends('common.app_layout')
+
+@section('modulo')
 <div class="col-md-12 well">
 {validation_errors}
 
-<?= form_open($this->router->class . '/ingreso', 'id="frm_buscar" role="form" class="form-inline"'); ?>
-	<?= form_hidden('formulario','buscar'); ?>
+{{ Form::open(['id' => 'frm_buscar', 'role' => 'form', 'class' => 'form-inline']) }}
+	{{ Form::hidden('formulario','buscar') }}
 
 	<div class="form-group col-md-4">
 		<label>{_inventario_report_label_inventario_}</label>
@@ -159,4 +162,4 @@
 
 <script type="text/javascript" src="{base_url}js/view_inventario.js"></script>
 <script type="text/javascript" src="{base_url}js/reporte.js"></script>
-
+@endsection
