@@ -16,6 +16,7 @@ class InventarioConfigController extends Controller
     public function __construct()
     {
         $this->modelList = [
+            // 'detalleInventario' => ['nombre' => 'Detalle inventario', 'icono' => 'list'],
             'auditor'        => ['nombre' => trans('inventario.config_menu_auditores'), 'icono' => 'user'],
             'familia'        => ['nombre' => trans('inventario.config_menu_familias'), 'icono' => 'th'],
             'catalogo'       => ['nombre' => trans('inventario.config_menu_materiales'), 'icono' => 'barcode'],

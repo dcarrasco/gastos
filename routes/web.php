@@ -38,6 +38,7 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'mid
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'middleware' => 'auth'], function () {
     Route::get('ingresar', 'InventarioController@index')->name('index');
+    Route::post('ingresar', 'InventarioController@store')->name('index');
 });
 
 Auth::routes();
