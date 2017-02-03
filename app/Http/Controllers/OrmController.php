@@ -16,7 +16,7 @@ trait OrmController
      */
     public function index(Request $request, $modelName = null)
     {
-        $modelName = empty($modelName) ? collect(array_keys($this->modelList))->first() : $modelName;
+        $modelName = empty($modelName) ? collect(array_keys($this->menuModulo))->first() : $modelName;
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
         $modelCollection = $fullModelName::filtroOrm($request->input('filtro'))->paginate();

@@ -11,11 +11,11 @@ class InventarioConfigController extends Controller
 
     public $routeName = 'inventarioConfig';
 
-    public $modelList = [];
+    public $menuModulo = [];
 
     public function __construct()
     {
-        $this->modelList = [
+        $this->menuModulo = [
             // 'detalleInventario' => ['nombre' => 'Detalle inventario', 'icono' => 'list'],
             'auditor'        => ['nombre' => trans('inventario.config_menu_auditores'), 'icono' => 'user'],
             'familia'        => ['nombre' => trans('inventario.config_menu_familias'), 'icono' => 'th'],
@@ -28,8 +28,9 @@ class InventarioConfigController extends Controller
             'unidadMedida'   => ['nombre' => trans('inventario.config_menu_unidades_medida'), 'icono' => 'balance-scale'],
         ];
 
-        view()->share('modelList', $this->modelList);
-        view()->share('modelSelected', \Request::segment(2));
+        view()->share('menuModulo', $this->menuModulo);
+        view()->share('moduloSelected', \Request::segment(2));
+        view()->share('moduloRouteName', $this->routeName.'.index');
         view()->share('routeName', $this->routeName);
     }
 

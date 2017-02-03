@@ -1,12 +1,12 @@
-@if (isset($modelList))
+@if (isset($menuModulo))
 <div class="row">
 	<!-- ============================== MENU MODULO ============================== -->
 	<div class="col-md-2">
 	<ul class="nav nav-stacked nav-sidebar hidden-print">
-		@foreach ($modelList as $model => $modelProps)
-		<li class="{{ $model === $modelSelected ? 'active' : '' }}">
-			<a href="{{ route($routeName.'.index', [$model]) }}">
-				<span class="fa fa-{{ $modelProps['icono'] }} fa-fw"></span> {{ $modelProps['nombre'] }}
+		@foreach ($menuModulo as $modulo => $moduloProps)
+		<li class="{{ $modulo === $moduloSelected ? 'active' : '' }}">
+			<a href="{{ route($moduloRouteName, [$modulo]) }}">
+				<span class="fa fa-{{ $moduloProps['icono'] }} fa-fw"></span> {{ $moduloProps['nombre'] }}
 			</a>
 			</li>
 		@endforeach
