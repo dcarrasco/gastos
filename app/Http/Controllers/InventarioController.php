@@ -43,6 +43,8 @@ class InventarioController extends Controller
 
     public function reporte(Request $request, $tipo = null)
     {
+        dump($request);
+
         $inventarioID    = \Request::input('inventario', Inventario::getInventarioActivo()->id);
         $comboInventario = Inventario::getInventarioActivo()->getModelFormOptions();
 

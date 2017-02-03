@@ -15,15 +15,15 @@
 
 	<div class="form-group col-md-5">
 		<label class="checkbox-inline">
-			{{ Form::checkbox('elim_sin_dif', '1', old('elim_sin_dif'), ['id' => 'elim_sin_dif']) }}
+			{{ Form::checkbox('elim_sin_dif', '1', request()->input('elim_sin_dif'), ['id' => 'elim_sin_dif']) }}
 			{{ trans('inventario.report_check_ocultar_regs') }}
 		</label>
 		<label class="checkbox-inline">
-			{{ Form::checkbox('incl_ajustes', '1', old('incl_ajustes'), ['id' => 'incl_ajustes']) }}
+			{{ Form::checkbox('incl_ajustes', '1', request()->input('incl_ajustes'), ['id' => 'incl_ajustes']) }}
 			{{ trans('inventario.report_check_incluir_ajustes') }}
 		</label>
 		<label class="checkbox-inline">
-			{{ Form::checkbox('incl_familias', '1', old('incl_familias'), ['id' => '="incl_familias']) }}
+			{{ Form::checkbox('incl_familias', '1', request()->input('incl_familias'), ['id' => '="incl_familias']) }}
 			{{ trans('inventario.report_check_incluir_familias') }}
 		</label>
 	</div>
