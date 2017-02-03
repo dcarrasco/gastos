@@ -40,4 +40,26 @@ class InventarioController extends Controller
             ->route('inventario.index', ['hoja' => $hoja])
             ->with('alert_message', trans('inventario.digit_msg_save', compact('cantidadLineas', 'hoja')));
     }
+
+    public function reporte(Request $request, $tipo = null)
+    {
+        $inventarioID    = \Request::input('inventario', Inventario::getInventarioActivo()->id);
+        $comboInventario = Inventario::getInventarioActivo()->getModelFormOptions();
+
+        $menuModulo = [
+            'hoja'              => ['nombre' => trans('inventario.menu_reporte_hoja'),     'icono'  => 'file-text-o'],
+            'material'          => ['nombre' => trans('inventario.menu_reporte_mat'),      'icono'  => 'barcode'],
+            'material_faltante' => ['nombre' => trans('inventario.menu_reporte_faltante'), 'icono'  => 'tasks'],
+            'ubicacion'         => ['nombre' => trans('inventario.menu_reporte_ubicacion'), 'icono'  => 'map-marker'],
+            'tipos_ubicacion'   => ['nombre' => trans('inventario.menu_reporte_tip_ubic'),  'icono'  => 'th'],
+            'ajustes'           => ['nombre' => trans('inventario.menu_reporte_ajustes'),   'icono'  => 'wrench'],
+        ];
+        $moduloSelected = empty($tipo) ? collect(array_keys($menuModulo))->first() : $tipo;
+        $moduloRouteName = 'inventario.reporte';
+
+        $inventario = Inventario::find($inventarioID);
+        $reporte = $inventario->reporte($moduloSelected);
+
+        return view('inventario.reporte', compact('inventarioID', 'comboInventario', 'menuModulo', 'moduloSelected', 'moduloRouteName', 'reporte'));
+    }
 }

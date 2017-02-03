@@ -1,27 +1,30 @@
+@extends('common.app_layout')
+
+@section('modulo')
 <div class="col-md-12 well hidden-print">
 
 	{validation_errors}
 
-	<?= form_open('','id="frm_param" class="form-inline"'); ?>
-	<?= form_hidden('sort', set_value('sort','')); ?>
+	{{ Form::open(['method' => 'GET', 'id' => 'frm_param', 'class' => 'form-inline']) }}
+	{{ Form::hidden('sort', old('sort')) }}
 
 	<div class="form-group col-md-5">
-		<label for="sel_inv_activo">{_inventario_report_label_inventario_}</label>
-		<?= form_dropdown('inv_activo', $combo_inventarios, $id_inventario, 'id="sel_inv_activo" class="form-control input-sm"'); ?>
+		<label for="sel_inv_activo">{{ trans('inventario.report_label_inventario') }}</label>
+		{{ Form::select('inventario', $comboInventario, $inventarioID, ['id' => 'sel_inv_activo', 'class' => 'form-control input-sm']) }}
 	</div>
 
 	<div class="form-group col-md-5">
 		<label class="checkbox-inline">
-			<?= form_checkbox('elim_sin_dif', '1', set_value('elim_sin_dif'), 'id="elim_sin_dif"'); ?>
-			{_inventario_report_check_ocultar_regs_}
+			{{ Form::checkbox('elim_sin_dif', '1', old('elim_sin_dif'), ['id' => 'elim_sin_dif']) }}
+			{{ trans('inventario.report_check_ocultar_regs') }}
 		</label>
 		<label class="checkbox-inline">
-			<?= form_checkbox('incl_ajustes', '1', set_value('incl_ajustes'), 'id="incl_ajustes"'); ?>
-			{_inventario_report_check_incluir_ajustes_}
+			{{ Form::checkbox('incl_ajustes', '1', old('incl_ajustes'), ['id' => 'incl_ajustes']) }}
+			{{ trans('inventario.report_check_incluir_ajustes') }}
 		</label>
 		<label class="checkbox-inline">
-			<?= form_checkbox('incl_familias', '1', set_value('incl_familias'), 'id="incl_familias"'); ?>
-			{_inventario_report_check_incluir_familias_}
+			{{ Form::checkbox('incl_familias', '1', old('incl_familias'), ['id' => '="incl_familias']) }}
+			{{ trans('inventario.report_check_incluir_familias') }}
 		</label>
 	</div>
 
@@ -32,15 +35,15 @@
 					<span class="fa fa-search"></span>
 
 				</span>
-				<?= form_input('filtrar_material', set_value('filtrar_material'), 'class="form-control input-sm" id="filtrar_material" placeholder="{_inventario_report_filter_}" onKeyPress="return event.keyCode!=13"'); ?>
+				{{ Form::text('filtrar_material', old('filtrar_material'), ['class' => 'form-control input-sm', 'id' => 'filtrar_material', 'placeholder' => trans('inventario.report_filter'), 'onKeyPress' => 'return event.keyCode!=13']) }}
 			</div>
 		</div>
 	</div>
-	<?= form_close(); ?>
+	{{ Form::close() }}
 </div>
 
 <div>
-	{reporte}
+	{{ dump($reporte) }}
 </div> <!-- fin content-module-main -->
 
 
@@ -94,3 +97,4 @@ $(document).ready(function() {
 
 });
 </script>
+@endsection

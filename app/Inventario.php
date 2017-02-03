@@ -4,6 +4,8 @@ namespace App;
 
 class Inventario extends OrmModel
 {
+    use ReportesInventario;
+
     public $modelLabel = 'Inventario';
 
     protected $fillable = [
@@ -62,15 +64,5 @@ class Inventario extends OrmModel
     public static function getInventarioActivo()
     {
         return static::find(static::getIDInventarioActivo());
-    }
-
-    public function getDetalleHoja($hoja = null)
-    {
-        if (empty($hoja)) {
-            return null;
-        }
-
-        return DetalleInventario::where('id_inventario', '=', $this->id)
-            ->where('hoja', '=', $hoja)->get();
     }
 }
