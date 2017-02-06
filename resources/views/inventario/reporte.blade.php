@@ -43,7 +43,7 @@
 </div>
 
 <div>
-	{{ dump($reporte) }}
+	{!! $reporte !!}
 </div> <!-- fin content-module-main -->
 
 
