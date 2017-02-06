@@ -189,14 +189,24 @@ class OrmModel extends Model
             ->all();
     }
 
-    public function getModelFormOptions()
+    public function getModelFormOptions($filtro = null)
     {
         $elementosForm = [];
-        self::all()->each(function ($elem) use (&$elementosForm) {
+        self::filtroOrm($filtro)->get()->each(function ($elem) use (&$elementosForm) {
             $elementosForm[$elem->getKey()] = (string) $elem;
         });
 
         return $elementosForm;
+    }
+
+    public function getModelAjaxFormOptions($filtro = null)
+    {
+        return collect($this->getModelFormOptions($filtro))
+            ->map(function ($elem, $key) {
+                return ['key' => $key, 'value' => $elem];
+            })->reduce(function ($carry, $elem) {
+                return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
+        }, '');
     }
 
 }

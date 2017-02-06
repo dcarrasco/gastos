@@ -36,7 +36,7 @@
     </div>
 
     <div class="form-group col-md-2 pull-right">
-        <a href="" id="btn_mostrar_agregar" class="btn btn-default pull-right">
+        <a href="{{ route('inventario.add', compact('hoja')) }}" id="btn_mostrar_agregar" class="btn btn-default pull-right">
             <span class="fa fa-plus-circle"></span>
             {{ trans('inventario.button_new_line') }}
         </a>
@@ -72,7 +72,7 @@
                         {{ $linea->getFormattedFieldValue('ubicacion') }}
 
                         @if ($linea->reg_nuevo === 'S')
-                            <a href="" class="btn btn-default btn-xs">
+                            <a href="{{ route('inventario.add', ['hoja' => $hoja, 'id' => $linea->id]) }}" class="btn btn-default btn-xs">
                                 <span class="fa fa-edit"></span>
                             </a>
                             {{ Form::hidden('ubicacion_'   . $linea->id, $linea->ubicacion) }}

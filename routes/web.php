@@ -38,7 +38,11 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'mid
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'middleware' => 'auth'], function () {
     Route::get('ingresar', 'InventarioController@index')->name('index');
-    Route::post('ingresar', 'InventarioController@store')->name('index');
+    Route::post('ingresar', 'InventarioController@store')->name('store');
+    Route::get('nueva-linea/{hoja}/{id?}', 'InventarioController@add')->name('add');
+    Route::post('nueva-linea/{hoja}/{id?}', 'InventarioController@edit')->name('edit');
+    Route::delete('nueva-linea/{hoja}/{id}', 'InventarioController@destroy')->name('destroy');
+    Route::get('ajax-catalogo/{filtro?}', 'InventarioController@ajaxCatalogos')->name('ajaxCatalogos');
     Route::get('reporte/{tipo?}', 'InventarioController@reporte')->name('reporte');
 });
 

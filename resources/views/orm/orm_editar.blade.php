@@ -42,7 +42,7 @@
 							<span class="fa fa-trash-o"></span>
 							{{ trans('orm.button_delete') }}
 						</button>
-						{!! Form::close()!!}
+						{!! Form::close() !!}
 					</div>
 					@endif
 

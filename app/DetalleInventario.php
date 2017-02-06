@@ -7,7 +7,7 @@ class DetalleInventario extends OrmModel
     public $modelLabel = 'Detalle Inventario';
 
     protected $fillable = [
-        'nombre', 'activo', 'tipo_inventario',
+        'ubicacion', 'catalogo', 'lote', 'centro', 'almacen', 'um', 'stock_fisico', 'auditor', 'observacion'
     ];
 
     protected $guarded = [];
@@ -154,6 +154,21 @@ class DetalleInventario extends OrmModel
     public function __toString()
     {
         return $this->hoja;
+    }
+
+    public function getIngresoInventarioValidation()
+    {
+        $validation = $this->getValidation();
+        unset($validation['id_inventario']);
+        unset($validation['hoja']);
+        unset($validation['descripcion']);
+        unset($validation['stock_sap']);
+        unset($validation['digitador']);
+        unset($validation['auditor']);
+        unset($validation['reg_nuevo']);
+        unset($validation['fecha_modificacion']);
+
+        return $validation;
     }
 
 }

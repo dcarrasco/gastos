@@ -55,9 +55,9 @@ return [
     'digit_th_tipo_dif'           => 'tipo dif',
     'digit_th_observacion_ajuste' => 'observaci&oacute;n ajuste',
 
-    'digit_msg_save'   => ':cantidadLineas linea(s) modificadas correctamente en hoja :hoja.',
-    'digit_msg_delete' => 'Linea (id=%d) borrada correctamente en hoja %d.',
-    'digit_msg_add'    => 'Linea agregada correctamente en hoja %d.',
+    'digit_msg_save'   => ':cantidad Lineas linea(s) modificadas correctamente en hoja :hoja.',
+    'digit_msg_delete' => 'Linea (id=:id) borrada correctamente en hoja :hoja.',
+    'digit_msg_add'    => 'Linea agregada correctamente en hoja :hoja.',
     'adjust_msg_save'  => '%d linea(s) modificadas correctamente.',
     'adjust_link_hide' => 'Ocultar lineas regularizadas',
     'adjust_link_show' => 'Mostrar lineas regularizadas',

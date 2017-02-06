@@ -33,7 +33,7 @@
     <script type="text/javascript" src="{{ asset('js/jquery.jqplot.min.js') }}"></script>
 
     <script type="text/javascript">
-        var js_base_url = "{js_base_url}";
+        var js_base_url = "{{ asset('') }}";
     </script>
 
     @if (auth()->guest())
