@@ -18,6 +18,15 @@ trait ReportesInventario
             'um' => ['titulo' => 'UM'],
             'pmp' => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
 
+            'ubicacion' => ['titulo' => 'Ubicacion'],
+            'tipo_ubicacion' => ['titulo' => 'Tipo de Ubicacion'],
+
+            'lote' => ['titulo' => 'Lote'],
+            'centro' => ['titulo' => 'Centro'],
+            'almacen' => ['titulo' => 'Almacen'],
+            'tipo_ajuste' => ['titulo' => 'Tipo Dif'],
+            'glosa_ajuste' => ['titulo' => 'Observacion'],
+
             'sum_stock_sap' => ['titulo' => 'Cant SAP', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_fisico' => ['titulo' => 'Cant Fisico', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_ajuste' => ['titulo' => 'Cant Ajuste', 'class' => 'text-center', 'tipo' => 'numero'],
@@ -71,14 +80,11 @@ trait ReportesInventario
         return $reporte->make();
     }
 
-    public function reporteHoja()
+    protected function selectFieldsCantidades()
     {
         $inclAjuste = request()->input('incl_ajustes') ? ' + d.stock_ajuste' : '';
 
-        $selectFields = [
-            'd.hoja',
-            \DB::raw('a.nombre as auditor'),
-            \DB::raw('u.nombre as digitador'),
+        return [
             \DB::raw('sum(d.stock_sap) as sum_stock_sap'),
             \DB::raw('sum(d.stock_fisico) as sum_stock_fisico'),
             \DB::raw('sum(d.stock_ajuste) as sum_stock_ajuste'),
@@ -88,42 +94,70 @@ trait ReportesInventario
             \DB::raw('sum(d.stock_ajuste*c.pmp) as sum_valor_ajuste'),
             \DB::raw('sum((d.stock_fisico-d.stock_sap'.$inclAjuste.')*c.pmp) as sum_valor_diff'),
         ];
+    }
 
-        $groupByFields = ['hoja', 'a.nombre', 'u.nombre'];
+    protected function camposCantidades()
+    {
+        $camposCantidades = [];
+        $camposCantidades['sum_stock_sap'] = $this->getCampo('sum_stock_sap');
+        $camposCantidades['sum_stock_fisico'] = $this->getCampo('sum_stock_fisico');
+        if (request()->input('incl_ajustes')) {
+            $camposCantidades['sum_stock_ajuste'] = $this->getCampo('sum_stock_ajuste');
+        }
+        $camposCantidades['sum_stock_diff'] = $this->getCampo('sum_stock_diff');
 
+        $camposCantidades['sum_valor_sap'] = $this->getCampo('sum_valor_sap');
+        $camposCantidades['sum_valor_fisico'] = $this->getCampo('sum_valor_fisico');
+        if (request()->input('incl_ajustes')) {
+            $camposCantidades['sum_valor_ajuste'] = $this->getCampo('sum_valor_ajuste');
+        }
+        $camposCantidades['sum_valor_diff'] = $this->getCampo('sum_valor_diff');
+
+        return $camposCantidades;
+    }
+
+    protected function queryBaseReporteInventario($selectFields = [], $groupByFields = [])
+    {
         return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
             ->where('id_inventario', '=', $this->id)
-            ->leftJoin(\DB::raw(config('invfija.bd_auditores').' as a'), 'd.auditor', '=', 'a.id')
-            ->leftJoin(\DB::raw(config('invfija.bd_usuarios').' as u'), 'd.digitador', '=', 'u.id')
             ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 'd.catalogo', '=', 'c.catalogo')
             ->select($selectFields)
-            ->groupBy($groupByFields)
+            ->groupBy($groupByFields);
+    }
+
+    protected function camposReporte($campos = [])
+    {
+        $camposReporte = [];
+        foreach ($campos as $campo) {
+            $camposReporte[$campo] = $this->getCampo($campo);
+        }
+
+        return $camposReporte;
+    }
+
+    public function reporteHoja()
+    {
+        $selectFields = array_merge([
+                'd.hoja',
+                \DB::raw('a.nombre as auditor'),
+                \DB::raw('u.nombre as digitador'),
+            ],
+            $this->selectFieldsCantidades()
+        );
+
+        $groupByFields = ['d.hoja', 'a.nombre', 'u.nombre'];
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->leftJoin(\DB::raw(config('invfija.bd_auditores').' as a'), 'd.auditor', '=', 'a.id')
+            ->leftJoin(\DB::raw(config('invfija.bd_usuarios').' as u'), 'd.digitador', '=', 'u.id')
             ->orderBy('hoja')
             ->get();
     }
 
     public function camposReporteHoja()
     {
-        $campos = [];
-
-        $campos['hoja']      = $this->getCampo('hoja');
-        $campos['auditor']   = $this->getCampo('auditor');
-        $campos['digitador'] = $this->getCampo('digitador');
-
-        $campos['sum_stock_sap'] = $this->getCampo('sum_stock_sap');
-        $campos['sum_stock_fisico'] = $this->getCampo('sum_stock_fisico');
-        if (request()->input('incl_ajustes')) {
-            $campos['sum_stock_ajuste'] = $this->getCampo('sum_stock_ajuste');
-        }
-        $campos['sum_stock_diff'] = $this->getCampo('sum_stock_diff');
-
-        $campos['sum_valor_sap'] = $this->getCampo('sum_valor_sap');
-        $campos['sum_valor_fisico'] = $this->getCampo('sum_valor_fisico');
-        if (request()->input('incl_ajustes')) {
-            $campos['sum_valor_ajuste'] = $this->getCampo('sum_valor_ajuste');
-        }
-        $campos['sum_valor_diff'] = $this->getCampo('sum_valor_diff');
-
+        $campos = ['hoja', 'auditor', 'digitador'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
         Reporte::setOrderCampos($campos, 'hoja');
 
         return $campos;
@@ -131,57 +165,20 @@ trait ReportesInventario
 
     public function reporteMaterial()
     {
-        $inclAjuste = request()->input('incl_ajustes') ? ' + d.stock_ajuste' : '';
+        $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
 
-        $selectFields = [
-            'd.catalogo',
-            'd.descripcion',
-            'd.um',
-            'c.pmp',
-            \DB::raw('sum(d.stock_sap) as sum_stock_sap'),
-            \DB::raw('sum(d.stock_fisico) as sum_stock_fisico'),
-            \DB::raw('sum(d.stock_ajuste) as sum_stock_ajuste'),
-            \DB::raw('sum(d.stock_fisico-d.stock_sap'.$inclAjuste.') as sum_stock_diff'),
-            \DB::raw('sum(d.stock_sap*c.pmp) as sum_valor_sap'),
-            \DB::raw('sum(d.stock_fisico*c.pmp) as sum_valor_fisico'),
-            \DB::raw('sum(d.stock_ajuste*c.pmp) as sum_valor_ajuste'),
-            \DB::raw('sum((d.stock_fisico-d.stock_sap'.$inclAjuste.')*c.pmp) as sum_valor_diff'),
-        ];
+        $selectFields = array_merge($reporteFields, $this->selectFieldsCantidades());
+        $groupByFields = $reporteFields;
 
-        $groupByFields = ['catalogo', 'descripcion', 'um', 'pmp'];
-
-        return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
-            ->where('id_inventario', '=', $this->id)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 'd.catalogo', '=', 'c.catalogo')
-            ->select($selectFields)
-            ->groupBy($groupByFields)
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
             ->orderBy('catalogo')
             ->get();
     }
 
     public function camposReporteMaterial()
     {
-        $campos = [];
-
-        $campos['catalogo']    = $this->getCampo('catalogo');
-        $campos['descripcion'] = $this->getCampo('descripcion');
-        $campos['um']          = $this->getCampo('um');
-        $campos['pmp']         = $this->getCampo('pmp');
-
-        $campos['sum_stock_sap']    = $this->getCampo('sum_stock_sap');
-        $campos['sum_stock_fisico'] = $this->getCampo('sum_stock_fisico');
-        if (request()->input('incl_ajustes')) {
-            $campos['sum_stock_ajuste'] = $this->getCampo('sum_stock_ajuste');
-        }
-        $campos['sum_stock_diff'] = $this->getCampo('sum_stock_diff');
-
-        $campos['sum_valor_sap']    = $this->getCampo('sum_valor_sap');
-        $campos['sum_valor_fisico'] = $this->getCampo('sum_valor_fisico');
-        if (request()->input('incl_ajustes')) {
-            $campos['sum_valor_ajuste'] = $this->getCampo('sum_valor_ajuste');
-        }
-        $campos['sum_valor_diff'] = $this->getCampo('sum_valor_diff');
-
+        $campos = ['catalogo', 'descripcion', 'um', 'pmp'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
         Reporte::setOrderCampos($campos, 'catalogo');
 
         return $campos;
@@ -191,45 +188,106 @@ trait ReportesInventario
     {
         $inclAjuste = request()->input('incl_ajustes') ? ' + d.stock_ajuste' : '';
 
-        $selectFields = [
-            'd.catalogo',
-            'd.descripcion',
-            'd.um',
-            'c.pmp',
+        $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
+
+        $selectFields = array_merge($reporteFields, [
             \DB::raw('(SUM(stock_sap) - 0.5 * (SUM(stock_sap + stock_fisico'.$inclAjuste.') - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_faltante'),
             \DB::raw('(0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_coincidente'),
             \DB::raw('(SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_sobrante'),
             \DB::raw('c.pmp * (SUM(stock_sap) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_faltante'),
             \DB::raw('c.pmp * (0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_coincidente'),
             \DB::raw('c.pmp * (SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_sobrante'),
-        ];
+        ]);
+        $groupByFields = $reporteFields;
 
-        $groupByFields = ['catalogo', 'descripcion', 'um', 'pmp'];
-
-        return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
-            ->where('id_inventario', '=', $this->id)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 'd.catalogo', '=', 'c.catalogo')
-            ->select($selectFields)
-            ->groupBy($groupByFields)
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
             ->orderBy('catalogo')
             ->get();
     }
 
     public function camposReporteMaterialFaltante()
     {
-        $campos = [];
+        $campos = $this->camposReporte([
+            'catalogo', 'descripcion', 'um', 'pmp',
+            'q_faltante', 'q_coincidente', 'q_sobrante',
+            'v_faltante', 'v_coincidente', 'v_sobrante'
+        ]);
+        Reporte::setOrderCampos($campos, 'catalogo');
 
-        $campos['catalogo']    = $this->getCampo('catalogo');
-        $campos['descripcion'] = $this->getCampo('descripcion');
-        $campos['um']          = $this->getCampo('um');
-        $campos['pmp']         = $this->getCampo('pmp');
+        return $campos;
+    }
 
-        $campos['q_faltante']    = $this->getCampo('q_faltante');
-        $campos['q_coincidente'] = $this->getCampo('q_coincidente');
-        $campos['q_sobrante']    = $this->getCampo('q_sobrante');
-        $campos['v_faltante']    = $this->getCampo('v_faltante');
-        $campos['v_coincidente'] = $this->getCampo('v_coincidente');
-        $campos['v_sobrante']    = $this->getCampo('v_sobrante');
+    public function reporteUbicacion()
+    {
+        $reporteFields = ['d.ubicacion'];
+
+        $selectFields = array_merge($reporteFields, $this->selectFieldsCantidades());
+        $groupByFields = $reporteFields;
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->orderBy('d.ubicacion')
+            ->get();
+    }
+
+    public function camposReporteUbicacion()
+    {
+        $campos = ['ubicacion'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
+        Reporte::setOrderCampos($campos, 'catalogo');
+
+        return $campos;
+    }
+
+    public function reporteTiposUbicacion()
+    {
+        $reporteFields = ['t.tipo_ubicacion', 'd.ubicacion'];
+
+        $selectFields = array_merge($reporteFields, $this->selectFieldsCantidades());
+        $groupByFields = $reporteFields;
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->leftJoin(\DB::raw(config('invfija.bd_inventarios').' as i'), 'd.id_inventario', '=', 'i.id')
+            ->leftJoin(\DB::raw(config('invfija.bd_ubic_tipoubic').' as ut'), 'd.ubicacion', '=', 'ut.ubicacion')
+            ->leftJoin(\DB::raw(config('invfija.bd_tipo_ubicacion').' as t'), 'ut.id_tipo_ubicacion', '=', 't.id')
+            ->orderBy('t.tipo_ubicacion')
+            ->get();
+    }
+
+    public function camposReporteTiposUbicacion()
+    {
+        $campos = ['tipo_ubicacion', 'ubicacion'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
+        Reporte::setOrderCampos($campos, 'tipo_ubicacion');
+
+        return $campos;
+    }
+
+    public function reporteAjustes()
+    {
+        $reporteFields = ['d.catalogo', 'd.descripcion', 'd.lote', 'd.centro', 'd.almacen', 'd.ubicacion', 'd.hoja', 'd.um', 'd.glosa_ajuste'];
+
+        $selectFields = array_merge(
+            array_merge($reporteFields, [
+                \DB::raw('CASE WHEN (stock_fisico - stock_sap + stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) < 0 THEN \'FALTANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) = 0 THEN \'OK\' END as tipo_ajuste')
+            ]),
+            $this->selectFieldsCantidades());
+        $groupByFields = array_merge($reporteFields, [\DB::raw('CASE WHEN (stock_fisico - stock_sap + stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) < 0 THEN \'FALTANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) = 0 THEN \'OK\' END')]);
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->orderBy('d.catalogo')
+            ->get();
+    }
+
+    public function camposReporteAjustes()
+    {
+        $campos = ['catalogo', 'descripcion', 'lote', 'centro', 'almacen', 'ubicacion', 'hoja', 'um'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
+        $campos['tipo_ajuste'] = $this->getCampo('tipo_ajuste');
+        $campos['glosa_ajuste'] = $this->getCampo('glosa_ajuste');
+
+        unset($campos['sum_valor_sap']);
+        unset($campos['sum_valor_fisico']);
+        unset($campos['sum_valor_diff']);
 
         Reporte::setOrderCampos($campos, 'catalogo');
 

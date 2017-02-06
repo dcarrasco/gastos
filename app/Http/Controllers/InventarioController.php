@@ -60,7 +60,7 @@ class InventarioController extends Controller
                 'nombre' => trans('inventario.menu_reporte_ubicacion'),
                 'icono'  => 'map-marker'
             ],
-            'tipos_ubicacion' => [
+            'tiposUbicacion' => [
                 'nombre' => trans('inventario.menu_reporte_tip_ubic'),
                 'icono'  => 'th'
             ],
