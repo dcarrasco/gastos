@@ -75,7 +75,10 @@ trait ReportesInventario
 
     public function reporte($tipo)
     {
-        $reporte = new Reporte($this->{'reporte'.ucfirst($tipo)}(), $this->{'camposReporte'.ucfirst($tipo)}());
+        $reporte = new Reporte(
+            $this->{'reporte'.ucfirst($tipo)}(),
+            $this->{'camposReporte'.ucfirst($tipo)}()
+        );
 
         return $reporte->make();
     }
@@ -137,14 +140,10 @@ trait ReportesInventario
 
     public function reporteHoja()
     {
-        $selectFields = array_merge([
-                'd.hoja',
-                \DB::raw('a.nombre as auditor'),
-                \DB::raw('u.nombre as digitador'),
-            ],
+        $selectFields = array_merge(
+            ['d.hoja', \DB::raw('a.nombre as auditor'), \DB::raw('u.nombre as digitador')],
             $this->selectFieldsCantidades()
         );
-
         $groupByFields = ['d.hoja', 'a.nombre', 'u.nombre'];
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
@@ -247,7 +246,10 @@ trait ReportesInventario
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
             ->leftJoin(\DB::raw(config('invfija.bd_inventarios').' as i'), 'd.id_inventario', '=', 'i.id')
-            ->leftJoin(\DB::raw(config('invfija.bd_ubic_tipoubic').' as ut'), 'd.ubicacion', '=', 'ut.ubicacion')
+            ->leftJoin(\DB::raw(config('invfija.bd_ubic_tipoubic').' as ut'), function ($join) {
+                $join->on('d.ubicacion', '=', 'ut.ubicacion');
+                $join->on('i.tipo_inventario', '=', 'ut.tipo_inventario');
+            })
             ->leftJoin(\DB::raw(config('invfija.bd_tipo_ubicacion').' as t'), 'ut.id_tipo_ubicacion', '=', 't.id')
             ->orderBy('t.tipo_ubicacion')
             ->get();
@@ -266,12 +268,13 @@ trait ReportesInventario
     {
         $reporteFields = ['d.catalogo', 'd.descripcion', 'd.lote', 'd.centro', 'd.almacen', 'd.ubicacion', 'd.hoja', 'd.um', 'd.glosa_ajuste'];
 
+        $queryTipoAjuste = 'CASE WHEN (stock_fisico-stock_sap+stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico-stock_sap+stock_ajuste) < 0 THEN \'FALTANTE\' ELSE \'OK\' END';
+
         $selectFields = array_merge(
-            array_merge($reporteFields, [
-                \DB::raw('CASE WHEN (stock_fisico - stock_sap + stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) < 0 THEN \'FALTANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) = 0 THEN \'OK\' END as tipo_ajuste')
-            ]),
-            $this->selectFieldsCantidades());
-        $groupByFields = array_merge($reporteFields, [\DB::raw('CASE WHEN (stock_fisico - stock_sap + stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) < 0 THEN \'FALTANTE\' WHEN (stock_fisico - stock_sap + stock_ajuste) = 0 THEN \'OK\' END')]);
+            array_merge($reporteFields, [\DB::raw($queryTipoAjuste.' as tipo_ajuste')]),
+            $this->selectFieldsCantidades()
+        );
+        $groupByFields = array_merge($reporteFields, [\DB::raw($queryTipoAjuste)]);
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
             ->orderBy('d.catalogo')
