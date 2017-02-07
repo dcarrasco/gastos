@@ -16,13 +16,13 @@ Route::get('/', function () {
 });
 
 // ACL Config
-Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'middleware' => 'auth'], function () {
-    Route::get('{modelName?}', 'AclConfigController@index')->name('index');
-    Route::get('{modelName}/create', 'AclConfigController@create')->name('create');
-    Route::post('{modelName}', 'AclConfigController@store')->name('store');
-    Route::get('{modelName}/{modelID}/edit', 'AclConfigController@edit')->name('edit');
-    Route::put('{modelName}/{modelID}', 'AclConfigController@update')->name('update');
-    Route::delete('{modelName}/{modelID}', 'AclConfigController@destroy')->name('destroy');
+Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'namespace' => 'Acl', 'middleware' => 'auth'], function () {
+    Route::get('{modelName?}', 'ConfigController@index')->name('index');
+    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+    Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
 });
 
 // Inventario Config
