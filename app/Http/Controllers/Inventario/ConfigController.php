@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Inventario;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\OrmController;
 
-class InventarioConfigController extends Controller
+class ConfigController extends Controller
 {
     use OrmController;
 
