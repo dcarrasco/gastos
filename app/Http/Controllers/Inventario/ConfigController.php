@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Inventario;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\OrmController;
+use App\Http\Controllers\Orm\OrmController;
 
 class ConfigController extends Controller
 {
