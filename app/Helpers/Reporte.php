@@ -168,7 +168,7 @@ class Reporte
                     .$template['row_open']
                     .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
                     .$template['row_close'];
-            })
+            }, '')
             .$this->template['tbody_close'];
 
         // --- TOTALES ---
