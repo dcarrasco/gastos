@@ -9,39 +9,39 @@ trait ReportesInventario
     protected function getCampo($campo)
     {
         $campos = [
-            'hoja' => ['titulo' => 'Hoja', 'tipo' => 'link', 'href' => '/listado/detalle_hoja/'],
-            'auditor' => ['titulo' => 'Auditor'],
+            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link', 'href' => '/listado/detalle_hoja/'],
+            'auditor'   => ['titulo' => 'Auditor'],
             'digitador' => ['titulo' => 'Digitador'],
 
-            'catalogo' => ['titulo' => 'Catalogo', 'tipo' => 'link', 'href' => '/listado/detallematerial'],
+            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link', 'href' => '/listado/detallematerial'],
             'descripcion' => ['titulo' => 'Descripcion'],
-            'um' => ['titulo' => 'UM'],
-            'pmp' => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
+            'um'          => ['titulo' => 'UM'],
+            'pmp'         => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
 
-            'ubicacion' => ['titulo' => 'Ubicacion'],
+            'ubicacion'      => ['titulo' => 'Ubicacion'],
             'tipo_ubicacion' => ['titulo' => 'Tipo de Ubicacion'],
 
-            'lote' => ['titulo' => 'Lote'],
-            'centro' => ['titulo' => 'Centro'],
-            'almacen' => ['titulo' => 'Almacen'],
-            'tipo_ajuste' => ['titulo' => 'Tipo Dif'],
+            'lote'         => ['titulo' => 'Lote'],
+            'centro'       => ['titulo' => 'Centro'],
+            'almacen'      => ['titulo' => 'Almacen'],
+            'tipo_ajuste'  => ['titulo' => 'Tipo Dif'],
             'glosa_ajuste' => ['titulo' => 'Observacion'],
 
-            'sum_stock_sap' => ['titulo' => 'Cant SAP', 'class' => 'text-center', 'tipo' => 'numero'],
+            'sum_stock_sap'    => ['titulo' => 'Cant SAP', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_fisico' => ['titulo' => 'Cant Fisico', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_ajuste' => ['titulo' => 'Cant Ajuste', 'class' => 'text-center', 'tipo' => 'numero'],
-            'sum_stock_diff' => ['titulo' => 'Cant Dif', 'class' => 'text-center', 'tipo' => 'numero_dif'],
+            'sum_stock_diff'   => ['titulo' => 'Cant Dif', 'class' => 'text-center', 'tipo' => 'numero_dif'],
 
-            'sum_valor_sap' => ['titulo' => 'Valor SAP', 'class' => 'text-center', 'tipo' => 'valor'],
+            'sum_valor_sap'    => ['titulo' => 'Valor SAP', 'class' => 'text-center', 'tipo' => 'valor'],
             'sum_valor_fisico' => ['titulo' => 'Valor Fisico', 'class' => 'text-center', 'tipo' => 'valor'],
             'sum_valor_ajuste' => ['titulo' => 'Valor Ajuste', 'class' => 'text-center', 'tipo' => 'valor'],
-            'sum_valor_diff' => ['titulo' => 'Valor Dif', 'class' => 'text-center', 'tipo' => 'valor_dif'],
+            'sum_valor_diff'   => ['titulo' => 'Valor Dif', 'class' => 'text-center', 'tipo' => 'valor_dif'],
 
-            'q_faltante' => ['titulo'=>'Cant Faltante', 'class'=>'text-center', 'tipo'=>'numero'],
-            'q_sobrante' => ['titulo'=>'Cant Sobrante', 'class'=>'text-center', 'tipo'=>'numero'],
+            'q_faltante'    => ['titulo'=>'Cant Faltante', 'class'=>'text-center', 'tipo'=>'numero'],
+            'q_sobrante'    => ['titulo'=>'Cant Sobrante', 'class'=>'text-center', 'tipo'=>'numero'],
             'q_coincidente' => ['titulo'=>'Cant Coincidente', 'class'=>'text-center', 'tipo'=>'numero'],
-            'v_faltante' => ['titulo'=>'Valor Faltante', 'class'=>'text-center', 'tipo'=>'valor'],
-            'v_sobrante' => ['titulo'=>'Valor Sobrante', 'class'=>'text-center', 'tipo'=>'valor'],
+            'v_faltante'    => ['titulo'=>'Valor Faltante', 'class'=>'text-center', 'tipo'=>'valor'],
+            'v_sobrante'    => ['titulo'=>'Valor Sobrante', 'class'=>'text-center', 'tipo'=>'valor'],
             'v_coincidente' => ['titulo'=>'Valor Coincidente', 'class'=>'text-center', 'tipo'=>'valor'],
         ];
 
@@ -69,8 +69,8 @@ trait ReportesInventario
             return null;
         }
 
-        return DetalleInventario::where('id_inventario', '=', $this->id)
-            ->where('hoja', '=', $hoja)->get();
+        return DetalleInventario::where('id_inventario', $this->id)
+            ->where('hoja', $hoja)->get();
     }
 
     public function reporte($tipo)
@@ -122,7 +122,7 @@ trait ReportesInventario
     protected function queryBaseReporteInventario($selectFields = [], $groupByFields = [])
     {
         return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
-            ->where('id_inventario', '=', $this->id)
+            ->where('id_inventario', $this->id)
             ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 'd.catalogo', '=', 'c.catalogo')
             ->select($selectFields)
             ->groupBy($groupByFields);
