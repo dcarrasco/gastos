@@ -97,15 +97,15 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relation_field = $this->modelFields[$field]['relation_model'];
-            return (string) $this->{$relation_field};
+            $relationField = $this->modelFields[$field]['relation_model'];
+            return (string) $this->{$relationField};
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
-            $relation_field = $this->modelFields[$field]['relation_model'];
+            $relationField = $this->modelFields[$field]['relation_model'];
 
             return '<ul>'
-                .$this->{$relation_field}->reduce(function ($list, $relationObject) {
+                .$this->{$relationField}->reduce(function ($list, $relationObject) {
                     return $list.'<li>'.(string) $relationObject.'</li>';
                 }, '')
                 . '</ul>';
@@ -152,7 +152,7 @@ class OrmModel extends Model
                     return $modelElem->{$modelElem->getKeyName()};
                 })->all();
 
-            return Form::select($field.'[]', $relationModel->getModelFormOptions(), $elementosSelected, array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam));
+            return Form::select($field.'[]', $relationModel->getModelFormOptions($this->getWhereFromRelation($field)), $elementosSelected, array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam));
         }
 
         return Form::text($field, $this->getAttribute($field), $extraParam);
@@ -189,10 +189,10 @@ class OrmModel extends Model
             ->all();
     }
 
-    public function getModelFormOptions($filtro = null)
+    public function getModelFormOptions($where = [])
     {
         $elementosForm = [];
-        self::filtroOrm($filtro)->get()->each(function ($elem) use (&$elementosForm) {
+        self::where($where)->get()->each(function ($elem) use (&$elementosForm) {
             $elementosForm[$elem->getKey()] = (string) $elem;
         });
 
@@ -207,6 +207,17 @@ class OrmModel extends Model
             })->reduce(function ($carry, $elem) {
                 return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
         }, '');
+    }
+
+    public function getWhereFromRelation($field = null)
+    {
+        $object = $this;
+
+        return collect($this->modelFields[$field]['relation_conditions'])
+            ->map(function ($elem, $key) use ($object) {
+                list($tipo, $campo, $default) = explode(':', $elem);
+                return $object->{$campo};
+            })->all();
     }
 
 }
