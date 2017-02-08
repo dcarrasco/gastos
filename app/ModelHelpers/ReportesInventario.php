@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\ModelHelpers;
 
 use App\Helpers\Reporte;
 
