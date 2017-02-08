@@ -2,9 +2,12 @@
 
 namespace App;
 
+use App\ModelHelpers\ReportesInventario;
+use App\ModelHelpers\AjustesInventario;
+
 class Inventario extends OrmModel
 {
-    use ReportesInventario;
+    use ReportesInventario, AjustesInventario;
 
     public $modelLabel = 'Inventario';
 
