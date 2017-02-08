@@ -20,6 +20,7 @@ class Rol extends OrmModel
             'tipo'           => OrmModel::TIPO_HAS_ONE,
             'relation_model' => 'app',
             'texto_ayuda'    => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
+            'onchange'       => 'modulo',
         ],
         'rol' => [
             'label'          => 'Rol',

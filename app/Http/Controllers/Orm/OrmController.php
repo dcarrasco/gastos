@@ -134,4 +134,12 @@ trait OrmController
             ->route($this->routeName.'.index', [$modelName])
             ->with('alert_message', trans('orm.msg_delete_ok', ['nombre_modelo' => $modelObject->modelLabel, 'valor_modelo' => (string) $modelObject]));
     }
+
+    public function ajaxOnChange(Request $request, $modelName = null)
+    {
+        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
+        $modelObject = new $fullModelName;
+
+        return $modelObject->getModelAjaxFormOptions(request()->input());
+    }
 }

@@ -116,6 +116,8 @@ class OrmModel extends Model
 
     public function getFieldForm($field = null, $extraParam = [])
     {
+        $extraParam['id'] = $field;
+
         if ($this->getFieldType($field) === self::TIPO_CHAR and $this->getFieldLength($field)) {
             $extraParam['maxlength'] = $this->getFieldLength($field);
         }
@@ -139,6 +141,15 @@ class OrmModel extends Model
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
             $relationModelName = '\\App\\'.ucfirst($this->modelFields[$field]['relation_model']);
             $relationModel = new $relationModelName;
+
+            if (array_key_exists('onchange', $this->modelFields[$field])) {
+                $route = \Route::currentRouteName();
+                list($routeName, $routeAction) = explode('.', $route);
+
+                $elemDest = $this->modelFields[$field]['onchange'];
+                $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
+                $extraParam['onchange'] = "$('#{$elemDest}').html('');$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });";
+            }
 
             return Form::select($field, $relationModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
         }
@@ -199,9 +210,9 @@ class OrmModel extends Model
         return $elementosForm;
     }
 
-    public function getModelAjaxFormOptions($filtro = null)
+    public function getModelAjaxFormOptions($where = [])
     {
-        return collect($this->getModelFormOptions($filtro))
+        return collect($this->getModelFormOptions($where))
             ->map(function ($elem, $key) {
                 return ['key' => $key, 'value' => $elem];
             })->reduce(function ($carry, $elem) {

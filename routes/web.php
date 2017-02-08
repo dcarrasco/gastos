@@ -23,6 +23,7 @@ Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'namespace' => 'Ac
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
 });
 
 // Inventario Config
@@ -33,6 +34,7 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'nam
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
 });
 
 // Inventario
