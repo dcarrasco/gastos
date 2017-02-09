@@ -16,8 +16,7 @@
 </div>
 
 <div>
-    {{ Form::open(['id' => 'frm_inventario']) }}
-    {{ Form::hidden('formulario','ajustes') }}
+    {{ Form::open(['url' => Request::fullUrl(), 'id' => 'frm_inventario']) }}
 
     <table class="table table-hover table-condensed reporte table-fixed-header">
 

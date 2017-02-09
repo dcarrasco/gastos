@@ -1,47 +1,49 @@
+@extends('common.app_layout')
+
+@section('modulo')
 <div class="row">
 	<div class="col-md-10 col-md-offset-1 well">
-		<?= form_open_multipart($this->router->class . '/sube_stock', 'class="form-horizontal" role="form"'); ?>
-		<?= form_hidden('formulario','upload'); ?>
+		{{ Form::open(['class'=>'form-horizontal', 'role'=>'form', 'files'=>true]) }}
 		<fieldset>
 
-			<legend>{_inventario_upload_label_fieldset_}</legend>
+			<legend>{{ trans('inventario.upload_label_fieldset') }}</legend>
 
 			<div class="form-group">
-				<label class="control-label col-sm-4">{_inventario_upload_label_inventario_}</label>
+				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_inventario') }}</label>
 				<div class="col-sm-8">
-					<p class="form-control-static">{inventario_id} - {inventario_nombre}</p>
+					<p class="form-control-static">{{ $inventario->id }} - {{ $inventario }}</p>
 				</div>
 			</div>
 
-			<?php if (!$show_script_carga): ?>
+			<?php if (!$showScriptCarga): ?>
 			<div class="form-group">
-				<label class="control-label col-sm-4">{_inventario_upload_label_file_}</label>
+				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_file') }}</label>
 				<div class="col-sm-8">
 					<div class="alert alert-danger">
 						<button type="button" class="close" data-dismiss="alert">&times;</button>
 						<p><strong>
 							<span class="fa fa-exclamation-circle"></span>
-							{_inventario_upload_warning_line1_}
+							{{ trans('inventario.upload_warning_line1') }}
 						</strong></p>
 						<p>
-							{_inventario_upload_warning_line2_} "{inventario_nombre}".
+							{!! trans('inventario.upload_warning_line2') !!} "{{ $inventario }}".
 						</p>
 					</div>
-					<?= form_upload('upload_file', '', 'class="form-control" accept=".txt,.csv"'); ?>
+					{{ Form::file('upload_file', ['class'=>'form-control', 'accept'=>'.txt,.csv']) }}
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-sm-4">{_inventario_upload_label_password_}</label>
+				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_password') }}</label>
 				<div class="col-sm-8">
-					<?= form_password('upload_password', '', 'class="form-control"'); ?>
+					{{ Form::password('upload_password', ['class' => 'form-control']) }}
 				</div>
 			</div>
 			<?php endif; ?>
 
-			<?php if ($show_script_carga): ?>
+			<?php if ($showScriptCarga): ?>
 			<div class="form-group">
-				<label class="control-label col-sm-4">{_inventario_upload_label_progress_}</label>
+				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_progress') }}</label>
 				<div class="col-sm-8">
 					{msj_error}
 					<div id="progreso_carga">
@@ -49,11 +51,11 @@
 							<div class="progress-bar" role="progressbar" style="width: 0%;"></div>
 						</div>
 						<div id="status_progreso1">
-							{_inventario_upload_status_OK_}
+							{{ trans('inventario.upload_status_OK') }}
 							<span id="reg_actual">0</span> / {regs_ok}
 						</div>
 						<div id="status_progreso2">
-							{_inventario_upload_status_error_}
+							{{ trans('inventario.upload_status_error') }}
 							<span id="reg_error">0</span>
 						</div>
 					</div>
@@ -65,31 +67,31 @@
 				<label class="control-label col-sm-4">
 				</label>
 				<div class="col-sm-8">
-					<?php if ($show_script_carga): ?>
+					<?php if ($showScriptCarga): ?>
 						<button class="btn btn-primary pull-right" id="ejecuta_carga">
 							<span class="fa fa-play"></span>
-							{_inventario_upload_button_load_}
+							{{ trans('inventario.upload_button_load') }}
 						</button>
 					<?php else: ?>
 					<button type="submit" name="submit" class="btn btn-primary pull-right" id="btn_guardar">
 						<span class="fa fa-cloud-upload"></span>
-						{_inventario_upload_button_upload_}
+						{{ trans('inventario.upload_button_upload') }}
 					</button>
 					<?php endif; ?>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-sm-4">{_inventario_upload_label_format_}</label>
+				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_format') }}</label>
 				<div class="col-sm-8">
 					<pre>
-{_inventario_upload_format_file_}
+{{ trans('inventario.upload_format_file') }}
 					</pre>
 				</div>
 			</div>
 
 		</fieldset>
-		<?= form_close(); ?>
+		{{ Form::close() }}
 
 	</div>
 </div>
@@ -187,3 +189,4 @@ $(document).ready(function() {
 
 });
 </script>
+@endsection

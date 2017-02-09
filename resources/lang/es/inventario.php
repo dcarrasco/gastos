@@ -58,7 +58,7 @@ return [
     'digit_msg_save'   => ':cantidad Lineas linea(s) modificadas correctamente en hoja :hoja.',
     'digit_msg_delete' => 'Linea (id=:id) borrada correctamente en hoja :hoja.',
     'digit_msg_add'    => 'Linea agregada correctamente en hoja :hoja.',
-    'adjust_msg_save'  => '%d linea(s) modificadas correctamente.',
+    'adjust_msg_save'  => ':cantidad linea(s) modificadas correctamente.',
     'adjust_link_hide' => 'Ocultar lineas regularizadas',
     'adjust_link_show' => 'Mostrar lineas regularizadas',
 
@@ -80,7 +80,7 @@ return [
     'upload_label_progress'   => 'Progreso',
     'upload_error'            => 'Se produjo un error tratar de subir el archivo de inventario.',
     'upload_warning_line1'    => 'ADVERTENCIA',
-    'upload_warning_line2'    => 'Al subir un archivo se eliminar&aacute,n <strong>TODOS</strong> los registros asociados al inventario',
+    'upload_warning_line2'    => 'Al subir un archivo se eliminar&aacute;n <strong>TODOS</strong> los registros asociados al inventario',
     'upload_status_OK'        => 'Registros cargados OK:',
     'upload_status_error'     => 'Registros con error:',
     'upload_button_load'      => 'Ejecutar carga',
