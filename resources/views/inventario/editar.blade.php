@@ -57,7 +57,7 @@
                             {{ trans('inventario.form_new_button_add') }}
                         @endif
                     </button>
-                    <a href="{{ route('inventario.index', ['hoja' => $hoja]) }}" class="btn btn-default">
+                    <a href="{{ route('inventario.showHoja', ['hoja' => $hoja]) }}" class="btn btn-default">
                         <span class="fa fa-ban"></span>
                         {{ trans('inventario.form_new_button_cancel') }}
                     </a>

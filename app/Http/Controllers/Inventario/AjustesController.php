@@ -25,9 +25,9 @@ class AjustesController extends Controller
                 'url'    => route('inventario.subirStockForm'),
                 'icono'  => 'cloud-upload'
             ],
-            'imprime_inventario' => [
+            'imprimir' => [
                 'nombre' => trans('inventario.menu_print'),
-                'url'    => '',
+                'url'    => route('inventario.imprimir'),
                 'icono'  => 'print'
             ],
             'actualiza_precios' => [
@@ -73,5 +73,32 @@ class AjustesController extends Controller
         $showScriptCarga = '';
         $inventario = Inventario::getInventarioActivo();
         return view('inventario.sube_stock', compact('showScriptCarga', 'inventario', 'moduloSelected'));
+    }
+
+    public function imprimirForm()
+    {
+        $moduloSelected = 'imprimir';
+        $inventario = Inventario::getInventarioActivo();
+        $maxHoja = $inventario->getMaxHoja();
+
+        return view('inventario.imprime_inventario', compact('moduloSelected', 'inventario', 'maxHoja'));
+    }
+
+    public function imprimir(Request $request)
+    {
+        $this->validate($request, [
+            'pag_desde' => 'required|integer|min:1',
+            'pag_hasta' => 'required|integer|min:'.request()->input('pag_desde'),
+        ]);
+        $inventario = Inventario::getInventarioActivo();
+        $ocultaStockSAP = request()->input('oculta_stock_sap');
+
+        $hojasInventario = [];
+        for ($hoja = request()->input('pag_desde'); $hoja <= request()->input('pag_hasta'); $hoja++)
+        {
+            $hojasInventario[$hoja] = $inventario->getDetalleHoja($hoja);
+        }
+
+        return view('inventario.print', compact('inventario', 'hojasInventario', 'ocultaStockSAP'));
     }
 }

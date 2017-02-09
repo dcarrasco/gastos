@@ -40,11 +40,11 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'nam
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', 'DigitacionController@index')->name('index');
-    Route::post('ingresar', 'DigitacionController@store')->name('store');
-    Route::get('nueva-linea/{hoja}/{id?}', 'DigitacionController@add')->name('add');
-    Route::post('nueva-linea/{hoja}/{id?}', 'DigitacionController@edit')->name('edit');
-    Route::delete('nueva-linea/{hoja}/{id}', 'DigitacionController@destroy')->name('destroy');
+    Route::get('ingresar', 'DigitacionController@showHoja')->name('showHoja');
+    Route::post('ingresar', 'DigitacionController@updateHoja')->name('updateHoja');
+    Route::get('nueva-linea/{hoja}/{id?}', 'DigitacionController@addLinea')->name('addLinea');
+    Route::post('nueva-linea/{hoja}/{id?}', 'DigitacionController@editLinea')->name('editLinea');
+    Route::delete('nueva-linea/{hoja}/{id}', 'DigitacionController@destroyLinea')->name('destroyLinea');
     Route::get('ajax-catalogo/{filtro?}', 'DigitacionController@ajaxCatalogos')->name('ajaxCatalogos');
 
     // Reportes
@@ -54,6 +54,8 @@ Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'I
     Route::get('ajustes', 'AjustesController@ajustes')->name('ajustes');
     Route::post('ajustes', 'AjustesController@update')->name('update');
     Route::get('subir-stock', 'AjustesController@subirStockForm')->name('subirStockForm');
+    Route::get('imprimir', 'AjustesController@imprimirForm')->name('imprimirForm');
+    Route::post('imprimir', 'AjustesController@imprimir')->name('imprimir');
 });
 
 Auth::routes();

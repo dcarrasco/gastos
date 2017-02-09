@@ -4,6 +4,7 @@ namespace App;
 
 use App\ModelHelpers\ReportesInventario;
 use App\ModelHelpers\AjustesInventario;
+use App\DetalleInventario;
 
 class Inventario extends OrmModel
 {
@@ -59,6 +60,11 @@ class Inventario extends OrmModel
         return $this->belongsTo(TipoInventario::class, 'tipo_inventario');
     }
 
+    public function lineas()
+    {
+        return $this->hasMany(DetalleInventario::class, 'id_inventario');
+    }
+
     public static function getIDInventarioActivo()
     {
         return static::where('activo', '=', 1)->first()->getKey();
@@ -67,5 +73,15 @@ class Inventario extends OrmModel
     public static function getInventarioActivo()
     {
         return static::find(static::getIDInventarioActivo());
+    }
+
+    public function getMaxHoja()
+    {
+        return $this->lineas()->max('hoja');
+    }
+
+    public function getDetalleHoja($hoja = null)
+    {
+        return $this->lineas()->where('hoja', $hoja)->get();
     }
 }

@@ -10,18 +10,18 @@ use App\Catalogo;
 
 class DigitacionController extends Controller
 {
-    public function index()
+    public function showHoja()
     {
         $inventario        = Inventario::getInventarioActivo();
-        $hoja              = empty(\Request::input('hoja', 1)) ? 1 : \Request::input('hoja', 1);
+        $hoja              = empty(request()->input('hoja', 1)) ? 1 : request()->input('hoja', 1);
         $detalleInventario = $inventario->getDetalleHoja($hoja);
-        $linkHojaAnt       = route('inventario.index', ['hoja' => ($hoja > 1) ? $hoja - 1 : 1]);
-        $linkHojaSig       = route('inventario.index', ['hoja' => $hoja + 1]);
+        $linkHojaAnt       = route('inventario.showHoja', ['hoja' => ($hoja > 1) ? $hoja - 1 : 1]);
+        $linkHojaSig       = route('inventario.showHoja', ['hoja' => $hoja + 1]);
 
         return view('inventario.inventario', compact('inventario', 'detalleInventario', 'hoja', 'linkHojaAnt', 'linkHojaSig'));
     }
 
-    public function store(Request $request)
+    public function updateHoja(Request $request)
     {
         $inventario        = Inventario::getInventarioActivo();
         $hoja              = \Request::input('hoja');
@@ -39,11 +39,11 @@ class DigitacionController extends Controller
         });
 
         return redirect()
-            ->route('inventario.index', ['hoja' => $hoja])
+            ->route('inventario.showHoja', ['hoja' => $hoja])
             ->with('alert_message', trans('inventario.digit_msg_save', compact('cantidadLineas', 'hoja')));
     }
 
-    public function add($hoja = null, $id = null)
+    public function addLinea($hoja = null, $id = null)
     {
         $detalleInventario = $id ? DetalleInventario::find($id) : new DetalleInventario;
         $catalogos = $id ? [$detalleInventario->catalogo => $detalleInventario->descripcion] : [];
@@ -51,7 +51,7 @@ class DigitacionController extends Controller
         return view('inventario.editar', compact('detalleInventario', 'hoja', 'catalogos'));
     }
 
-    public function edit(Request $request, $hoja = null, $id = null)
+    public function editLinea(Request $request, $hoja = null, $id = null)
     {
         $detalleInventario = new DetalleInventario;
         $this->validate($request, $detalleInventario->getIngresoInventarioValidation());
@@ -75,16 +75,16 @@ class DigitacionController extends Controller
         $detalleInventario->save();
 
         return redirect()
-            ->route('inventario.index', ['hoja' => $hoja])
+            ->route('inventario.showHoja', ['hoja' => $hoja])
             ->with('alert_message', trans('inventario.digit_msg_add', ['hoja' => $hoja]));;
     }
 
-    public function destroy(Request $request, $hoja = null, $id = null)
+    public function destroyLinea(Request $request, $hoja = null, $id = null)
     {
         DetalleInventario::destroy($id);
 
         return redirect()
-            ->route('inventario.index', ['hoja' => $hoja])
+            ->route('inventario.showHoja', ['hoja' => $hoja])
             ->with('alert_message', trans('inventario.digit_msg_delete', compact('id', 'hoja')));
     }
 
@@ -92,6 +92,6 @@ class DigitacionController extends Controller
     {
         $catalogo = new Catalogo;
 
-        return $catalogo->getModelAjaxFormOptions(['descripcion' => $filtro]);
+        return $catalogo->getModelAjaxFormOptions([['descripcion', 'like', '%'.$filtro.'%']]);
     }
 }

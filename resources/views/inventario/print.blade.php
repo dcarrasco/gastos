@@ -1,9 +1,24 @@
+<!doctype html>
+<html>
+<head>
+    <title>inventario fija</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="{{ asset('css/estilo.css') }}" />
+    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/view_inventario.js') }}"></script>
+    <script type="text/javascript">
+        js_base_url = '{{ asset('') }}';
+    </script>
+</head>
+<body>
+
+@foreach($hojasInventario as $hoja => $lineas)
 <div class="print-heading">
 	<table>
 		<tr>
 			<td>Fecha: ___________________________</td>
-			<td><h2><?= 'Inventario: ' . $nombre_inventario; ?></h2></td>
-			<td class="ar"><h2>Hoja: <?= $hoja; ?></h2></td>
+			<td><h2>Inventario: {{ $inventario }}</h2></td>
+			<td class="ar"><h2>Hoja: {{ $hoja }}</h2></td>
 		</tr>
 		<tr>
 			<td colspan="2">Auditor: _______________________________</td>
@@ -31,65 +46,63 @@
 				<th class="ac">alm</th>
 				<th class="ac">UM</th>
 
-				<?php if (!$oculta_stock_sap): ?>
+				@if (!$ocultaStockSAP)
 					<th class="ac">cant <br> sap</th>
-				<?php endif; ?>
+				@endif
 
 				<th class="ac">cant <br> fisico</th>
 
-				<?php if (!$oculta_stock_sap): ?>
+				@if (!$ocultaStockSAP)
 					<th class="ac">F</th>
 					<th class="ac">A</th>
-				<?php endif; ?>
+				@endif
 
 				<th class="ac" style="width: 8%">HU</th>
 				<th class="ac" style="width: 18%">observacion</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php $sum_sap = 0; ?>
-			<?php $lin = 0; ?>
-			<?php foreach ($datos_hoja as $detalle): ?>
-				<?php $catalogo_rel = $detalle->get_relation_object('catalogo'); ?>
+			<?php $sum_sap = 0; $lin = 0; ?>
+			@foreach ($lineas as $detalle)
 				<?php $lin += 1; ?>
 				<tr>
-					<td class="ac"><?= $detalle->ubicacion; ?></td>
-					<!-- <td class="ac"><?php //echo $detalle->hu; ?></td> -->
-					<td class="ac"><?= $detalle->catalogo; ?></td>
-					<td><?= $detalle->descripcion; ?></td>
-					<td class="ac"><?= $detalle->lote; ?></td>
-					<td class="ac"><?= $detalle->centro; ?></td>
-					<td class="ac"><?= $detalle->almacen; ?></td>
-					<td class="ac"><?= $detalle->um; ?></td>
+					<td class="ac">{{ $detalle->ubicacion }}</td>
+					{{-- <td class="ac">{{ $detalle->hu }}</td> --}}
+					<td class="ac">{{ $detalle->catalogo }}</td>
+					<td>{{ $detalle->descripcion }}</td>
+					<td class="ac">{{ $detalle->lote }}</td>
+					<td class="ac">{{ $detalle->centro }}</td>
+					<td class="ac">{{ $detalle->almacen }}</td>
+					<td class="ac">{{ $detalle->um }}</td>
 
-					<?php if (!$oculta_stock_sap): ?>
-						<td class="ac"><?= fmt_cantidad($detalle->stock_sap); ?></td>
-					<?php endif; ?>
+					@if (!$ocultaStockSAP)
+						<td class="ac">{{ fmt_cantidad($detalle->stock_sap) }}</td>
+					@endif
 
 					<!-- cantidad física -->
 					<td></td>
 
-					<?php if (!$oculta_stock_sap): ?>
+					@if (!$ocultaStockSAP)
 						<!-- FRENTE -->
 						<td></td>
 						<!-- ATRAS -->
 						<td></td>
-					<?php endif; ?>
+					@endif
 
 					<!-- HU -->
 					<td></td>
 
 					<!-- OBSERVACION -->
 					<td>
-						<?php if ($catalogo_rel->es_seriado): ?>
+						@if (\App\Catalogo::find($detalle->catalogo)->es_seriado)
 							<strong>[HU]</strong>
-						<?php endif; ?>
+						@endif
 					</td>
 				</tr>
 				<?php $sum_sap += (int) $detalle->stock_sap; ?>
-			<?php endforeach; ?>
+			@endforeach
 
-			<?php for($i=$lin; $i<20; $i++): ?>
+			@for($i=$lin; $i<20; $i++)
 				<tr>
 					<td>&nbsp;</td>
 					<td></td>
@@ -101,26 +114,26 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<?php if (!$oculta_stock_sap): ?>
+					@if (!$ocultaStockSAP)
 						<td></td>
 						<td></td>
 						<td></td>
-					<?php endif; ?>
+					@endif
 				</tr>
-			<?php endfor; ?>
+			@endfor
 			<!-- totales -->
-			<?php if (!$oculta_stock_sap): ?>
+			@if (!$ocultaStockSAP)
 				<tr>
 					<td colspan="7" class="no-border"></td>
-					<td class="ac"><strong><?= fmt_cantidad($sum_sap); ?></strong></td>
+					<td class="ac"><strong>{{ fmt_cantidad($sum_sap) }}</strong></td>
 					<td colspan="4" class="no-border"></td>
 				</tr>
-			<?php endif; ?>
+			@endif
 
 			<tr>
-				<?php if (!$oculta_stock_sap): ?>
+				@if (!$ocultaStockSAP)
 					<td class="no-border"></td>
-				<?php endif; ?>
+				@endif
 				<td colspan="8" class="ar no-border">TOTAL HOJA: _____________</td>
 				<td colspan="3" class="no-border"></td>
 			</tr>
@@ -129,4 +142,7 @@
 		</tbody>
 	</table>
 </div> <!-- fin print-main -->
+@endforeach
 
+</body>
+</html>

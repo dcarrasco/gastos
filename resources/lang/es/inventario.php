@@ -22,7 +22,7 @@ return [
     'menu_ajustes'     => 'Ajustes de inventario',
     'menu_upload'      => 'Subir stock',
     'menu_print'       => 'Imprimir hojas',
-    'menu_act_precios' => 'Actualiza precios cat&aacute,logo',
+    'menu_act_precios' => 'Actualiza precios cat&aacute;logo',
 
     'inventario'      => 'Inventario',
     'page'            => 'Hoja',
@@ -103,8 +103,8 @@ Campos
 
     'print_label_legend'       => 'Imprimir inventario',
     'print_label_inventario'   => 'Inventario',
-    'print_label_page_from'    => 'P&aacute,gina desde',
-    'print_label_page_to'      => 'P&aacute,gina hasta',
+    'print_label_page_from'    => 'P&aacute;gina desde',
+    'print_label_page_to'      => 'P&aacute;gina hasta',
     'print_label_options'      => 'Opciones',
     'print_check_hide_columns' => 'Oculta columnas [STOCK_SAP] y [F/A]',
     'print_button_print'       => 'Imprimir',

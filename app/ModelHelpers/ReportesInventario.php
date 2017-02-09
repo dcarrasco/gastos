@@ -3,6 +3,7 @@
 namespace App\ModelHelpers;
 
 use App\Helpers\Reporte;
+use App\DetalleInventario;
 
 trait ReportesInventario
 {
