@@ -4,10 +4,35 @@ namespace App\Http\Controllers\Orm;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Route;
 
 trait OrmController
 {
     private $modelNameSpace = '\\App\\';
+
+    protected $routeName = '';
+
+    protected $menuModulo = [];
+
+    public function makeMenuModuloURL()
+    {
+        $routeName = $this->routeName;
+
+        return collect($this->menuModulo)->map(function ($elem, $key) use ($routeName) {
+            return [
+                'nombre' => $elem['nombre'],
+                'url'    => route($routeName.'.index', [$key]),
+                'icono'  => $elem['icono'],
+            ];
+        });
+    }
+
+    public function makeView()
+    {
+        view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
+        view()->share('routeName', $this->routeName);
+        view()->share('moduloSelected', empty(Route::input('modelName')) ? collect(array_keys($this->menuModulo))->first() : Route::input('modelName'));
+    }
 
     /**
      * Display a listing of the resource.

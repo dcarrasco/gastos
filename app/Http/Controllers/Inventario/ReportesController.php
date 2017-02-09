@@ -53,7 +53,7 @@ class ReportesController extends Controller
 
     public function reporte(Request $request, $tipo = null)
     {
-        $moduloSelected = empty($tipo) ? collect(array_keys($menuModulo))->first() : $tipo;
+        $moduloSelected = empty($tipo) ? collect(array_keys($this->menuModulo))->first() : $tipo;
         $moduloRouteName = 'inventario.reporte';
 
         $inventarioID = request()->input('inventario', Inventario::getInventarioActivo()->id);
