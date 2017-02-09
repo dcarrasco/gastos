@@ -15,6 +15,8 @@
     {{ Form::close() }}
 </div>
 
+@include('orm.validation_errors')
+
 <div>
     {{ Form::open(['url' => Request::fullUrl(), 'id' => 'frm_inventario']) }}
 
@@ -82,7 +84,7 @@
                     <td class="text-center"><?= $detalle->um; ?></td>
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_sap); ?></td>
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_fisico); ?></td>
-                    <td>
+                    <td class="{{ $errors->has('stock_ajuste_'.$detalle->id) ? 'has-error' : ''}}">
                         {{ Form::text('stock_ajuste_'.$detalle->id, $detalle->stock_ajuste, ['class' => 'form-control input-sm text-right', 'size' => 5, 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_ajuste_'.$detalle->id); --}}
                     </td>

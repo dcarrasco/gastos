@@ -51,11 +51,13 @@ Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'I
     Route::get('reporte/{tipo?}', 'ReportesController@reporte')->name('reporte');
 
     // Ajustes
-    Route::get('ajustes', 'AjustesController@ajustes')->name('ajustes');
+    Route::get('ajustes', 'AjustesController@showForm')->name('ajustes');
     Route::post('ajustes', 'AjustesController@update')->name('update');
-    Route::get('subir-stock', 'AjustesController@subirStockForm')->name('subirStockForm');
-    Route::get('imprimir', 'AjustesController@imprimirForm')->name('imprimirForm');
-    Route::post('imprimir', 'AjustesController@imprimir')->name('imprimir');
+    Route::get('subir-stock', 'SubirStockController@showForm')->name('subirStockForm');
+    Route::post('subir-stock', 'SubirStockController@upload')->name('upload');
+    Route::post('subir-linea', 'SubirStockController@uploadLinea')->name('uploadLinea');
+    Route::get('imprimir', 'ImprimirController@showForm')->name('imprimirForm');
+    Route::post('imprimir', 'ImprimirController@imprimir')->name('imprimir');
 });
 
 Auth::routes();

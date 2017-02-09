@@ -45,14 +45,14 @@
 			<div class="form-group">
 				<label class="control-label col-sm-4">{{ trans('inventario.upload_label_progress') }}</label>
 				<div class="col-sm-8">
-					{msj_error}
+					{{ $msjError }}
 					<div id="progreso_carga">
 						<div class="progress">
 							<div class="progress-bar" role="progressbar" style="width: 0%;"></div>
 						</div>
 						<div id="status_progreso1">
 							{{ trans('inventario.upload_status_OK') }}
-							<span id="reg_actual">0</span> / {regs_ok}
+							<span id="reg_actual">0</span> / {{ $regsOK }}
 						</div>
 						<div id="status_progreso2">
 							{{ trans('inventario.upload_status_error') }}
@@ -130,7 +130,7 @@
 			var _this = this;
 			$.ajax({
 				type:  "POST",
-				url:   js_base_url + "inventario_analisis/inserta_linea_archivo",
+				url:   js_base_url + "inventario/subir-linea",
 				async: true,
 				data:  datosLinea,
 				success: function(datos) {
@@ -185,7 +185,7 @@ $(document).ready(function() {
 		}
 	})
 
-	{script_carga}
+	{!! $scriptCarga !!}
 
 });
 </script>
