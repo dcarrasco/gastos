@@ -91,7 +91,7 @@
                     <td class="text-center">{{ $linea->getFormattedFieldValue('centro') }}</td>
                     <td class="text-center">{{ $linea->getFormattedFieldValue('almacen') }}</td>
                     <td class="text-center">{{ $linea->um }}</td>
-                    <td class="text-right">{{ $linea->stock_sap }}</td>
+                    <td class="text-right">{{ fmt_cantidad($linea->stock_sap) }}</td>
                     <td class="text-center col-md-1">
                         {{ Form::text('stock_fisico_'.$linea->id, $linea->stock_fisico, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_fisico_' . $linea->id) --}}
@@ -117,8 +117,8 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-right"><strong>{{ $sum_sap }}</strong></td>
-                <td class="text-right"><strong>{{ $sum_fisico }}</strong></td>
+                <td class="text-right"><strong>{{ fmt_cantidad($sum_sap) }}</strong></td>
+                <td class="text-right"><strong>{{ fmt_cantidad($sum_fisico) }}</strong></td>
                 <td></td>
                 <td>
                     <div class="text-right">
