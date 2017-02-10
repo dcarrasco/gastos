@@ -7,7 +7,7 @@ class DetalleInventario extends OrmModel
     public $modelLabel = 'Detalle Inventario';
 
     protected $fillable = [
-        'ubicacion', 'catalogo', 'lote', 'centro', 'almacen', 'um', 'stock_fisico', 'auditor', 'observacion'
+        'id_inventario', 'hoja', 'ubicacion', 'hu', 'catalogo', 'descripcion', 'lote', 'centro', 'almacen', 'um', 'stock_sap', 'digitador', 'stock_fisico', 'auditor', 'reg_nuevo', 'observacion', 'fecha_modificacion', 'stock_ajuste', 'glosa_ajuste'
     ];
 
     protected $guarded = [];

@@ -79,6 +79,7 @@ class SubirStockController extends Controller
                 }
             }
         }
+
         $msjTermino = 'Total lineas: '.($countOK + $countError)." (OK: {$countOK}; Error:{$countError})";
 
         if ($countError > 0) {
@@ -86,7 +87,7 @@ class SubirStockController extends Controller
         }
 
         return [
-            'script'      => $script,
+            'script'     => $script,
             'regsOK'     => $countOK,
             'regsError'  => $countError,
             'msjTermino' => $msjTermino
@@ -146,7 +147,7 @@ class SubirStockController extends Controller
                     'digitador'          => 0,
                     'auditor'            => 0,
                     'observacion'        => '',
-                    'fecha_modificacion' => \Carbon\Carbon::now(),
+                    'fecha_modificacion' => \Carbon\Carbon::now()->__toString(),
                     'reg_nuevo'          => '',
                     'stock_ajuste'       => 0,
                     'glosa_ajuste'       => '',
