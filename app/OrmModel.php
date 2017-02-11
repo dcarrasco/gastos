@@ -104,11 +104,13 @@ class OrmModel extends Model
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
             $relationField = $this->modelFields[$field]['relation_model'];
 
-            return '<ul>'
-                .$this->{$relationField}->reduce(function ($list, $relationObject) {
-                    return $list.'<li>'.(string) $relationObject.'</li>';
-                }, '')
-                . '</ul>';
+            return ($this->{$relationField})
+                ? '<ul>'
+                    .$this->{$relationField}->reduce(function ($list, $relationObject) {
+                        return $list.'<li>'.(string) $relationObject.'</li>';
+                    }, '')
+                    . '</ul>'
+                : null;
         }
 
         return $this->{$field};

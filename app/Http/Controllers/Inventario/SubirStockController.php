@@ -14,35 +14,26 @@ class SubirStockController extends Controller
 
     protected $inventario = null;
 
-    public function showForm()
-    {
-        $moduloSelected = 'subir-stock';
-
-        $showScriptCarga = false;
-        $inventario = Inventario::getInventarioActivo();
-        $scriptCarga = '';
-
-        return view('inventario.sube_stock', compact('showScriptCarga', 'inventario', 'moduloSelected', 'scriptCarga'));
-    }
-
     public function upload(Request $request)
     {
         $moduloSelected = 'subir-stock';
         $this->inventario = Inventario::getInventarioActivo();
         $inventario = $this->inventario;
+        $showScriptCarga = false;
+        $scriptCarga = '';
 
         if ($request->hasFile('upload_file') and $request->file('upload_file')->isValid()) {
             $inventario->lineas()->delete();
             $resultado = $this->cargarDatosUpload($request);
-        }
 
-        $showScriptCarga = true;
-        $scriptCarga = $resultado['script'];
-        $regsOK      = $resultado['regsOK'];
-        $regsError   = $resultado['regsError'];
-        $msjError    = ($regsError > 0)
-            ? '<br><div class="error round">' . $resultado['msjTermino'] . '</div>'
-            : '';
+            $showScriptCarga = true;
+            $scriptCarga = $resultado['script'];
+            $regsOK      = $resultado['regsOK'];
+            $regsError   = $resultado['regsError'];
+            $msjError    = ($regsError > 0)
+                ? '<br><div class="error round">' . $resultado['msjTermino'] . '</div>'
+                : '';
+        }
 
         return view('inventario.sube_stock', compact('showScriptCarga', 'inventario', 'moduloSelected', 'msjError', 'scriptCarga', 'regsOK'));
     }

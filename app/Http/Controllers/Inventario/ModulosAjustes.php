@@ -18,7 +18,7 @@ trait ModulosAjustes
             ],
             'subir-stock' => [
                 'nombre' => trans('inventario.menu_upload'),
-                'url'    => route('inventario.subirStockForm'),
+                'url'    => route('inventario.upload'),
                 'icono'  => 'cloud-upload'
             ],
             'imprimir' => [
