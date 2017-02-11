@@ -13,6 +13,7 @@ class Catalogo extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'catalogo';
+    public $incrementing = false;
 
     public $modelFields = [
         'catalogo' => [

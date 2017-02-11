@@ -40,9 +40,6 @@ class Rol extends OrmModel
         'modulo' => [
             'tipo'                   => OrmModel::TIPO_HAS_MANY,
             'relation_model'         => 'modulo',
-            'relation_join_table'    => 'acl_rol_modulo',
-            'relation_id_one_table'  => ['id_rol'],
-            'relation_id_many_table' => ['id_modulo'],
             'relation_conditions'    => ['id_app' => '@field_value:id_app:NULL'],
             'texto_ayuda'            => 'M&oacute;dulos del rol.',
         ],
