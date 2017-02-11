@@ -37,6 +37,17 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'nam
     Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
 });
 
+// Stock Config
+Route::group(['prefix' => 'stock_config', 'as' => 'stockConfig.', 'namespace' => 'Stock', 'middleware' => 'auth'], function () {
+    Route::get('{modelName?}', 'ConfigController@index')->name('index');
+    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+    Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
+});
+
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
     // Digitacion
@@ -53,7 +64,7 @@ Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'I
     // Ajustes
     Route::get('ajustes', 'AjustesController@showForm')->name('ajustes');
     Route::post('ajustes', 'AjustesController@update')->name('update');
-    Route::get('subir-stock', 'SubirStockController@showForm')->name('subirStockForm');
+    Route::get('subir-stock', 'SubirStockController@upload')->name('upload');
     Route::post('subir-stock', 'SubirStockController@upload')->name('upload');
     Route::post('subir-linea', 'SubirStockController@uploadLinea')->name('uploadLinea');
     Route::get('imprimir', 'ImprimirController@showForm')->name('imprimirForm');
@@ -65,6 +76,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 // DB::listen(function ($query) {
-//     var_dump($query->sql, $query->bindings);
+//     dump($query->sql, $query->bindings);
 // });
 
