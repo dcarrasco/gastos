@@ -27,7 +27,7 @@ Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'namespace' => 'Ac
 });
 
 // Inventario Config
-Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'inventario-config', 'as' => 'inventarioConfig.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');
@@ -38,7 +38,18 @@ Route::group(['prefix' => 'inventario_config', 'as' => 'inventarioConfig.', 'nam
 });
 
 // Stock Config
-Route::group(['prefix' => 'stock_config', 'as' => 'stockConfig.', 'namespace' => 'Stock', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'stock-config', 'as' => 'stockConfig.', 'namespace' => 'Stock', 'middleware' => 'auth'], function () {
+    Route::get('{modelName?}', 'ConfigController@index')->name('index');
+    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+    Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
+});
+
+// TOA Config
+Route::group(['prefix' => 'toa-config', 'as' => 'toaConfig.', 'namespace' => 'Toa', 'middleware' => 'auth'], function () {
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');

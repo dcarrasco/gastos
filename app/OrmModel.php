@@ -226,6 +226,10 @@ class OrmModel extends Model
     {
         $object = $this;
 
+        if (!array_key_exists('relation_conditions', $this->modelFields[$field])) {
+            return [];
+        }
+
         return collect($this->modelFields[$field]['relation_conditions'])
             ->map(function ($elem, $key) use ($object) {
                 list($tipo, $campo, $default) = explode(':', $elem);
