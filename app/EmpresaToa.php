@@ -1,0 +1,70 @@
+<?php
+
+namespace App;
+
+class EmpresaToa extends OrmModel
+{
+    public $modelLabel = 'Empresa TOA';
+
+    protected $fillable = [
+        'empresa',
+    ];
+
+    protected $guarded = [];
+
+    protected $primaryKey = 'id_empresa';
+    public $incrementing = false;
+
+    public $modelFields = [
+        'id_empresa' => [
+            'label'          => 'ID Empresa',
+            'tipo'           => OrmModel::TIPO_CHAR,
+            'largo'          => 20,
+            'texto_ayuda'    => 'ID de la empresa. M&aacute;ximo 20 caracteres.',
+            'es_id'          => true,
+            'es_obligatorio' => true,
+            'es_unico'       => true
+        ],
+        'empresa' => [
+            'label'          => 'Nombre de la empresa',
+            'tipo'           => OrmModel::TIPO_CHAR,
+            'largo'          => 50,
+            'texto_ayuda'    => 'Nombre de la empresa. M&aacute;ximo 50 caracteres.',
+            'es_obligatorio' => true,
+            'es_unico'       => true
+        ],
+        'tipoalm' => [
+            'tipo'           => OrmModel::TIPO_HAS_MANY,
+            'relation_model' => 'tipoAlmacenSap',
+            'conditions'     => ['id_app' => '@field_value:id_app'],
+            'texto_ayuda'    => 'Tipos de almacen asociados a empresa TOA.',
+        ],
+        'ciudades' => [
+            'tipo'           => OrmModel::TIPO_HAS_MANY,
+            'relation_model' => 'ciudadToa',
+            'conditions'     => ['id_app' => '@field_value:id_app'],
+            'texto_ayuda'    => 'Ciudades asociados a empresa TOA.',
+        ],
+    ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = config('invfija.bd_empresas_toa');
+    }
+
+    public function __toString()
+    {
+        return (string) $this->empresa;
+    }
+
+    public function tipoAlmacenSap()
+    {
+        return $this->belongsToMany(TipoAlmacenSap::class, config('invfija.bd_empresas_toa_tiposalm'), 'id_empresa', 'id_tipo');
+    }
+
+    public function ciudadToa()
+    {
+        return $this->belongsToMany(CiudadToa::class, config('invfija.bd_empresas_ciudades_toa'), 'id_empresa', 'id_ciudad');
+    }
+}
