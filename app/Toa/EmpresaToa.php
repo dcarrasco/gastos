@@ -3,7 +3,7 @@
 namespace App\Toa;
 
 use App\OrmModel;
-use App\TipoAlmacenSap;
+use App\Stock\TipoAlmacenSap;
 
 class EmpresaToa extends OrmModel
 {
@@ -36,15 +36,15 @@ class EmpresaToa extends OrmModel
             'es_obligatorio' => true,
             'es_unico'       => true
         ],
-        'tipoalm' => [
+        'tipoAlmacenSap' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => 'tipoAlmacenSap',
+            'relation_model' => TipoAlmacenSap::class,
             'conditions'     => ['id_app' => '@field_value:id_app'],
             'texto_ayuda'    => 'Tipos de almacen asociados a empresa TOA.',
         ],
-        'ciudades' => [
+        'ciudadToa' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => 'ciudadToa',
+            'relation_model' => CiudadToa::class,
             'conditions'     => ['id_app' => '@field_value:id_app'],
             'texto_ayuda'    => 'Ciudades asociados a empresa TOA.',
         ],

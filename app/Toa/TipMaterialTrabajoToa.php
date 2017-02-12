@@ -3,7 +3,7 @@
 namespace App\Toa;
 
 use App\OrmModel;
-use App\Catalogo;
+use App\Inventario\Catalogo;
 
 class TipMaterialTrabajoToa extends OrmModel
 {
@@ -36,7 +36,7 @@ class TipMaterialTrabajoToa extends OrmModel
             'largo'          => 20,
             'texto_ayuda'    => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
         ],
-        'tip_material' => [
+        'catalogo' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
             'relation_model' => Catalogo::class,
             'texto_ayuda'    => 'Tipo de material TOA.',

@@ -47,7 +47,7 @@ class TecnicoToa extends OrmModel
             'tipo'           => OrmModel::TIPO_HAS_ONE,
             'relation_model' => EmpresaToa::class,
             'texto_ayuda'    => 'Empresa a la que pertenece el t&eacute;cnico.',
-            'onchange'       => 'id_ciudad',
+            // 'onchange'       => 'id_ciudad',
         ],
         'id_ciudad' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
