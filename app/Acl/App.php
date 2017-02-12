@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Acl;
+
+use App\OrmModel;
 
 class App extends OrmModel
 {

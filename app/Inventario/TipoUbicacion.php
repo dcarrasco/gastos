@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Inventario;
+
+use App\OrmModel;
 
 class TipoUbicacion extends OrmModel
 {
@@ -16,9 +18,9 @@ class TipoUbicacion extends OrmModel
         'id' => [
             'tipo'   => OrmModel::TIPO_ID,
         ],
-        'tipoInventario' => [
-            'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'tipoInventario',
+        'tipo_inventario' => [
+            'tipo'           => OrmModel::TIPO_HAS_ONE,
+            'relation_model' => TipoInventario::class,
             'texto_ayuda'    => 'Seleccione el tipo de inventario.',
             'es_obligatorio' => true,
         ],

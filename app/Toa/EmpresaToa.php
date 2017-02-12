@@ -1,6 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Toa;
+
+use App\OrmModel;
+use App\TipoAlmacenSap;
 
 class EmpresaToa extends OrmModel
 {

@@ -10,6 +10,8 @@ class ConfigController extends Controller
 {
     use OrmController;
 
+    protected $modelNameSpace = '\\App\\Inventario\\';
+
     public function __construct()
     {
         $this->routeName  = 'inventarioConfig';

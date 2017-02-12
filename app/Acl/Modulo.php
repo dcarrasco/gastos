@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Acl;
+
+use App\OrmModel;
 
 class Modulo extends OrmModel
 {
@@ -16,9 +18,9 @@ class Modulo extends OrmModel
         'id' => [
             'tipo'   => OrmModel::TIPO_ID,
         ],
-        'id_app' => [
+        'app' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'app',
+            'relation_model' => App::class,
             'texto_ayuda'    => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
         ],
         'modulo' => [

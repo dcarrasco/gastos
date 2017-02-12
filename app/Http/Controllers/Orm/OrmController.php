@@ -8,8 +8,6 @@ use Route;
 
 trait OrmController
 {
-    private $modelNameSpace = '\\App\\';
-
     protected $routeName = '';
 
     protected $menuModulo = [];

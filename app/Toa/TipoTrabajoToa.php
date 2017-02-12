@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Toa;
+
+use App\OrmModel;
 
 class TipoTrabajoToa extends OrmModel
 {

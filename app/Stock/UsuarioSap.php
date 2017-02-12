@@ -1,35 +1,37 @@
 <?php
 
-namespace App;
+namespace App\Stock;
 
-class Proveedor extends OrmModel
+use App\OrmModel;
+
+class UsuarioSap extends OrmModel
 {
     public $modelLabel = 'Clasificaci&oacute;n de Almac&eacute;n SAP';
 
     protected $fillable = [
-        'cod_proveedor', 'des_proveedor'
+        'usuario', 'nom_usuario'
     ];
 
     protected $guarded = [];
 
-    protected $primaryKey = 'cod_proveedor';
+    protected $primaryKey = 'usuario';
     public $incrementing = false;
 
     public $modelFields = [
-        'cod_proveedor' => [
-            'label'          => 'C&oacute;digo del proveedor',
+        'usuario' => [
+            'label'          => 'Codigo Usuario',
             'tipo'           => OrmModel::TIPO_CHAR,
             'largo'          => 10,
-            'texto_ayuda'    => 'M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'texto_ayuda'    => 'C&oacute;digo del usuario SAP. M&aacute;ximo 10 caracteres',
+            'es_id'          => true,
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico'       => true
         ],
-        'des_proveedor' => [
-            'label'          => 'Nombre del proveedor',
+        'nom_usuario' => [
+            'label'          => 'Nombre de usuario',
             'tipo'           => OrmModel::TIPO_CHAR,
             'largo'          => 50,
-            'texto_ayuda'    => 'M&aacute;ximo 50 caracteres.',
+            'texto_ayuda'    => 'Nombre del usuario. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
             'es_unico'       => false,
         ],
@@ -38,11 +40,11 @@ class Proveedor extends OrmModel
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_proveedores');
+        $this->table = config('invfija.bd_usuarios_sap');
     }
 
     public function __toString()
     {
-        return (string) $this->des_proveedor;
+        return (string) $this->nom_usuario;
     }
 }

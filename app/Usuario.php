@@ -3,7 +3,8 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use App\UserACL;
+use App\Acl\UserACL;
+use App\Acl\Rol;
 
 class Usuario extends UserACL
 {
@@ -80,10 +81,7 @@ class Usuario extends UserACL
         ],
         'rol' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model'         => 'rol',
-            // 'relation_join_table'    => $this->config->item('bd_usuario_rol'),
-            'relation_id_one_table'  => ['id_usuario'],
-            'relation_id_many_table' => ['id_rol'],
+            'relation_model' => Rol::class,
             'texto_ayuda'    => 'Roles asociados al usuario.',
         ],
     ];

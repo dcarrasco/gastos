@@ -10,13 +10,15 @@ class ConfigController extends Controller
 {
     use OrmController;
 
+    protected $modelNameSpace = '\\App\\Stock\\';
+
     public function __construct()
     {
         $this->routeName  = 'stockConfig';
         $this->menuModulo = [
-            'almacenSap'              => ['nombre'=>trans('stock.config_menu_alm'), 'icono'=>'home'],
-            'tipoAlmacenSap'          => ['nombre'=>trans('stock.config_menu_tipalm'), 'icono'=>'th',],
             'clasifAlmacenSap'        => ['nombre'=>trans('stock.config_menu_clasifalm'), 'icono'=>'th',],
+            'tipoAlmacenSap'          => ['nombre'=>trans('stock.config_menu_tipalm'), 'icono'=>'th',],
+            'almacenSap'              => ['nombre'=>trans('stock.config_menu_alm'), 'icono'=>'home'],
             'tipoClasifAlmacenSap'    => ['nombre'=>trans('stock.config_menu_tipo_clasifalm'), 'icono'=>'th',],
             'proveedor'               => ['nombre'=>trans('stock.config_menu_proveedores'), 'icono'=>'shopping-cart',],
             'usuarioSap'              => ['nombre'=>trans('stock.config_menu_usuarios_sap'), 'icono'=>'user',],

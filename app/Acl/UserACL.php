@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Acl;
 
 use Illuminate\Auth\Authenticatable;
 use App\OrmModel;

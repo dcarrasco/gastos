@@ -1,6 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Toa;
+
+use App\OrmModel;
+use App\Catalogo;
 
 class TipMaterialTrabajoToa extends OrmModel
 {
@@ -35,10 +38,7 @@ class TipMaterialTrabajoToa extends OrmModel
         ],
         'tip_material' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => 'catalogo',
-            // 'join_table'    => $this->config->item('bd_catalogo_tip_material_toa'),
-            'id_one_table' => array('id_tip_material_trabajo'),
-            'id_many_table'  => array('id_catalogo'),
+            'relation_model' => Catalogo::class,
             'texto_ayuda'    => 'Tipo de material TOA.',
         ],
     ];

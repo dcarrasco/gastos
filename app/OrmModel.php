@@ -57,11 +57,10 @@ class OrmModel extends Model
 
     public function getFieldLabel($field = null)
     {
-        if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relationModelName = '\\App\\'.ucfirst($this->modelFields[$field]['relation_model']);
-            $relationModel = new $relationModelName;
+        if (in_array($this->getFieldType($field), [self::TIPO_HAS_ONE, self::TIPO_HAS_MANY])) {
+            $relatedModel = new $this->modelFields[$field]['relation_model'];
 
-            return $relationModel->modelLabel;
+            return $relatedModel->modelLabel;
         }
 
         return isset($this->modelFields[$field]['label']) ? $this->modelFields[$field]['label'] : $field;
@@ -97,17 +96,16 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relationField = $this->modelFields[$field]['relation_model'];
-            return (string) $this->{$relationField};
+            $relatedModel = new $this->modelFields[$field]['relation_model'];
+
+            return (string) $relatedModel->find($this->{$field});
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
-            $relationField = $this->modelFields[$field]['relation_model'];
-
-            return ($this->{$relationField})
+            return ($this->{$field})
                 ? '<ul>'
-                    .$this->{$relationField}->reduce(function ($list, $relationObject) {
-                        return $list.'<li>'.(string) $relationObject.'</li>';
+                    .$this->{$field}->reduce(function ($list, $relatedObject) {
+                        return $list.'<li>'.(string) $relatedObject.'</li>';
                     }, '')
                     . '</ul>'
                 : null;
@@ -141,8 +139,7 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relationModelName = '\\App\\'.ucfirst($this->modelFields[$field]['relation_model']);
-            $relationModel = new $relationModelName;
+            $relatedModel = new $this->modelFields[$field]['relation_model'];
 
             if (array_key_exists('onchange', $this->modelFields[$field])) {
                 $route = \Route::currentRouteName();
@@ -153,19 +150,18 @@ class OrmModel extends Model
                 $extraParam['onchange'] = "$('#{$elemDest}').html('');$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });";
             }
 
-            return Form::select($field, $relationModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
+            return Form::select($field, $relatedModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
-            $relationModelName = '\\App\\'.ucfirst($this->modelFields[$field]['relation_model']);
-            $relationModel = new $relationModelName;
+            $relatedModel = new $this->modelFields[$field]['relation_model'];
 
             $elementosSelected = collect($this->getAttribute($field))
                 ->map(function ($modelElem) {
                     return $modelElem->{$modelElem->getKeyName()};
                 })->all();
 
-            return Form::select($field.'[]', $relationModel->getModelFormOptions($this->getWhereFromRelation($field)), $elementosSelected, array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam));
+            return Form::select($field.'[]', $relatedModel->getModelFormOptions($this->getWhereFromRelation($field)), $elementosSelected, array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam));
         }
 
         return Form::text($field, $this->getAttribute($field), $extraParam);

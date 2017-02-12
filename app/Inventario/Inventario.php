@@ -1,7 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Inventario;
 
+use App\OrmModel;
 use App\ModelHelpers\ReportesInventario;
 use App\ModelHelpers\AjustesInventario;
 use App\DetalleInventario;
@@ -36,9 +37,9 @@ class Inventario extends OrmModel
             'texto_ayuda'    => 'Indica se el inventario est&aacute; activo dentro del sistema.',
             'es_obligatorio' => true,
         ],
-        'tipoInventario' => [
-            'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'tipoInventario',
+        'tipo_inventario' => [
+            'tipo'           => OrmModel::TIPO_HAS_ONE,
+            'relation_model' => TipoInventario::class,
             'texto_ayuda'    => 'Seleccione el tipo de inventario.',
             'es_obligatorio' => true,
         ],

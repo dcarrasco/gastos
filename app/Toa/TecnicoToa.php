@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Toa;
+
+use App\OrmModel;
 
 class TecnicoToa extends OrmModel
 {
@@ -43,13 +45,13 @@ class TecnicoToa extends OrmModel
         ],
         'id_empresa' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'empresaToa',
+            'relation_model' => EmpresaToa::class,
             'texto_ayuda'    => 'Empresa a la que pertenece el t&eacute;cnico.',
-            'onchange'       => 'ciudadToa',
+            'onchange'       => 'id_ciudad',
         ],
-        'ciudadToa' => [
+        'id_ciudad' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'ciudadToa',
+            'relation_model' => CiudadToa::class,
             'texto_ayuda'    => 'Ciudad a la que pertenece el t&eacute;cnico.',
         ],
     ];

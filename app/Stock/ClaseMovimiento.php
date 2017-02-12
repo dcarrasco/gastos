@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Stock;
+
+use App\OrmModel;
 
 class ClaseMovimiento extends OrmModel
 {

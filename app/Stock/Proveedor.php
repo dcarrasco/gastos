@@ -1,48 +1,50 @@
 <?php
 
-namespace App;
+namespace App\Stock;
 
-class TipoInventario extends OrmModel
+use App\OrmModel;
+
+class Proveedor extends OrmModel
 {
-    public $modelLabel = 'Tipo de inventario';
+    public $modelLabel = 'Proveedor';
 
     protected $fillable = [
-        'almacen',
+        'cod_proveedor', 'des_proveedor'
     ];
 
     protected $guarded = [];
 
-    protected $primaryKey = 'id_tipo_inventario';
+    protected $primaryKey = 'cod_proveedor';
     public $incrementing = false;
 
     public $modelFields = [
-        'id_tipo_inventario' => [
-            'label'          => 'Tipo de inventario',
+        'cod_proveedor' => [
+            'label'          => 'C&oacute;digo del proveedor',
             'tipo'           => OrmModel::TIPO_CHAR,
             'largo'          => 10,
             'texto_ayuda'    => 'M&aacute;ximo 10 caracteres.',
-            'es_id'          => true,
+            'es_id' => true,
             'es_obligatorio' => true,
             'es_unico'       => true,
         ],
-        'desc_tipo_inventario' => [
-            'label'          => 'Descripci&oacute;n tipo de inventario',
+        'des_proveedor' => [
+            'label'          => 'Nombre del proveedor',
             'tipo'           => OrmModel::TIPO_CHAR,
             'largo'          => 50,
-            'texto_ayuda'    => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
+            'texto_ayuda'    => 'M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico'       => false,
         ],
     ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_tipos_inventario');
+        $this->table = config('invfija.bd_proveedores');
     }
 
     public function __toString()
     {
-        return $this->desc_tipo_inventario;
+        return (string) $this->des_proveedor;
     }
 }

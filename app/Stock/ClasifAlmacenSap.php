@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Stock;
+
+use App\OrmModel;
 
 class ClasifAlmacenSap extends OrmModel
 {
@@ -61,9 +63,9 @@ class ClasifAlmacenSap extends OrmModel
             ],
             'es_obligatorio' => true,
         ],
-        'tipoClasifAlmacenSap' => [
+        'id_tipoclasif' => [
             'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'tipoClasifAlmacenSap',
+            'relation_model' => TipoClasifAlmacenSap::class,
         ],
         'tipo_op' => [
             'label'          => 'Tipo operaci&oacute;n',
@@ -79,7 +81,7 @@ class ClasifAlmacenSap extends OrmModel
         ],
         'tipoAlmacenSap' => [
             'tipo'                => OrmModel::TIPO_HAS_MANY,
-            'relation_model'      => 'tipoAlmacenSap',
+            'relation_model'      => TipoAlmacenSap::class,
             'relation_conditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
             'texto_ayuda'         => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
         ],

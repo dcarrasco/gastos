@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Stock;
+
+use App\OrmModel;
 
 class AlmacenSap extends OrmModel
 {
@@ -65,7 +67,7 @@ class AlmacenSap extends OrmModel
         ],
         'tipos' => [
             'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model'         => 'tipoalmacen_sap',
+            'relation_model'         => TipoAlmacenSap::class,
             'relation_conditions'    => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
             'texto_ayuda'    => 'Tipos asociados al almac&eacuten.',
         ],

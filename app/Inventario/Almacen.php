@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Inventario;
+
+use App\OrmModel;
 
 class Almacen extends OrmModel
 {

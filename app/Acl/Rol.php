@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Acl;
+
+use App\OrmModel;
 
 class Rol extends OrmModel
 {
@@ -18,7 +20,7 @@ class Rol extends OrmModel
         ],
         'id_app' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'app',
+            'relation_model' => App::class,
             'texto_ayuda'    => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
             'onchange'       => 'modulo',
         ],
@@ -39,7 +41,7 @@ class Rol extends OrmModel
         ],
         'modulo' => [
             'tipo'                   => OrmModel::TIPO_HAS_MANY,
-            'relation_model'         => 'modulo',
+            'relation_model'         => Modulo::class,
             'relation_conditions'    => ['id_app' => '@field_value:id_app:NULL'],
             'texto_ayuda'            => 'M&oacute;dulos del rol.',
         ],
