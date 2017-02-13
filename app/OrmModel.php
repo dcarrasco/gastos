@@ -74,14 +74,14 @@ class OrmModel extends Model
             return $relatedModel->modelLabel;
         }
 
-        return isset($this->modelFields[$field]['label']) ? $this->modelFields[$field]['label'] : $field;
+        return array_get($this->modelFields, $field.'.label', $field);
     }
 
     public function getFieldsList($mostrarID = false)
     {
         return collect($this->modelFields)
             ->filter(function ($elem) {
-                return ! (isset($elem['mostrar_lista']) and $elem['mostrar_lista'] === false);
+                return array_get($elem, 'mostrar_lista', true);
             })->filter(function ($elem) use ($mostrarID) {
                 return ($mostrarID or $elem['tipo'] !== static::TIPO_ID);
             })->keys()
@@ -183,7 +183,7 @@ class OrmModel extends Model
 
     public function isFieldMandatory($field = null)
     {
-        return isset($this->modelFields[$field]['es_obligatorio']) ? $this->modelFields[$field]['es_obligatorio'] : false;
+        return array_get($this->modelFields, $field.'.es_obligatorio', false);
     }
 
     public function getValidation()

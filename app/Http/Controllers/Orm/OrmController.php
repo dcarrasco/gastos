@@ -126,6 +126,7 @@ trait OrmController
 
         // actualiza el objeto
         $modelObject->update($request->all());
+
         // actualiza las tablas relacionadas
         $modelObject->getModelFields()->filter(function ($elem, $field) use ($modelObject) {
             // filtra los campos de TIPO_HAS_MANY
