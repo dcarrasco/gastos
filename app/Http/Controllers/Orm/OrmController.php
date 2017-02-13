@@ -126,14 +126,13 @@ trait OrmController
 
         // actualiza el objeto
         $modelObject->update($request->all());
-
         // actualiza las tablas relacionadas
         $modelObject->getModelFields()->filter(function ($elem, $field) use ($modelObject) {
             // filtra los campos de TIPO_HAS_MANY
             return ($modelObject->getFieldType($field) === $modelObject::TIPO_HAS_MANY);
         })->each(function ($elem, $field) use ($modelObject, $request) {
             // Sincroniza la tabla relacionada
-            $modelObject->$field()->sync($request->input($field));
+            $modelObject->$field()->sync($request->input($field, []));
         });
 
         return redirect()

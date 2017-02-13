@@ -220,6 +220,10 @@ class OrmModel extends Model
 
     public function getWhereFromRelation($field = null)
     {
+        if (!array_key_exists('relation_conditions', $this->modelFields[$field])) {
+            return [];
+        }
+
         $object = $this;
 
         if (!array_key_exists('relation_conditions', $this->modelFields[$field])) {
