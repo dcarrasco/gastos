@@ -7,6 +7,7 @@ use App\OrmModel;
 class TipoUbicacion extends OrmModel
 {
     public $modelLabel = 'Tipo de Ubicacion';
+    public $modelOrder = 'tipo_inventario';
 
     protected $fillable = [
         'tipo_inventario', 'tipo_ubicacion',

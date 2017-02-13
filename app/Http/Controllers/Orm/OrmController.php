@@ -42,7 +42,7 @@ trait OrmController
         $modelName = empty($modelName) ? collect(array_keys($this->menuModulo))->first() : $modelName;
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
-        $modelCollection = $fullModelName::filtroOrm($request->input('filtro'))->paginate();
+        $modelCollection = $modelObject->modelOrderBy()->filtroOrm($request->input('filtro'))->paginate();
 
         return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName'));
     }

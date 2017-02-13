@@ -12,6 +12,7 @@ class Inventario extends OrmModel
     use ReportesInventario, AjustesInventario;
 
     public $modelLabel = 'Inventario';
+    public $modelOrder = 'nombre';
 
     protected $fillable = [
         'nombre', 'activo', 'tipo_inventario',
