@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Inventario;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Inventario\ModulosAjustes;
 use Illuminate\Http\Request;
-use App\Inventario;
-use App\DetalleInventario;
+use App\Inventario\Inventario;
+use App\Inventario\DetalleInventario;
 
 class SubirStockController extends Controller
 {

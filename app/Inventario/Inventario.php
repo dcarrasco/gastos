@@ -3,9 +3,9 @@
 namespace App\Inventario;
 
 use App\OrmModel;
-use App\ModelHelpers\ReportesInventario;
-use App\ModelHelpers\AjustesInventario;
-use App\DetalleInventario;
+use App\Inventario\ReportesInventario;
+use App\Inventario\AjustesInventario;
+use App\Inventario\DetalleInventario;
 
 class Inventario extends OrmModel
 {

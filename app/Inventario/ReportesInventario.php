@@ -1,9 +1,8 @@
 <?php
 
-namespace App\ModelHelpers;
+namespace App\Inventario;
 
 use App\Helpers\Reporte;
-use App\DetalleInventario;
 
 trait ReportesInventario
 {

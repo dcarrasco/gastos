@@ -1,6 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Inventario;
+
+use App\OrmModel;
+use App\Acl\Usuario;
 
 class DetalleInventario extends OrmModel
 {
@@ -18,7 +21,7 @@ class DetalleInventario extends OrmModel
         ],
         'id_inventario' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'inventario',
+            'relation_model' => Inventario::class,
         ],
         'hoja' => [
             'label'          => 'Hoja',
@@ -43,7 +46,7 @@ class DetalleInventario extends OrmModel
         ],
         'catalogo' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'catalogo',
+            'relation_model' => Catalogo::class,
             'texto_ayuda'    => 'Cat&aacute;logo del material.',
         ],
         'descripcion' => [
@@ -61,16 +64,16 @@ class DetalleInventario extends OrmModel
             'es_obligatorio' => true,
         ],
         'centro' => [
-            'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'centro'
+            'tipo'           => OrmModel::TIPO_HAS_ONE,
+            'relation_model' => Centro::class,
         ],
         'almacen' => [
             'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'almacen'
+            'relation_model' => Almacen::class,
         ],
         'um' => [
             'tipo'           =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'unidadMedida'
+            'relation_model' => UnidadMedida::class,
         ],
         'stock_sap' => [
             'label'          => 'Stock SAP del material',
@@ -88,14 +91,14 @@ class DetalleInventario extends OrmModel
         ],
         'digitador' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => 'usuario',
+            'relation_model' => Usuario::class,
             'texto_ayuda'    => 'Digitador de la hoja.',
         ],
         'auditor' => [
-            'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'relation_model'      => 'auditor',
+            'tipo'                => OrmModel::TIPO_HAS_ONE,
+            'relation_model'      => Auditor::class,
             'relation-conditions' => ['activo' => 1],
-            'texto_ayuda'    => 'Auditor de la hoja.',
+            'texto_ayuda'         => 'Auditor de la hoja.',
         ],
         'reg_nuevo' => [
             'label'          => 'Registro nuevo',
@@ -111,27 +114,27 @@ class DetalleInventario extends OrmModel
             'es_obligatorio' => true,
         ],
         'observacion' => [
-            'label'          => 'Observaci&oacute;n de registro',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 200,
-            'texto_ayuda'    => 'M&aacute;ximo 200 caracteres.',
+            'label'       => 'Observaci&oacute;n de registro',
+            'tipo'        => OrmModel::TIPO_CHAR,
+            'largo'       => 200,
+            'texto_ayuda' => 'M&aacute;ximo 200 caracteres.',
         ],
         'stock_ajuste' => [
-            'label'          => 'Stock de ajuste del material',
-            'tipo'           => OrmModel::TIPO_INT,
-            'largo'          => 10,
-            'texto_ayuda'    => 'M&aacute;ximo 100 caracteres.',
+            'label'       => 'Stock de ajuste del material',
+            'tipo'        => OrmModel::TIPO_INT,
+            'largo'       => 10,
+            'texto_ayuda' => 'M&aacute;ximo 100 caracteres.',
         ],
         'glosa_ajuste' => [
-            'label'          => 'Observaci&oacute;n del ajuste',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 100,
-            'texto_ayuda'    => 'M&aacute;ximo 100 caracteres.',
+            'label'       => 'Observaci&oacute;n del ajuste',
+            'tipo'        => OrmModel::TIPO_CHAR,
+            'largo'       => 100,
+            'texto_ayuda' => 'M&aacute;ximo 100 caracteres.',
         ],
         'fecha_ajuste' => [
-            'label'          => 'Fecha del ajuste',
-            'tipo'           => OrmModel::TIPO_DATETIME,
-            'texto_ayuda'    => 'Fecha de modificacion del ajuste.',
+            'label'       => 'Fecha del ajuste',
+            'tipo'        => OrmModel::TIPO_DATETIME,
+            'texto_ayuda' => 'Fecha de modificacion del ajuste.',
         ],
     ];
 

@@ -16,7 +16,7 @@ class ConfigController extends Controller
     {
         $this->routeName  = 'inventarioConfig';
         $this->menuModulo = [
-            // 'detalleInventario''nombre'=>'Detalle inventario', 'icono'=>'list'],
+            // 'detalleInventario' => ['nombre'=>'Detalle inventario', 'icono'=>'list'],
             'auditor'        => ['nombre'=>trans('inventario.config_menu_auditores'), 'icono'=>'user'],
             'familia'        => ['nombre'=>trans('inventario.config_menu_familias'), 'icono'=>'th'],
             'catalogo'       => ['nombre'=>trans('inventario.config_menu_materiales'), 'icono'=>'barcode'],

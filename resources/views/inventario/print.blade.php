@@ -94,7 +94,7 @@
 
 					<!-- OBSERVACION -->
 					<td>
-						@if (\App\Catalogo::find($detalle->catalogo)->es_seriado)
+						@if ($catalogo::find($detalle->catalogo)->es_seriado)
 							<strong>[HU]</strong>
 						@endif
 					</td>

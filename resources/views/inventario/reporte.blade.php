@@ -3,7 +3,7 @@
 @section('modulo')
 <div class="col-md-12 well hidden-print">
 
-	{validation_errors}
+    @include('orm.validation_errors')
 
 	{{ Form::open(['method' => 'GET', 'id' => 'frm_param', 'class' => 'form-inline']) }}
 	{{ Form::hidden('sort', old('sort')) }}

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Inventario;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Inventario;
-use App\Catalogo;
+use App\Inventario\Inventario;
+use App\Inventario\Catalogo;
 
 class ReportesController extends Controller
 {
