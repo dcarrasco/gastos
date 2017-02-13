@@ -66,10 +66,10 @@ class AlmacenSap extends OrmModel
             'onchange'       => 'tipos',
         ],
         'tipos' => [
-            'tipo'           => OrmModel::TIPO_HAS_MANY,
-            'relation_model'         => TipoAlmacenSap::class,
-            'relation_conditions'    => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-            'texto_ayuda'    => 'Tipos asociados al almac&eacuten.',
+            'tipo'                => OrmModel::TIPO_HAS_MANY,
+            'relation_model'      => TipoAlmacenSap::class,
+            'relation_conditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
+            'texto_ayuda'         => 'Tipos asociados al almac&eacuten.',
         ],
     ];
 
@@ -84,4 +84,8 @@ class AlmacenSap extends OrmModel
         return (string) $this->des_almacen;
     }
 
+    public function tipos()
+    {
+        return $this->belongsToMany(TipoAlmacenSap::class, config('invfija.bd_tipoalmacen_sap'), ['centro', 'cod_almacen'], 'id_tipo');
+    }
 }

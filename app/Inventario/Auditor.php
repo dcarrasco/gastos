@@ -7,9 +7,10 @@ use App\OrmModel;
 class Auditor extends OrmModel
 {
     public $modelLabel = 'Auditor';
+    public $modelOrder = 'nombre';
 
     protected $fillable = [
-        'almacen',
+        'nombre', 'activo'
     ];
 
     protected $guarded = [];

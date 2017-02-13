@@ -22,6 +22,8 @@ class OrmModel extends Model
     const TIPO_HAS_ONE  = 'HAS_ONE';
     const TIPO_HAS_MANY = 'HAS_MANY';
 
+    const KEY_SEPARATOR = '~';
+
     public $tableColumns = [];
     protected $modelFields = [];
     public $modelLabel = '';
@@ -50,6 +52,15 @@ class OrmModel extends Model
         return $query;
     }
 
+    public function modelOrderBy()
+    {
+        if (isset($this->modelOrder)) {
+            return $this->orderBy($this->modelOrder);
+        }
+
+        return $this;
+    }
+
     public function getModelFields()
     {
         return collect($this->modelFields);
@@ -66,27 +77,30 @@ class OrmModel extends Model
         return isset($this->modelFields[$field]['label']) ? $this->modelFields[$field]['label'] : $field;
     }
 
-    public function getFieldsList($mostrarTodos = false)
+    public function getFieldsList($mostrarID = false)
     {
-        return collect($this->modelFields)->filter(function ($elem) {
-            return ! (isset($elem['mostrar_lista']) and $elem['mostrar_lista'] === false);
-        })->keys()
-        ->all();
+        return collect($this->modelFields)
+            ->filter(function ($elem) {
+                return ! (isset($elem['mostrar_lista']) and $elem['mostrar_lista'] === false);
+            })->filter(function ($elem) use ($mostrarID) {
+                return ($mostrarID or $elem['tipo'] !== static::TIPO_ID);
+            })->keys()
+            ->all();
     }
 
     public function getFieldHelp($field = null)
     {
-        return isset($this->modelFields[$field]['texto_ayuda']) ? $this->modelFields[$field]['texto_ayuda'] : null;
+        return array_get($this->modelFields, $field.'.texto_ayuda');
     }
 
     public function getFieldType($field = null)
     {
-        return isset($this->modelFields[$field]['tipo']) ? $this->modelFields[$field]['tipo'] : null;
+        return array_get($this->modelFields, $field.'.tipo');
     }
 
     public function getFieldLength($field = null)
     {
-        return isset($this->modelFields[$field]['largo']) ? $this->modelFields[$field]['largo'] : null;
+        return array_get($this->modelFields, $field.'.largo');
     }
 
     public function getFormattedFieldValue($field)
@@ -226,15 +240,31 @@ class OrmModel extends Model
 
         $object = $this;
 
-        if (!array_key_exists('relation_conditions', $this->modelFields[$field])) {
-            return [];
-        }
-
         return collect($this->modelFields[$field]['relation_conditions'])
             ->map(function ($elem, $key) use ($object) {
                 list($tipo, $campo, $default) = explode(':', $elem);
                 return $object->{$campo};
             })->all();
+    }
+
+
+    // ****************************************************************************
+    // OVERRIDES PARA USAR MULTIPLE PRIMARY KEY
+    // ****************************************************************************
+
+    public function getKey()
+    {
+        if (is_array($this->getKeyName()))
+        {
+            $keyValues = [];
+            foreach($this->getKeyName() as $keyName) {
+                $keyValues[] = $this->getAttribute($keyName);
+            }
+
+            return implode($this::KEY_SEPARATOR, $keyValues);
+        }
+
+        return $this->getAttribute($this->getKeyName());
     }
 
 }
