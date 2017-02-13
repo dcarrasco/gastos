@@ -104,6 +104,6 @@ class Usuario extends UserACL
 
     public function getFirstName()
     {
-        return collect(explode(' ', $this->nombre))->first();
+        return head(explode(' ', $this->nombre));
     }
 }
