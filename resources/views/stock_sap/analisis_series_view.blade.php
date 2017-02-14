@@ -104,7 +104,7 @@
 
 	<div class="panel-body collapse in" id="tabla_movimientos">
 		<div class="accordion-inner" style="overflow: auto">
-			{datos_show_mov}
+			{!! $reporteMovimientos !!}
 		</div>
 	</div>
 </div>

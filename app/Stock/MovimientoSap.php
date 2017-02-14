@@ -8,11 +8,11 @@ class MovimientoSap extends OrmModel
 {
     public $modelLabel = 'Movimiento SAP';
 
-    protected $fillable = ['centro', 'cod_almacen', 'des_almacen', 'uso_almace', 'icono'];
+    protected $fillable = [];
 
     protected $guarded = [];
 
-    protected $primaryKey = ['centro', 'cod_almacen'];
+    protected $primaryKey = '';
     public $incrementing = false;
 
     public $modelFields = [
