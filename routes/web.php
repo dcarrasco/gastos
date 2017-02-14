@@ -82,6 +82,12 @@ Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'I
     Route::post('imprimir', 'ImprimirController@imprimir')->name('imprimir');
 });
 
+// Inventario
+Route::group(['prefix' => 'stock', 'as' => 'stock.', 'namespace' => 'Stock', 'middleware' => 'auth'], function () {
+    // Analisis
+    Route::any('analisis-series', 'AnalisisController@analisisSeries')->name('analisisSeries');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
