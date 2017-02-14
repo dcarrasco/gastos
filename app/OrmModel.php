@@ -115,6 +115,10 @@ class OrmModel extends Model
             return (string) $relatedModel->find($this->{$field});
         }
 
+        if (array_key_exists('choices', $this->modelFields[$field])) {
+            return array_get($this->modelFields, $field.'.choices.'.$this->{$field});
+        }
+
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
             return ($this->{$field})
                 ? '<ul>'
@@ -150,6 +154,10 @@ class OrmModel extends Model
                 .Form::radio($field, 0, ($this->getAttribute($field) != '1'), ['id' => ''])
                 .trans('orm.radio_no')
                 .'</label>';
+        }
+
+        if (array_key_exists('choices', $this->modelFields[$field])) {
+            return Form::select($field, array_get($this->modelFields, $field.'.choices'), $this->getAttribute($field), $extraParam);
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
