@@ -9,9 +9,7 @@ class Auditor extends OrmModel
     public $modelLabel = 'Auditor';
     public $modelOrder = 'nombre';
 
-    protected $fillable = [
-        'nombre', 'activo'
-    ];
+    protected $fillable = ['nombre', 'activo'];
 
     protected $guarded = [];
 

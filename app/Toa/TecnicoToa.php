@@ -8,9 +8,7 @@ class TecnicoToa extends OrmModel
 {
     public $modelLabel = 'T&eacute;cnico TOA';
 
-    protected $fillable = [
-        'tecnico', 'rut', 'id_empresa', 'id_ciudad'
-    ];
+    protected $fillable = ['id_tecnico', 'tecnico', 'rut', 'id_empresa', 'id_ciudad'];
 
     protected $guarded = [];
 

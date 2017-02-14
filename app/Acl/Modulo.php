@@ -8,9 +8,7 @@ class Modulo extends OrmModel
 {
     public $modelLabel = 'Modulo';
 
-    protected $fillable = [
-        'id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden',
-    ];
+    protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
     protected $guarded = [];
 
@@ -18,7 +16,7 @@ class Modulo extends OrmModel
         'id' => [
             'tipo'   => OrmModel::TIPO_ID,
         ],
-        'app' => [
+        'id_app' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
             'relation_model' => App::class,
             'texto_ayuda'    => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',

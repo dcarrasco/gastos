@@ -9,9 +9,7 @@ class EmpresaToa extends OrmModel
 {
     public $modelLabel = 'Empresa TOA';
 
-    protected $fillable = [
-        'empresa',
-    ];
+    protected $fillable = ['id_empresa', 'empresa'];
 
     protected $guarded = [];
 

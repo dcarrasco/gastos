@@ -9,9 +9,7 @@ class EmpresaCiudadToa extends OrmModel
 {
     public $modelLabel = 'Empresa Ciudad TOA';
 
-    protected $fillable = [
-        'desc_tip_material', 'color'
-    ];
+    protected $fillable = ['id_empresa', 'id_ciudad'];
 
     protected $guarded = [];
 

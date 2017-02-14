@@ -14,9 +14,7 @@ class Inventario extends OrmModel
     public $modelLabel = 'Inventario';
     public $modelOrder = 'nombre';
 
-    protected $fillable = [
-        'nombre', 'activo', 'tipo_inventario',
-    ];
+    protected $fillable = ['nombre', 'activo', 'tipo_inventario'];
 
     protected $guarded = [];
 

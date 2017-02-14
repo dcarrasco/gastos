@@ -8,9 +8,7 @@ class Familia extends OrmModel
 {
     public $modelLabel = 'Familia';
 
-    protected $fillable = [
-        'codigo', 'tipo', 'nombre',
-    ];
+    protected $fillable = ['codigo', 'tipo', 'nombre'];
 
     protected $guarded = [];
 

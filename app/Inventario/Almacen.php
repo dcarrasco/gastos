@@ -8,9 +8,7 @@ class Almacen extends OrmModel
 {
     public $modelLabel = 'Almacen';
 
-    protected $fillable = [
-        'almacen',
-    ];
+    protected $fillable = ['almacen'];
 
     protected $guarded = [];
 

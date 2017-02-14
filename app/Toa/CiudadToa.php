@@ -8,9 +8,7 @@ class CiudadToa extends OrmModel
 {
     public $modelLabel = 'Ciudad TOA';
 
-    protected $fillable = [
-        'tecnico', 'rut', 'id_empresa', 'id_ciudad'
-    ];
+    protected $fillable = ['id_ciudad', 'ciudad', 'orden'];
 
     protected $guarded = [];
 

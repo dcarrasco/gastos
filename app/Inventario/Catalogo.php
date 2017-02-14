@@ -8,9 +8,7 @@ class Catalogo extends OrmModel
 {
     public $modelLabel = 'Catalogo';
 
-    protected $fillable = [
-        'codigo', 'tipo', 'nombre',
-    ];
+    protected $fillable = ['catalogo', 'descripcion', 'pmp', 'es_seriado'];
 
     protected $guarded = [];
 

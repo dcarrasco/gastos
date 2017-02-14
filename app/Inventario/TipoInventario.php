@@ -8,9 +8,7 @@ class TipoInventario extends OrmModel
 {
     public $modelLabel = 'Tipo de inventario';
 
-    protected $fillable = [
-        'almacen',
-    ];
+    protected $fillable = ['id_tipo_inventario', 'desc_tipo_inventario'];
 
     protected $guarded = [];
 

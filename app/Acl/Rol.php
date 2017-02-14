@@ -7,10 +7,9 @@ use App\OrmModel;
 class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
+    public $modelOrder = 'rol';
 
-    protected $fillable = [
-        'id_app', 'rol', 'descripcion',
-    ];
+    protected $fillable = ['id_app', 'rol', 'descripcion'];
 
     protected $guarded = [];
 

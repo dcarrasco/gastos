@@ -8,9 +8,7 @@ class ClaseMovimiento extends OrmModel
 {
     public $modelLabel = 'Clase de Movimiento SAP';
 
-    protected $fillable = [
-        'cmv', 'des_cmv'
-    ];
+    protected $fillable = ['cmv', 'des_cmv'];
 
     protected $guarded = [];
 

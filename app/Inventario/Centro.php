@@ -8,9 +8,7 @@ class Centro extends OrmModel
 {
     public $modelLabel = 'Centro';
 
-    protected $fillable = [
-        'centro',
-    ];
+    protected $fillable = ['centro'];
 
     protected $guarded = [];
 

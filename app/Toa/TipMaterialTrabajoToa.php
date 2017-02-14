@@ -9,9 +9,7 @@ class TipMaterialTrabajoToa extends OrmModel
 {
     public $modelLabel = 'Tipo de Material Trabajo TOA';
 
-    protected $fillable = [
-        'desc_tip_material', 'color'
-    ];
+    protected $fillable = ['desc_tip_material', 'color'];
 
     protected $guarded = [];
 
