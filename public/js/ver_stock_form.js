@@ -2,59 +2,6 @@
 
 $(document).ready(function () {
 
-    $('input[name="sel_fechas"]').click(function (event) {
-        tipo_fecha = $('input[name="sel_fechas"]:checked').val();
-        tipo_op    = $('input[name="tipo_op"]').val();
-
-        $('#select_fechas').html('');
-        var url_datos = js_base_url + 'stock_sap/ajax_fechas/' + tipo_op + '/' + tipo_fecha;
-        $.get(url_datos, function (data) {$('#select_fechas').html(data); });
-    });
-
-    if ($('input[name="sel_tiposalm"]:checked').val() === 'sel_tiposalm') {
-        $("#show_almacenes").hide();
-    } else {
-        $("#show_tiposalm").hide();
-    }
-
-    $('input[name="sel_tiposalm"]').click(function (event) {
-        tipo_op  = $('input[name="tipo_op"]').val();
-        tipo_alm = $('input[name="sel_tiposalm"]:checked').val();
-
-        if (tipo_alm === 'sel_tiposalm') {
-            $("#show_tiposalm").show();
-        } else {
-            $("#show_tiposalm").hide();
-        }
-
-        $('#select_almacenes').html('');
-        var url_datos = js_base_url + 'stock_sap/ajax_almacenes/' + tipo_op + '/' + tipo_alm;
-        $.get(url_datos, function (data) {$('#select_almacenes').html(data); });
-
-    });
-
-    $('div.mostrar-ocultar').click(function (event) {
-        if ($('div.mostrar-ocultar span').html() === 'Ocultar') {
-            $('div.mostrar-ocultar span').html('Mostrar');
-        } else {
-            $('div.mostrar-ocultar span').html('Ocultar');
-        }
-        $('div.mostrar-ocultar').parent().parent().next().toggle();
-    });
-
-    /**
-    $('input[name="mostrar_cant_monto"]').click(function (event) {
-        radio_selected = $('input[name="mostrar_cant_monto"]:checked');
-        if (radio_selected.val() == 'cantidad') {
-            $('table#stock td.text-right span').each(function() {$(this).text($(this).data('cantidad'))});
-            $('table#stock th.text-right span').each(function() {$(this).text($(this).data('cantidad'))});
-        } else {
-            $('table#stock td.text-right span').each(function() {$(this).text($(this).data('monto'))});
-            $('table#stock th.text-right span').each(function() {$(this).text($(this).data('monto'))});
-        }
-    });
-    */
-
     function jTabla(idTabla) {
         var tabla = {headers: [], datos: [], campos_sumables: [], campos_montos: []};
         tabla.campos_sumables = ['LU', 'BQ', 'CC', 'TT', 'OT', 'total', 'EQUIPOS', 'SIMCARD', 'OTROS', 'cantidad', 'VAL LU', 'VAL BQ', 'VAL CC', 'VAL TT', 'VAL OT', 'monto', 'VAL EQUIPOS', 'VAL SIMCARD', 'VAL OTROS'];

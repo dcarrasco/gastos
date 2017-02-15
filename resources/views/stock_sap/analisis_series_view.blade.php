@@ -20,7 +20,7 @@
 					<label class="control-label">
 						{{ trans('stock.analisis_label_series') }}
 					</label>
-					{{ Form::textarea('series', old('series'), ['id'=>'series', 'rows'=>10, 'cols'=>30, 'class'=>'form-control']) }}
+					{{ Form::textarea('series', request()->input('series'), ['id'=>'series', 'rows'=>10, 'cols'=>30, 'class'=>'form-control']) }}
 				</div>
 			</div>
 
@@ -31,44 +31,44 @@
 					</label>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_mov', 'show', old('show_mov', TRUE)) }}
+							{{ Form::checkbox('show_mov', 'show', request()->input('show_mov')) }}
 							{{ trans('stock.analisis_check_movimientos') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('ult_mov', 'show', old('ult_mov')) }}
+							{{ Form::checkbox('ult_mov', 'show', request()->input('ult_mov')) }}
 							{{ trans('stock.analisis_check_filtrar_ultmov') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_despachos', 'show', old('show_despachos')) }}
+							{{ Form::checkbox('show_despachos', 'show', request()->input('show_despachos')) }}
 							{{ trans('stock.analisis_check_despachos') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_stock_sap', 'show', old('show_stock_sap')) }}
+							{{ Form::checkbox('show_stock_sap', 'show', request()->input('show_stock_sap')) }}
 							{{ trans('stock.analisis_check_stock_sap') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_stock_scl', 'show', old('show_stock_scl')) }}
+							{{ Form::checkbox('show_stock_scl', 'show', request()->input('show_stock_scl')) }}
 							{{ trans('stock.analisis_check_stock_scl') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_trafico', 'show', old('show_trafico')) }}
+							{{ Form::checkbox('show_trafico', 'show', request()->input('show_trafico')) }}
 							{{ trans('stock.analisis_check_trafico') }}
 							({{-- anchor($this->router->class.'/trafico_por_mes', trans('stock.analisis_link_detalle_trafico')) --}}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_gdth', 'show', old('show_gdth')) }}
+							{{ Form::checkbox('show_gdth', 'show', request()->input('show_gdth')) }}
 							{{ trans('stock.analisis_check_gestor') }}
 						</label>
 					</div>
@@ -120,7 +120,7 @@
 
 	<div class="panel-body collapse in" id="tabla_despachos">
 		<div class="accordion-inner" style="overflow: auto">
-			{datos_show_despachos}
+			{!! $reporteDespachos !!}
 		</div>
 	</div>
 </div>
@@ -136,7 +136,7 @@
 
     <div class="panel-body collapse in" id="tabla_stock_sap">
         <div class="accordion-inner" style="overflow: auto">
-            {datos_show_stock_sap}
+            {!! $reporteStockSAP !!}
         </div>
     </div>
 </div>
@@ -144,15 +144,15 @@
 
 @if (request()->input('show_stock_scl'))
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<a href="#tabla_stock_scl" class="accordion-toggle" data-toggle="collapse">
-			{{ trans('stock.analisis_title_stock_scl') }}
-		</a>
-	</div>
+    <div class="panel-heading">
+        <a href="#tabla_stock_scl" class="accordion-toggle" data-toggle="collapse">
+            {{ trans('stock.analisis_title_stock_scl') }}
+        </a>
+    </div>
 
-	<div class="panel-body collapse in" id="tabla_stock_scl">
-		<div class="accordion-inner" style="overflow: auto">
-			{datos_show_stock_scl}
+    <div class="panel-body collapse in" id="tabla_stock_scl">
+        <div class="accordion-inner" style="overflow: auto">
+            {!! $reporteStockSCL !!}
 		</div>
 	</div>
 </div>

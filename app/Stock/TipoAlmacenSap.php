@@ -71,4 +71,11 @@ class TipoAlmacenSap extends OrmModel
         return $this->belongsToMany(AlmacenSap::class, config('invfija.bd_tipoalmacen_sap'), 'id_tipo', 'id_modulo');
     }
 
+    public static function getComboTiposOperacion($tipoOp = 'movil')
+    {
+        return models_array_options(self::where('tipo_op', $tipoOp)
+            ->orderBy('tipo')
+            ->get()
+        );
+    }
 }

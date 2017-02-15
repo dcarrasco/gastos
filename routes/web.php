@@ -82,10 +82,14 @@ Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'I
     Route::post('imprimir', 'ImprimirController@imprimir')->name('imprimir');
 });
 
-// Inventario
+// Stock
 Route::group(['prefix' => 'stock', 'as' => 'stock.', 'namespace' => 'Stock', 'middleware' => 'auth'], function () {
     // Analisis
     Route::any('analisis-series', 'AnalisisController@analisisSeries')->name('analisisSeries');
+    // Consulta sotck
+    Route::any('consulta-stock', 'ConsultaStockController@consultaStock')->name('consultaStock');
+    Route::get('consulta-fechas/{tipoOp}/{tipoFecha}', 'ConsultaStockController@ajaxFecha');
+    Route::get('consulta-almacenes/{tipoOp}/{tipoAlm}', 'ConsultaStockController@ajaxAlmacenes');
 });
 
 Auth::routes();

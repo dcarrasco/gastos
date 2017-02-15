@@ -232,12 +232,7 @@ class OrmModel extends Model
 
     public function getModelAjaxFormOptions($where = [])
     {
-        return collect($this->getModelFormOptions($where))
-            ->map(function ($elem, $key) {
-                return ['key' => $key, 'value' => $elem];
-            })->reduce(function ($carry, $elem) {
-                return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
-        }, '');
+        return ajax_options($this->getModelFormOptions($where));
     }
 
     public function getWhereFromRelation($field = null)

@@ -1,5 +1,25 @@
 <?php
 
+if (!function_exists('ajax_options')){
+    function ajax_options($opciones) {
+        return collect($opciones)
+            ->map(function ($item, $key) {
+                return ['key' => $key, 'value' => $item];
+            })->reduce(function ($carry, $elem) {
+                return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
+           }, '');
+    }
+}
+
+if (!function_exists('models_array_options')){
+    function models_array_options($models) {
+        return $models->mapWithKeys(function ($elem) {
+            return [$elem->getKey() => (string) $elem];
+        });
+    }
+}
+
+
 if (!function_exists('print_message')) {
     /**
      * Devuelve un mensaje de alerta o error
@@ -243,15 +263,9 @@ if (!function_exists('fmt_fecha')) {
      */
     function fmt_fecha($fecha = null, $formato = 'Y-m-d')
     {
-        if (!$fecha) {
-            return;
-        }
+        $fecha = \Carbon\Carbon::parse($fecha);
 
-        if (strlen($fecha) === 8) {
-            $fecha = substr($fecha, 0, 4).'/'.substr($fecha, 4, 2).'/'.substr($fecha, 6, 2);
-        }
-
-        return nice_date($fecha, $formato);
+        return $fecha->format($formato);
     }
 }
 

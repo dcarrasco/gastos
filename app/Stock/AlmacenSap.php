@@ -79,11 +79,20 @@ class AlmacenSap extends OrmModel
 
     public function __toString()
     {
-        return (string) $this->des_almacen;
+        return (string) $this->centro.'-'.$this->cod_almacen.' '.$this->des_almacen;
     }
 
     public function tipos()
     {
         return $this->belongsToMany(TipoAlmacenSap::class, config('invfija.bd_tipoalmacen_sap'), ['centro', 'cod_almacen'], 'id_tipo');
+    }
+
+    public static function getComboTiposOperacion($tipoOp = 'movil')
+    {
+        return models_array_options(self::where('tipo_op', $tipoOp)
+            ->orderBy('centro')
+            ->orderBy('cod_almacen')
+            ->get()
+        );
     }
 }
