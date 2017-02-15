@@ -8,7 +8,7 @@ use App\Stock\MovimientoSap;
 trait ReportesSeries
 {
     protected static $template = [
-        'table_open'  => '<table class="table table-bordered table-striped table-hover table-condensed reporte">',
+        'table_open'  => '<table class="table table-bordered table-striped table-hover table-condensed reporte" style="white-space:nowrap;">',
         'table_close' => '</table>',
         'thead_open'  => '<thead class="header">',
         'thead_close' => '</thead>',
@@ -22,9 +22,9 @@ trait ReportesSeries
 
     protected static function filterCampos($data, $campos)
     {
-        return $data->map(function($elem) use ($campos) {
+        return $data->map(function ($elem) use ($campos) {
             return collect($elem)
-                ->filter(function($elem, $key) use ($campos) {
+                ->filter(function ($elem, $key) use ($campos) {
                     return in_array($key, $campos);
                 })->all();
         });
@@ -34,17 +34,19 @@ trait ReportesSeries
     {
         $reporteOrigen = static::filterCampos($data, $campos);
 
-        $reporteHead = collect(array_keys($reporteOrigen->first()))
-            ->reduce(function($carry, $elem) {
+        $reporteHead = collect($campos)->reduce(function ($carry, $elem) {
                 return $carry.'<th>'.$elem.'</th>';
-            }, '');
+        }, '');
 
         $row_open = static::$template['row_open'];
         $row_close = static::$template['row_close'];
 
-        $reporteBody = $reporteOrigen->reduce(function($carry, $elem) use ($row_open, $row_close) {
-            return $carry.$row_open
-                .collect($elem)->reduce(function($carry2, $elem) {
+        $reporteBody = $reporteOrigen->reduce(function ($carry, $elem) use ($row_open, $row_close, $campos) {
+            return $carry
+                .$row_open
+                .collect($campos)->map(function ($campo) use ($elem) {
+                    return array_get($elem, $campo);
+                })->reduce(function ($carry2, $elem) {
                     return $carry2.'<td>'.$elem.'</td>';
                 }, '')
                 .$row_close;
@@ -61,12 +63,62 @@ trait ReportesSeries
             .static::$template['table_close'];
     }
 
-    public static function reporteMovimientos($serie = '')
+    protected static function listToArray($series = string, $tipo = 'SAP')
     {
-        $campos = ['serie', 'fec_entrada_doc', 'ce', 'alm', 'rec', 'cmv', 'codigo_sap', 'texto_breve_material', 'lote', 'n_doc', 'referencia', 'usuario'];
+        $series = str_replace(' ', '', $series);
+        $arrSeries = preg_grep('/[\d]+/', explode("\r\n", $series));
 
-        $movimientos = MovimientoSap::where('serie', '2')->get();
+        $arrSeries_celular = array();
 
-        return static::reporte($movimientos, $campos);
+        foreach ($arrSeries as $llave => $valor) {
+            $serieTemp = $valor;
+
+            if ($tipo === 'SAP') {
+                // Modificaciones de formato SAP
+                $serieTemp = preg_replace('/^01/', '1', $serieTemp);
+                $arrSeries[$llave] = (strlen($serieTemp) === '19') ? substr($serieTemp, 1, 18) : $serieTemp;
+            } elseif ($tipo === 'trafico') {
+                // Modificaciones de formato SCL
+                $serieTemp = preg_replace('/^1/', '01', $serieTemp);
+                $arrSeries[$llave] = substr($serieTemp, 0, 14) . '0';
+            } elseif ($tipo === 'SCL') {
+                $serieTemp = preg_replace('/^1/', '01', $serieTemp);
+                $arrSeries[$llave] = $serieTemp;
+            } elseif ($tipo === 'celular') {
+                $arrSeries[$llave] = (strlen($valor) === '9') ? substr($valor, 1, 8) : $valor;
+                $arrSeries_celular[$llave] = '9'.$arrSeries[$llave];
+            }
+        }
+
+        $arrSeries = ($tipo === 'celular') ? array_merge($arrSeries, $arrSeries_celular) : $arrSeries;
+
+        return collect($arrSeries);
+    }
+
+    public static function reporteMovimientos($series = '')
+    {
+        $campos = ['serie', 'fec_entrada_doc', 'ce', 'alm', 'des_alm', 'rec', 'des_rec', 'cmv', 'des_cmv', 'codigo_sap', 'texto_breve_material', 'lote', 'n_doc', 'referencia', 'usuario', 'nom_usuario'];
+
+        return static::listToArray($series, 'SAP')
+            ->map(function ($serie) {
+                // Para cada una de las series, recupera los movimientos....
+                return \DB::table(\DB::raw(config('invfija.bd_movimientos_sap').' as m'))
+                    ->select(['m.*', 'nom_usuario', 'a1.des_almacen as des_alm', 'a2.des_almacen as des_rec', 'des_cmv'])
+                    ->where('m.serie', $serie)
+                    ->leftJoin(\DB::raw(config('invfija.bd_usuarios_sap').' as u'), 'm.usuario', '=', 'u.usuario')
+                    ->leftJoin(\DB::raw(config('invfija.bd_almacenes_sap').' as a1'), function ($join) {
+                        $join->on('m.alm', '=', 'a1.cod_almacen');
+                        $join->on('m.ce', '=', 'a1.centro');
+                    })
+                    ->leftJoin(\DB::raw(config('invfija.bd_almacenes_sap').' as a2'), function ($join) {
+                        $join->on('m.rec', '=', 'a2.cod_almacen');
+                        $join->on('m.ce', '=', 'a2.centro');
+                    })
+                    ->leftJoin(\DB::raw(config('invfija.bd_cmv_sap').' as c'), 'm.cmv', '=', 'c.cmv')
+                    ->get();
+            })->reduce(function ($carry, $movimientos) use ($campos) {
+                // ...y luego junta los reportes de cada uno
+                return $carry.static::reporte($movimientos, $campos);
+            }, '');
     }
 }

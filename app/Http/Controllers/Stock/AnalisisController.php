@@ -12,7 +12,7 @@ class AnalisisController extends Controller
 
     public function analisisSeries()
     {
-        $reporteMovimientos = ReportesSeries::reporteMovimientos('2');
+        $reporteMovimientos = ReportesSeries::reporteMovimientos(request()->input('series'));
 
         return view('stock_sap.analisis_series_view', compact('reporteMovimientos'));
     }
