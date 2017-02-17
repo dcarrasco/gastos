@@ -58,7 +58,7 @@ class Reporte
 
         $arrFormatos = [
             'texto'         => function ($valor) {return $valor;},
-            'fecha'         => function ($valor) {return $valor;return fmt_fecha($valor);},
+            'fecha'         => function ($valor) {return fmt_fecha($valor);},
             'numero'        => function ($valor) {return fmt_cantidad($valor, 0, TRUE);},
             'valor'         => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE);},
             'valor_pmp'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE);},
@@ -101,10 +101,21 @@ class Reporte
         $new_orden_tipo = ($sort_by_order === '+') ? '-' : '+';
 
         foreach ($campos as $campo => $valor) {
+            if (!array_key_exists('titulo', $valor)) {
+                $campos[$campo]['titulo'] = $campo;
+            }
+            if (!array_key_exists('class', $valor)) {
+                $campos[$campo]['class'] = '';
+            }
+            if (!array_key_exists('tipo', $valor)) {
+                $campos[$campo]['tipo'] = 'texto';
+            }
+
             $campos[$campo]['sort'] = (($campo === $sort_by_field) ? $new_orden_tipo : '+').$campo;
             $order_icon = (substr($campos[$campo]['sort'], 0, 1) === '+') ? 'sort-amount-desc' : 'sort-amount-asc';
             $campos[$campo]['img_orden'] = ($campo === $sort_by_field) ? " <span class=\"fa fa-{$order_icon}\" ></span>" : '';
         }
+
     }
 
     /**
@@ -215,7 +226,7 @@ class Reporte
     private function reporteLineaDatos($linea = [], $campos = array(), $numLinea = 0)
     {
         return (array_merge(
-            array(array('data' => $numLinea, 'class' => 'text-muted')),
+            array(array('data' => fmt_cantidad($numLinea), 'class' => 'text-muted')),
             collect($campos)->map(function ($elem, $llave) use ($linea) {
                 return array(
                     'data' => $this->formatoReporte($linea->$llave, $elem, $linea, $llave),
