@@ -25,9 +25,11 @@ class ConsultaStockController extends Controller
         $comboFechas = StockSapMovil::fechasStock($tipoFecha);
         $comboAlmacenes = TipoAlmacenSap::getComboTiposOperacion($tipoOp);
         $datosGrafico = false;
-        dump(request()->input(), StockSapMovil::where('fecha_stock', '20170214')->first(), $stock = StockSapMovil::getStock());
+        $tablaStock = StockSapMovil::getStock();
 
-        return view('stock_sap.ver_stock', compact('tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico'));
+        dump(request()->input());
+
+        return view('stock_sap.ver_stock', compact('tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico', 'tablaStock'));
     }
 
     public function ajaxFecha($tipoOp = self::OP_MOVIL, $tipoFecha = self::FECHA_ULTIMODIA)

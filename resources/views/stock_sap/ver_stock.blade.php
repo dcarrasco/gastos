@@ -133,7 +133,7 @@
 
 {{ Form::close() }}
 
-{tabla_stock}
+{!! $tablaStock !!}
 
 
 <script type="text/javascript">

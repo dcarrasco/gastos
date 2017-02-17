@@ -3,6 +3,7 @@
 namespace App\Stock;
 
 use App\OrmModel;
+use App\Helpers\ReporteTable;
 
 class StockSapMovil extends OrmModel
 {
@@ -12,7 +13,7 @@ class StockSapMovil extends OrmModel
 
     protected static $sumValor = 'sum(val_lu + val_bq + val_cq + val_tt + val_ot)';
 
-    protected $dates = ['fecha_stock'];
+    // protected $dates = ['fecha_stock'];
 
     public function __construct(array $attributes = [])
     {
@@ -20,30 +21,29 @@ class StockSapMovil extends OrmModel
         $this->table = \DB::raw(config('invfija.bd_stock_movil').' as s');
     }
 
+    public static function todasFechasStock()
+    {
+        return \DB::table(config('invfija.bd_stock_movil_fechas'))
+            ->orderBy('fecha_stock', 'desc')
+            ->get();
+    }
+
+    public static function ultDiaFechasStock()
+    {
+        return \DB::table(config('invfija.bd_stock_movil_fechas'))
+            ->select([\DB::raw('100*year(fecha_stock)+month(fecha_stock) as mes'), \DB::raw('max(fecha_stock) as fecha_stock')])
+            ->groupBy([\DB::raw('100*year(fecha_stock)+month(fecha_stock)')])
+            ->orderBy('mes', 'desc')
+            ->get();
+    }
+
     public static function fechasStock($tipoFecha = 'ultdia')
     {
-        $fechas = \DB::table(config('invfija.bd_stock_movil_fechas'))
-            ->orderBy('fecha_stock', 'desc')
-            ->get()
-            ->mapWithKeys(function ($item) {
+        $fechas = ($tipoFecha === 'ultdia') ? static::ultDiaFechasStock() : static::todasFechasStock();
+
+        return $fechas->mapWithKeys(function ($item) {
                 return [fmt_fecha_db($item->fecha_stock) => fmt_fecha($item->fecha_stock)];
-            })
-            ->all();
-
-        if ($tipoFecha === 'ultdia') {
-            $fechasUltDia = [];
-            $ultMes = '';
-            foreach ($fechas as $key => $item) {
-                if (substr($key, 0, 6) !== $ultMes) {
-                    $fechasUltDia[$key] = $item;
-                }
-                $ultMes = substr($key, 0, 6);
-            }
-
-            return $fechasUltDia;
-        }
-
-        return $fechas;
+            })->all();
     }
 
     public static function getStock()
@@ -52,19 +52,59 @@ class StockSapMovil extends OrmModel
             return;
         }
 
-        $stock = static::whereIn('fecha_stock', request()->input('fecha'))
-            ->filtroTipoAlmacen(request()->input('almacenes'))
-            ->select([
-                's.fecha_stock',
-                't.tipo',
-                \DB::raw(static::$tipoMaterial.' as tipo_material'),
-                \DB::raw(static::$sumCantidad.' as cant'),
-                \DB::raw(static::$sumValor.' as valor'),
-            ])
-            ->groupBy(['s.fecha_stock', 't.tipo', \DB::raw(static::$tipoMaterial)])
+        $selectGroupBy = static::getSelectGroupBy();
+
+        $queryStock = static::whereIn('fecha_stock', request()->input('fecha'))
+            ->filtroTipoAlmacen(request()->input('almacenes'));
+
+        $stock = $queryStock
+            ->select($selectGroupBy['select'])
+            ->groupBy($selectGroupBy['groupBy'])
             ->get();
 
-        return $stock;
+        return ReporteTable::table($stock, array_keys($stock->first()->toArray()));
+    }
+
+    protected static function getSelectGroupBy()
+    {
+        $select  = [];
+        $groupBy = [];
+
+        $select[]  = 's.fecha_stock';
+        $groupBy[] = 's.fecha_stock';
+
+        if (request()->input('sel_tiposalm') === 'sel_tiposalm') {
+            $select[]  = 't.tipo';
+            $groupBy[] = 't.tipo';
+        }
+
+        if (request()->input('almacen') === 'almacen') {
+            $select[]  = 's.centro';
+            $groupBy[] = 's.centro';
+            $select[]  = 's.cod_bodega';
+            $groupBy[] = 's.cod_bodega';
+            $select[]  = 'a.des_almacen';
+            $groupBy[] = 'a.des_almacen';
+        }
+
+        if (request()->input('material') === 'material') {
+            $select[]  = 's.cod_articulo';
+            $groupBy[] = 's.cod_articulo';
+        }
+
+        if (request()->input('lote') === 'lote') {
+            $select[]  = 's.lote';
+            $groupBy[] = 's.lote';
+        }
+
+        $select[]  = \DB::raw(static::$tipoMaterial.' as tipo_material');
+        $groupBy[] = \DB::raw(static::$tipoMaterial);
+
+        $select[] = \DB::raw(static::$sumCantidad.' as cant');
+        $select[] = \DB::raw(static::$sumValor.' as valor');
+
+        return compact('select', 'groupBy');
+
     }
 
     public function scopeFiltroTipoAlmacen($query, $tiposAlmacen = [])
