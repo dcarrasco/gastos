@@ -27,8 +27,6 @@ class ConsultaStockController extends Controller
         $datosGrafico = false;
         $tablaStock = StockSapMovil::getStock();
 
-        dump(request()->input());
-
         return view('stock_sap.ver_stock', compact('tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico', 'tablaStock'));
     }
 

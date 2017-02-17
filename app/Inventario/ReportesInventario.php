@@ -45,21 +45,7 @@ trait ReportesInventario
             'v_coincidente' => ['titulo'=>'Valor Coincidente', 'class'=>'text-center', 'tipo'=>'valor'],
         ];
 
-        $definicionCampo = array_key_exists($campo, $campos) ? $campos[$campo] : [];
-
-        if (!array_key_exists('titulo', $definicionCampo)) {
-            $definicionCampo['titulo'] = '';
-        }
-
-        if (!array_key_exists('class', $definicionCampo)) {
-            $definicionCampo['class'] = '';
-        }
-
-        if (!array_key_exists('tipo', $definicionCampo)) {
-            $definicionCampo['tipo'] = 'texto';
-        }
-
-        return $definicionCampo;
+        return array_get($campos, $campo, []);
     }
 
 

@@ -13,6 +13,19 @@ class StockSapMovil extends OrmModel
 
     protected static $sumValor = 'sum(val_lu + val_bq + val_cq + val_tt + val_ot)';
 
+    protected static $campos = [
+        'fecha_stock' => ['titulo'=>'Fecha', 'tipo'=>'fecha'],
+        'tipo' => ['titulo'=>'Tipo almacen'],
+        'centro' => ['titulo'=>'Centro'],
+        'cod_bodega' => ['titulo'=>'Almacen'],
+        'des_almacen' => ['titulo'=>'Desc Almacen'],
+        'cod_articulo' => ['titulo'=>'Material'],
+        'lote' => ['titulo'=>'Lote'],
+        'tipo_material' => ['titulo'=>'Tipo Material'],
+        'cant' => ['titulo'=>'Cantidad', 'tipo'=>'numero', 'class'=>'text-right'],
+        'valor' => ['titulo'=>'Monto', 'tipo'=>'valor', 'class'=>'text-right'],
+    ];
+
     // protected $dates = ['fecha_stock'];
 
     public function __construct(array $attributes = [])
@@ -41,9 +54,10 @@ class StockSapMovil extends OrmModel
     {
         $fechas = ($tipoFecha === 'ultdia') ? static::ultDiaFechasStock() : static::todasFechasStock();
 
-        return $fechas->mapWithKeys(function ($item) {
-                return [fmt_fecha_db($item->fecha_stock) => fmt_fecha($item->fecha_stock)];
-            })->all();
+        return $fechas
+        ->mapWithKeys(function ($item) {
+            return [fmt_fecha_db($item->fecha_stock) => fmt_fecha($item->fecha_stock)];
+        })->all();
     }
 
     public static function getStock()
@@ -67,7 +81,12 @@ class StockSapMovil extends OrmModel
             ->groupBy($selectFields['groupBy'])
             ->get();
 
-        $campos = $stock->isEmpty() ? [] : array_keys($stock->first()->toArray());
+        $campos = $stock->isEmpty()
+            ? []
+            : collect($stock->first())->mapWithKeys(function ($elem, $key) {
+                return [$key => array_get(static::$campos, $key)];
+            })->all();
+        Reporte::setOrderCampos($campos, 'fecha');
 
         $reporte = new Reporte($stock, $campos);
 
