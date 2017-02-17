@@ -3,7 +3,7 @@
 namespace App\Stock;
 
 use App\OrmModel;
-use App\Helpers\ReporteTable;
+use App\Helpers\Reporte;
 
 class StockSapMovil extends OrmModel
 {
@@ -52,20 +52,29 @@ class StockSapMovil extends OrmModel
             return;
         }
 
-        $selectGroupBy = static::getSelectGroupBy();
+        $selectFields = static::getSelectFields();
 
-        $queryStock = static::whereIn('fecha_stock', request()->input('fecha'))
-            ->filtroTipoAlmacen(request()->input('almacenes'));
+        $queryStock = static::whereIn('fecha_stock', request()->input('fecha'));
+
+        if (request()->input('sel_tiposalm') === 'sel_tiposalm') {
+            $queryStock = $queryStock->filtroTipoAlmacen(request()->input('almacenes'));
+        } elseif (request()->input('sel_tiposalm') === 'sel_almacenes') {
+            $queryStock = $queryStock->filtroAlmacen(request()->input('almacenes'));
+        }
 
         $stock = $queryStock
-            ->select($selectGroupBy['select'])
-            ->groupBy($selectGroupBy['groupBy'])
+            ->select($selectFields['select'])
+            ->groupBy($selectFields['groupBy'])
             ->get();
 
-        return ReporteTable::table($stock, array_keys($stock->first()->toArray()));
+        $campos = $stock->isEmpty() ? [] : array_keys($stock->first()->toArray());
+
+        $reporte = new Reporte($stock, $campos);
+
+        return $reporte->make();
     }
 
-    protected static function getSelectGroupBy()
+    protected static function getSelectFields()
     {
         $select  = [];
         $groupBy = [];
@@ -78,7 +87,7 @@ class StockSapMovil extends OrmModel
             $groupBy[] = 't.tipo';
         }
 
-        if (request()->input('almacen') === 'almacen') {
+        if (request()->input('almacen') === 'almacen' or request()->input('sel_tiposalm') === 'sel_almacenes') {
             $select[]  = 's.centro';
             $groupBy[] = 's.centro';
             $select[]  = 's.cod_bodega';
@@ -124,6 +133,22 @@ class StockSapMovil extends OrmModel
             })
             ->leftJoin(\DB::raw(config('invfija.bd_tiposalm_sap').' as t'), 't.id_tipo', '=', 'ta.id_tipo')
             ->whereIn('t.id_tipo', $tiposAlmacen);
+
+        return $query;
+    }
+
+    public function scopeFiltroAlmacen($query, $almacenes = [])
+    {
+        if (empty($almacenes)) {
+            return $query;
+        }
+
+        $query = $query
+            ->leftJoin(\DB::raw(config('invfija.bd_almacenes_sap').' as a'), function ($join) {
+                $join->on('s.centro', '=', 'a.centro');
+                $join->on('s.cod_bodega', '=', 'a.cod_almacen');
+            })
+            ->whereIn(\DB::raw("s.centro+'".static::KEY_SEPARATOR."'+s.cod_bodega"), $almacenes);
 
         return $query;
     }

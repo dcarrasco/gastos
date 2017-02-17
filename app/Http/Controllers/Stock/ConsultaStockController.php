@@ -23,7 +23,7 @@ class ConsultaStockController extends Controller
         $tipoAlm   = request()->input('sel_tiposalm', self::SEL_TIPOSALM);
 
         $comboFechas = StockSapMovil::fechasStock($tipoFecha);
-        $comboAlmacenes = TipoAlmacenSap::getComboTiposOperacion($tipoOp);
+        $comboAlmacenes = ($tipoAlm === self::SEL_TIPOSALM) ? TipoAlmacenSap::getComboTiposOperacion($tipoOp) : AlmacenSap::getComboTiposOperacion($tipoOp);
         $datosGrafico = false;
         $tablaStock = StockSapMovil::getStock();
 
