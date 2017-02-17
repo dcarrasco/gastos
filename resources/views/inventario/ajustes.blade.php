@@ -49,7 +49,7 @@
             <?php $tab_index = 10; ?>
             <?php $cat_ant = ''; ?>
             @foreach ($detalleAjustes as $detalle)
-                <?php if ($cat_ant != $detalle->catalogo AND $cat_ant != ''): ?>
+                @if ($cat_ant != $detalle->catalogo AND $cat_ant != '')
                     <tr class="active">
                         <td></td>
                         <td></td>
@@ -59,10 +59,10 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-center"><strong><?= fmt_cantidad($subtot_sap, 0, TRUE); ?></strong></td>
-                        <td class="text-center"><strong><?= fmt_cantidad($subtot_fisico, 0, TRUE); ?></strong></td>
-                        <td class="text-center"><strong><?= fmt_cantidad($subtot_ajuste, 0, TRUE); ?></strong></td>
-                        <td class="text-center"><strong><?= fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE); ?></strong></td>
+                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_sap, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -70,7 +70,7 @@
                         <td colspan="15">&nbsp;</td>
                     </tr>
                     <?php $subtot_sap = 0; $subtot_fisico = 0; $subtot_ajuste = 0; ?>
-                <?php endif; ?>
+                @endif
 
                 <tr>
                     <td class="text-center"><?= ($cat_ant != $detalle->catalogo) ? $detalle->catalogo : ''; ?></td>
@@ -85,36 +85,36 @@
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_sap); ?></td>
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_fisico); ?></td>
                     <td class="{{ $errors->has('stock_ajuste_'.$detalle->id) ? 'has-error' : ''}}">
-                        {{ Form::text('stock_ajuste_'.$detalle->id, $detalle->stock_ajuste, ['class' => 'form-control input-sm text-right', 'size' => 5, 'tabindex' => $tab_index]) }}
+                        {{ Form::text("detalle[{$detalle->id}][stock_ajuste]", $detalle->stock_ajuste, ['class' => 'form-control input-sm text-right', 'size' => 5, 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_ajuste_'.$detalle->id); --}}
                     </td>
                     <td class="text-center">
                         {{ fmt_cantidad($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) }}
                     </td>
                     <td class="text-center">
-                        <?php if (($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) > 0): ?>
+                        @if(($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) > 0)
                             <button class="btn btn-default btn-sm btn-warning" style="white-space: nowrap;">
                                 <span class="fa fa-question-circle"></span>
                                 {{ trans('inventario.report_label_sobrante') }}
                             </button>
-                        <?php elseif (($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) < 0): ?>
+                        @elseif (($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) < 0)
                             <button class="btn btn-default btn-sm btn-danger" style="white-space: nowrap;">
                                 <span class="fa fa-remove"></span>
                                 {{ trans('inventario.report_label_faltante') }}
                             </button>
-                        <?php else: ?>
+                        @else
                             <button class="btn btn-default btn-sm btn-success" style="white-space: nowrap;">
                                 <span class="fa fa-check"></span>
                                 {{ trans('inventario.report_label_OK') }}
                             </button>
-                        <?php endif; ?>
+                        @endif
                     </td>
                     <td class="text-center">
-                        {{ Form::text('observacion_'.$detalle->id, $detalle->glosa_ajuste, ['class' => 'form-control input-sm', 'max_length'=>200, 'tabindex' => $tab_index + 10000]) }}
+                        {{ Form::text("detalle[{$detalle->id}][observacion]", $detalle->glosa_ajuste, ['class' => 'form-control input-sm', 'max_length'=>200, 'tabindex' => $tab_index + 10000]) }}
                     </td>
                 </tr>
-                <?php $sum_sap += $detalle->stock_sap; $sum_fisico += $detalle->stock_fisico; $sum_ajuste += $detalle->stock_ajuste?>
-                <?php $subtot_sap += $detalle->stock_sap; $subtot_fisico += $detalle->stock_fisico; $subtot_ajuste += $detalle->stock_ajuste?>
+                <?php $sum_sap += $detalle->stock_sap; $sum_fisico += $detalle->stock_fisico; $sum_ajuste += $detalle->stock_ajuste; ?>
+                <?php $subtot_sap += $detalle->stock_sap; $subtot_fisico += $detalle->stock_fisico; $subtot_ajuste += $detalle->stock_ajuste; ?>
                 <?php $tab_index += 1; ?>
                 <?php $cat_ant = $detalle->catalogo; ?>
             @endforeach
@@ -129,10 +129,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-center"><strong><?= fmt_cantidad($subtot_sap, 0, TRUE); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($subtot_fisico, 0, TRUE); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($subtot_ajuste, 0, TRUE); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE); ?></strong></td>
+                <td class="text-center"><strong>{{ fmt_cantidad($subtot_sap, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmt_cantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
                 <td></td>
                 <td></td>
             </tr>

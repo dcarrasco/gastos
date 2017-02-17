@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Inventario;
 
 class AjusteInventarioRequest extends FormRequest
 {
@@ -24,11 +23,8 @@ class AjusteInventarioRequest extends FormRequest
      */
     public function rules()
     {
-        return array_collapse(Inventario::getInventarioActivo()->detalleAjustes()
-            ->map(function ($elem) {
-                return ['stock_ajuste_'.$elem->id => 'required|integer|min:0'];
-            })
-            ->all()
-        );
+        return [
+            'detalle.*.stock_ajuste' => 'required|integer|min:0'
+        ];
     }
 }

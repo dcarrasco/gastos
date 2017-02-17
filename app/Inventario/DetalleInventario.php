@@ -13,6 +13,8 @@ class DetalleInventario extends OrmModel
 
     protected $guarded = [];
 
+    protected $casts = ['stock_ajuste' => 'int'];
+
     public $modelFields = [
         'id' => [
             'tipo'   => OrmModel::TIPO_ID,
@@ -155,6 +157,11 @@ class DetalleInventario extends OrmModel
     public function __toString()
     {
         return $this->hoja;
+    }
+
+    public function getStockAjusteAttribute($value)
+    {
+        return empty($value) ? 0 : $value;
     }
 
     public function getIngresoInventarioValidation()
