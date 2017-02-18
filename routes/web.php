@@ -87,7 +87,8 @@ Route::group(['prefix' => 'stock', 'as' => 'stock.', 'namespace' => 'Stock', 'mi
     // Analisis
     Route::any('analisis-series', 'AnalisisController@analisisSeries')->name('analisisSeries');
     // Consulta sotck
-    Route::any('consulta-stock', 'ConsultaStockController@consultaStock')->name('consultaStock');
+    Route::any('consulta-stock-movil', 'ConsultaStockController@consultaStockMovil')->name('consultaStockMovil');
+    Route::any('consulta-stock-fija', 'ConsultaStockController@consultaStockFija')->name('consultaStockFija');
     Route::get('consulta-fechas/{tipoOp}/{tipoFecha}', 'ConsultaStockController@ajaxFecha');
     Route::get('consulta-almacenes/{tipoOp}/{tipoAlm}', 'ConsultaStockController@ajaxAlmacenes');
 });
