@@ -160,9 +160,7 @@ class Reporte
         $arrTotales  = [
             'campos'   => $camposTotalizables,
             'total'    => $initTotalSubtotal->map(function ($elem, $llave) use ($datos) {
-                return $datos->reduce(function ($total, $elem) use ($llave) {
-                    return $total + $elem->$llave;
-                }, 0);
+                return $datos->sum($llave);
             })->all(),
             'subtotal' => $initTotalSubtotal,
         ];
