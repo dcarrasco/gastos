@@ -23,12 +23,13 @@ class UserACL extends OrmModel implements
         if (!session()->has('menuapp')) {
             session(['menuapp' => $this->getMenuAppFromDB()]);
         }
-        return $this->sortMenuAppFromDB(session('menuapp'));
+
+        return $this->setSelectedMenu(session('menuapp'));
     }
 
     protected function getMenuAppFromDB()
     {
-        return $this->rol->flatMap(function ($rol) {
+        $menuDB = $this->rol->flatMap(function ($rol) {
             return $rol->modulo;
         })->map(function ($modulo) {
             $appObject = $modulo->app;
@@ -45,33 +46,40 @@ class UserACL extends OrmModel implements
             ];
         })->sort(function ($elem1, $elem2) {
             return $elem1['orden'] < $elem2['orden'] ? -1 : 1;
-        })
-        ->all();
-    }
+        });
 
-    protected function sortMenuAppFromDB($arrMenuDB = [])
-    {
-        $routeName = Route::currentRouteName();
-
-        return collect($arrMenuDB)->mapWithKeys(function ($elemMenu) use ($routeName, $arrMenuDB) {
+        return $menuDB->mapWithKeys(function ($elemMenu) use ($menuDB) {
             return [
                 $elemMenu['app_app'] => [
                     'app'      => $elemMenu['app_app'],
                     'icono'    => $elemMenu['app_icono'],
                     'selected' => false,
-                    'modulos'  => collect($arrMenuDB)->filter(function ($menuItem) use ($elemMenu) {
+                    'modulos'  => $menuDB->filter(function ($menuItem) use ($elemMenu) {
                         return $menuItem['app_app'] === $elemMenu['app_app'];
-                    })->map(function ($menuItem) use ($routeName) {
+                    })->map(function ($menuItem) {
                         return [
                             'modulo'       => $menuItem['mod_modulo'],
                             'llave_modulo' => $menuItem['mod_llave_modulo'],
                             'icono'        => $menuItem['mod_icono'],
                             'url'          => $menuItem['mod_url'],
-                            'selected'     => $menuItem['mod_url'] === $routeName ? true : false,
+                            'selected'     => null,
                         ];
                     })->all(),
-                ]
+                ],
             ];
+        })->all();
+    }
+
+    protected function setSelectedMenu($menuApp)
+    {
+        $routeName = Route::currentRouteName();
+
+        return collect($menuApp)->map(function ($appMenu) use ($routeName) {
+            $appMenu['modulos'] = collect($appMenu['modulos'])->map(function ($elemModulo) use ($routeName) {
+                $elemModulo['selected'] = $elemModulo['url'] === $routeName ? true : false;
+                return $elemModulo;
+            })->all();
+            return $appMenu;
         })->map(function ($elemMenu) {
             $elemMenu['selected'] = collect($elemMenu['modulos'])->reduce(function ($carry, $modulo) {
                 return $carry or $modulo['selected'];
@@ -83,14 +91,12 @@ class UserACL extends OrmModel implements
 
     public function moduloAppName()
     {
-        if (!session()->has('menuapp')) {
-            session(['menuapp' => $this->getMenuAppFromDB()]);
-        }
-
         $routeName = Route::currentRouteName();
 
-        return collect(session('menuapp'))->first(function ($elem) use ($routeName) {
-            return $elem['mod_url'] === $routeName;
-        })['mod_modulo'];
+        return collect($this->getMenuApp())->flatMap(function ($appElem) {
+            return $appElem['modulos'];
+        })->first(function ($modulo) use ($routeName) {
+            return $modulo['url'] === $routeName;
+        })['modulo'];
     }
 }
