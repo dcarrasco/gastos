@@ -43,38 +43,42 @@ class UserACL extends OrmModel implements
                 'mod_url'          => $modulo->url,
                 'mod_selected'     => false,
             ];
-        })->all();
+        })->sort(function ($elem1, $elem2) {
+            return $elem1['orden'] < $elem2['orden'] ? -1 : 1;
+        })
+        ->all();
     }
 
     protected function sortMenuAppFromDB($arrMenuDB = [])
     {
         $routeName = Route::currentRouteName();
 
-        array_multisort(array_column($arrMenuDB, 'orden'), $arrMenuDB);
-
-        $arrMenu = [];
-        collect($arrMenuDB)->each(function ($elem) use (&$arrMenu, $routeName) {
-            if (! array_key_exists($elem['app_app'], $arrMenu)) {
-                $arrMenu[$elem['app_app']] = [
-                    'app'      => $elem['app_app'],
-                    'icono'    => $elem['app_icono'],
-                    'selected' => $elem['mod_url'] === $routeName ? true : false,
-                    'modulos'  => [],
-                ];
-            }
-
-            $arrMenu[$elem['app_app']]['modulos'][] = [
-                'modulo'       => $elem['mod_modulo'],
-                'llave_modulo' => $elem['mod_llave_modulo'],
-                'icono'        => $elem['mod_icono'],
-                'url'          => $elem['mod_url'],
-                'selected'     => $elem['mod_url'] === $routeName ? true : false,
+        return collect($arrMenuDB)->mapWithKeys(function ($elemMenu) use ($routeName, $arrMenuDB) {
+            return [
+                $elemMenu['app_app'] => [
+                    'app'      => $elemMenu['app_app'],
+                    'icono'    => $elemMenu['app_icono'],
+                    'selected' => false,
+                    'modulos'  => collect($arrMenuDB)->filter(function ($menuItem) use ($elemMenu) {
+                        return $menuItem['app_app'] === $elemMenu['app_app'];
+                    })->map(function ($menuItem) use ($routeName) {
+                        return [
+                            'modulo'       => $menuItem['mod_modulo'],
+                            'llave_modulo' => $menuItem['mod_llave_modulo'],
+                            'icono'        => $menuItem['mod_icono'],
+                            'url'          => $menuItem['mod_url'],
+                            'selected'     => $menuItem['mod_url'] === $routeName ? true : false,
+                        ];
+                    })->all(),
+                ]
             ];
+        })->map(function ($elemMenu) {
+            $elemMenu['selected'] = collect($elemMenu['modulos'])->reduce(function ($carry, $modulo) {
+                return $carry or $modulo['selected'];
+            }, false);
 
-            $arrMenu[$elem['app_app']]['selected'] = ($arrMenu[$elem['app_app']]['selected'] or ($elem['mod_url'] === $routeName)) ? true : false;
-        });
-
-        return $arrMenu;
+            return $elemMenu;
+        })->all();
     }
 
     public function moduloAppName()
