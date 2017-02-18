@@ -28,28 +28,22 @@ class UserACL extends OrmModel implements
 
     protected function getMenuAppFromDB()
     {
-        $menuApp = [];
-        $this->rol->map(function ($rol) {
-            return $rol->modulo->map(function ($modulo) {
-                $appObject = $modulo->app;
-
-                return [
-                    'orden'            => $appObject->orden.'-'.$modulo->orden,
-                    'app_app'          => $appObject->app,
-                    'app_icono'        => $appObject->icono,
-                    'app_selected'     => false,
-                    'mod_modulo'       => $modulo->modulo,
-                    'mod_llave_modulo' => $modulo->llave_modulo,
-                    'mod_icono'        => $modulo->icono,
-                    'mod_url'          => $modulo->url,
-                    'mod_selected'     => false,
-                ];
-            })->all();
-        })->each(function ($elem) use (&$menuApp) {
-            $menuApp = array_merge($menuApp, $elem);
-        });
-
-        return $menuApp;
+        return $this->rol->flatMap(function ($rol) {
+            return $rol->modulo;
+        })->map(function ($modulo) {
+            $appObject = $modulo->app;
+            return [
+                'orden'            => $appObject->orden.'-'.$modulo->orden,
+                'app_app'          => $appObject->app,
+                'app_icono'        => $appObject->icono,
+                'app_selected'     => false,
+                'mod_modulo'       => $modulo->modulo,
+                'mod_llave_modulo' => $modulo->llave_modulo,
+                'mod_icono'        => $modulo->icono,
+                'mod_url'          => $modulo->url,
+                'mod_selected'     => false,
+            ];
+        })->all();
     }
 
     protected function sortMenuAppFromDB($arrMenuDB = [])
