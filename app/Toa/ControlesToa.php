@@ -63,9 +63,12 @@ class ControlesToa
         $diasMes = static::getDiasMes($request->input('mes'));
         $datos   = static::getControlTecnicosData($request->input('empresa'), $fechaDesde, $fechaHasta, $request->input('filtro_trx'), static::$selectDato[$request->input('dato', 'peticiones')]);
 
-        return TecnicoToa::where('id_empresa', $request->input('empresa'))->get()
+        return \DB::table(\DB::raw(config('invfija.bd_tecnicos_toa').' as t'))
+            ->where('t.id_empresa', $request->input('empresa'))
+            ->leftJoin(\DB::raw(config('invfija.bd_ciudades_toa').' as c'), 't.id_ciudad', '=', 'c.id_ciudad')
+            ->get()
             ->mapWithKeys(function ($tecnico) use ($diasMes, $datos) {
-                $tecnicoId = $tecnico->getKey();
+                $tecnicoId = $tecnico->id_tecnico;
 
                 $datosTecnico = $datos->filter(function ($dato) use ($tecnicoId) {
                     return $dato->tecnico === $tecnicoId;
@@ -75,8 +78,9 @@ class ControlesToa
 
                 return [
                     $tecnicoId => [
-                        'ciudad'      => $tecnico->id_ciudad,
-                        'tecnico'     => $tecnicoId.' - '.(string) $tecnico.' ('.fmt_rut($tecnico->rut).')',
+                        'ciudad'      => $tecnico->ciudad,
+                        'ordenCiudad' => $tecnico->orden,
+                        'tecnico'     => $tecnicoId.' - '.$tecnico->tecnico.' ('.fmt_rut($tecnico->rut).')',
                         'actuaciones' => $diasMes->map(function ($elem, $key) use ($datosTecnico) {
                             return array_get($datosTecnico, $key);
                         })->all(),
@@ -84,7 +88,7 @@ class ControlesToa
                     ],
                 ];
             })->sort(function ($tecnico1, $tecnico2) {
-                return $tecnico1['ciudad'] > $tecnico2['ciudad'];
+                return $tecnico1['ordenCiudad'].$tecnico1['ciudad'].$tecnico1['tecnico'] > $tecnico2['ordenCiudad'].$tecnico2['ciudad'].$tecnico2['tecnico'];
             })->filter(function ($tecnico) {
                 return count($tecnico['datosTecnico']) > 0;
             })->all();
@@ -116,18 +120,22 @@ class ControlesToa
             })->all();
 
             return [$elem->material => [
+                'tipo'        => $elem->desc_tip_material,
                 'material'    => $elem->material.' - '.$elem->descripcion,
                 'unidad'      => $elem->ume,
                 'actuaciones' => $diasMes->map(function ($elemActuacion, $keyActuacion) use ($datosMateriales) {
                     return array_get($datosMateriales, $keyActuacion);
                 })->all(),
             ]];
+        })->sort(function ($material1, $material2) {
+            return $material1['tipo'].$material1['material'] > $material2['tipo'].$material2['material'];
         });
     }
 
     public static function controlMaterialesCampos()
     {
         return [
+            'tipo'     => ['label' => 'Tipos', 'class' => ''],
             'material' => ['label' => 'Material', 'class' => ''],
             'unidad'   => ['label' => 'Unidad', 'class' => 'text-center'],
         ];
