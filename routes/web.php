@@ -93,6 +93,13 @@ Route::group(['prefix' => 'stock', 'as' => 'stock.', 'namespace' => 'Stock', 'mi
     Route::get('consulta-almacenes/{tipoOp}/{tipoAlm}', 'ConsultaStockController@ajaxAlmacenes');
 });
 
+// TOA
+Route::group(['prefix' => 'toa', 'as' => 'toa.', 'namespace' => 'Toa', 'middleware' => 'auth'], function () {
+    // Controles
+    Route::get('controles/{tipo?}', 'ControlesController@showFormControles')->name('controles');
+    Route::post('controles/{tipo?}', 'ControlesController@getControles')->name('controles');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

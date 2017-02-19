@@ -8,6 +8,7 @@ use App\Stock\TipoAlmacenSap;
 class EmpresaToa extends OrmModel
 {
     public $modelLabel = 'Empresa TOA';
+    public static $orderField = 'empresa';
 
     protected $fillable = ['id_empresa', 'empresa'];
 

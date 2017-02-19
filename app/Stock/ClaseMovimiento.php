@@ -7,6 +7,7 @@ use App\OrmModel;
 class ClaseMovimiento extends OrmModel
 {
     public $modelLabel = 'Clase de Movimiento SAP';
+    public static $orderField = 'cmv';
 
     protected $fillable = ['cmv', 'des_cmv'];
 
@@ -43,6 +44,11 @@ class ClaseMovimiento extends OrmModel
 
     public function __toString()
     {
-        return (string) $this->des_cmv;
+        return (string) $this->cmv.' - '.$this->des_cmv;
+    }
+
+    public static function transaccionesConsumoToa()
+    {
+        return ['Z35', 'Z45', 'Z39', 'Z41', 'Z87', 'Z89'];
     }
 }

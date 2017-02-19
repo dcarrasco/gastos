@@ -1,21 +1,31 @@
 <?php
 
-if (!function_exists('ajax_options')){
-    function ajax_options($opciones) {
+if (!function_exists('ajax_options')) {
+    function ajax_options($opciones)
+    {
         return collect($opciones)
             ->map(function ($item, $key) {
                 return ['key' => $key, 'value' => $item];
             })->reduce(function ($carry, $elem) {
                 return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
-           }, '');
+            }, '');
     }
 }
 
-if (!function_exists('models_array_options')){
-    function models_array_options($models) {
+if (!function_exists('models_array_options')) {
+    function models_array_options($models)
+    {
         return $models->mapWithKeys(function ($elem) {
             return [$elem->getKey() => (string) $elem];
         });
+    }
+}
+
+if (!function_exists('dia_semana')) {
+    function dia_semana($numDiaSem)
+    {
+        $dias = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+        return array_get($dias, $numDiaSem);
     }
 }
 

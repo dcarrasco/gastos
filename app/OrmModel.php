@@ -220,14 +220,30 @@ class OrmModel extends Model
             ->all();
     }
 
-    public function getModelFormOptions($where = [])
+    public static function getModelFormOptions($where = [])
     {
-        $elementosForm = [];
-        self::where($where)->get()->each(function ($elem) use (&$elementosForm) {
-            $elementosForm[$elem->getKey()] = (string) $elem;
+        $whereIn = collect($where)->filter(function ($elem) {
+            return is_array($elem);
         });
 
-        return $elementosForm;
+        $whereValue = collect($where)->filter(function ($elem) {
+            return !is_array($elem);
+        })->all();
+
+        $query = self::where($whereValue);
+
+        if (! $whereIn->isEmpty()) {
+            $whereIn->each(function ($elem, $key) use (&$query) {
+                return $query->whereIn($key, $elem);
+            });
+        }
+        if (isset(static::$orderField)) {
+            $query = $query->orderBy(static::$orderField);
+        }
+
+        return $query->get()->mapWithKeys(function ($model) {
+            return [$model->getKey() => (string) $model];
+        });
     }
 
     public function getModelAjaxFormOptions($where = [])
