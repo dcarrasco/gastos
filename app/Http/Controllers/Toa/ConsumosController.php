@@ -9,17 +9,17 @@ use App\Http\Requests\ConsumosToaRequest;
 class ConsumosController extends Controller
 {
     protected $reportes = [
-        'peticion'      => 'Numero peticion',
-        'empresas'      => 'Empresas',
-        'ciudades'      => 'Ciudades',
-        'tecnicos'      => 'Tecnicos',
-        'tip_material'  => 'Tipos de material',
-        'material'      => 'Materiales',
-        'lote'          => 'Lotes',
-        'lote-material' => 'Lotes y materiales',
-        'pep'           => 'PEP',
-        'tipo-trabajo'  => 'Tipo de trabajo',
-        'detalle'       => 'Detalle todos los registros',
+        'peticiones'      => 'Numero peticion',
+        'empresas'        => 'Empresas',
+        'ciudades'        => 'Ciudades',
+        'tecnicos'        => 'Tecnicos',
+        'tiposMaterial'   => 'Tipos de material',
+        'materiales'      => 'Materiales',
+        'lotes'           => 'Lotes',
+        'lotesMateriales' => 'Lotes y materiales',
+        'pep'             => 'PEP',
+        'tiposTrabajo'    => 'Tipo de trabajo',
+        'detalles'        => 'Detalle todos los registros',
     ];
 
     protected $reporteConsumo = null;
