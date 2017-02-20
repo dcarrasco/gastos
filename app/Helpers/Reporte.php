@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Collective\Html;
+
 class Reporte
 {
     public $campos = [];
@@ -66,9 +68,9 @@ class Reporte
             'valor_dif'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE, TRUE);},
             'link'          => function ($valor, $param) {return link_to($param['href'] . $valor, $valor);},
             'link_registro' => function ($valor, $param, $registro) {
-                return anchor(
+                return \Html::link(
                     $param['href'].'/'.collect($param['href_registros'])
-                        ->map(function ($elem) use($registro) {return $registro[$elem];})
+                        ->map(function ($elem) use($registro) {return $registro->{$elem};})
                         ->implode('/'),
                     $valor
                 );

@@ -31,8 +31,6 @@ class ControlesController extends Controller
         $control = $this->control;
         $controlCampos = $this->controlCampos;
 
-        // dump($controlCampos, $control);
-
         return view('toa.controles', compact('moduloSelected', 'empresas', 'transacciones', 'unidadesConsumo', 'control', 'controlCampos'));
     }
 
