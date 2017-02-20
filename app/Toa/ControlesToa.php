@@ -63,12 +63,11 @@ class ControlesToa
         $diasMes = static::getDiasMes($request->input('mes'));
         $datos   = static::getControlTecnicosData($request->input('empresa'), $fechaDesde, $fechaHasta, $request->input('filtro_trx'), static::$selectDato[$request->input('dato', 'peticiones')]);
 
-        return \DB::table(\DB::raw(config('invfija.bd_tecnicos_toa').' as t'))
-            ->where('t.id_empresa', $request->input('empresa'))
-            ->leftJoin(\DB::raw(config('invfija.bd_ciudades_toa').' as c'), 't.id_ciudad', '=', 'c.id_ciudad')
+        return TecnicoToa::with('ciudadToa')
+            ->where('id_empresa', $request->input('empresa'))
             ->get()
             ->mapWithKeys(function ($tecnico) use ($diasMes, $datos) {
-                $tecnicoId = $tecnico->id_tecnico;
+                $tecnicoId = $tecnico->getKey();
 
                 $datosTecnico = $datos->filter(function ($dato) use ($tecnicoId) {
                     return $dato->tecnico === $tecnicoId;
@@ -78,9 +77,9 @@ class ControlesToa
 
                 return [
                     $tecnicoId => [
-                        'ciudad'      => $tecnico->ciudad,
-                        'ordenCiudad' => $tecnico->orden,
-                        'tecnico'     => $tecnicoId.' - '.$tecnico->tecnico.' ('.fmt_rut($tecnico->rut).')',
+                        'ciudad'      => (string) $tecnico->ciudadToa,
+                        'ordenCiudad' => isset($tecnico->ciudadToa->orden) ? $tecnico->ciudadToa->orden : 0,
+                        'tecnico'     => $tecnicoId.' - '.(string)$tecnico.' ('.fmt_rut($tecnico->rut).')',
                         'actuaciones' => $diasMes->map(function ($elem, $key) use ($datosTecnico) {
                             return array_get($datosTecnico, $key);
                         })->all(),
@@ -113,6 +112,7 @@ class ControlesToa
 
         return $datos->mapWithKeys(function ($elem) use ($diasMes, $datos) {
             $material = $elem->material;
+
             $datosMateriales = $datos->filter(function ($dato) use ($material) {
                 return $dato->material === $material;
             })->mapWithKeys(function ($dato) {
