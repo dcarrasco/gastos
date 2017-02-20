@@ -28,28 +28,59 @@ class Consumos
             ->whereIn('m.centro', static::CENTROS_CONSUMO);
     }
 
+    protected static function getBaseSelectQuery()
+    {
+        return [
+            \DB::raw('\'ver peticiones\' as texto_link'),
+            \DB::raw('sum(-m.cantidad_en_um) as cant'),
+            \DB::raw('sum(-m.importe_ml) as monto'),
+        ];
+    }
+
+    protected static function getBaseSelectSubQuery()
+    {
+        return [
+            'm.referencia',
+            \DB::raw('sum(-m.cantidad_en_um) as cant'),
+            \DB::raw('sum(-m.importe_ml) as monto'),
+        ];
+    }
+
+    protected static function getBuilderQuery($fromQuery, $fields)
+    {
+        $subQueryPrefix = 'q1';
+
+        $fields = collect($fields)->map(function ($campo) use ($subQueryPrefix) {
+            list($prefijo, $campo) = explode('.', $campo);
+            return $subQueryPrefix.'.'.$campo;
+        })->all();
+
+        return \DB::table(\DB::raw('('.$fromQuery->toSql().') '.$subQueryPrefix))
+            ->mergeBindings($fromQuery)
+            ->select(array_merge($fields, [
+                \DB::raw('\'ver peticiones\' as texto_link'),
+                \DB::raw('count('.$subQueryPrefix.'.referencia) as referencia'),
+                \DB::raw('sum('.$subQueryPrefix.'.cant) as cant'),
+                \DB::raw('sum('.$subQueryPrefix.'.monto) as monto'),
+            ]))
+            ->groupBy($fields);
+    }
+
     protected static function getDataReportePeticiones($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'm.referencia',
+            'm.carta_porte',
+            'c.empresa',
+            'm.cliente',
+            'b.tecnico',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('m.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
-            ->select([
-                'm.referencia',
-                'm.carta_porte',
-                'c.empresa',
-                'm.cliente',
-                'b.tecnico',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'm.referencia',
-                'm.carta_porte',
-                'c.empresa',
-                'm.cliente',
-                'b.tecnico',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('m.referencia')
             ->get();
     }
@@ -66,31 +97,26 @@ class Consumos
             'monto'       => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
         ];
 
-        Reporte::setOrderCampos($camposReporte, 'ciudad');
+        Reporte::setOrderCampos($camposReporte, 'referencia');
 
         return $camposReporte;
     }
 
     protected static function getDataReporteCiudades($fechaDesde, $fechaHasta)
     {
+        $selectSubQuery = [
+            'b.id_ciudad',
+            'd.ciudad',
+            'd.orden',
+        ];
+
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_ciudades_toa').' d'), 'b.id_ciudad', '=', 'd.id_ciudad')
-            ->select(['b.id_ciudad', 'd.ciudad', 'd.orden', 'm.referencia', \DB::raw('sum(-m.cantidad_en_um) as cant'), \DB::raw('sum(-m.importe_ml) as monto')])
-            ->groupBy(['b.id_ciudad', 'd.ciudad', 'd.orden', 'm.referencia']);
+            ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
+            ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
-        return \DB::table(\DB::raw('('.$from->toSql().') q1'))
-            ->mergeBindings($from)
-            ->select([
-                'q1.id_ciudad',
-                'q1.ciudad',
-                'q1.orden',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('count(q1.referencia) as referencia'),
-                \DB::raw('sum(q1.cant) as cant'),
-                \DB::raw('sum(monto) as monto'),
-            ])
-            ->groupBy(['q1.id_ciudad', 'q1.ciudad', 'q1.orden'])
+        return static::getBuilderQuery($from, $selectSubQuery)
             ->orderBy('q1.orden')
             ->get();
     }
@@ -112,23 +138,18 @@ class Consumos
 
     protected static function getDataReporteEmpresas($fechaDesde, $fechaHasta)
     {
+        $selectSubQuery = [
+            'c.empresa',
+            'c.id_empresa',
+        ];
+
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
-            ->select(['c.empresa', 'c.id_empresa', 'm.referencia', \DB::raw('sum(-m.cantidad_en_um) as cant'), \DB::raw('sum(-m.importe_ml) as monto')])
-            ->groupBy(['c.empresa', 'c.id_empresa', 'm.referencia']);
+            ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
+            ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
-        return \DB::table(\DB::raw('('.$from->toSql().') q1'))
-            ->mergeBindings($from)
-            ->select([
-                'q1.empresa',
-                'q1.id_empresa',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('count(q1.referencia) as referencia'),
-                \DB::raw('sum(q1.cant) as cant'),
-                \DB::raw('sum(monto) as monto'),
-            ])
-            ->groupBy(['q1.empresa', 'q1.id_empresa'])
+        return static::getBuilderQuery($from, $selectSubQuery)
             ->orderBy('q1.empresa')
             ->get();
     }
@@ -150,24 +171,19 @@ class Consumos
 
     protected static function getDataReporteTecnicos($fechaDesde, $fechaHasta)
     {
+        $selectSubQuery = [
+            'c.empresa',
+            'm.cliente',
+            'b.tecnico',
+        ];
+
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
-            ->select(['c.empresa', 'm.cliente', 'b.tecnico', 'm.referencia', \DB::raw('sum(-m.cantidad_en_um) as cant'), \DB::raw('sum(-m.importe_ml) as monto')])
-            ->groupBy(['c.empresa', 'm.cliente', 'b.tecnico', 'm.referencia']);
+            ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
+            ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
-        return \DB::table(\DB::raw('('.$from->toSql().') q1'))
-            ->mergeBindings($from)
-            ->select([
-                'q1.empresa',
-                'q1.cliente',
-                'q1.tecnico',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('count(q1.referencia) as referencia'),
-                \DB::raw('sum(q1.cant) as cant'),
-                \DB::raw('sum(monto) as monto'),
-            ])
-            ->groupBy(['q1.empresa', 'q1.cliente', 'q1.tecnico'])
+        return static::getBuilderQuery($from, $selectSubQuery)
             ->orderBy('q1.empresa')
             ->orderBy('q1.tecnico')
             ->get();
@@ -192,22 +208,17 @@ class Consumos
 
     protected static function getDataReporteTiposMaterial($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'c.desc_tip_material',
+            'm.ume',
+            'b.id_tip_material_trabajo',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
             ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'), 'b.id_tip_material_trabajo', '=', 'c.id')
-            ->select([
-                'c.desc_tip_material',
-                'm.ume',
-                'b.id_tip_material_trabajo',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'c.desc_tip_material',
-                'm.ume',
-                'b.id_tip_material_trabajo',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('c.desc_tip_material')
             ->get();
     }
@@ -229,24 +240,18 @@ class Consumos
 
     protected static function getDataReporteMateriales($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'c.desc_tip_material',
+            'm.material',
+            'm.texto_material',
+            'm.ume',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
             ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
             ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'), 'b.id_tip_material_trabajo', '=', 'c.id')
-            ->select([
-                'c.desc_tip_material',
-                'm.material',
-                'm.texto_material',
-                'm.ume',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'c.desc_tip_material',
-                'm.material',
-                'm.texto_material',
-                'm.ume',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('c.desc_tip_material')
             ->orderBy('m.material')
             ->get();
@@ -271,18 +276,14 @@ class Consumos
 
     protected static function getDataReporteLotes($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'm.valor',
+            'm.lote',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->select([
-                'm.valor',
-                'm.lote',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'm.valor',
-                'm.lote',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('m.valor')
             ->orderBy('m.lote')
             ->get();
@@ -305,22 +306,16 @@ class Consumos
 
     protected static function getDataReporteLotesMateriales($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'm.valor',
+            'm.lote',
+            'm.material',
+            'm.texto_material',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->select([
-                'm.valor',
-                'm.lote',
-                'm.material',
-                'm.texto_material',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'm.valor',
-                'm.lote',
-                'm.material',
-                'm.texto_material',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('m.valor')
             ->orderBy('m.lote')
             ->orderBy('m.material')
@@ -346,20 +341,15 @@ class Consumos
 
     protected static function getDataReportePep($fechaDesde, $fechaHasta)
     {
+        $queryFields = [
+            'm.codigo_movimiento',
+            'm.texto_movimiento',
+            'm.elemento_pep',
+        ];
+
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->select([
-                'm.codigo_movimiento',
-                'm.texto_movimiento',
-                'm.elemento_pep',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('sum(-m.cantidad_en_um) as cant'),
-                \DB::raw('sum(-m.importe_ml) as monto'),
-            ])
-            ->groupBy([
-                'm.codigo_movimiento',
-                'm.texto_movimiento',
-                'm.elemento_pep',
-            ])
+            ->select(array_merge($queryFields, static::getBaseSelectQuery()))
+            ->groupBy($queryFields)
             ->orderBy('m.codigo_movimiento')
             ->orderBy('m.elemento_pep')
             ->get();
@@ -383,20 +373,15 @@ class Consumos
 
     protected static function getDataReporteTiposTrabajo($fechaDesde, $fechaHasta)
     {
-        $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->select(['m.carta_porte', 'm.referencia', \DB::raw('sum(-m.cantidad_en_um) as cant'), \DB::raw('sum(-m.importe_ml) as monto')])
-            ->groupBy(['m.carta_porte', 'm.referencia']);
+        $selectSubQuery = [
+            'm.carta_porte',
+        ];
 
-        return \DB::table(\DB::raw('('.$from->toSql().') q1'))
-            ->mergeBindings($from)
-            ->select([
-                'q1.carta_porte',
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('count(q1.referencia) as referencia'),
-                \DB::raw('sum(q1.cant) as cant'),
-                \DB::raw('sum(monto) as monto'),
-            ])
-            ->groupBy(['q1.carta_porte'])
+        $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
+            ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
+            ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
+
+        return static::getBuilderQuery($from, $selectSubQuery)
             ->orderBy('q1.carta_porte')
             ->get();
     }
