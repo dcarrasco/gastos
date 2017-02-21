@@ -33,7 +33,7 @@ class AjustesController extends Controller
         });
 
         return redirect()
-            ->route('inventario.ajustes', ['page' => \Request::input('page')])
+            ->route('inventario.ajustes', ['page' => request('page')])
             ->with('alert_message', trans('inventario.adjust_msg_save', compact('cantidad')));
     }
 }
