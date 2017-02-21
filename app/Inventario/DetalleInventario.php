@@ -163,20 +163,4 @@ class DetalleInventario extends OrmModel
     {
         return empty($value) ? 0 : $value;
     }
-
-    public function getIngresoInventarioValidation()
-    {
-        $validation = $this->getValidation();
-        unset($validation['id_inventario']);
-        unset($validation['hoja']);
-        unset($validation['descripcion']);
-        unset($validation['stock_sap']);
-        unset($validation['digitador']);
-        unset($validation['auditor']);
-        unset($validation['reg_nuevo']);
-        unset($validation['fecha_modificacion']);
-
-        return $validation;
-    }
-
 }

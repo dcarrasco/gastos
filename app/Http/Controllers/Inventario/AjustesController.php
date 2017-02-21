@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Inventario;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Inventario\ModulosAjustes;
-use App\Http\Requests\AjusteInventarioRequest;
 use App\Inventario\Inventario;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Inventario\AjustesRequest;
+use App\Http\Controllers\Inventario\ModulosAjustes;
 
 class AjustesController extends Controller
 {
@@ -20,7 +20,7 @@ class AjustesController extends Controller
         return view('inventario.ajustes', compact('detalleAjustes', 'inventario', 'moduloSelected'));
     }
 
-    public function update(AjusteInventarioRequest $request)
+    public function update(AjustesRequest $request)
     {
         $detalleAjustes = Inventario::getInventarioActivo()->detalleAjustes();
         $cantidad       = $detalleAjustes->count();

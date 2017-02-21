@@ -30,22 +30,26 @@
         </div>
     </div>
 
-    <div class="form-group col-md-3">
-        <label>{{ trans('inventario.auditor') }}</label>
-        {{ $detalleInventario->first()->getFieldForm('auditor', ['id' => 'id_auditor', 'class' => 'input-sm']) }}
-    </div>
-
     <div class="form-group col-md-2 pull-right">
         <a href="{{ route('inventario.addLinea', compact('hoja')) }}" id="btn_mostrar_agregar" class="btn btn-default pull-right">
             <span class="fa fa-plus-circle"></span>
             {{ trans('inventario.button_new_line') }}
         </a>
     </div>
-{{ Form::close() }}
+    {{ Form::close() }}
+
+    {{ Form::open(['id' => 'frm_inventario']) }}
+
+    <div class="form-group col-md-3">
+        <label>{{ trans('inventario.auditor') }}</label>
+        {{ $detalleInventario->first()->getFieldForm('auditor', ['id' => 'id_auditor', 'class' => 'input-sm']) }}
+    </div>
 </div>
 
 <div id="formulario_digitador">
-    {{ Form::open(['id' => 'frm_inventario']) }}
+
+    @include('orm.validation_errors')
+
     {{ Form::hidden('hoja', $hoja) }}
     {{ Form::hidden('auditor', $detalleInventario->first()->auditor) }}
     <table class="table table-striped table-hover table-condensed table-fixed-header">
@@ -92,16 +96,16 @@
                     <td class="text-center">{{ $linea->getFormattedFieldValue('almacen') }}</td>
                     <td class="text-center">{{ $linea->um }}</td>
                     <td class="text-right">{{ fmt_cantidad($linea->stock_sap) }}</td>
-                    <td class="text-center col-md-1">
-                        {{ Form::text('stock_fisico_'.$linea->id, $linea->stock_fisico, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index]) }}
+                    <td class="text-center col-md-1 {{ $errors->has("detalle.{$linea->id}.stock_fisico") ? 'has-error' : '' }}">
+                        {{ Form::text("detalle[{$linea->id}][stock_fisico]", $linea->stock_fisico, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_fisico_' . $linea->id) --}}
                     </td>
-                    <td class="text-center col-md-1">
-                        {{ Form::text('hu_'.$linea->id, $linea->hu, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index]) }}
+                    <td class="text-center col-md-1 {{ $errors->has("detalle.{$linea->id}.hu") ? 'has-error' : '' }}">
+                        {{ Form::text("detalle[{$linea->id}][hu]", $linea->hu, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index+100]) }}
                         {{-- form_error('hu_'.$linea->id) --}}
                     </td>
-                    <td class="text-center">
-                        {{ Form::text('observacion_'.$linea->id, $linea->observacion, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index+200]) }}
+                    <td class="text-center{{ $errors->has("detalle.{$linea->id}.observacion") ? 'has-error' : '' }}">
+                        {{ Form::text("detalle[{$linea->id}][observacion]", $linea->observacion, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index+200]) }}
                     </td>
                 </tr>
                 <?php $sum_sap += $linea->stock_sap; $sum_fisico +=$linea->stock_fisico; $tab_index += 1; ?>

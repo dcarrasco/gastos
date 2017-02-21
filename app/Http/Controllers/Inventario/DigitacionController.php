@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Inventario;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Inventario\Catalogo;
 use App\Inventario\Inventario;
 use App\Inventario\DetalleInventario;
-use App\Inventario\Catalogo;
+use App\Http\Requests\Inventario\EditarRequest;
+use App\Http\Requests\Inventario\DigitacionRequest;
 
 class DigitacionController extends Controller
 {
     public function showHoja()
     {
         $inventario        = Inventario::getInventarioActivo();
-        $hoja              = empty(request()->input('hoja', 1)) ? 1 : request()->input('hoja', 1);
+        $hoja              = empty(request('hoja', 1)) ? 1 : request('hoja', 1);
         $detalleInventario = $inventario->getDetalleHoja($hoja);
         $linkHojaAnt       = route('inventario.showHoja', ['hoja' => ($hoja > 1) ? $hoja - 1 : 1]);
         $linkHojaSig       = route('inventario.showHoja', ['hoja' => $hoja + 1]);
@@ -21,19 +23,20 @@ class DigitacionController extends Controller
         return view('inventario.inventario', compact('inventario', 'detalleInventario', 'hoja', 'linkHojaAnt', 'linkHojaSig'));
     }
 
-    public function updateHoja(Request $request)
+    public function updateHoja(DigitacionRequest $request)
     {
-        $inventario        = Inventario::getInventarioActivo();
-        $hoja              = \Request::input('hoja');
+        $inventario = Inventario::getInventarioActivo();
+        $hoja       = request('hoja');
+
         $detalleInventario = $inventario->getDetalleHoja($hoja);
         $cantidadLineas    = $detalleInventario->count();
 
         $detalleInventario->each(function ($linea) {
-            $linea->auditor            = \Request::input('auditor');
-            $linea->digitador          = auth()->id();
-            $linea->stock_fisico       = \Request::input('stock_fisico_'.$linea->id);
-            $linea->hu                 = \Request::input('hu_'.$linea->id);
-            $linea->observacion        = \Request::input('observacion_'.$linea->id);
+            $linea->auditor      = request('auditor');
+            $linea->digitador    = auth()->id();
+            $linea->stock_fisico = request("detalle.{$linea->id}.stock_fisico");
+            $linea->hu           = request("detalle.{$linea->id}.hu");
+            $linea->observacion  = request("detalle.{$linea->id}.observacion");
             $linea->fecha_modificacion = \Carbon\Carbon::now();
             $linea->save();
         });
@@ -51,11 +54,9 @@ class DigitacionController extends Controller
         return view('inventario.editar', compact('detalleInventario', 'hoja', 'catalogos'));
     }
 
-    public function editLinea(Request $request, $hoja = null, $id = null)
+    public function editLinea(EditarRequest $request, $hoja = null, $id = null)
     {
         $detalleInventario = new DetalleInventario;
-        $this->validate($request, $detalleInventario->getIngresoInventarioValidation());
-
         $inventario     = Inventario::getInventarioActivo();
         $hojaInventario = $inventario->getDetalleHoja($hoja);
 
@@ -76,7 +77,7 @@ class DigitacionController extends Controller
 
         return redirect()
             ->route('inventario.showHoja', ['hoja' => $hoja])
-            ->with('alert_message', trans('inventario.digit_msg_add', ['hoja' => $hoja]));;
+            ->with('alert_message', trans('inventario.digit_msg_add', ['hoja' => $hoja]));
     }
 
     public function destroyLinea(Request $request, $hoja = null, $id = null)
@@ -90,8 +91,6 @@ class DigitacionController extends Controller
 
     public function ajaxCatalogos($filtro = null)
     {
-        $catalogo = new Catalogo;
-
-        return $catalogo->getModelAjaxFormOptions([['descripcion', 'like', '%'.$filtro.'%']]);
+        return Catalogo::getModelAjaxFormOptions([['descripcion', 'like', '%'.$filtro.'%']]);
     }
 }

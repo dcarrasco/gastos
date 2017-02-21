@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Inventario;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AjusteInventarioRequest extends FormRequest
+class AjustesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

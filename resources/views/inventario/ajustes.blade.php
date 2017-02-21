@@ -84,7 +84,7 @@
                     <td class="text-center"><?= $detalle->um; ?></td>
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_sap); ?></td>
                     <td class="text-center"><?= fmt_cantidad($detalle->stock_fisico); ?></td>
-                    <td class="{{ $errors->has('stock_ajuste_'.$detalle->id) ? 'has-error' : ''}}">
+                    <td class="{{ $errors->has("detalle.{$detalle->id}.stock_ajuste") ? 'has-error' : ''}}">
                         {{ Form::text("detalle[{$detalle->id}][stock_ajuste]", $detalle->stock_ajuste, ['class' => 'form-control input-sm text-right', 'size' => 5, 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_ajuste_'.$detalle->id); --}}
                     </td>
@@ -109,7 +109,7 @@
                             </button>
                         @endif
                     </td>
-                    <td class="text-center">
+                    <td class="text-center {{ $errors->has("detalle.{$detalle->id}.observacion") ? 'has-error' : ''}}">
                         {{ Form::text("detalle[{$detalle->id}][observacion]", $detalle->glosa_ajuste, ['class' => 'form-control input-sm', 'max_length'=>200, 'tabindex' => $tab_index + 10000]) }}
                     </td>
                 </tr>
