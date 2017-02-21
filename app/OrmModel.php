@@ -222,12 +222,12 @@ class OrmModel extends Model
 
     public static function getModelFormOptions($where = [])
     {
-        $whereIn = collect($where)->filter(function ($elem) {
-            return is_array($elem);
+        $whereIn = collect($where)->filter(function ($elem, $key) {
+            return !is_integer($key) and is_array($elem);
         });
 
-        $whereValue = collect($where)->filter(function ($elem) {
-            return !is_array($elem);
+        $whereValue = collect($where)->filter(function ($elem, $key) {
+            return is_integer($key) or !is_array($elem);
         })->all();
 
         $query = self::where($whereValue);
@@ -246,9 +246,9 @@ class OrmModel extends Model
         });
     }
 
-    public function getModelAjaxFormOptions($where = [])
+    public static function getModelAjaxFormOptions($where = [])
     {
-        return ajax_options($this->getModelFormOptions($where));
+        return ajax_options(static::getModelFormOptions($where));
     }
 
     public function getWhereFromRelation($field = null)

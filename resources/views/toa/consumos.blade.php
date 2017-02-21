@@ -3,7 +3,7 @@
 @section('modulo')
 <div class="accordion">
 	{{ Form::open(['id'=>'frm_param', 'class'=>'form-inline']) }}
-	{{ Form::hidden('sort', request()->input('sort','')) }}
+	{{ Form::hidden('sort', request('sort','')) }}
 	<div class="panel panel-default">
 
 		<div class="panel-heading">
@@ -24,7 +24,7 @@
 				<div class="row">
 					<div class="col-md-4 form_group {{ $errors->has('reporte') ? 'has-error' : '' }}">
 						<label class="control-label">{{ trans('toa.consumo_reporte') }}</label>
-						{{ Form::select('reporte', $reportes, request()->input('reporte'), ['class'=>'form-control']) }}
+						{{ Form::select('reporte', $reportes, request('reporte'), ['class'=>'form-control']) }}
 					</div>
 
 					<div class="col-md-6 form_group {{ ($errors->has('fecha_desde') or $errors->has('fecha_hasta')) ? 'has-error' : '' }}">
@@ -33,9 +33,9 @@
                             <div class="input-group input-daterange">
                                 <span class="input-group-addon">Desde</span>
 
-                                {{ Form::text('fecha_desde', request()->input('fecha_desde'), ['class'=>'form-control', 'data-provide'=>'datepicker', 'data-date-today-highlight'=>'true', 'data-date-language'=>'es', 'data-date-autoclose'=>'true']) }}
+                                {{ Form::text('fecha_desde', request('fecha_desde'), ['class'=>'form-control', 'data-provide'=>'datepicker', 'data-date-today-highlight'=>'true', 'data-date-language'=>'es', 'data-date-autoclose'=>'true']) }}
                                 <span class="input-group-addon">Hasta</span>
-                                {{ Form::text('fecha_hasta', request()->input('fecha_hasta'), ['class'=>'form-control', 'data-provide'=>'datepicker', 'data-date-today-highlight'=>'true', 'data-date-language'=>'es', 'data-date-autoclose'=>'true']) }}
+                                {{ Form::text('fecha_hasta', request('fecha_hasta'), ['class'=>'form-control', 'data-provide'=>'datepicker', 'data-date-today-highlight'=>'true', 'data-date-language'=>'es', 'data-date-autoclose'=>'true']) }}
                             </div>
                             <script type="text/javascript">
                                 $(document).ready(function() {

@@ -9,10 +9,10 @@ class Consumos
 {
     const CENTROS_CONSUMO = ['CH32', 'CH33'];
 
-    public static function getReporte($reporte = null, $fechaDesde = null, $fechaHasta)
+    public static function getReporte($nombreReporte = null, $fechaDesde = null, $fechaHasta)
     {
-        $datosReporte  = static::{'getDataReporte'.ucfirst($reporte)}($fechaDesde, $fechaHasta);
-        $camposReporte = static::{'getCamposReporte'.ucfirst($reporte)}($fechaDesde, $fechaHasta);
+        $datosReporte  = static::{'getDataReporte'.ucfirst($nombreReporte)}($fechaDesde, $fechaHasta);
+        $camposReporte = static::{'getCamposReporte'.ucfirst($nombreReporte)}($fechaDesde, $fechaHasta);
 
         $reporte = new Reporte($datosReporte, $camposReporte);
 
