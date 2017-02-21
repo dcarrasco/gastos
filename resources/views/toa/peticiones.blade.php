@@ -1,5 +1,8 @@
+@extends('common.app_layout')
+
+@section('modulo')
 <div class="content-module-main">
-{reporte}
+{!! $reportePeticiones !!}
 <div class="accordion">
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -10,7 +13,7 @@
 		</div>
 		<div class="panel-collapse collapse in" id="map-panel">
 			<div class="panel-body panel-collapse collapse in">
-				<?= $google_maps; ?>
+				{!! $googleMaps !!}
 			</div>
 		</div>
 	</div>
@@ -18,3 +21,4 @@
 
 <hr/>
 </div> <!-- fin content-module-main -->
+@endsection

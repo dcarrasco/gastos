@@ -58,13 +58,13 @@ class ControlesToa
 
     public static function controlTecnicos($request)
     {
-        list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta($request->input('mes'));
+        list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta(request('mes'));
 
-        $diasMes = static::getDiasMes($request->input('mes'));
-        $datos   = static::getControlTecnicosData($request->input('empresa'), $fechaDesde, $fechaHasta, $request->input('filtro_trx'), static::$selectDato[$request->input('dato', 'peticiones')]);
+        $diasMes = static::getDiasMes(request('mes'));
+        $datos   = static::getControlTecnicosData(request('empresa'), $fechaDesde, $fechaHasta, request('filtro_trx'), static::$selectDato[request('dato', 'peticiones')]);
 
         return TecnicoToa::with('ciudadToa')
-            ->where('id_empresa', $request->input('empresa'))
+            ->where('id_empresa', request('empresa'))
             ->get()
             ->mapWithKeys(function ($tecnico) use ($diasMes, $datos) {
                 $tecnicoId = $tecnico->getKey();
@@ -103,12 +103,12 @@ class ControlesToa
 
     public static function controlMateriales($request)
     {
-        $filtroTrx = $request->input('filtro_trx') === '000' ? ClaseMovimiento::transaccionesConsumoToa() : [$request->input('filtro_trx')];
+        $filtroTrx = request('filtro_trx') === '000' ? ClaseMovimiento::transaccionesConsumoToa() : [request('filtro_trx')];
 
-        list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta($request->input('mes'));
+        list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta(request('mes'));
 
-        $diasMes = static::getDiasMes($request->input('mes'));
-        $datos = static::getControlMaterialesData($request->input('empresa'), $fechaDesde, $fechaHasta, $filtroTrx, $request->input('dato'));
+        $diasMes = static::getDiasMes(request('mes'));
+        $datos = static::getControlMaterialesData(request('empresa'), $fechaDesde, $fechaHasta, $filtroTrx, request('dato'));
 
         return $datos->mapWithKeys(function ($elem) use ($diasMes, $datos) {
             $material = $elem->material;

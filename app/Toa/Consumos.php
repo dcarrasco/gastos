@@ -128,7 +128,7 @@ class Consumos
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
             'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
             'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'href' => 'toa_consumos/ver_peticiones/ciudades/'.$fechaDesde.'/'.$fechaHasta, 'href_registros' => ['id_ciudad']],
+            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['ciudades', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_ciudad']],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');

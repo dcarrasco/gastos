@@ -68,12 +68,13 @@ class Reporte
             'valor_dif'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE, TRUE);},
             'link'          => function ($valor, $param) {return link_to($param['href'] . $valor, $valor);},
             'link_registro' => function ($valor, $param, $registro) {
-                return link_to(
-                    $param['href'].'/'.collect($param['href_registros'])
-                        ->map(function ($elem) use($registro) {return $registro->{$elem};})
-                        ->implode('/'),
-                    $valor
+                $routeParams = array_merge(
+                    array_get($param, 'routeFixedParams'),
+                    collect(array_get($param, 'routeVariableParams'))->map(function ($param) use ($registro) {
+                        return $registro->{$param};
+                    })->all()
                 );
+                return link_to(route(array_get($param, 'route'), $routeParams), $valor);
             },
             'link_detalle_series' => $funcFormatoDetalle,
         ];
