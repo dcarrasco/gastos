@@ -68,7 +68,7 @@ class Reporte
             'valor_dif'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE, TRUE);},
             'link'          => function ($valor, $param) {return link_to($param['href'] . $valor, $valor);},
             'link_registro' => function ($valor, $param, $registro) {
-                return \Html::link(
+                return link_to(
                     $param['href'].'/'.collect($param['href_registros'])
                         ->map(function ($elem) use($registro) {return $registro->{$elem};})
                         ->implode('/'),
