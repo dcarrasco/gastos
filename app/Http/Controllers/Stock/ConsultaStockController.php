@@ -35,8 +35,8 @@ class ConsultaStockController extends Controller
     {
         $moduloSelected = 'consulta-stock-'.$tipoOp;
 
-        $tipoFecha = request()->input('sel_fechas', self::FECHA_ULTIMODIA);
-        $tipoAlm   = request()->input('sel_tiposalm', self::SEL_TIPOSALM);
+        $tipoFecha = request('sel_fechas', self::FECHA_ULTIMODIA);
+        $tipoAlm   = request('sel_tiposalm', self::SEL_TIPOSALM);
 
         $stockSap = $tipoOp === self::OP_MOVIL ? new StockSapMovil : new StockSapFija;
         $comboFechas = $stockSap::fechasStock($tipoFecha);

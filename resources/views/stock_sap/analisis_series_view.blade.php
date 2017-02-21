@@ -20,7 +20,7 @@
 					<label class="control-label">
 						{{ trans('stock.analisis_label_series') }}
 					</label>
-					{{ Form::textarea('series', request()->input('series'), ['id'=>'series', 'rows'=>10, 'cols'=>30, 'class'=>'form-control']) }}
+					{{ Form::textarea('series', request('series'), ['id'=>'series', 'rows'=>10, 'cols'=>30, 'class'=>'form-control']) }}
 				</div>
 			</div>
 
@@ -31,44 +31,44 @@
 					</label>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_mov', 'show', request()->input('show_mov')) }}
+							{{ Form::checkbox('show_mov', 'show', request('show_mov')) }}
 							{{ trans('stock.analisis_check_movimientos') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('ult_mov', 'show', request()->input('ult_mov')) }}
+							{{ Form::checkbox('ult_mov', 'show', request('ult_mov')) }}
 							{{ trans('stock.analisis_check_filtrar_ultmov') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_despachos', 'show', request()->input('show_despachos')) }}
+							{{ Form::checkbox('show_despachos', 'show', request('show_despachos')) }}
 							{{ trans('stock.analisis_check_despachos') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_stock_sap', 'show', request()->input('show_stock_sap')) }}
+							{{ Form::checkbox('show_stock_sap', 'show', request('show_stock_sap')) }}
 							{{ trans('stock.analisis_check_stock_sap') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_stock_scl', 'show', request()->input('show_stock_scl')) }}
+							{{ Form::checkbox('show_stock_scl', 'show', request('show_stock_scl')) }}
 							{{ trans('stock.analisis_check_stock_scl') }}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_trafico', 'show', request()->input('show_trafico')) }}
+							{{ Form::checkbox('show_trafico', 'show', request('show_trafico')) }}
 							{{ trans('stock.analisis_check_trafico') }}
 							({{-- anchor($this->router->class.'/trafico_por_mes', trans('stock.analisis_link_detalle_trafico')) --}}
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							{{ Form::checkbox('show_gdth', 'show', request()->input('show_gdth')) }}
+							{{ Form::checkbox('show_gdth', 'show', request('show_gdth')) }}
 							{{ trans('stock.analisis_check_gestor') }}
 						</label>
 					</div>
@@ -94,7 +94,7 @@
 {{ Form::close() }}
 
 
-@if (request()->input('show_mov'))
+@if (request('show_mov'))
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<a href="#tabla_movimientos" class="accordion-toggle" data-toggle="collapse">
@@ -110,7 +110,7 @@
 </div>
 @endif
 
-@if (request()->input('show_despachos'))
+@if (request('show_despachos'))
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<a href="#tabla_despachos" class="accordion-toggle" data-toggle="collapse">
@@ -126,7 +126,7 @@
 </div>
 @endif
 
-@if (request()->input('show_stock_sap'))
+@if (request('show_stock_sap'))
 <div class="panel panel-default">
     <div class="panel-heading">
         <a href="#tabla_stock_sap" class="accordion-toggle" data-toggle="collapse">
@@ -142,7 +142,7 @@
 </div>
 @endif
 
-@if (request()->input('show_stock_scl'))
+@if (request('show_stock_scl'))
 <div class="panel panel-default">
     <div class="panel-heading">
         <a href="#tabla_stock_scl" class="accordion-toggle" data-toggle="collapse">
@@ -158,7 +158,7 @@
 </div>
 @endif
 
-@if (request()->input('show_trafico'))
+@if (request('show_trafico'))
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<a href="#tabla_trafico" class="accordion-toggle" data-toggle="collapse">
@@ -174,7 +174,7 @@
 </div>
 @endif
 
-@if (request()->input('show_gdth'))
+@if (request('show_gdth'))
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<a href="#tabla_gdth" class="accordion-toggle" data-toggle="collapse">

@@ -95,7 +95,7 @@ class Reporte
      */
     public static function setOrderCampos(&$campos, $campoDefault = '')
     {
-        $sort_by = empty(request()->input('sort')) ? $campoDefault : request()->input('sort');
+        $sort_by = empty(request('sort')) ? $campoDefault : request('sort');
         $sort_by = ( ! preg_match('/^[+\-](.*)$/', $sort_by)) ? '+'.$sort_by : $sort_by;
 
         $sort_by_field  = substr($sort_by, 1, strlen($sort_by));

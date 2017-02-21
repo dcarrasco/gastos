@@ -19,7 +19,7 @@
                 {{-- Loop para cada uno de los dias del reporte --}}
                 @foreach ($datos['actuaciones'] as $dia_act => $cant_act)
                     <th class="text-center">
-                        {{ dia_semana(date('w', strtotime(request()->input('mes').((strlen($dia_act) === 1) ? '0'.$dia_act : $dia_act)))) }}<br>
+                        {{ dia_semana(date('w', strtotime(request('mes').((strlen($dia_act) === 1) ? '0'.$dia_act : $dia_act)))) }}<br>
                         {{ $dia_act }}
                         <?php $tot_col[$dia_act] = 0; $count_col[$dia_act] = 0; ?>
                     </th>

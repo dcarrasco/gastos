@@ -26,8 +26,8 @@ class AjustesController extends Controller
         $cantidad       = $detalleAjustes->count();
 
         $detalleAjustes->each(function ($linea) {
-            $linea->stock_ajuste = request()->input('stock_ajuste_'.$linea->id);
-            $linea->glosa_ajuste = request()->input('observacion_'.$linea->id);
+            $linea->stock_ajuste = request('stock_ajuste_'.$linea->id);
+            $linea->glosa_ajuste = request('observacion_'.$linea->id);
             $linea->fecha_ajuste = \Carbon\Carbon::now();
             $linea->save();
         });

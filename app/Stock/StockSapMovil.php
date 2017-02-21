@@ -62,18 +62,18 @@ class StockSapMovil extends OrmModel
 
     public static function getStock()
     {
-        if (empty(request()->input('fecha')) or empty(request()->input('almacenes'))) {
+        if (empty(request('fecha')) or empty(request('almacenes'))) {
             return;
         }
 
         $selectFields = static::getSelectFields();
 
-        $queryStock = static::whereIn('fecha_stock', request()->input('fecha'));
+        $queryStock = static::whereIn('fecha_stock', request('fecha'));
 
-        if (request()->input('sel_tiposalm') === 'sel_tiposalm') {
-            $queryStock = $queryStock->filtroTipoAlmacen(request()->input('almacenes'));
-        } elseif (request()->input('sel_tiposalm') === 'sel_almacenes') {
-            $queryStock = $queryStock->filtroAlmacen(request()->input('almacenes'));
+        if (request('sel_tiposalm') === 'sel_tiposalm') {
+            $queryStock = $queryStock->filtroTipoAlmacen(request('almacenes'));
+        } elseif (request('sel_tiposalm') === 'sel_almacenes') {
+            $queryStock = $queryStock->filtroAlmacen(request('almacenes'));
         }
 
         $stock = $queryStock
@@ -101,12 +101,12 @@ class StockSapMovil extends OrmModel
         $select[]  = 's.fecha_stock';
         $groupBy[] = 's.fecha_stock';
 
-        if (request()->input('sel_tiposalm') === 'sel_tiposalm') {
+        if (request('sel_tiposalm') === 'sel_tiposalm') {
             $select[]  = 't.tipo';
             $groupBy[] = 't.tipo';
         }
 
-        if (request()->input('almacen') === 'almacen' or request()->input('sel_tiposalm') === 'sel_almacenes') {
+        if (request('almacen') === 'almacen' or request('sel_tiposalm') === 'sel_almacenes') {
             $select[]  = 's.centro';
             $groupBy[] = 's.centro';
             $select[]  = 's.cod_bodega';
@@ -115,12 +115,12 @@ class StockSapMovil extends OrmModel
             $groupBy[] = 'a.des_almacen';
         }
 
-        if (request()->input('material') === 'material') {
+        if (request('material') === 'material') {
             $select[]  = 's.cod_articulo';
             $groupBy[] = 's.cod_articulo';
         }
 
-        if (request()->input('lote') === 'lote') {
+        if (request('lote') === 'lote') {
             $select[]  = 's.lote';
             $groupBy[] = 's.lote';
         }

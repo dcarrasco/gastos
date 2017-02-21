@@ -25,7 +25,7 @@ class ImprimirInventarioRequest extends FormRequest
     {
         return [
             'pag_desde' => 'required|integer|min:1',
-            'pag_hasta' => 'required|integer|min:'.request()->input('pag_desde'),
+            'pag_hasta' => 'required|integer|min:'.request('pag_desde'),
         ];
     }
 }

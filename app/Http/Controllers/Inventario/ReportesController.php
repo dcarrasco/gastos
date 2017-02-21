@@ -17,7 +17,7 @@ class ReportesController extends Controller
     {
         $moduloSelected = empty($tipo) ? collect(array_keys($this->menuModulo))->first() : $tipo;
 
-        $inventarioID = request()->input('inventario', Inventario::getInventarioActivo()->id);
+        $inventarioID = request('inventario', Inventario::getInventarioActivo()->id);
         $comboInventario = Inventario::getInventarioActivo()->getModelFormOptions();
         $inventario = Inventario::find($inventarioID);
         $reporte = $inventario->reporte($moduloSelected, $tipo);

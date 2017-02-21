@@ -26,38 +26,38 @@
 					<label class="control-label">{{ trans('stock.sap_label_dates') }}</label>
 					<div class="radio">
 						<label>
-							{{ Form::radio('sel_fechas', 'ultdia', request()->input('sel_fechas', 'ultdia') === 'ultdia') }}
+							{{ Form::radio('sel_fechas', 'ultdia', request('sel_fechas', 'ultdia') === 'ultdia') }}
 							{{ trans('stock.sap_radio_date1') }}
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							{{ Form::radio('sel_fechas', 'todas', request()->input('sel_fechas', 'ultdia') === 'todas') }}
+							{{ Form::radio('sel_fechas', 'todas', request('sel_fechas', 'ultdia') === 'todas') }}
 							{{ trans('stock.sap_radio_date2') }}
 						</label>
 					</div>
-					{{ Form::select('fecha[]', $comboFechas, request()->input('fecha'), ['multiple'=>'multiple', 'id'=>'select_fechas', 'size'=>10, 'class'=>'form-control']) }}
+					{{ Form::select('fecha[]', $comboFechas, request('fecha'), ['multiple'=>'multiple', 'id'=>'select_fechas', 'size'=>10, 'class'=>'form-control']) }}
 				</div>
 
 				<div class="col-md-4 form-group {{ $errors->has('almacenes[]') ? 'has-error' : '' }}">
 					<label class="control-label">{{ trans('stock.sap_label_alm') }}</label>
 					<div class="radio">
 						<label>
-							{{ Form::radio('sel_tiposalm', 'sel_tiposalm', request()->input('sel_tiposalm', 'sel_tiposalm') === 'sel_tiposalm') }}
+							{{ Form::radio('sel_tiposalm', 'sel_tiposalm', request('sel_tiposalm', 'sel_tiposalm') === 'sel_tiposalm') }}
 							{{ trans('stock.sap_radio_alm1') }}
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							{{ Form::radio('sel_tiposalm', 'sel_almacenes', request()->input('sel_tiposalm', 'sel_tiposalm') === 'sel_almacenes') }}
+							{{ Form::radio('sel_tiposalm', 'sel_almacenes', request('sel_tiposalm', 'sel_tiposalm') === 'sel_almacenes') }}
 							{{ trans('stock.sap_radio_alm2') }}
 						</label>
 					</div>
-					{{ Form::select('almacenes[]', $comboAlmacenes, request()->input('almacenes'), ['multiple'=>'multiple', 'id'=>'select_almacenes', 'size'=>10, 'class'=>'form-control']) }}
+					{{ Form::select('almacenes[]', $comboAlmacenes, request('almacenes'), ['multiple'=>'multiple', 'id'=>'select_almacenes', 'size'=>10, 'class'=>'form-control']) }}
 					<div id="show_tiposalm">
 						<div class="checkbox">
 							<label>
-								{{ Form::checkbox('almacen', 'almacen', request()->input('almacen')) }}
+								{{ Form::checkbox('almacen', 'almacen', request('almacen')) }}
 								{{ trans('stock.sap_check_show_alm') }}
 							</label>
 						</div>
@@ -77,19 +77,19 @@
 
 						<div class="checkbox">
 							<label>
-								{{ Form::checkbox('material', 'material', request()->input('material')) }}
+								{{ Form::checkbox('material', 'material', request('material')) }}
 								{{ trans('stock.sap_check_mat') }}
 							</label>
 						</div>
 						<div class="checkbox">
 							<label>
-								{{ Form::checkbox('lote', 'lote', request()->input('lote')) }}
+								{{ Form::checkbox('lote', 'lote', request('lote')) }}
 								{{ trans('stock.sap_check_lotes') }}
 							</label>
 						</div>
 						<div class="checkbox">
 							<label>
-								{{ Form::checkbox('tipo_stock', 'tipo_stock', request()->input('tipo_stock')) }}
+								{{ Form::checkbox('tipo_stock', 'tipo_stock', request('tipo_stock')) }}
 								{{ trans('stock.sap_check_tipstock') }}
 							</label>
 						</div>
@@ -97,15 +97,15 @@
 						<?php if ($tipoOp === 'MOVIL'): ?>
 						<div>
 							<div class="checkbox-inline">
-								{{ Form::checkbox('tipo_stock_equipos', 'tipo_stock_equipos', request()->input('tipo_stock_equipos')) }}
+								{{ Form::checkbox('tipo_stock_equipos', 'tipo_stock_equipos', request('tipo_stock_equipos')) }}
 								{{ trans('stock.sap_radio_equipos') }}
 							</div>
 							<div class="checkbox-inline">
-								{{ Form::checkbox('tipo_stock_simcard', 'tipo_stock_simcard', request()->input('tipo_stock_simcard')) }}
+								{{ Form::checkbox('tipo_stock_simcard', 'tipo_stock_simcard', request('tipo_stock_simcard')) }}
 								{{ trans('stock.sap_radio_sim') }}
 							</div>
 							<div class="checkbox-inline">
-								{{ Form::checkbox('tipo_stock_otros', 'tipo_stock_otros', request()->input('tipo_stock_otros')) }}
+								{{ Form::checkbox('tipo_stock_otros', 'tipo_stock_otros', request('tipo_stock_otros')) }}
 								{{ trans('stock.sap_radio_otros') }}
 							</div>
 						</div>

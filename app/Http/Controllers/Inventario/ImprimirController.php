@@ -24,11 +24,11 @@ class ImprimirController extends Controller
     public function imprimir(ImprimirInventarioRequest $request)
     {
         $inventario     = Inventario::getInventarioActivo();
-        $ocultaStockSAP = request()->input('oculta_stock_sap');
+        $ocultaStockSAP = request('oculta_stock_sap');
         $catalogo       = Catalogo::class;
 
         $hojasInventario = [];
-        for ($hoja = request()->input('pag_desde'); $hoja <= request()->input('pag_hasta'); $hoja++)
+        for ($hoja = request('pag_desde'); $hoja <= request('pag_hasta'); $hoja++)
         {
             $hojasInventario[$hoja] = $inventario->getDetalleHoja($hoja);
         }

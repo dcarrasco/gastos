@@ -8,7 +8,7 @@ trait AjustesInventario
 {
     public function detalleAjustes()
     {
-        $inclAjuste = request()->input('incl_ajustes') ? '+stock_ajuste' : '';
+        $inclAjuste = request('incl_ajustes') ? '+stock_ajuste' : '';
 
         return DetalleInventario::where('id_inventario', $this->id)
             ->where(\DB::raw('stock_fisico-stock_sap'.$inclAjuste), '<>', 0)

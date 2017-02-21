@@ -12,12 +12,12 @@ class AnalisisController extends Controller
 
     public function analisisSeries()
     {
-        $series = request()->input('series');
+        $series = request('series');
 
-        $reporteMovimientos = request()->input('show_mov') ? ReportesSeries::reporteMovimientos($series) : null;
-        $reporteDespachos   = request()->input('show_despachos') ? ReportesSeries::reporteDespachos($series) : null;
-        $reporteStockSAP    = request()->input('show_stock_sap') ? ReportesSeries::reporteStockSAP($series) : null;
-        $reporteStockSCL    = request()->input('show_stock_scl') ? ReportesSeries::reporteStockSCL($series) : null;
+        $reporteMovimientos = request('show_mov') ? ReportesSeries::reporteMovimientos($series) : null;
+        $reporteDespachos   = request('show_despachos') ? ReportesSeries::reporteDespachos($series) : null;
+        $reporteStockSAP    = request('show_stock_sap') ? ReportesSeries::reporteStockSAP($series) : null;
+        $reporteStockSCL    = request('show_stock_scl') ? ReportesSeries::reporteStockSCL($series) : null;
 
         return view('stock_sap.analisis_series_view', compact('reporteMovimientos', 'reporteDespachos', 'reporteStockSAP', 'reporteStockSCL'));
     }

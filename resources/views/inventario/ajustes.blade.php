@@ -8,7 +8,7 @@
     </div>
     <div class="col-md-6">
         <div class="pull-right">
-            {{ Form::checkbox('incl_ajustes', '1', request()->input('incl_ajustes'), ['id' => 'incl_ajustes']) }}
+            {{ Form::checkbox('incl_ajustes', '1', request('incl_ajustes'), ['id' => 'incl_ajustes']) }}
             {{ trans('inventario.adjust_link_hide') }}
         </div>
     </div>

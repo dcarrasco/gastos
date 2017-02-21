@@ -71,7 +71,7 @@ trait ReportesInventario
 
     protected function selectFieldsCantidades()
     {
-        $inclAjuste = request()->input('incl_ajustes') ? ' + d.stock_ajuste' : '';
+        $inclAjuste = request('incl_ajustes') ? ' + d.stock_ajuste' : '';
 
         return [
             \DB::raw('sum(d.stock_sap) as sum_stock_sap'),
@@ -90,14 +90,14 @@ trait ReportesInventario
         $camposCantidades = [];
         $camposCantidades['sum_stock_sap'] = $this->getCampo('sum_stock_sap');
         $camposCantidades['sum_stock_fisico'] = $this->getCampo('sum_stock_fisico');
-        if (request()->input('incl_ajustes')) {
+        if (request('incl_ajustes')) {
             $camposCantidades['sum_stock_ajuste'] = $this->getCampo('sum_stock_ajuste');
         }
         $camposCantidades['sum_stock_diff'] = $this->getCampo('sum_stock_diff');
 
         $camposCantidades['sum_valor_sap'] = $this->getCampo('sum_valor_sap');
         $camposCantidades['sum_valor_fisico'] = $this->getCampo('sum_valor_fisico');
-        if (request()->input('incl_ajustes')) {
+        if (request('incl_ajustes')) {
             $camposCantidades['sum_valor_ajuste'] = $this->getCampo('sum_valor_ajuste');
         }
         $camposCantidades['sum_valor_diff'] = $this->getCampo('sum_valor_diff');
@@ -171,7 +171,7 @@ trait ReportesInventario
 
     public function reporteMaterialFaltante()
     {
-        $inclAjuste = request()->input('incl_ajustes') ? ' + d.stock_ajuste' : '';
+        $inclAjuste = request('incl_ajustes') ? ' + d.stock_ajuste' : '';
 
         $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
 
