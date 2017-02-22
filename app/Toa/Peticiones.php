@@ -72,6 +72,34 @@ class Peticiones
             ->get();
     }
 
+    protected static function getDataReporteEmpresas($fechaDesde, $fechaHasta, $idEmpresa)
+    {
+        return static::getDataReporteBase($fechaDesde, $fechaHasta)
+            ->where('vale_acomp', $idEmpresa)
+            ->get();
+    }
+
+    protected static function getDataReporteTecnicos($fechaDesde, $fechaHasta, $idTecnico)
+    {
+        return static::getDataReporteBase($fechaDesde, $fechaHasta)
+            ->where('cliente', $idTecnico)
+            ->get();
+    }
+
+    protected static function getDataReporteTiposMaterial($fechaDesde, $fechaHasta, $idTipoMaterial)
+    {
+        return static::getDataReporteBase($fechaDesde, $fechaHasta)
+            ->where('id_tip_material_trabajo', $idTipoMaterial)
+            ->get();
+    }
+
+    protected static function getDataReporteMateriales($fechaDesde, $fechaHasta, $idMaterial)
+    {
+        return static::getDataReporteBase($fechaDesde, $fechaHasta)
+            ->where('material', $idMaterial)
+            ->get();
+    }
+
     protected static function getCamposReporte()
     {
         $camposReporte = [

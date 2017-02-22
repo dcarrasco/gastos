@@ -161,7 +161,7 @@ class Consumos
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
             'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
             'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'href' => 'toa_consumos/ver_peticiones/empresas/'.$fechaDesde.'/'.$fechaHasta, 'href_registros' => ['id_empresa']],
+            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams'=>['empresas', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_empresa']],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -198,7 +198,7 @@ class Consumos
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
             'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
             'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'href' => 'toa_consumos/ver_peticiones/tecnicos/'.$fechaDesde.'/'.$fechaHasta, 'href_registros' => ['cliente']],
+            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['tecnicos', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['cliente']],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -230,7 +230,7 @@ class Consumos
             'ume'        => ['titulo' => 'Unidad', 'tipo' => 'texto'],
             'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
             'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'href' => 'toa_consumos/ver_peticiones/tip-material/'.$fechaDesde.'/'.$fechaHasta, 'href_registros' => ['id_tip_material_trabajo']],
+            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['tiposMaterial', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_tip_material_trabajo']],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -266,7 +266,7 @@ class Consumos
             'ume'            => ['titulo' => 'Unidad', 'tipo' => 'texto'],
             'cant'           => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
             'monto'          => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link'     => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'href' => 'toa_consumos/ver_peticiones/material/'.$fechaDesde.'/'.$fechaHasta, 'href_registros' => ['material']],
+            'texto_link'     => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['materiales', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['material']],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
