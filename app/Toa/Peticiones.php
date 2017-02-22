@@ -9,6 +9,18 @@ class Peticiones
 {
     const CENTROS_CONSUMO = ['CH32', 'CH33'];
 
+    protected static $camposReporte = [
+        'ciudades'        => 'id_ciudad',
+        'empresas'        => 'vale_acomp',
+        'tecnicos'        => 'cliente',
+        'tiposMaterial'   => 'id_tip_material_trabajo',
+        'materiales'      => 'material',
+        'lotes'           => 'lote',
+        'lotesMateriales' => ['lote', 'material'],
+        'pep'             => ['codigo_movimiento', 'elemento_pep'],
+        'tiposTrabajo'    => 'carta_porte',
+    ];
+
     public static function getReporte($data)
     {
         $reporte = new Reporte($data, static::getCamposReporte());
@@ -16,12 +28,7 @@ class Peticiones
         return $reporte->make();
     }
 
-    public static function getPeticiones($nombreReporte, $fechaDesde, $fechaHasta, $id)
-    {
-        return static::{'getDataReporte'.ucfirst($nombreReporte)}($fechaDesde, $fechaHasta, $id);
-    }
-
-    protected static function getDataReporteBase($fechaDesde, $fechaHasta)
+    public static function getPeticiones($nombreReporte, $fechaDesde, $fechaHasta, $id, $id2 = null)
     {
         $select = [
             \DB::raw('min(m.fecha_contabilizacion) as fecha'),
@@ -47,7 +54,7 @@ class Peticiones
             'd.acoord_y',
         ];
 
-        return \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' m'))
+        $queryReporte = \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' m'))
             ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('m.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
             ->leftJoin(\DB::raw(config('invfija.bd_peticiones_toa').' d'), function ($join) {
@@ -59,45 +66,29 @@ class Peticiones
             ->where('m.fecha_contabilizacion', '>=', $fechaDesde)
             ->where('m.fecha_contabilizacion', '<=', $fechaHasta)
             ->whereIn('m.codigo_movimiento', ClaseMovimiento::transaccionesConsumoToa())
-            ->whereIn('m.centro', static::CENTROS_CONSUMO)
+            ->whereIn('m.centro', static::CENTROS_CONSUMO);
+
+        return static::filtroReporte($queryReporte, $nombreReporte, $id, $id2)
             ->select($select)
             ->groupBy($groupBy)
-            ->orderBy('m.referencia');
-    }
-
-    protected static function getDataReporteCiudades($fechaDesde, $fechaHasta, $idCiudad)
-    {
-        return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->where('id_ciudad', $idCiudad)
+            ->orderBy('m.referencia')
             ->get();
     }
 
-    protected static function getDataReporteEmpresas($fechaDesde, $fechaHasta, $idEmpresa)
+    protected static function filtroReporte($query, $nombreReporte, $id, $id2)
     {
-        return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->where('vale_acomp', $idEmpresa)
-            ->get();
-    }
+        $arrId = [$id, $id2];
 
-    protected static function getDataReporteTecnicos($fechaDesde, $fechaHasta, $idTecnico)
-    {
-        return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->where('cliente', $idTecnico)
-            ->get();
-    }
+        $camposFiltro = array_get(static::$camposReporte, $nombreReporte);
+        $camposFiltro = is_array($camposFiltro) ? $camposFiltro : [$camposFiltro];
 
-    protected static function getDataReporteTiposMaterial($fechaDesde, $fechaHasta, $idTipoMaterial)
-    {
-        return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->where('id_tip_material_trabajo', $idTipoMaterial)
-            ->get();
-    }
+        foreach ($camposFiltro as $campo)
+        {
+            $idCampo = array_shift($arrId);
+            $query = $query->where($campo, $idCampo);
+        }
 
-    protected static function getDataReporteMateriales($fechaDesde, $fechaHasta, $idMaterial)
-    {
-        return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->where('material', $idMaterial)
-            ->get();
+        return $query;
     }
 
     protected static function getCamposReporte()

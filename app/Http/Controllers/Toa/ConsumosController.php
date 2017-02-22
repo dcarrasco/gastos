@@ -41,9 +41,9 @@ class ConsumosController extends Controller
         return $this->showFormConsumos();
     }
 
-    public function peticiones($tipo, $fechaDesde, $fechaHasta, $id)
+    public function peticiones($tipo, $fechaDesde, $fechaHasta, $id, $id2 = null)
     {
-        $peticiones = Peticiones::getPeticiones($tipo, $fechaDesde, $fechaHasta, $id);
+        $peticiones = Peticiones::getPeticiones($tipo, $fechaDesde, $fechaHasta, $id, $id2);
 
         $map = new GoogleMaps([
             'mapCss' => 'height: 350px',
