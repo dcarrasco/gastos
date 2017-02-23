@@ -66,7 +66,7 @@ class Reporte
             'valor_pmp'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE);},
             'numero_dif'    => function ($valor) {return fmt_cantidad($valor, 0, TRUE, TRUE);},
             'valor_dif'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE, TRUE);},
-            'link'          => function ($valor, $param) {return link_to($param['href'] . $valor, $valor);},
+            'link'          => function ($valor, $param) {return link_to(route(array_get($param, 'route'), [$valor]), $valor);},
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
                     array_get($param, 'routeFixedParams'),

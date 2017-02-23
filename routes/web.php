@@ -102,6 +102,7 @@ Route::group(['prefix' => 'toa', 'as' => 'toa.', 'namespace' => 'Toa', 'middlewa
     Route::get('consumos', 'ConsumosController@showFormConsumos')->name('consumos');
     Route::post('consumos', 'ConsumosController@getConsumos')->name('consumos');
     Route::get('peticiones/{tipo}/{fechaDesde}/{fechaHasta}/{id}/{id2?}', 'ConsumosController@peticiones')->name('peticiones');
+    Route::get('peticion/{idPeticion}', 'ConsumosController@peticion')->name('peticion');
 });
 
 Auth::routes();

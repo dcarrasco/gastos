@@ -94,7 +94,7 @@ class Peticiones
     protected static function getCamposReporte()
     {
         $camposReporte = [
-            'referencia'  => ['titulo' => 'Numero peticion', 'tipo' => 'link', 'href' => 'toa_consumos/detalle_peticion/'],
+            'referencia'  => ['titulo' => 'Numero peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
             'fecha'       => ['titulo' => 'Fecha', 'tipo' => 'fecha'],
             'carta_porte' => ['titulo' => 'Tipo trabajo', 'tipo' => 'texto'],
             'empresa'     => ['titulo' => 'Empresa', 'tipo' => 'texto'],
@@ -107,5 +107,49 @@ class Peticiones
         Reporte::setOrderCampos($camposReporte, 'referencia');
 
         return $camposReporte;
+    }
+
+    public static function peticion($idPeticion)
+    {
+        if (empty($idPeticion)) {
+            return null;
+        }
+
+        $peticionToa = (array) \DB::table(\DB::raw(config('invfija.bd_peticiones_toa').' d'))
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('d.contractor_company collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->where('appt_number', $idPeticion)
+            ->where('astatus', 'complete')
+            ->first();
+
+        $materialesSap = \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' a'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('a.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('a.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->whereIn('codigo_movimiento', ClaseMovimiento::transaccionesConsumoToa())
+            ->whereIn('centro', static::CENTROS_CONSUMO)
+            ->where('referencia', $idPeticion)
+            ->select([
+                \DB::raw('a.fecha_contabilizacion as fecha'),
+                'a.referencia', 'c.empresa', 'a.cliente', 'b.tecnico', 'a.codigo_movimiento',
+                'a.texto_movimiento', 'a.elemento_pep', 'a.documento_material', 'a.centro',
+                'a.almacen', 'a.material', 'a.texto_material', 'a.serie_toa', 'a.lote',
+                'a.valor', 'a.umb', \DB::raw('(-a.cantidad_en_um) as cant'),
+                \DB::raw('(-a.importe_ml) as monto'), 'a.usuario', 'a.vale_acomp',
+                'a.carta_porte', 'a.usuario',
+            ])
+            ->orderBy('a.material')
+            ->orderBy('a.codigo_movimiento')
+            ->get();
+
+        $materialesToa = \DB::table(config('invfija.bd_materiales_peticiones_toa'))
+            ->where('aid', $peticionToa['aid'])
+            ->orderBy('XI_SAP_CODE')
+            ->get();
+
+        $materialesVpi = \DB::table(config('invfija.bd_peticiones_vpi'))
+            ->where('appt_number', $peticionToa['appt_number'])
+            ->orderBy('ps_id')
+            ->get();
+
+        return compact('peticionToa', 'materialesSap', 'materialesToa', 'materialesVpi');
     }
 }

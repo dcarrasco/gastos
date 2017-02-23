@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Toa;
 
 use App\Toa\Consumos;
 use App\Toa\Peticiones;
+use App\Toa\TipoTrabajoToa;
 use App\Helpers\GoogleMaps;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ConsumosToaRequest;
@@ -45,9 +46,7 @@ class ConsumosController extends Controller
     {
         $peticiones = Peticiones::getPeticiones($tipo, $fechaDesde, $fechaHasta, $id, $id2);
 
-        $map = new GoogleMaps([
-            'mapCss' => 'height: 350px',
-        ]);
+        $map = new GoogleMaps(['mapCss' => 'height: 350px']);
 
         $peticiones->each(function ($peticion) use (&$map) {
             $map->addMarker([
@@ -61,5 +60,29 @@ class ConsumosController extends Controller
         $googleMaps        = $map->createMap();
 
         return view('toa.peticiones', compact('reportePeticiones', 'googleMaps'));
+    }
+
+    public function peticion($idPeticion)
+    {
+        $peticion = Peticiones::peticion($idPeticion);
+
+        $map = new GoogleMaps(['mapCss' => 'height: 350px']);
+
+        if (count($peticion) and count($peticion['peticionToa'])) {
+            $map->addMarker([
+                'lat'   => array_get($peticion, 'peticionToa.acoord_y'),
+                'lng'   => array_get($peticion, 'peticionToa.acoord_x'),
+                'title' => array_get($peticion, 'peticionToa.cname'),
+            ]);
+        }
+
+        $googleMap = $map->createMap();
+
+        $tipoTrabajo = new TipoTrabajoToa();
+        $tipoTrabajo = new TipoTrabajoToa(['id_tipo'=>strtoupper(array_get($peticion, 'peticionToa.XA_WORK_TYPE'))]);
+
+        // set_message(($idPeticion and ! $peticiones) ? $this->lang->line('toa_consumo_peticion_not_found') : '');
+
+        return view('toa.detalle_peticion', compact('peticion', 'googleMap', 'tipoTrabajo'));
     }
 }

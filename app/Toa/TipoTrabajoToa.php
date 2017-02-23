@@ -45,4 +45,20 @@ class TipoTrabajoToa extends OrmModel
     {
         return (string) $this->desc_tipo;
     }
+
+    public function mostrarInfo()
+    {
+        $descripcionTrabajo = '';
+        $tipos = ['A', '-', 'M', 'B', 'T'];
+
+        if (strlen($this->id_tipo) === 10 AND in_array(substr($this->id_tipo, 0, 1), $tipos)) {
+            $descripcionTrabajo  =  '<span class="label label-default">BA</span><span class="label label-info">'.substr($this->id_tipo, 0, 2)."</span>";
+            $descripcionTrabajo .= ' <span class="label label-default">STB</span><span class="label label-info">'.substr($this->id_tipo, 2, 2)."</span>";
+            $descripcionTrabajo .= ' <span class="label label-default">DTH</span><span class="label label-info">'.substr($this->id_tipo, 4, 2)."</span>";
+            $descripcionTrabajo .= ' <span class="label label-default">VDSL</span><span class="label label-info">'.substr($this->id_tipo, 6, 2)."</span>";
+            $descripcionTrabajo .= ' <span class="label label-default">IPTV</span><span class="label label-info">'.substr($this->id_tipo, 8, 2)."</span>";
+        }
+
+        return (string) empty($descripcionTrabajo) ? $this->id_tipo : $descripcionTrabajo;
+    }
 }

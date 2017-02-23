@@ -88,7 +88,7 @@ class Consumos
     protected static function getCamposReportePeticiones($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'referencia'  => ['titulo' => 'Numero Peticion', 'tipo' => 'link', 'href' => 'toa_consumos/detalle_peticion/'],
+            'referencia'  => ['titulo' => 'Numero Peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
             'carta_porte' => ['titulo' => 'Tipo de trabajo', 'tipo' => 'texto'],
             'empresa'     => ['titulo' => 'Empresa', 'tipo' => 'texto'],
             'cliente'     => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
