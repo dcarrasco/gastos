@@ -66,6 +66,6 @@
 </div>
 
 <div class="content-module-main">
-{!! $reporteConsumo !!}
+{!! $reporte !!}
 </div> <!-- fin content-module-main -->
 @endsection

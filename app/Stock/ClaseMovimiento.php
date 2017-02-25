@@ -51,4 +51,9 @@ class ClaseMovimiento extends OrmModel
     {
         return ['Z35', 'Z45', 'Z39', 'Z41', 'Z87', 'Z89'];
     }
+
+    public static function transaccionesAsignacionToa()
+    {
+        return ['Z31', 'Z32'];
+    }
 }

@@ -2,32 +2,23 @@
 
 namespace App\Http\Controllers\Toa;
 
-use App\Toa\Consumos;
-use App\Toa\Peticiones;
-use App\Toa\TipoTrabajoToa;
-use App\Helpers\GoogleMaps;
+use App\Toa\Asignaciones;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Toa\ConsumosRequest;
+use App\Http\Requests\Toa\AsignacionesRequest;
 
-class ConsumosController extends Controller
+class AsignacionController extends Controller
 {
     protected $reportes = [
-        'peticiones'      => 'Numero peticion',
-        'empresas'        => 'Empresas',
-        'ciudades'        => 'Ciudades',
         'tecnicos'        => 'Tecnicos',
-        'tiposMaterial'   => 'Tipos de material',
         'materiales'      => 'Materiales',
         'lotes'           => 'Lotes',
         'lotesMateriales' => 'Lotes y materiales',
-        'pep'             => 'PEP',
-        'tiposTrabajo'    => 'Tipo de trabajo',
-        'detalles'        => 'Detalle todos los registros',
+        'detalle'         => 'Detalle todos los registros',
     ];
 
     protected $reporte = null;
 
-    public function showFormConsumos()
+    public function showForm()
     {
         $reportes = $this->reportes;
         $reporte = $this->reporte;
@@ -35,11 +26,11 @@ class ConsumosController extends Controller
         return view('toa.consumos', compact('reportes', 'reporte'));
     }
 
-    public function getConsumos(ConsumosRequest $request)
+    public function getAsignacion(AsignacionesRequest $request)
     {
-        $this->reporte = Consumos::getReporte($request->reporte, $request->fecha_desde, $request->fecha_hasta);
+        $this->reporte = Asignaciones::getReporte($request->reporte, $request->fecha_desde, $request->fecha_hasta);
 
-        return $this->showFormConsumos();
+        return $this->showForm();
     }
 
     public function peticiones($tipo, $fechaDesde, $fechaHasta, $id, $id2 = null)
