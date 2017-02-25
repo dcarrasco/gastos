@@ -7,6 +7,10 @@ use App\Helpers\Reporte;
 
 class StockSapMovil extends OrmModel
 {
+    protected static $selectFields = [];
+
+    protected static $groupByFields = [];
+
     protected static $tipoMaterial = "CASE WHEN (substring(cod_articulo,1,8)='PKGCLOTK' OR substring(cod_articulo,1,2)='TS') THEN 'SIMCARD' WHEN substring(cod_articulo, 1,2) in ('TM','TO','TC','PK','PO') THEN 'EQUIPOS' ELSE 'OTROS' END";
 
     protected static $sumCantidad = 'sum(libre_utilizacion + bloqueado + contro_calidad + transito_traslado + otros)';
@@ -24,6 +28,16 @@ class StockSapMovil extends OrmModel
         'tipo_material' => ['titulo'=>'Tipo Material'],
         'cant' => ['titulo'=>'Cantidad', 'tipo'=>'numero', 'class'=>'text-right'],
         'valor' => ['titulo'=>'Monto', 'tipo'=>'valor', 'class'=>'text-right'],
+        'LU' => ['titulo'=>'Cant LU', 'tipo'=>'numero', 'class'=>'text-right'],
+        'BQ' => ['titulo'=>'Cant BQ', 'tipo'=>'numero', 'class'=>'text-right'],
+        'CC' => ['titulo'=>'Cant CC', 'tipo'=>'numero', 'class'=>'text-right'],
+        'TT' => ['titulo'=>'Cant TT', 'tipo'=>'numero', 'class'=>'text-right'],
+        'OT' => ['titulo'=>'Cant OT', 'tipo'=>'numero', 'class'=>'text-right'],
+        'VAL_LU' => ['titulo'=>'Valor LU', 'tipo'=>'valor', 'class'=>'text-right'],
+        'VAL_BQ' => ['titulo'=>'Valor BQ', 'tipo'=>'valor', 'class'=>'text-right'],
+        'VAL_CC' => ['titulo'=>'Valor CC', 'tipo'=>'valor', 'class'=>'text-right'],
+        'VAL_TT' => ['titulo'=>'Valor TT', 'tipo'=>'valor', 'class'=>'text-right'],
+        'VAL_OT' => ['titulo'=>'Valor OT', 'tipo'=>'valor', 'class'=>'text-right'],
     ];
 
     // protected $dates = ['fecha_stock'];
@@ -93,46 +107,62 @@ class StockSapMovil extends OrmModel
         return $reporte->make();
     }
 
+    protected static function addSelect($fields, $addGroup = false)
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+        foreach ($fields as $field) {
+            static::$selectFields[] = $field;
+
+            if ($addGroup) {
+                static::$groupByFields[] = $field;
+            }
+        }
+    }
+
     protected static function getSelectFields()
     {
-        $select  = [];
-        $groupBy = [];
-
-        $select[]  = 's.fecha_stock';
-        $groupBy[] = 's.fecha_stock';
+        static::addSelect('s.fecha_stock', true);
 
         if (request('sel_tiposalm') === 'sel_tiposalm') {
-            $select[]  = 't.tipo';
-            $groupBy[] = 't.tipo';
+            static::addSelect('t.tipo', true);
         }
 
         if (request('almacen') === 'almacen' or request('sel_tiposalm') === 'sel_almacenes') {
-            $select[]  = 's.centro';
-            $groupBy[] = 's.centro';
-            $select[]  = 's.cod_bodega';
-            $groupBy[] = 's.cod_bodega';
-            $select[]  = 'a.des_almacen';
-            $groupBy[] = 'a.des_almacen';
+            static::addSelect(['s.centro', 's.cod_bodega', 'a.des_almacen'], true);
         }
 
         if (request('material') === 'material') {
-            $select[]  = 's.cod_articulo';
-            $groupBy[] = 's.cod_articulo';
+            static::addSelect('s.cod_articulo', true);
         }
 
         if (request('lote') === 'lote') {
-            $select[]  = 's.lote';
-            $groupBy[] = 's.lote';
+            static::addSelect('s.lote', true);
         }
 
-        $select[]  = \DB::raw(static::$tipoMaterial.' as tipo_material');
-        $groupBy[] = \DB::raw(static::$tipoMaterial);
+        static::$selectFields[]  = \DB::raw(static::$tipoMaterial.' as tipo_material');
+        static::$groupByFields[] = \DB::raw(static::$tipoMaterial);
 
-        $select[] = \DB::raw(static::$sumCantidad.' as cant');
-        $select[] = \DB::raw(static::$sumValor.' as valor');
+        if (request('tipo_stock') === 'tipo_stock') {
+            static::addSelect([
+                \DB::raw('sum(s.libre_utilizacion) as LU'),
+                \DB::raw('sum(s.bloqueado) as BQ'),
+                \DB::raw('sum(s.contro_calidad) as CC'),
+                \DB::raw('sum(s.transito_traslado) as TT'),
+                \DB::raw('sum(s.otros) as OT'),
+                \DB::raw('sum(s.VAL_LU) as VAL_LU'),
+                \DB::raw('sum(s.VAL_BQ) as VAL_BQ'),
+                \DB::raw('sum(s.VAL_CQ) as VAL_CC'),
+                \DB::raw('sum(s.VAL_TT) as VAL_TT'),
+                \DB::raw('sum(s.VAL_OT) as VAL_OT'),
+            ]);
+        } else {
+            static::addSelect([\DB::raw(static::$sumCantidad.' as cant'), \DB::raw(static::$sumValor.' as valor')]);
+        }
 
-        return compact('select', 'groupBy');
-
+        return ['select'=>static::$selectFields, 'groupBy'=>static::$groupByFields];
     }
 
     public function scopeFiltroTipoAlmacen($query, $tiposAlmacen = [])

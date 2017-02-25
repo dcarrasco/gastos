@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Stock;
 
+use App\Stock\AlmacenSap;
+use App\Stock\StockSapFija;
+use App\Stock\StockSapMovil;
+use App\Stock\TipoAlmacenSap;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Stock\ModulosConsultaStock;
-use App\Stock\StockSapMovil;
-use App\Stock\StockSapFija;
-use App\Stock\TipoAlmacenSap;
-use App\Stock\AlmacenSap;
 
 class ConsultaStockController extends Controller
 {
@@ -16,10 +16,10 @@ class ConsultaStockController extends Controller
 
     const FECHA_ULTIMODIA = 'ultdia';
     const FECHA_TODAS     = 'todas';
-    const OP_MOVIL = 'movil';
-    const OP_FIJA  = 'fija';
-    const SEL_TIPOSALM  = 'sel_tiposalm';
-    const SEL_ALMACENES = 'sel_almacenes';
+    const OP_MOVIL        = 'movil';
+    const OP_FIJA         = 'fija';
+    const SEL_TIPOSALM    = 'sel_tiposalm';
+    const SEL_ALMACENES   = 'sel_almacenes';
 
     public function consultaStockMovil()
     {
@@ -40,11 +40,16 @@ class ConsultaStockController extends Controller
 
         $stockSap = $tipoOp === self::OP_MOVIL ? new StockSapMovil : new StockSapFija;
         $comboFechas = $stockSap::fechasStock($tipoFecha);
-        $comboAlmacenes = ($tipoAlm === self::SEL_TIPOSALM) ? TipoAlmacenSap::getComboTiposOperacion($tipoOp) : AlmacenSap::getComboTiposOperacion($tipoOp);
+        $comboAlmacenes = ($tipoAlm === self::SEL_TIPOSALM)
+            ? TipoAlmacenSap::getComboTiposOperacion($tipoOp)
+            : AlmacenSap::getComboTiposOperacion($tipoOp);
         $datosGrafico = false;
+
         $tablaStock = $stockSap::getStock();
 
-        return view('stock_sap.ver_stock', compact('moduloSelected', 'tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico', 'tablaStock'));
+        return view('stock_sap.ver_stock',
+            compact('moduloSelected', 'tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico', 'tablaStock')
+        );
     }
 
     public function ajaxFecha($tipoOp = self::OP_MOVIL, $tipoFecha = self::FECHA_ULTIMODIA)

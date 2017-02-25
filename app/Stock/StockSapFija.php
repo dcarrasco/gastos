@@ -7,31 +7,28 @@ use App\Helpers\Reporte;
 
 class StockSapFija extends OrmModel
 {
-    protected static $tipoMaterial = "CASE WHEN (substring(cod_articulo,1,8)='PKGCLOTK' OR substring(cod_articulo,1,2)='TS') THEN 'SIMCARD' WHEN substring(cod_articulo, 1,2) in ('TM','TO','TC','PK','PO') THEN 'EQUIPOS' ELSE 'OTROS' END";
-
-    protected static $sumCantidad = 'sum(libre_utilizacion + bloqueado + contro_calidad + transito_traslado + otros)';
-
-    protected static $sumValor = 'sum(val_lu + val_bq + val_cq + val_tt + val_ot)';
-
     protected static $campos = [
         'fecha_stock'   => ['titulo'=>'Fecha', 'tipo'=>'fecha'],
         'tipo'          => ['titulo'=>'Tipo almacen'],
         'centro'        => ['titulo'=>'Centro'],
-        'cod_bodega'    => ['titulo'=>'Almacen'],
+        'almacen'       => ['titulo'=>'Almacen'],
         'des_almacen'   => ['titulo'=>'Desc Almacen'],
-        'cod_articulo'  => ['titulo'=>'Material'],
+        'material'      => ['titulo'=>'Material'],
         'lote'          => ['titulo'=>'Lote'],
+        'estado'        => ['titulo'=>'Tipo Stock'],
         'tipo_material' => ['titulo'=>'Tipo Material'],
         'cant'          => ['titulo'=>'Cantidad', 'tipo'=>'numero', 'class'=>'text-right'],
         'valor'         => ['titulo'=>'Monto', 'tipo'=>'valor', 'class'=>'text-right'],
     ];
 
-    // protected $dates = ['fecha_stock'];
+    protected static $selectFields = [];
+
+    protected static $groupByFields = [];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = \DB::raw(config('invfija.bd_stock_movil').' as s');
+        $this->table = \DB::raw(config('invfija.bd_stock_fija').' as s');
     }
 
     public static function todasFechasStock()
@@ -76,6 +73,10 @@ class StockSapFija extends OrmModel
             $queryStock = $queryStock->filtroAlmacen(request('almacenes'));
         }
 
+        if (request('material') === 'material') {
+            $queryStock = $queryStock->joinMaterial();
+        }
+
         $stock = $queryStock
             ->select($selectFields['select'])
             ->groupBy($selectFields['groupBy'])
@@ -93,46 +94,48 @@ class StockSapFija extends OrmModel
         return $reporte->make();
     }
 
+    protected static function addSelect($fields, $addGroup = false)
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+        foreach ($fields as $field) {
+            static::$selectFields[] = $field;
+
+            if ($addGroup) {
+                static::$groupByFields[] = $field;
+            }
+        }
+    }
+
     protected static function getSelectFields()
     {
-        $select  = [];
-        $groupBy = [];
-
-        $select[]  = 's.fecha_stock';
-        $groupBy[] = 's.fecha_stock';
+        static::addSelect('s.fecha_stock', true);
 
         if (request('sel_tiposalm') === 'sel_tiposalm') {
-            $select[]  = 't.tipo';
-            $groupBy[] = 't.tipo';
+            static::addSelect('t.tipo', true);
         }
 
         if (request('almacen') === 'almacen' or request('sel_tiposalm') === 'sel_almacenes') {
-            $select[]  = 's.centro';
-            $groupBy[] = 's.centro';
-            $select[]  = 's.cod_bodega';
-            $groupBy[] = 's.cod_bodega';
-            $select[]  = 'a.des_almacen';
-            $groupBy[] = 'a.des_almacen';
+            static::addSelect(['s.centro', 's.almacen', 'a.des_almacen'], true);
         }
 
         if (request('material') === 'material') {
-            $select[]  = 's.cod_articulo';
-            $groupBy[] = 's.cod_articulo';
+            static::addSelect(['s.material', 'c.descripcion'], true);
         }
 
         if (request('lote') === 'lote') {
-            $select[]  = 's.lote';
-            $groupBy[] = 's.lote';
+            static::addSelect('s.lote', true);
         }
 
-        $select[]  = \DB::raw(static::$tipoMaterial.' as tipo_material');
-        $groupBy[] = \DB::raw(static::$tipoMaterial);
+        if (request('tipo_stock') === 'tipo_stock') {
+            static::addSelect('s.estado', true);
+        }
 
-        $select[] = \DB::raw(static::$sumCantidad.' as cant');
-        $select[] = \DB::raw(static::$sumValor.' as valor');
+        static::addSelect([\DB::raw('sum(cantidad) as cant'), \DB::raw('sum(valor) as valor')]);
 
-        return compact('select', 'groupBy');
-
+        return ['select' => static::$selectFields, 'groupBy' => static::$groupByFields];
     }
 
     public function scopeFiltroTipoAlmacen($query, $tiposAlmacen = [])
@@ -144,11 +147,11 @@ class StockSapFija extends OrmModel
         $query = $query
             ->leftJoin(\DB::raw(config('invfija.bd_almacenes_sap').' as a'), function ($join) {
                 $join->on('s.centro', '=', 'a.centro');
-                $join->on('s.cod_bodega', '=', 'a.cod_almacen');
+                $join->on('s.almacen', '=', 'a.cod_almacen');
             })
             ->leftJoin(\DB::raw(config('invfija.bd_tipoalmacen_sap').' as ta'), function ($join) {
                 $join->on('s.centro', '=', 'ta.centro');
-                $join->on('s.cod_bodega', '=', 'ta.cod_almacen');
+                $join->on('s.almacen', '=', 'ta.cod_almacen');
             })
             ->leftJoin(\DB::raw(config('invfija.bd_tiposalm_sap').' as t'), 't.id_tipo', '=', 'ta.id_tipo')
             ->whereIn('t.id_tipo', $tiposAlmacen);
@@ -165,10 +168,15 @@ class StockSapFija extends OrmModel
         $query = $query
             ->leftJoin(\DB::raw(config('invfija.bd_almacenes_sap').' as a'), function ($join) {
                 $join->on('s.centro', '=', 'a.centro');
-                $join->on('s.cod_bodega', '=', 'a.cod_almacen');
+                $join->on('s.almacen', '=', 'a.cod_almacen');
             })
-            ->whereIn(\DB::raw("s.centro+'".static::KEY_SEPARATOR."'+s.cod_bodega"), $almacenes);
+            ->whereIn(\DB::raw("s.centro+'".static::KEY_SEPARATOR."'+s.almacen"), $almacenes);
 
         return $query;
+    }
+
+    public function scopeJoinMaterial($query)
+    {
+        return $query->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), \DB::raw('s.material collate Latin1_General_CI_AS'), '=', \DB::raw('c.catalogo collate Latin1_General_CI_AS'));
     }
 }
