@@ -62,8 +62,10 @@ class ConsumosController extends Controller
         return view('toa.peticiones', compact('reportePeticiones', 'googleMaps'));
     }
 
-    public function peticion($idPeticion)
+    public function peticion($idPeticion = null)
     {
+        $idPeticion = empty($idPeticion) ? request('peticion') : $idPeticion;
+
         $peticion = Peticiones::peticion($idPeticion);
 
         $map = new GoogleMaps(['mapCss' => 'height: 350px']);

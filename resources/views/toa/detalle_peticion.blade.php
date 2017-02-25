@@ -11,7 +11,7 @@
 
 	        @include('orm.validation_errors')
 
-			<div class="form-group <?= form_has_error_class('pag_desde'); ?>">
+			<div class="form-group {{ $errors->has('peticion') ? 'has-error' : ''}}">
 				<label class="control-label col-sm-4">{{ trans('toa.consumo_peticion_label') }}</label>
 				<div class="col-sm-8">
 					{{ Form::text('peticion', request('peticion'), ['class'=>'form-control']) }}
@@ -30,7 +30,7 @@
 			</div>
 
 		</fieldset>
-		<?= form_close(); ?>
+		{{ Form::close() }}
 	</div>
 	@else
 	<div class="col-md-7 well form-horizontal">
