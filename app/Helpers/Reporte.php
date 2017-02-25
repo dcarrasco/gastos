@@ -104,8 +104,10 @@ class Reporte
         $new_orden_tipo = ($sort_by_order === '+') ? '-' : '+';
 
         foreach ($campos as $campo => $valor) {
+            $valor = is_null($valor) ? [] : $valor;
+
             if (!array_key_exists('titulo', $valor)) {
-                $campos[$campo]['titulo'] = $campo;
+                $campos[$campo]['titulo'] = ucfirst($campo);
             }
             if (!array_key_exists('class', $valor)) {
                 $campos[$campo]['class'] = '';
