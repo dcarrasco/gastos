@@ -2,7 +2,7 @@
 
 @section('modulo')
 <div class="col-md-12 well">
-{{ Form::open(['method' => 'GET', 'id' => 'frm_buscar', 'role' => 'form', 'class' => 'form-inline']) }}
+    {{ Form::open(['method' => 'GET', 'id' => 'frm_buscar', 'role' => 'form', 'class' => 'form-inline']) }}
     <div class="form-group col-md-4">
         <label>{{ trans('inventario.report_label_inventario') }}</label>
         <p class="form-control-static">{{ $inventario }}</p>
@@ -38,11 +38,11 @@
     </div>
     {{ Form::close() }}
 
-    {{ Form::open(['id' => 'frm_inventario']) }}
+    {{ Form::open(['id' => 'frm_inventario', 'class'=>'form-inline']) }}
 
     <div class="form-group col-md-3">
         <label>{{ trans('inventario.auditor') }}</label>
-        {{ $detalleInventario->first()->getFieldForm('auditor', ['id' => 'id_auditor', 'class' => 'input-sm']) }}
+        {{ $detalleInventario->first()->getFieldForm('auditor', ['id' => 'id_auditor', 'class' => 'form-control input-sm']) }}
     </div>
 </div>
 
