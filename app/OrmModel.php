@@ -120,13 +120,9 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
-            return ($this->{$field})
-                ? '<ul>'
-                    .$this->{$field}->reduce(function ($list, $relatedObject) {
-                        return $list.'<li>'.(string) $relatedObject.'</li>';
-                    }, '')
-                    . '</ul>'
-                : null;
+            return ($this->{$field}) ? $this->{$field}->reduce(function ($list, $relatedObject) {
+                return $list.'<li>'.(string) $relatedObject.'</li>';
+            }, '<ul>').'</ul>' : null;
         }
 
         return $this->{$field};

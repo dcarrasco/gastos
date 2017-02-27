@@ -175,15 +175,13 @@ class Reporte
 
         // --- CUERPO REPORTE ---
         $numLinea = 0;
-        $this->tableBody = $this->template['tbody_open']
-            .$datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
-                $numLinea += 1;
-                return $carry
-                    .$template['row_open']
-                    .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
-                    .$template['row_close'];
-            }, '')
-            .$this->template['tbody_close'];
+        $this->tableBody = $datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
+            $numLinea += 1;
+            return $carry
+                .$template['row_open']
+                .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
+                .$template['row_close'];
+        }, $this->template['tbody_open']).$this->template['tbody_close'];
 
         // --- TOTALES ---
         $this->setFooter($this->reporteLineaTotales('total', $campos, $arrTotales));

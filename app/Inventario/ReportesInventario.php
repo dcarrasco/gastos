@@ -9,11 +9,11 @@ trait ReportesInventario
     protected function getCampo($campo)
     {
         $campos = [
-            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link', 'href' => '/listado/detalle_hoja/'],
+            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link', 'route' => 'inventario.reporte'],
             'auditor'   => ['titulo' => 'Auditor'],
             'digitador' => ['titulo' => 'Digitador'],
 
-            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link', 'href' => '/listado/detallematerial'],
+            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link', 'href' => 'inventario.reporte'],
             'descripcion' => ['titulo' => 'Descripcion'],
             'um'          => ['titulo' => 'UM'],
             'pmp'         => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
