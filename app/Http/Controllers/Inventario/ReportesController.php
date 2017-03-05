@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Inventario;
 
+use Illuminate\Http\Request;
+use App\Inventario\Catalogo;
+use App\Inventario\Inventario;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Inventario\ModulosReportes;
-use Illuminate\Http\Request;
-use App\Inventario\Inventario;
-use App\Inventario\Catalogo;
 
 class ReportesController extends Controller
 {
