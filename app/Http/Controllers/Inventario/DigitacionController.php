@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Inventario;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Inventario\Catalogo;
 use App\Inventario\Inventario;
+use App\Http\Controllers\Controller;
 use App\Inventario\DetalleInventario;
 use App\Http\Requests\Inventario\EditarRequest;
 use App\Http\Requests\Inventario\DigitacionRequest;
@@ -14,22 +14,24 @@ class DigitacionController extends Controller
 {
     public function showHoja()
     {
-        $inventario        = Inventario::getInventarioActivo();
-        $hoja              = empty(request('hoja', 1)) ? 1 : request('hoja', 1);
+        $inventario = Inventario::getInventarioActivo();
+        $hoja       = empty(request('hoja', 1)) ? 1 : request('hoja', 1);
         $detalleInventario = $inventario->getDetalleHoja($hoja);
-        $linkHojaAnt       = route('inventario.showHoja', ['hoja' => ($hoja > 1) ? $hoja - 1 : 1]);
-        $linkHojaSig       = route('inventario.showHoja', ['hoja' => $hoja + 1]);
 
-        return view('inventario.inventario', compact('inventario', 'detalleInventario', 'hoja', 'linkHojaAnt', 'linkHojaSig'));
+        $linkHojaAnt = route('inventario.showHoja', ['hoja' => ($hoja > 1) ? $hoja - 1 : 1]);
+        $linkHojaSig = route('inventario.showHoja', ['hoja' => $hoja + 1]);
+
+        return view(
+            'inventario.inventario',
+            compact('inventario', 'detalleInventario', 'hoja', 'linkHojaAnt', 'linkHojaSig')
+        );
     }
 
     public function updateHoja(DigitacionRequest $request)
     {
         $inventario = Inventario::getInventarioActivo();
         $hoja       = request('hoja');
-
         $detalleInventario = $inventario->getDetalleHoja($hoja);
-        $cantidadLineas    = $detalleInventario->count();
 
         $detalleInventario->each(function ($linea) {
             $linea->auditor      = request('auditor');
@@ -40,6 +42,8 @@ class DigitacionController extends Controller
             $linea->fecha_modificacion = \Carbon\Carbon::now();
             $linea->save();
         });
+
+        $cantidadLineas = $detalleInventario->count();
 
         return redirect()
             ->route('inventario.showHoja', ['hoja' => $hoja])

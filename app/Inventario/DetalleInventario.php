@@ -4,16 +4,30 @@ namespace App\Inventario;
 
 use App\OrmModel;
 use App\Acl\Usuario;
+use App\Inventario\UploadDetalleInventario;
 
 class DetalleInventario extends OrmModel
 {
+    use UploadDetalleInventario;
+
     public $modelLabel = 'Detalle Inventario';
 
     protected $fillable = ['id_inventario', 'hoja', 'ubicacion', 'hu', 'catalogo', 'descripcion', 'lote', 'centro', 'almacen', 'um', 'stock_sap', 'digitador', 'stock_fisico', 'auditor', 'reg_nuevo', 'observacion', 'fecha_modificacion', 'stock_ajuste', 'glosa_ajuste'];
 
     protected $guarded = [];
 
-    protected $casts = ['stock_ajuste' => 'int'];
+    protected $casts = [
+        'id'            => 'integer',
+        'id_inventario' => 'integer',
+        'hoja'          => 'integer',
+        'digitador'     => 'integer',
+        'auditor'       => 'integer',
+        'stock_sap'     => 'integer',
+        'stock_fisico'  => 'integer',
+        'stock_ajuste'  => 'integer',
+        // 'fecha_modificacion'  => 'datetime',
+        // 'fecha_ajuste'  => 'datetime',
+    ];
 
     public $modelFields = [
         'id' => [

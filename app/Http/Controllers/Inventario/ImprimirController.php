@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Inventario;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\Inventario\ModulosAjustes;
-use App\Http\Requests\ImprimirInventarioRequest;
-use App\Inventario\Inventario;
 use App\Inventario\Catalogo;
+use App\Inventario\Inventario;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ImprimirInventarioRequest;
+use App\Http\Controllers\Inventario\ModulosAjustes;
 
 class ImprimirController extends Controller
 {

@@ -39,7 +39,7 @@ class TecnicoToa extends OrmModel
             'largo'          => 20,
             'texto_ayuda'    => 'RUT del t&eacute;cnico. Sin puntos, con guion y d&iacute;gito verificador (en min&uacute;scula). M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true
+            // 'es_unico'       => true
         ],
         'id_empresa' => [
             'tipo'           => OrmModel::TIPO_HAS_ONE,
@@ -75,5 +75,13 @@ class TecnicoToa extends OrmModel
         return $this->belongsTo(CiudadToa::class, 'id_ciudad');
     }
 
+    public function getRutAttribute($valor)
+    {
+        return fmt_rut($valor);
+    }
 
+    public function setRutAttribute($valor)
+    {
+        $this->attributes['rut'] = str_replace('.', '', $valor);
+    }
 }

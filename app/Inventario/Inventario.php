@@ -16,6 +16,11 @@ class Inventario extends OrmModel
 
     protected $fillable = ['nombre', 'activo', 'tipo_inventario'];
 
+    protected $casts = [
+        'id'     => 'integer',
+        'activo' => 'boolean',
+    ];
+
     protected $guarded = [];
 
     public $modelFields = [
@@ -67,7 +72,7 @@ class Inventario extends OrmModel
 
     public static function getIDInventarioActivo()
     {
-        return static::where('activo', '=', 1)->first()->getKey();
+        return static::where('activo', 1)->first()->getKey();
     }
 
     public static function getInventarioActivo()
