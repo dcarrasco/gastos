@@ -55,8 +55,8 @@ class Peticiones
         ];
 
         $queryReporte = \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' m'))
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('m.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'm.vale_acomp', '=', 'c.id_empresa')
             ->leftJoin(\DB::raw(config('invfija.bd_peticiones_toa').' d'), function ($join) {
                 $join->on('m.referencia', '=', 'd.appt_number');
                 $join->on('d.astatus', '=', \DB::raw("'complete'"));
@@ -116,14 +116,14 @@ class Peticiones
         }
 
         $peticionToa = (array) \DB::table(\DB::raw(config('invfija.bd_peticiones_toa').' d'))
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('d.contractor_company collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'd.contractor_company', '=', 'c.id_empresa')
             ->where('appt_number', $idPeticion)
             ->where('astatus', 'complete')
             ->first();
 
         $materialesSap = \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' a'))
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('a.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('a.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'a.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'a.vale_acomp', '=', 'c.id_empresa')
             ->whereIn('codigo_movimiento', ClaseMovimiento::transaccionesConsumoToa())
             ->whereIn('centro', static::CENTROS_CONSUMO)
             ->where('referencia', $idPeticion)

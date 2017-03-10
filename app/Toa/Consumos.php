@@ -77,8 +77,8 @@ class Consumos
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), \DB::raw('m.vale_acomp collate Latin1_General_CI_AS'), '=', \DB::raw('c.id_empresa collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'm.vale_acomp', '=', 'c.id_empresa')
             ->select(array_merge($queryFields, static::getBaseSelectQuery()))
             ->groupBy($queryFields)
             ->orderBy('m.referencia')
@@ -111,7 +111,7 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
             ->leftJoin(\DB::raw(config('invfija.bd_ciudades_toa').' d'), 'b.id_ciudad', '=', 'd.id_ciudad')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
@@ -144,7 +144,7 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
@@ -178,7 +178,7 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));

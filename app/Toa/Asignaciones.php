@@ -47,7 +47,7 @@ class Asignaciones
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select(array_merge($queryFields, static::getBaseSelectQuery()))
             ->groupBy($queryFields)
@@ -196,7 +196,7 @@ class Asignaciones
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('m.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
             ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select($queryFields)
             ->orderBy('m.referencia')

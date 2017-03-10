@@ -27,9 +27,9 @@ trait ControlesToaData
         ];
 
         return \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' a'))
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), \DB::raw('a.cliente collate Latin1_General_CI_AS'), '=', \DB::raw('b.id_tecnico collate Latin1_General_CI_AS'))
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' c'), \DB::raw('a.material collate Latin1_General_CI_AS'), '=', \DB::raw('c.catalogo collate Latin1_General_CI_AS'))
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' d'), \DB::raw('a.material collate Latin1_General_CI_AS'), '=', \DB::raw('d.id_catalogo collate Latin1_General_CI_AS'))
+            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'a.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' c'), 'a.material', '=', 'c.catalogo')
+            ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' d'), 'a.material', '=', 'd.id_catalogo')
             ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' e'), 'd.id_tip_material_trabajo', '=', 'e.id')
             ->where('a.fecha_contabilizacion', '>=', $fechaDesde)
             ->where('a.fecha_contabilizacion', '<', $fechaHasta)

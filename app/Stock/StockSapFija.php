@@ -177,6 +177,6 @@ class StockSapFija extends OrmModel
 
     public function scopeJoinMaterial($query)
     {
-        return $query->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), \DB::raw('s.material collate Latin1_General_CI_AS'), '=', \DB::raw('c.catalogo collate Latin1_General_CI_AS'));
+        return $query->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 's.material', '=', 'c.catalogo');
     }
 }
