@@ -87,6 +87,6 @@ class Inventario extends OrmModel
 
     public function getDetalleHoja($hoja = null)
     {
-        return $this->lineas()->where('hoja', $hoja)->get();
+        return $this->lineas()->where('hoja', $hoja)->orderBy('ubicacion')->get();
     }
 }
