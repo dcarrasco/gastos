@@ -135,11 +135,13 @@ class UserACL extends OrmModel implements
     {
         $llaveModulo = $this->getLlaveModulo();
 
-        return collect($this->getMenuApp())->flatMap(function ($appElem) {
+        $elem = collect($this->getMenuApp())->flatMap(function ($appElem) {
             return $appElem['modulos'];
         })->first(function ($modulo) use ($llaveModulo) {
             return $modulo['llave_modulo'] === $llaveModulo;
-        })['modulo'];
+        });
+
+        return '<i class="fa fa-'.array_get($elem, 'icono').' fa-fw"></i> '.array_get($elem, 'modulo');
     }
 
     protected function getLlaveModulo()

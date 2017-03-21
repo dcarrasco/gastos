@@ -3,7 +3,7 @@
 	<div class="container-fluid">
 
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">{{ auth()->user()->moduloAppName() }} </a>
+			<a class="navbar-brand" href="#">{!! auth()->user()->moduloAppName() !!} </a>
 			<button class="navbar-toggle" data-toggle="collapse" data-target=".navMenuCollapse">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
