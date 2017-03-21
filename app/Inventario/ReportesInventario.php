@@ -109,7 +109,7 @@ trait ReportesInventario
     {
         return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
             ->where('id_inventario', $this->id)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), 'd.catalogo', '=', 'c.catalogo')
+            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), \DB::raw('d.catalogo collate Latin1_General_CI_AS'), '=', 'c.catalogo')
             ->select($selectFields)
             ->groupBy($groupByFields);
     }

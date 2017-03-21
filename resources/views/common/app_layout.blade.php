@@ -46,7 +46,7 @@
 <body>
 
 @if (auth()->check())
-@include('common.app_navbar')
+    @include('common.app_navbar')
 @endif
 <div class="container-fluid" id="container">
 

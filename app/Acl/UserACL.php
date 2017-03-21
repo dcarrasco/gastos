@@ -18,6 +18,48 @@ class UserACL extends OrmModel implements
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
+    protected $llaves = [
+        'inventario' => [
+            'showHoja'     => 'b386b510e56f73e',
+            'addLinea'     => 'b386b510e56f73e',
+            'reporte'      => '2dfc992232fe108',
+            'ajustes'      => 'fda0416c87cceb5',
+            'upload'       => 'fda0416c87cceb5',
+            'imprimirForm' => 'fda0416c87cceb5',
+        ],
+        'inventarioConfig'  => [
+            'index'  => '46f163ae6eddc0c',
+            'edit'   => '46f163ae6eddc0c',
+            'create' => '46f163ae6eddc0c',
+        ],
+        'stock' => [
+            'analisisSeries'     => '02173df489952b0',
+            'consultaStockMovil' => 'a37f5a1e01ed158',
+            'consultaStockFija'  => 'a37f5a1e01ed158',
+        ],
+        'stockConfig' => [
+            'index'  => '46f163ae6eddc0c',
+            'edit'   => '46f163ae6eddc0c',
+            'create' => '46f163ae6eddc0c',
+        ],
+        'toa' => [
+            'peticion'   => '470d090393a1e7f',
+            'controles'  => 'cd3b54ac404725c',
+            'consumos'   => '0bbf9db94624559',
+            'asignacion' => 'd5db321c52cc9aa',
+        ],
+        'toaConfig' => [
+            'index'  => '80aa1468e0a10ca',
+            'edit'   => '80aa1468e0a10ca',
+            'create' => '80aa1468e0a10ca',
+        ],
+        'aclConfig' => [
+            'index'  => '4bd0769215f77e7',
+            'edit'   => '4bd0769215f77e7',
+            'create' => '4bd0769215f77e7',
+        ],
+    ];
+
     public function getMenuApp()
     {
         if (!session()->has('menuapp')) {
@@ -72,11 +114,11 @@ class UserACL extends OrmModel implements
 
     protected function setSelectedMenu($menuApp)
     {
-        $routeName = Route::currentRouteName();
+        $llaveModulo = $this->getLlaveModulo();
 
-        return collect($menuApp)->map(function ($appMenu) use ($routeName) {
-            $appMenu['modulos'] = collect($appMenu['modulos'])->map(function ($elemModulo) use ($routeName) {
-                $elemModulo['selected'] = $elemModulo['url'] === $routeName ? true : false;
+        return collect($menuApp)->map(function ($appMenu) use ($llaveModulo) {
+            $appMenu['modulos'] = collect($appMenu['modulos'])->map(function ($elemModulo) use ($llaveModulo) {
+                $elemModulo['selected'] = $elemModulo['llave_modulo'] === $llaveModulo ? true : false;
                 return $elemModulo;
             })->all();
             return $appMenu;
@@ -91,12 +133,17 @@ class UserACL extends OrmModel implements
 
     public function moduloAppName()
     {
-        $routeName = Route::currentRouteName();
+        $llaveModulo = $this->getLlaveModulo();
 
         return collect($this->getMenuApp())->flatMap(function ($appElem) {
             return $appElem['modulos'];
-        })->first(function ($modulo) use ($routeName) {
-            return $modulo['url'] === $routeName;
+        })->first(function ($modulo) use ($llaveModulo) {
+            return $modulo['llave_modulo'] === $llaveModulo;
         })['modulo'];
+    }
+
+    protected function getLlaveModulo()
+    {
+        return array_get($this->llaves, Route::currentRouteName());
     }
 }
