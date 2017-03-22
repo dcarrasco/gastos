@@ -108,6 +108,11 @@ Route::group(['prefix' => 'toa', 'as' => 'toa.', 'namespace' => 'Toa', 'middlewa
     Route::post('asignacion', 'AsignacionController@getAsignacion')->name('asignacion');
 });
 
+// TOA
+Route::group(['prefix' => 'adminbd', 'as' => 'adminbd.', 'namespace' => 'AdminBd', 'middleware' => 'auth'], function () {
+    Route::get('queries', 'AdminBdController@showQueries')->name('queries');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

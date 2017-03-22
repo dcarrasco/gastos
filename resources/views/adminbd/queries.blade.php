@@ -1,3 +1,6 @@
+@extends('common.app_layout')
+
+@section('modulo')
 <div>
 <?php if(count($queries_data)): ?>
 	<table class="table table-striped table-hover table-condensed reporte">
@@ -43,3 +46,4 @@
 <?php endif; ?>
 
 </div> <!-- fin content-module-main -->
+@endsection

@@ -28,9 +28,9 @@ class UserACL extends OrmModel implements
             'imprimirForm' => 'fda0416c87cceb5',
         ],
         'inventarioConfig'  => [
-            'index'  => '46f163ae6eddc0c',
-            'edit'   => '46f163ae6eddc0c',
-            'create' => '46f163ae6eddc0c',
+            'index'  => '81b87511e28532f',
+            'edit'   => '81b87511e28532f',
+            'create' => '81b87511e28532f',
         ],
         'stock' => [
             'analisisSeries'     => '02173df489952b0',
@@ -57,6 +57,9 @@ class UserACL extends OrmModel implements
             'index'  => '4bd0769215f77e7',
             'edit'   => '4bd0769215f77e7',
             'create' => '4bd0769215f77e7',
+        ],
+        'adminbd' => [
+            'queries'  => 'cb3f6b85ca73e82',
         ],
     ];
 
