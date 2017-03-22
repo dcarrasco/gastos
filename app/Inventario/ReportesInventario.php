@@ -9,11 +9,11 @@ trait ReportesInventario
     protected function getCampo($campo)
     {
         $campos = [
-            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link', 'route' => 'inventario.reporte'],
+            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleHoja'], 'routeVariableParams' => ['hoja' => 'hoja']],
             'auditor'   => ['titulo' => 'Auditor'],
             'digitador' => ['titulo' => 'Digitador'],
 
-            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link', 'href' => 'inventario.reporte'],
+            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleMaterial'], 'routeVariableParams' => ['catalogo' => 'catalogo']],
             'descripcion' => ['titulo' => 'Descripcion'],
             'um'          => ['titulo' => 'UM'],
             'pmp'         => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
@@ -46,17 +46,6 @@ trait ReportesInventario
         ];
 
         return array_get($campos, $campo, []);
-    }
-
-
-    public function getDetalleHoja($hoja = null)
-    {
-        if (empty($hoja)) {
-            return null;
-        }
-
-        return DetalleInventario::where('id_inventario', $this->id)
-            ->where('hoja', $hoja)->get();
     }
 
     public function reporte($tipo)
@@ -148,6 +137,29 @@ trait ReportesInventario
         return $campos;
     }
 
+    public function reporteDetalleHoja()
+    {
+        $selectFields = array_merge(
+            ['d.ubicacion', 'd.catalogo', 'd.descripcion', 'd.lote', 'd.centro', 'd.almacen'],
+            $this->selectFieldsCantidades()
+        );
+        $groupByFields = ['d.ubicacion', 'd.catalogo', 'd.descripcion', 'd.lote', 'd.centro', 'd.almacen'];
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->where('hoja', request('hoja', 0))
+            ->orderBy('ubicacion')
+            ->get();
+    }
+
+    public function camposReporteDetalleHoja()
+    {
+        $campos = ['ubicacion', 'catalogo', 'descripcion', 'lote', 'centro', 'almacen'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
+        Reporte::setOrderCampos($campos, 'ubicacion');
+
+        return $campos;
+    }
+
     public function reporteMaterial()
     {
         $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
@@ -165,6 +177,28 @@ trait ReportesInventario
         $campos = ['catalogo', 'descripcion', 'um', 'pmp'];
         $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
         Reporte::setOrderCampos($campos, 'catalogo');
+
+        return $campos;
+    }
+
+    public function reporteDetalleMaterial()
+    {
+        $reporteFields = ['d.catalogo', 'd.descripcion', 'd.ubicacion', 'd.hoja', 'd.lote'];
+
+        $selectFields = array_merge($reporteFields, $this->selectFieldsCantidades());
+        $groupByFields = $reporteFields;
+
+        return $this->queryBaseReporteInventario($selectFields, $groupByFields)
+            ->where('d.catalogo', request('catalogo'))
+            ->orderBy('ubicacion')
+            ->get();
+    }
+
+    public function camposReporteDetalleMaterial()
+    {
+        $campos = ['catalogo', 'descripcion', 'ubicacion', 'hoja', 'lote'];
+        $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
+        Reporte::setOrderCampos($campos, 'ubicacion');
 
         return $campos;
     }

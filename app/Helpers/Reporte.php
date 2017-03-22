@@ -69,7 +69,7 @@ class Reporte
             'link'          => function ($valor, $param) {return link_to(route(array_get($param, 'route'), [$valor]), $valor);},
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
-                    array_get($param, 'routeFixedParams'),
+                    array_get($param, 'routeFixedParams', []),
                     collect(array_get($param, 'routeVariableParams'))->map(function ($param) use ($registro) {
                         return $registro->{$param};
                     })->all()
@@ -276,14 +276,12 @@ class Reporte
      */
     private function _get_campo_subtotal($arr_campos = array())
     {
-        foreach($arr_campos as $nombre_campo => $parametros_campo)
-        {
-            if ($parametros_campo['tipo'] === 'subtotal')
-            {
+        foreach ($arr_campos as $nombre_campo => $parametros_campo) {
+            if ($parametros_campo['tipo'] === 'subtotal') {
                 return $nombre_campo;
             }
         }
-        return NULL;
+        return null;
     }
 
     // --------------------------------------------------------------------
