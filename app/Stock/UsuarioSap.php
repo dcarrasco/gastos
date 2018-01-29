@@ -6,7 +6,7 @@ use App\OrmModel;
 
 class UsuarioSap extends OrmModel
 {
-    public $modelLabel = 'Clasificaci&oacute;n de Almac&eacute;n SAP';
+    public $modelLabel = 'Usuarios SAP';
 
     protected $fillable = [
         'usuario', 'nom_usuario'
