@@ -26,6 +26,7 @@ class OrmModel extends Model
 
     public $tableColumns = [];
     protected $modelFields = [];
+    protected $modelOrder = [];
     public $modelLabel = '';
 
     public $timestamps = false;
@@ -52,13 +53,19 @@ class OrmModel extends Model
         return $query;
     }
 
-    public function modelOrderBy()
+    public function scopeModelOrderBy($query)
     {
         if (isset($this->modelOrder)) {
-            return $this->orderBy($this->modelOrder);
+            if (!is_array($this->modelOrder)) {
+                $this->modelOrder = [$this->modelOrder => 'asc'];
+            }
+
+            foreach($this->modelOrder as $field => $order) {
+                $query = $query->orderBy($field, $order);
+            }
         }
 
-        return $this;
+        return $query;
     }
 
     public function getModelFields()
@@ -193,8 +200,9 @@ class OrmModel extends Model
     public function getValidation()
     {
         $validation = [];
+
         foreach ($this->modelFields as $field => $fieldParam) {
-            $validation[$field] = '';
+            $validation[$field] = [];
 
             if ($this->isFieldMandatory($field)) {
                 $validation[$field][] = 'required';

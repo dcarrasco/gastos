@@ -7,7 +7,7 @@ use App\OrmModel;
 class Auditor extends OrmModel
 {
     public $modelLabel = 'Auditor';
-    public $modelOrder = 'nombre';
+    public $modelOrder = ['nombre' => 'asc'];
 
     protected $fillable = ['nombre', 'activo'];
 

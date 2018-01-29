@@ -7,7 +7,6 @@ use App\OrmModel;
 class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
-    public $modelOrder = 'rol';
 
     protected $fillable = ['id_app', 'rol', 'descripcion'];
 
@@ -45,6 +44,8 @@ class Rol extends OrmModel
             'texto_ayuda'            => 'M&oacute;dulos del rol.',
         ],
     ];
+
+    public $modelOrder = ['id_app' => 'asc', 'rol' => 'asc'];
 
     public function __construct(array $attributes = [])
     {

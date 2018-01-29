@@ -65,6 +65,8 @@ class Modulo extends OrmModel
         ],
     ];
 
+    public $modelOrder = ['id_app'=>'asc', 'modulo'=>'asc'];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

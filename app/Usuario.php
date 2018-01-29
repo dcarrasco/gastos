@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use App\Acl\UserACL;
 use App\Acl\Rol;
+use App\Acl\UserACL;
+use Illuminate\Notifications\Notifiable;
 
 class Usuario extends UserACL
 {
@@ -85,6 +85,8 @@ class Usuario extends UserACL
             'texto_ayuda'    => 'Roles asociados al usuario.',
         ],
     ];
+
+    public $modelOrder = 'nombre';
 
     public function __construct(array $attributes = [])
     {

@@ -45,6 +45,8 @@ class Familia extends OrmModel
         ],
     ];
 
+    public $modelOrder = ['codigo' => 'asc'];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
