@@ -1,10 +1,11 @@
 <?php
 // Nombres de las bases de datos
-define('BD_INVENTARIO', 'bd_inventario.dbo.');
-define('BD_TOA', 'bd_toa.dbo.');
-define('BD_LOGISTICA', 'bd_logistica.dbo.');
-define('BD_CONTROLES', 'bd_controles.dbo.');
-define('BD_PLANIFICACION', 'bd_planificacion.dbo.');
+define('BD_INVENTARIO', env('BD_INVENTARIO', ''));
+define('BD_TOA', env('BD_TOA', ''));
+define('BD_LOGISTICA', env('BD_LOGISTICA', ''));
+define('BD_CONTROLES', env('BD_CONTROLES', ''));
+define('BD_PLANIFICACION', env('BD_PLANIFICACION', ''));
+define('BD_COLLATE', env('BD_COLLATE', ''));
 
 return [
     /*
@@ -16,6 +17,51 @@ return [
     |
     */
     'app_nombre' => 'Inventario Fija',
+
+    'llavesApp' => [
+        'inventario' => [
+            'showHoja'     => 'b386b510e56f73e',
+            'addLinea'     => 'b386b510e56f73e',
+            'reporte'      => '2dfc992232fe108',
+            'ajustes'      => 'fda0416c87cceb5',
+            'upload'       => 'fda0416c87cceb5',
+            'imprimirForm' => 'fda0416c87cceb5',
+        ],
+        'inventarioConfig'  => [
+            'index'  => '81b87511e28532f',
+            'edit'   => '81b87511e28532f',
+            'create' => '81b87511e28532f',
+        ],
+        'stock' => [
+            'analisisSeries'     => '02173df489952b0',
+            'consultaStockMovil' => 'a37f5a1e01ed158',
+            'consultaStockFija'  => 'a37f5a1e01ed158',
+        ],
+        'stockConfig' => [
+            'index'  => '46f163ae6eddc0c',
+            'edit'   => '46f163ae6eddc0c',
+            'create' => '46f163ae6eddc0c',
+        ],
+        'toa' => [
+            'peticion'   => '470d090393a1e7f',
+            'controles'  => 'cd3b54ac404725c',
+            'consumos'   => '0bbf9db94624559',
+            'asignacion' => 'd5db321c52cc9aa',
+        ],
+        'toaConfig' => [
+            'index'  => '80aa1468e0a10ca',
+            'edit'   => '80aa1468e0a10ca',
+            'create' => '80aa1468e0a10ca',
+        ],
+        'aclConfig' => [
+            'index'  => '4bd0769215f77e7',
+            'edit'   => '4bd0769215f77e7',
+            'create' => '4bd0769215f77e7',
+        ],
+        'adminbd' => [
+            'queries'  => 'cb3f6b85ca73e82',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +97,7 @@ return [
     'bd_pcookies'    => BD_INVENTARIO.'fija_pcookies',
 
     // Stock
-    'bd_almacenes_sap'        => BD_LOGISTICA.'cp_almacenes',
+    'bd_almacenes_sap'        => BD_LOGISTICA.'cp_almacenes2',
     'bd_tipoalmacen_sap'      => BD_LOGISTICA.'cp_tipos_almacenes',
     'bd_tiposalm_sap'         => BD_LOGISTICA.'cp_tiposalm',
     'bd_clasifalm_sap'        => BD_LOGISTICA.'cp_clasifalm',
