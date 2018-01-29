@@ -75,11 +75,11 @@ trait OrmController
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
         $this->validate($request, $modelObject->getValidation());
-        $fullModelName::create($request->all());
+        $modelObject = $fullModelName::create($request->all());
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_save_ok', ['nombre_modelo' => ucfirst($modelName), 'valor_modelo' => 'xxxx']));
+            ->with('alert_message', trans('orm.msg_save_ok', ['nombre_modelo' => ucfirst($modelName), 'valor_modelo' => (string) $modelObject]));
     }
 
     /**
