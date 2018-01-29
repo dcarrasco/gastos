@@ -143,19 +143,16 @@ if (!function_exists('form_array_format')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('form_has_error_class')) {
+if (!function_exists('formError')) {
     /**
      * Indica si el elemento del formulario tiene un error de validación
      *
-     * @param  string $form_field Nombre del elemento del formulario
-     * @return bool               Indicador de error del elemento
+     * @param  string $formField Nombre del elemento del formulario
+     * @return string            Indicador de error del elemento
      */
-    function form_has_error_class($form_field = '')
+    function formError($formField = '')
     {
-        $ci =& get_instance();
-
-        // return (form_error($form_field) !== '') ? 'has-error' : 'has-success';
-        return (form_error($form_field) !== '') ? 'has-error' : '';
+        return $errors->has($formField) ? 'has-error' : '';
     }
 }
 
