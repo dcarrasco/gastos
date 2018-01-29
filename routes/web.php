@@ -108,9 +108,15 @@ Route::group(['prefix' => 'toa', 'as' => 'toa.', 'namespace' => 'Toa', 'middlewa
     Route::post('asignacion', 'AsignacionController@getAsignacion')->name('asignacion');
 });
 
-// TOA
+// AdminBD
 Route::group(['prefix' => 'adminbd', 'as' => 'adminbd.', 'namespace' => 'AdminBd', 'middleware' => 'auth'], function () {
     Route::get('queries', 'AdminBdController@showQueries')->name('queries');
+});
+
+// ACL
+Route::group(['prefix'=>'acl', 'as'=>'acl.', 'namespace'=>'Acl'], function() {
+    Route::get('cambia-password', 'LoginController@showCambiaPassword')->name('cambiaPassword');
+    Route::post('cambia-password', 'LoginController@cambiaPassword')->name('cambiaPassword');
 });
 
 Auth::routes();

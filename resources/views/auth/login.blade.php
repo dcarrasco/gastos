@@ -4,12 +4,12 @@
 
 <div class="row">
 
-	<div class="col-md-6 col-md-offset-3 col-xs-12 well">
-		<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
-			<h2>{{ trans('login.form_title') }}</h2>
+	<div class="col-md-4 col-md-offset-4 col-xs-12 well">
+		<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+			<h2 class="text-center">{{ trans('login.form_title') }}</h2>
 		</div>
 
-		<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
+		<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
 			<hr>
 		</div>
 
@@ -17,37 +17,37 @@
 	        @include('orm.validation_errors')
 		</div>
 
-		{{ Form::open(['id' => 'frm_login', 'class' => 'form-horizontal']) }}
+		{{ Form::open(['id' => 'form_login', 'class' => 'form-horizontal']) }}
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
 				<label class="control-label" for="username">
 					{{ trans('login.input_user') }}
 				</label>
 				<div class="controls">
-					{{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
+					{{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control input-lg', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
 				</div>
 			</div>
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
 				<label class="control-label" for="pwd">
 					{{ trans('login.input_password') }}
 				</label>
 				<div class="controls">
-					{{ Form::password('password', ['maxlength' => '45', 'size' => '40', 'tabindex' => '2', 'class' => 'form-control', 'autocomplete' => 'off']) }}
+					{{ Form::password('password', ['maxlength' => '45', 'size' => '40', 'tabindex' => '2', 'class' => 'form-control input-lg', 'autocomplete' => 'off']) }}
 				</div>
 			</div>
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
 				<div class="pull-right">
-					<a href="#" id="lnk_cambio_password")>{{ trans('login.link_change_password') }}</a>
+					<a href="#" id="link_cambia_password">{{ trans('login.link_change_password') }}</a>
 				</div>
 			</div>
 
 			@if (false) // $usar_captcha
-				<div class="control-group col-md-8 col-md-offset-2 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
+				<div class="control-group col-md-10 col-md-offset-1 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
 					<label class="control-label" for="pwd">{{ trans('login.input_captcha') }}</label>
 					<div class="controls">
-						<?= form_input('captcha', '','maxlength="15" tabindex="3" class="form-control"'); ?>
+						<?= form_input('captcha', '','maxlength="15" tabindex="3" class="form-control input-lg"'); ?>
 					</div>
 					<div class="controls">
 						{captcha_img}
@@ -55,7 +55,7 @@
 				</div>
 			@endif
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
 				<div class="checkbox">
 					<label>
 						{{ Form::checkbox('remember', 'remember', old('remember')) }}
@@ -64,36 +64,34 @@
 				</div>
 			</div>
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
 				<hr>
 			</div>
 
-			<div class="control-group col-md-8 col-md-offset-2 col-xs-12">
-				<button type="submit" name="btn_submit" class="btn btn-success pull-right col-md-6">
+			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+				<button type="submit" name="btn_submit" class="btn btn-success input-lg col-md-12">
 					{{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
 				</button>
 			</div>
-			<a class="btn btn-link" href="{{ url('/password/reset') }}">
-				Forgot Your Password?
-			</a>
 		{{ Form::close() }}
 	</div>
 
+	{{ Form::open(['method' => 'get', 'id' => 'form_cambia_password', 'route' => 'acl.cambiaPassword']) }}
+	{{ Form::hidden('username') }}
+	{{ Form::close() }}
+	<script type="text/javascript">
+		$( document ).ready(function() {
+			$('#link_cambia_password').click(function(e) {
+				e.preventDefault();
+				if ($('#form_login input[name="username"]').val() !== '') {
+					$('#form_cambia_password input[name="username"]').val($('#form_login input[name="username"]').val());
+					$('#form_cambia_password').submit();
+				} else {
+					alert('Debe ingresa un nombre de usuario para cambiarle la clave');
+				}
+			});
+		});
+	</script>
 </div>
 
-{{ Form::open(['url' => 'login/cambio_password', 'id' => 'frm_cambio_password']) }}
-{{ Form::hidden('usr','') }}
-{{ Form::close() }}
-
-<script type="text/javascript">
-	$(document).ready(function () {
-
-		$('#lnk_cambio_password').click(function(e) {
-			e.preventDefault();
-			$('#frm_cambio_password input[name="usr"]').val($('#frm_login input[name="usr"]').val());
-			$('#frm_cambio_password').submit();
-		});
-
-	});
-</script>
 @endsection

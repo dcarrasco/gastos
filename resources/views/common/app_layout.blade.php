@@ -1,14 +1,6 @@
 <!doctype html>
 <html lang="es">
 <head>
-    <!-- ************* APP-DINAMICS *************  -->
-    <script>
-        window['adrum-start-time']= new Date().getTime();
-        window['adrum-app-key'] = 'AD-AAB-AAB-VPZ';
-    </script>
-    <script src="{{ asset('js/adrum.js') }}"></script>
-    <!-- ************* APP-DINAMICS *************  -->
-
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -37,8 +29,7 @@
     </script>
 
     @if (auth()->guest())
-    <style type="text/css">body {margin-top: 40px;}</style>
-    @endif
+    <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>    @endif
 
 </head>
 
