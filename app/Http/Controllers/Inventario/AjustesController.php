@@ -11,6 +11,11 @@ class AjustesController extends Controller
 {
     use ModulosAjustes;
 
+    /**
+     * Despliega el formulario de ajustes de inventario
+     *
+     * @return view
+     */
     public function showForm()
     {
         $moduloSelected = 'ajustes';
@@ -20,6 +25,12 @@ class AjustesController extends Controller
         return view('inventario.ajustes', compact('detalleAjustes', 'inventario', 'moduloSelected'));
     }
 
+    /**
+     * Actualiza detalles de inventario con los ajustes
+     *
+     * @param  AjustesRequest $request Request con los ajustes de inventario
+     * @return redirect
+     */
     public function update(AjustesRequest $request)
     {
         $detalleAjustes = Inventario::getInventarioActivo()->detalleAjustes();

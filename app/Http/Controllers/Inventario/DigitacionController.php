@@ -12,6 +12,11 @@ use App\Http\Requests\Inventario\DigitacionRequest;
 
 class DigitacionController extends Controller
 {
+    /**
+     * Despliega una hoja de toma de inventarios
+     *
+     * @return view
+     */
     public function showHoja()
     {
         $inventario = Inventario::getInventarioActivo();
@@ -27,6 +32,12 @@ class DigitacionController extends Controller
         );
     }
 
+    /**
+     * Actualiza los datos de una hoja de inventario
+     *
+     * @param  DigitacionRequest $request Request con datos de hoa de toma de inventarios
+     * @return redirect
+     */
     public function updateHoja(DigitacionRequest $request)
     {
         $inventario = Inventario::getInventarioActivo();
@@ -50,6 +61,13 @@ class DigitacionController extends Controller
             ->with('alert_message', trans('inventario.digit_msg_save', compact('cantidadLineas', 'hoja')));
     }
 
+    /**
+     * Despliega formulario para agregar o editar una linea de inventario
+     *
+     * @param integer $hoja Numero de la hoja para agregar la nueva linea
+     * @param integer $id   ID de la linea de inventario a editar
+     * @return view
+     */
     public function addLinea($hoja = null, $id = null)
     {
         $detalleInventario = $id ? DetalleInventario::find($id) : new DetalleInventario;
@@ -58,6 +76,14 @@ class DigitacionController extends Controller
         return view('inventario.editar', compact('detalleInventario', 'hoja', 'catalogos'));
     }
 
+    /**
+     * Persiste los datos de una linea de inventario
+     *
+     * @param  EditarRequest $request Request con los datos de la linea
+     * @param  integer       $hoja    Hoja del inventario a agregar la linea
+     * @param  integer       $id      ID de la linea de inventario a editar
+     * @return redirect
+     */
     public function editLinea(EditarRequest $request, $hoja = null, $id = null)
     {
         $detalleInventario = new DetalleInventario;
@@ -84,6 +110,14 @@ class DigitacionController extends Controller
             ->with('alert_message', trans('inventario.digit_msg_add', ['hoja' => $hoja]));
     }
 
+    /**
+     * Eliminar una linea de inventario
+     *
+     * @param  Request $request Request con los datos de la linea de inventario
+     * @param  integer $hoja    Hoja del inventario a eliminar el detalle
+     * @param  integer $id      ID del detalle de inventario a eliminar
+     * @return redirect
+     */
     public function destroyLinea(Request $request, $hoja = null, $id = null)
     {
         DetalleInventario::destroy($id);
@@ -93,6 +127,12 @@ class DigitacionController extends Controller
             ->with('alert_message', trans('inventario.digit_msg_delete', compact('id', 'hoja')));
     }
 
+    /**
+     * Recupera catalogos de acuerdo a un filtro
+     *
+     * @param  string $filtro Texto para fitrar los catalogos
+     * @return string         Catalogos formateados como options
+     */
     public function ajaxCatalogos($filtro = null)
     {
         return Catalogo::getModelAjaxFormOptions([['descripcion', 'like', '%'.$filtro.'%']]);
