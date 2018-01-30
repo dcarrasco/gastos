@@ -28,8 +28,7 @@ class ImprimirController extends Controller
         $catalogo       = Catalogo::class;
 
         $hojasInventario = [];
-        for ($hoja = request('pag_desde'); $hoja <= request('pag_hasta'); $hoja++)
-        {
+        for ($hoja = request('pag_desde'); $hoja <= request('pag_hasta'); $hoja++) {
             $hojasInventario[$hoja] = $inventario->getDetalleHoja($hoja);
         }
 

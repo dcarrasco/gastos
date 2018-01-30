@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Toa;
+
 use App\Toa\ControlesToaData;
 use App\Toa\TecnicoToa;
 use App\Stock\ClaseMovimiento;
@@ -61,7 +62,13 @@ class ControlesToa
         list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta(request('mes'));
 
         $diasMes = static::getDiasMes(request('mes'));
-        $datos   = static::getControlTecnicosData(request('empresa'), $fechaDesde, $fechaHasta, request('filtro_trx'), static::$selectDato[request('dato', 'peticiones')]);
+        $datos = static::getControlTecnicosData(
+            request('empresa'),
+            $fechaDesde,
+            $fechaHasta,
+            request('filtro_trx'),
+            static::$selectDato[request('dato', 'peticiones')]
+        );
 
         return TecnicoToa::with('ciudadToa')
             ->where('id_empresa', request('empresa'))
@@ -91,7 +98,10 @@ class ControlesToa
                 ];
             })
             ->sort(function ($tecnico1, $tecnico2) {
-                return $tecnico1['ordenCiudad'].$tecnico1['ciudad'].$tecnico1['tecnico'] > $tecnico2['ordenCiudad'].$tecnico2['ciudad'].$tecnico2['tecnico'];
+                $llave1 = $tecnico1['ordenCiudad'].$tecnico1['ciudad'].$tecnico1['tecnico'] ;
+                $llave2 = $tecnico2['ordenCiudad'].$tecnico2['ciudad'].$tecnico2['tecnico'];
+
+                return $llave1 > $llave2;
             })
             ->filter(function ($tecnico) {
                 return count($tecnico['datosTecnico']) > 0;

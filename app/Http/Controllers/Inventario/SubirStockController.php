@@ -44,5 +44,4 @@ class SubirStockController extends Controller
     {
         DetalleInventario::create($request->all());
     }
-
 }

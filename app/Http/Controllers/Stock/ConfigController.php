@@ -28,6 +28,4 @@ class ConfigController extends Controller
 
         $this->makeView();
     }
-
-
 }

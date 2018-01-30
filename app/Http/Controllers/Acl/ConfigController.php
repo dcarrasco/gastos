@@ -20,7 +20,7 @@ class ConfigController extends Controller
     /**
      * Crea una nueva instancia del controlador config
      */
-   public function __construct()
+    public function __construct()
     {
         $this->routeName  = 'aclConfig';
         $this->menuModulo = [

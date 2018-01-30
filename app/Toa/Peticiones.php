@@ -61,8 +61,18 @@ class Peticiones
                 $join->on('m.referencia', '=', 'd.appt_number');
                 $join->on('d.astatus', '=', \DB::raw("'complete'"));
             })
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' e'), 'm.material', '=', 'e.id_catalogo')
-            ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' f'), 'e.id_tip_material_trabajo', '=', 'f.id')
+            ->leftJoin(
+                \DB::raw(config('invfija.bd_catalogo_tip_material_toa').' e'),
+                'm.material',
+                '=',
+                'e.id_catalogo'
+            )
+            ->leftJoin(
+                \DB::raw(config('invfija.bd_tip_material_trabajo_toa').' f'),
+                'e.id_tip_material_trabajo',
+                '=',
+                'f.id'
+            )
             ->where('m.fecha_contabilizacion', '>=', $fechaDesde)
             ->where('m.fecha_contabilizacion', '<=', $fechaHasta)
             ->whereIn('m.codigo_movimiento', ClaseMovimiento::transaccionesConsumoToa())
@@ -82,8 +92,7 @@ class Peticiones
         $camposFiltro = array_get(static::$camposReporte, $nombreReporte);
         $camposFiltro = is_array($camposFiltro) ? $camposFiltro : [$camposFiltro];
 
-        foreach ($camposFiltro as $campo)
-        {
+        foreach ($camposFiltro as $campo) {
             $idCampo = array_shift($arrId);
             $query = $query->where($campo, $idCampo);
         }

@@ -47,7 +47,8 @@ class ConsultaStockController extends Controller
 
         $tablaStock = $stockSap::getStock();
 
-        return view('stock_sap.ver_stock',
+        return view(
+            'stock_sap.ver_stock',
             compact('moduloSelected', 'tipoOp', 'comboFechas', 'comboAlmacenes', 'datosGrafico', 'tablaStock')
         );
     }

@@ -60,7 +60,7 @@ class OrmModel extends Model
                 $this->modelOrder = [$this->modelOrder => 'asc'];
             }
 
-            foreach($this->modelOrder as $field => $order) {
+            foreach ($this->modelOrder as $field => $order) {
                 $query = $query->orderBy($field, $order);
             }
         }
@@ -160,7 +160,12 @@ class OrmModel extends Model
         }
 
         if (array_key_exists('choices', $this->modelFields[$field])) {
-            return Form::select($field, array_get($this->modelFields, $field.'.choices'), $this->getAttribute($field), $extraParam);
+            return Form::select(
+                $field,
+                array_get($this->modelFields, $field.'.choices'),
+                $this->getAttribute($field),
+                $extraParam
+            );
         }
 
         if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
@@ -172,7 +177,9 @@ class OrmModel extends Model
 
                 $elemDest = $this->modelFields[$field]['onchange'];
                 $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
-                $extraParam['onchange'] = "$('#{$elemDest}').html('');$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });";
+                $extraParam['onchange'] = "$('#{$elemDest}').html('');"
+                    ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
+                    ."function (data) { $('#{$elemDest}').html(data); });";
             }
 
             return Form::select($field, $relatedModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
@@ -186,7 +193,12 @@ class OrmModel extends Model
                     return $modelElem->{$modelElem->getKeyName()};
                 })->all();
 
-            return Form::select($field.'[]', $relatedModel->getModelFormOptions($this->getWhereFromRelation($field)), $elementosSelected, array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam));
+            return Form::select(
+                $field.'[]',
+                $relatedModel->getModelFormOptions($this->getWhereFromRelation($field)),
+                $elementosSelected,
+                array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
+            );
         }
 
         return Form::text($field, $this->getAttribute($field), $extraParam);
@@ -277,10 +289,9 @@ class OrmModel extends Model
 
     public function getKey()
     {
-        if (is_array($this->getKeyName()))
-        {
+        if (is_array($this->getKeyName())) {
             $keyValues = [];
-            foreach($this->getKeyName() as $keyName) {
+            foreach ($this->getKeyName() as $keyName) {
                 $keyValues[] = $this->getAttribute($keyName);
             }
 
@@ -289,5 +300,4 @@ class OrmModel extends Model
 
         return $this->getAttribute($this->getKeyName());
     }
-
 }
