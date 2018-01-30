@@ -13,25 +13,26 @@ class TipoInventario extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'id_tipo_inventario';
+
     public $incrementing = false;
 
     public $modelFields = [
         'id_tipo_inventario' => [
-            'label'          => 'Tipo de inventario',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 10,
-            'texto_ayuda'    => 'M&aacute;ximo 10 caracteres.',
-            'es_id'          => true,
+            'label' => 'Tipo de inventario',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 10,
+            'texto_ayuda' => 'M&aacute;ximo 10 caracteres.',
+            'es_id' => true,
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico' => true,
         ],
         'desc_tipo_inventario' => [
-            'label'          => 'Descripci&oacute;n tipo de inventario',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
+            'label' => 'Descripci&oacute;n tipo de inventario',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico' => true,
         ],
     ];
 

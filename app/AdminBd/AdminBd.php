@@ -4,5 +4,8 @@ namespace App\AdminBd;
 
 class AdminBd
 {
-    public static function
+    public static function test()
+    {
+
+    }
 }
