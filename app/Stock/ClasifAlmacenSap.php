@@ -20,68 +20,68 @@ class ClasifAlmacenSap extends OrmModel
             'tipo' => OrmModel::TIPO_ID,
         ],
         'clasificacion' => [
-            'label'          => 'Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => 'Clasificaci&oacute;n de Almac&eacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
         ],
         'orden' => [
-            'label'          => 'Orden de la clasificaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_INT,
-            'largo'          => 10,
-            'texto_ayuda'    => 'Orden de la clasificaci&oacute;n del almac&eacute;n.',
+            'label' => 'Orden de la clasificaci&oacute;n',
+            'tipo' => OrmModel::TIPO_INT,
+            'largo' => 10,
+            'texto_ayuda' => 'Orden de la clasificaci&oacute;n del almac&eacute;n.',
             'es_obligatorio' => true,
         ],
         'dir_responsable' => [
-            'label'          => 'Direcci&oacute;n responsable',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 20,
-            'texto_ayuda'    => 'Seleccione la direcci&oacute;n responsable',
-            'choices'        => [
-                '*'          => 'Por material',
+            'label' => 'Direcci&oacute;n responsable',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 20,
+            'texto_ayuda' => 'Seleccione la direcci&oacute;n responsable',
+            'choices' => [
+                '*' => 'Por material',
                 'TERMINALES' => 'Terminales',
-                'REDES'      => 'Redes',
-                'EMPRESAS'   => 'Empresas',
-                'LOGISTICA'  => 'Log&iacute;stica',
-                'TTPP'       => 'Telefon&iacute;a P&uacute;blica',
-                'MARKETING'  => 'Marketing',
+                'REDES' => 'Redes',
+                'EMPRESAS' => 'Empresas',
+                'LOGISTICA' => 'Log&iacute;stica',
+                'TTPP' => 'Telefon&iacute;a P&uacute;blica',
+                'MARKETING' => 'Marketing',
             ],
             'es_obligatorio' => true,
         ],
         'estado_ajuste' => [
-            'label'          => 'Estado de ajuste materiales',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 20,
-            'texto_ayuda'    => 'Indica confiabilidad de existencia del material.',
-            'choices'        => [
-                'EXISTE'     => 'Existe',
-                'NO_EXISTE'  => 'No existe',
+            'label' => 'Estado de ajuste materiales',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 20,
+            'texto_ayuda' => 'Indica confiabilidad de existencia del material.',
+            'choices' => [
+                'EXISTE' => 'Existe',
+                'NO_EXISTE' => 'No existe',
                 'NO_SABEMOS' => 'No sabemos',
             ],
             'es_obligatorio' => true,
         ],
         'id_tipoclasif' => [
-            'tipo'           =>  OrmModel::TIPO_HAS_ONE,
+            'tipo' =>  OrmModel::TIPO_HAS_ONE,
             'relation_model' => TipoClasifAlmacenSap::class,
         ],
         'tipo_op' => [
-            'label'          => 'Tipo operaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Seleccione el tipo de operaci&oacute;n.',
-            'choices'        => [
+            'label' => 'Tipo operaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Seleccione el tipo de operaci&oacute;n.',
+            'choices' => [
                 'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
-                'FIJA'  => 'Operaci&oacute;n Fija'
+                'FIJA' => 'Operaci&oacute;n Fija'
             ],
             'es_obligatorio' => true,
-            'onchange'       => 'tiposalm',
+            'onchange' => 'tiposalm',
         ],
         'tipoAlmacenSap' => [
-            'tipo'                => OrmModel::TIPO_HAS_MANY,
-            'relation_model'      => TipoAlmacenSap::class,
+            'tipo' => OrmModel::TIPO_HAS_MANY,
+            'relation_model' => TipoAlmacenSap::class,
             'relation_conditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
-            'texto_ayuda'         => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
+            'texto_ayuda' => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
         ],
     ];
 
@@ -103,7 +103,11 @@ class ClasifAlmacenSap extends OrmModel
 
     public function tipoAlmacenSap()
     {
-        return $this->belongsToMany(TipoAlmacenSap::class, config('invfija.bd_clasif_tipoalm_sap'), 'id_clasif', 'id_tipo');
+        return $this->belongsToMany(
+            TipoAlmacenSap::class,
+            config('invfija.bd_clasif_tipoalm_sap'),
+            'id_clasif',
+            'id_tipo'
+        );
     }
-
 }

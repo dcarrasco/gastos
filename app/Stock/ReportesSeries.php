@@ -58,21 +58,61 @@ trait ReportesSeries
 
     public static function reporteDespachos($series = '')
     {
-        $campos = ['serie', 'cod_sap', 'texto_breve_material', 'lote', 'operador', 'fecha', 'cmv', 'alm', 'rec', 'des_bodega', 'rut', 'tipo_servicio', 'icc', 'abonado', 'n_doc', 'referencia'];
+        $campos = [
+            'serie',
+            'cod_sap',
+            'texto_breve_material',
+            'lote',
+            'operador',
+            'fecha',
+            'cmv',
+            'alm',
+            'rec',
+            'des_bodega',
+            'rut',
+            'tipo_servicio',
+            'icc',
+            'abonado',
+            'n_doc',
+            'referencia'
+        ];
 
         return ReporteTable::table(static::getDataReporteDespachos(static::listToArray($series)), $campos);
     }
 
     public static function reporteStockSAP($series = '')
     {
-        $campos = ['fecha_stock', 'serie', 'material', 'des_material', 'centro', 'almacen', 'des_almacen', 'lote', 'status_sistema', 'estado_stock', 'modif_el', 'modificado_por', 'nom_usuario'];
+        $campos = [
+            'fecha_stock',
+            'serie',
+            'material',
+            'des_material',
+            'centro',
+            'almacen',
+            'des_almacen',
+            'lote',
+            'status_sistema',
+            'estado_stock',
+            'modif_el',
+            'modificado_por',
+            'nom_usuario'
+        ];
 
         return ReporteTable::table(static::getDataReporteStockSAP(static::listToArray($series)), $campos);
     }
 
     public static function reporteStockSCL($series = '')
     {
-        $campos = ['fecha', 'serie_sap', 'cod_bodega', 'tip_bodega', 'cod_articulo', 'tip_stock', 'cod_uso', 'cod_estado'];
+        $campos = [
+            'fecha',
+            'serie_sap',
+            'cod_bodega',
+            'tip_bodega',
+            'cod_articulo',
+            'tip_stock',
+            'cod_uso',
+            'cod_estado'
+        ];
 
         return ReporteTable::table(static::getDataReporteStockSCL(static::listToArray($series)), $campos);
     }

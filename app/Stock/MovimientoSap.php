@@ -13,6 +13,7 @@ class MovimientoSap extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = '';
+
     public $incrementing = false;
 
     public $modelFields = [

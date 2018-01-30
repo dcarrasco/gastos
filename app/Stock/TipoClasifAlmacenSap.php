@@ -8,9 +8,7 @@ class TipoClasifAlmacenSap extends OrmModel
 {
     public $modelLabel = 'Tipo Clasificaci&oacute;n de Almac&eacute;n SAP';
 
-    protected $fillable = [
-        'tipo', 'color'
-    ];
+    protected $fillable = ['tipo', 'color'];
 
     protected $guarded = [];
 
@@ -22,17 +20,17 @@ class TipoClasifAlmacenSap extends OrmModel
             'tipo' => OrmModel::TIPO_INT,
         ],
         'tipo' => [
-            'label'          => 'Tipo Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Tipo Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => 'Tipo Clasificaci&oacute;n de Almac&eacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Tipo Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
         ],
         'color' => [
-            'label'          => 'Color del tipo',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Color del tipo para graficar. M&aacute;ximo 20 caracteres.',
+            'label' => 'Color del tipo',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Color del tipo para graficar. M&aacute;ximo 20 caracteres.',
             'es_obligatorio' => false,
         ],
     ];

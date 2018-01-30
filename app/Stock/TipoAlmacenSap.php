@@ -19,39 +19,39 @@ class TipoAlmacenSap extends OrmModel
 
     public $modelFields = [
         'id_tipo' => [
-            'tipo'             => OrmModel::TIPO_INT,
+            'tipo' => OrmModel::TIPO_INT,
         ],
         'tipo' => [
-            'label'          => 'Tipo de Almac&eacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Tipo del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => 'Tipo de Almac&eacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Tipo del almac&eacute;n. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
         ],
         'tipo_op' => [
-            'label'          => 'Tipo operaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Seleccione el tipo de operaci&oacute;n.',
-            'choices'        => [
+            'label' => 'Tipo operaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Seleccione el tipo de operaci&oacute;n.',
+            'choices' => [
                 'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
-                'FIJA'  => 'Operaci&oacute;n Fija'
+                'FIJA' => 'Operaci&oacute;n Fija'
             ],
             'es_obligatorio' => true,
-            'onchange'       => 'almacenes',
+            'onchange' => 'almacenes',
         ],
         'es_sumable' => [
-            'label'          => 'Es sumable',
-            'tipo'           => OrmModel::TIPO_BOOLEAN,
-            'texto_ayuda'    => 'Indica si el tipo de almac&eacute;n se incluir&aacute; en la suma del stock.',
+            'label' => 'Es sumable',
+            'tipo' => OrmModel::TIPO_BOOLEAN,
+            'texto_ayuda' => 'Indica si el tipo de almac&eacute;n se incluir&aacute; en la suma del stock.',
             'es_obligatorio' => true,
-            'default'        => 1,
+            'default' => 1,
         ],
         'almacen' => [
-            'tipo'                => OrmModel::TIPO_HAS_MANY,
-            'relation_model'      => AlmacenSap::class,
+            'tipo' => OrmModel::TIPO_HAS_MANY,
+            'relation_model' => AlmacenSap::class,
             'relation_conditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-            'texto_ayuda'         => 'Tipos asociados al almac&eacute;n.',
+            'texto_ayuda' => 'Tipos asociados al almac&eacute;n.',
         ],
     ];
 
@@ -73,9 +73,10 @@ class TipoAlmacenSap extends OrmModel
 
     public static function getComboTiposOperacion($tipoOp = 'movil')
     {
-        return models_array_options(self::where('tipo_op', $tipoOp)
-            ->orderBy('tipo')
-            ->get()
+        return models_array_options(
+            self::where('tipo_op', $tipoOp)
+                ->orderBy('tipo')
+                ->get()
         );
     }
 }
