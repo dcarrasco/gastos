@@ -5,19 +5,20 @@ namespace App\Helpers;
 class ReporteTable
 {
     protected static $template = [
-        'table_open'  => '<table class="table table-bordered table-striped table-hover table-condensed reporte" style="white-space:nowrap;">',
+        'table_open' => '<table class="table table-bordered table-striped table-hover table-condensed reporte" '
+            .'style="white-space:nowrap;">',
         'table_close' => '</table>',
-        'thead_open'  => '<thead class="header">',
+        'thead_open' => '<thead class="header">',
         'thead_close' => '</thead>',
-        'tbody_open'  => '<tbody>',
+        'tbody_open' => '<tbody>',
         'tbody_close' => '</tbody>',
-        'row_open'    => '<tr>',
-        'row_close'   => '</tr>',
-        'head_open'    => '<th>',
-        'head_close'   => '</th>',
-        'data_open'    => '<td>',
-        'data_close'   => '</td>',
-        'tfoot_open'  => '<tfoot>',
+        'row_open' => '<tr>',
+        'row_close' => '</tr>',
+        'head_open' => '<th>',
+        'head_close' => '</th>',
+        'data_open' => '<td>',
+        'data_close' => '</td>',
+        'tfoot_open' => '<tfoot>',
         'tfoot_close' => '</tfoot>',
     ];
 
@@ -45,7 +46,8 @@ class ReporteTable
                 .$template['row_open']
                 .collect($campos)->map(function ($campo) use ($elem) {
                     return array_get($elem, $campo);
-                })->reduce(function ($carry2, $elem) use ($template) {
+                })
+                ->reduce(function ($carry2, $elem) use ($template) {
                     return $carry2.$template['data_open'].$elem.$template['data_close'];
                 }, '')
                 .$template['row_close'];

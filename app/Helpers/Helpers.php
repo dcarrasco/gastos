@@ -6,7 +6,8 @@ if (!function_exists('ajax_options')) {
         return collect($opciones)
             ->map(function ($item, $key) {
                 return ['key' => $key, 'value' => $item];
-            })->reduce(function ($carry, $elem) {
+            })
+            ->reduce(function ($carry, $elem) {
                 return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
             }, '');
     }
@@ -25,6 +26,7 @@ if (!function_exists('dia_semana')) {
     function dia_semana($numDiaSem)
     {
         $dias = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+
         return array_get($dias, $numDiaSem);
     }
 }
@@ -100,7 +102,6 @@ if (!function_exists('print_validation_errors')) {
      */
     function print_validation_errors()
     {
-
         // carga objeto global CI
         $ci =& get_instance();
         $ci->form_validation->set_error_delimiters('<li> ', '</li>');
@@ -181,8 +182,11 @@ if (!function_exists('fmt_cantidad')) {
         $format_start = '';
         $format_end   = '';
         if ($format_diff) {
-            $format_start = ($valor > 0) ? '<strong><span class="text-success">+' : (($valor < 0 ) ? '<strong><span class="text-danger">' : '');
-            $format_end   = ($valor === 0) ? '' : '</span></strong>';
+            $format_start = ($valor > 0)
+                ? '<strong><span class="text-success">+'
+                : (($valor < 0 ) ? '<strong><span class="text-danger">' : '');
+
+            $format_end = ($valor === 0) ? '' : '</span></strong>';
         }
 
         return $format_start.$valor_formateado.$format_end;
@@ -217,13 +221,17 @@ if (!function_exists('fmt_monto')) {
         if (strtoupper($unidad) === 'UN') {
             $valor_formateado = $signo_moneda . '&nbsp;' . number_format($monto, $decimales, ',', '.');
         } elseif (strtoupper($unidad) === 'MM') {
-            $valor_formateado = 'MM' . $signo_moneda . '&nbsp;' . number_format($monto/1000000, ($monto > 10000000) ? 0 : 1, ',', '.');
+            $valor_formateado = 'MM'.$signo_moneda.'&nbsp;'
+                .number_format($monto/1000000, ($monto > 10000000) ? 0 : 1, ',', '.');
         }
 
         $format_start = '';
         $format_end   = '';
         if ($format_diff) {
-            $format_start = ($monto > 0) ? '<strong><span class="text-success">+' : (($monto < 0 ) ? '<strong><span class="text-danger">' : '');
+            $format_start = ($monto > 0)
+                ? '<strong><span class="text-success">+'
+                : (($monto < 0 ) ? '<strong><span class="text-danger">' : '');
+
             $format_end   = ($monto === 0) ? '' : '</span></strong>';
         }
 
@@ -307,7 +315,7 @@ if (!function_exists('fmt_rut')) {
         }
 
         if (strpos($numero_rut, '-') === false) {
-            $dv_rut     = substr($numero_rut, strlen($numero_rut) - 1, 1);
+            $dv_rut = substr($numero_rut, strlen($numero_rut) - 1, 1);
             $numero_rut = substr($numero_rut, 0, strlen($numero_rut) - 1);
         } else {
             list($numero_rut, $dv_rut) = explode('-', $numero_rut);

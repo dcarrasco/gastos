@@ -11,15 +11,15 @@ class Reporte
     public $datos = [];
 
     public $template = [
-        'table_open'  => '<table class="table table-striped table-hover table-condensed reporte table-fixed-header">',
+        'table_open' => '<table class="table table-striped table-hover table-condensed reporte table-fixed-header">',
         'table_close' => '</table>',
-        'thead_open'  => '<thead class="header">',
+        'thead_open' => '<thead class="header">',
         'thead_close' => '</thead>',
-        'tbody_open'  => '<tbody>',
+        'tbody_open' => '<tbody>',
         'tbody_close' => '</tbody>',
-        'row_open'    => '<tr>',
-        'row_close'   => '</tr>',
-        'tfoot_open'  => '<tfoot>',
+        'row_open' => '<tr>',
+        'row_close' => '</tr>',
+        'tfoot_open' => '<tfoot>',
         'tfoot_close' => '</tfoot>',
     ];
 
@@ -29,12 +29,16 @@ class Reporte
     public $tableBody    = '';
     public $tableFooter  = '';
 
+    // --------------------------------------------------------------------
+
     public function __construct($datos, $campos)
     {
         $this->script = '<script type="text/javascript" src="'.asset('js/reporte.js').'"></script>';
         $this->datos = $datos;
         $this->campos = $campos;
     }
+
+    // --------------------------------------------------------------------
 
     /**
      * Formatea un valor de acuerdo a los parametros de un reporte
@@ -45,11 +49,22 @@ class Reporte
      * @param  string $campo           [description]
      * @return string                  Variable formateada
      */
-    public function formatoReporte($valor = '', $arr_param_campo = array(), $registro = array(), $campo = '')
+    public function formatoReporte($valor = '', $arr_param_campo = [], $registro = [], $campo = '')
     {
         $funcFormatoDetalle = function ($valor, $arr_param_campo, $registro, $campo) {
             $registro['permanencia'] = $campo;
-            $arr_indices = ['id_tipo', 'centro', 'almacen', 'lote', 'estado_stock', 'material', 'tipo_material', 'permanencia'];
+
+            $arr_indices = [
+                'id_tipo',
+                'centro',
+                'almacen',
+                'lote',
+                'estado_stock',
+                'material',
+                'tipo_material',
+                'permanencia'
+            ];
+
             $valor_desplegar = fmtCantidad($valor);
 
             return anchor(
@@ -59,14 +74,30 @@ class Reporte
         };
 
         $arrFormatos = [
-            'texto'         => function ($valor) {return $valor;},
-            'fecha'         => function ($valor) {return fmt_fecha($valor);},
-            'numero'        => function ($valor) {return fmt_cantidad($valor, 0, TRUE);},
-            'valor'         => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE);},
-            'valor_pmp'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE);},
-            'numero_dif'    => function ($valor) {return fmt_cantidad($valor, 0, TRUE, TRUE);},
-            'valor_dif'     => function ($valor) {return fmt_monto($valor, 'UN', '$', 0, TRUE, TRUE);},
-            'link'          => function ($valor, $param) {return link_to(route(array_get($param, 'route'), [$valor]), $valor);},
+            'texto' => function ($valor) {
+                return $valor;
+            },
+            'fecha' => function ($valor) {
+                return fmt_fecha($valor);
+            },
+            'numero' => function ($valor) {
+                return fmt_cantidad($valor, 0, true);
+            },
+            'valor' => function ($valor) {
+                return fmt_monto($valor, 'UN', '$', 0, true);
+            },
+            'valor_pmp' => function ($valor) {
+                return fmt_monto($valor, 'UN', '$', 0, true);
+            },
+            'numero_dif' => function ($valor) {
+                return fmt_cantidad($valor, 0, true, true);
+            },
+            'valor_dif' => function ($valor) {
+                return fmt_monto($valor, 'UN', '$', 0, true, true);
+            },
+            'link' => function ($valor, $param) {
+                return link_to(route(array_get($param, 'route'), [$valor]), $valor);
+            },
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
                     array_get($param, 'routeFixedParams', []),
@@ -84,8 +115,10 @@ class Reporte
             return $valor;
         }
 
-        return call_user_func_array($arrFormatos[$tipo_dato], array($valor, $arr_param_campo, $registro, $campo));
+        return call_user_func_array($arrFormatos[$tipo_dato], [$valor, $arr_param_campo, $registro, $campo]);
     }
+
+    // --------------------------------------------------------------------
 
     /**
      * Agrega elementos relacionados al ordenamiento al arreglo de campos
@@ -118,10 +151,15 @@ class Reporte
 
             $campos[$campo]['sort'] = (($campo === $sort_by_field) ? $new_orden_tipo : '+').$campo;
             $order_icon = (substr($campos[$campo]['sort'], 0, 1) === '+') ? 'sort-amount-desc' : 'sort-amount-asc';
-            $campos[$campo]['img_orden'] = ($campo === $sort_by_field) ? " <span class=\"fa fa-{$order_icon}\" ></span>" : '';
+
+            $campos[$campo]['img_orden'] = ($campo === $sort_by_field)
+                ? " <span class=\"fa fa-{$order_icon}\" ></span>"
+                : '';
         }
 
     }
+
+    // --------------------------------------------------------------------
 
     /**
      * Devuelve string de ordenamiento
@@ -138,6 +176,8 @@ class Reporte
             ->implode(', ');
     }
 
+    // --------------------------------------------------------------------
+
     /**
      * Imprime reporte
      *
@@ -153,7 +193,7 @@ class Reporte
 
         $subtotalAnt = '***init***';
 
-        $camposTotalizables = array('numero', 'valor', 'numero_dif', 'valor_dif', 'link_detalle_series');
+        $camposTotalizables = ['numero', 'valor', 'numero_dif', 'valor_dif', 'link_detalle_series'];
         $initTotalSubtotal = collect($this->campos)
             ->filter(function ($elem) use ($camposTotalizables) {
                 return in_array($elem['tipo'], $camposTotalizables);
@@ -163,10 +203,12 @@ class Reporte
             });
 
         $arrTotales  = [
-            'campos'   => $camposTotalizables,
-            'total'    => $initTotalSubtotal->map(function ($elem, $llave) use ($datos) {
-                return $datos->sum($llave);
-            })->all(),
+            'campos' => $camposTotalizables,
+            'total' => $initTotalSubtotal
+                ->map(function ($elem, $llave) use ($datos) {
+                    return $datos->sum($llave);
+                })
+                ->all(),
             'subtotal' => $initTotalSubtotal,
         ];
 
@@ -175,20 +217,27 @@ class Reporte
 
         // --- CUERPO REPORTE ---
         $numLinea = 0;
-        $this->tableBody = $datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
-            $numLinea += 1;
-            return $carry
-                .$template['row_open']
-                .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
-                .$template['row_close'];
-        }, $this->template['tbody_open']).$this->template['tbody_close'];
+        $this->tableBody = $this->template['tbody_open'])
+            .$datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
+                $numLinea += 1;
+
+                return $carry
+                    .$template['row_open']
+                    .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
+                    .$template['row_close'];
+            }, '')
+            .$this->template['tbody_close'];
 
         // --- TOTALES ---
         $this->setFooter($this->reporteLineaTotales('total', $campos, $arrTotales));
 
-        return $template['table_open'].$this->tableHeading.$this->tableBody.$this->tableFooter.$template['table_close'].' '.$this->script;
+        return $template['table_open']
+            .$this->tableHeading
+            .$this->tableBody
+            .$this->tableFooter
+            .$template['table_close']
+            .' '.$this->script;
     }
-
 
     // --------------------------------------------------------------------
 
@@ -199,18 +248,22 @@ class Reporte
      * @param  array $arr_totales Arreglo con los totales y subtotales de los campos del reporte
      * @return array              Arreglo con los campos del encabezado
      */
-    private function reporteLineaEncabezado($arr_campos = array(), &$arr_totales = array())
+    private function reporteLineaEncabezado($arr_campos = [], &$arr_totales = [])
     {
         return array_merge(
-            array(''),
-            collect($arr_campos)
-                ->map(function($elem) {
-                    return array(
-                        'data' => "<span data-sort=\"{$elem['sort']}\" data-toggle=\"tooltip\" title=\"Ordenar por campo {$elem['titulo']}\">{$elem['titulo']}</span>{$elem['img_orden']}",
-                        'class' => isset($elem['class']) ? $elem['class'] : '',
-                    );
-                })
-                ->all()
+            [''],
+            collect($arr_campos)->map(function ($elem) {
+                return [
+                    'data' => "<span data-sort=\"{$elem['sort']}\" "
+                        ."data-toggle=\"tooltip\" "
+                        ."title=\"Ordenar por campo {$elem['titulo']}\">"
+                        .$elem['titulo']
+                        ."</span>"
+                        .$elem['img_orden'],
+                    'class' => isset($elem['class']) ? $elem['class'] : '',
+                ];
+            })
+            ->all()
         );
     }
 
@@ -224,10 +277,10 @@ class Reporte
      * @param  integer $numLinea Numero de linea actual
      * @return array             Arreglo con los campos de una linea
      */
-    private function reporteLineaDatos($linea = [], $campos = array(), $numLinea = 0)
+    private function reporteLineaDatos($linea = [], $campos = [], $numLinea = 0)
     {
-        return (array_merge(
-            array(array('data' => fmt_cantidad($numLinea), 'class' => 'text-muted')),
+        return array_merge(
+            [['data' => fmt_cantidad($numLinea), 'class' => 'text-muted']],
             collect($campos)->map(function ($elem, $llave) use ($linea) {
                 return array(
                     'data' => $this->formatoReporte($linea->$llave, $elem, $linea, $llave),
@@ -235,7 +288,7 @@ class Reporte
                 );
             })
             ->all()
-        ));
+        );
     }
 
     // --------------------------------------------------------------------
@@ -249,7 +302,7 @@ class Reporte
      * @param  string $nombre_subtotal Texto con el nombre del subtotal
      * @return array                   Arreglo con los campos de una linea de total o subtotal
      */
-    private function reporteLineaTotales($tipo = '', $arrCampos = array(), $arrTotales = array(), $nombre_subtotal = '')
+    private function reporteLineaTotales($tipo = '', $arrCampos = [], $arrTotales = [], $nombre_subtotal = '')
     {
         return (array_merge(
             array(''),
@@ -265,7 +318,6 @@ class Reporte
         ));
     }
 
-
     // --------------------------------------------------------------------
 
     /**
@@ -274,7 +326,7 @@ class Reporte
      * @param  array $arr_campos Arreglo con la descripcion de los campos del reporte
      * @return string             Nombre del campo con el tipo subtotal
      */
-    private function _get_campo_subtotal($arr_campos = array())
+    private function getCampoSubtotal($arr_campos = [])
     {
         foreach ($arr_campos as $nombre_campo => $parametros_campo) {
             if ($parametros_campo['tipo'] === 'subtotal') {
@@ -294,18 +346,16 @@ class Reporte
      * @param  string $subtotal_ant Nombre del campo con el subtotal anterior
      * @return boolean              Indicador si la linea actual cambio el valor del campo subtotal
      */
-    private function _es_nuevo_subtotal($arr_linea = array(), $arr_campos = array(), $subtotal_ant = NULL)
+    private function esNuevoSubtotal($arr_linea = [], $arr_campos = [], $subtotal_ant = null)
     {
-        $campo_subtotal = $this->_get_campo_subtotal($arr_campos);
+        $campo_subtotal = $this->getCampoSubtotal($arr_campos);
 
-        if ($subtotal_ant === '***init***' OR $arr_linea[$campo_subtotal] !== $subtotal_ant)
-        {
-            return TRUE;
+        if ($subtotal_ant === '***init***' or $arr_linea[$campo_subtotal] !== $subtotal_ant) {
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
-
 
     // --------------------------------------------------------------------
 
@@ -318,15 +368,14 @@ class Reporte
      * @param  string $subtotal_ant Nombre del campo con el subtotal anterior
      * @return void
      */
-    private function _reporte_linea_subtotal($arr_linea = array(), $arr_campos = array(), &$arr_totales = array(), &$subtotal_ant = NULL)
+    private function reporteLineaSubtotal($arr_linea = [], $arr_campos = [], &$arr_totales = [], &$subtotal_ant = null)
     {
         $ci =& get_instance();
 
-        $campo_subtotal = $this->_get_campo_subtotal($arr_campos);
+        $campo_subtotal = $this->getCampoSubtotal($arr_campos);
 
         // si el subtotal anterior no es nulo, se deben imprimir linea de subtotales
-        if ($subtotal_ant !== '***init***')
-        {
+        if ($subtotal_ant !== '***init***') {
             $ci->table->add_row($this->_reporte_linea_totales('subtotal', $arr_campos, $arr_totales, $subtotal_ant));
 
             // agrega linea en blanco
@@ -342,15 +391,14 @@ class Reporte
         // nuevo subtotal, y deja en cero, la suma de subtotales
         $subtotal_ant = $arr_linea[$campo_subtotal];
 
-        foreach ($arr_campos as $nombre_campo => $arr_param_campo)
-        {
-            if (in_array($arr_param_campo['tipo'], $arr_totales['campos']))
-            {
+        foreach ($arr_campos as $nombre_campo => $arr_param_campo) {
+            if (in_array($arr_param_campo['tipo'], $arr_totales['campos'])) {
                 $arr_totales['subtotal'][$nombre_campo] = 0;
             }
         }
     }
 
+    // --------------------------------------------------------------------
 
     public function tableRow($row = [], $rowDataElem = 'td')
     {
@@ -363,13 +411,21 @@ class Reporte
         }, '');
     }
 
+    // --------------------------------------------------------------------
+
     public function setHeading($heading = [])
     {
-        $this->tableHeading = $this->template['thead_open'].$this->tableRow($heading, 'th').$this->template['thead_close'];
+        $this->tableHeading = $this->template['thead_open']
+            .$this->tableRow($heading, 'th')
+            .$this->template['thead_close'];
     }
+
+    // --------------------------------------------------------------------
 
     public function setFooter($footer = [])
     {
-        $this->tableFooter = $this->template['tfoot_open'].$this->tableRow($footer, 'th').$this->template['tfoot_close'];
+        $this->tableFooter = $this->template['tfoot_open']
+            .$this->tableRow($footer, 'th')
+            .$this->template['tfoot_close'];
     }
 }

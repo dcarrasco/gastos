@@ -76,8 +76,7 @@ class Googlemaps
      */
     public function initialize($config)
     {
-        foreach($config as $config_key => $config_value)
-        {
+        foreach ($config as $config_key => $config_value) {
             $this->{$config_key} = $config_value;
         }
     }
@@ -93,25 +92,24 @@ class Googlemaps
     {
         $functionName = 'initMap_'.$this->mapId;
 
-        $urlParam = array(
+        $urlParam = [
             'key'      => $this->apiKey,
             'callback' => $functionName,
-        );
+        ];
         $urlJs = $this->urlJs.'?'.http_build_query($urlParam);
 
 
-        $txtJs  = "<div id=\"{$this->mapId}\" style=\"{$this->mapCss}\"></div>\n";
-        $txtJs .= "<script type=\"text/javascript\">\n";
-        $txtJs .= "function {$functionName}() {\n";
-        $txtJs .= "var map = new google.maps.Map(document.getElementById('{$this->mapId}'), {center: {lat:0, lng:0}, zoom: {$this->mapZoom}});\n";
-        $txtJs .= "var bounds = new google.maps.LatLngBounds();\n";
-        $txtJs .= $this->txtJs;
-        $txtJs .= (count($this->markers) === 1) ? "map.setCenter(ubic_1);\n" : "map.fitBounds(bounds);\n";
-        $txtJs .= "}\n";
-        $txtJs .= "</script>\n";
-        $txtJs .= "<script type=\"text/javascript\" src=\"{$urlJs}\" defer async></script>\n";
-
-        return $txtJs;
+        return "<div id=\"{$this->mapId}\" style=\"{$this->mapCss}\"></div>\n"
+            ."<script type=\"text/javascript\">\n"
+            ."function {$functionName}() {\n"
+            ."var map = new google.maps.Map(document.getElementById('{$this->mapId}'), "
+            ."{center: {lat:0, lng:0}, zoom: {$this->mapZoom}})\n"
+            ."var bounds = new google.maps.LatLngBounds()\n"
+            .$this->txtJs
+            .(count($this->markers) === 1) ? "map.setCenter(ubic_1)\n" : "map.fitBounds(bounds)\n"
+            ."}\n"
+            ."</script>\n"
+            ."<script type=\"text/javascript\" src=\"{$urlJs}\" defer async></script>\n";
     }
 
     // --------------------------------------------------------------------
@@ -132,30 +130,23 @@ class Googlemaps
             'zindex' => 100,
         ];
 
-        foreach($markerConfig as $marker_key => $marker_value)
-        {
-            if (array_key_exists($marker_key, $marker))
-            {
+        foreach ($markerConfig as $marker_key => $marker_value) {
+            if (array_key_exists($marker_key, $marker)) {
                 $markerConfig[$marker_key] = $marker[$marker_key];
             }
         }
 
         if ($markerConfig['lat'] !== 0 and $markerConfig['lng'] !== 0
-            and $markerConfig['lat'] !== $markerConfig['lng'] )
-        {
+            and $markerConfig['lat'] !== $markerConfig['lng'] ) {
             array_push($this->markers, $markerConfig);
             $nMarker = count($this->markers);
 
-            $this->txtJs .= "var ubic_{$nMarker} = new google.maps.LatLng({$markerConfig['lat']}, {$markerConfig['lng']});\n";
-            $this->txtJs .= "var marker_{$nMarker} = new google.maps.Marker({position: ubic_{$nMarker}, title: '{$markerConfig['title']}'});\n";
-            $this->txtJs .= "marker_{$nMarker}.setMap(map);\n";
-            $this->txtJs .= "bounds.extend(marker_{$nMarker}.position);\n\n";
+            $this->txtJs .= "var ubic_{$nMarker} = "
+                ."new google.maps.LatLng({$markerConfig['lat']}, {$markerConfig['lng']});\n"
+                ."var marker_{$nMarker} = "
+                ."new google.maps.Marker({position: ubic_{$nMarker}, title: '{$markerConfig['title']}'});\n"
+                ."marker_{$nMarker}.setMap(map);\n"
+                ."bounds.extend(marker_{$nMarker}.position);\n\n";
         }
     }
-
-    // --------------------------------------------------------------------
-
-
 }
-/* End of file Googlemaps.php */
-/* Location: ./application/libraries/Googlemaps.php */
