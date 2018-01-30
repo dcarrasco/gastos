@@ -92,7 +92,7 @@ class UserACL extends OrmModel implements
             ->map(function ($appMenu) use ($llaveModulo) {
                 $appMenu['modulos'] = collect($appMenu['modulos'])
                     ->map(function ($elemModulo) use ($llaveModulo) {
-                        $elemModulo['selected'] = $elemModulo['llave_modulo'] === $llaveModulo ? true : false;
+                        $elemModulo['selected'] = ($elemModulo['llave_modulo'] === $llaveModulo);
 
                         return $elemModulo;
                     })
@@ -148,11 +148,11 @@ class UserACL extends OrmModel implements
 
     public static function checkUserHasPassword($username = '')
     {
-         if (Usuario::usuario($username)->count() === 0) {
+        if (Usuario::usuario($username)->count() === 0) {
             return false;
-         }
+        }
 
-         return ! empty(Usuario::usuario($username)->first()->password);
+        return ! empty(Usuario::usuario($username)->first()->password);
 
     }
 }

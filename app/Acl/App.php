@@ -14,41 +14,41 @@ class App extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo'   => OrmModel::TIPO_ID,
+            'tipo' => OrmModel::TIPO_ID,
         ],
         'app' => [
-            'label'          => 'Aplicaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => 'Aplicaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true
+            'es_unico' => true
         ],
         'descripcion' => [
-            'label'          => 'Descripci&oacute;n de la Aplicaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => 'Descripci&oacute;n de la Aplicaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
         ],
         'orden' => [
-            'label'          => 'Orden de la Aplicaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_INT,
-            'texto_ayuda'    => 'Orden de la aplicaci&oacute;n en el menu.',
+            'label' => 'Orden de la Aplicaci&oacute;n',
+            'tipo' => OrmModel::TIPO_INT,
+            'texto_ayuda' => 'Orden de la aplicaci&oacute;n en el menu.',
             'es_obligatorio' => true,
-            'es_unico'       => true
+            'es_unico' => true
         ],
         'url' => [
-            'label'          => 'Direcci&oacute;n de la Aplicaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 100,
-            'texto_ayuda'    => 'Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.',
+            'label' => 'Direcci&oacute;n de la Aplicaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 100,
+            'texto_ayuda' => 'Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.',
         ],
         'icono' => [
-            'label'          => '&Iacute;cono de la aplicaci&oacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'label' => '&Iacute;cono de la aplicaci&oacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
         ],
     ];
 
@@ -64,5 +64,4 @@ class App extends OrmModel
     {
         return (string) $this->app;
     }
-
 }
