@@ -2,6 +2,7 @@
 
 namespace App\Inventario;
 
+use DB;
 use App\Helpers\Reporte;
 
 trait ReportesInventario
@@ -9,39 +10,39 @@ trait ReportesInventario
     protected function getCampo($campo)
     {
         $campos = [
-            'hoja'      => ['titulo' => 'Hoja', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleHoja'], 'routeVariableParams' => ['hoja' => 'hoja']],
-            'auditor'   => ['titulo' => 'Auditor'],
+            'hoja' => ['titulo' => 'Hoja', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleHoja'], 'routeVariableParams' => ['hoja' => 'hoja']],
+            'auditor' => ['titulo' => 'Auditor'],
             'digitador' => ['titulo' => 'Digitador'],
 
-            'catalogo'    => ['titulo' => 'Catalogo', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleMaterial'], 'routeVariableParams' => ['catalogo' => 'catalogo']],
+            'catalogo' => ['titulo' => 'Catalogo', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleMaterial'], 'routeVariableParams' => ['catalogo' => 'catalogo']],
             'descripcion' => ['titulo' => 'Descripcion'],
-            'um'          => ['titulo' => 'UM'],
-            'pmp'         => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
+            'um' => ['titulo' => 'UM'],
+            'pmp' => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
 
-            'ubicacion'      => ['titulo' => 'Ubicacion'],
+            'ubicacion' => ['titulo' => 'Ubicacion'],
             'tipo_ubicacion' => ['titulo' => 'Tipo de Ubicacion'],
 
-            'lote'         => ['titulo' => 'Lote'],
-            'centro'       => ['titulo' => 'Centro'],
-            'almacen'      => ['titulo' => 'Almacen'],
-            'tipo_ajuste'  => ['titulo' => 'Tipo Dif'],
+            'lote' => ['titulo' => 'Lote'],
+            'centro' => ['titulo' => 'Centro'],
+            'almacen' => ['titulo' => 'Almacen'],
+            'tipo_ajuste' => ['titulo' => 'Tipo Dif'],
             'glosa_ajuste' => ['titulo' => 'Observacion'],
 
-            'sum_stock_sap'    => ['titulo' => 'Cant SAP', 'class' => 'text-center', 'tipo' => 'numero'],
+            'sum_stock_sap' => ['titulo' => 'Cant SAP', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_fisico' => ['titulo' => 'Cant Fisico', 'class' => 'text-center', 'tipo' => 'numero'],
             'sum_stock_ajuste' => ['titulo' => 'Cant Ajuste', 'class' => 'text-center', 'tipo' => 'numero'],
-            'sum_stock_diff'   => ['titulo' => 'Cant Dif', 'class' => 'text-center', 'tipo' => 'numero_dif'],
+            'sum_stock_diff' => ['titulo' => 'Cant Dif', 'class' => 'text-center', 'tipo' => 'numero_dif'],
 
-            'sum_valor_sap'    => ['titulo' => 'Valor SAP', 'class' => 'text-center', 'tipo' => 'valor'],
+            'sum_valor_sap' => ['titulo' => 'Valor SAP', 'class' => 'text-center', 'tipo' => 'valor'],
             'sum_valor_fisico' => ['titulo' => 'Valor Fisico', 'class' => 'text-center', 'tipo' => 'valor'],
             'sum_valor_ajuste' => ['titulo' => 'Valor Ajuste', 'class' => 'text-center', 'tipo' => 'valor'],
-            'sum_valor_diff'   => ['titulo' => 'Valor Dif', 'class' => 'text-center', 'tipo' => 'valor_dif'],
+            'sum_valor_diff' => ['titulo' => 'Valor Dif', 'class' => 'text-center', 'tipo' => 'valor_dif'],
 
-            'q_faltante'    => ['titulo'=>'Cant Faltante', 'class'=>'text-center', 'tipo'=>'numero'],
-            'q_sobrante'    => ['titulo'=>'Cant Sobrante', 'class'=>'text-center', 'tipo'=>'numero'],
+            'q_faltante' => ['titulo'=>'Cant Faltante', 'class'=>'text-center', 'tipo'=>'numero'],
+            'q_sobrante' => ['titulo'=>'Cant Sobrante', 'class'=>'text-center', 'tipo'=>'numero'],
             'q_coincidente' => ['titulo'=>'Cant Coincidente', 'class'=>'text-center', 'tipo'=>'numero'],
-            'v_faltante'    => ['titulo'=>'Valor Faltante', 'class'=>'text-center', 'tipo'=>'valor'],
-            'v_sobrante'    => ['titulo'=>'Valor Sobrante', 'class'=>'text-center', 'tipo'=>'valor'],
+            'v_faltante' => ['titulo'=>'Valor Faltante', 'class'=>'text-center', 'tipo'=>'valor'],
+            'v_sobrante' => ['titulo'=>'Valor Sobrante', 'class'=>'text-center', 'tipo'=>'valor'],
             'v_coincidente' => ['titulo'=>'Valor Coincidente', 'class'=>'text-center', 'tipo'=>'valor'],
         ];
 
@@ -63,20 +64,21 @@ trait ReportesInventario
         $inclAjuste = request('incl_ajustes') ? ' + d.stock_ajuste' : '';
 
         return [
-            \DB::raw('sum(d.stock_sap) as sum_stock_sap'),
-            \DB::raw('sum(d.stock_fisico) as sum_stock_fisico'),
-            \DB::raw('sum(d.stock_ajuste) as sum_stock_ajuste'),
-            \DB::raw('sum(d.stock_fisico-d.stock_sap'.$inclAjuste.') as sum_stock_diff'),
-            \DB::raw('sum(d.stock_sap*c.pmp) as sum_valor_sap'),
-            \DB::raw('sum(d.stock_fisico*c.pmp) as sum_valor_fisico'),
-            \DB::raw('sum(d.stock_ajuste*c.pmp) as sum_valor_ajuste'),
-            \DB::raw('sum((d.stock_fisico-d.stock_sap'.$inclAjuste.')*c.pmp) as sum_valor_diff'),
+            DB::raw('sum(d.stock_sap) as sum_stock_sap'),
+            DB::raw('sum(d.stock_fisico) as sum_stock_fisico'),
+            DB::raw('sum(d.stock_ajuste) as sum_stock_ajuste'),
+            DB::raw('sum(d.stock_fisico-d.stock_sap'.$inclAjuste.') as sum_stock_diff'),
+            DB::raw('sum(d.stock_sap*c.pmp) as sum_valor_sap'),
+            DB::raw('sum(d.stock_fisico*c.pmp) as sum_valor_fisico'),
+            DB::raw('sum(d.stock_ajuste*c.pmp) as sum_valor_ajuste'),
+            DB::raw('sum((d.stock_fisico-d.stock_sap'.$inclAjuste.')*c.pmp) as sum_valor_diff'),
         ];
     }
 
     protected function camposCantidades()
     {
         $camposCantidades = [];
+
         $camposCantidades['sum_stock_sap'] = $this->getCampo('sum_stock_sap');
         $camposCantidades['sum_stock_fisico'] = $this->getCampo('sum_stock_fisico');
         if (request('incl_ajustes')) {
@@ -96,9 +98,14 @@ trait ReportesInventario
 
     protected function queryBaseReporteInventario($selectFields = [], $groupByFields = [])
     {
-        return \DB::table(\DB::raw(config('invfija.bd_detalle_inventario').' as d'))
+        return DB::table(DB::raw(config('invfija.bd_detalle_inventario').' as d'))
             ->where('id_inventario', $this->id)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogos').' as c'), \DB::raw('d.catalogo '.BD_COLLATE), '=', 'c.catalogo')
+            ->leftJoin(
+                DB::raw(config('invfija.bd_catalogos').' as c'),
+                DB::raw('d.catalogo '.BD_COLLATE),
+                '=',
+                'c.catalogo'
+            )
             ->select($selectFields)
             ->groupBy($groupByFields);
     }
@@ -116,14 +123,14 @@ trait ReportesInventario
     public function reporteHoja()
     {
         $selectFields = array_merge(
-            ['d.hoja', \DB::raw('a.nombre as auditor'), \DB::raw('u.nombre as digitador')],
+            ['d.hoja', DB::raw('a.nombre as auditor'), DB::raw('u.nombre as digitador')],
             $this->selectFieldsCantidades()
         );
         $groupByFields = ['d.hoja', 'a.nombre', 'u.nombre'];
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
-            ->leftJoin(\DB::raw(config('invfija.bd_auditores').' as a'), 'd.auditor', '=', 'a.id')
-            ->leftJoin(\DB::raw(config('invfija.bd_usuarios').' as u'), 'd.digitador', '=', 'u.id')
+            ->leftJoin(DB::raw(config('invfija.bd_auditores').' as a'), 'd.auditor', '=', 'a.id')
+            ->leftJoin(DB::raw(config('invfija.bd_usuarios').' as u'), 'd.digitador', '=', 'u.id')
             ->orderBy('hoja')
             ->get();
     }
@@ -210,12 +217,12 @@ trait ReportesInventario
         $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
 
         $selectFields = array_merge($reporteFields, [
-            \DB::raw('(SUM(stock_sap) - 0.5 * (SUM(stock_sap + stock_fisico'.$inclAjuste.') - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_faltante'),
-            \DB::raw('(0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_coincidente'),
-            \DB::raw('(SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_sobrante'),
-            \DB::raw('c.pmp * (SUM(stock_sap) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_faltante'),
-            \DB::raw('c.pmp * (0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_coincidente'),
-            \DB::raw('c.pmp * (SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_sobrante'),
+            DB::raw('(SUM(stock_sap) - 0.5 * (SUM(stock_sap + stock_fisico'.$inclAjuste.') - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_faltante'),
+            DB::raw('(0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_coincidente'),
+            DB::raw('(SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_sobrante'),
+            DB::raw('c.pmp * (SUM(stock_sap) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_faltante'),
+            DB::raw('c.pmp * (0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_coincidente'),
+            DB::raw('c.pmp * (SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_sobrante'),
         ]);
         $groupByFields = $reporteFields;
 
@@ -265,12 +272,12 @@ trait ReportesInventario
         $groupByFields = $reporteFields;
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
-            ->leftJoin(\DB::raw(config('invfija.bd_inventarios').' as i'), 'd.id_inventario', '=', 'i.id')
-            ->leftJoin(\DB::raw(config('invfija.bd_ubic_tipoubic').' as ut'), function ($join) {
+            ->leftJoin(DB::raw(config('invfija.bd_inventarios').' as i'), 'd.id_inventario', '=', 'i.id')
+            ->leftJoin(DB::raw(config('invfija.bd_ubic_tipoubic').' as ut'), function ($join) {
                 $join->on('d.ubicacion', '=', 'ut.ubicacion');
                 $join->on('i.tipo_inventario', '=', 'ut.tipo_inventario');
             })
-            ->leftJoin(\DB::raw(config('invfija.bd_tipo_ubicacion').' as t'), 'ut.id_tipo_ubicacion', '=', 't.id')
+            ->leftJoin(DB::raw(config('invfija.bd_tipo_ubicacion').' as t'), 'ut.id_tipo_ubicacion', '=', 't.id')
             ->orderBy('t.tipo_ubicacion')
             ->get();
     }
@@ -286,15 +293,29 @@ trait ReportesInventario
 
     public function reporteAjustes()
     {
-        $reporteFields = ['d.catalogo', 'd.descripcion', 'd.lote', 'd.centro', 'd.almacen', 'd.ubicacion', 'd.hoja', 'd.um', 'd.glosa_ajuste'];
+        $reporteFields = [
+            'd.catalogo',
+            'd.descripcion',
+            'd.lote',
+            'd.centro',
+            'd.almacen',
+            'd.ubicacion',
+            'd.hoja',
+            'd.um',
+            'd.glosa_ajuste'
+        ];
 
-        $queryTipoAjuste = 'CASE WHEN (stock_fisico-stock_sap+stock_ajuste) > 0 THEN \'SOBRANTE\' WHEN (stock_fisico-stock_sap+stock_ajuste) < 0 THEN \'FALTANTE\' ELSE \'OK\' END';
+        $queryTipoAjuste = "CASE "
+            ."WHEN (stock_fisico-stock_sap+stock_ajuste) > 0 THEN 'SOBRANTE' "
+            ."WHEN (stock_fisico-stock_sap+stock_ajuste) < 0 THEN 'FALTANTE' "
+            ."ELSE 'OK' "
+            ."END";
 
         $selectFields = array_merge(
-            array_merge($reporteFields, [\DB::raw($queryTipoAjuste.' as tipo_ajuste')]),
+            array_merge($reporteFields, [DB::raw($queryTipoAjuste.' as tipo_ajuste')]),
             $this->selectFieldsCantidades()
         );
-        $groupByFields = array_merge($reporteFields, [\DB::raw($queryTipoAjuste)]);
+        $groupByFields = array_merge($reporteFields, [DB::raw($queryTipoAjuste)]);
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)
             ->orderBy('d.catalogo')
@@ -304,6 +325,7 @@ trait ReportesInventario
     public function camposReporteAjustes()
     {
         $campos = ['catalogo', 'descripcion', 'lote', 'centro', 'almacen', 'ubicacion', 'hoja', 'um'];
+
         $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
         $campos['tipo_ajuste'] = $this->getCampo('tipo_ajuste');
         $campos['glosa_ajuste'] = $this->getCampo('glosa_ajuste');

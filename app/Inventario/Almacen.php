@@ -13,17 +13,18 @@ class Almacen extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'almacen';
+
     public $incrementing = false;
 
     public $modelFields = [
         'almacen' => [
-            'label'          => 'Almac&eacute;n',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 10,
-            'texto_ayuda'    => 'Nombre del almac&eacute;n. M&aacute;ximo 10 caracteres.',
-            'es_id'          => true,
+            'label' => 'Almac&eacute;n',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 10,
+            'texto_ayuda' => 'Nombre del almac&eacute;n. M&aacute;ximo 10 caracteres.',
+            'es_id' => true,
             'es_obligatorio' => true,
-            'es_unico'       => true
+            'es_unico' => true
         ],
     ];
 

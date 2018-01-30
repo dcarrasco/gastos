@@ -26,7 +26,7 @@ trait UploadDetalleInventario
 
             if ($resultadoProcesaLinea === 'no_procesar') {
                 // no se procesa esta linea
-            } else if ($resultadoProcesaLinea === 'error') {
+            } elseif ($resultadoProcesaLinea === 'error') {
                 $countError += 1;
                 array_push($lineasError, $numLinea);
             } else {
@@ -45,9 +45,9 @@ trait UploadDetalleInventario
         }
 
         return [
-            'script'     => $script,
-            'regsOK'     => $countOK,
-            'regsError'  => $countError,
+            'script' => $script,
+            'regsOK' => $countOK,
+            'regsError' => $countError,
             'msjTermino' => $msjTermino
         ];
     }
@@ -88,27 +88,27 @@ trait UploadDetalleInventario
         } else {
             if (is_numeric($stock_sap) and is_numeric($hoja)) {
                 return [
-                    '_token'             => csrf_token(),
-                    'id'                 => 0,
-                    'id_inventario'      => $inventario->id,
-                    'hoja'               => $hoja,
-                    'ubicacion'          => $ubicacion,
-                    'hu'                 => '',
-                    'catalogo'           => $catalogo,
-                    'descripcion'        => $descripcion,
-                    'lote'               => $lote,
-                    'centro'             => $centro,
-                    'almacen'            => $almacen,
-                    'um'                 => $um,
-                    'stock_sap'          => $stock_sap,
-                    'stock_fisico'       => 0,
-                    'digitador'          => 0,
-                    'auditor'            => 0,
-                    'observacion'        => '',
+                    '_token' => csrf_token(),
+                    'id' => 0,
+                    'id_inventario' => $inventario->id,
+                    'hoja' => $hoja,
+                    'ubicacion' => $ubicacion,
+                    'hu' => '',
+                    'catalogo' => $catalogo,
+                    'descripcion' => $descripcion,
+                    'lote' => $lote,
+                    'centro' => $centro,
+                    'almacen' => $almacen,
+                    'um' => $um,
+                    'stock_sap' => $stock_sap,
+                    'stock_fisico' => 0,
+                    'digitador' => 0,
+                    'auditor' => 0,
+                    'observacion' => '',
                     'fecha_modificacion' => Carbon::now()->__toString(),
-                    'reg_nuevo'          => '',
-                    'stock_ajuste'       => 0,
-                    'glosa_ajuste'       => '',
+                    'reg_nuevo' => '',
+                    'stock_ajuste' => 0,
+                    'glosa_ajuste' => '',
                 ];
             } else {
                 // error: stock y/o hoja no son numericos
@@ -116,5 +116,4 @@ trait UploadDetalleInventario
             }
         }
     }
-
 }

@@ -16,32 +16,32 @@ class Familia extends OrmModel
 
     public $modelFields = [
         'codigo' => [
-            'label'          => 'C&oacute;digo de la familia',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'M&aacute;ximo 50 caracteres.',
-            'es_id'          => true,
+            'label' => 'C&oacute;digo de la familia',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
+            'es_id' => true,
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico' => true,
         ],
         'tipo' => [
-            'label'          => 'Tipo de familia',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 30,
-            'texto_ayuda'    => 'Seleccione el tipo de familia.',
-            'choices'        => [
+            'label' => 'Tipo de familia',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 30,
+            'texto_ayuda' => 'Seleccione el tipo de familia.',
+            'choices' => [
                 'FAM' => 'Familia',
                 'SUBFAM' => 'SubFamilia'
             ],
             'es_obligatorio' => true,
         ],
         'nombre' => [
-            'label'          => 'Nombre de la familia',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'M&aacute;ximo 50 caracteres.',
+            'label' => 'Nombre de la familia',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true,
+            'es_unico' => true,
         ],
     ];
 

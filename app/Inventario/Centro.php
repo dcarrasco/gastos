@@ -17,13 +17,13 @@ class Centro extends OrmModel
 
     public $modelFields = [
         'centro' => [
-            'label'          => 'Centro',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 10,
-            'texto_ayuda'    => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
-            'es_id'          => true,
+            'label' => 'Centro',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 10,
+            'texto_ayuda' => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
+            'es_id' => true,
             'es_obligatorio' => true,
-            'es_unico'       => true
+            'es_unico' => true
         ],
     ];
 
