@@ -12,15 +12,15 @@ class ControlesToa
 
     public static $unidadesConsumo = [
         'peticiones' => 'Cantidad de peticiones',
-        'unidades'   => 'Suma de unidades',
-        'monto'      => 'Suma de montos',
+        'unidades' => 'Suma de unidades',
+        'monto' => 'Suma de montos',
     ];
 
     public static $selectDato = [
-            'unidades'   => 'cant',
-            'monto'      => 'monto',
-            'peticiones' => '1',
-        ];
+        'unidades' => 'cant',
+        'monto' => 'monto',
+        'peticiones' => '1',
+    ];
 
 
     protected static function getDiasMes($anomes = null)
@@ -71,32 +71,38 @@ class ControlesToa
 
                 $datosTecnico = $datos->filter(function ($dato) use ($tecnicoId) {
                     return $dato->tecnico === $tecnicoId;
-                })->mapWithKeys(function ($dato) {
+                })
+                ->mapWithKeys(function ($dato) {
                     return [(int) substr($dato->fecha, 8, 2) => $dato->dato];
-                })->all();
+                })
+                ->all();
 
                 return [
                     $tecnicoId => [
-                        'ciudad'      => (string) $tecnico->ciudadToa,
+                        'ciudad' => (string) $tecnico->ciudadToa,
                         'ordenCiudad' => isset($tecnico->ciudadToa->orden) ? $tecnico->ciudadToa->orden : 0,
-                        'tecnico'     => $tecnicoId.' - '.(string)$tecnico.' ('.fmt_rut($tecnico->rut).')',
+                        'tecnico' => $tecnicoId.' - '.(string)$tecnico.' ('.fmt_rut($tecnico->rut).')',
                         'actuaciones' => $diasMes->map(function ($elem, $key) use ($datosTecnico) {
                             return array_get($datosTecnico, $key);
-                        })->all(),
+                        })
+                        ->all(),
                         'datosTecnico' => $datosTecnico,
                     ],
                 ];
-            })->sort(function ($tecnico1, $tecnico2) {
+            })
+            ->sort(function ($tecnico1, $tecnico2) {
                 return $tecnico1['ordenCiudad'].$tecnico1['ciudad'].$tecnico1['tecnico'] > $tecnico2['ordenCiudad'].$tecnico2['ciudad'].$tecnico2['tecnico'];
-            })->filter(function ($tecnico) {
+            })
+            ->filter(function ($tecnico) {
                 return count($tecnico['datosTecnico']) > 0;
-            })->all();
+            })
+            ->all();
     }
 
     public static function controlTecnicosCampos()
     {
         return [
-            'ciudad'  => ['label' => 'Ciudad', 'class' => ''],
+            'ciudad' => ['label' => 'Ciudad', 'class' => ''],
             'tecnico' => ['label' => 'T&eacute;cnico', 'class' => ''],
         ];
     }
@@ -115,19 +121,22 @@ class ControlesToa
 
             $datosMateriales = $datos->filter(function ($dato) use ($material) {
                 return $dato->material === $material;
-            })->mapWithKeys(function ($dato) {
+            })
+            ->mapWithKeys(function ($dato) {
                 return [(int) substr($dato->fecha_contabilizacion, 8, 2) => $dato->dato];
-            })->all();
+            })
+            ->all();
 
             return [$elem->material => [
-                'tipo'        => $elem->desc_tip_material,
-                'material'    => $elem->material.' - '.$elem->descripcion,
-                'unidad'      => $elem->ume,
+                'tipo' => $elem->desc_tip_material,
+                'material' => $elem->material.' - '.$elem->descripcion,
+                'unidad' => $elem->ume,
                 'actuaciones' => $diasMes->map(function ($elemActuacion, $keyActuacion) use ($datosMateriales) {
                     return array_get($datosMateriales, $keyActuacion);
                 })->all(),
             ]];
-        })->sort(function ($material1, $material2) {
+        })
+        ->sort(function ($material1, $material2) {
             return $material1['tipo'].$material1['material'] > $material2['tipo'].$material2['material'];
         });
     }
@@ -135,9 +144,9 @@ class ControlesToa
     public static function controlMaterialesCampos()
     {
         return [
-            'tipo'     => ['label' => 'Tipos', 'class' => ''],
+            'tipo' => ['label' => 'Tipos', 'class' => ''],
             'material' => ['label' => 'Material', 'class' => ''],
-            'unidad'   => ['label' => 'Unidad', 'class' => 'text-center'],
+            'unidad' => ['label' => 'Unidad', 'class' => 'text-center'],
         ];
     }
 }

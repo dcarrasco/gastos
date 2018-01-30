@@ -2,8 +2,9 @@
 
 namespace App\Toa;
 
-use App\Stock\ClaseMovimiento;
+use DB;
 use App\Helpers\Reporte;
+use App\Stock\ClaseMovimiento;
 
 class Consumos
 {
@@ -21,7 +22,7 @@ class Consumos
 
     protected static function getDataReporteBase($fechaDesde, $fechaHasta)
     {
-        return \DB::table(\DB::raw(config('invfija.bd_movimientos_sap_fija').' m'))
+        return DB::table(DB::raw(config('invfija.bd_movimientos_sap_fija').' m'))
             ->where('m.fecha_contabilizacion', '>=', $fechaDesde)
             ->where('m.fecha_contabilizacion', '<=', $fechaHasta)
             ->whereIn('m.codigo_movimiento', ClaseMovimiento::transaccionesConsumoToa())
@@ -31,9 +32,9 @@ class Consumos
     protected static function getBaseSelectQuery()
     {
         return [
-            \DB::raw('\'ver peticiones\' as texto_link'),
-            \DB::raw('sum(-m.cantidad_en_um) as cant'),
-            \DB::raw('sum(-m.importe_ml) as monto'),
+            DB::raw('\'ver peticiones\' as texto_link'),
+            DB::raw('sum(-m.cantidad_en_um) as cant'),
+            DB::raw('sum(-m.importe_ml) as monto'),
         ];
     }
 
@@ -41,8 +42,8 @@ class Consumos
     {
         return [
             'm.referencia',
-            \DB::raw('sum(-m.cantidad_en_um) as cant'),
-            \DB::raw('sum(-m.importe_ml) as monto'),
+            DB::raw('sum(-m.cantidad_en_um) as cant'),
+            DB::raw('sum(-m.importe_ml) as monto'),
         ];
     }
 
@@ -55,13 +56,13 @@ class Consumos
             return $subQueryPrefix.'.'.$campo;
         })->all();
 
-        return \DB::table(\DB::raw('('.$fromQuery->toSql().') '.$subQueryPrefix))
+        return DB::table(DB::raw('('.$fromQuery->toSql().') '.$subQueryPrefix))
             ->mergeBindings($fromQuery)
             ->select(array_merge($fields, [
-                \DB::raw('\'ver peticiones\' as texto_link'),
-                \DB::raw('count('.$subQueryPrefix.'.referencia) as referencia'),
-                \DB::raw('sum('.$subQueryPrefix.'.cant) as cant'),
-                \DB::raw('sum('.$subQueryPrefix.'.monto) as monto'),
+                DB::raw('\'ver peticiones\' as texto_link'),
+                DB::raw('count('.$subQueryPrefix.'.referencia) as referencia'),
+                DB::raw('sum('.$subQueryPrefix.'.cant) as cant'),
+                DB::raw('sum('.$subQueryPrefix.'.monto) as monto'),
             ]))
             ->groupBy($fields);
     }
@@ -77,8 +78,8 @@ class Consumos
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'm.vale_acomp', '=', 'c.id_empresa')
+            ->leftJoin(DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(DB::raw(config('invfija.bd_empresas_toa').' c'), 'm.vale_acomp', '=', 'c.id_empresa')
             ->select(array_merge($queryFields, static::getBaseSelectQuery()))
             ->groupBy($queryFields)
             ->orderBy('m.referencia')
@@ -88,13 +89,13 @@ class Consumos
     protected static function getCamposReportePeticiones($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'referencia'  => ['titulo' => 'Numero Peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
+            'referencia' => ['titulo' => 'Numero Peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
             'carta_porte' => ['titulo' => 'Tipo de trabajo', 'tipo' => 'texto'],
-            'empresa'     => ['titulo' => 'Empresa', 'tipo' => 'texto'],
-            'cliente'     => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
-            'tecnico'     => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
-            'cant'        => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'       => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'empresa' => ['titulo' => 'Empresa', 'tipo' => 'texto'],
+            'cliente' => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
+            'tecnico' => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'referencia');
@@ -111,8 +112,8 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
-            ->leftJoin(\DB::raw(config('invfija.bd_ciudades_toa').' d'), 'b.id_ciudad', '=', 'd.id_ciudad')
+            ->leftJoin(DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(DB::raw(config('invfija.bd_ciudades_toa').' d'), 'b.id_ciudad', '=', 'd.id_ciudad')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
@@ -124,11 +125,18 @@ class Consumos
     protected static function getCamposReporteCiudades($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'ciudad'     => ['titulo' => 'Ciudad', 'tipo' => 'texto'],
+            'ciudad' => ['titulo' => 'Ciudad', 'tipo' => 'texto'],
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
-            'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['ciudades', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_ciudad']],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['ciudades', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['id_ciudad']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -144,8 +152,8 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
+            ->leftJoin(DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
@@ -157,11 +165,18 @@ class Consumos
     protected static function getCamposReporteEmpresas($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'empresa'    => ['titulo' => 'Empresa', 'tipo' => 'texto'],
+            'empresa' => ['titulo' => 'Empresa', 'tipo' => 'texto'],
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
-            'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams'=>['empresas', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_empresa']],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['empresas', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['id_empresa']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -178,8 +193,8 @@ class Consumos
         ];
 
         $from = static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
-            ->leftJoin(\DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
+            ->leftJoin(DB::raw(config('invfija.bd_tecnicos_toa').' b'), 'm.cliente', '=', 'b.id_tecnico')
+            ->leftJoin(DB::raw(config('invfija.bd_empresas_toa').' c'), 'b.id_empresa', '=', 'c.id_empresa')
             ->select(array_merge($selectSubQuery, static::getBaseSelectSubQuery()))
             ->groupBy(array_merge($selectSubQuery, ['m.referencia']));
 
@@ -192,13 +207,20 @@ class Consumos
     protected static function getCamposReporteTecnicos($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'empresa'    => ['titulo' => 'Empresa', 'tipo' => 'texto'],
-            'cliente'    => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
-            'tecnico'    => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
+            'empresa' => ['titulo' => 'Empresa', 'tipo' => 'texto'],
+            'cliente' => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
+            'tecnico' => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
             'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
-            'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['tecnicos', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['cliente']],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['tecnicos', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['cliente']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -215,8 +237,13 @@ class Consumos
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
-            ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'), 'b.id_tip_material_trabajo', '=', 'c.id')
+            ->leftJoin(DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
+            ->leftJoin(
+                DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'),
+                'b.id_tip_material_trabajo',
+                '=',
+                'c.id'
+            )
             ->select(array_merge($queryFields, static::getBaseSelectQuery()))
             ->groupBy($queryFields)
             ->orderBy('c.desc_tip_material')
@@ -227,10 +254,17 @@ class Consumos
     {
         $camposReporte = [
             'desc_tip_material' => ['titulo' => 'Tipo Material', 'tipo' => 'texto'],
-            'ume'        => ['titulo' => 'Unidad', 'tipo' => 'texto'],
-            'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['tiposMaterial', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['id_tip_material_trabajo']],
+            'ume' => ['titulo' => 'Unidad', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['tiposMaterial', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['id_tip_material_trabajo']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -248,8 +282,13 @@ class Consumos
         ];
 
         return static::getDataReporteBase($fechaDesde, $fechaHasta)
-            ->leftJoin(\DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
-            ->leftJoin(\DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'), 'b.id_tip_material_trabajo', '=', 'c.id')
+            ->leftJoin(DB::raw(config('invfija.bd_catalogo_tip_material_toa').' b'), 'm.material', '=', 'b.id_catalogo')
+            ->leftJoin(
+                DB::raw(config('invfija.bd_tip_material_trabajo_toa').' c'),
+                'b.id_tip_material_trabajo',
+                '=',
+                'c.id'
+            )
             ->select(array_merge($queryFields, static::getBaseSelectQuery()))
             ->groupBy($queryFields)
             ->orderBy('c.desc_tip_material')
@@ -261,12 +300,19 @@ class Consumos
     {
         $camposReporte = [
             'desc_tip_material' => ['titulo' => 'Tipo Material', 'tipo' => 'texto'],
-            'material'       => ['titulo' => 'Cod Material', 'tipo' => 'texto'],
+            'material' => ['titulo' => 'Cod Material', 'tipo' => 'texto'],
             'texto_material' => ['titulo' => 'Desc Material', 'tipo' => 'texto'],
-            'ume'            => ['titulo' => 'Unidad', 'tipo' => 'texto'],
-            'cant'           => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'          => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link'     => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['materiales', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['material']],
+            'ume' => ['titulo' => 'Unidad', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['materiales', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['material']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -292,11 +338,18 @@ class Consumos
     protected static function getCamposReporteLotes($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'valor'      => ['titulo' => 'Valor', 'tipo' => 'texto'],
-            'lote'       => ['titulo' => 'Lote', 'tipo' => 'texto'],
-            'cant'       => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'      => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link' => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['lotes', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['lote']],
+            'valor' => ['titulo' => 'Valor', 'tipo' => 'texto'],
+            'lote' => ['titulo' => 'Lote', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['lotes', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['lote']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -325,13 +378,20 @@ class Consumos
     protected static function getCamposReporteLotesMateriales($fechaDesde, $fechaHasta)
     {
         $camposReporte = [
-            'valor'          => ['titulo' => 'Valor', 'tipo' => 'texto'],
-            'lote'           => ['titulo' => 'Lote', 'tipo' => 'texto'],
-            'material'       => ['titulo' => 'Cod Material', 'tipo' => 'texto'],
+            'valor' => ['titulo' => 'Valor', 'tipo' => 'texto'],
+            'lote' => ['titulo' => 'Lote', 'tipo' => 'texto'],
+            'material' => ['titulo' => 'Cod Material', 'tipo' => 'texto'],
             'texto_material' => ['titulo' => 'Desc Material', 'tipo' => 'texto'],
-            'cant'           => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'          => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link'     => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['lotesMateriales', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['lote', 'material']],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['lotesMateriales', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['lote', 'material']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -359,11 +419,18 @@ class Consumos
     {
         $camposReporte = [
             'codigo_movimiento' => ['titulo' => 'CodMov', 'tipo' => 'texto'],
-            'texto_movimiento'  => ['titulo' => 'Desc Movimiento', 'tipo' => 'texto'],
-            'elemento_pep'      => ['titulo' => 'PEP', 'tipo' => 'texto'],
-            'cant'              => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'             => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link'        => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['pep', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['codigo_movimiento', 'elemento_pep']],
+            'texto_movimiento' => ['titulo' => 'Desc Movimiento', 'tipo' => 'texto'],
+            'elemento_pep' => ['titulo' => 'PEP', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['pep', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['codigo_movimiento', 'elemento_pep']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');
@@ -390,10 +457,17 @@ class Consumos
     {
         $camposReporte = [
             'carta_porte' => ['titulo' => 'Tipo de trabajo', 'tipo' => 'texto'],
-            'referencia'  => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
-            'cant'        => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'       => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
-            'texto_link'  => ['titulo' => '', 'tipo' => 'link_registro', 'class' => 'text-right', 'route' => 'toa.peticiones', 'routeFixedParams' => ['tiposTrabajo', $fechaDesde, $fechaHasta], 'routeVariableParams' => ['carta_porte']],
+            'referencia' => ['titulo' => 'Peticiones', 'tipo' => 'numero', 'class' => 'text-right'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'texto_link' => [
+                'titulo' => '',
+                'tipo' => 'link_registro',
+                'class' => 'text-right',
+                'route' => 'toa.peticiones',
+                'routeFixedParams' => ['tiposTrabajo', $fechaDesde, $fechaHasta],
+                'routeVariableParams' => ['carta_porte']
+            ],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'ciudad');

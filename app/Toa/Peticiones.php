@@ -10,15 +10,15 @@ class Peticiones
     const CENTROS_CONSUMO = ['CH32', 'CH33'];
 
     protected static $camposReporte = [
-        'ciudades'        => 'id_ciudad',
-        'empresas'        => 'vale_acomp',
-        'tecnicos'        => 'cliente',
-        'tiposMaterial'   => 'id_tip_material_trabajo',
-        'materiales'      => 'material',
-        'lotes'           => 'lote',
+        'ciudades' => 'id_ciudad',
+        'empresas' => 'vale_acomp',
+        'tecnicos' => 'cliente',
+        'tiposMaterial' => 'id_tip_material_trabajo',
+        'materiales' => 'material',
+        'lotes' => 'lote',
         'lotesMateriales' => ['lote', 'material'],
-        'pep'             => ['codigo_movimiento', 'elemento_pep'],
-        'tiposTrabajo'    => 'carta_porte',
+        'pep' => ['codigo_movimiento', 'elemento_pep'],
+        'tiposTrabajo' => 'carta_porte',
     ];
 
     public static function getReporte($data)
@@ -94,14 +94,14 @@ class Peticiones
     protected static function getCamposReporte()
     {
         $camposReporte = [
-            'referencia'  => ['titulo' => 'Numero peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
-            'fecha'       => ['titulo' => 'Fecha', 'tipo' => 'fecha'],
+            'referencia' => ['titulo' => 'Numero peticion', 'tipo' => 'link', 'route' => 'toa.peticion'],
+            'fecha' => ['titulo' => 'Fecha', 'tipo' => 'fecha'],
             'carta_porte' => ['titulo' => 'Tipo trabajo', 'tipo' => 'texto'],
-            'empresa'     => ['titulo' => 'Empresa', 'tipo' => 'texto'],
-            'cliente'     => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
-            'tecnico'     => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
-            'cant'        => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
-            'monto'       => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
+            'empresa' => ['titulo' => 'Empresa', 'tipo' => 'texto'],
+            'cliente' => ['titulo' => 'Cod Tecnico', 'tipo' => 'texto'],
+            'tecnico' => ['titulo' => 'Nombre Tecnico', 'tipo' => 'texto'],
+            'cant' => ['titulo' => 'Cantidad', 'tipo' => 'numero', 'class' => 'text-right'],
+            'monto' => ['titulo' => 'Monto', 'tipo' => 'valor', 'class' => 'text-right'],
         ];
 
         Reporte::setOrderCampos($camposReporte, 'referencia');

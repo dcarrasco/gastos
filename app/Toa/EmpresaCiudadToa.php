@@ -17,27 +17,27 @@ class EmpresaCiudadToa extends OrmModel
     // public $incrementing = false;
     public $modelFields = [
         'id_empresa' => [
-            'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'es_id'          => true,
+            'tipo' => OrmModel::TIPO_HAS_ONE,
+            'es_id' => true,
             'es_obligatorio' => true,
             'relation_model' => EmpresaToa::class,
-            'texto_ayuda'    => 'Seleccione una empresa TOA.',
+            'texto_ayuda' => 'Seleccione una empresa TOA.',
         ],
         'id_ciudad' => [
-            'tipo'           => OrmModel::TIPO_HAS_ONE,
-            'es_id'          => true,
+            'tipo' => OrmModel::TIPO_HAS_ONE,
+            'es_id' => true,
             'es_obligatorio' => true,
             'relation_model' => CiudadToa::class,
-            'texto_ayuda'    => 'Seleccione una Ciudad TOA.',
+            'texto_ayuda' => 'Seleccione una Ciudad TOA.',
         ],
         'almacenes' => [
-            'tipo'           => OrmModel::TIPO_HAS_MANY,
+            'tipo' => OrmModel::TIPO_HAS_MANY,
             'relation_model' => AlmacenSap::class,
-            // 'join_table'    => $this->config->item('bd_empresas_ciudades_almacenes_toa'),
-            'id_one_table'  => ['id_empresa', 'id_ciudad'],
+            // 'join_table' => $this->config->item('bd_empresas_ciudades_almacenes_toa'),
+            'id_one_table' => ['id_empresa', 'id_ciudad'],
             'id_many_table' => ['centro', 'cod_almacen'],
-            'conditions'    => ['centro' => ['CH32','CH33']],
-            'texto_ayuda'    => 'Almacenes asociados a la empresa - ciudad.',
+            'conditions' => ['centro' => ['CH32','CH33']],
+            'texto_ayuda' => 'Almacenes asociados a la empresa - ciudad.',
         ],
     ];
 

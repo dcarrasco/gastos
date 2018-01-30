@@ -18,26 +18,26 @@ class TipMaterialTrabajoToa extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo'           => OrmModel::TIPO_ID,
+            'tipo' => OrmModel::TIPO_ID,
         ],
         'desc_tip_material' => [
-            'label'          => 'Descripci&oacute;n tipo de material',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 50,
-            'texto_ayuda'    => 'Nombre del tipo de material. M&aacute;ximo 50 caracteres.',
+            'label' => 'Descripci&oacute;n tipo de material',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 50,
+            'texto_ayuda' => 'Nombre del tipo de material. M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
-            'es_unico'       => true
+            'es_unico' => true
         ],
         'color' => [
-            'label'          => 'Color tipo material',
-            'tipo'           => OrmModel::TIPO_CHAR,
-            'largo'          => 20,
-            'texto_ayuda'    => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
+            'label' => 'Color tipo material',
+            'tipo' => OrmModel::TIPO_CHAR,
+            'largo' => 20,
+            'texto_ayuda' => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
         ],
         'catalogo' => [
-            'tipo'           => OrmModel::TIPO_HAS_MANY,
+            'tipo' => OrmModel::TIPO_HAS_MANY,
             'relation_model' => Catalogo::class,
-            'texto_ayuda'    => 'Tipo de material TOA.',
+            'texto_ayuda' => 'Tipo de material TOA.',
         ],
     ];
 
