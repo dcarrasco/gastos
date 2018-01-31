@@ -53,11 +53,19 @@ class TipoTrabajoToa extends OrmModel
         $tipos = ['A', '-', 'M', 'B', 'T'];
 
         if (strlen($this->id_tipo) === 10 and in_array(substr($this->id_tipo, 0, 1), $tipos)) {
-            $descripcionTrabajo  =  '<span class="label label-default">BA</span><span class="label label-info">'.substr($this->id_tipo, 0, 2)."</span>";
-            $descripcionTrabajo .= ' <span class="label label-default">STB</span><span class="label label-info">'.substr($this->id_tipo, 2, 2)."</span>";
-            $descripcionTrabajo .= ' <span class="label label-default">DTH</span><span class="label label-info">'.substr($this->id_tipo, 4, 2)."</span>";
-            $descripcionTrabajo .= ' <span class="label label-default">VDSL</span><span class="label label-info">'.substr($this->id_tipo, 6, 2)."</span>";
-            $descripcionTrabajo .= ' <span class="label label-default">IPTV</span><span class="label label-info">'.substr($this->id_tipo, 8, 2)."</span>";
+            $tiposServicio = [
+                'BA' => 0,
+                'STB' => 2,
+                'DTH' => 4,
+                'VDSL' => 6,
+                'IPTV' => 8,
+            ];
+
+            foreach ($tiposServicio as $servicio => $indice) {
+                $valor = substr($this->id_tipo, $indice, 2);
+                $descripcionTrabajo .= "<span class=\"label label-default\">{$servicio}</span>"
+                    ."<span class=\"label label-info\">{$valor}</span>";
+            }
         }
 
         return (string) empty($descripcionTrabajo) ? $this->id_tipo : $descripcionTrabajo;

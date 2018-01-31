@@ -42,7 +42,10 @@ class StockSapFija extends OrmModel
     public static function ultDiaFechasStock()
     {
         return DB::table(config('invfija.bd_stock_fija_fechas'))
-            ->select([DB::raw('100*year(fecha_stock)+month(fecha_stock) as mes'), DB::raw('max(fecha_stock) as fecha_stock')])
+            ->select([
+                DB::raw('100*year(fecha_stock)+month(fecha_stock) as mes'),
+                DB::raw('max(fecha_stock) as fecha_stock'),
+            ])
             ->groupBy([DB::raw('100*year(fecha_stock)+month(fecha_stock)')])
             ->orderBy('mes', 'desc')
             ->get();

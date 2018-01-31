@@ -8,6 +8,7 @@ use App\Stock\TipoAlmacenSap;
 class EmpresaToa extends OrmModel
 {
     public $modelLabel = 'Empresa TOA';
+
     public static $orderField = 'empresa';
 
     protected $fillable = ['id_empresa', 'empresa'];
@@ -63,11 +64,21 @@ class EmpresaToa extends OrmModel
 
     public function tipoAlmacenSap()
     {
-        return $this->belongsToMany(TipoAlmacenSap::class, config('invfija.bd_empresas_toa_tiposalm'), 'id_empresa', 'id_tipo');
+        return $this->belongsToMany(
+            TipoAlmacenSap::class,
+            config('invfija.bd_empresas_toa_tiposalm'),
+            'id_empresa',
+            'id_tipo'
+        );
     }
 
     public function ciudadToa()
     {
-        return $this->belongsToMany(CiudadToa::class, config('invfija.bd_empresas_ciudades_toa'), 'id_empresa', 'id_ciudad');
+        return $this->belongsToMany(
+            CiudadToa::class,
+            config('invfija.bd_empresas_ciudades_toa'),
+            'id_empresa',
+            'id_ciudad'
+        );
     }
 }

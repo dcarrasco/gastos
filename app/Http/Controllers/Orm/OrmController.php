@@ -29,7 +29,12 @@ trait OrmController
     {
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
         view()->share('routeName', $this->routeName);
-        view()->share('moduloSelected', empty(Route::input('modelName')) ? collect(array_keys($this->menuModulo))->first() : Route::input('modelName'));
+        view()->share(
+            'moduloSelected',
+            empty(Route::input('modelName'))
+            ? collect(array_keys($this->menuModulo))->first()
+            : Route::input('modelName')
+        );
     }
 
     /**
@@ -61,7 +66,10 @@ trait OrmController
         $createOrEdit  = 'create';
         $formURL       = route($this->routeName.'.store', [$modelName]);
 
-        return view('orm.orm_editar', compact('modelObject', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL'));
+        return view(
+            'orm.orm_editar',
+            compact('modelObject', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL')
+        );
     }
 
     /**
@@ -79,7 +87,10 @@ trait OrmController
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_save_ok', ['nombre_modelo' => ucfirst($modelName), 'valor_modelo' => (string) $modelObject]));
+            ->with(
+                'alert_message',
+                trans('orm.msg_save_ok', ['nombre_modelo'=>ucfirst($modelName), 'valor_modelo'=>(string) $modelObject])
+            );
     }
 
     /**
@@ -108,7 +119,10 @@ trait OrmController
         $createOrEdit  = 'edit';
         $formURL       = route($this->routeName.'.update', [$modelName, $modelID]);
 
-        return view('orm.orm_editar', compact('modelObject', 'modelID', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL'));
+        return view(
+            'orm.orm_editar',
+            compact('modelObject', 'modelID', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL')
+        );
     }
 
     /**
@@ -138,7 +152,10 @@ trait OrmController
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_save_ok', ['nombre_modelo' => $modelObject->modelLabel, 'valor_modelo' => (string) $modelObject]));
+            ->with('alert_message', trans('orm.msg_save_ok', [
+                'nombre_modelo' => $modelObject->modelLabel,
+                'valor_modelo' => (string) $modelObject
+            ]));
     }
 
     /**
@@ -155,7 +172,10 @@ trait OrmController
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_delete_ok', ['nombre_modelo' => $modelObject->modelLabel, 'valor_modelo' => (string) $modelObject]));
+            ->with('alert_message', trans('orm.msg_delete_ok', [
+                'nombre_modelo' => $modelObject->modelLabel,
+                'valor_modelo' => (string) $modelObject
+            ]));
     }
 
     public function ajaxOnChange(Request $request, $modelName = null)

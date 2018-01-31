@@ -37,7 +37,10 @@ class SubirStockController extends Controller
                 : '';
         }
 
-        return view('inventario.sube_stock', compact('showScriptCarga', 'inventario', 'moduloSelected', 'msjError', 'scriptCarga', 'regsOK'));
+        return view(
+            'inventario.sube_stock',
+            compact('showScriptCarga', 'inventario', 'moduloSelected', 'msjError', 'scriptCarga', 'regsOK')
+        );
     }
 
     public function uploadLinea(UploadDetalleInventarioRequest $request)

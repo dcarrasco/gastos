@@ -119,12 +119,20 @@ class ControlesToa
 
     public static function controlMateriales($request)
     {
-        $filtroTrx = request('filtro_trx') === '000' ? ClaseMovimiento::transaccionesConsumoToa() : [request('filtro_trx')];
+        $filtroTrx = request('filtro_trx') === '000'
+            ? ClaseMovimiento::transaccionesConsumoToa()
+            : [request('filtro_trx')];
 
         list($fechaDesde, $fechaHasta) = static::getFechaDesdeHasta(request('mes'));
 
         $diasMes = static::getDiasMes(request('mes'));
-        $datos = static::getControlMaterialesData(request('empresa'), $fechaDesde, $fechaHasta, $filtroTrx, request('dato'));
+        $datos = static::getControlMaterialesData(
+            request('empresa'),
+            $fechaDesde,
+            $fechaHasta,
+            $filtroTrx,
+            request('dato')
+        );
 
         return $datos->mapWithKeys(function ($elem) use ($diasMes, $datos) {
             $material = $elem->material;

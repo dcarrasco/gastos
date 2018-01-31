@@ -10,11 +10,23 @@ trait ReportesInventario
     protected function getCampo($campo)
     {
         $campos = [
-            'hoja' => ['titulo' => 'Hoja', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleHoja'], 'routeVariableParams' => ['hoja' => 'hoja']],
+            'hoja' => [
+                'titulo' => 'Hoja',
+                'tipo' => 'link_registro',
+                'route' => 'inventario.reporte',
+                'routeFixedParams' => ['detalleHoja'],
+                'routeVariableParams' => ['hoja' => 'hoja']
+            ],
             'auditor' => ['titulo' => 'Auditor'],
             'digitador' => ['titulo' => 'Digitador'],
 
-            'catalogo' => ['titulo' => 'Catalogo', 'tipo' => 'link_registro', 'route' => 'inventario.reporte', 'routeFixedParams' => ['detalleMaterial'], 'routeVariableParams' => ['catalogo' => 'catalogo']],
+            'catalogo' => [
+                'titulo' => 'Catalogo',
+                'tipo' => 'link_registro',
+                'route' => 'inventario.reporte',
+                'routeFixedParams' => ['detalleMaterial'],
+                'routeVariableParams' => ['catalogo' => 'catalogo']
+            ],
             'descripcion' => ['titulo' => 'Descripcion'],
             'um' => ['titulo' => 'UM'],
             'pmp' => ['titulo' => 'PMP', 'class' => 'text-center', 'tipo' => 'valor_pmp'],
@@ -216,14 +228,19 @@ trait ReportesInventario
 
         $reporteFields = ['d.catalogo', 'd.descripcion', 'd.um', 'c.pmp'];
 
+        $maxStockSapFisico = "0.5*("
+            ."SUM(stock_sap+stock_fisico{$inclAjuste}) - ABS(SUM(stock_sap-(stock_fisico{$inclAjuste})))"
+            .")";
+
         $selectFields = array_merge($reporteFields, [
-            DB::raw('(SUM(stock_sap) - 0.5 * (SUM(stock_sap + stock_fisico'.$inclAjuste.') - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_faltante'),
-            DB::raw('(0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_coincidente'),
-            DB::raw('(SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as q_sobrante'),
-            DB::raw('c.pmp * (SUM(stock_sap) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_faltante'),
-            DB::raw('c.pmp * (0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_coincidente'),
-            DB::raw('c.pmp * (SUM((stock_fisico'.$inclAjuste.')) - 0.5 * (SUM(stock_sap + (stock_fisico'.$inclAjuste.')) - ABS(SUM(stock_sap - (stock_fisico'.$inclAjuste.'))))) as v_sobrante'),
+            DB::raw("(SUM(stock_sap) - {$maxStockSapFisico}) as q_faltante"),
+            DB::raw("({$maxStockSapFisico}) as q_coincidente"),
+            DB::raw("(SUM(stock_fisico{$inclAjuste}) - {$maxStockSapFisico}) as q_sobrante"),
+            DB::raw("c.pmp*(SUM(stock_sap) - {$maxStockSapFisico}) as v_faltante"),
+            DB::raw("c.pmp*({$maxStockSapFisico}) as v_coincidente"),
+            DB::raw("c.pmp*(SUM(stock_fisico{$inclAjuste}) - {$maxStockSapFisico}) as v_sobrante"),
         ]);
+
         $groupByFields = $reporteFields;
 
         return $this->queryBaseReporteInventario($selectFields, $groupByFields)

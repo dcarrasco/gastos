@@ -19,6 +19,9 @@ class AnalisisController extends Controller
         $reporteStockSAP    = request('show_stock_sap') ? ReportesSeries::reporteStockSAP($series) : null;
         $reporteStockSCL    = request('show_stock_scl') ? ReportesSeries::reporteStockSCL($series) : null;
 
-        return view('stock_sap.analisis_series_view', compact('reporteMovimientos', 'reporteDespachos', 'reporteStockSAP', 'reporteStockSCL'));
+        return view(
+            'stock_sap.analisis_series_view',
+            compact('reporteMovimientos', 'reporteDespachos', 'reporteStockSAP', 'reporteStockSCL')
+        );
     }
 }

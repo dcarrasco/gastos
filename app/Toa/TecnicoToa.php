@@ -37,7 +37,9 @@ class TecnicoToa extends OrmModel
             'label' => 'RUT del t&eacute;cnico',
             'tipo' => OrmModel::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'RUT del t&eacute;cnico. Sin puntos, con guion y d&iacute;gito verificador (en min&uacute;scula). M&aacute;ximo 50 caracteres.',
+            'texto_ayuda' => 'RUT del t&eacute;cnico. '
+                .'Sin puntos, con guion y d&iacute;gito verificador (en min&uacute;scula). '
+                .'M&aacute;ximo 50 caracteres.',
             'es_obligatorio' => true,
             // 'es_unico' => true
         ],

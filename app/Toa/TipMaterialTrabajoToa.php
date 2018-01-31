@@ -54,6 +54,11 @@ class TipMaterialTrabajoToa extends OrmModel
 
     public function catalogo()
     {
-        return $this->belongsToMany(Catalogo::class, config('invfija.bd_catalogo_tip_material_toa'), 'id_tip_material_trabajo', 'id_catalogo');
+        return $this->belongsToMany(
+            Catalogo::class,
+            config('invfija.bd_catalogo_tip_material_toa'),
+            'id_tip_material_trabajo',
+            'id_catalogo'
+        );
     }
 }

@@ -18,7 +18,10 @@ class ConfigController extends Controller
         $this->menuModulo = [
             'tecnicoToa' => ['nombre'=>trans('toa.config_menu_tecnico'), 'icono'=>'user'],
             'empresaToa' => ['nombre'=>trans('toa.config_menu_empresa'), 'icono'=>'home'],
-            'tipMaterialTrabajoToa' => ['nombre'=>trans('toa.config_menu_tipo_material_trabajo'), 'icono'=>'object-group'],
+            'tipMaterialTrabajoToa' => [
+                'nombre' => trans('toa.config_menu_tipo_material_trabajo'),
+                'icono' => 'object-group'
+            ],
             'tipoTrabajoToa' => ['nombre'=>trans('toa.config_menu_tipo_trabajo'), 'icono'=>'television'],
             'ciudadToa' => ['nombre'=>trans('toa.config_menu_ciudad'), 'icono'=>'map-marker'],
             'empresaCiudadToa' => ['nombre' => trans('toa.config_menu_empresa_ciudad'), 'icono'=>'map-marker'],

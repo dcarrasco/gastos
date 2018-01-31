@@ -44,7 +44,24 @@ trait ReportesSeries
 
     public static function reporteMovimientos($series = '')
     {
-        $campos = ['serie', 'fec_entrada_doc', 'ce', 'alm', 'des_alm', 'rec', 'des_rec', 'cmv', 'des_cmv', 'codigo_sap', 'texto_breve_material', 'lote', 'n_doc', 'referencia', 'usuario', 'nom_usuario'];
+        $campos = [
+            'serie',
+            'fec_entrada_doc',
+            'ce',
+            'alm',
+            'des_alm',
+            'rec',
+            'des_rec',
+            'cmv',
+            'des_cmv',
+            'codigo_sap',
+            'texto_breve_material',
+            'lote',
+            'n_doc',
+            'referencia',
+            'usuario',
+            'nom_usuario'
+        ];
 
         return static::listToArray($series)
             ->map(function ($serie) {

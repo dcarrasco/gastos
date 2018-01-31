@@ -48,7 +48,8 @@ class App extends OrmModel
             'label' => '&Iacute;cono de la aplicaci&oacute;n',
             'tipo' => OrmModel::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'texto_ayuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
+                .'M&aacute;ximo 50 caracteres.',
         ],
     ];
 
