@@ -79,6 +79,8 @@ class Googlemaps
         foreach ($config as $config_key => $config_value) {
             $this->{$config_key} = $config_value;
         }
+
+        return $this;
     }
 
     // --------------------------------------------------------------------
@@ -106,10 +108,31 @@ class Googlemaps
             ."{center: {lat:0, lng:0}, zoom: {$this->mapZoom}})\n"
             ."var bounds = new google.maps.LatLngBounds()\n"
             .$this->txtJs
-            .(count($this->markers) === 1) ? "map.setCenter(ubic_1)\n" : "map.fitBounds(bounds)\n"
+            .(count($this->markers) === 1 ? "map.setCenter(ubic_1)\n" : "map.fitBounds(bounds)\n")
             ."}\n"
             ."</script>\n"
             ."<script type=\"text/javascript\" src=\"{$urlJs}\" defer async></script>\n";
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Agrega marcadores desde un arreglo de peticiones TOA
+     *
+     * @param array $peticiones Arreglo de peticiones
+     * @return $this
+     */
+    public function addPeticionesMarkers($peticiones)
+    {
+        collect($peticiones)->each(function ($peticion) {
+            $this->addMarker([
+                'lat'   => $peticion['acoord_y'],
+                'lng'   => $peticion['acoord_x'],
+                'title' => $peticion['empresa'].' - '.$peticion['tecnico'].' - '.$peticion['referencia'],
+            ]);
+        });
+
+        return $this;
     }
 
     // --------------------------------------------------------------------
@@ -148,5 +171,7 @@ class Googlemaps
                 ."marker_{$nMarker}.setMap(map);\n"
                 ."bounds.extend(marker_{$nMarker}.position);\n\n";
         }
+
+        return $this;
     }
 }
