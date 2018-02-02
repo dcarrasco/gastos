@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Collective\Html;
 
-class Reporte
+trait Reporte
 {
     public $campos = [];
 
@@ -28,15 +28,6 @@ class Reporte
     public $tableHeading = '';
     public $tableBody    = '';
     public $tableFooter  = '';
-
-    // --------------------------------------------------------------------
-
-    public function __construct($datos, $campos)
-    {
-        $this->script = '<script type="text/javascript" src="'.asset('js/reporte.js').'"></script>';
-        $this->datos = $datos;
-        $this->campos = $campos;
-    }
 
     // --------------------------------------------------------------------
 
@@ -81,7 +72,7 @@ class Reporte
                 return fmt_fecha($valor);
             },
             'numero' => function ($valor) {
-                return fmt_cantidad($valor, 0, true);
+                return fmtCantidad($valor, 0, true);
             },
             'valor' => function ($valor) {
                 return fmt_monto($valor, 'UN', '$', 0, true);
@@ -90,7 +81,7 @@ class Reporte
                 return fmt_monto($valor, 'UN', '$', 0, true);
             },
             'numero_dif' => function ($valor) {
-                return fmt_cantidad($valor, 0, true, true);
+                return fmtCantidad($valor, 0, true, true);
             },
             'valor_dif' => function ($valor) {
                 return fmt_monto($valor, 'UN', '$', 0, true, true);
@@ -108,6 +99,14 @@ class Reporte
                 return link_to(route(array_get($param, 'route'), $routeParams), $valor);
             },
             'link_detalle_series' => $funcFormatoDetalle,
+            'doi' => function ($valor) {
+                $color = is_null($valor)
+                    ? 'danger'
+                    : ($valor <= 65 ? 'success' : ($valor <= 90 ? 'warning' : 'danger'));
+
+                return fmtCantidad($valor, $valor < 10 ? 1 : 0, true)
+                    ." <i class=\"fa fa-circle text-{$color}\"></i>";
+            },
         ];
 
         $tipo_dato = $arr_param_campo['tipo'];
@@ -187,8 +186,8 @@ class Reporte
      */
     public function make()
     {
-        $datos = $this->datos;
-        $campos = $this->campos;
+        $datos = collect($this->datos);
+        dump($campos = $this->campos);
         $template = $this->template;
 
         $subtotalAnt = '***init***';
@@ -217,26 +216,27 @@ class Reporte
 
         // --- CUERPO REPORTE ---
         $numLinea = 0;
-        $this->tableBody = $this->template['tbody_open'])
+        $this->tableBody = $this->template['tbody_open']
+            .PHP_EOL
             .$datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
                 $numLinea += 1;
 
                 return $carry
-                    .$template['row_open']
-                    .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea))
-                    .$template['row_close'];
+                    .$template['row_open'].PHP_EOL
+                    .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea)).PHP_EOL
+                    .$template['row_close'].PHP_EOL;
             }, '')
             .$this->template['tbody_close'];
 
         // --- TOTALES ---
         $this->setFooter($this->reporteLineaTotales('total', $campos, $arrTotales));
 
-        return $template['table_open']
-            .$this->tableHeading
-            .$this->tableBody
-            .$this->tableFooter
-            .$template['table_close']
-            .' '.$this->script;
+        return $template['table_open'].PHP_EOL
+            .$this->tableHeading.PHP_EOL
+            .$this->tableBody.PHP_EOL
+            .$this->tableFooter.PHP_EOL
+            .$template['table_close'].PHP_EOL
+            .'<script type="text/javascript" src="'.asset('js/reporte.js').'"></script>';
     }
 
     // --------------------------------------------------------------------
@@ -280,7 +280,7 @@ class Reporte
     private function reporteLineaDatos($linea = [], $campos = [], $numLinea = 0)
     {
         return array_merge(
-            [['data' => fmt_cantidad($numLinea), 'class' => 'text-muted']],
+            [['data' => fmtCantidad($numLinea), 'class' => 'text-muted']],
             collect($campos)->map(function ($elem, $llave) use ($linea) {
                 return array(
                     'data' => $this->formatoReporte($linea->$llave, $elem, $linea, $llave),
@@ -427,5 +427,50 @@ class Reporte
         $this->tableFooter = $this->template['tfoot_open']
             .$this->tableRow($footer, 'th')
             .$this->template['tfoot_close'];
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * Devuelve arreglo result formateado para presentación por mes
+     *
+     * @param  array $data Datos del result
+     * @return Collection  Collección con el resultado
+     */
+    public function resultToMonthTable($data)
+    {
+        if (!$data) {
+            return collect([]);
+        }
+
+        $data = collect($data);
+
+        $anomes = $data->pluck('fecha')
+            ->map(function ($fecha) {
+                return fmt_fecha($fecha, 'Ym');
+            })
+            ->unique()
+            ->first();
+
+        $dias = collect(getArrDiasMes($anomes));
+
+        return $data->pluck('llave')
+            ->sort()
+            ->unique()
+            ->mapWithKeys(function ($llave) use ($dias, $data) {
+                $data_llave = $data
+                    ->filter(function ($dato) use ($llave) {
+                        return array_get($dato, 'llave') === $llave;
+                    })
+                    ->mapWithKeys(function ($dato) {
+                        return [fmt_fecha(array_get($dato, 'fecha'), 'd') => array_get($dato, 'dato')];
+                    });
+
+                return [
+                    $llave => $dias->map(function ($valor, $llave) use ($data_llave) {
+                        return $data_llave->get($llave, $valor);
+                    })->all()
+                ];
+            });
     }
 }
