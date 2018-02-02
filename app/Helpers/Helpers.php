@@ -121,7 +121,7 @@ if (!function_exists('print_validation_errors')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('form_array_format')) {
+if (!function_exists('formArrayFormat')) {
     /**
      * Formatea un arreglo para que sea usado en un formuario select
      * Espera que el arreglo tenga a lo menos las llaves "llave" y "valor"
@@ -130,7 +130,7 @@ if (!function_exists('form_array_format')) {
      * @param  string $msg_ini Elemento inicial a desplegar en select
      * @return array           Arreglo con formato a utilizar
      */
-    function form_array_format($arreglo = array(), $msg_ini = '')
+    function formArrayFormat($arreglo = array(), $msg_ini = '')
     {
         $arr_combo = array();
 
@@ -201,7 +201,7 @@ if (!function_exists('fmtCantidad')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('fmt_monto')) {
+if (!function_exists('fmtMonto')) {
     /**
      * Formatea cantidades numéricas como un monto
      *
@@ -213,7 +213,7 @@ if (!function_exists('fmt_monto')) {
      * @param  boolean $format_diff  Indica si formatea valores positivos (verde) y negativos (rojo)
      * @return string                Monto formateado
      */
-    function fmt_monto(
+    function fmtMonto(
         $monto = 0,
         $unidad = 'UN',
         $signo_moneda = '$',
@@ -253,14 +253,14 @@ if (!function_exists('fmt_monto')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('fmt_hora')) {
+if (!function_exists('fmtHora')) {
     /**
      * Devuelve una cantidad de segundos como una hora
      *
      * @param  integer $segundos_totales Cantidad de segundos a formatear
      * @return string       Segundos formateados como hora
      */
-    function fmt_hora($segundos_totales = 0)
+    function fmtHora($segundos_totales = 0)
     {
         $separador = ':';
 
@@ -279,7 +279,7 @@ if (!function_exists('fmt_hora')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('fmt_fecha')) {
+if (!function_exists('fmtFecha')) {
     /**
      * Devuelve una fecha de la BD formateada para desplegar
      *
@@ -287,7 +287,7 @@ if (!function_exists('fmt_fecha')) {
      * @param  string $formato Formato a devolver
      * @return string          Fecha formateada segun formato
      */
-    function fmt_fecha($fecha = null, $formato = 'Y-m-d')
+    function fmtFecha($fecha = null, $formato = 'Y-m-d')
     {
         $fecha = \Carbon\Carbon::parse($fecha);
 
@@ -297,14 +297,14 @@ if (!function_exists('fmt_fecha')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('fmt_fecha_db')) {
+if (!function_exists('fmtFechaDb')) {
     /**
      * Devuelve una fecha del usuario para consultar en la BD
      *
      * @param  string $fecha Fecha a formatear
      * @return string        Fecha formateada segun formato
      */
-    function fmt_fecha_db($fecha = null)
+    function fmtFechaDb($fecha = null)
     {
         return fmt_fecha($fecha, 'Ymd');
     }
@@ -312,14 +312,14 @@ if (!function_exists('fmt_fecha_db')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('fmt_rut')) {
+if (!function_exists('fmtRut')) {
     /**
      * Formatea un RUT
      *
      * @param  string $rut RUT a formatear
      * @return string      RUT formateado segun formato
      */
-    function fmt_rut($numero_rut = null)
+    function fmtRut($numero_rut = null)
     {
         if (!$numero_rut) {
             return null;
@@ -332,7 +332,7 @@ if (!function_exists('fmt_rut')) {
             list($numero_rut, $dv_rut) = explode('-', $numero_rut);
         }
 
-        return fmt_cantidad($numero_rut).'-'.strtoupper($dv_rut);
+        return fmtCantidad($numero_rut).'-'.strtoupper($dv_rut);
     }
 }
 
@@ -441,5 +441,25 @@ if (!function_exists('cached_query')) {
         }
 
         return $result;
+    }
+}
+
+// --------------------------------------------------------------------
+
+if ( ! function_exists('clase_cumplimiento_consumos'))
+{
+    /**
+     * Devuelve la clase pintar el cumplimiento diario
+     *
+     * @param  integer $porcentaje_cumplimiento % de cumplimiento
+     * @return string                           Clase
+     */
+    function clase_cumplimiento_consumos($porcentaje_cumplimiento = 0)
+    {
+        return $porcentaje_cumplimiento >= 0.9
+            ? 'success'
+            : ($porcentaje_cumplimiento >= 0.6
+                ? 'warning'
+                : 'danger');
     }
 }

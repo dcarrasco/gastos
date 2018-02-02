@@ -69,22 +69,22 @@ trait Reporte
                 return $valor;
             },
             'fecha' => function ($valor) {
-                return fmt_fecha($valor);
+                return fmtFecha($valor);
             },
             'numero' => function ($valor) {
                 return fmtCantidad($valor, 0, true);
             },
             'valor' => function ($valor) {
-                return fmt_monto($valor, 'UN', '$', 0, true);
+                return fmtMonto($valor, 'UN', '$', 0, true);
             },
             'valor_pmp' => function ($valor) {
-                return fmt_monto($valor, 'UN', '$', 0, true);
+                return fmtMonto($valor, 'UN', '$', 0, true);
             },
             'numero_dif' => function ($valor) {
                 return fmtCantidad($valor, 0, true, true);
             },
             'valor_dif' => function ($valor) {
-                return fmt_monto($valor, 'UN', '$', 0, true, true);
+                return fmtMonto($valor, 'UN', '$', 0, true, true);
             },
             'link' => function ($valor, $param) {
                 return link_to(array_get($param, 'href').$valor, $valor);
@@ -452,7 +452,7 @@ trait Reporte
 
         $anomes = $data->pluck('fecha')
             ->map(function ($fecha) {
-                return fmt_fecha($fecha, 'Ym');
+                return fmtFecha($fecha, 'Ym');
             })
             ->unique()
             ->first();
@@ -468,7 +468,7 @@ trait Reporte
                         return array_get($dato, 'llave') === $llave;
                     })
                     ->mapWithKeys(function ($dato) {
-                        return [fmt_fecha(array_get($dato, 'fecha'), 'd') => array_get($dato, 'dato')];
+                        return [fmtFecha(array_get($dato, 'fecha'), 'd') => array_get($dato, 'dato')];
                     });
 
                 return [
