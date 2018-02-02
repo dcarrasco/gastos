@@ -58,7 +58,7 @@ trait Reporte
 
             $valor_desplegar = fmtCantidad($valor);
 
-            return anchor(
+            return link_to(
                 $arr_param_campo['href'].'?'.http_build_query(array_intersect_key($registro, array_flip($arr_indices))),
                 ($valor_desplegar === '') ? ' ' : $valor_desplegar
             );
@@ -87,7 +87,7 @@ trait Reporte
                 return fmt_monto($valor, 'UN', '$', 0, true, true);
             },
             'link' => function ($valor, $param) {
-                return link_to(route(array_get($param, 'route'), [$valor]), $valor);
+                return link_to(array_get($param, 'href').$valor, $valor);
             },
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
@@ -96,7 +96,8 @@ trait Reporte
                         return $registro->{$param};
                     })->all()
                 );
-                return link_to(route(array_get($param, 'route'), $routeParams), $valor);
+
+                return link_to(array_get($param, 'href'), $valor);
             },
             'link_detalle_series' => $funcFormatoDetalle,
             'doi' => function ($valor) {
@@ -187,7 +188,7 @@ trait Reporte
     public function make()
     {
         $datos = collect($this->datos);
-        dump($campos = $this->campos);
+        $campos = $this->campos;
         $template = $this->template;
 
         $subtotalAnt = '***init***';
@@ -282,10 +283,10 @@ trait Reporte
         return array_merge(
             [['data' => fmtCantidad($numLinea), 'class' => 'text-muted']],
             collect($campos)->map(function ($elem, $llave) use ($linea) {
-                return array(
-                    'data' => $this->formatoReporte($linea->$llave, $elem, $linea, $llave),
+                return [
+                    'data' => $this->formatoReporte(array_get($linea, $llave), $elem, $linea, $llave),
                     'class' => isset($elem['class']) ? $elem['class'] : '',
-                );
+                ];
             })
             ->all()
         );
@@ -415,8 +416,10 @@ trait Reporte
 
     public function setHeading($heading = [])
     {
-        $this->tableHeading = $this->template['thead_open']
-            .$this->tableRow($heading, 'th')
+        $this->tableHeading = $this->template['thead_open'].PHP_EOL
+            .$this->template['row_open'].PHP_EOL
+            .$this->tableRow($heading, 'th').PHP_EOL
+            .$this->template['row_close'].PHP_EOL
             .$this->template['thead_close'];
     }
 
@@ -424,8 +427,10 @@ trait Reporte
 
     public function setFooter($footer = [])
     {
-        $this->tableFooter = $this->template['tfoot_open']
-            .$this->tableRow($footer, 'th')
+        $this->tableFooter = $this->template['tfoot_open'].PHP_EOL
+            .$this->template['row_open'].PHP_EOL
+            .$this->tableRow($footer, 'th').PHP_EOL
+            .$this->template['row_close'].PHP_EOL
             .$this->template['tfoot_close'];
     }
 
