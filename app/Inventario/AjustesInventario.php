@@ -2,6 +2,7 @@
 
 namespace App\Inventario;
 
+use DB;
 use App\Helpers\Reporte;
 
 trait AjustesInventario
@@ -11,7 +12,7 @@ trait AjustesInventario
         $inclAjuste = request('incl_ajustes') ? '+stock_ajuste' : '';
 
         return DetalleInventario::where('id_inventario', $this->id)
-            ->where(\DB::raw('stock_fisico-stock_sap'.$inclAjuste), '<>', 0)
+            ->where(DB::raw('stock_fisico-stock_sap'.$inclAjuste), '<>', 0)
             ->orderBy('catalogo')
             ->orderBy('lote')
             ->orderBy('centro')

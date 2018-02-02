@@ -2,8 +2,8 @@
 
 namespace App\Toa;
 
-use App\Toa\ControlesToaData;
 use App\Toa\TecnicoToa;
+use App\Toa\ControlesToaData;
 use App\Stock\ClaseMovimiento;
 
 class ControlesToa
