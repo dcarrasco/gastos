@@ -190,7 +190,7 @@ class DetalleInventario extends OrmModel
 
     public function __toString()
     {
-        return $this->hoja;
+        return (string) $this->hoja;
     }
 
     public function getStockAjusteAttribute($value)
