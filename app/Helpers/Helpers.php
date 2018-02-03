@@ -26,12 +26,30 @@ if (!function_exists('models_array_options')) {
 
 // --------------------------------------------------------------------
 
-if (!function_exists('dia_semana')) {
-    function dia_semana($numDiaSem)
+if (!function_exists('diaSemana')) {
+    function diaSemana($numDiaSem)
     {
         $dias = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
 
         return array_get($dias, $numDiaSem);
+    }
+}
+
+// --------------------------------------------------------------------
+
+if (!function_exists('getFechaHasta')) {
+    /**
+     * Devuelve la fecha más un mes
+     *
+     * @param  string $anomes Mes y año a consultar (formato YYYYMM)
+     * @return string         Fecha más un mes (formato YYYYMMDD)
+     */
+    function getFechaHasta($anomes = null)
+    {
+        $mes = (int) substr($anomes, 4, 2);
+        $ano = (int) substr($anomes, 0, 4);
+
+        return (string) (($mes === 12) ? ($ano+1)*10000+(1)*100+1 : $ano*10000+($mes+1)*100+1);
     }
 }
 
@@ -306,7 +324,7 @@ if (!function_exists('fmtFechaDb')) {
      */
     function fmtFechaDb($fecha = null)
     {
-        return fmt_fecha($fecha, 'Ymd');
+        return fmtFecha($fecha, 'Ymd');
     }
 }
 
