@@ -58,7 +58,7 @@ class Inventario extends OrmModel
 
     public function __toString()
     {
-        return $this->nombre;
+        return (string) $this->nombre;
     }
 
     public function tipoInventario()
