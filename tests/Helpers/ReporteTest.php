@@ -70,7 +70,9 @@ class ReporteTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->getReporte()->resultToMonthTable([['campo1' => '20170204', 'campo2' => 10, 'campo3' => 'llave']])->all()
+            $this->getReporte()
+                ->resultToMonthTable([['campo1' => '20170204', 'campo2' => 10, 'campo3' => 'llave']])
+                ->all()
         );
 
     }
@@ -132,9 +134,17 @@ class ReporteTest extends TestCase
 
     public function testFormatoReporteLinkDetalleSeries()
     {
-        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'], ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'], 'aa');
+        $reporte = $this->getReporte()->formatoReporte(
+            12345,
+            ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'],
+            ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'],
+            'aa'
+        );
 
-        $this->assertEquals('<a href="http://a/b/c/?centro=CM11&almacen=CH01&lote=NUEVO&permanencia=aa">12.345</a>', $reporte);
+        $this->assertEquals(
+            '<a href="http://a/b/c/?centro=CM11&almacen=CH01&lote=NUEVO&permanencia=aa">12.345</a>',
+            $reporte
+        );
     }
 
     public function testFormatoReporteOtro()
@@ -181,41 +191,23 @@ class ReporteTest extends TestCase
 
         $reporte = collect(explode(PHP_EOL, $repo->make()));
 
-        $this->assertCount(3, $reporte->filter(function($linea) {return substr($linea, 0, 22)==='<td class="text-muted"';})->all());
-        $this->assertCount(1, $reporte->filter(function($linea) {return substr($linea, 0, 6)==='<table';})->all());
-        $this->assertCount(1, $reporte->filter(function($linea) {return substr($linea, 0, 6)==='<thead';})->all());
-        $this->assertCount(3+2, $reporte->filter(function($linea) {return substr($linea, 0, 3)==='<tr';})->all());
+        $this->assertCount(3, $reporte->filter(function ($linea) {
+            return substr($linea, 0, 22)==='<td class="text-muted"';
+        })->all());
+
+        $this->assertCount(1, $reporte->filter(function ($linea) {
+            return substr($linea, 0, 6)==='<table';
+        })->all());
+
+        $this->assertCount(1, $reporte->filter(function ($linea) {
+            return substr($linea, 0, 6)==='<thead';
+        })->all());
+
+        $this->assertCount(3+2, $reporte->filter(function ($linea) {
+            return substr($linea, 0, 3)==='<tr';
+        })->all());
 
         $this->assertNotEmpty(collect($repo->campos)->pluck('sort')->implode(''));
         $this->assertNotEmpty(collect($repo->campos)->pluck('img_orden')->implode(''));
-    }
-
-
-}
-
-class Repo {
-
-    // use \App\Helpers\Reporte;
-
-    public $campos;
-
-    public function getCamposReporte()
-    {
-        return ;
-    }
-
-    public function getDatosReporte()
-    {
-        return ;
-    }
-
-    public function getReporte()
-    {
-        $this->datos = $this->getDatosReporte();
-        $this->campos = $this->getCamposReporte();
-
-        $this->setOrderCampos($this->campos, 'campo1');
-
-        return $this;
     }
 }
