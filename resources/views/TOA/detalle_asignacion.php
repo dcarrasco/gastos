@@ -18,7 +18,7 @@
 				<label class="control-label col-md-2">Fecha</label>
 				<div class="col-md-4">
 					<p class="form-control-static">
-						<?= fmt_fecha($linea_detalle['fecha']); ?>
+						<?= fmtFecha($linea_detalle['fecha']); ?>
 					</p>
 				</div>
 			</div>
@@ -74,7 +74,7 @@
 						<td class="text-center"><?= $linea_detalle['valor']; ?></td>
 						<td class="text-center"><?= $linea_detalle['umb']; ?></td>
 						<td class="text-center"><?= fmtCantidad($linea_detalle['cant']); ?></td>
-						<td class="text-center"><?= fmt_monto($linea_detalle['monto']); ?></td>
+						<td class="text-center"><?= fmtMonto($linea_detalle['monto']); ?></td>
 						<td class="text-center"><?= $linea_detalle['codigo_movimiento']; ?></td>
 						<td class="text-center"><?= $linea_detalle['elemento_pep']; ?></td>
 						<td class="text-center"><?= $linea_detalle['documento_material']; ?></td>

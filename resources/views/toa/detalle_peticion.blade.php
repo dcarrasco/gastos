@@ -46,7 +46,7 @@
 				<label class="control-label col-sm-2 col-xs-3">Fecha</label>
 				<div class="col-sm-4 col-xs-9">
 					<p class="form-control-static">
-						{{ fmt_fecha(array_get($peticion, 'peticionToa.date')) }}
+						{{ fmtFecha(array_get($peticion, 'peticionToa.date')) }}
 					</p>
 				</div>
 			</div>
@@ -209,7 +209,7 @@
 							<td class="text-center">{{ $linea_detalle->elemento_pep }}</td>
 							<td class="text-center">{{ $linea_detalle->umb }}</td>
 							<td class="text-center"><?= fmtCantidad($linea_detalle->cant); ?></td>
-							<td class="text-center"><?= fmt_monto($linea_detalle->monto); ?></td>
+							<td class="text-center"><?= fmtMonto($linea_detalle->monto); ?></td>
 						</tr>
 						<?php $sum_cant += $linea_detalle->cant; $sum_monto += $linea_detalle->monto; ?>
 					@endforeach
@@ -229,7 +229,7 @@
 							<th></th>
 							<th></th>
 							<th class="text-center">{{ fmtCantidad($sum_cant) }}</th>
-							<th class="text-center">{{ fmt_monto($sum_monto) }}</th>
+							<th class="text-center">{{ fmtMonto($sum_monto) }}</th>
 						</tr>
 					</tfoot>
 				</table>

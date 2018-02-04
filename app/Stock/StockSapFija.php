@@ -57,7 +57,7 @@ class StockSapFija extends OrmModel
 
         return $fechas
         ->mapWithKeys(function ($item) {
-            return [fmt_fecha_db($item->fecha_stock) => fmt_fecha($item->fecha_stock)];
+            return [fmtFecha_db($item->fecha_stock) => fmtFecha($item->fecha_stock)];
         })->all();
     }
 

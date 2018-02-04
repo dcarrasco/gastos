@@ -33,8 +33,8 @@
 				<td><?= $query['Command']; ?></td>
 				<td><?= $query['ProgramName']; ?></td>
 				<td><?= $query['start_time']; ?></td>
-				<td><?= fmt_hora($query['total_elapsed_time']/1000); ?></td>
-				<td><?= fmt_hora($query['cpu_time']/1000); ?></td>
+				<td><?= fmtHora($query['total_elapsed_time']/1000); ?></td>
+				<td><?= fmtHora($query['cpu_time']/1000); ?></td>
 				<td><?= fmtCantidad($query['DiskIO']); ?></td>
 				<td><?= fmtCantidad($query['reads']); ?></td>
 				<td><?= fmtCantidad($query['writes']); ?></td>

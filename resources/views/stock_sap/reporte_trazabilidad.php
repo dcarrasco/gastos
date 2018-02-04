@@ -117,8 +117,8 @@
 						<?= ($arr_param_campo['tipo'] === 'texto')  ? $reg[$campo] : ''; ?>
 						<?= ($arr_param_campo['tipo'] === 'link')   ? anchor($arr_param_campo['href'] . $reg[$campo], $reg[$campo]) : ''; ?>
 						<?= ($arr_param_campo['tipo'] === 'numero') ? fmtCantidad($reg[$campo]) : ''; ?>
-						<?= ($arr_param_campo['tipo'] === 'valor')  ? fmt_monto($reg[$campo]) : ''; ?>
-						<?= ($arr_param_campo['tipo'] === 'valor_pmp') ? fmt_monto($reg[$campo]) : ''; ?>
+						<?= ($arr_param_campo['tipo'] === 'valor')  ? fmtMonto($reg[$campo]) : ''; ?>
+						<?= ($arr_param_campo['tipo'] === 'valor_pmp') ? fmtMonto($reg[$campo]) : ''; ?>
 						<?php if ($arr_param_campo['tipo'] === 'numero' || $arr_param_campo['tipo'] === 'valor') { $totales[$campo] += $reg[$campo]; }?>
 						<?php if ($arr_param_campo['tipo'] === 'numero' || $arr_param_campo['tipo'] === 'valor') { $subtotales[$campo] += $reg[$campo]; }?>
 					</td>

@@ -87,7 +87,7 @@
 			<td><?= $lin['clasificacion'] ?></td>
 			<td><?= $lin['tipo'] ?></td>
 			<?php foreach ($reporte['fechas'] as $fec): ?>
-				<td class="text-right"><?= fmt_monto($lin[$fec]); ?></td>
+				<td class="text-right"><?= fmtMonto($lin[$fec]); ?></td>
 				<?php $total[$fec] += $lin[$fec]; ?>
 			<?php endforeach ?>
 		</tr>
@@ -102,7 +102,7 @@
 			<th></th>
 			<th></th>
 			<?php foreach ($reporte['fechas'] as $fec): ?>
-				<th class="text-right"><?= fmt_monto($total[$fec]); ?></th>
+				<th class="text-right"><?= fmtMonto($total[$fec]); ?></th>
 				<?php $total[$fec] = 0; ?>
 			<?php endforeach ?>
 		</tr>
