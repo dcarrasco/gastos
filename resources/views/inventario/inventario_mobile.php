@@ -59,8 +59,8 @@
 					<td class="text-center" nowrap><?= anchor('inventario_digitacion/ingreso_mobile/'.$hoja.'/'.$linea_det->id,$linea_det->get_valor_field('ubicacion')); ?></td>
 					<td class="text-center"><?= $linea_det->catalogo; ?></td>
 					<td><?= $linea_det->get_valor_field('descripcion'); ?></td>
-					<td class="text-right"><?= fmt_cantidad($linea_det->stock_sap); ?></td>
-					<td class="text-right"><?= fmt_cantidad($linea_det->stock_fisico); ?></td>
+					<td class="text-right"><?= fmtCantidad($linea_det->stock_sap); ?></td>
+					<td class="text-right"><?= fmtCantidad($linea_det->stock_fisico); ?></td>
 				</tr>
 				<?php $sum_sap += $linea_det->stock_sap; $sum_fisico += $linea_det->stock_fisico;?>
 				<?php $tab_index += 1; ?>
@@ -73,8 +73,8 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td class="text-right"><strong><?= fmt_cantidad($sum_sap); ?></strong></td>
-				<td class="text-right"><strong><?= fmt_cantidad($sum_fisico); ?></strong></td>
+				<td class="text-right"><strong><?= fmtCantidad($sum_sap); ?></strong></td>
+				<td class="text-right"><strong><?= fmtCantidad($sum_fisico); ?></strong></td>
 			</tr>
 		</tfoot>
 

@@ -94,14 +94,14 @@
 				<?php if ($arr_material['dato']): ?>
 					<?php $class =  $arr_material['color'] ? $arr_material['color'] : 'info'; ?>
 					<td class="text-center <?= $class; ?>">
-						<?= fmt_cantidad($arr_material['dato']); ?>
+						<?= fmtCantidad($arr_material['dato']); ?>
 					</td>
 				<?php else: ?>
 					<td></td>
 				<?php endif ?>
 				<?php $tot_lin += $arr_material['dato']; $tot_col[$material] += $arr_material['dato']; $count_col[$material] += $arr_material['dato'] ? 1 : 0;?>
 			<?php endforeach; ?>
-			<th class="text-center"><?= fmt_cantidad($tot_lin); ?></th>
+			<th class="text-center"><?= fmtCantidad($tot_lin); ?></th>
 			<?php $count_col['total'] += $tot_lin ? 1 : 0;?>
 		</tr>
 		<?php $num_lin+= 1; ?>
@@ -113,9 +113,9 @@
 			<th></th>
 			<?php $tot_lin = 0; ?>
 			<?php foreach ($tot_col as $material => $total): ?>
-				<th class="text-center"><?= fmt_cantidad($total); ?><?php $tot_lin += $total ?></th>
+				<th class="text-center"><?= fmtCantidad($total); ?><?php $tot_lin += $total ?></th>
 			<?php endforeach; ?>
-			<th class="text-center"><?= fmt_cantidad($tot_lin); ?></th>
+			<th class="text-center"><?= fmtCantidad($tot_lin); ?></th>
 		</tr>
 		<tr class="active">
 			<th></th>
@@ -123,7 +123,7 @@
 			<?php $tot_lin = 0; ?>
 			<?php foreach ($count_col as $material => $count): ?>
 				<?php $porcentaje = $count / $num_lin; ?>
-				<th class="text-center <?= $this->toa_model->clase_cumplimiento_consumos($porcentaje) ?>"><?= fmt_cantidad(100*$porcentaje, 0, TRUE); ?>%</th>
+				<th class="text-center <?= $this->toa_model->clase_cumplimiento_consumos($porcentaje) ?>"><?= fmtCantidad(100*$porcentaje, 0, TRUE); ?>%</th>
 			<?php endforeach; ?>
 		</tr>
 	</tfoot>

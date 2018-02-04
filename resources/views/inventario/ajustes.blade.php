@@ -59,10 +59,10 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_sap, 0, TRUE) }}</strong></td>
-                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico, 0, TRUE) }}</strong></td>
-                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
-                        <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmtCantidad($subtot_sap, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmtCantidad($subtot_fisico, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmtCantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
+                        <td class="text-center"><strong>{{ fmtCantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -82,14 +82,14 @@
                     <!-- <td class="text-center">{{-- $detalle->hu --}}</td> -->
                     <td class="text-center"><?= $detalle->hoja; ?></td>
                     <td class="text-center"><?= $detalle->um; ?></td>
-                    <td class="text-center"><?= fmt_cantidad($detalle->stock_sap); ?></td>
-                    <td class="text-center"><?= fmt_cantidad($detalle->stock_fisico); ?></td>
+                    <td class="text-center"><?= fmtCantidad($detalle->stock_sap); ?></td>
+                    <td class="text-center"><?= fmtCantidad($detalle->stock_fisico); ?></td>
                     <td class="{{ $errors->has("detalle.{$detalle->id}.stock_ajuste") ? 'has-error' : ''}}">
                         {{ Form::text("detalle[{$detalle->id}][stock_ajuste]", $detalle->stock_ajuste, ['class' => 'form-control input-sm text-right', 'size' => 5, 'tabindex' => $tab_index]) }}
                         {{-- form_error('stock_ajuste_'.$detalle->id); --}}
                     </td>
                     <td class="text-center">
-                        {{ fmt_cantidad($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) }}
+                        {{ fmtCantidad($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) }}
                     </td>
                     <td class="text-center">
                         @if(($detalle->stock_fisico - $detalle->stock_sap + $detalle->stock_ajuste) > 0)
@@ -129,10 +129,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-center"><strong>{{ fmt_cantidad($subtot_sap, 0, TRUE) }}</strong></td>
-                <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico, 0, TRUE) }}</strong></td>
-                <td class="text-center"><strong>{{ fmt_cantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
-                <td class="text-center"><strong>{{ fmt_cantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmtCantidad($subtot_sap, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmtCantidad($subtot_fisico, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmtCantidad($subtot_ajuste, 0, TRUE) }}</strong></td>
+                <td class="text-center"><strong>{{ fmtCantidad($subtot_fisico - $subtot_sap + $subtot_ajuste, 0, TRUE) }}</strong></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -153,10 +153,10 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-center"><strong><?= fmt_cantidad($sum_sap); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($sum_fisico); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($sum_ajuste); ?></strong></td>
-                <td class="text-center"><strong><?= fmt_cantidad($sum_fisico - $sum_sap + $sum_ajuste); ?></strong></td>
+                <td class="text-center"><strong><?= fmtCantidad($sum_sap); ?></strong></td>
+                <td class="text-center"><strong><?= fmtCantidad($sum_fisico); ?></strong></td>
+                <td class="text-center"><strong><?= fmtCantidad($sum_ajuste); ?></strong></td>
+                <td class="text-center"><strong><?= fmtCantidad($sum_fisico - $sum_sap + $sum_ajuste); ?></strong></td>
                 <td></td>
                 <td>
                     <button type="submit" class="btn btn-primary">

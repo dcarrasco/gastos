@@ -57,7 +57,7 @@
 					<?= substr($datos['factura_'.$i]['fecha'],0,10); ?>
 					<br/><?= $datos['factura_'.$i]['n_doc']; ?>
 					<br/><?= $datos['factura_'.$i]['cod_sap']; ?>
-					<br/><?= fmt_cantidad($datos['factura_'.$i]['cant']); ?>
+					<br/><?= fmtCantidad($datos['factura_'.$i]['cant']); ?>
 				</td>
 				<?php endfor; ?>
 			</tr>

@@ -18,11 +18,11 @@
 				<?php $tot = 0; ?>
 				<?php foreach ($marcas as $marca): ?>
 					<td>
-						<?= array_key_exists($marca['marca'], $reporte[$almacen['almacen']]) ? fmt_cantidad($reporte[$almacen['almacen']][$marca['marca']]) : ''; ?>
+						<?= array_key_exists($marca['marca'], $reporte[$almacen['almacen']]) ? fmtCantidad($reporte[$almacen['almacen']][$marca['marca']]) : ''; ?>
 					</td>
 					<?php $tot += array_key_exists($marca['marca'], $reporte[$almacen['almacen']]) ? (int) $reporte[$almacen['almacen']][$marca['marca']] : 0; ?>
 				<?php endforeach ?>
-				<th><?= fmt_cantidad($tot); ?></th>
+				<th><?= fmtCantidad($tot); ?></th>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>

@@ -76,7 +76,7 @@
 					<td class="ac">{{ $detalle->um }}</td>
 
 					@if (!$ocultaStockSAP)
-						<td class="ac">{{ fmt_cantidad($detalle->stock_sap) }}</td>
+						<td class="ac">{{ fmtCantidad($detalle->stock_sap) }}</td>
 					@endif
 
 					<!-- cantidad física -->
@@ -125,7 +125,7 @@
 			@if (!$ocultaStockSAP)
 				<tr>
 					<td colspan="7" class="no-border"></td>
-					<td class="ac"><strong>{{ fmt_cantidad($sum_sap) }}</strong></td>
+					<td class="ac"><strong>{{ fmtCantidad($sum_sap) }}</strong></td>
 					<td colspan="4" class="no-border"></td>
 				</tr>
 			@endif

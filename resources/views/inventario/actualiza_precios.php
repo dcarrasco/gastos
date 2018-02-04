@@ -5,7 +5,7 @@
 		<?php if ($update_status === ' disabled'): ?>
 		<div class="form-group">
 			<div class="col-sm-12 text-center">
-				<?= sprintf('{_inventario_act_precios_msg_}', fmt_cantidad($cant_actualizada)); ?>
+				<?= sprintf('{_inventario_act_precios_msg_}', fmtCantidad($cant_actualizada)); ?>
 			</div>
 		</div>
 		<?php endif; ?>

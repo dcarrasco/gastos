@@ -88,7 +88,7 @@
 			</td>
 			<?php foreach ($datos['actuaciones'] as $dia_act => $valor): ?>
 				<?php if ($valor): ?>
-					<?php $valor_desplegar = set_value('dato') === 'monto' ? fmt_monto($valor, 'MM') : fmt_cantidad($valor); ?>
+					<?php $valor_desplegar = set_value('dato') === 'monto' ? fmt_monto($valor, 'MM') : fmtCantidad($valor); ?>
 					<td class="text-center info"><?= anchor($url_detalle_dia.'/'.$anomes.$dia_act.'/'.$id_tecnico, $valor_desplegar); ?></td>
 				<?php else: ?>
 					<td></td>
@@ -107,7 +107,7 @@
 			<th></th>
 			<th></th>
 			<?php foreach ($tot_col as $dia_act => $valor): ?>
-				<th class="text-center"><?= set_value('dato') === 'monto' ? fmt_monto($valor, 'MM') : fmt_cantidad($valor);  ?></th>
+				<th class="text-center"><?= set_value('dato') === 'monto' ? fmt_monto($valor, 'MM') : fmtCantidad($valor);  ?></th>
 			<?php endforeach; ?>
 		</tr>
 	</tfoot>

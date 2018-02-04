@@ -46,15 +46,15 @@
             @foreach ($datos['actuaciones'] as $dia_act => $cant_act)
                 @if ($cant_act)
                     <td class="text-center info">
-                    <a href="">{{ fmt_cantidad($cant_act) }}</a>
-                    {{-- anchor($url_detalle_dia.'/'.$anomes.$dia_act.'/'.$anomes.$dia_act.'/'.$id_tecnico, fmt_cantidad($cant_act)) --}}</td>
+                    <a href="">{{ fmtCantidad($cant_act) }}</a>
+                    {{-- anchor($url_detalle_dia.'/'.$anomes.$dia_act.'/'.$anomes.$dia_act.'/'.$id_tecnico, fmtCantidad($cant_act)) --}}</td>
                 @else
                     <td></td>
                 @endif
                 <?php $tot_lin += $cant_act; $tot_col[$dia_act] += $cant_act; $count_col[$dia_act] += $cant_act ? 1 : 0; ?>
             @endforeach
 
-            <th class="text-center">{{ fmt_cantidad($tot_lin) }}</th>
+            <th class="text-center">{{ fmtCantidad($tot_lin) }}</th>
             <?php $count_col['total'] += $tot_lin ? 1 : 0; ?>
         </tr>
     @endforeach
@@ -68,9 +68,9 @@
             <th></th>
             <?php $tot_lin = 0; ?>
             @foreach ($tot_col as $dia_act => $total)
-                <th class="text-center">{{ fmt_cantidad($total) }}<?php $tot_lin += $total ?></th>
+                <th class="text-center">{{ fmtCantidad($total) }}<?php $tot_lin += $total ?></th>
             @endforeach
-            <th class="text-center">{{ fmt_cantidad($tot_lin) }}</th>
+            <th class="text-center">{{ fmtCantidad($tot_lin) }}</th>
         </tr>
         <tr class="active">
             <th></th>
@@ -79,7 +79,7 @@
             <?php $tot_lin = 0; ?>
             @foreach ($count_col as $dia_act => $count)
                 <?php $porcentaje = $count / count($control); ?>
-                <th class="text-center {{-- $this->toa_model->clase_cumplimiento_consumos($porcentaje) --}}">{{ fmt_cantidad(100*$porcentaje, 0, TRUE) }}%</th>
+                <th class="text-center {{-- $this->toa_model->clase_cumplimiento_consumos($porcentaje) --}}">{{ fmtCantidad(100*$porcentaje, 0, TRUE) }}%</th>
             @endforeach
         </tr>
     </tfoot>

@@ -90,13 +90,13 @@
 			<?php $tot_lin = 0; ?>
 			<?php foreach ($datos['actuaciones'] as $dia_act => $cant_act): ?>
 				<?php if ($cant_act): ?>
-					<td class="text-center info"><?= anchor($url_detalle_dia.'/'.$anomes.$dia_act.'/'.$anomes.$dia_act.'/'.$datos['material'], fmt_cantidad($cant_act)); ?></td>
+					<td class="text-center info"><?= anchor($url_detalle_dia.'/'.$anomes.$dia_act.'/'.$anomes.$dia_act.'/'.$datos['material'], fmtCantidad($cant_act)); ?></td>
 				<?php else: ?>
 					<td></td>
 				<?php endif ?>
 				<?php $tot_lin += $cant_act; $tot_col[$dia_act] += $cant_act; ?>
 			<?php endforeach; ?>
-			<th class="text-center"><?= fmt_cantidad($tot_lin); ?></th>
+			<th class="text-center"><?= fmtCantidad($tot_lin); ?></th>
 		</tr>
 		<?php $num_lin += 1; ?>
 	<?php endforeach; ?>
@@ -110,9 +110,9 @@
 			<th></th>
 			<?php $tot_lin = 0; ?>
 			<?php foreach ($tot_col as $dia_act => $total): ?>
-				<th class="text-center"><?= fmt_cantidad($total); ?><?php $tot_lin += $total ?></th>
+				<th class="text-center"><?= fmtCantidad($total); ?><?php $tot_lin += $total ?></th>
 			<?php endforeach; ?>
-			<th class="text-center"><?= fmt_cantidad($tot_lin); ?></th>
+			<th class="text-center"><?= fmtCantidad($tot_lin); ?></th>
 		</tr>
 	</tfoot>
 </table>

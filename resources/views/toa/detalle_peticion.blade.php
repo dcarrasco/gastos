@@ -208,7 +208,7 @@
 							<td class="text-center">{{ $linea_detalle->texto_movimiento }}</td>
 							<td class="text-center">{{ $linea_detalle->elemento_pep }}</td>
 							<td class="text-center">{{ $linea_detalle->umb }}</td>
-							<td class="text-center"><?= fmt_cantidad($linea_detalle->cant); ?></td>
+							<td class="text-center"><?= fmtCantidad($linea_detalle->cant); ?></td>
 							<td class="text-center"><?= fmt_monto($linea_detalle->monto); ?></td>
 						</tr>
 						<?php $sum_cant += $linea_detalle->cant; $sum_monto += $linea_detalle->monto; ?>
@@ -228,7 +228,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
-							<th class="text-center">{{ fmt_cantidad($sum_cant) }}</th>
+							<th class="text-center">{{ fmtCantidad($sum_cant) }}</th>
 							<th class="text-center">{{ fmt_monto($sum_monto) }}</th>
 						</tr>
 					</tfoot>
@@ -276,7 +276,7 @@
 							<td class="text-center">{{ $linea_detalle->I_INSTALL_DATE }}</td>
 							<td class="text-center">{{ $linea_detalle->XI_BULK_SAP }}</td>
 							<td class="text-center">{{ $linea_detalle->invpool }}</td>
-							<td class="text-center">{{ fmt_cantidad($linea_detalle->quantity) }}</td>
+							<td class="text-center">{{ fmtCantidad($linea_detalle->quantity) }}</td>
 						</tr>
 						<?php $sum_cant += $linea_detalle->quantity;?>
 					@endforeach
@@ -290,7 +290,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
-							<th class="text-center">{{ fmt_cantidad($sum_cant) }}</th>
+							<th class="text-center">{{ fmtCantidad($sum_cant) }}</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -329,7 +329,7 @@
 							<td class="text-left">{{ $linea_detalle->desc_producto_servicio }}</td>
 							<td class="text-center">{{ $linea_detalle->cod_opco }}</td>
 							<td class="text-center">{{ $linea_detalle->desc_operacion_comercial }}</td>
-							<td class="text-center">{{ fmt_cantidad($linea_detalle->pspe_cantidad) }}</td>
+							<td class="text-center">{{ fmtCantidad($linea_detalle->pspe_cantidad) }}</td>
 						</tr>
 						<?php $sum_cant += $linea_detalle->pspe_cantidad; ?>
 					@endforeach
@@ -341,7 +341,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
-							<th class="text-center"><?= fmt_cantidad($sum_cant) ?></th>
+							<th class="text-center"><?= fmtCantidad($sum_cant) ?></th>
 						</tr>
 					</tfoot>
 				</table>

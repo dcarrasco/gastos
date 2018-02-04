@@ -35,9 +35,9 @@
 				<td><?= $query['start_time']; ?></td>
 				<td><?= fmt_hora($query['total_elapsed_time']/1000); ?></td>
 				<td><?= fmt_hora($query['cpu_time']/1000); ?></td>
-				<td><?= fmt_cantidad($query['DiskIO']); ?></td>
-				<td><?= fmt_cantidad($query['reads']); ?></td>
-				<td><?= fmt_cantidad($query['writes']); ?></td>
+				<td><?= fmtCantidad($query['DiskIO']); ?></td>
+				<td><?= fmtCantidad($query['reads']); ?></td>
+				<td><?= fmtCantidad($query['writes']); ?></td>
 				<td><?= $query['text']; ?></td>
 			</tr>
 		<?php endforeach; ?>
