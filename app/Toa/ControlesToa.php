@@ -88,7 +88,7 @@ class ControlesToa
                     $tecnicoId => [
                         'ciudad' => (string) $tecnico->ciudadToa,
                         'ordenCiudad' => isset($tecnico->ciudadToa->orden) ? $tecnico->ciudadToa->orden : 0,
-                        'tecnico' => $tecnicoId.' - '.(string)$tecnico.' ('.fmt_rut($tecnico->rut).')',
+                        'tecnico' => $tecnicoId.' - '.(string)$tecnico.' ('.fmtRut($tecnico->rut).')',
                         'actuaciones' => $diasMes->map(function ($elem, $key) use ($datosTecnico) {
                             return array_get($datosTecnico, $key);
                         })

@@ -55,7 +55,7 @@
 				<label class="control-label col-sm-2 col-xs-3">RUT</label>
 				<div class="col-sm-4 col-xs-9">
 					<p class="form-control-static">
-						{{ fmt_rut(array_get($peticion, 'peticionToa.customer_number')) }}
+						{{ fmtRut(array_get($peticion, 'peticionToa.customer_number')) }}
 					</p>
 				</div>
 				<label class="control-label col-sm-2 col-xs-3">Nombre</label>

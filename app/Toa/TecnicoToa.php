@@ -79,7 +79,7 @@ class TecnicoToa extends OrmModel
 
     public function getRutAttribute($valor)
     {
-        return fmt_rut($valor);
+        return fmtRut($valor);
     }
 
     public function setRutAttribute($valor)

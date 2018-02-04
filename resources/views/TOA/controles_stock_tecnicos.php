@@ -84,7 +84,7 @@
 			</td>
 			<td style="white-space: nowrap;">
 				<?= $id_tecnico.' - '.$datos['tecnico']; ?>
-				(<?= fmt_rut($datos['rut']); ?>)
+				(<?= fmtRut($datos['rut']); ?>)
 			</td>
 			<?php foreach ($datos['actuaciones'] as $dia_act => $valor): ?>
 				<?php if ($valor): ?>
