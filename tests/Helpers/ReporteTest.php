@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\Googlemaps;
+use App\Helpers\Reporte;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -8,17 +8,35 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReporteTest extends TestCase
 {
+
+    public function getReporte()
+    {
+        $datos = [
+            (object) ['campo1' => 'valor_campo1', 'valor1' => 100, 'valor2' => 200],
+            (object) ['campo1' => 'valor_campo2', 'valor1' => 300, 'valor2' => 400],
+            (object) ['campo1' => 'valor_campo3', 'valor1' => 500, 'valor2' => 600],
+        ];
+
+        $campos = [
+            'campo1' => ['titulo' => 'titulo_campo1'],
+            'valor1' => ['titulo' => 'titulo_valor1', 'tipo' => 'numero'],
+            'valor2' => ['titulo' => 'titulo_valor2', 'tipo' => 'numero'],
+        ];
+
+        return new Reporte($datos, $campos);
+    }
+
     public function testGetOrderBy()
     {
         $this->assertEquals(
             'campo1 ASC, campo2 DESC, campo3 ASC',
-            (new Repo())->getOrderBy('+campo1, -campo2, campo3')
+            $this->getReporte()->getOrderBy('+campo1, -campo2, campo3')
         );
 
-        $this->assertEquals('campo1 ASC', (new Repo())->getOrderBy('+campo1'));
-        $this->assertEquals('campo1 DESC', (new Repo())->getOrderBy('-campo1'));
-        $this->assertEquals('campo1 ASC', (new Repo())->getOrderBy('campo1'));
-        $this->assertEquals(' ASC', (new Repo())->getOrderBy(''));
+        $this->assertEquals('campo1 ASC', $this->getReporte()->getOrderBy('+campo1'));
+        $this->assertEquals('campo1 DESC', $this->getReporte()->getOrderBy('-campo1'));
+        $this->assertEquals('campo1 ASC', $this->getReporte()->getOrderBy('campo1'));
+        $this->assertEquals(' ASC', $this->getReporte()->getOrderBy(''));
     }
 
     public function testResultToMonthTable()
@@ -34,7 +52,7 @@ class ReporteTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            (new Repo())->resultToMonthTable([
+            $this->getReporte()->resultToMonthTable([
                 ['fecha' => '20170204', 'dato' => 10, 'llave' => 'llave'],
                 ['fecha' => '20170206', 'dato' => 20, 'llave' => 'llave'],
                 ['fecha' => '20170216', 'dato' => 30, 'llave' => 'llave'],
@@ -52,76 +70,76 @@ class ReporteTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            (new Repo())->resultToMonthTable([['campo1' => '20170204', 'campo2' => 10, 'campo3' => 'llave']])->all()
+            $this->getReporte()->resultToMonthTable([['campo1' => '20170204', 'campo2' => 10, 'campo3' => 'llave']])->all()
         );
 
     }
 
     public function testFormatoReporteTexto()
     {
-        $reporte = (new Repo())->formatoReporte('casa', ['tipo' => 'texto']);
+        $reporte = $this->getReporte()->formatoReporte('casa', ['tipo' => 'texto']);
 
         $this->assertEquals('casa', $reporte);
     }
 
     public function testFormatoReporteFecha()
     {
-        $reporte = (new Repo())->formatoReporte('20171001', ['tipo' => 'fecha']);
+        $reporte = $this->getReporte()->formatoReporte('20171001', ['tipo' => 'fecha']);
 
         $this->assertEquals('2017-10-01', $reporte);
     }
 
     public function testFormatoReporteNumero()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo' => 'numero']);
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'numero']);
 
         $this->assertEquals('12.345', $reporte);
     }
 
     public function testFormatoReporteValor()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo' => 'valor']);
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'valor']);
 
         $this->assertEquals('$&nbsp;12.345', $reporte);
     }
 
     public function testFormatoReporteValorPmp()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo' => 'valor']);
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'valor']);
 
         $this->assertEquals('$&nbsp;12.345', $reporte);
     }
 
     public function testFormatoReporteNumeroDif()
     {
-        $this->assertContains('+12.345', (new Repo())->formatoReporte(12345, ['tipo' => 'numero_dif']));
-        $this->assertContains('-12.345', (new Repo())->formatoReporte(-12345, ['tipo' => 'numero_dif']));
+        $this->assertContains('+12.345', $this->getReporte()->formatoReporte(12345, ['tipo' => 'numero_dif']));
+        $this->assertContains('-12.345', $this->getReporte()->formatoReporte(-12345, ['tipo' => 'numero_dif']));
     }
 
     public function testFormatoReporteLink()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo' => 'link', 'href' => 'http://a/b/c/']);
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'link', 'href' => 'http://a/b/c/']);
 
         $this->assertEquals('<a href="http://a/b/c/12345">12345</a>', $reporte);
     }
 
     public function __testFormatoReporteLinkRegistros()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo' => 'link_registro', 'href' => 'http://a/b/c', 'href_registros' => ['aa', 'bb', 'cc']], ['aa' => '11', 'bb' => '22', 'cc' => '33']);
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'link_registro', 'href' => 'http://a/b/c', 'href_registros' => ['aa', 'bb', 'cc']], ['aa' => '11', 'bb' => '22', 'cc' => '33']);
 
         $this->assertEquals('<a href="http://a/b/c/11/22/33">12345</a>', $reporte);
     }
 
     public function testFormatoReporteLinkDetalleSeries()
     {
-        $reporte = (new Repo())->formatoReporte(12345, ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'], ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'], 'aa');
+        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'], ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'], 'aa');
 
         $this->assertEquals('<a href="http://a/b/c/?centro=CM11&almacen=CH01&lote=NUEVO&permanencia=aa">12.345</a>', $reporte);
     }
 
     public function testFormatoReporteOtro()
     {
-        $reporte = (new Repo())->formatoReporte('casa', ['tipo' => 'otrootro']);
+        $reporte = $this->getReporte()->formatoReporte('casa', ['tipo' => 'otrootro']);
 
         $this->assertEquals('casa', $reporte);
     }
@@ -130,34 +148,38 @@ class ReporteTest extends TestCase
     {
         $this->assertEquals(
             ' <i class="fa fa-circle text-danger"></i>',
-            (new Repo())->formatoReporte(null, ['tipo' => 'doi'])
+            $this->getReporte()->formatoReporte(null, ['tipo' => 'doi'])
         );
 
         $this->assertEquals(
             '2,3 <i class="fa fa-circle text-success"></i>',
-            (new Repo())->formatoReporte(2.3, ['tipo' => 'doi'])
+            $this->getReporte()->formatoReporte(2.3, ['tipo' => 'doi'])
         );
 
         $this->assertEquals(
             '20 <i class="fa fa-circle text-success"></i>',
-            (new Repo())->formatoReporte(20, ['tipo' => 'doi'])
+            $this->getReporte()->formatoReporte(20, ['tipo' => 'doi'])
         );
 
         $this->assertEquals(
             '70 <i class="fa fa-circle text-warning"></i>',
-            (new Repo())->formatoReporte(70, ['tipo' => 'doi'])
+            $this->getReporte()->formatoReporte(70, ['tipo' => 'doi'])
         );
 
         $this->assertEquals(
             '170 <i class="fa fa-circle text-danger"></i>',
-            (new Repo())->formatoReporte(170, ['tipo' => 'doi'])
+            $this->getReporte()->formatoReporte(170, ['tipo' => 'doi'])
         );
     }
 
     public function testGeneraReporte()
     {
-        $repo = new Repo();
-        $reporte = collect(explode(PHP_EOL, $repo->getReporte()->make()));
+        $repo = $this->getReporte();
+        $campos = $repo->getCampos();
+        $repo->setOrderCampos($campos, 'campo1');
+        $repo->setCampos($campos);
+
+        $reporte = collect(explode(PHP_EOL, $repo->make()));
 
         $this->assertCount(3, $reporte->filter(function($linea) {return substr($linea, 0, 22)==='<td class="text-muted"';})->all());
         $this->assertCount(1, $reporte->filter(function($linea) {return substr($linea, 0, 6)==='<table';})->all());
@@ -173,26 +195,18 @@ class ReporteTest extends TestCase
 
 class Repo {
 
-    use \App\Helpers\Reporte;
+    // use \App\Helpers\Reporte;
 
     public $campos;
 
     public function getCamposReporte()
     {
-        return [
-            'campo1' => ['titulo' => 'titulo_campo1'],
-            'valor1' => ['titulo' => 'titulo_valor1', 'tipo' => 'numero'],
-            'valor2' => ['titulo' => 'titulo_valor2', 'tipo' => 'numero'],
-        ];
+        return ;
     }
 
     public function getDatosReporte()
     {
-        return [
-            ['campo1' => 'valor_campo1', 'valor1' => 100, 'valor2' => 200],
-            ['campo1' => 'valor_campo2', 'valor1' => 300, 'valor2' => 400],
-            ['campo1' => 'valor_campo3', 'valor1' => 500, 'valor2' => 600],
-        ];
+        return ;
     }
 
     public function getReporte()

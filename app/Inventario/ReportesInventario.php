@@ -114,7 +114,7 @@ trait ReportesInventario
             ->where('id_inventario', $this->id)
             ->leftJoin(
                 DB::raw(config('invfija.bd_catalogos').' as c'),
-                DB::raw('d.catalogo '.BD_COLLATE),
+                DB::raw('d.catalogo '.env('BD_COLLATE', '')),
                 '=',
                 'c.catalogo'
             )

@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use Collective\Html;
 
-trait Reporte
+class Reporte
 {
     public $campos = [];
 
@@ -31,6 +31,30 @@ trait Reporte
 
     // --------------------------------------------------------------------
 
+    public function __construct($datos, $campos)
+    {
+        $this->datos = $datos;
+        $this->campos = $campos;
+    }
+
+    // --------------------------------------------------------------------
+
+    public function getCampos()
+    {
+        return $this->campos;
+    }
+
+    // --------------------------------------------------------------------
+
+    public function setCampos($campos)
+    {
+        $this->campos = $campos;
+
+        return $this;
+    }
+
+    // --------------------------------------------------------------------
+
     /**
      * Formatea un valor de acuerdo a los parametros de un reporte
      *
@@ -42,27 +66,6 @@ trait Reporte
      */
     public function formatoReporte($valor = '', $arr_param_campo = [], $registro = [], $campo = '')
     {
-        $funcFormatoDetalle = function ($valor, $arr_param_campo, $registro, $campo) {
-            $registro['permanencia'] = $campo;
-
-            $arr_indices = [
-                'id_tipo',
-                'centro',
-                'almacen',
-                'lote',
-                'estado_stock',
-                'material',
-                'tipo_material',
-                'permanencia'
-            ];
-
-            $valor_desplegar = fmtCantidad($valor);
-
-            return link_to(
-                $arr_param_campo['href'].'?'.http_build_query(array_intersect_key($registro, array_flip($arr_indices))),
-                ($valor_desplegar === '') ? ' ' : $valor_desplegar
-            );
-        };
 
         $arrFormatos = [
             'texto' => function ($valor) {
@@ -99,7 +102,26 @@ trait Reporte
 
                 return link_to(array_get($param, 'href'), $valor);
             },
-            'link_detalle_series' => $funcFormatoDetalle,
+            'link_detalle_series' => function ($valor, $arr_param_campo, $registro, $campo) {
+                $registro['permanencia'] = $campo;
+                $arr_indices = [
+                    'id_tipo',
+                    'centro',
+                    'almacen',
+                    'lote',
+                    'estado_stock',
+                    'material',
+                    'tipo_material',
+                    'permanencia'
+                ];
+                $valor_desplegar = fmtCantidad($valor);
+
+                return link_to(
+                    $arr_param_campo['href'].'?'
+                    .http_build_query(array_intersect_key($registro, array_flip($arr_indices))),
+                    ($valor_desplegar === '' ? ' ' : $valor_desplegar)
+                );
+            },
             'doi' => function ($valor) {
                 $color = is_null($valor)
                     ? 'danger'
@@ -284,7 +306,7 @@ trait Reporte
             [['data' => fmtCantidad($numLinea), 'class' => 'text-muted']],
             collect($campos)->map(function ($elem, $llave) use ($linea) {
                 return [
-                    'data' => $this->formatoReporte(array_get($linea, $llave), $elem, $linea, $llave),
+                    'data' => $this->formatoReporte($linea->$llave, $elem, $linea, $llave),
                     'class' => isset($elem['class']) ? $elem['class'] : '',
                 ];
             })
@@ -405,6 +427,7 @@ trait Reporte
     {
         return collect($row)->reduce(function ($carry, $elem) use ($rowDataElem) {
             $elem = is_array($elem) ? $elem : ['data' => $elem];
+
             return $carry
                 .'<'.$rowDataElem.(array_key_exists('class', $elem) ? ' class="'.$elem['class'].'"' : '').'>'
                 .$elem['data']
