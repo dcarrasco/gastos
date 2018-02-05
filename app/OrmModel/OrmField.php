@@ -238,6 +238,26 @@ class OrmField
     /**
      * @return mixed
      */
+    public function getParentModel()
+    {
+        return $this->parentModel;
+    }
+
+    /**
+     * @param mixed $parentModel
+     *
+     * @return self
+     */
+    public function setParentModel($parentModel)
+    {
+        $this->parentModel = $parentModel;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getRelationModel()
     {
         return $this->relationModel;
@@ -395,25 +415,5 @@ class OrmField
         $extraParam['id'] = $this->name;
 
         return Form::text($this->name, $value, $extraParam);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParentModel()
-    {
-        return $this->parentModel;
-    }
-
-    /**
-     * @param mixed $parentModel
-     *
-     * @return self
-     */
-    public function setParentModel($parentModel)
-    {
-        $this->parentModel = $parentModel;
-
-        return $this;
     }
 }
