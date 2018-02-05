@@ -9,20 +9,17 @@ class AlmacenSap extends OrmModel
 {
     public $modelLabel = 'Almac&eacute;n SAP';
 
-    protected $fillable = ['centro', 'cod_almacen', 'des_almacen', 'uso_almace', 'icono'];
+    protected $fillable = ['centro', 'cod_almacen', 'des_almacen', 'uso_almacen', 'responsable', 'tipo_op'];
 
     protected $guarded = [];
 
     public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
         'centro' => [
             'label' => 'Centro',
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
             'textoAyuda' => 'C&oacute;digo SAP del centro. M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
         ],
         'cod_almacen' => [
@@ -30,7 +27,7 @@ class AlmacenSap extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
             'textoAyuda' => 'C&oacute;digo SAP del almac&eacuten. M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
         ],
         'des_almacen' => [
@@ -64,12 +61,12 @@ class AlmacenSap extends OrmModel
             'esObligatorio' => true,
             'onchange' => 'tipos',
         ],
-        // 'tipos' => [
-        //     'tipo' => OrmField::TIPO_HAS_MANY,
-        //     'relationModel' => TipoAlmacenSap::class,
-        //     'relationConditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-        //     'textoAyuda' => 'Tipos asociados al almac&eacuten.',
-        // ],
+        'tipos' => [
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => TipoAlmacenSap::class,
+            'relationConditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
+            'textoAyuda' => 'Tipos asociados al almac&eacuten.',
+        ],
     ];
 
     public function __construct(array $attributes = [])
@@ -83,9 +80,9 @@ class AlmacenSap extends OrmModel
         return (string) $this->centro.'-'.$this->cod_almacen.' '.$this->des_almacen;
     }
 
-    public function tipos()
+    public function getTiposAttribute()
     {
-        return $this->belongsToMany(
+        return $this->belongsToManyMultiKey(
             TipoAlmacenSap::class,
             config('invfija.bd_tipoalmacen_sap'),
             ['centro', 'cod_almacen'],

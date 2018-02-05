@@ -90,7 +90,7 @@ return [
     'bd_pcookies'    => env('BD_INVENTARIO', '').'fija_pcookies',
 
     // Stock
-    'bd_almacenes_sap'        => env('BD_LOGISTICA', '').'cp_almacenes2',
+    'bd_almacenes_sap'        => env('BD_LOGISTICA', '').'cp_almacenes',
     'bd_tipoalmacen_sap'      => env('BD_LOGISTICA', '').'cp_tipos_almacenes',
     'bd_tiposalm_sap'         => env('BD_LOGISTICA', '').'cp_tiposalm',
     'bd_clasifalm_sap'        => env('BD_LOGISTICA', '').'cp_clasifalm',

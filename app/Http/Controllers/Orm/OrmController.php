@@ -114,7 +114,7 @@ trait OrmController
     public function edit($modelName = null, $modelID = null)
     {
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::find($modelID);
+        $modelObject = $fullModelName::findMultiKey($modelID);
 
         $accionForm    = trans('orm.title_edit');
         $createOrEdit  = 'edit';
@@ -136,11 +136,11 @@ trait OrmController
     public function update(Request $request, $modelName = null, $modelID = null)
     {
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::find($modelID);
+        $modelObject = $fullModelName::findMultiKey($modelID);
         $this->validate($request, $modelObject->getValidation());
 
         // actualiza el objeto
-        $modelObject->update($request->all());
+        $modelObject->updateMultiKey($request->all());
 
         // actualiza las tablas relacionadas
         $modelObject->getModelFields()->filter(function ($elem, $field) use ($modelObject) {

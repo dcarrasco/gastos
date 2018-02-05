@@ -9,7 +9,7 @@ class OrmFieldHasMany extends OrmField
 {
     public function getLabel()
     {
-        return $this->getRelatedModel()->modelLabel.'***';
+        return $this->getRelatedModel()->modelLabel;
     }
 
     public function getValidation()
@@ -40,7 +40,7 @@ class OrmFieldHasMany extends OrmField
             })->all();
 
         $relatedModelFilter = $this->getRelatedModel($this->parentModel)
-            ->find($parentId)
+            ->findMultiKey($parentId)
             ->getWhereFromRelation($this->name);
 
         return Form::select(

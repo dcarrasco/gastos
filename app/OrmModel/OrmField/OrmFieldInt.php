@@ -11,6 +11,7 @@ class OrmFieldInt extends OrmField
     {
         if ($atributos['tipo'] === OrmField::TIPO_ID) {
             $atributos['label'] = 'ID';
+            $atributos['esUnico'] = true;
             $atributos['esId'] = true;
             $atributos['esIncrementing'] = true;
         }

@@ -62,6 +62,26 @@ class OrmField
     /**
      * @return mixed
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getLabel()
     {
         return $this->label;
@@ -303,6 +323,46 @@ class OrmField
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEsId()
+    {
+        return $this->esId;
+    }
+
+    /**
+     * @param mixed $esId
+     *
+     * @return self
+     */
+    public function setEsId($esId)
+    {
+        $this->esId = $esId;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEsIncrementing()
+    {
+        return $this->esIncrementing;
+    }
+
+    /**
+     * @param mixed $esIncrementing
+     *
+     * @return self
+     */
+    public function setEsIncrementing($esIncrementing)
+    {
+        $this->esIncrementing = $esIncrementing;
+
+        return $this;
+    }
+
     public function getValidation()
     {
         $validation = [];
@@ -335,5 +395,25 @@ class OrmField
         $extraParam['id'] = $this->name;
 
         return Form::text($this->name, $value, $extraParam);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentModel()
+    {
+        return $this->parentModel;
+    }
+
+    /**
+     * @param mixed $parentModel
+     *
+     * @return self
+     */
+    public function setParentModel($parentModel)
+    {
+        $this->parentModel = $parentModel;
+
+        return $this;
     }
 }

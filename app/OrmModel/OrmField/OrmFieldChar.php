@@ -25,7 +25,7 @@ class OrmFieldChar extends OrmField
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
+            return array_get($this->choices, $value, '');
         }
 
         return $value;
@@ -36,17 +36,12 @@ class OrmFieldChar extends OrmField
     {
         $extraParam['id'] = $this->name;
 
-        if ($this->tipo === OrmField::TIPO_CHAR and $this->largo) {
-            $extraParam['maxlength'] = $this->largo;
+        if ($this->hasChoices()) {
+            return Form::select($this->name, $this->choices, $value, $extraParam);
         }
 
-        if ($this->hasChoices()) {
-            return Form::select(
-                $this->name,
-                array_get($this->choices, $value, ''),
-                $value,
-                $extraParam
-            );
+        if ($this->largo) {
+            $extraParam['maxlength'] = $this->largo;
         }
 
         return Form::text($this->name, $value, $extraParam);
