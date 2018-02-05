@@ -2,7 +2,6 @@
 
 namespace App\OrmModel;
 
-use Form;
 use App\OrmModel\OrmField;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -31,6 +30,8 @@ class OrmModel extends Model
 
         foreach ($this->modelFields as $field => $fieldSpec) {
             if (is_array($fieldSpec)) {
+                $fieldSpec['name'] = $field;
+                $fieldSpec['parentModel'] = get_class($this);
                 $this->modelFields[$field] = new OrmField($fieldSpec);
             }
         }
@@ -135,95 +136,12 @@ class OrmModel extends Model
             return null;
         }
 
-        if ($this->getFieldType($field) === OrmField::TIPO_BOOLEAN) {
-            return $this->{$field} ? trans('orm.radio_yes'): trans('orm.radio_no');
-        }
-
-        if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
-            return (string) $this->getRelatedModel($field)->find($this->{$field});
-        }
-
-        if ($this->getField($field)->hasChoices()) {
-            return array_get($this->getField($field)->getChoices(), $this->{$field}, '');
-        }
-
-        if ($this->getFieldType($field) === OrmField::TIPO_HAS_MANY) {
-            return ($this->{$field}) ? $this->{$field}->reduce(function ($list, $relatedObject) {
-                return $list.'<li>'.(string) $relatedObject.'</li>';
-            }, '<ul>').'</ul>' : null;
-        }
-
-        return $this->{$field};
+        return $this->getField($field)->getFormattedValue($this->{$field});
     }
 
     public function getFieldForm($field = null, $extraParam = [])
     {
-        $extraParam['id'] = $field;
-
-        if ($this->getFieldType($field) === OrmField::TIPO_CHAR and $this->getFieldLength($field)) {
-            $extraParam['maxlength'] = $this->getFieldLength($field);
-        }
-
-        if ($field === $this->getKeyName() and $this->incrementing) {
-            return '<p class="form-control-static">'.$this->{$field}.'</p>'
-                .Form::hidden($field, null, $extraParam);
-        }
-
-        if ($this->getFieldType($field) === OrmField::TIPO_BOOLEAN) {
-            return '<label class="radio-inline" for="">'
-                .Form::radio($field, 1, ($this->getAttribute($field) == '1'), ['id' => ''])
-                .trans('orm.radio_yes')
-                .'</label>'
-                .'<label class="radio-inline" for="">'
-                .Form::radio($field, 0, ($this->getAttribute($field) != '1'), ['id' => ''])
-                .trans('orm.radio_no')
-                .'</label>';
-        }
-
-        if (array_key_exists('choices', $this->modelFields[$field])) {
-            return Form::select(
-                $field,
-                array_get($this->modelFields, $field.'.choices'),
-                $this->getAttribute($field),
-                $extraParam
-            );
-        }
-
-        if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
-            if ($this->getField($field)->hasOnChange()) {
-                $route = \Route::currentRouteName();
-                list($routeName, $routeAction) = explode('.', $route);
-
-                $elemDest = $this->getField($field)->getOnChange();
-                $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
-                $extraParam['onchange'] = "$('#{$elemDest}').html('');"
-                    ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
-                    ."function (data) { $('#{$elemDest}').html(data); });";
-            }
-
-            return Form::select(
-                $field,
-                $this->getRelatedModel($field)->getModelFormOptions(),
-                $this->getAttribute($field),
-                $extraParam
-            );
-        }
-
-        if ($this->getFieldType($field) === OrmField::TIPO_HAS_MANY) {
-            $elementosSelected = collect($this->getAttribute($field))
-                ->map(function ($modelElem) {
-                    return $modelElem->{$modelElem->getKeyName()};
-                })->all();
-
-            return Form::select(
-                $field.'[]',
-                $this->getRelatedModel($field)->getModelFormOptions($this->getWhereFromRelation($field)),
-                $elementosSelected,
-                array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
-            );
-        }
-
-        return Form::text($field, $this->getAttribute($field), $extraParam);
+        return $this->getField($field)->getForm($this->getAttribute($field), $this->getKey(), $extraParam);
     }
 
     public function isFieldMandatory($field = '')
@@ -233,27 +151,9 @@ class OrmModel extends Model
 
     public function getValidation()
     {
-        $validation = [];
-
-        foreach ($this->modelFields as $field => $fieldParam) {
-            $validation[$field] = [];
-
-            if ($this->isFieldMandatory($field)) {
-                $validation[$field][] = 'required';
-            }
-
-            if ($this->getFieldType($field) === OrmField::TIPO_CHAR and $this->getFieldLength($field)) {
-                $validation[$field][] = 'max:'.$this->getFieldLength($field);
-            }
-
-            if ($this->getFieldType($field) === self::TIPO_INT) {
-                $validation[$field][] = 'integer';
-            }
-        }
-
-        return collect($validation)
-            ->map(function ($elem, $key) {
-                return collect($elem)->implode('|');
+        return $this->getModelFields()
+            ->map(function ($fieldObject, $field) {
+                return $fieldObject->getValidation();
             })
             ->all();
     }

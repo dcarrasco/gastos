@@ -27,25 +27,33 @@ class OrmModelTest extends TestCase
     {
         $fields = collect([
             'id' => new OrmField([
+                'name' => 'id',
                 'tipo' => OrmField::TIPO_ID,
+                'parentModel' => 'ModelTest',
             ]),
             'campo1' => new OrmField([
+                'name' => 'campo1',
                 'label' => 'Label campo1',
                 'tipo' => OrmField::TIPO_CHAR,
                 'largo' => 50,
                 'textoAyuda' => 'Ayuda campo1',
+                'parentModel' => 'ModelTest',
                 'esObligatorio' => true,
                 'esUnico' => true
             ]),
             'campo2' => new OrmField([
+                'name' => 'campo2',
                 'label' => 'Label campo2',
                 'tipo' => OrmField::TIPO_INT,
                 'textoAyuda' => 'Ayuda campo2',
+                'parentModel' => 'ModelTest',
             ]),
             'campo3' => new OrmField([
+                'name' => 'campo3',
                 'label' => 'Label campo3',
                 'tipo' => OrmField::TIPO_BOOLEAN,
                 'textoAyuda' => 'Ayuda campo3',
+                'parentModel' => 'ModelTest',
             ]),
         ]);
 
@@ -105,6 +113,19 @@ class OrmModelTest extends TestCase
         $this->assertFalse($this->getModel()->isFieldMandatory('campo3'));
         $this->assertFalse($this->getModel()->isFieldMandatory('campo_xx'));
         $this->assertFalse($this->getModel()->isFieldMandatory());
+    }
+
+    public function testGetValidation()
+    {
+        $this->assertEquals(
+            [
+                'id' => '',
+                'campo1' => 'required|max:50',
+                'campo2' => 'integer',
+                'campo3' => '',
+            ],
+            $this->getModel()->getValidation()
+        );
     }
 }
 
