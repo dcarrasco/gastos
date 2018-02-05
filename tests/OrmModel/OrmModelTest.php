@@ -29,10 +29,13 @@ class OrmModelTest extends TestCase
     public function testGetModelFields()
     {
         $fields = collect([
-            'id' => new OrmField([
+            'id' => new OrmFieldInt([
                 'name' => 'id',
+                'label' => 'ID',
                 'tipo' => OrmField::TIPO_ID,
                 'parentModel' => 'ModelTest',
+                'isId' => true,
+                'isIncrementing' => true,
             ]),
             'campo1' => new OrmFieldChar([
                 'name' => 'campo1',
