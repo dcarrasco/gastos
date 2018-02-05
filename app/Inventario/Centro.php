@@ -22,7 +22,7 @@ class Centro extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
             'textoAyuda' => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],

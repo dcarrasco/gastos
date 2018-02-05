@@ -26,7 +26,7 @@ class Empresa extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
             'textoAyuda' => 'ID de la empresa. M&aacute;ximo 20 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],

@@ -23,7 +23,7 @@ class Catalogo extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
             'textoAyuda' => 'C&oacute;digo del cat&aacute;logo. M&aacute;ximo 20 caracteres',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],

@@ -23,7 +23,7 @@ class TipoTrabajo extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 30,
             'textoAyuda' => 'Tipo de trabajo. M&aacute;ximo 30 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],

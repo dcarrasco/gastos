@@ -23,7 +23,7 @@ class Ciudad extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 5,
             'textoAyuda' => 'ID de la ciudad. M&aacute;ximo 50 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true,
         ],

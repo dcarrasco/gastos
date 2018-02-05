@@ -22,7 +22,7 @@ class Tecnico extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
             'textoAyuda' => 'ID del t&eacute;cnico. M&aacute;ximo 20 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],

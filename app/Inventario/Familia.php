@@ -21,7 +21,7 @@ class Familia extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
             'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true,
         ],

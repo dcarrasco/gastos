@@ -19,14 +19,14 @@ class EmpresaCiudad extends OrmModel
     public $modelFields = [
         'id_empresa' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'relationModel' => EmpresaToa::class,
             'textoAyuda' => 'Seleccione una empresa TOA.',
         ],
         'id_ciudad' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'relationModel' => CiudadToa::class,
             'textoAyuda' => 'Seleccione una Ciudad TOA.',

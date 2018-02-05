@@ -23,7 +23,7 @@ class TipoInventario extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
             'textoAyuda' => 'M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true,
         ],

@@ -23,7 +23,7 @@ class UnidadMedida extends OrmModel
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
             'textoAyuda' => 'Unidad de medida. M&aacute;ximo 10 caracteres.',
-            'es_id' => true,
+            'esId' => true,
             'esObligatorio' => true,
             'esUnico' => true
         ],
