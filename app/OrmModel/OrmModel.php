@@ -32,6 +32,7 @@ class OrmModel extends Model
     public function __construct(array $attributes = [])
     {
         $fieldClasses = [
+            OrmField::TIPO_ID => OrmFieldInt::class,
             OrmField::TIPO_INT => OrmFieldInt::class,
             OrmField::TIPO_CHAR => OrmFieldChar::class,
             OrmField::TIPO_BOOLEAN => OrmFieldBoolean::class,

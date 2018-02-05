@@ -303,26 +303,6 @@ class OrmField
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAtributosValidos()
-    {
-        return $this->atributosValidos;
-    }
-
-    /**
-     * @param mixed $atributosValidos
-     *
-     * @return self
-     */
-    public function setAtributosValidos($atributosValidos)
-    {
-        $this->atributosValidos = $atributosValidos;
-
-        return $this;
-    }
-
     public function getValidation()
     {
         $validation = [];
@@ -353,11 +333,6 @@ class OrmField
     public function getForm($value = null, $parentId = null, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-
-        if ($this->esId and $this->esIncrementing) {
-            return '<p class="form-control-static">'.$value.'</p>'
-                .Form::hidden($this->name, null, $extraParam);
-        }
 
         return Form::text($this->name, $value, $extraParam);
     }
