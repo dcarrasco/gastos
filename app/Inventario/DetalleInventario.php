@@ -132,7 +132,7 @@ class DetalleInventario extends OrmModel
         'auditor' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
             'relationModel' => Auditor::class,
-            'relation-conditions' => ['activo' => 1],
+            'relationConditions' => ['activo' => 1],
             'textoAyuda' => 'Auditor de la hoja.',
         ],
         'reg_nuevo' => [

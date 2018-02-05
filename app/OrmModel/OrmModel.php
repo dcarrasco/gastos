@@ -3,6 +3,11 @@
 namespace App\OrmModel;
 
 use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\OrmFieldInt;
+use App\OrmModel\OrmField\OrmFieldChar;
+use App\OrmModel\OrmField\OrmFieldHasOne;
+use App\OrmModel\OrmField\OrmFieldHasMany;
+use App\OrmModel\OrmField\OrmFieldBoolean;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -26,15 +31,32 @@ class OrmModel extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        $fieldClasses = [
+            OrmField::TIPO_INT => OrmFieldInt::class,
+            OrmField::TIPO_CHAR => OrmFieldChar::class,
+            OrmField::TIPO_BOOLEAN => OrmFieldBoolean::class,
+            OrmField::TIPO_HAS_ONE => OrmFieldHasOne::class,
+            OrmField::TIPO_HAS_MANY => OrmFieldHasMany::class,
+        ];
+
 
         foreach ($this->modelFields as $field => $fieldSpec) {
             if (is_array($fieldSpec)) {
                 $fieldSpec['name'] = $field;
                 $fieldSpec['parentModel'] = get_class($this);
-                $this->modelFields[$field] = new OrmField($fieldSpec);
+
+                if (array_key_exists($fieldSpec['tipo'], $fieldClasses)) {
+                    $fieldClass = $fieldClasses[$fieldSpec['tipo']];
+                    $fieldObject = new $fieldClass($fieldSpec);
+                } else {
+                    $fieldObject = new OrmField($fieldSpec);
+                }
+
+                $this->modelFields[$field] = $fieldObject;
             }
         }
+
+        parent::__construct($attributes);
     }
 
     public static function new()
@@ -95,10 +117,6 @@ class OrmModel extends Model
 
     public function getFieldLabel($field = '')
     {
-        if (in_array($this->getFieldType($field), [OrmField::TIPO_HAS_ONE, OrmField::TIPO_HAS_MANY])) {
-            return $this->getRelatedModel($field)->modelLabel;
-        }
-
         return $this->getField($field)->getLabel();
     }
 

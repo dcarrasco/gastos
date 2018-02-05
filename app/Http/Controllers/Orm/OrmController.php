@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Orm;
 
+use Route;
+use App\OrmModel\OrmField;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Route;
 
 trait OrmController
 {
@@ -144,7 +145,7 @@ trait OrmController
         // actualiza las tablas relacionadas
         $modelObject->getModelFields()->filter(function ($elem, $field) use ($modelObject) {
             // filtra los campos de TIPO_HAS_MANY
-            return ($modelObject->getFieldType($field) === $modelObject::TIPO_HAS_MANY);
+            return ($modelObject->getFieldType($field) === OrmField::TIPO_HAS_MANY);
         })->each(function ($elem, $field) use ($modelObject, $request) {
             // Sincroniza la tabla relacionada
             $modelObject->$field()->sync($request->input($field, []));

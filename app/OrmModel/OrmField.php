@@ -331,14 +331,6 @@ class OrmField
             $validation[] = 'required';
         }
 
-        if ($this->tipo === OrmField::TIPO_CHAR and $this->largo) {
-            $validation[] = 'max:'.$this->largo;
-        }
-
-        if ($this->tipo === OrmField::TIPO_INT) {
-            $validation[] = 'integer';
-        }
-
         return collect($validation)->implode('|');
     }
 
@@ -355,24 +347,6 @@ class OrmField
 
     public function getFormattedValue($value = null)
     {
-        if ($this->tipo === OrmField::TIPO_BOOLEAN) {
-            return $value ? trans('orm.radio_yes'): trans('orm.radio_no');
-        }
-
-        if ($this->tipo === OrmField::TIPO_HAS_ONE) {
-            return (string) $this->getRelatedModel()->find($value);
-        }
-
-        if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
-        }
-
-        if ($this->tipo === OrmField::TIPO_HAS_MANY) {
-            return $value ? $value->reduce(function ($list, $relatedObject) {
-                return $list.'<li>'.(string) $relatedObject.'</li>';
-            }, '<ul>').'</ul>' : null;
-        }
-
         return $value;
     }
 
@@ -380,71 +354,9 @@ class OrmField
     {
         $extraParam['id'] = $this->name;
 
-        if ($this->tipo === OrmField::TIPO_CHAR and $this->largo) {
-            $extraParam['maxlength'] = $this->largo;
-        }
-
         if ($this->esId and $this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'
                 .Form::hidden($this->name, null, $extraParam);
-        }
-
-        if ($this->tipo === OrmField::TIPO_BOOLEAN) {
-            return '<label class="radio-inline" for="">'
-                .Form::radio($this->name, 1, ($value == '1'), ['id' => ''])
-                .trans('orm.radio_yes')
-                .'</label>'
-                .'<label class="radio-inline" for="">'
-                .Form::radio($this->name, 0, ($value != '1'), ['id' => ''])
-                .trans('orm.radio_no')
-                .'</label>';
-        }
-
-        if ($this->hasChoices()) {
-            return Form::select(
-                $this->name,
-                array_get($this->choices, $value, ''),
-                $value,
-                $extraParam
-            );
-        }
-
-        if ($this->tipo === OrmField::TIPO_HAS_ONE) {
-            if ($this->hasOnChange()) {
-                $route = \Route::currentRouteName();
-                list($routeName, $routeAction) = explode('.', $route);
-
-                $elemDest = $this->onChange;
-                $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
-                $extraParam['onchange'] = "$('#{$elemDest}').html('');"
-                    ."$.get('{$url}?{$this->name}='+$('#{$this->name}').val(), "
-                    ."function (data) { $('#{$elemDest}').html(data); });";
-            }
-
-            return Form::select(
-                $this->name,
-                $this->getRelatedModel()->getModelFormOptions(),
-                $value,
-                $extraParam
-            );
-        }
-
-        if ($this->tipo === OrmField::TIPO_HAS_MANY) {
-            $elementosSelected = collect($value)
-                ->map(function ($modelElem) {
-                    return $modelElem->{$modelElem->getKeyName()};
-                })->all();
-
-            $relatedModelFilter = $this->getRelatedModel($this->parentModel)
-                ->find($parentId)
-                ->getWhereFromRelation($this->name);
-
-            return Form::select(
-                $this->name.'[]',
-                $this->getRelatedModel()->getModelFormOptions($relatedModelFilter),
-                $elementosSelected,
-                array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
-            );
         }
 
         return Form::text($this->name, $value, $extraParam);
