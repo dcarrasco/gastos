@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Centro extends OrmModel
 {
@@ -18,12 +19,12 @@ class Centro extends OrmModel
     public $modelFields = [
         'centro' => [
             'label' => 'Centro',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
     ];
 
@@ -35,6 +36,6 @@ class Centro extends OrmModel
 
     public function __toString()
     {
-        return $this->centro;
+        return (string) $this->centro;
     }
 }

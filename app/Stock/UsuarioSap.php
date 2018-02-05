@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class UsuarioSap extends OrmModel
 {
@@ -19,20 +20,20 @@ class UsuarioSap extends OrmModel
     public $modelFields = [
         'usuario' => [
             'label' => 'Codigo Usuario',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'C&oacute;digo del usuario SAP. M&aacute;ximo 10 caracteres',
+            'textoAyuda' => 'C&oacute;digo del usuario SAP. M&aacute;ximo 10 caracteres',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'nom_usuario' => [
             'label' => 'Nombre de usuario',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del usuario. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => false,
+            'textoAyuda' => 'Nombre del usuario. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => false,
         ],
     ];
 

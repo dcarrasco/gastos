@@ -11,47 +11,47 @@ class InventarioTest extends TestCase
 
     public function testNew()
     {
-        $this->assertInternalType('object', Inventario::create());
+        $this->assertInternalType('object', Inventario::new());
     }
 
     public function testHasFields()
     {
-        $this->assertNotEmpty(Inventario::create()->getModelFields());
-        $this->assertCount(4, Inventario::create()->getModelFields());
+        $this->assertNotEmpty(Inventario::new()->getModelFields());
+        $this->assertCount(4, Inventario::new()->getModelFields());
     }
 
     public function testString()
     {
-        $this->assertInternalType('string', (string) Inventario::create());
+        $this->assertInternalType('string', (string) Inventario::new());
     }
 
-    public function testGetIdInventarioActivo()
+    public function __testGetIdInventarioActivo()
     {
-        $inventario = Inventario::create();
+        $inventario = Inventario::new();
 
         app('db')->mock_set_return_result(['id'=>111]);
         $this->assert_equals(111, $inventario->getIdInventarioActivo());
     }
 
-    public function testGetInventarioActivo()
+    public function __testGetInventarioActivo()
     {
-        $inventario = Inventario::create();
+        $inventario = Inventario::new();
 
         app('db')->mock_set_return_result(['id'=>111, 'nombre' => 'prueba de inventario']);
         $this->assert_equals($inventario->get_inventario_activo()->__toString(), 'prueba de inventario');
     }
 
-    public function testGetMaxHojaInventario()
+    public function __testGetMaxHojaInventario()
     {
-        $inventario = Inventario::create();
+        $inventario = Inventario::new();
 
         app('db')->mock_set_return_result(['max_hoja'=>100]);
         $this->assert_equals($inventario->get_max_hoja_inventario(), 100);
     }
 
-    public function testGetComboInventarios()
+    public function __testGetComboInventarios()
     {
-        $inventario = Inventario::create();
+        $inventario = Inventario::new();
 
         app('db')->mock_set_return_result([
             ['desc_tipo_inventario'=>'tipo1', 'id'=>1, 'nombre'=>'inventario1'],

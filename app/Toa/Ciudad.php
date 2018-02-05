@@ -2,9 +2,10 @@
 
 namespace App\Toa;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
-class CiudadToa extends OrmModel
+class Ciudad extends OrmModel
 {
     public $modelLabel = 'Ciudad TOA';
 
@@ -19,25 +20,25 @@ class CiudadToa extends OrmModel
     public $modelFields = [
         'id_ciudad' => [
             'label' => 'ID de la ciudad',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 5,
-            'texto_ayuda' => 'ID de la ciudad. M&aacute;ximo 50 caracteres.',
+            'textoAyuda' => 'ID de la ciudad. M&aacute;ximo 50 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
         'ciudad' => [
             'label' => 'Nombre de la ciudad',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre de la ciudad. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Nombre de la ciudad. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'orden' => [
             'label' => 'Orden de la ciudad',
-            'tipo' => OrmModel::TIPO_INT,
-            'texto_ayuda' => 'Orden de despliegue de la ciudad.',
-            'es_obligatorio' => true,
+            'tipo' => OrmField::TIPO_INT,
+            'textoAyuda' => 'Orden de despliegue de la ciudad.',
+            'esObligatorio' => true,
         ],
     ];
 

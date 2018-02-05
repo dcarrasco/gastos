@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Familia extends OrmModel
 {
@@ -17,31 +18,31 @@ class Familia extends OrmModel
     public $modelFields = [
         'codigo' => [
             'label' => 'C&oacute;digo de la familia',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
         'tipo' => [
             'label' => 'Tipo de familia',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 30,
-            'texto_ayuda' => 'Seleccione el tipo de familia.',
+            'textoAyuda' => 'Seleccione el tipo de familia.',
             'choices' => [
                 'FAM' => 'Familia',
                 'SUBFAM' => 'SubFamilia'
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
         ],
         'nombre' => [
             'label' => 'Nombre de la familia',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
     ];
 
@@ -55,6 +56,6 @@ class Familia extends OrmModel
 
     public function __toString()
     {
-        return $this->nombre;
+        return (string) $this->nombre;
     }
 }

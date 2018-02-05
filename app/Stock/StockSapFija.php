@@ -3,8 +3,9 @@
 namespace App\Stock;
 
 use DB;
-use App\OrmModel;
 use App\Helpers\Reporte;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class StockSapFija extends OrmModel
 {

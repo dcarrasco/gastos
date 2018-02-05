@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class AlmacenSap extends OrmModel
 {
@@ -14,60 +15,60 @@ class AlmacenSap extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'centro' => [
             'label' => 'Centro',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'C&oacute;digo SAP del centro. M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'C&oacute;digo SAP del centro. M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
         ],
         'cod_almacen' => [
             'label' => 'Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'C&oacute;digo SAP del almac&eacuten. M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'C&oacute;digo SAP del almac&eacuten. M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
         ],
         'des_almacen' => [
             'label' => 'Descripci&oacute;n Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Descripci&oacute;n del almac&eacuten. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Descripci&oacute;n del almac&eacuten. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'uso_almacen' => [
                 'label' => 'Uso Almac&eacute;n',
-                'tipo' => OrmModel::TIPO_CHAR,
+                'tipo' => OrmField::TIPO_CHAR,
                 'largo' => 50,
-                'texto_ayuda' => 'Indica para que se usa el almac&eacute;n. M&aacute;ximo 50 caracteres.',
+                'textoAyuda' => 'Indica para que se usa el almac&eacute;n. M&aacute;ximo 50 caracteres.',
         ],
         'responsable' => [
             'label' => 'Responsable',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del responsable del almac&eacuten. M&aacute;ximo 50 caracteres.',
+            'textoAyuda' => 'Nombre del responsable del almac&eacuten. M&aacute;ximo 50 caracteres.',
         ],
         'tipo_op' => [
             'label' => 'Tipo operaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Seleccione el tipo de operaci&oacute;n.',
+            'textoAyuda' => 'Seleccione el tipo de operaci&oacute;n.',
             'choices' => [
                 'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
                 'FIJA' => 'Operaci&oacute;n Fija'
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
             'onchange' => 'tipos',
         ],
         // 'tipos' => [
-        //     'tipo' => OrmModel::TIPO_HAS_MANY,
-        //     'relation_model' => TipoAlmacenSap::class,
+        //     'tipo' => OrmField::TIPO_HAS_MANY,
+        //     'relationModel' => TipoAlmacenSap::class,
         //     'relation_conditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-        //     'texto_ayuda' => 'Tipos asociados al almac&eacuten.',
+        //     'textoAyuda' => 'Tipos asociados al almac&eacuten.',
         // ],
     ];
 

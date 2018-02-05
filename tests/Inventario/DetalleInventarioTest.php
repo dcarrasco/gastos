@@ -11,17 +11,17 @@ class DetalleInventarioTest extends TestCase
 
     public function testNew()
     {
-        $this->assertInternalType('object', DetalleInventario::create());
+        $this->assertInternalType('object', DetalleInventario::new());
     }
 
     public function testHasFields()
     {
-        $this->assertNotEmpty(DetalleInventario::create()->getModelFields());
-        $this->assertCount(21, DetalleInventario::create()->getModelFields());
+        $this->assertNotEmpty(DetalleInventario::new()->getModelFields());
+        $this->assertCount(21, DetalleInventario::new()->getModelFields());
     }
 
     public function testString()
     {
-        $this->assertInternalType('string', (string) DetalleInventario::create());
+        $this->assertInternalType('string', (string) DetalleInventario::new());
     }
 }

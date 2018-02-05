@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Catalogo extends OrmModel
 {
@@ -19,46 +20,46 @@ class Catalogo extends OrmModel
     public $modelFields = [
         'catalogo' => [
             'label' => 'Cat&aacute;logo',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'C&oacute;digo del cat&aacute;logo. M&aacute;ximo 20 caracteres',
+            'textoAyuda' => 'C&oacute;digo del cat&aacute;logo. M&aacute;ximo 20 caracteres',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'descripcion' => [
             'label' => 'Descripci&oacute;n del material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Descripci&oacute;n del material. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            //'es_unico' => true
+            'textoAyuda' => 'Descripci&oacute;n del material. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            //'esUnico' => true
         ],
         'pmp' => [
             'label' => 'Precio Medio Ponderado (PMP)',
-            'tipo' => OrmModel::TIPO_REAL,
+            'tipo' => OrmField::TIPO_REAL,
             'largo' => 10,
             'decimales' => 2,
-            'texto_ayuda' => 'Valor PMP del material',
-            'es_obligatorio' => true,
-            'es_unico' => false,
+            'textoAyuda' => 'Valor PMP del material',
+            'esObligatorio' => true,
+            'esUnico' => false,
             'formato' => 'monto,1',
         ],
         'es_seriado' => [
             'label' => 'Material seriado',
-            'tipo' => OrmModel::TIPO_BOOLEAN,
-            'texto_ayuda' => 'Indica si el material est&aacute; seriado en el sistema.',
-            'es_obligatorio' => true,
+            'tipo' => OrmField::TIPO_BOOLEAN,
+            'textoAyuda' => 'Indica si el material est&aacute; seriado en el sistema.',
+            'esObligatorio' => true,
             'default' => 0
         ],
         // 'tip_material' => [
-        //     'tipo' => OrmModel::TIPO_HAS_MANY,
-        //     'relation_model' => 'Tip_material_trabajo_toa',
+        //     'tipo' => OrmField::TIPO_HAS_MANY,
+        //     'relationModel' => 'Tip_material_trabajo_toa',
         //     'relation_join_table' => config('invfija.bd_catalogo_tip_material_toa'),
         //     'relation_id_one_table' => ['id_catalogo'],
         //     'relation_id_many_table' => ['id_tip_material_trabajo'],
         //     //'relation_conditions' => ['id_app' => '@field_value:id_app'],
-        //     'texto_ayuda' => 'Tipo de material TOA.',
+        //     'textoAyuda' => 'Tipo de material TOA.',
         // ],
     ];
 
@@ -70,6 +71,6 @@ class Catalogo extends OrmModel
 
     public function __toString()
     {
-        return $this->descripcion;
+        return (string) $this->descripcion;
     }
 }

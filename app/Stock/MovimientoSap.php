@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class MovimientoSap extends OrmModel
 {

@@ -2,9 +2,10 @@
 
 namespace App\Toa;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
-class TipoTrabajoToa extends OrmModel
+class TipoTrabajo extends OrmModel
 {
     public $modelLabel = 'Tipo de Trabajo TOA';
 
@@ -19,20 +20,20 @@ class TipoTrabajoToa extends OrmModel
     public $modelFields = [
         'id_tipo' => [
             'label' => 'Tipo de rabajo',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 30,
-            'texto_ayuda' => 'Tipo de trabajo. M&aacute;ximo 30 caracteres.',
+            'textoAyuda' => 'Tipo de trabajo. M&aacute;ximo 30 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'desc_tipo' => [
             'label' => 'Descripci&oacute;n tipo de trabajo',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Descripci&oacute;n del tipo de trabajo. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'Descripci&oacute;n del tipo de trabajo. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
     ];
 

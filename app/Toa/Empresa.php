@@ -2,10 +2,11 @@
 
 namespace App\Toa;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 use App\Stock\TipoAlmacenSap;
 
-class EmpresaToa extends OrmModel
+class Empresa extends OrmModel
 {
     public $modelLabel = 'Empresa TOA';
 
@@ -22,32 +23,32 @@ class EmpresaToa extends OrmModel
     public $modelFields = [
         'id_empresa' => [
             'label' => 'ID Empresa',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'ID de la empresa. M&aacute;ximo 20 caracteres.',
+            'textoAyuda' => 'ID de la empresa. M&aacute;ximo 20 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'empresa' => [
             'label' => 'Nombre de la empresa',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre de la empresa. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'Nombre de la empresa. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'tipoAlmacenSap' => [
-            'tipo' => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => TipoAlmacenSap::class,
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => TipoAlmacenSap::class,
             'conditions' => ['id_app' => '@field_value:id_app'],
-            'texto_ayuda' => 'Tipos de almacen asociados a empresa TOA.',
+            'textoAyuda' => 'Tipos de almacen asociados a empresa TOA.',
         ],
         'ciudadToa' => [
-            'tipo' => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => CiudadToa::class,
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => CiudadToa::class,
             'conditions' => ['id_app' => '@field_value:id_app'],
-            'texto_ayuda' => 'Ciudades asociados a empresa TOA.',
+            'textoAyuda' => 'Ciudades asociados a empresa TOA.',
         ],
     ];
 

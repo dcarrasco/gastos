@@ -2,8 +2,9 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
 use App\Acl\Usuario;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 use App\Inventario\UploadDetalleInventario;
 
 class DetalleInventario extends OrmModel
@@ -51,124 +52,124 @@ class DetalleInventario extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'id_inventario' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Inventario::class,
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => Inventario::class,
         ],
         'hoja' => [
             'label' => 'Hoja',
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
             'largo' => 10,
-            'texto_ayuda' => 'N&uacute;mero de la hoja usada en el inventario',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'N&uacute;mero de la hoja usada en el inventario',
+            'esObligatorio' => true,
         ],
         'ubicacion' => [
             'label' => 'Ubicaci&oacute;n del material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'Indica la posici&oacute;n del material en el almac&eacute;n.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Indica la posici&oacute;n del material en el almac&eacute;n.',
+            'esObligatorio' => true,
         ],
         'hu' => [
             'label' => 'HU del material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'Indica la HU del material en el almac&eacute;n.',
-            'es_obligatorio' => false,
+            'textoAyuda' => 'Indica la HU del material en el almac&eacute;n.',
+            'esObligatorio' => false,
         ],
         'catalogo' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Catalogo::class,
-            'texto_ayuda' => 'Cat&aacute;logo del material.',
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => Catalogo::class,
+            'textoAyuda' => 'Cat&aacute;logo del material.',
         ],
         'descripcion' => [
             'label' => 'Descripci&oacute;n del material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 45,
-            'texto_ayuda' => 'M&aacute;ximo 45 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'M&aacute;ximo 45 caracteres.',
+            'esObligatorio' => true,
         ],
         'lote' => [
             'label' => 'Lote del material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'Lote del material.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Lote del material.',
+            'esObligatorio' => true,
         ],
         'centro' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Centro::class,
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => Centro::class,
         ],
         'almacen' => [
-            'tipo' =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Almacen::class,
+            'tipo' =>  OrmField::TIPO_HAS_ONE,
+            'relationModel' => Almacen::class,
         ],
         'um' => [
-            'tipo' =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => UnidadMedida::class,
+            'tipo' =>  OrmField::TIPO_HAS_ONE,
+            'relationModel' => UnidadMedida::class,
         ],
         'stock_sap' => [
             'label' => 'Stock SAP del material',
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
             'largo' => 10,
-            'texto_ayuda' => 'Stock sist&eacute;mico (SAP) del material.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Stock sist&eacute;mico (SAP) del material.',
+            'esObligatorio' => true,
         ],
         'stock_fisico' => [
             'label' => 'Stock f&iacute;sico del material',
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
             'largo' => 10,
-            'texto_ayuda' => 'Stock f&iacute;sico (inventariado) del material.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Stock f&iacute;sico (inventariado) del material.',
+            'esObligatorio' => true,
         ],
         'digitador' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Usuario::class,
-            'texto_ayuda' => 'Digitador de la hoja.',
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => Usuario::class,
+            'textoAyuda' => 'Digitador de la hoja.',
         ],
         'auditor' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => Auditor::class,
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => Auditor::class,
             'relation-conditions' => ['activo' => 1],
-            'texto_ayuda' => 'Auditor de la hoja.',
+            'textoAyuda' => 'Auditor de la hoja.',
         ],
         'reg_nuevo' => [
             'label' => 'Registro nuevo',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 1,
-            'texto_ayuda' => 'Indica si el registro es nuevo.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Indica si el registro es nuevo.',
+            'esObligatorio' => true,
         ],
         'fecha_modificacion' => [
             'label' => 'Fecha de modificacion',
-            'tipo' => OrmModel::TIPO_DATETIME,
-            'texto_ayuda' => 'Fecha de modificaci&oacute;n del registro.',
-            'es_obligatorio' => true,
+            'tipo' => OrmField::TIPO_DATETIME,
+            'textoAyuda' => 'Fecha de modificaci&oacute;n del registro.',
+            'esObligatorio' => true,
         ],
         'observacion' => [
             'label' => 'Observaci&oacute;n de registro',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 200,
-            'texto_ayuda' => 'M&aacute;ximo 200 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 200 caracteres.',
         ],
         'stock_ajuste' => [
             'label' => 'Stock de ajuste del material',
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
             'largo' => 10,
-            'texto_ayuda' => 'M&aacute;ximo 100 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 100 caracteres.',
         ],
         'glosa_ajuste' => [
             'label' => 'Observaci&oacute;n del ajuste',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 100,
-            'texto_ayuda' => 'M&aacute;ximo 100 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 100 caracteres.',
         ],
         'fecha_ajuste' => [
             'label' => 'Fecha del ajuste',
-            'tipo' => OrmModel::TIPO_DATETIME,
-            'texto_ayuda' => 'Fecha de modificacion del ajuste.',
+            'tipo' => OrmField::TIPO_DATETIME,
+            'textoAyuda' => 'Fecha de modificacion del ajuste.',
         ],
     ];
 

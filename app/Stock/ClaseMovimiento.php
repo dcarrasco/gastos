@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class ClaseMovimiento extends OrmModel
 {
@@ -19,20 +20,20 @@ class ClaseMovimiento extends OrmModel
     public $modelFields = [
         'cmv' => [
             'label' => 'C&oacute;digo movimiento',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'C&oacute;digo del movimiento. M&aacute;ximo 10 caracteres',
+            'textoAyuda' => 'C&oacute;digo del movimiento. M&aacute;ximo 10 caracteres',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'des_cmv' => [
             'label' => 'Descripci&oacute;n del movimiento',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Descripci&oacute;n del movimiento. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            //'es_unico' => true
+            'textoAyuda' => 'Descripci&oacute;n del movimiento. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            //'esUnico' => true
         ],
     ];
 

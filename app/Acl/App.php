@@ -2,7 +2,8 @@
 
 namespace App\Acl;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class App extends OrmModel
 {
@@ -14,41 +15,41 @@ class App extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'app' => [
             'label' => 'Aplicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'descripcion' => [
             'label' => 'Descripci&oacute;n de la Aplicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'orden' => [
             'label' => 'Orden de la Aplicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_INT,
-            'texto_ayuda' => 'Orden de la aplicaci&oacute;n en el menu.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'tipo' => OrmField::TIPO_INT,
+            'textoAyuda' => 'Orden de la aplicaci&oacute;n en el menu.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'url' => [
             'label' => 'Direcci&oacute;n de la Aplicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 100,
-            'texto_ayuda' => 'Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.',
+            'textoAyuda' => 'Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.',
         ],
         'icono' => [
             'label' => '&Iacute;cono de la aplicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
+            'textoAyuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
                 .'M&aacute;ximo 50 caracteres.',
         ],
     ];

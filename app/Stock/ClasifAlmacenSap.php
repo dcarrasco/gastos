@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class ClasifAlmacenSap extends OrmModel
 {
@@ -17,27 +18,27 @@ class ClasifAlmacenSap extends OrmModel
 
     public $modelFields = [
         'id_clasif' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'clasificacion' => [
             'label' => 'Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'orden' => [
             'label' => 'Orden de la clasificaci&oacute;n',
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
             'largo' => 10,
-            'texto_ayuda' => 'Orden de la clasificaci&oacute;n del almac&eacute;n.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Orden de la clasificaci&oacute;n del almac&eacute;n.',
+            'esObligatorio' => true,
         ],
         'dir_responsable' => [
             'label' => 'Direcci&oacute;n responsable',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'Seleccione la direcci&oacute;n responsable',
+            'textoAyuda' => 'Seleccione la direcci&oacute;n responsable',
             'choices' => [
                 '*' => 'Por material',
                 'TERMINALES' => 'Terminales',
@@ -47,41 +48,41 @@ class ClasifAlmacenSap extends OrmModel
                 'TTPP' => 'Telefon&iacute;a P&uacute;blica',
                 'MARKETING' => 'Marketing',
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
         ],
         'estado_ajuste' => [
             'label' => 'Estado de ajuste materiales',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'Indica confiabilidad de existencia del material.',
+            'textoAyuda' => 'Indica confiabilidad de existencia del material.',
             'choices' => [
                 'EXISTE' => 'Existe',
                 'NO_EXISTE' => 'No existe',
                 'NO_SABEMOS' => 'No sabemos',
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
         ],
         'id_tipoclasif' => [
-            'tipo' =>  OrmModel::TIPO_HAS_ONE,
-            'relation_model' => TipoClasifAlmacenSap::class,
+            'tipo' =>  OrmField::TIPO_HAS_ONE,
+            'relationModel' => TipoClasifAlmacenSap::class,
         ],
         'tipo_op' => [
             'label' => 'Tipo operaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Seleccione el tipo de operaci&oacute;n.',
+            'textoAyuda' => 'Seleccione el tipo de operaci&oacute;n.',
             'choices' => [
                 'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
                 'FIJA' => 'Operaci&oacute;n Fija'
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
             'onchange' => 'tiposalm',
         ],
         'tipoAlmacenSap' => [
-            'tipo' => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => TipoAlmacenSap::class,
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => TipoAlmacenSap::class,
             'relation_conditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
-            'texto_ayuda' => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
+            'textoAyuda' => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
         ],
     ];
 

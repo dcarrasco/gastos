@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Almacen extends OrmModel
 {
@@ -19,12 +20,12 @@ class Almacen extends OrmModel
     public $modelFields = [
         'almacen' => [
             'label' => 'Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'Nombre del almac&eacute;n. M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'Nombre del almac&eacute;n. M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
     ];
 
@@ -36,6 +37,6 @@ class Almacen extends OrmModel
 
     public function __toString()
     {
-        return $this->almacen;
+        return (string) $this->almacen;
     }
 }

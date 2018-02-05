@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Auditor extends OrmModel
 {
@@ -16,21 +17,21 @@ class Auditor extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'nombre' => [
             'label' => 'Nombre del auditor',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'activo' => [
             'label' => 'Activo',
-            'tipo' =>  OrmModel::TIPO_BOOLEAN,
-            'texto_ayuda' => 'Indica se el auditor est&aacute; activo dentro del sistema.',
-            'es_obligatorio' => true,
+            'tipo' =>  OrmField::TIPO_BOOLEAN,
+            'textoAyuda' => 'Indica se el auditor est&aacute; activo dentro del sistema.',
+            'esObligatorio' => true,
             'default' => 1
         ],
     ];
@@ -43,6 +44,6 @@ class Auditor extends OrmModel
 
     public function __toString()
     {
-        return $this->nombre;
+        return (string) $this->nombre;
     }
 }

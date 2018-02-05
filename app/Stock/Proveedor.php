@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class Proveedor extends OrmModel
 {
@@ -21,20 +22,20 @@ class Proveedor extends OrmModel
     public $modelFields = [
         'cod_proveedor' => [
             'label' => 'C&oacute;digo del proveedor',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
         'des_proveedor' => [
             'label' => 'Nombre del proveedor',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => false,
+            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => false,
         ],
     ];
 

@@ -2,10 +2,11 @@
 
 namespace App\Toa;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 use App\Inventario\Catalogo;
 
-class TipMaterialTrabajoToa extends OrmModel
+class TipMaterialTrabajo extends OrmModel
 {
     public $modelLabel = 'Tipo de Material Trabajo TOA';
 
@@ -18,26 +19,26 @@ class TipMaterialTrabajoToa extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'desc_tip_material' => [
             'label' => 'Descripci&oacute;n tipo de material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del tipo de material. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'Nombre del tipo de material. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'color' => [
             'label' => 'Color tipo material',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
+            'textoAyuda' => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
         ],
         'catalogo' => [
-            'tipo' => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => Catalogo::class,
-            'texto_ayuda' => 'Tipo de material TOA.',
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => Catalogo::class,
+            'textoAyuda' => 'Tipo de material TOA.',
         ],
     ];
 

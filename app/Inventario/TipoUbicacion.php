@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class TipoUbicacion extends OrmModel
 {
@@ -16,21 +17,21 @@ class TipoUbicacion extends OrmModel
 
     public $modelFields = [
         'id' => [
-            'tipo' => OrmModel::TIPO_ID,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'tipo_inventario' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => TipoInventario::class,
-            'texto_ayuda' => 'Seleccione el tipo de inventario.',
-            'es_obligatorio' => true,
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => TipoInventario::class,
+            'textoAyuda' => 'Seleccione el tipo de inventario.',
+            'esObligatorio' => true,
         ],
         'tipo_ubicacion' => [
             'label' => 'Tipo de ubicaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 30,
-            'texto_ayuda' => 'M&aacute;ximo 30 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'textoAyuda' => 'M&aacute;ximo 30 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
     ];
 
@@ -42,7 +43,7 @@ class TipoUbicacion extends OrmModel
 
     public function __toString()
     {
-        return $this->tipo_ubicacion;
+        return (string) $this->tipo_ubicacion;
     }
 
     public function tipoInventario()

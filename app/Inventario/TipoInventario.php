@@ -2,7 +2,8 @@
 
 namespace App\Inventario;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class TipoInventario extends OrmModel
 {
@@ -19,20 +20,20 @@ class TipoInventario extends OrmModel
     public $modelFields = [
         'id_tipo_inventario' => [
             'label' => 'Tipo de inventario',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 10,
-            'texto_ayuda' => 'M&aacute;ximo 10 caracteres.',
+            'textoAyuda' => 'M&aacute;ximo 10 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
         'desc_tipo_inventario' => [
             'label' => 'Descripci&oacute;n tipo de inventario',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            'es_unico' => true,
+            'textoAyuda' => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            'esUnico' => true,
         ],
     ];
 
@@ -44,6 +45,6 @@ class TipoInventario extends OrmModel
 
     public function __toString()
     {
-        return $this->desc_tipo_inventario;
+        return (string) $this->desc_tipo_inventario;
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class TipoClasifAlmacenSap extends OrmModel
 {
@@ -17,21 +18,21 @@ class TipoClasifAlmacenSap extends OrmModel
 
     public $modelFields = [
         'id_tipoclasif' => [
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
         ],
         'tipo' => [
             'label' => 'Tipo Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Tipo Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Tipo Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'color' => [
             'label' => 'Color del tipo',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Color del tipo para graficar. M&aacute;ximo 20 caracteres.',
-            'es_obligatorio' => false,
+            'textoAyuda' => 'Color del tipo para graficar. M&aacute;ximo 20 caracteres.',
+            'esObligatorio' => false,
         ],
     ];
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace App;
+namespace App\OrmModel;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Model;
 use Form;
+use App\OrmModel\OrmField;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class OrmModel extends Model
 {
@@ -13,15 +14,6 @@ class OrmModel extends Model
     /**
      * Constantes de tipos de campos
      */
-    const TIPO_ID       = 'ID';
-    const TIPO_INT      = 'INT';
-    const TIPO_REAL     = 'REAL';
-    const TIPO_CHAR     = 'CHAR';
-    const TIPO_BOOLEAN  = 'BOOLEAN';
-    const TIPO_DATETIME = 'DATETIME';
-    const TIPO_HAS_ONE  = 'HAS_ONE';
-    const TIPO_HAS_MANY = 'HAS_MANY';
-
     const KEY_SEPARATOR = '~';
 
     public $tableColumns = [];
@@ -36,6 +28,17 @@ class OrmModel extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
+        foreach ($this->modelFields as $field => $fieldSpec) {
+            if (is_array($fieldSpec)) {
+                $this->modelFields[$field] = new OrmField($fieldSpec);
+            }
+        }
+    }
+
+    public static function new()
+    {
+        return new static;
     }
 
     public function scopeFiltroOrm($query, $filtro = null)
@@ -45,7 +48,7 @@ class OrmModel extends Model
         }
 
         $this->getModelFields()->filter(function ($elem) {
-            return (isset($elem['tipo']) and $elem['tipo'] === self::TIPO_CHAR);
+            return (isset($elem['tipo']) and $elem['tipo'] === OrmField::TIPO_CHAR);
         })->each(function ($item, $field) use (&$query, $filtro) {
             $query = $query->orWhere($field, 'like', '%'.$filtro.'%');
         });
@@ -73,60 +76,73 @@ class OrmModel extends Model
         return collect($this->modelFields);
     }
 
-    public function getFieldLabel($field = null)
+    public function getField($field = '')
     {
-        if (in_array($this->getFieldType($field), [self::TIPO_HAS_ONE, self::TIPO_HAS_MANY])) {
-            $relatedModel = new $this->modelFields[$field]['relation_model'];
+        return array_get($this->modelFields, $field, new OrmField);
+    }
+
+    public function getFieldLabel($field = '')
+    {
+        if (in_array($this->getFieldType($field), [OrmField::TIPO_HAS_ONE, OrmField::TIPO_HAS_MANY])) {
+            $relatedModelClass = $this->getField($field)->getRelationModel();
+            $relatedModel = new $relatedModelClass();
 
             return $relatedModel->modelLabel;
         }
 
-        return array_get($this->modelFields, $field.'.label', $field);
+        return $this->getField($field)->getLabel();
     }
 
     public function getFieldsList($mostrarID = false)
     {
         return collect($this->modelFields)
-            ->filter(function ($elem) {
-                return array_get($elem, 'mostrar_lista', true);
-            })->filter(function ($elem) use ($mostrarID) {
-                return ($mostrarID or $elem['tipo'] !== static::TIPO_ID);
-            })->keys()
+            ->filter(function ($field) {
+                return $field->getMostrarLista();
+            })
+            ->filter(function ($field) use ($mostrarID) {
+                return ($mostrarID or $field->getTipo() !== OrmField::TIPO_ID);
+            })
+            ->keys()
             ->all();
     }
 
-    public function getFieldHelp($field = null)
+    public function getFieldHelp($field = '')
     {
-        return array_get($this->modelFields, $field.'.texto_ayuda');
+        return $this->getField($field)->getTextoAyuda();
     }
 
-    public function getFieldType($field = null)
+    public function getFieldType($field = '')
     {
-        return array_get($this->modelFields, $field.'.tipo');
+        return $this->getField($field)->getTipo();
     }
 
-    public function getFieldLength($field = null)
+    public function getFieldLength($field = '')
     {
-        return array_get($this->modelFields, $field.'.largo');
+        return $this->getField($field)->getLargo();
     }
 
-    public function getFormattedFieldValue($field)
+    public function getFormattedFieldValue($field = '')
     {
-        if ($this->getFieldType($field) === self::TIPO_BOOLEAN) {
+        if (!array_key_exists($field, $this->modelFields)) {
+            return null;
+        }
+
+        if ($this->getFieldType($field) === OrmField::TIPO_BOOLEAN) {
             return $this->{$field} ? trans('orm.radio_yes'): trans('orm.radio_no');
         }
 
-        if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relatedModel = new $this->modelFields[$field]['relation_model'];
+        if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
+            $relatedModelClass = $this->getField($field)->getRelationModel();
+            $relatedModel = new $relatedModelClass;
 
             return (string) $relatedModel->find($this->{$field});
         }
 
-        if (array_key_exists('choices', $this->modelFields[$field])) {
-            return array_get($this->modelFields, $field.'.choices.'.$this->{$field});
+        if ($this->getField($field)->hasChoices()) {
+            return array_get($this->getField($field)->getChoices(), $this->{$field}, '');
         }
 
-        if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
+        if ($this->getFieldType($field) === OrmField::TIPO_HAS_MANY) {
             return ($this->{$field}) ? $this->{$field}->reduce(function ($list, $relatedObject) {
                 return $list.'<li>'.(string) $relatedObject.'</li>';
             }, '<ul>').'</ul>' : null;
@@ -139,7 +155,7 @@ class OrmModel extends Model
     {
         $extraParam['id'] = $field;
 
-        if ($this->getFieldType($field) === self::TIPO_CHAR and $this->getFieldLength($field)) {
+        if ($this->getFieldType($field) === OrmField::TIPO_CHAR and $this->getFieldLength($field)) {
             $extraParam['maxlength'] = $this->getFieldLength($field);
         }
 
@@ -148,7 +164,7 @@ class OrmModel extends Model
                 .Form::hidden($field, null, $extraParam);
         }
 
-        if ($this->getFieldType($field) === self::TIPO_BOOLEAN) {
+        if ($this->getFieldType($field) === OrmField::TIPO_BOOLEAN) {
             return '<label class="radio-inline" for="">'
                 .Form::radio($field, 1, ($this->getAttribute($field) == '1'), ['id' => ''])
                 .trans('orm.radio_yes')
@@ -168,8 +184,8 @@ class OrmModel extends Model
             );
         }
 
-        if ($this->getFieldType($field) === self::TIPO_HAS_ONE) {
-            $relatedModel = new $this->modelFields[$field]['relation_model'];
+        if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
+            $relatedModel = new $this->modelFields[$field]['relationModel'];
 
             if (array_key_exists('onchange', $this->modelFields[$field])) {
                 $route = \Route::currentRouteName();
@@ -185,8 +201,8 @@ class OrmModel extends Model
             return Form::select($field, $relatedModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
         }
 
-        if ($this->getFieldType($field) === self::TIPO_HAS_MANY) {
-            $relatedModel = new $this->modelFields[$field]['relation_model'];
+        if ($this->getFieldType($field) === OrmField::TIPO_HAS_MANY) {
+            $relatedModel = new $this->modelFields[$field]['relationModel'];
 
             $elementosSelected = collect($this->getAttribute($field))
                 ->map(function ($modelElem) {
@@ -204,9 +220,9 @@ class OrmModel extends Model
         return Form::text($field, $this->getAttribute($field), $extraParam);
     }
 
-    public function isFieldMandatory($field = null)
+    public function isFieldMandatory($field = '')
     {
-        return array_get($this->modelFields, $field.'.es_obligatorio', false);
+        return $this->getField($field)->getEsObligatorio();
     }
 
     public function getValidation()
@@ -220,7 +236,7 @@ class OrmModel extends Model
                 $validation[$field][] = 'required';
             }
 
-            if ($this->getFieldType($field) === self::TIPO_CHAR and $this->getFieldLength($field)) {
+            if ($this->getFieldType($field) === OrmField::TIPO_CHAR and $this->getFieldLength($field)) {
                 $validation[$field][] = 'max:'.$this->getFieldLength($field);
             }
 

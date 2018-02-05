@@ -2,9 +2,10 @@
 
 namespace App\Toa;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
-class TecnicoToa extends OrmModel
+class Tecnico extends OrmModel
 {
     public $modelLabel = 'T&eacute;cnico TOA';
 
@@ -18,41 +19,41 @@ class TecnicoToa extends OrmModel
     public $modelFields = [
         'id_tecnico' => [
             'label' => 'ID T&eacute;cnico',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'ID del t&eacute;cnico. M&aacute;ximo 20 caracteres.',
+            'textoAyuda' => 'ID del t&eacute;cnico. M&aacute;ximo 20 caracteres.',
             'es_id' => true,
-            'es_obligatorio' => true,
-            'es_unico' => true
+            'esObligatorio' => true,
+            'esUnico' => true
         ],
         'tecnico' => [
             'label' => 'Nombre t&eacute;cnico',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Nombre del t&eacute;cnico. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            // 'es_unico' => true
+            'textoAyuda' => 'Nombre del t&eacute;cnico. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
+            // 'esUnico' => true
         ],
         'rut' => [
             'label' => 'RUT del t&eacute;cnico',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 20,
-            'texto_ayuda' => 'RUT del t&eacute;cnico. '
+            'textoAyuda' => 'RUT del t&eacute;cnico. '
                 .'Sin puntos, con guion y d&iacute;gito verificador (en min&uacute;scula). '
                 .'M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
-            // 'es_unico' => true
+            'esObligatorio' => true,
+            // 'esUnico' => true
         ],
         'id_empresa' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => EmpresaToa::class,
-            'texto_ayuda' => 'Empresa a la que pertenece el t&eacute;cnico.',
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => EmpresaToa::class,
+            'textoAyuda' => 'Empresa a la que pertenece el t&eacute;cnico.',
             // 'onchange' => 'id_ciudad',
         ],
         'id_ciudad' => [
-            'tipo' => OrmModel::TIPO_HAS_ONE,
-            'relation_model' => CiudadToa::class,
-            'texto_ayuda' => 'Ciudad a la que pertenece el t&eacute;cnico.',
+            'tipo' => OrmField::TIPO_HAS_ONE,
+            'relationModel' => CiudadToa::class,
+            'textoAyuda' => 'Ciudad a la que pertenece el t&eacute;cnico.',
         ],
     ];
 

@@ -2,7 +2,8 @@
 
 namespace App\Stock;
 
-use App\OrmModel;
+use App\OrmModel\OrmModel;
+use App\OrmModel\OrmField;
 
 class TipoAlmacenSap extends OrmModel
 {
@@ -19,39 +20,39 @@ class TipoAlmacenSap extends OrmModel
 
     public $modelFields = [
         'id_tipo' => [
-            'tipo' => OrmModel::TIPO_INT,
+            'tipo' => OrmField::TIPO_INT,
         ],
         'tipo' => [
             'label' => 'Tipo de Almac&eacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Tipo del almac&eacute;n. M&aacute;ximo 50 caracteres.',
-            'es_obligatorio' => true,
+            'textoAyuda' => 'Tipo del almac&eacute;n. M&aacute;ximo 50 caracteres.',
+            'esObligatorio' => true,
         ],
         'tipo_op' => [
             'label' => 'Tipo operaci&oacute;n',
-            'tipo' => OrmModel::TIPO_CHAR,
+            'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
-            'texto_ayuda' => 'Seleccione el tipo de operaci&oacute;n.',
+            'textoAyuda' => 'Seleccione el tipo de operaci&oacute;n.',
             'choices' => [
                 'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
                 'FIJA' => 'Operaci&oacute;n Fija'
             ],
-            'es_obligatorio' => true,
+            'esObligatorio' => true,
             'onchange' => 'almacenes',
         ],
         'es_sumable' => [
             'label' => 'Es sumable',
-            'tipo' => OrmModel::TIPO_BOOLEAN,
-            'texto_ayuda' => 'Indica si el tipo de almac&eacute;n se incluir&aacute; en la suma del stock.',
-            'es_obligatorio' => true,
+            'tipo' => OrmField::TIPO_BOOLEAN,
+            'textoAyuda' => 'Indica si el tipo de almac&eacute;n se incluir&aacute; en la suma del stock.',
+            'esObligatorio' => true,
             'default' => 1,
         ],
         'almacen' => [
-            'tipo' => OrmModel::TIPO_HAS_MANY,
-            'relation_model' => AlmacenSap::class,
+            'tipo' => OrmField::TIPO_HAS_MANY,
+            'relationModel' => AlmacenSap::class,
             'relation_conditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-            'texto_ayuda' => 'Tipos asociados al almac&eacute;n.',
+            'textoAyuda' => 'Tipos asociados al almac&eacute;n.',
         ],
     ];
 

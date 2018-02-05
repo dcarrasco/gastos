@@ -4,7 +4,7 @@ namespace App\Acl;
 
 use DB;
 use Route;
-use App\OrmModel;
+use App\OrmModel\OrmModel;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
