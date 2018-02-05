@@ -62,7 +62,7 @@ class Modulo extends OrmModel
             'textoAyuda' => 'Cadena de caracteres de seguridad del m&oacute;dulo. M&aacute;ximo 20 caracteres.',
             'esObligatorio' => true,
             'esUnico' => true,
-            'mostrar_lista' => false,
+            'mostrarLista' => false,
         ],
     ];
 
