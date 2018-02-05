@@ -51,7 +51,7 @@ class TipoAlmacenSap extends OrmModel
         'almacen' => [
             'tipo' => OrmField::TIPO_HAS_MANY,
             'relationModel' => AlmacenSap::class,
-            'relation_conditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
+            'relationConditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
             'textoAyuda' => 'Tipos asociados al almac&eacute;n.',
         ],
     ];

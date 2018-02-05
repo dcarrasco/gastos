@@ -20,7 +20,9 @@ class OrmField
         'textoAyuda',
         'mostrarLista',
         'choices',
+        'onChange',
         'relationModel',
+        'relationConditions',
         'esObligatorio',
         'esUnico'
     ];
@@ -30,8 +32,10 @@ class OrmField
     protected $largo;
     protected $textoAyuda = '';
     protected $choices = [];
+    protected $onChange = '';
     protected $mostrarLista = true;
     protected $relationModel = null;
+    protected $relationConditions = [];
     protected $esObligatorio = false;
     protected $esUnico = false;
 
@@ -165,11 +169,39 @@ class OrmField
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function hasChoices()
     {
         return count($this->choices) > 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOnChange()
+    {
+        return $this->onChange;
+    }
+
+    /**
+     * @param mixed $onChange
+     *
+     * @return self
+     */
+    public function setOnChange($onChange)
+    {
+        $this->onChange = $onChange;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasOnChange()
+    {
+        return !empty($this->onChange);
     }
 
     /**
@@ -190,6 +222,34 @@ class OrmField
         $this->relationModel = $relationModel;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRelationConditions()
+    {
+        return $this->relationConditions;
+    }
+
+    /**
+     * @param mixed $relationConditions
+     *
+     * @return self
+     */
+    public function setRelationConditions($relationConditions)
+    {
+        $this->relationConditions = $relationConditions;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasRelationConditions()
+    {
+        return count($this->relationConditions) > 0;
     }
 
     /**

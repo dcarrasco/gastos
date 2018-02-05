@@ -81,13 +81,21 @@ class OrmModel extends Model
         return array_get($this->modelFields, $field, new OrmField);
     }
 
+    public function getRelatedModel($field = '')
+    {
+        $relatedModelClass = $this->getField($field)->getRelationModel();
+
+        if (!empty($relatedModelClass)) {
+            return new $relatedModelClass;
+        }
+
+        return;
+    }
+
     public function getFieldLabel($field = '')
     {
         if (in_array($this->getFieldType($field), [OrmField::TIPO_HAS_ONE, OrmField::TIPO_HAS_MANY])) {
-            $relatedModelClass = $this->getField($field)->getRelationModel();
-            $relatedModel = new $relatedModelClass();
-
-            return $relatedModel->modelLabel;
+            return $this->getRelatedModel($field)->modelLabel;
         }
 
         return $this->getField($field)->getLabel();
@@ -132,10 +140,7 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
-            $relatedModelClass = $this->getField($field)->getRelationModel();
-            $relatedModel = new $relatedModelClass;
-
-            return (string) $relatedModel->find($this->{$field});
+            return (string) $this->getRelatedModel($field)->find($this->{$field});
         }
 
         if ($this->getField($field)->hasChoices()) {
@@ -185,25 +190,26 @@ class OrmModel extends Model
         }
 
         if ($this->getFieldType($field) === OrmField::TIPO_HAS_ONE) {
-            $relatedModel = new $this->modelFields[$field]['relationModel'];
-
-            if (array_key_exists('onchange', $this->modelFields[$field])) {
+            if ($this->getField($field)->hasOnChange()) {
                 $route = \Route::currentRouteName();
                 list($routeName, $routeAction) = explode('.', $route);
 
-                $elemDest = $this->modelFields[$field]['onchange'];
+                $elemDest = $this->getField($field)->getOnChange();
                 $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
                 $extraParam['onchange'] = "$('#{$elemDest}').html('');"
                     ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
                     ."function (data) { $('#{$elemDest}').html(data); });";
             }
 
-            return Form::select($field, $relatedModel->getModelFormOptions(), $this->getAttribute($field), $extraParam);
+            return Form::select(
+                $field,
+                $this->getRelatedModel($field)->getModelFormOptions(),
+                $this->getAttribute($field),
+                $extraParam
+            );
         }
 
         if ($this->getFieldType($field) === OrmField::TIPO_HAS_MANY) {
-            $relatedModel = new $this->modelFields[$field]['relationModel'];
-
             $elementosSelected = collect($this->getAttribute($field))
                 ->map(function ($modelElem) {
                     return $modelElem->{$modelElem->getKeyName()};
@@ -211,7 +217,7 @@ class OrmModel extends Model
 
             return Form::select(
                 $field.'[]',
-                $relatedModel->getModelFormOptions($this->getWhereFromRelation($field)),
+                $this->getRelatedModel($field)->getModelFormOptions($this->getWhereFromRelation($field)),
                 $elementosSelected,
                 array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
             );
@@ -285,13 +291,13 @@ class OrmModel extends Model
 
     public function getWhereFromRelation($field = null)
     {
-        if (!array_key_exists('relation_conditions', $this->modelFields[$field])) {
+        if (!$this->getField($field)->hasRelationConditions()) {
             return [];
         }
 
         $object = $this;
 
-        return collect($this->modelFields[$field]['relation_conditions'])
+        return collect($this->getField($field)->getRelationConditions())
             ->map(function ($elem, $key) use ($object) {
                 list($tipo, $campo, $default) = explode(':', $elem);
                 return $object->{$campo};

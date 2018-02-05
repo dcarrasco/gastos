@@ -58,7 +58,7 @@ class Catalogo extends OrmModel
         //     'relation_join_table' => config('invfija.bd_catalogo_tip_material_toa'),
         //     'relation_id_one_table' => ['id_catalogo'],
         //     'relation_id_many_table' => ['id_tip_material_trabajo'],
-        //     //'relation_conditions' => ['id_app' => '@field_value:id_app'],
+        //     //'relationConditions' => ['id_app' => '@field_value:id_app'],
         //     'textoAyuda' => 'Tipo de material TOA.',
         // ],
     ];

@@ -21,7 +21,7 @@ class Rol extends OrmModel
             'tipo' => OrmField::TIPO_HAS_ONE,
             'relationModel' => App::class,
             'textoAyuda' => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
-            'onchange' => 'modulo',
+            'onChange' => 'modulo',
         ],
         'rol' => [
             'label' => 'Rol',
@@ -41,7 +41,7 @@ class Rol extends OrmModel
         'modulo' => [
             'tipo' => OrmField::TIPO_HAS_MANY,
             'relationModel' => Modulo::class,
-            'relation_conditions' => ['id_app' => '@field_value:id_app:NULL'],
+            'relationConditions' => ['id_app' => '@field_value:id_app:NULL'],
             'textoAyuda' => 'M&oacute;dulos del rol.',
         ],
     ];

@@ -81,7 +81,7 @@ class ClasifAlmacenSap extends OrmModel
         'tipoAlmacenSap' => [
             'tipo' => OrmField::TIPO_HAS_MANY,
             'relationModel' => TipoAlmacenSap::class,
-            'relation_conditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
+            'relationConditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
             'textoAyuda' => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
         ],
     ];
