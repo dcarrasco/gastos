@@ -2,6 +2,9 @@
 
 use App\OrmModel\OrmModel;
 use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\OrmFieldInt;
+use App\OrmModel\OrmField\OrmFieldChar;
+use App\OrmModel\OrmField\OrmFieldBoolean;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -31,7 +34,7 @@ class OrmModelTest extends TestCase
                 'tipo' => OrmField::TIPO_ID,
                 'parentModel' => 'ModelTest',
             ]),
-            'campo1' => new OrmField([
+            'campo1' => new OrmFieldChar([
                 'name' => 'campo1',
                 'label' => 'Label campo1',
                 'tipo' => OrmField::TIPO_CHAR,
@@ -41,14 +44,14 @@ class OrmModelTest extends TestCase
                 'esObligatorio' => true,
                 'esUnico' => true
             ]),
-            'campo2' => new OrmField([
+            'campo2' => new OrmFieldInt([
                 'name' => 'campo2',
                 'label' => 'Label campo2',
                 'tipo' => OrmField::TIPO_INT,
                 'textoAyuda' => 'Ayuda campo2',
                 'parentModel' => 'ModelTest',
             ]),
-            'campo3' => new OrmField([
+            'campo3' => new OrmFieldBoolean([
                 'name' => 'campo3',
                 'label' => 'Label campo3',
                 'tipo' => OrmField::TIPO_BOOLEAN,
