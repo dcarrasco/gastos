@@ -10,17 +10,17 @@ class TipoAlmacenSap extends OrmModel
     public $modelLabel = 'Tipo Almac&eacute;n SAP';
 
     protected $fillable = [
-        'centro', 'cod_almacen', 'des_almacen', 'uso_almace', 'icono',
+        'id_tipo', 'tipo', 'tipo_op', 'es_sumable'
     ];
 
     protected $guarded = [];
 
     protected $primaryKey = 'id_tipo';
-    // public $incrementing = false;
+    public $incrementing = true;
 
     public $modelFields = [
         'id_tipo' => [
-            'tipo' => OrmField::TIPO_INT,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'tipo' => [
             'label' => 'Tipo de Almac&eacute;n',
@@ -67,9 +67,14 @@ class TipoAlmacenSap extends OrmModel
         return (string) $this->tipo;
     }
 
-    public function almacen()
+    public function getAlmacenAttribute()
     {
-        return $this->belongsToMany(AlmacenSap::class, config('invfija.bd_tipoalmacen_sap'), 'id_tipo', 'id_modulo');
+        return $this->belongsToManyMultiKey(
+            AlmacenSap::class,
+            config('invfija.bd_tipoalmacen_sap'),
+            'id_tipo',
+            ['centro', 'cod_almacen']
+        );
     }
 
     public static function getComboTiposOperacion($tipoOp = 'movil')
