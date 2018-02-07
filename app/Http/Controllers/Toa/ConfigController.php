@@ -16,15 +16,15 @@ class ConfigController extends Controller
     {
         $this->routeName  = 'toaConfig';
         $this->menuModulo = [
-            'tecnicoToa' => ['nombre'=>trans('toa.config_menu_tecnico'), 'icono'=>'user'],
-            'empresaToa' => ['nombre'=>trans('toa.config_menu_empresa'), 'icono'=>'home'],
-            'tipMaterialTrabajoToa' => [
+            'tecnico' => ['nombre'=>trans('toa.config_menu_tecnico'), 'icono'=>'user'],
+            'empresa' => ['nombre'=>trans('toa.config_menu_empresa'), 'icono'=>'home'],
+            'tipMaterialTrabajo' => [
                 'nombre' => trans('toa.config_menu_tipo_material_trabajo'),
                 'icono' => 'object-group'
             ],
-            'tipoTrabajoToa' => ['nombre'=>trans('toa.config_menu_tipo_trabajo'), 'icono'=>'television'],
-            'ciudadToa' => ['nombre'=>trans('toa.config_menu_ciudad'), 'icono'=>'map-marker'],
-            'empresaCiudadToa' => ['nombre' => trans('toa.config_menu_empresa_ciudad'), 'icono'=>'map-marker'],
+            'tipoTrabajo' => ['nombre'=>trans('toa.config_menu_tipo_trabajo'), 'icono'=>'television'],
+            'ciudad' => ['nombre'=>trans('toa.config_menu_ciudad'), 'icono'=>'map-marker'],
+            'empresaCiudad' => ['nombre' => trans('toa.config_menu_empresa_ciudad'), 'icono'=>'map-marker'],
         ];
 
         $this->makeView();

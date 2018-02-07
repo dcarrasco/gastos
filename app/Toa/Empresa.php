@@ -46,7 +46,7 @@ class Empresa extends OrmModel
         ],
         'ciudadToa' => [
             'tipo' => OrmField::TIPO_HAS_MANY,
-            'relationModel' => CiudadToa::class,
+            'relationModel' => Ciudad::class,
             'conditions' => ['id_app' => '@field_value:id_app'],
             'textoAyuda' => 'Ciudades asociados a empresa TOA.',
         ],
@@ -76,7 +76,7 @@ class Empresa extends OrmModel
     public function ciudadToa()
     {
         return $this->belongsToMany(
-            CiudadToa::class,
+            Ciudad::class,
             config('invfija.bd_empresas_ciudades_toa'),
             'id_empresa',
             'id_ciudad'

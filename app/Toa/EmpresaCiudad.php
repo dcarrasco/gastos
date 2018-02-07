@@ -21,14 +21,14 @@ class EmpresaCiudad extends OrmModel
             'tipo' => OrmField::TIPO_HAS_ONE,
             'esId' => true,
             'esObligatorio' => true,
-            'relationModel' => EmpresaToa::class,
+            'relationModel' => Empresa::class,
             'textoAyuda' => 'Seleccione una empresa TOA.',
         ],
         'id_ciudad' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
             'esId' => true,
             'esObligatorio' => true,
-            'relationModel' => CiudadToa::class,
+            'relationModel' => Ciudad::class,
             'textoAyuda' => 'Seleccione una Ciudad TOA.',
         ],
         'almacenes' => [
@@ -55,12 +55,12 @@ class EmpresaCiudad extends OrmModel
 
     public function empresaToa()
     {
-        return $this->belongsTo(EmpresaToa::class, 'id_empresa');
+        return $this->belongsTo(Empresa::class, 'id_empresa');
     }
 
     public function ciudadToa()
     {
-        return $this->belongsTo(CiudadToa::class, 'id_ciudad');
+        return $this->belongsTo(Ciudad::class, 'id_ciudad');
     }
 
     public function catalogo()

@@ -46,13 +46,13 @@ class Tecnico extends OrmModel
         ],
         'id_empresa' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => EmpresaToa::class,
+            'relationModel' => Empresa::class,
             'textoAyuda' => 'Empresa a la que pertenece el t&eacute;cnico.',
             // 'onchange' => 'id_ciudad',
         ],
         'id_ciudad' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => CiudadToa::class,
+            'relationModel' => Ciudad::class,
             'textoAyuda' => 'Ciudad a la que pertenece el t&eacute;cnico.',
         ],
     ];
