@@ -112,6 +112,21 @@ class OrmModelTest extends TestCase
         $this->assertNull($this->getModel()->getFormattedFieldValue());
     }
 
+    public function testGetFieldForm()
+    {
+        $this->assertNotEmpty($this->getModel()->getFieldForm('campo1'));
+        $this->assertContains('input', (string) $this->getModel()->getFieldForm('campo1'));
+        $this->assertContains('campo1', (string) $this->getModel()->getFieldForm('campo1'));
+
+        $this->assertNotEmpty($this->getModel()->getFieldForm('campo2'));
+        $this->assertContains('input', (string) $this->getModel()->getFieldForm('campo2'));
+        $this->assertContains('campo2', (string) $this->getModel()->getFieldForm('campo2'));
+
+        $this->assertNotEmpty($this->getModel()->getFieldForm('campo3'));
+        $this->assertContains('input', (string) $this->getModel()->getFieldForm('campo3'));
+        $this->assertContains('campo3', (string) $this->getModel()->getFieldForm('campo3'));
+    }
+
     public function testIsFieldMandatory()
     {
         $this->assertTrue($this->getModel()->isFieldMandatory('campo1'));
