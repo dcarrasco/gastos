@@ -33,6 +33,12 @@ class OrmModel extends Model
 
     public function __construct(array $attributes = [])
     {
+        $this->initFields();
+        parent::__construct($attributes);
+    }
+
+    public function initFields($arrFields = [])
+    {
         $fieldClasses = [
             OrmField::TIPO_ID => OrmFieldInt::class,
             OrmField::TIPO_INT => OrmFieldInt::class,
@@ -42,6 +48,7 @@ class OrmModel extends Model
             OrmField::TIPO_HAS_MANY => OrmFieldHasMany::class,
         ];
 
+        $this->modelFields = array_merge($this->modelFields, $arrFields);
 
         foreach ($this->modelFields as $field => $fieldSpec) {
             if (is_array($fieldSpec)) {
@@ -63,8 +70,6 @@ class OrmModel extends Model
                 $this->modelFields[$field] = $fieldObject;
             }
         }
-
-        parent::__construct($attributes);
     }
 
     public static function new()
@@ -78,11 +83,14 @@ class OrmModel extends Model
             return $query;
         }
 
-        $this->getModelFields()->filter(function ($elem) {
-            return (isset($elem['tipo']) and $elem['tipo'] === OrmField::TIPO_CHAR);
-        })->each(function ($item, $field) use (&$query, $filtro) {
-            $query = $query->orWhere($field, 'like', '%'.$filtro.'%');
-        });
+        $this->getModelFields()
+            ->filter(function ($field) {
+                return ($field->getTipo() === OrmField::TIPO_CHAR);
+            })
+            ->keys()
+            ->each(function ($fieldName) use (&$query, $filtro) {
+                $query = $query->orWhere($fieldName, 'like', '%'.$filtro.'%');
+            });
 
         return $query;
     }
@@ -114,13 +122,7 @@ class OrmModel extends Model
 
     public function getRelatedModel($field = '')
     {
-        $relatedModelClass = $this->getField($field)->getRelationModel();
-
-        if (!empty($relatedModelClass)) {
-            return new $relatedModelClass;
-        }
-
-        return;
+        return $this->getField($field)->getRelatedModel();
     }
 
     public function getFieldLabel($field = '')

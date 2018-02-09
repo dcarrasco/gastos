@@ -21,9 +21,31 @@ class OrmModelTest extends TestCase
         ]);
     }
 
+    public function testInitFields()
+    {
+        $model = new OrmModel();
+        $model->initFields(['campo2' => [
+            'tipo' => OrmField::TIPO_CHAR,
+        ]]);
+
+        $this->assertInternalType('object', $model);
+        $this->assertCount(1, $model->getModelFields());
+    }
+
     public function testNew()
     {
         $this->assertInternalType('object', ModelTest::new());
+    }
+
+    public function testScopeFiltroOrm()
+    {
+        $this->assertInternalType('object', $this->getModel()->filtroOrm());
+        $this->assertInternalType('object', $this->getModel()->filtroOrm('filtro'));
+    }
+
+    public function testScopeModelOrderBy()
+    {
+        $this->assertInternalType('object', $this->getModel()->modelOrderBy());
     }
 
     public function testGetModelFields()
@@ -64,6 +86,11 @@ class OrmModelTest extends TestCase
         ]);
 
         $this->assertEquals($fields, $this->getModel()->getModelFields());
+    }
+
+    public function testGetRelatedModel()
+    {
+        $this->assertNull($this->getModel()->getRelatedModel('campo1'));
     }
 
     public function testGetFieldLabel()
@@ -154,7 +181,7 @@ class ModelTest extends OrmModel
 {
     public $modelLabel = 'LabelTest';
 
-    public $modelOrder = 'OrderTest';
+    public $modelOrder = 'campo1';
 
     protected $fillable = ['campo1', 'campo2', 'campo3'];
 

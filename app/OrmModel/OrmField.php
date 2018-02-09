@@ -402,7 +402,7 @@ class OrmField
             return new $relatedModelClass;
         }
 
-        return;
+        return null;
     }
 
     public function getFormattedValue($value = null)
