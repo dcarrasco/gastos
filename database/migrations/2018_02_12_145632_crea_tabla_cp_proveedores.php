@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreaTablaRoles extends Migration
+class CreaTablaCpProveedores extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreaTablaRoles extends Migration
      */
     public function up()
     {
-        Schema::create('acl_rol', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_app');
-            $table->string('rol', 50)->unique();
-            $table->string('descripcion', 100);
-            $table->timestamps();
+        Schema::create('cp_proveedores', function (Blueprint $table) {
+            $table->string('cod_proveedor', 10);
+            $table->string('des_proveedor', 50);
+            $table->primary(['cod_proveedor']);
         });
     }
 
@@ -29,6 +27,6 @@ class CreaTablaRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acl_rol');
+        Schema::dropIfExists('cp_proveedores');
     }
 }

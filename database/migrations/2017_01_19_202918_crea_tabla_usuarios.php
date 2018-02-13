@@ -13,14 +13,13 @@ class CreaTablaUsuarios extends Migration
      */
     public function up()
     {
-        Schema::create('usuarios', function (Blueprint $table) {
+        Schema::create('fija_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 45);
-            $table->string('tipo', 10);
             $table->tinyInteger('activo');
-            $table->string('usr', 30)->unique();
-            $table->string('pwd', 255);
-            $table->string('correo', 40)->unique();
+            $table->string('username', 30)->unique();
+            $table->string('password', 255);
+            $table->string('email', 40)->unique();
             $table->dateTime('fecha_login');
             $table->string('ip_login', 30);
             $table->string('agente_login', 50);
@@ -28,6 +27,18 @@ class CreaTablaUsuarios extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('fija_usuarios')->insert([
+            'nombre' => 'Laravel Test',
+            'activo' => 1,
+            'username' => 'laravel',
+            'password' => '',
+            'correo' => '',
+            'fecha_login' => \Carbon\Carbon::now(),
+            'ip_login' => '',
+            'agente_login' => '',
+            'login_errors' => 0,
+        ]);
     }
 
 
@@ -38,6 +49,6 @@ class CreaTablaUsuarios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('fija_usuarios');
     }
 }

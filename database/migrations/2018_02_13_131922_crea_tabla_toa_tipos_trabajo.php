@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreaTablaRoles extends Migration
+class CreaTablaToaTiposTrabajo extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreaTablaRoles extends Migration
      */
     public function up()
     {
-        Schema::create('acl_rol', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_app');
-            $table->string('rol', 50)->unique();
-            $table->string('descripcion', 100);
-            $table->timestamps();
+        Schema::create('toa_tipos_trabajo', function (Blueprint $table) {
+            $table->string('id_tipo', 30);
+            $table->string('desc_tipo', 50);
+            $table->primary(['id_tipo']);
         });
     }
 
@@ -29,6 +27,6 @@ class CreaTablaRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acl_rol');
+        Schema::dropIfExists('toa_tipos_trabajo');
     }
 }

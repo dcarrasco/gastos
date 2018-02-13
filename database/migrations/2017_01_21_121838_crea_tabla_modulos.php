@@ -13,7 +13,7 @@ class CreaTablaModulos extends Migration
      */
     public function up()
     {
-        Schema::create('modulos', function (Blueprint $table) {
+        Schema::create('acl_modulo', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_app');
             $table->string('modulo', 50)->unique();
@@ -33,6 +33,6 @@ class CreaTablaModulos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modulos');
+        Schema::dropIfExists('acl_modulo');
     }
 }

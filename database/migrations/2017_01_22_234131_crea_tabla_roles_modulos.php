@@ -13,7 +13,7 @@ class CreaTablaRolesModulos extends Migration
      */
     public function up()
     {
-        Schema::create('roles_modulos', function (Blueprint $table) {
+        Schema::create('acl_rol_modulo', function (Blueprint $table) {
             $table->integer('id_rol');
             $table->integer('id_modulo');
             $table->timestamps();
@@ -28,6 +28,6 @@ class CreaTablaRolesModulos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles_modulos');
+        Schema::dropIfExists('acl_rol_modulo');
     }
 }

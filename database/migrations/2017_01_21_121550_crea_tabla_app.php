@@ -13,7 +13,7 @@ class CreaTablaApp extends Migration
      */
     public function up()
     {
-        Schema::create('apps', function (Blueprint $table) {
+        Schema::create('acl_app', function (Blueprint $table) {
             $table->increments('id');
             $table->string('app', 50)->unique();
             $table->string('descripcion', 100);
@@ -31,6 +31,6 @@ class CreaTablaApp extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('apps');
+        Schema::dropIfExists('acl_app');
     }
 }
