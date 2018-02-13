@@ -10,7 +10,7 @@ class TipoAlmacenSap extends OrmModel
     public $modelLabel = 'Tipo Almac&eacute;n SAP';
 
     protected $fillable = [
-        'id_tipo', 'tipo', 'tipo_op', 'es_sumable'
+        'tipo', 'tipo_op', 'es_sumable'
     ];
 
     protected $guarded = [];

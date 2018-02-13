@@ -18,6 +18,7 @@ class CreaTablaCpAlmacenes extends Migration
             $table->string('cod_almacen', 10);
             $table->string('des_almacen', 50);
             $table->string('uso_almacen', 50);
+            $table->string('responsable', 50);
             $table->string('tipo_op', 50);
             $table->primary(['centro', 'cod_almacen']);
         });
