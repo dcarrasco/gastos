@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaACLRolSeeder::class);
         $this->call(TablaACLRolModuloSeeder::class);
         $this->call(TablaACLUsuarioRolSeeder::class);
+
+        $this->call(TablaFijaAuditoresSeeder::class);
+        $this->call(TablaFijaFamiliasSeeder::class);
+        $this->call(TablaFijaCatalogosSeeder::class);
     }
 }
