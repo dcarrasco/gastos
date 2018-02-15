@@ -15,6 +15,8 @@ class Familia extends OrmModel
 
     protected $primaryKey = 'codigo';
 
+    public $incrementing = false;
+
     public $modelFields = [
         'codigo' => [
             'label' => 'C&oacute;digo de la familia',

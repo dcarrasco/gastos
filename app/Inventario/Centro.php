@@ -14,6 +14,7 @@ class Centro extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'centro';
+
     public $incrementing = false;
 
     public $modelFields = [

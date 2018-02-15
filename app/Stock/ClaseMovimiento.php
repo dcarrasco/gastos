@@ -15,6 +15,7 @@ class ClaseMovimiento extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'cmv';
+
     public $incrementing = false;
 
     public $modelFields = [

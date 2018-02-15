@@ -14,7 +14,8 @@ class TipoClasifAlmacenSap extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'id_tipoclasif';
-    // public $incrementing = false;
+
+    public $incrementing = true;
 
     public $modelFields = [
         'id_tipoclasif' => [

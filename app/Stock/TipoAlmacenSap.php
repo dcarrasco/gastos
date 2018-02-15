@@ -16,6 +16,7 @@ class TipoAlmacenSap extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'id_tipo';
+
     public $incrementing = true;
 
     public $modelFields = [

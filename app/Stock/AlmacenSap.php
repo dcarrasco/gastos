@@ -13,6 +13,8 @@ class AlmacenSap extends OrmModel
 
     protected $guarded = [];
 
+    public $incrementing = false;
+
     public $modelFields = [
         'centro' => [
             'label' => 'Centro',
@@ -80,7 +82,7 @@ class AlmacenSap extends OrmModel
         return (string) $this->centro.'-'.$this->cod_almacen.' '.$this->des_almacen;
     }
 
-    public function getTiposAttribute()
+    public function tipos()
     {
         return $this->belongsToManyMultiKey(
             TipoAlmacenSap::class,

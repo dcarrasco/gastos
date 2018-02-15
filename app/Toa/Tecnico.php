@@ -14,6 +14,7 @@ class Tecnico extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'id_tecnico';
+
     public $incrementing = false;
 
     public $modelFields = [

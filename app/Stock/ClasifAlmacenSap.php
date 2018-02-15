@@ -14,7 +14,8 @@ class ClasifAlmacenSap extends OrmModel
     protected $guarded = [];
 
     protected $primaryKey = 'id_clasif';
-    // public $incrementing = false;
+
+    public $incrementing = true;
 
     public $modelFields = [
         'id_clasif' => [
