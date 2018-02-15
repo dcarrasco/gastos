@@ -18,7 +18,6 @@ class CreaTablaFijaFamilias extends Migration
             $table->string('tipo', 30);
             $table->string('nombre', 50);
             $table->primary(['codigo']);
-            $table->timestamps();
         });
     }
 

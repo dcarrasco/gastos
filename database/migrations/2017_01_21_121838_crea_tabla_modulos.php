@@ -22,7 +22,6 @@ class CreaTablaModulos extends Migration
             $table->string('icono', 50);
             $table->string('url', 100);
             $table->integer('orden');
-            $table->timestamps();
         });
     }
 

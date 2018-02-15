@@ -25,20 +25,7 @@ class CreaTablaUsuarios extends Migration
             $table->string('agente_login', 50);
             $table->integer('login_errors');
             $table->rememberToken();
-            $table->timestamps();
         });
-
-        DB::table('fija_usuarios')->insert([
-            'nombre' => 'Laravel Test',
-            'activo' => 1,
-            'username' => 'laravel',
-            'password' => '',
-            'correo' => '',
-            'fecha_login' => \Carbon\Carbon::now(),
-            'ip_login' => '',
-            'agente_login' => '',
-            'login_errors' => 0,
-        ]);
     }
 
 

@@ -16,7 +16,6 @@ class CreaTablaUsuariosRoles extends Migration
         Schema::create('acl_usuario_rol', function (Blueprint $table) {
             $table->integer('id_usuario');
             $table->integer('id_rol');
-            $table->timestamps();
             $table->primary(['id_usuario', 'id_rol']);
         });
     }
@@ -28,6 +27,6 @@ class CreaTablaUsuariosRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acl_rol_modulo');
+        Schema::dropIfExists('acl_usuario_rol');
     }
 }

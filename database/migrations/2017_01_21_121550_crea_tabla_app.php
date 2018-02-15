@@ -20,7 +20,6 @@ class CreaTablaApp extends Migration
             $table->string('url', 100);
             $table->string('icono', 50);
             $table->integer('orden');
-            $table->timestamps();
         });
     }
 
