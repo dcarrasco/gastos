@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
 
+        // ---------------------------------------------------------------------
+        // ACL
+        // ---------------------------------------------------------------------
         $this->call(TablaFijaUsuariosSeeder::class);
         $this->call(TablaACLAppSeeder::class);
         $this->call(TablaACLModuloSeeder::class);
@@ -20,8 +23,27 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaACLRolModuloSeeder::class);
         $this->call(TablaACLUsuarioRolSeeder::class);
 
+        // ---------------------------------------------------------------------
+        // ACL
+        // ---------------------------------------------------------------------
         $this->call(TablaFijaAuditoresSeeder::class);
         $this->call(TablaFijaFamiliasSeeder::class);
         $this->call(TablaFijaCatalogosSeeder::class);
+        $this->call(TablaFijaTiposInventarioSeeder::class);
+        $this->call(TablaFijaInventariosSeeder::class);
+        $this->call(TablaFijaTipoUbicacionSeeder::class);
+        $this->call(TablaFijaCentrosSeeder::class);
+        $this->call(TablaFijaAlmacenesSeeder::class);
+        $this->call(TablaFijaUnidadesSeeder::class);
+        $this->call(TablaFijaDetalleInventarioSeeder::class);
+
+        // ---------------------------------------------------------------------
+        // TOA
+        // ---------------------------------------------------------------------
+        $this->call(TablaToaTecnicosSeeder::class);
+        $this->call(TablaToaEmpresasSeeder::class);
+        $this->call(TablaToaTipMaterialTrabajoSeeder::class);
+        $this->call(TablaToaTiposTrabajoSeeder::class);
+        $this->call(TablaToaCiudadesSeeder::class);
     }
 }

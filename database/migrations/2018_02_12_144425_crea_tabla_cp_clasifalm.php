@@ -19,8 +19,8 @@ class CreaTablaCpClasifalm extends Migration
             $table->integer('orden');
             $table->string('dir_responsable', 20);
             $table->string('estado_ajuste', 20);
-            $table->integer('id_tipoclasif')->unsigned();
-            $table->string('tipo_op', 50);
+            $table->integer('id_tipoclasif')->unsigned()->nullable();
+            $table->string('tipo_op', 50)->nullable();
         });
     }
 

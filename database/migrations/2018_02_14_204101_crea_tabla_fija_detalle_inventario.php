@@ -31,9 +31,9 @@ class CreaTablaFijaDetalleInventario extends Migration
             $table->integer('auditor')->unsigned();
             $table->string('reg_nuevo', 1);
             $table->datetime('fecha_modificacion')->nullable();
-            $table->string('observacion', 200);
-            $table->integer('stock_ajuste');
-            $table->string('glosa_ajuste', 100);
+            $table->string('observacion', 200)->nullable();
+            $table->integer('stock_ajuste')->nullable();
+            $table->string('glosa_ajuste', 100)->nullable();
             $table->datetime('fecha_ajuste')->nullable();
         });
     }
