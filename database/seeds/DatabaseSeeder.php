@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaACLUsuarioRolSeeder::class);
 
         // ---------------------------------------------------------------------
-        // ACL
+        // Inventario
         // ---------------------------------------------------------------------
         $this->call(TablaFijaAuditoresSeeder::class);
         $this->call(TablaFijaFamiliasSeeder::class);
@@ -38,6 +38,17 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaFijaDetalleInventarioSeeder::class);
 
         // ---------------------------------------------------------------------
+        // Stock
+        // ---------------------------------------------------------------------
+        $this->call(TablaCpTiposalmSeeder::class);
+        $this->call(TablaCpAlmacenesSeeder::class);
+        $this->call(TablaCpTipoClasifalmSeeder::class);
+        $this->call(TablaCpClasifalmSeeder::class);
+        $this->call(TablaCpProveedoresSeeder::class);
+        $this->call(TablaCpUsuariosSeeder::class);
+        $this->call(TablaCpCmvSeeder::class);
+
+        // ---------------------------------------------------------------------
         // TOA
         // ---------------------------------------------------------------------
         $this->call(TablaToaTecnicosSeeder::class);
@@ -45,5 +56,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaToaTipMaterialTrabajoSeeder::class);
         $this->call(TablaToaTiposTrabajoSeeder::class);
         $this->call(TablaToaCiudadesSeeder::class);
+        $this->call(TablaToaEmpresasCiudadesSeeder::class);
     }
 }

@@ -134,6 +134,68 @@ $factory->define(App\Inventario\DetalleInventario::class, function(Faker\Generat
 });
 
 // -----------------------------------------------------------------------------
+// Stock
+// -----------------------------------------------------------------------------
+$factory->define(App\Stock\TipoAlmacenSap::class, function(Faker\Generator $faker) {
+    return [
+        'tipo' => strtoupper($faker->words(2, true)),
+        'tipo_op' => $faker->boolean() ? 'FIJA' : 'MOVIL',
+        'es_sumable' => 1,
+    ];
+});
+
+$factory->define(App\Stock\AlmacenSap::class, function(Faker\Generator $faker) {
+    return [
+        'centro' => $faker->numerify('CL##'),
+        'cod_almacen' => strtoupper($faker->unique()->bothify('??##')),
+        'des_almacen' => strtoupper($faker->words(2, true)),
+        'uso_almacen' => strtoupper($faker->words(2, true)),
+        'responsable' => $faker->name,
+        'tipo_op' => $faker->boolean() ? 'FIJA' : 'MOVIL',
+    ];
+});
+
+$factory->define(App\Stock\TipoClasifAlmacenSap::class, function(Faker\Generator $faker) {
+    return [
+        'tipo' => strtoupper($faker->words(2, true)),
+        'color' => strtoupper($faker->words(1, true)),
+    ];
+});
+
+$factory->define(App\Stock\ClasifAlmacenSap::class, function(Faker\Generator $faker) {
+    return [
+        'clasificacion' => strtoupper($faker->words(2, true)),
+        'orden' => 10*$faker->numberBetween(1, 10),
+        'dir_responsable' => 'TERMINALES',
+        'estado_ajuste' => 'EXISTE',
+        'id_tipoclasif' => App\Stock\TipoClasifAlmacenSap::all()->shuffle()->first()->id_tipoclasif,
+        'tipo_op' => $faker->boolean() ? 'FIJA' : 'MOVIL',
+    ];
+});
+
+$factory->define(App\Stock\Proveedor::class, function(Faker\Generator $faker) {
+    return [
+        'cod_proveedor' => strtoupper($faker->unique()->lexify('?????')),
+        'des_proveedor' => $faker->company,
+    ];
+});
+
+$factory->define(App\Stock\UsuarioSap::class, function(Faker\Generator $faker) {
+    return [
+        'usuario' => strtoupper($faker->unique()->lexify('?????')),
+        'nom_usuario' => $faker->name,
+    ];
+});
+
+$factory->define(App\Stock\ClaseMovimiento::class, function(Faker\Generator $faker) {
+    return [
+        'cmv' => strtoupper($faker->unique()->bothify('?##')),
+        'des_cmv' => strtoupper($faker->words(2, true)),
+    ];
+});
+
+
+// -----------------------------------------------------------------------------
 // TOA
 // -----------------------------------------------------------------------------
 $factory->define(App\Toa\Tecnico::class, function(Faker\Generator $faker) {
@@ -170,5 +232,12 @@ $factory->define(App\Toa\Ciudad::class, function(Faker\Generator $faker) {
         'id_ciudad' => strtoupper($faker->unique()->lexify('????')),
         'ciudad' => strtoupper($faker->unique()->city),
         'orden' => $faker->unique()->numberBetween(0, 100),
+    ];
+});
+
+$factory->define(App\Toa\EmpresaCiudad::class, function(Faker\Generator $faker) {
+    return [
+        'id_empresa' => App\Toa\Empresa::all()->shuffle()->first()->id_empresa,
+        'id_ciudad' => App\Toa\Ciudad::all()->shuffle()->first()->id_ciudad,
     ];
 });
