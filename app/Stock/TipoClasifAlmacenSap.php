@@ -19,7 +19,7 @@ class TipoClasifAlmacenSap extends OrmModel
 
     public $modelFields = [
         'id_tipoclasif' => [
-            'tipo' => OrmField::TIPO_INT,
+            'tipo' => OrmField::TIPO_ID,
         ],
         'tipo' => [
             'label' => 'Tipo Clasificaci&oacute;n de Almac&eacute;n',
