@@ -10,18 +10,18 @@ use App\Http\Controllers\Inventario\ModulosReportes;
 
 class ReportesController extends Controller
 {
-
     use ModulosReportes;
 
     public function reporte(Request $request, $tipo = null)
     {
         $moduloSelected = empty($tipo) ? collect(array_keys($this->menuModulo))->first() : $tipo;
 
-        $inventarioID = request('inventario', Inventario::getInventarioActivo()->id);
-        $comboInventario = Inventario::getInventarioActivo()->getModelFormOptions();
-        $inventario = Inventario::find($inventarioID);
-        $reporte = $inventario->reporte($moduloSelected, $tipo);
+        $idInventario = request('inventario', Inventario::getIdInventarioActivo());
+        $comboInventario = Inventario::getModelFormOptions();
 
-        return view('inventario.reporte', compact('inventarioID', 'comboInventario', 'moduloSelected', 'reporte'));
+        $claseReporte = '\App\Inventario\Reporte\Reporte'.ucfirst($moduloSelected);
+        $reporte = (new $claseReporte($idInventario))->reporte($moduloSelected);
+
+        return view('inventario.reporte', compact('idInventario', 'comboInventario', 'moduloSelected', 'reporte'));
     }
 }

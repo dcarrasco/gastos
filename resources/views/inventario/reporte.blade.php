@@ -10,7 +10,7 @@
 
 	<div class="form-group col-md-5">
 		<label for="sel_inv_activo">{{ trans('inventario.report_label_inventario') }}</label>
-		{{ Form::select('inventario', $comboInventario, $inventarioID, ['id' => 'sel_inv_activo', 'class' => 'form-control input-sm']) }}
+		{{ Form::select('inventario', $comboInventario, $idInventario, ['id' => 'sel_inv_activo', 'class' => 'form-control input-sm']) }}
 	</div>
 
 	<div class="form-group col-md-5">

@@ -100,7 +100,7 @@ class Reporte
                     })->all()
                 );
 
-                return link_to(array_get($param, 'href'), $valor);
+                return link_to(route(array_get($param, 'route'), $routeParams), $valor);
             },
             'link_detalle_series' => function ($valor, $arr_param_campo, $registro, $campo) {
                 $registro['permanencia'] = $campo;
