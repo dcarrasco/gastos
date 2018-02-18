@@ -62,8 +62,8 @@ Route::group(['prefix' => 'toa-config', 'as' => 'toaConfig.', 'namespace' => 'To
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', 'DigitacionController@showHoja')->name('showHoja');
-    Route::post('ingresar', 'DigitacionController@updateHoja')->name('updateHoja');
+    Route::get('ingresar/{hoja?}', 'DigitacionController@showHoja')->name('showHoja');
+    Route::post('ingresar/{hoja?}', 'DigitacionController@updateHoja')->name('updateHoja');
     Route::get('nueva-linea/{hoja}/{id?}', 'DigitacionController@addLinea')->name('addLinea');
     Route::post('nueva-linea/{hoja}/{id?}', 'DigitacionController@editLinea')->name('editLinea');
     Route::delete('nueva-linea/{hoja}/{id}', 'DigitacionController@destroyLinea')->name('destroyLinea');

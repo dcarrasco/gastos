@@ -184,10 +184,10 @@ class DetalleInventario extends OrmModel
         return $this->belongsTo(Inventario::class, 'id_inventario');
     }
 
-    public function auditor()
-    {
-        return $this->belongsTo(Auditor::class, 'auditor');
-    }
+    // public function auditor()
+    // {
+    //     return $this->belongsTo(Auditor::class, 'auditor');
+    // }
 
     public function __toString()
     {
@@ -198,4 +198,20 @@ class DetalleInventario extends OrmModel
     {
         return empty($value) ? 0 : $value;
     }
+
+    public function editarLinea($request)
+    {
+        $this->fill($request->all());
+
+        $this->id_inventario = Inventario::getInventarioActivo()->id;
+        $this->descripcion = Catalogo::find($this->catalogo)->descripcion;
+        $this->stock_sap = 0;
+        $this->digitador = auth()->id();
+        $this->auditor = Inventario::getInventarioActivo()->getDetalleHoja($request->input('hoja'))->first()->auditor;
+        $this->reg_nuevo = 'S';
+        $this->fecha_modificacion = \Carbon\Carbon::now();
+
+        $this->save();
+    }
+
 }

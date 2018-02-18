@@ -10,7 +10,7 @@ use App\Inventario\DetalleInventario;
 
 class Inventario extends OrmModel
 {
-    use ReportesInventario, AjustesInventario;
+    use AjustesInventario;
 
     public $modelLabel = 'Inventario';
 
@@ -72,7 +72,7 @@ class Inventario extends OrmModel
         return $this->hasMany(DetalleInventario::class, 'id_inventario');
     }
 
-    public static function getIDInventarioActivo()
+    public static function getIdInventarioActivo()
     {
         return static::where('activo', 1)->first()->getKey();
     }
@@ -90,5 +90,19 @@ class Inventario extends OrmModel
     public function getDetalleHoja($hoja = null)
     {
         return $this->lineas()->where('hoja', $hoja)->orderBy('ubicacion')->get();
+    }
+
+    public function updateDetalleHoja($detalle = [], $auditor = null)
+    {
+        return collect($detalle)->each(function ($datos, $id) use ($detalle, $auditor) {
+            $datos = array_merge($datos, [
+                'auditor' => $auditor,
+                'digitador' => auth()->id(),
+                'fecha_modificacion' => \Carbon\Carbon::now(),
+            ]);
+
+            $lineaDetalle = DetalleInventario::find($id)->update($datos);
+        })
+        ->count();
     }
 }

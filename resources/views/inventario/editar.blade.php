@@ -11,6 +11,8 @@
 
         @include('orm.validation_errors')
 
+        {{ Form::hidden('hoja', $hoja) }}
+
         @include('orm.form_item', ['modelObject' => $detalleInventario, 'field' => 'ubicacion'])
 
         <div class="form-group {{ $errors->has('catalogo') ? 'has-error' : '' }}">
@@ -20,6 +22,7 @@
                     <span class="text-danger">*</span>
                 @endif
             </label>
+
             <div class="col-sm-3">
                 <div class="input-group">
                     {{ Form::text('agr_filtrar', old('agr_filtrar'), ['class' => 'form-control', 'id' => 'agr_filtrar', 'placeholder' => trans('inventario.form_new_material_placeholder')]) }}
@@ -30,6 +33,7 @@
                     </span>
                 </div>
             </div>
+
             <div class="col-md-5">
                 {{ Form::select('catalogo', $catalogos, '', ['class' => 'form-control', 'id' => 'agr_material']) }}
             </div>

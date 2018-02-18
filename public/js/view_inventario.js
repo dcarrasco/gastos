@@ -8,7 +8,9 @@ $(document).ready(function() {
 
 	$('#btn_buscar').click(function (event) {
 		event.preventDefault();
-		$('form#frm_buscar').submit();
+		$('form#frm_buscar')
+			.attr('action', $('form#frm_buscar').attr('action')+'/'+$('#id_hoja').val())
+			.submit();
 	});
 
 	$('#btn_guardar').click(function (event) {

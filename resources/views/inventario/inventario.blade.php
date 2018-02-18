@@ -2,7 +2,11 @@
 
 @section('modulo')
 <div class="col-md-12 well">
-    {{ Form::open(['method' => 'GET', 'id' => 'frm_buscar', 'role' => 'form', 'class' => 'form-inline']) }}
+
+    {{ Form::open(['route'=>'inventario.showHoja', 'method' => 'GET', 'id' => 'frm_buscar', 'role' => 'form', 'class' => 'form-inline']) }}
+    {{ Form::close() }}
+
+    {{ Form::open(['id' => 'frm_inventario', 'class'=>'form-inline']) }}
     <div class="form-group col-md-4">
         <label>{{ trans('inventario.report_label_inventario') }}</label>
         <p class="form-control-static">{{ $inventario }}</p>
@@ -19,10 +23,10 @@
                 </span>
                 {{ Form::text('hoja', $hoja, ['maxlength' => 10, 'id' => 'id_hoja', 'class' => 'form-control input-sm']) }}
                 <span class="input-group-btn">
-                    <a href="{{ $linkHojaAnt }}" class="btn btn-default btn-sm" id="btn_hoja_ant">
+                    <a href="{{ $linkAnt }}" class="btn btn-default btn-sm" id="btn_hoja_ant">
                         <span class="fa fa-chevron-left"></span>
                     </a>
-                    <a href="{{ $linkHojaSig }}" class="btn btn-default btn-sm" id="btn_hoja_sig">
+                    <a href="{{ $linkSig }}" class="btn btn-default btn-sm" id="btn_hoja_sig">
                         <span class="fa fa-chevron-right"></span>
                     </a>
                 </span>
@@ -36,9 +40,6 @@
             {{ trans('inventario.button_new_line') }}
         </a>
     </div>
-    {{ Form::close() }}
-
-    {{ Form::open(['id' => 'frm_inventario', 'class'=>'form-inline']) }}
 
     <div class="form-group col-md-3">
         <label>{{ trans('inventario.auditor') }}</label>
@@ -50,8 +51,6 @@
 
     @include('orm.validation_errors')
 
-    {{ Form::hidden('hoja', $hoja) }}
-    {{ Form::hidden('auditor', $detalleInventario->first()->auditor) }}
     <table class="table table-striped table-hover table-condensed table-fixed-header">
         <thead class="header">
             <tr>
@@ -69,7 +68,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php $sum_sap = 0; $sum_fisico = 0; $tab_index = 10; ?>
+            <?php $tab_index = 10; ?>
             @foreach ($detalleInventario as $linea)
                 <tr>
                     <td class="text-center" nowrap>
@@ -108,7 +107,7 @@
                         {{ Form::text("detalle[{$linea->id}][observacion]", $linea->observacion, ['class' => 'input-sm form-control text-right', 'tabindex' => $tab_index+200]) }}
                     </td>
                 </tr>
-                <?php $sum_sap += $linea->stock_sap; $sum_fisico +=$linea->stock_fisico; $tab_index += 1; ?>
+                <?php $tab_index += 1; ?>
             @endforeach
         </tbody>
 
@@ -121,8 +120,8 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td class="text-right"><strong>{{ fmtCantidad($sum_sap) }}</strong></td>
-                <td class="text-right"><strong>{{ fmtCantidad($sum_fisico) }}</strong></td>
+                <td class="text-right"><strong>{{ fmtCantidad($detalleInventario->sum('stock_sap')) }}</strong></td>
+                <td class="text-right"><strong>{{ fmtCantidad($detalleInventario->sum('stock_fisico')) }}</strong></td>
                 <td></td>
                 <td>
                     <div class="text-right">
@@ -139,6 +138,6 @@
     {{ Form::close() }}
 </div>
 
-<script type="text/javascript" src="{{ asset('js/view_inventario.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/view_inventario.js?1') }}"></script>
 <script type="text/javascript" src="{{ asset('js/reporte.js') }}"></script>
 @endsection
