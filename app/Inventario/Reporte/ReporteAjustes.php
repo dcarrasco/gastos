@@ -48,8 +48,8 @@ class ReporteAjustes extends Reporte
         $campos = ['catalogo', 'descripcion', 'lote', 'centro', 'almacen', 'ubicacion', 'hoja', 'um'];
 
         $campos = array_merge($this->camposReporte($campos), $this->camposCantidades());
-        $campos['tipo_ajuste'] = $this->getCampo('tipo_ajuste');
-        $campos['glosa_ajuste'] = $this->getCampo('glosa_ajuste');
+        $campos['tipo_ajuste'] = array_get($this->camposReporte, 'tipo_ajuste');
+        $campos['glosa_ajuste'] = array_get($this->camposReporte, 'glosa_ajuste');
 
         unset($campos['sum_valor_sap']);
         unset($campos['sum_valor_fisico']);
