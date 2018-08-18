@@ -15,7 +15,7 @@ class Modulo extends OrmModel
 
     public $modelFields = [
         'id' => OrmField::TIPO_ID,
-        'id_app' => [
+        'app_id' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
             'relationModel' => App::class,
             'textoAyuda' => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
