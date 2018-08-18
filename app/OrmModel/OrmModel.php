@@ -136,9 +136,9 @@ class OrmModel extends Model
             ->filter(function ($field) {
                 return $field->getMostrarLista();
             })
-            ->filter(function ($field) use ($mostrarID) {
-                return ($mostrarID or $field->getTipo() !== OrmField::TIPO_ID);
-            })
+            // ->filter(function ($field) use ($mostrarID) {
+            //     return ($mostrarID or $field->getTipo() !== OrmField::TIPO_ID);
+            // })
             ->keys()
             ->all();
     }
