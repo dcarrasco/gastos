@@ -14,9 +14,7 @@ class App extends OrmModel
     protected $guarded = [];
 
     public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
+        'id' => OrmField::TIPO_ID,
         'app' => [
             'label' => 'Aplicaci&oacute;n',
             'tipo' => OrmField::TIPO_CHAR,

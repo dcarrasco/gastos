@@ -20,9 +20,7 @@ class Usuario extends UserACL
     protected $guarded = [];
 
     protected $modelFields = [
-        'id' => [
-            'tipo'   => OrmField::TIPO_ID,
-        ],
+        'id' => OrmField::TIPO_ID,
         'nombre' => [
             'label'          => 'Nombre de usuario',
             'tipo'           => OrmField::TIPO_CHAR,

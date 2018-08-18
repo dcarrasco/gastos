@@ -51,24 +51,24 @@ class OrmModel extends Model
         $this->modelFields = array_merge($this->modelFields, $arrFields);
 
         foreach ($this->modelFields as $field => $fieldSpec) {
-            if (is_array($fieldSpec)) {
-                $fieldSpec['name'] = $field;
-                $fieldSpec['parentModel'] = get_class($this);
+            $fieldSpec = is_array($fieldSpec) ? $fieldSpec : ['tipo' => $fieldSpec];
 
-                if ($field === $this->primaryKey) {
-                    $fieldSpec['esId'] = true;
-                    $fieldSpec['esIncrementing'] = $this->incrementing;
-                }
+            $fieldSpec['name'] = $field;
+            $fieldSpec['parentModel'] = get_class($this);
 
-                if (array_key_exists($fieldSpec['tipo'], $fieldClasses)) {
-                    $fieldClass = $fieldClasses[$fieldSpec['tipo']];
-                    $fieldObject = new $fieldClass($fieldSpec);
-                } else {
-                    $fieldObject = new OrmField($fieldSpec);
-                }
-
-                $this->modelFields[$field] = $fieldObject;
+            if ($field === $this->primaryKey) {
+                $fieldSpec['esId'] = true;
+                $fieldSpec['esIncrementing'] = $this->incrementing;
             }
+
+            if (array_key_exists($fieldSpec['tipo'], $fieldClasses)) {
+                $fieldClass = $fieldClasses[$fieldSpec['tipo']];
+                $fieldObject = new $fieldClass($fieldSpec);
+            } else {
+                $fieldObject = new OrmField($fieldSpec);
+            }
+
+            $this->modelFields[$field] = $fieldObject;
         }
     }
 

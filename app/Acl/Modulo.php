@@ -14,9 +14,7 @@ class Modulo extends OrmModel
     protected $guarded = [];
 
     public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
+        'id' => OrmField::TIPO_ID,
         'id_app' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
             'relationModel' => App::class,
