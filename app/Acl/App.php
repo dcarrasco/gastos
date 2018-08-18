@@ -41,10 +41,12 @@ class App extends OrmModel
             'label' => 'Direcci&oacute;n de la Aplicaci&oacute;n',
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 100,
+            'mostrarLista' => false,
             'textoAyuda' => 'Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.',
         ],
         'icono' => [
             'label' => '&Iacute;cono de la aplicaci&oacute;n',
+            'mostrarLista' => false,
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
             'textoAyuda' => 'Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
