@@ -102,7 +102,7 @@ class Usuario extends UserACL
 
     public function rol()
     {
-        return $this->belongsToMany(Rol::class, config('invfija.bd_usuario_rol'), 'id_usuario', 'id_rol');
+        return $this->belongsToMany(Rol::class, config('invfija.bd_usuario_rol'));
     }
 
     public function getFirstName()

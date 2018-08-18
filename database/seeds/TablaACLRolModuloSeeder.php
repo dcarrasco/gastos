@@ -14,30 +14,30 @@ class TablaACLRolModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // ACL
         // ---------------------------------------------------------------------
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 1, 'id_modulo' => 1]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 1]);
 
         // ---------------------------------------------------------------------
         // Inventario
         // ---------------------------------------------------------------------
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 2, 'id_modulo' => 2]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 2, 'id_modulo' => 3]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 2, 'id_modulo' => 4]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 2, 'id_modulo' => 5]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 2, 'modulo_id' => 2]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 2, 'modulo_id' => 3]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 2, 'modulo_id' => 4]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 2, 'modulo_id' => 5]);
 
         // ---------------------------------------------------------------------
         // Stock
         // ---------------------------------------------------------------------
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 3, 'id_modulo' => 6]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 3, 'id_modulo' => 7]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 3, 'id_modulo' => 8]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 3, 'modulo_id' => 6]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 3, 'modulo_id' => 7]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 3, 'modulo_id' => 8]);
 
         // ---------------------------------------------------------------------
         // TOA
         // ---------------------------------------------------------------------
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 4, 'id_modulo' => 9]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 4, 'id_modulo' => 10]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 4, 'id_modulo' => 11]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 4, 'id_modulo' => 12]);
-        DB::table('acl_rol_modulo')->insert(['id_rol' => 4, 'id_modulo' => 13]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 4, 'modulo_id' => 9]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 4, 'modulo_id' => 10]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 4, 'modulo_id' => 11]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 4, 'modulo_id' => 12]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 4, 'modulo_id' => 13]);
     }
 }

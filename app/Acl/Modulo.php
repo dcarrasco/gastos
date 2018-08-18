@@ -66,7 +66,7 @@ class Modulo extends OrmModel
         ],
     ];
 
-    public $modelOrder = ['id_app' =>'asc', 'modulo' =>'asc'];
+    public $modelOrder = ['app_id' =>'asc', 'modulo' =>'asc'];
 
     public function __construct(array $attributes = [])
     {
@@ -81,6 +81,6 @@ class Modulo extends OrmModel
 
     public function app()
     {
-        return $this->belongsTo(App::class, 'id_app');
+        return $this->belongsTo(App::class);
     }
 }

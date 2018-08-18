@@ -15,7 +15,7 @@ class CreaTablaModulos extends Migration
     {
         Schema::create('acl_modulo', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_app')->nullable();
+            $table->integer('app_id')->nullable();
             $table->string('modulo', 50)->unique();
             $table->string('descripcion', 100);
             $table->string('llave_modulo', 100);

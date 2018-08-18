@@ -14,9 +14,9 @@ class CreaTablaUsuariosRoles extends Migration
     public function up()
     {
         Schema::create('acl_usuario_rol', function (Blueprint $table) {
-            $table->integer('id_usuario');
-            $table->integer('id_rol');
-            $table->primary(['id_usuario', 'id_rol']);
+            $table->integer('usuario_id');
+            $table->integer('rol_id');
+            $table->primary(['usuario_id', 'rol_id']);
         });
     }
 

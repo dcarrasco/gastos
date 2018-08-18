@@ -16,7 +16,7 @@ class TablaACLModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // 1
         DB::table('acl_modulo')->insert([
-            'id_app' => 1,
+            'app_id' => 1,
             'modulo' => 'Config ACL',
             'descripcion' => 'Config ACL',
             'llave_modulo' => '4bd0769215f77e7',
@@ -30,7 +30,7 @@ class TablaACLModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // 2
         DB::table('acl_modulo')->insert([
-            'id_app' => 2,
+            'app_id' => 2,
             'modulo' => 'Config Inventario',
             'descripcion' => 'Config Inventario',
             'llave_modulo' => '81b87511e28532f',
@@ -41,7 +41,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 3
         DB::table('acl_modulo')->insert([
-            'id_app' => 2,
+            'app_id' => 2,
             'modulo' => 'Digitar Inventario',
             'descripcion' => 'Digitar Inventario',
             'llave_modulo' => 'b386b510e56f73e',
@@ -52,7 +52,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 4
         DB::table('acl_modulo')->insert([
-            'id_app' => 2,
+            'app_id' => 2,
             'modulo' => 'Reportes',
             'descripcion' => 'Reportes',
             'llave_modulo' => '2dfc992232fe108',
@@ -63,7 +63,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 5
         DB::table('acl_modulo')->insert([
-            'id_app' => 2,
+            'app_id' => 2,
             'modulo' => 'Ajustes',
             'descripcion' => 'Ajustes',
             'llave_modulo' => 'fda0416c87cceb5',
@@ -77,7 +77,7 @@ class TablaACLModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // 6
         DB::table('acl_modulo')->insert([
-            'id_app' => 3,
+            'app_id' => 3,
             'modulo' => 'Config Stock',
             'descripcion' => 'Config Stock',
             'llave_modulo' => '46f163ae6eddc0c',
@@ -88,7 +88,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 7
         DB::table('acl_modulo')->insert([
-            'id_app' => 3,
+            'app_id' => 3,
             'modulo' => 'Analisis series',
             'descripcion' => 'Analisis series',
             'llave_modulo' => '02173df489952b0',
@@ -99,7 +99,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 8
         DB::table('acl_modulo')->insert([
-            'id_app' => 3,
+            'app_id' => 3,
             'modulo' => 'Consulta Stock',
             'descripcion' => 'Consulta Stock',
             'llave_modulo' => 'a37f5a1e01ed158',
@@ -113,7 +113,7 @@ class TablaACLModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // 9
         DB::table('acl_modulo')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'modulo' => 'Config TOA',
             'descripcion' => 'Config TOA',
             'llave_modulo' => '80aa1468e0a10ca',
@@ -124,7 +124,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 10
         DB::table('acl_modulo')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'modulo' => 'Peticion',
             'descripcion' => 'Peticion',
             'llave_modulo' => '470d090393a1e7f',
@@ -135,7 +135,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 11
         DB::table('acl_modulo')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'modulo' => 'Controles',
             'descripcion' => 'Controles',
             'llave_modulo' => 'cd3b54ac404725c',
@@ -146,7 +146,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 12
         DB::table('acl_modulo')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'modulo' => 'Consumos',
             'descripcion' => 'Consumos',
             'llave_modulo' => '0bbf9db94624559',
@@ -157,7 +157,7 @@ class TablaACLModuloSeeder extends Seeder
 
         // 13
         DB::table('acl_modulo')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'modulo' => 'Asignacion',
             'descripcion' => 'Asignacion',
             'llave_modulo' => 'd5db321c52cc9aa',

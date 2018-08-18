@@ -14,9 +14,9 @@ class CreaTablaRolesModulos extends Migration
     public function up()
     {
         Schema::create('acl_rol_modulo', function (Blueprint $table) {
-            $table->integer('id_rol');
-            $table->integer('id_modulo');
-            $table->primary(['id_rol', 'id_modulo']);
+            $table->integer('rol_id');
+            $table->integer('modulo_id');
+            $table->primary(['rol_id', 'modulo_id']);
         });
     }
 

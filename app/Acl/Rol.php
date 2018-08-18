@@ -9,7 +9,7 @@ class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
 
-    protected $fillable = ['id_app', 'rol', 'descripcion'];
+    protected $fillable = ['app_id', 'rol', 'descripcion'];
 
     protected $guarded = [];
 
@@ -17,7 +17,7 @@ class Rol extends OrmModel
         'id' => [
             'tipo' => OrmField::TIPO_ID,
         ],
-        'id_app' => [
+        'app_id' => [
             'tipo' => OrmField::TIPO_HAS_ONE,
             'relationModel' => App::class,
             'textoAyuda' => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
@@ -41,12 +41,12 @@ class Rol extends OrmModel
         'modulo' => [
             'tipo' => OrmField::TIPO_HAS_MANY,
             'relationModel' => Modulo::class,
-            'relationConditions' => ['id_app' => '@field_value:id_app:NULL'],
+            'relationConditions' => ['app_id' => '@field_value:app_id:NULL'],
             'textoAyuda' => 'M&oacute;dulos del rol.',
         ],
     ];
 
-    public $modelOrder = ['id_app' => 'asc', 'rol' => 'asc'];
+    public $modelOrder = ['app_id' => 'asc', 'rol' => 'asc'];
 
     public function __construct(array $attributes = [])
     {
@@ -61,11 +61,11 @@ class Rol extends OrmModel
 
     public function app()
     {
-        return $this->belongsTo(App::class, 'id_app');
+        return $this->belongsTo(App::class);
     }
 
     public function modulo()
     {
-        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'), 'id_rol', 'id_modulo');
+        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'));
     }
 }

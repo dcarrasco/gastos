@@ -12,25 +12,25 @@ class TablaACLRolSeeder extends Seeder
     public function run()
     {
         DB::table('acl_rol')->insert([
-            'id_app' => 1,
+            'app_id' => 1,
             'rol' => 'Rol ACL',
             'descripcion' => 'Rol ACL',
         ]);
 
         DB::table('acl_rol')->insert([
-            'id_app' => 2,
+            'app_id' => 2,
             'rol' => 'Rol Inventario',
             'descripcion' => 'Rol Inventario',
         ]);
 
         DB::table('acl_rol')->insert([
-            'id_app' => 3,
+            'app_id' => 3,
             'rol' => 'Rol Stock',
             'descripcion' => 'Rol Stock',
         ]);
 
         DB::table('acl_rol')->insert([
-            'id_app' => 4,
+            'app_id' => 4,
             'rol' => 'Rol TOA',
             'descripcion' => 'Rol TOA',
         ]);
