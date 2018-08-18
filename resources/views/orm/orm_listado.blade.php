@@ -1,7 +1,7 @@
 @extends('common.app_layout')
 
 @section('modulo')
-<div class="row hidden-print">
+<div class="row hidden-print orm-list-header">
     {!! Form::open(['class'=>'form-search', 'method'=>'get']) !!}
     <div class="col-md-3 col-sm-5 col-xs-6">
         <div class="input-group input-group-sm">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="col-md-9 col-sm-7 col-xs-6 text-right">
-        <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary" id="btn_mostrar_agregar" role="button">
+        <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary btn-sm" id="btn_mostrar_agregar" role="button">
             <span class="fa fa-plus-circle"></span>
             {{ trans('orm.button_new') }} {{ strtolower($modelObject->modelLabel) }}
         </a>
@@ -24,7 +24,7 @@
 </div>
 
 <div>
-    <table class="table table-hover table-condensed">
+    <table class="table table-hover">
         <thead>
             <tr>
                 @foreach($modelObject->getFieldsList() as $field)

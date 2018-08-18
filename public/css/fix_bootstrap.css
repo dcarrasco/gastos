@@ -11,7 +11,11 @@ body {
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #333;
-	background-color: #fff
+	background-color: #f0f0f0;
+}
+
+right-menu {
+	background-color: #ffffff;
 }
 
 .radio > label,
@@ -109,9 +113,29 @@ fieldset > legend {
 	color: #FFF;
 }
 
+.nav-sidebar {
+	background-color: #ffffff;
+}
 .nav-sidebar > li.active {
-	/*background-color: #D3F3FF;*/
-	background-color: #F0F0F0;
+	background-color: #f0f0f0;
+}
+
+.orm-list-header {
+	padding-bottom: 1em;
+}
+
+table.table {
+	background-color: #ffffff;
+	border-radius: 0.75em;
+}
+
+table.table th:first-child, table.table th:last-child {
+	border-radius: 0.75em;
+}
+
+table.table thead {
+	background-color: #f8f8f8;
+	border-radius: 0.75em;
 }
 
 table .header-fixed {
