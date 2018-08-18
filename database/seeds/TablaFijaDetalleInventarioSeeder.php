@@ -11,6 +11,6 @@ class TablaFijaDetalleInventarioSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Inventario\DetalleInventario::class, 500)->create();
+        factory(App\Inventario\DetalleInventario::class, 100)->create();
     }
 }

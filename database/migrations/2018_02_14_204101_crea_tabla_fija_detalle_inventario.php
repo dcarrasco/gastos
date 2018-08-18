@@ -16,9 +16,7 @@ class CreaTablaFijaDetalleInventario extends Migration
         Schema::create('fija_detalle_inventario', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_inventario')->unsigned();
-            $table->integer('hoja')->unsigned();
             $table->string('ubicacion', 10);
-            $table->string('hu', 20);
             $table->string('catalogo', 20);
             $table->string('descripcion', 45);
             $table->string('lote', 10);
@@ -29,12 +27,14 @@ class CreaTablaFijaDetalleInventario extends Migration
             $table->integer('stock_fisico');
             $table->integer('digitador')->unsigned();
             $table->integer('auditor')->unsigned();
+            $table->integer('hoja')->unsigned();
             $table->string('reg_nuevo', 1);
-            $table->datetime('fecha_modificacion')->nullable();
             $table->string('observacion', 200)->nullable();
+            $table->datetime('fecha_modificacion')->nullable();
             $table->integer('stock_ajuste')->nullable();
             $table->string('glosa_ajuste', 100)->nullable();
             $table->datetime('fecha_ajuste')->nullable();
+            $table->string('hu', 20);
         });
     }
 

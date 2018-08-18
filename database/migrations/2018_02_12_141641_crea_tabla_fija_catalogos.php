@@ -16,7 +16,7 @@ class CreaTablaFijaCatalogos extends Migration
         Schema::create('fija_catalogos', function (Blueprint $table) {
             $table->string('catalogo', 20);
             $table->string('descripcion', 50);
-            $table->float('pmp');
+            $table->float('pmp', 12, 2);
             $table->boolean('es_seriado')->default(0);
             $table->primary(['catalogo']);
         });
