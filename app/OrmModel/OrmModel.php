@@ -130,6 +130,16 @@ class OrmModel extends Model
         return $this->getField($field)->getLabel();
     }
 
+    public function getFieldSortingIcon($field = '')
+    {
+        $iconClass = 'fa fa-sort text-muted';
+
+        if (array_key_exists($field, $this->modelOrder)) {
+            $iconClass = 'fa fa-sort';
+        }
+
+        return "<span class=\"{$iconClass}\"><span>";
+    }
     public function getFieldsList($mostrarID = false)
     {
         return collect($this->modelFields)
