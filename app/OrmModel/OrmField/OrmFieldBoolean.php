@@ -20,7 +20,9 @@ class OrmFieldBoolean extends OrmField
 
     public function getFormattedValue($value = null)
     {
-        return $value ? trans('orm.radio_yes'): trans('orm.radio_no');
+        return $value
+            ? "<span class=\"fa fa-circle text-success\"></span> " . trans('orm.radio_yes')
+            : "<span class=\"fa fa-circle text-danger\"></span> " . trans('orm.radio_no');
     }
 
 
