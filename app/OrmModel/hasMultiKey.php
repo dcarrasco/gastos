@@ -51,7 +51,7 @@ trait hasMultiKey
             return new static((array) DB::table($objectModel->table)->where($where)->first());
         }
 
-        return static::find($modelID);
+        return static::findOrNew($modelID);
     }
 
     public function updateMultiKey($arrValues)

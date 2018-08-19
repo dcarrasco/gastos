@@ -39,12 +39,9 @@ class OrmFieldHasMany extends OrmField
                 return $modelElem->{$modelElem->getKeyName()};
             })->all();
 
-        $relatedModelFilter = null;
-        if (! is_null($this->getRelatedModel($this->parentModel)->findMultiKey($parentId))) {
-            $relatedModelFilter = $this->getRelatedModel($this->parentModel)
-                ->findMultiKey($parentId)
-                ->getWhereFromRelation($this->name);
-        }
+        $relatedModelFilter = $this->getRelatedModel($this->parentModel)
+            ->findMultiKey($parentId)
+            ->getWhereFromRelation($this->name);
 
         return Form::select(
             $this->name.'[]',
