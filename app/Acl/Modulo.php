@@ -32,6 +32,7 @@ class Modulo extends OrmModel
             'label' => 'Descripci&oacute;n del m&oacute;dulo',
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 100,
+            'mostrarLista' => false,
             'textoAyuda' => 'Descripci&oacute;n del m&oacute;dulo. M&aacute;ximo 100 caracteres.',
             'esObligatorio' => true,
         ],
@@ -51,6 +52,7 @@ class Modulo extends OrmModel
             'label' => '&Iacute;cono del m&oacute;dulo',
             'tipo' => OrmField::TIPO_CHAR,
             'largo' => 50,
+            'mostrarLista' => false,
             'textoAyuda' => 'Nombre de archivo del icono del m&oacute;dulo. M&aacute;ximo 50 caracteres.',
         ],
         'llave_modulo' => [
