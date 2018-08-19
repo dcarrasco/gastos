@@ -2,9 +2,9 @@
 
 @section('modulo')
 <div class="row">
-	<div class="col-md-10 col-md-offset-1 well">
+	<div class="col-md-10 offset-md-1 card bg-light">
 
-        {!! Form::open(['url' => $formURL, 'id' => 'frm_editar', ' class' => 'form-horizontal', ' role' => 'form']) !!}
+        {!! Form::open(['url' => $formURL, 'id' => 'frm_editar', ' role' => 'form']) !!}
 
         @if ($createOrEdit === 'edit')
         	{!! method_field('PUT')!!}
@@ -19,8 +19,8 @@
                 @include('orm.form_item')
 			@endforeach
 
-			<div class="form-group">
-				<label class="control-label col-sm-4"></label>
+			<div class="form-group row">
+				<label class="col-form-label col-sm-4"></label>
 
 				<div class="col-sm-8">
 					<div class="pull-right">

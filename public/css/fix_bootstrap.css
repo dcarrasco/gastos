@@ -113,29 +113,35 @@ fieldset > legend {
 	color: #FFF;
 }
 
-.nav-sidebar {
+li.list-group-item {
 	background-color: #ffffff;
+	border: none;
 }
-.nav-sidebar > li.active {
+li.list-group-item.active {
 	background-color: #f0f0f0;
+	border: none;
 }
 
 .orm-list-header {
+	padding-top: 1em;
 	padding-bottom: 1em;
 }
 
 table.table {
 	background-color: #ffffff;
-	border-radius: 0.75em;
+	border-radius: 1em;
 }
 
-table.table th:first-child, table.table th:last-child {
-	border-radius: 0.75em;
+table.table thead th:first-child {
+	border-radius: 1em 0 0 0;
+}
+
+table.table th:last-child {
+	border-radius: 0 1em 0 0;
 }
 
 table.table thead {
 	background-color: #f8f8f8;
-	border-radius: 0.75em;
 }
 
 table .header-fixed {

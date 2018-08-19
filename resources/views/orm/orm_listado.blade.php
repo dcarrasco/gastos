@@ -1,27 +1,27 @@
 @extends('common.app_layout')
 
 @section('modulo')
+{!! Form::open(['class'=>'form-search col-md-12', 'method'=>'get']) !!}
 <div class="row hidden-print orm-list-header">
-    {!! Form::open(['class'=>'form-search', 'method'=>'get']) !!}
-    <div class="col-md-3 col-sm-5 col-xs-6">
+    <div class="col-md-3">
         <div class="input-group input-group-sm">
             {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter')]); !!}
-            <span class="input-group-btn">
+            <div class="input-group-append">
                 <button type="submit" id="btn_filtro" class="btn btn-default">
                     <span class="fa fa-search"></span>
                 </button>
-            </span>
+            </div>
         </div>
     </div>
 
-    <div class="col-md-9 col-sm-7 col-xs-6 text-right">
-        <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary btn-sm" id="btn_mostrar_agregar" role="button">
+    <div class="col-md-9 text-right">
+        <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary btn-sm text-right" id="btn_mostrar_agregar" role="button">
             <span class="fa fa-plus-circle"></span>
             {{ trans('orm.button_new') }} {{ strtolower($modelObject->modelLabel) }}
         </a>
     </div>
-    {!! Form::close() !!}
 </div>
+{!! Form::close() !!}
 
 <div>
     <table class="table table-hover">
