@@ -113,6 +113,10 @@ fieldset > legend {
 	color: #FFF;
 }
 
+.navbar-left {
+	height: 100vh;
+}
+
 li.list-group-item {
 	background-color: #ffffff;
 	border: none;
@@ -138,10 +142,6 @@ table.table thead th:first-child {
 
 table.table th:last-child {
 	border-radius: 0 1em 0 0;
-}
-
-table.table thead {
-	background-color: #f8f8f8;
 }
 
 table .header-fixed {

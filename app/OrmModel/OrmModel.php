@@ -132,7 +132,7 @@ class OrmModel extends Model
 
     public function getFieldSortingIcon($field = '')
     {
-        $iconClass = 'fa fa-sort text-muted';
+        $iconClass = 'fa fa-sort text-black-50';
 
         if (array_key_exists($field, $this->modelOrder)) {
             $iconClass = 'fa fa-sort';

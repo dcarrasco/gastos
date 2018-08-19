@@ -49,7 +49,7 @@
 @yield('modulo')
 <!-- ============================== /MODULOS APP ============================== -->
 
-@if (isset($modelList))
+@if (isset($menuModulo))
     </div> <!-- DIV   class="col-md-10" -->
     </div> <!-- DIV   class="row"    -->
 @endif
