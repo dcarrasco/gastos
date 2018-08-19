@@ -28,7 +28,10 @@
         <thead>
             <tr>
                 @foreach($modelObject->getFieldsList() as $field)
-                <th>{{ $modelObject->getFieldLabel($field) }}</th>
+                <th>
+                    {{ $modelObject->getFieldLabel($field) }}
+                    {!! $modelObject->getFieldSortingIcon($field) !!}
+                </th>
                 @endforeach
                 <th class="text-center"></th>
             </tr>
@@ -49,7 +52,7 @@
         </tbody>
     </table>
 
-    <div class="text-center">
+    <div class="row justify-content-md-center">
         {{ $modelCollection->links() }}
     </div>
 </div>
