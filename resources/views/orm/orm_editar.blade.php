@@ -3,21 +3,25 @@
 @section('modulo')
 <div class="row">
 	<div class="col-md-10 offset-md-1 card bg-light">
-
+    <div class="card-body">
         {!! Form::open(['url' => $formURL, 'id' => 'frm_editar', ' role' => 'form']) !!}
 
         @if ($createOrEdit === 'edit')
         	{!! method_field('PUT')!!}
         @endif
 
-		<fieldset>
+		<fieldset class="offset-md-1">
 			<legend>{{ $accionForm }} {{ $modelObject->modelLabel }}</legend>
 
             @include('orm.validation_errors')
 
+            <hr>
+
 	       	@foreach($modelObject->getModelFields() as $field => $fieldData)
                 @include('orm.form_item')
 			@endforeach
+
+            <hr>
 
 			<div class="form-group row">
 				<label class="col-form-label col-sm-4"></label>
@@ -28,7 +32,7 @@
 							<span class="fa fa-check"></span> {{ $accionForm }}
 						</button>
 
-						<a href="{{ route($routeName.'.index', [$modelName]) }}" class="btn btn-default" role="button">
+						<a href="{{ route($routeName.'.index', [$modelName]) }}" class="btn btn-outline-secondary" role="button">
 							<span class="fa fa-ban"></span> {{ trans('orm.button_cancel') }}
 						</a>
 					</div>
@@ -51,6 +55,7 @@
 
 		</fieldset>
 
-	</div> <!-- DIV   class="col-md-8 col-md-offset-2 well" -->
+	</div>
+    </div> <!-- DIV   class="col-md-8 col-md-offset-2 well" -->
 </div> <!-- DIV   class="row" -->
 @endsection

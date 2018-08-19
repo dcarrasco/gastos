@@ -4,12 +4,14 @@
 
 <div class="row">
 
-	<div class="col-md-4 col-md-offset-4 col-xs-12 well">
-		<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+	<div class="col-md-4 offset-md-4 card">
+		<div class="card-body">
+
+		<div class="control-group col-md-10 offset-md-1 col-xs-12">
 			<h2 class="text-center">{{ trans('login.form_title') }}</h2>
 		</div>
 
-		<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+		<div class="control-group col-md-10 offset-md-1 col-xs-12">
 			<hr>
 		</div>
 
@@ -19,7 +21,7 @@
 
 		{{ Form::open(['id' => 'form_login', 'class' => 'form-horizontal']) }}
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
 				<label class="control-label" for="username">
 					{{ trans('login.input_user') }}
 				</label>
@@ -28,7 +30,7 @@
 				</div>
 			</div>
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
 				<label class="control-label" for="pwd">
 					{{ trans('login.input_password') }}
 				</label>
@@ -37,14 +39,14 @@
 				</div>
 			</div>
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12">
 				<div class="pull-right">
 					<a href="#" id="link_cambia_password">{{ trans('login.link_change_password') }}</a>
 				</div>
 			</div>
 
 			@if (false) // $usar_captcha
-				<div class="control-group col-md-10 col-md-offset-1 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
+				<div class="control-group col-md-10 offset-md-1 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
 					<label class="control-label" for="pwd">{{ trans('login.input_captcha') }}</label>
 					<div class="controls">
 						<?= form_input('captcha', '','maxlength="15" tabindex="3" class="form-control input-lg"'); ?>
@@ -55,7 +57,7 @@
 				</div>
 			@endif
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12">
 				<div class="checkbox">
 					<label>
 						{{ Form::checkbox('remember', 'remember', old('remember')) }}
@@ -64,16 +66,17 @@
 				</div>
 			</div>
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12">
 				<hr>
 			</div>
 
-			<div class="control-group col-md-10 col-md-offset-1 col-xs-12">
+			<div class="control-group col-md-10 offset-md-1 col-xs-12">
 				<button type="submit" name="btn_submit" class="btn btn-success input-lg col-md-12">
 					{{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
 				</button>
 			</div>
 		{{ Form::close() }}
+		</div>
 	</div>
 
 	{{ Form::open(['method' => 'get', 'id' => 'form_cambia_password', 'route' => 'acl.cambiaPassword']) }}
