@@ -6,9 +6,10 @@
 		@foreach ($menuModulo as $modulo => $moduloProps)
 		<li class="list-group-item {{ $modulo === $moduloSelected ? 'active' : '' }}">
 			<a href="{{ $moduloProps['url'] }}">
-				<span class="fa fa-{{ $moduloProps['icono'] }} fa-fw"></span> {{ $moduloProps['nombre'] }}
+				<span class="fa fa-{{ $moduloProps['icono'] }} fa-fw"></span>
+				{!! $moduloProps['nombre'] !!}
 			</a>
-			</li>
+		</li>
 		@endforeach
 	</ul>
 	</div>

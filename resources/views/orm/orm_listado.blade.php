@@ -17,7 +17,7 @@
     <div class="col-md-9 text-right">
         <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary btn-sm text-right" id="btn_mostrar_agregar" role="button">
             <span class="fa fa-plus-circle"></span>
-            {{ trans('orm.button_new') }} {{ strtolower($modelObject->modelLabel) }}
+            {!! trans('orm.button_new') !!} {!! strtolower($modelObject->modelLabel) !!}
         </a>
     </div>
 </div>
@@ -29,7 +29,7 @@
             <tr>
                 @foreach($modelObject->getFieldsList() as $field)
                 <th>
-                    {{ $modelObject->getFieldLabel($field) }}
+                    {!! $modelObject->getFieldLabel($field) !!}
                     {!! $modelObject->getFieldSortingIcon($field) !!}
                 </th>
                 @endforeach
