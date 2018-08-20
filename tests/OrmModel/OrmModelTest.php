@@ -102,7 +102,7 @@ class OrmModelTest extends TestCase
 
     public function testGetFieldsList()
     {
-        $this->assertEquals(['campo1', 'campo2', 'campo3'], $this->getModel()->getFieldsList());
+        $this->assertEquals(['id', 'campo1', 'campo2', 'campo3'], $this->getModel()->getFieldsList());
     }
 
     public function testGetFieldHelp()
@@ -134,7 +134,7 @@ class OrmModelTest extends TestCase
     {
         $this->assertEquals('valor_campo1', $this->getModel()->getFormattedFieldValue('campo1'));
         $this->assertEquals(111, $this->getModel()->getFormattedFieldValue('campo2'));
-        $this->assertEquals(trans('orm.radio_yes'), $this->getModel()->getFormattedFieldValue('campo3'));
+        $this->assertContains(trans('orm.radio_yes'), $this->getModel()->getFormattedFieldValue('campo3'));
         $this->assertNull($this->getModel()->getFormattedFieldValue('campo_xx'));
         $this->assertNull($this->getModel()->getFormattedFieldValue());
     }
