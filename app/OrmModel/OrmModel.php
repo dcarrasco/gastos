@@ -167,8 +167,8 @@ class OrmModel extends Model
     {
         $iconDefault = 'fa fa-sort text-black-50';
         $icons = [
-            'asc' => 'fa fa-sort-up',
-            'desc' => 'fa fa-sort-down',
+            'asc' => 'fa fa-caret-up text-dark',
+            'desc' => 'fa fa-caret-down text-dark',
         ];
         $iconClass = array_get($icons, array_get($this->modelOrder, $field, ''), $iconDefault);
 
