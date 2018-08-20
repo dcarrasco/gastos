@@ -5,12 +5,12 @@
 <div class="row hidden-print orm-list-header">
     <div class="col-md-3">
         <div class="input-group input-group-sm">
-            {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter').strtolower($modelObject->modelLabel).'...']); !!}
-            <div class="input-group-append">
-                <button type="submit" id="btn_filtro" class="btn btn-default">
+            <div class="input-group-prepend">
+                <button type="submit" id="btn_filtro" class="btn btn-outline-secondary">
                     <span class="fa fa-search"></span>
                 </button>
             </div>
+            {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter').strtolower($modelObject->modelLabel).'...']); !!}
         </div>
     </div>
 
