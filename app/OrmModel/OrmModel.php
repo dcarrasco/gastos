@@ -72,10 +72,12 @@ class OrmModel extends Model
         }
     }
 
+
     public static function new()
     {
         return new static;
     }
+
 
     public function scopeFiltroOrm($query, $filtro = null)
     {
@@ -95,8 +97,15 @@ class OrmModel extends Model
         return $query;
     }
 
+
     public function scopeModelOrderBy($query)
     {
+        $orderBy = $this->queryStringOrderByToArray(request('orderby'));
+
+        if (!empty($orderBy)) {
+            $this->modelOrder = $orderBy;
+        }
+
         if (isset($this->modelOrder)) {
             if (!is_array($this->modelOrder)) {
                 $this->modelOrder = [$this->modelOrder => 'asc'];
@@ -110,36 +119,68 @@ class OrmModel extends Model
         return $query;
     }
 
+
+    public function queryStringOrderByToArray($orderBy = '')
+    {
+        if (empty($orderBy)) {
+            return [];
+        }
+
+        return collect(explode(',', $orderBy))
+            ->mapWithKeys(function($orderby) {
+                $order = substr($orderby, -1);
+                $order = in_array($order, ['+','-']) ? $order : '+';
+                $campo = in_array(substr($orderby, -1), ['+', '-'])
+                    ? substr($orderby, 0, strlen($orderby)-1)
+                    : $orderby;
+                return [$campo => $order === '+' ? 'asc' : 'desc'];
+            })
+            ->all();
+    }
+
+
     public function getModelFields()
     {
         return collect($this->modelFields);
     }
+
 
     public function getField($field = '')
     {
         return array_get($this->modelFields, $field, new OrmField);
     }
 
+
     public function getRelatedModel($field = '')
     {
         return $this->getField($field)->getRelatedModel();
     }
+
 
     public function getFieldLabel($field = '')
     {
         return $this->getField($field)->getLabel();
     }
 
+
     public function getFieldSortingIcon($field = '')
     {
-        $iconClass = 'fa fa-sort text-black-50';
+        $iconDefault = 'fa fa-sort text-black-50';
+        $icons = [
+            'asc' => 'fa fa-sort-up',
+            'desc' => 'fa fa-sort-down',
+        ];
+        $iconClass = array_get($icons, array_get($this->modelOrder, $field, ''), $iconDefault);
 
-        if (array_key_exists($field, $this->modelOrder)) {
-            $iconClass = 'fa fa-sort';
-        }
+        $newSortOrder = ['asc' => '-', 'desc' => '+'];
+        $sortParameter = $field.array_get($newSortOrder, array_get($this->modelOrder, $field, ''), '+');
+        $getParams = array_merge(request()->only('filter'), ['orderby' => $sortParameter]);
+        $sortUrl = request()->fullUrlWithQuery($getParams);
 
-        return "<span class=\"{$iconClass}\"><span>";
+        return "<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>";
     }
+
+
     public function getFieldsList($mostrarID = false)
     {
         return collect($this->modelFields)
@@ -163,10 +204,12 @@ class OrmModel extends Model
         return $this->getField($field)->getTipo();
     }
 
+
     public function getFieldLength($field = '')
     {
         return $this->getField($field)->getLargo();
     }
+
 
     public function getFormattedFieldValue($field = '')
     {
@@ -177,15 +220,18 @@ class OrmModel extends Model
         return $this->getField($field)->getFormattedValue($this->{$field});
     }
 
+
     public function getFieldForm($field = null, $extraParam = [])
     {
         return $this->getField($field)->getForm($this->getAttribute($field), $this->getKey(), $extraParam);
     }
 
+
     public function isFieldMandatory($field = '')
     {
         return $this->getField($field)->getEsObligatorio();
     }
+
 
     public function getValidation()
     {
@@ -195,6 +241,7 @@ class OrmModel extends Model
             })
             ->all();
     }
+
 
     public static function getModelFormOptions($where = [])
     {
@@ -222,10 +269,12 @@ class OrmModel extends Model
         });
     }
 
+
     public static function getModelAjaxFormOptions($where = [])
     {
         return ajax_options(static::getModelFormOptions($where));
     }
+
 
     public function getWhereFromRelation($field = null)
     {

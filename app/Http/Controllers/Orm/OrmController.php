@@ -26,6 +26,7 @@ trait OrmController
         });
     }
 
+
     public function makeView()
     {
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
@@ -38,6 +39,7 @@ trait OrmController
         );
     }
 
+
     /**
      * Display a listing of the resource.
      *
@@ -49,9 +51,11 @@ trait OrmController
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
         $modelCollection = $modelObject->modelOrderBy()->filtroOrm(request('filtro'))->paginate();
+        $paginationLinks = $modelCollection->appends(request()->only('filtro', 'orderby'))->links();
 
-        return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName'));
+        return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName', 'paginationLinks'));
     }
+
 
     /**
      * Show the form for creating a new resource.

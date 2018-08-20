@@ -53,7 +53,7 @@
     </table>
 
     <div class="row justify-content-md-center">
-        {{ $modelCollection->links() }}
+        {{ $paginationLinks }}
     </div>
 </div>
 
