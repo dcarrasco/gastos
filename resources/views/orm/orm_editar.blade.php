@@ -42,18 +42,52 @@
 
 	        @if ($createOrEdit === 'edit')
 			<div class="pull-left">
-				{!! Form::open(['url' => route($routeName.'.destroy', [$modelName, $modelID])]) !!}
-				{!! method_field('DELETE')!!}
-				<button type="submit" class="btn btn-danger" name="borrar" value="borrar" onclick="return confirm('{{ trans('orm.js_delete_confirm', ['model' => $modelObject->modelLabel, 'item' => (string) $modelObject]) }}');">
+				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalBorrar">
 					<span class="fa fa-trash-o"></span>
 					{{ trans('orm.button_delete') }}
 				</button>
-				{!! Form::close() !!}
 			</div>
 			@endif
 
 		</div>
 	</div>
+
 </div> <!-- DIV   class="card" -->
 </div> <!-- DIV   class="row" -->
+
+<!-- Modal -->
+@if ($createOrEdit === 'edit')
+<div class="modal fade" id="modalBorrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">
+                Borrar {{ $modelObject->modelLabel }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            {!! trans('orm.delete_confirm', ['model' => $modelObject->modelLabel, 'item' => (string) $modelObject]) !!}
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                {{ trans('orm.button_cancel') }}
+            </button>
+            {!! Form::open(['url' => route($routeName.'.destroy', [$modelName, $modelID])]) !!}
+            {!! method_field('DELETE')!!}
+            <button type="submit" class="btn btn-danger" name="borrar" value="borrar">
+                <span class="fa fa-trash-o"></span>
+                {{ trans('orm.button_delete') }}
+            </button>
+            {!! Form::close() !!}
+        </div>
+    </div>
+    </div>
+</div>
+@endif
+
 @endsection

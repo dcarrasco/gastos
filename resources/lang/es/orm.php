@@ -25,5 +25,5 @@ return [
     'pag_first' => 'Primero',
     'pag_last'  => '&Uacute,ltimo',
 
-    'js_delete_confirm'  => '¿Esta seguro de borrar este(a) :model?\n\nEliminar: :item\n',
+    'delete_confirm'  => '<p>¿Esta seguro de borrar este(a) :model?</p><p>Eliminar: :item</p>',
 ];

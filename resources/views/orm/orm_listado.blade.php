@@ -54,7 +54,7 @@
                 <td>{!! $modelElem->getFormattedFieldValue($field) !!}</td>
                 @endforeach
                 <td class="text-center">
-                    <a href="{{ route($routeName.'.edit', [$modelName, $modelElem->getKey()]) }}" class="">
+                    <a href="{{ route($routeName.'.edit', [$modelName, $modelElem->getKey()]) }}" class="text-muted">
                         {{ trans('orm.link_edit') }}
                     </a>
                 </td>
