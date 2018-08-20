@@ -28,8 +28,8 @@
         <thead class="thead-light">
             <tr>
                 @foreach($modelObject->getFieldsList() as $field)
-                <th>
-                    {!! $modelObject->getFieldLabel($field) !!}
+                <th class="text-uppercase">
+                    <small><strong>{!! $modelObject->getFieldLabel($field) !!}</strong></small>
                     {!! $modelObject->getFieldSortingIcon($field) !!}
                 </th>
                 @endforeach
@@ -37,6 +37,17 @@
             </tr>
         </thead>
         <tbody>
+            @if ($modelCollection->count() == 0):
+            <tr>
+                <td class="text-muted text-center" colspan=100>
+                    <h1 class="display-1">
+                        <span class="fa fa-table"></span>
+                    </h1>
+                    {!! trans('orm.no_records_found') !!}
+                </td>
+            </tr>
+            @endif
+
             @foreach ($modelCollection as $modelElem)
             <tr>
                 @foreach($modelObject->getFieldsList() as $field)

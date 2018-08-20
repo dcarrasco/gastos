@@ -13,6 +13,7 @@ return [
     'title_add'     => 'Agregar',
     'title_edit'    => 'Editar',
     'title_show'    => 'Mostrar',
+    'no_records_found' => 'No se encontraron registros.',
 
     'radio_yes'   => 'Si',
     'radio_no'    => 'No',
