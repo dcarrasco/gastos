@@ -39,6 +39,7 @@ class Usuario extends UserACL
             'label'          => 'Username',
             'tipo'           => OrmField::TIPO_CHAR,
             'largo'          => 30,
+            'mostrarLista'  => false,
             'textoAyuda'    => 'Username para el ingreso al sistema. M&aacute;ximo 30 caracteres.',
             'esObligatorio' => true,
             'esUnico'       => true
@@ -55,7 +56,6 @@ class Usuario extends UserACL
             'tipo'           => OrmField::TIPO_CHAR,
             'largo'          => 40,
             'textoAyuda'    => 'Correo del usuario. M&aacute;ximo 40 caracteres.',
-            'mostrarLista'  => false,
         ],
         'fecha_login' => [
             'label'          => 'Fecha &uacute;ltimo login',
@@ -82,6 +82,7 @@ class Usuario extends UserACL
             'tipo'           => OrmField::TIPO_HAS_MANY,
             'relationModel' => Rol::class,
             'textoAyuda'    => 'Roles asociados al usuario.',
+            'mostrarLista'  => false,
         ],
     ];
 
