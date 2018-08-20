@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'filter'        => 'Buscar ',
+    'filter'        => 'Buscar',
     'button_new'    => 'Agregar',
     'link_edit'     => 'editar',
     'link_delete'   => 'borrar',

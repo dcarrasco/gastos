@@ -10,7 +10,7 @@
                     <span class="fa fa-search"></span>
                 </button>
             </div>
-            {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter').strtolower($modelObject->modelLabel).'...']); !!}
+            {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter')]); !!}
         </div>
     </div>
 
