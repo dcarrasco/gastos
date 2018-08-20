@@ -165,6 +165,10 @@ class OrmModel extends Model
 
     public function getFieldSortingIcon($field = '')
     {
+        if (! $this->getField($field)->isSortable()) {
+            return '';
+        }
+
         $iconDefault = 'fa fa-sort text-black-50';
         $icons = [
             'asc' => 'fa fa-caret-up text-dark',

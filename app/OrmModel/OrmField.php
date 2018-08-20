@@ -416,4 +416,9 @@ class OrmField
 
         return Form::text($this->name, $value, $extraParam);
     }
+
+    public function isSortable()
+    {
+        return ! in_array($this->getTipo(), [self::TIPO_HAS_MANY]);
+    }
 }
