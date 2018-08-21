@@ -26,32 +26,32 @@
    </div>
 
     <div class="card-footer row">
-		<label class="col-form-label col-md-4"></label>
+        <div class="col-md-10 offset-md-1 row">
+            <label class="col-form-label col-md-3"></label>
+            <div class="col-md-9">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">
+                        <span class="fa fa-check"></span> {{ $accionForm }}
+                    </button>
 
-		<div class="col-md-8">
-			<div class="pull-right">
-				<button type="submit" class="btn btn-primary">
-					<span class="fa fa-check"></span> {{ $accionForm }}
-				</button>
+                    <a href="{{ route($routeName.'.index', [$modelName]) }}" class="btn btn-outline-secondary" role="button">
+                        <span class="fa fa-ban"></span> {{ trans('orm.button_cancel') }}
+                    </a>
+                </div>
 
-				<a href="{{ route($routeName.'.index', [$modelName]) }}" class="btn btn-outline-secondary" role="button">
-					<span class="fa fa-ban"></span> {{ trans('orm.button_cancel') }}
-				</a>
-			</div>
+                @if ($createOrEdit === 'edit')
+                <div class="pull-left">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalBorrar">
+                        <span class="fa fa-trash-o"></span>
+                        {{ trans('orm.button_delete') }}
+                    </button>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
 {!! Form::close()!!}
-
-	        @if ($createOrEdit === 'edit')
-			<div class="pull-left">
-				<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalBorrar">
-					<span class="fa fa-trash-o"></span>
-					{{ trans('orm.button_delete') }}
-				</button>
-			</div>
-			@endif
-
-		</div>
-	</div>
-
 </div> <!-- DIV   class="card" -->
 </div> <!-- DIV   class="row" -->
 
@@ -60,7 +60,7 @@
 <div class="modal fade" id="modalBorrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header bg-light">
             <h5 class="modal-title" id="exampleModalCenterTitle">
                 Borrar {{ $modelObject->modelLabel }}
             </h5>
@@ -73,7 +73,7 @@
             {!! trans('orm.delete_confirm', ['model' => $modelObject->modelLabel, 'item' => (string) $modelObject]) !!}
         </div>
 
-        <div class="modal-footer">
+        <div class="modal-footer bg-light">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
                 {{ trans('orm.button_cancel') }}
             </button>
