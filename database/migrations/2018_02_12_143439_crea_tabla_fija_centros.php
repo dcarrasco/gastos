@@ -15,6 +15,7 @@ class CreaTablaFijaCentros extends Migration
     {
         Schema::create('fija_centros', function (Blueprint $table) {
             $table->string('centro', 10);
+            $table->timestamps();
             $table->primary(['centro']);
         });
     }

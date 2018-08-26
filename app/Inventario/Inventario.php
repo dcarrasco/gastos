@@ -16,6 +16,7 @@ class Inventario extends OrmModel
 
     public $modelOrder = 'nombre';
 
+    public $timestamps = true;
     protected $fillable = ['nombre', 'activo', 'tipo_inventario'];
 
     protected $casts = [

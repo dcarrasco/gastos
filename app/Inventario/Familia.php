@@ -9,6 +9,7 @@ class Familia extends OrmModel
 {
     public $modelLabel = 'Familia';
 
+    public $timestamps = true;
     protected $fillable = ['codigo', 'tipo', 'nombre'];
 
     protected $guarded = [];

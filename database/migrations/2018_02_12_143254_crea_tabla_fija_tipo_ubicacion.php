@@ -17,6 +17,7 @@ class CreaTablaFijaTipoUbicacion extends Migration
             $table->increments('id');
             $table->string('tipo_inventario', 10);
             $table->string('tipo_ubicacion', 30);
+            $table->timestamps();
         });
     }
 

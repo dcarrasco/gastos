@@ -18,6 +18,7 @@ class CreaTablaFijaCatalogos extends Migration
             $table->string('descripcion', 50);
             $table->float('pmp', 12, 2);
             $table->boolean('es_seriado')->default(0);
+            $table->timestamps();
             $table->primary(['catalogo']);
         });
     }

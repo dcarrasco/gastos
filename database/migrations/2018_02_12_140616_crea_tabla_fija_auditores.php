@@ -17,6 +17,7 @@ class CreaTablaFijaAuditores extends Migration
             $table->increments('id');
             $table->string('nombre', 50);
             $table->boolean('activo')->default(1);
+            $table->timestamps();
         });
     }
 

@@ -16,6 +16,7 @@ class CreaTablaFijaTiposInventario extends Migration
         Schema::create('fija_tipos_inventario', function (Blueprint $table) {
             $table->string('id_tipo_inventario', 10);
             $table->string('desc_tipo_inventario', 50);
+            $table->timestamps();
             $table->primary(['id_tipo_inventario']);
         });
     }

@@ -15,6 +15,7 @@ class CreaTablaFijaAlmacenes extends Migration
     {
         Schema::create('fija_almacenes', function (Blueprint $table) {
             $table->string('almacen', 10);
+            $table->timestamps();
             $table->primary(['almacen']);
         });
     }

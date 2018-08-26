@@ -11,6 +11,7 @@ class TipoUbicacion extends OrmModel
 
     public $modelOrder = 'tipo_inventario';
 
+    public $timestamps = true;
     protected $fillable = ['tipo_inventario', 'tipo_ubicacion'];
 
     protected $guarded = [];

@@ -35,6 +35,7 @@ class CreaTablaFijaDetalleInventario extends Migration
             $table->string('glosa_ajuste', 100)->nullable();
             $table->datetime('fecha_ajuste')->nullable();
             $table->string('hu', 20);
+            $table->timestamps();
         });
     }
 

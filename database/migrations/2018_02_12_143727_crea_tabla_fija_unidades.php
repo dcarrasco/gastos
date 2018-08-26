@@ -16,6 +16,7 @@ class CreaTablaFijaUnidades extends Migration
         Schema::create('fija_unidades', function (Blueprint $table) {
             $table->string('unidad', 10);
             $table->string('desc_unidad', 50);
+            $table->timestamps();
             $table->primary(['unidad']);
         });
     }

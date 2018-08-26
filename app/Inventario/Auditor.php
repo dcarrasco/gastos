@@ -11,6 +11,7 @@ class Auditor extends OrmModel
 
     public $modelOrder = ['nombre' => 'asc'];
 
+    public $timestamps = true;
     protected $fillable = ['nombre', 'activo'];
 
     protected $guarded = [];

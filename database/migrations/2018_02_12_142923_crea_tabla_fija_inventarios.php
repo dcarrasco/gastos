@@ -18,6 +18,7 @@ class CreaTablaFijaInventarios extends Migration
             $table->string('nombre', 50);
             $table->boolean('activo');
             $table->string('tipo_inventario', 10)->nullable();
+            $table->timestamps();
         });
     }
 
