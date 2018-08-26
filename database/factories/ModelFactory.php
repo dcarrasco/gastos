@@ -47,7 +47,7 @@ $factory->define(App\Usuario::class, function (Faker\Generator $faker) {
 $factory->define(App\Inventario\Auditor::class, function(Faker\Generator $faker) {
     return [
         'nombre' => $faker->name,
-        'activo' => 1,
+        'activo' => $faker->boolean(80) ? 1 : 0,
     ];
 });
 
