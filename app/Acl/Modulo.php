@@ -9,6 +9,7 @@ class Modulo extends OrmModel
 {
     public $modelLabel = 'Modulo';
 
+    public $timestamps = true;
     protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
     protected $guarded = [];

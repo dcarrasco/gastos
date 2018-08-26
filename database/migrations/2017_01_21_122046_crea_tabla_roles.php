@@ -18,6 +18,7 @@ class CreaTablaRoles extends Migration
             $table->integer('app_id')->nullable();
             $table->string('rol', 50)->unique();
             $table->string('descripcion', 100);
+            $table->timestamps();
         });
     }
 

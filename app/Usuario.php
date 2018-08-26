@@ -13,6 +13,7 @@ class Usuario extends UserACL
 
     public $modelLabel = 'Usuario';
 
+    public $timestamps = true;
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',
     ];
@@ -101,7 +102,7 @@ class Usuario extends UserACL
 
     public function rol()
     {
-        return $this->belongsToMany(Rol::class, config('invfija.bd_usuario_rol'));
+        return $this->belongsToMany(Rol::class, config('invfija.bd_usuario_rol'))->withTimestamps();
     }
 
     public function getFirstName()

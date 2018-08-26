@@ -9,6 +9,7 @@ class App extends OrmModel
 {
     public $modelLabel = 'Aplicacion';
 
+    public $timestamps = true;
     protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
 
     protected $guarded = [];

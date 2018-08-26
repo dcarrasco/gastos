@@ -9,6 +9,7 @@ class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
 
+    public $timestamps = true;
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
     protected $guarded = [];
@@ -64,6 +65,6 @@ class Rol extends OrmModel
 
     public function modulo()
     {
-        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'));
+        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'))->withTimestamps();
     }
 }

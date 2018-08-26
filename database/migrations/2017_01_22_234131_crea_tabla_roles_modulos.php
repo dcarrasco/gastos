@@ -16,6 +16,7 @@ class CreaTablaRolesModulos extends Migration
         Schema::create('acl_rol_modulo', function (Blueprint $table) {
             $table->integer('rol_id');
             $table->integer('modulo_id');
+            $table->timestamps();
             $table->primary(['rol_id', 'modulo_id']);
         });
     }
