@@ -18,6 +18,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 10,
             'url' => '',
             'icono' => '',
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 2
@@ -27,6 +28,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 20,
             'url' => '',
             'icono' => '',
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 3
@@ -36,6 +38,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 30,
             'url' => '',
             'icono' => '',
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 4
@@ -45,6 +48,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 40,
             'url' => '',
             'icono' => '',
+            'created_at' => Carbon\Carbon::now(),
         ]);
     }
 }

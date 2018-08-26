@@ -21,6 +21,7 @@ class TablaFijaUsuariosSeeder extends Seeder
             'ip_login' => '',
             'agente_login' => '',
             'login_errors' => 0,
+            'created_at' => Carbon\Carbon::now(),
         ]);
     }
 }

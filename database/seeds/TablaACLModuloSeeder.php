@@ -23,6 +23,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'aclConfig.index',
             'orden' => 10,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // ---------------------------------------------------------------------
@@ -37,6 +38,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'inventarioConfig.index',
             'orden' => 10,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 3
@@ -48,6 +50,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'inventario.showHoja',
             'orden' => 20,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 4
@@ -59,6 +62,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'inventario.reporte',
             'orden' => 30,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 5
@@ -70,6 +74,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'inventario.ajustes',
             'orden' => 40,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // ---------------------------------------------------------------------
@@ -84,6 +89,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'stockConfig.index',
             'orden' => 10,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 7
@@ -95,6 +101,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'stock.analisisSeries',
             'orden' => 20,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 8
@@ -106,6 +113,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'stock.consultaStockMovil',
             'orden' => 30,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // ---------------------------------------------------------------------
@@ -120,6 +128,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'toaConfig.index',
             'orden' => 10,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 10
@@ -131,6 +140,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'toa.peticion',
             'orden' => 20,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 11
@@ -142,6 +152,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'toa.controles',
             'orden' => 30,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 12
@@ -153,6 +164,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'toa.consumos',
             'orden' => 40,
+            'created_at' => Carbon\Carbon::now(),
         ]);
 
         // 13
@@ -164,6 +176,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => '',
             'url' => 'toa.asignacion',
             'orden' => 50,
+            'created_at' => Carbon\Carbon::now(),
         ]);
     }
 }

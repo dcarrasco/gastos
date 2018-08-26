@@ -24,8 +24,8 @@ class CreaTablaUsuarios extends Migration
             $table->string('ip_login', 30);
             $table->string('agente_login', 50);
             $table->integer('login_errors');
-            $table->timestamps();
             $table->rememberToken();
+            $table->timestamps();
         });
     }
 
