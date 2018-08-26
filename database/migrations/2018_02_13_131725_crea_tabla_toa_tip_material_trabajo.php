@@ -17,6 +17,7 @@ class CreaTablaToaTipMaterialTrabajo extends Migration
             $table->increments('id');
             $table->string('desc_tip_material', 50);
             $table->string('color', 20);
+            $table->timestamps();
         });
     }
 

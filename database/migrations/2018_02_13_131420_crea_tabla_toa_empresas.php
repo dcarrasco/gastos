@@ -16,6 +16,7 @@ class CreaTablaToaEmpresas extends Migration
         Schema::create('toa_empresas', function (Blueprint $table) {
             $table->string('id_empresa', 20);
             $table->string('empresa', 50);
+            $table->timestamps();
             $table->primary(['id_empresa']);
         });
     }

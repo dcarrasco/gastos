@@ -9,6 +9,7 @@ class Ciudad extends OrmModel
 {
     public $modelLabel = 'Ciudad TOA';
 
+    public $timestamps = true;
     protected $fillable = ['id_ciudad', 'ciudad', 'orden'];
 
     protected $guarded = [];

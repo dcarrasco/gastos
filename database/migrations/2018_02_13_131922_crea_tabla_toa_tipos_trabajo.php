@@ -16,6 +16,7 @@ class CreaTablaToaTiposTrabajo extends Migration
         Schema::create('toa_tipos_trabajo', function (Blueprint $table) {
             $table->string('id_tipo', 30);
             $table->string('desc_tipo', 50);
+            $table->timestamps();
             $table->primary(['id_tipo']);
         });
     }

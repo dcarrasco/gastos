@@ -12,6 +12,7 @@ class Empresa extends OrmModel
 
     public static $orderField = 'empresa';
 
+    public $timestamps = true;
     protected $fillable = ['id_empresa', 'empresa'];
 
     protected $guarded = [];

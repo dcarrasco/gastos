@@ -17,6 +17,7 @@ class CreaTablaToaEmpresasCiudades extends Migration
             $table->string('id_empresa', 20);
             $table->string('id_ciudad', 5);
             $table->primary(['id_empresa', 'id_ciudad']);
+            $table->timestamps();
         });
     }
 

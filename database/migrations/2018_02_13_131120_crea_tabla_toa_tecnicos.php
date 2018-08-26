@@ -19,6 +19,7 @@ class CreaTablaToaTecnicos extends Migration
             $table->string('rut', 20);
             $table->string('id_empresa', 20)->nullable();
             $table->string('id_ciudad', 5)->nullable();
+            $table->timestamps();
             $table->primary(['id_tecnico']);
         });
     }

@@ -17,6 +17,7 @@ class CreaTablaToaCiudades extends Migration
             $table->string('id_ciudad', 5);
             $table->string('ciudad', 50);
             $table->integer('orden');
+            $table->timestamps();
             $table->primary(['id_ciudad']);
         });
     }
