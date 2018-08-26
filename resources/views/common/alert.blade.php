@@ -1,8 +1,11 @@
 @if (session('alert_message'))
-<div class="alert alert-info">
-	<button type="button" class="close" data-dismiss="alert">&times;</button>
+<div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+	<button type="button" class="close text-monospace" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
 	<p>
-		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+		<span class="fa fa-info-circle" aria-hidden="true"></span>
 		<strong>INFORMACION</strong>
 	</p>
 

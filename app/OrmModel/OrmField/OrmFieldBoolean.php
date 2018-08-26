@@ -30,13 +30,13 @@ class OrmFieldBoolean extends OrmField
     {
         $extraParam['id'] = $this->name;
 
-        return '<div class="form-check" for="">'
-            .Form::radio($this->name, 1, ($value == '1'), ['id' => '', 'class' => 'form-check-input'])
-            .'<label class="form-check-label">'.trans('orm.radio_yes').'</label>'
+        return '<div class="custom-control custom-radio">'
+            .Form::radio($this->name, 1, ($value == '1'), ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input'])
+            .'<label class="custom-control-label" for="id_'.$this->name.'_1">'.trans('orm.radio_yes').'</label>'
             .'</div>'
-            .'<div class="form-check" for="">'
-            .Form::radio($this->name, 0, ($value != '1'), ['id' => '', 'class' => 'form-check-input'])
-            .'<label class="form-check-label">'.trans('orm.radio_no').'</label>'
+            .'<div class="custom-control custom-radio">'
+            .Form::radio($this->name, 0, ($value != '1'), ['id' => 'id_'.$this->name.'_0', 'class' => 'custom-control-input'])
+            .'<label class="custom-control-label" for="id_'.$this->name.'_0">'.trans('orm.radio_no').'</label>'
             .'</div>';
     }
 }
