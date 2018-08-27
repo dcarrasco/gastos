@@ -9,6 +9,7 @@ class MovimientoSap extends OrmModel
 {
     public $modelLabel = 'Movimiento SAP';
 
+    public $timestamps = false;
     protected $fillable = [];
 
     protected $guarded = [];

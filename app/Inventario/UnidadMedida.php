@@ -9,7 +9,6 @@ class UnidadMedida extends OrmModel
 {
     public $modelLabel = 'Unidad de medida';
 
-    public $timestamps = true;
     protected $fillable = ['unidad', 'desc_unidad'];
 
     protected $guarded = [];

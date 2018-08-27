@@ -9,6 +9,7 @@ class Proveedor extends OrmModel
 {
     public $modelLabel = 'Proveedor';
 
+    public $timestamps = false;
     protected $fillable = [
         'cod_proveedor', 'des_proveedor'
     ];

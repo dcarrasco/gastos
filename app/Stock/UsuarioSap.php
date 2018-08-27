@@ -9,6 +9,7 @@ class UsuarioSap extends OrmModel
 {
     public $modelLabel = 'Usuarios SAP';
 
+    public $timestamps = false;
     protected $fillable = ['usuario', 'nom_usuario'];
 
     protected $guarded = [];

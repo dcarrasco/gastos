@@ -9,7 +9,6 @@ class TipoTrabajo extends OrmModel
 {
     public $modelLabel = 'Tipo de Trabajo TOA';
 
-    public $timestamps = true;
     protected $fillable = ['id_tipo', 'desc_tipo'];
 
     protected $guarded = [];

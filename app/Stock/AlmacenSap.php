@@ -9,6 +9,7 @@ class AlmacenSap extends OrmModel
 {
     public $modelLabel = 'Almac&eacute;n SAP';
 
+    public $timestamps = false;
     protected $fillable = ['centro', 'cod_almacen', 'des_almacen', 'uso_almacen', 'responsable', 'tipo_op'];
 
     protected $guarded = [];

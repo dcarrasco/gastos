@@ -10,6 +10,7 @@ class ClaseMovimiento extends OrmModel
     public $modelLabel = 'Clase de Movimiento SAP';
     public static $orderField = 'cmv';
 
+    public $timestamps = false;
     protected $fillable = ['cmv', 'des_cmv'];
 
     protected $guarded = [];

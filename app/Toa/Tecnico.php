@@ -9,7 +9,6 @@ class Tecnico extends OrmModel
 {
     public $modelLabel = 'T&eacute;cnico TOA';
 
-    public $timestamps = true;
     protected $fillable = ['id_tecnico', 'tecnico', 'rut', 'id_empresa', 'id_ciudad'];
 
     protected $guarded = [];

@@ -27,7 +27,7 @@ class OrmModel extends Model
     protected $modelOrder = [];
     public $modelLabel = '';
 
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = [];
     protected $perPage = 12;
 

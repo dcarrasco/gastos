@@ -9,7 +9,6 @@ class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
 
-    public $timestamps = true;
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
     protected $guarded = [];

@@ -9,6 +9,7 @@ class ClasifAlmacenSap extends OrmModel
 {
     public $modelLabel = 'Clasificaci&oacute;n de Almac&eacute;n SAP';
 
+    public $timestamps = false;
     protected $fillable = ['clasificacion', 'orden', 'dir_responsable', 'estado_ajuste', 'id_tipoclasif', 'tipo_op'];
 
     protected $guarded = [];

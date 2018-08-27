@@ -10,7 +10,6 @@ class EmpresaCiudad extends OrmModel
 {
     public $modelLabel = 'Empresa Ciudad TOA';
 
-    public $timestamps = true;
     protected $fillable = ['id_empresa', 'id_ciudad'];
 
     protected $guarded = [];

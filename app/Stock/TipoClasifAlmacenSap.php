@@ -9,6 +9,7 @@ class TipoClasifAlmacenSap extends OrmModel
 {
     public $modelLabel = 'Tipo Clasificaci&oacute;n de Almac&eacute;n SAP';
 
+    public $timestamps = false;
     protected $fillable = ['tipo', 'color'];
 
     protected $guarded = [];

@@ -13,7 +13,6 @@ class DetalleInventario extends OrmModel
 
     public $modelLabel = 'Detalle Inventario';
 
-    public $timestamps = true;
     protected $fillable = [
         'id_inventario',
         'hoja',

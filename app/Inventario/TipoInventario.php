@@ -13,7 +13,6 @@ class TipoInventario extends OrmModel
 
     protected $guarded = [];
 
-    public $timestamps = true;
     protected $primaryKey = 'id_tipo_inventario';
 
     public $incrementing = false;
