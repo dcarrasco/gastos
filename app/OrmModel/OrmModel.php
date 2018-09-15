@@ -21,8 +21,9 @@ class OrmModel extends Model
      */
     const KEY_SEPARATOR = '~';
 
+    public $title = 'id';
+
     public $tableColumns = [];
-    protected $modelFields = [];
     protected $modelOrder = [];
     public $modelLabel = '';
 
@@ -127,6 +128,11 @@ class OrmModel extends Model
         return collect($this->fields());
     }
 
+    public function title()
+    {
+        return $this->{$this->title};
+    }
+
 
     public function getField($field = '')
     {
@@ -139,11 +145,6 @@ class OrmModel extends Model
         return $this->getField($field)->getRelatedModel();
     }
 
-
-    public function getFieldLabel($field = '')
-    {
-        return $this->getField($field)->getLabel();
-    }
 
     public function indexFields()
     {
@@ -166,45 +167,6 @@ class OrmModel extends Model
             ->keys()
             ->all();
     }
-
-    public function getFieldHelp($field = '')
-    {
-        return $this->getField($field)->getTextoAyuda();
-    }
-
-    public function getFieldType($field = '')
-    {
-        return $this->getField($field)->getTipo();
-    }
-
-
-    public function getFieldLength($field = '')
-    {
-        return $this->getField($field)->getLargo();
-    }
-
-
-    public function getFormattedFieldValue($field = '')
-    {
-        if (!array_key_exists($field, $this->modelFields)) {
-            return null;
-        }
-
-        return $this->getField($field)->getFormattedValue($this->{$field});
-    }
-
-
-    public function getFieldForm($field = null, $extraParam = [])
-    {
-        return $this->getField($field)->getForm($this->getAttribute($field), $this->getKey(), $extraParam);
-    }
-
-
-    public function isFieldMandatory($field = '')
-    {
-        return $this->getField($field)->getEsObligatorio();
-    }
-
 
     public function getValidation()
     {

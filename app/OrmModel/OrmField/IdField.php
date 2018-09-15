@@ -10,23 +10,9 @@ class IdField extends OrmField
     public function __construct($name = '', $field = '')
     {
         $name = empty($name) ? 'id' : $name;
+        $this->esIncrementing = true;
 
         parent::__construct($name, $field);
-    }
-
-    public function getValidation()
-    {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        if ($this->tipo === OrmField::TIPO_INT) {
-            $validation[] = 'integer';
-        }
-
-        return collect($validation)->implode('|');
     }
 
     public function getFormattedValue($value = null)
@@ -39,7 +25,7 @@ class IdField extends OrmField
     }
 
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($value = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
 
@@ -52,7 +38,7 @@ class IdField extends OrmField
             );
         }
 
-        if ($this->esId and $this->esIncrementing) {
+        if ($this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'
                 .Form::hidden($this->name, null, $extraParam);
         }

@@ -5,8 +5,8 @@ namespace App\Acl;
 use App\OrmModel\OrmModel;
 use App\OrmModel\OrmField\IdField;
 use App\OrmModel\OrmField\CharField;
-use App\OrmModel\OrmField\HasOneField;
 use App\OrmModel\OrmField\NumberField;
+use App\OrmModel\OrmField\BelongsToField;
 
 class Modulo extends OrmModel
 {
@@ -29,7 +29,7 @@ class Modulo extends OrmModel
         return [
             IdField::make()->sortable(),
 
-            HasOneField::make(App::class)
+            BelongsToField::make('app')
                 ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.'),
 
             CharField::make('modulo')

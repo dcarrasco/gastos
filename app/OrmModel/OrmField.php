@@ -7,18 +7,9 @@ use Illuminate\Support\Str;
 
 class OrmField
 {
-    const TIPO_ID = 'ID';
-    const TIPO_INT = 'INT';
-    const TIPO_REAL = 'REAL';
-    const TIPO_CHAR = 'CHAR';
-    const TIPO_BOOLEAN = 'BOOLEAN';
-    const TIPO_DATETIME = 'DATETIME';
-    const TIPO_HAS_ONE = 'HAS_ONE';
-    const TIPO_HAS_MANY = 'HAS_MANY';
-
     protected $name = '';
     protected $field = '';
-    protected $rules = '';
+    protected $rules = [];
     protected $helpText = '';
 
     protected $showOnList = true;
@@ -130,6 +121,13 @@ class OrmField
     {
         return $this->field;
     }
+
+    public function isRequired()
+    {
+        return collect($this->rules)->contains('required');
+    }
+
+
 
     /**
      * @param mixed $label
@@ -454,7 +452,7 @@ class OrmField
         return $value;
     }
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($value = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
 
@@ -477,7 +475,7 @@ class OrmField
             }
         }
 
-        $this->rules = implode('|', $rulesArray);
+        $this->rules = $rulesArray;
 
         return $this;
     }

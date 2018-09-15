@@ -10,6 +10,7 @@ use App\OrmModel\OrmField\NumberField;
 class App extends OrmModel
 {
     public $modelLabel = 'Aplicacion';
+    public $title = 'app';
 
     protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
 

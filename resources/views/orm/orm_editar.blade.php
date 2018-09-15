@@ -19,7 +19,7 @@
 
 		<fieldset class="offset-md-1 col-md-10">
             @include('orm.validation_errors')
-	       	@foreach($modelObject->getModelFields() as $field => $fieldData)
+	       	@foreach($modelObject->fields() as $field)
                 @include('orm.form_item')
 			@endforeach
         </fieldset>

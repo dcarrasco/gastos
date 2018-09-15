@@ -7,21 +7,6 @@ use App\OrmModel\OrmField;
 
 class CharField extends OrmField
 {
-    public function getValidation()
-    {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        if ($this->largo) {
-            $validation[] = 'max:'.$this->largo;
-        }
-
-        return collect($validation)->implode('|');
-    }
-
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
@@ -32,19 +17,27 @@ class CharField extends OrmField
     }
 
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($value = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
+        $extraParam['maxlength'] = $this->getFieldLength();
 
         if ($this->hasChoices()) {
             return Form::select($this->name, $this->choices, $value, $extraParam);
         }
 
-        if ($this->largo) {
-            $extraParam['maxlength'] = $this->largo;
-        }
-
         return Form::text($this->name, $value, $extraParam);
     }
+
+    protected function getFieldLength()
+    {
+        $maxRule = collect($this->rules)
+            ->first(function($rule) {
+                return strpos($rule, 'max:') !== false;
+            });
+
+        return substr($maxRule, strpos($maxRule, ':') + 1, strlen($maxRule));
+    }
+
 
 }
