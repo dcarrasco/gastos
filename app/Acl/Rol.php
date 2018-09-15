@@ -3,7 +3,10 @@
 namespace App\Acl;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\IdField;
+use App\OrmModel\OrmField\CharField;
+use App\OrmModel\OrmField\HasOneField;
+use App\OrmModel\OrmField\HasManyField;
 
 class Rol extends OrmModel
 {
@@ -13,43 +16,37 @@ class Rol extends OrmModel
 
     protected $guarded = [];
 
-    public $modelFields = [
-        'id' => OrmField::TIPO_ID,
-        'app_id' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => App::class,
-            'textoAyuda' => 'Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.',
-            'onChange' => 'modulo',
-        ],
-        'rol' => [
-            'label' => 'Rol',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Nombre del rol. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'descripcion' => [
-            'label' => 'Descripci&oacute;n del rol',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 100,
-            'textoAyuda' => 'Descripci&oacute;n del rol. M&aacute;ximo 100 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'modulo' => [
-            'tipo' => OrmField::TIPO_HAS_MANY,
-            'relationModel' => Modulo::class,
-            'relationConditions' => ['app_id' => '@field_value:app_id:NULL'],
-            'textoAyuda' => 'M&oacute;dulos del rol.',
-        ],
-    ];
-
     public $modelOrder = ['app_id' => 'asc', 'rol' => 'asc'];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->table = config('invfija.bd_rol');
+    }
+
+    public function fields()
+    {
+        return [
+            IdField::make()->sortable(),
+
+            HasOneField::make('App::class')
+                ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.')
+                ->onChange('modulo'),
+
+            CharField::make('rol')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique')
+                ->helpText('Nombre del rol. M&aacute;ximo 50 caracteres.'),
+
+            CharField::make('descripcion')
+                ->sortable()
+                ->rules('max:100', 'required')
+                ->helpText('Descripci&oacute;n del rol. M&aacute;ximo 100 caracteres.'),
+
+            HasManyField::make(Modulo::class)
+                ->helpText('M&oacute;dulos del rol.'),
+                // 'relationConditions' => ['app_id' => '@field_value:app_id:NULL'],
+        ];
     }
 
     public function __toString()

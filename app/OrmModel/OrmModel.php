@@ -15,7 +15,6 @@ use Illuminate\Notifications\Notifiable;
 class OrmModel extends Model
 {
     use Notifiable;
-    use hasMultiKey;
 
     /**
      * Constantes de tipos de campos
@@ -31,9 +30,12 @@ class OrmModel extends Model
     protected $fillable = [];
     protected $perPage = 12;
 
+    protected $sortByKey = 'sort-by';
+    protected $sortDirectionKey = 'sort-direction';
+
     public function __construct(array $attributes = [])
     {
-        $this->initFields();
+        // $this->initFields();
         parent::__construct($attributes);
     }
 
@@ -100,10 +102,11 @@ class OrmModel extends Model
 
     public function scopeModelOrderBy($query)
     {
-        $orderBy = $this->queryStringOrderByToArray(request('orderby'));
+        $orderBy = request($this->sortByKey, '');
+        $orderDirection = request($this->sortDirectionKey, 'asc');
 
         if (!empty($orderBy)) {
-            $this->modelOrder = $orderBy;
+            $this->modelOrder = [$orderBy => $orderDirection];
         }
 
         if (isset($this->modelOrder)) {
@@ -119,29 +122,9 @@ class OrmModel extends Model
         return $query;
     }
 
-
-    public function queryStringOrderByToArray($orderBy = '')
-    {
-        if (empty($orderBy)) {
-            return [];
-        }
-
-        return collect(explode(',', $orderBy))
-            ->mapWithKeys(function($orderby) {
-                $order = substr($orderby, -1);
-                $order = in_array($order, ['+','-']) ? $order : '+';
-                $campo = in_array(substr($orderby, -1), ['+', '-'])
-                    ? substr($orderby, 0, strlen($orderby)-1)
-                    : $orderby;
-                return [$campo => $order === '+' ? 'asc' : 'desc'];
-            })
-            ->all();
-    }
-
-
     public function getModelFields()
     {
-        return collect($this->modelFields);
+        return collect($this->fields());
     }
 
 
@@ -162,28 +145,14 @@ class OrmModel extends Model
         return $this->getField($field)->getLabel();
     }
 
-
-    public function getFieldSortingIcon($field = '')
+    public function indexFields()
     {
-        if (! $this->getField($field)->isSortable()) {
-            return '';
-        }
-
-        $iconDefault = 'fa fa-sort text-black-50';
-        $icons = [
-            'asc' => 'fa fa-caret-up text-dark',
-            'desc' => 'fa fa-caret-down text-dark',
-        ];
-        $iconClass = array_get($icons, array_get($this->modelOrder, $field, ''), $iconDefault);
-
-        $newSortOrder = ['asc' => '-', 'desc' => '+'];
-        $sortParameter = $field.array_get($newSortOrder, array_get($this->modelOrder, $field, ''), '+');
-        $getParams = array_merge(request()->only('filter'), ['orderby' => $sortParameter]);
-        $sortUrl = request()->fullUrlWithQuery($getParams);
-
-        return "<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>";
+        return collect($this->fields())
+            ->filter(function($field) {
+                return $field->showOnIndex();
+            })
+            ->all();
     }
-
 
     public function getFieldsList($mostrarID = false)
     {

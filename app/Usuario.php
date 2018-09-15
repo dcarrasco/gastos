@@ -3,8 +3,11 @@
 namespace App;
 
 use App\Acl\Rol;
-use App\OrmModel\OrmField;
 use App\Acl\UserACL;
+use App\OrmModel\OrmField\IdField;
+use App\OrmModel\OrmField\CharField;
+use App\OrmModel\OrmField\BooleanField;
+use App\OrmModel\OrmField\HasManyField;
 use Illuminate\Notifications\Notifiable;
 
 class Usuario extends UserACL
@@ -20,79 +23,61 @@ class Usuario extends UserACL
 
     protected $guarded = [];
 
-    protected $modelFields = [
-        'id' => OrmField::TIPO_ID,
-        'nombre' => [
-            'label'          => 'Nombre de usuario',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 45,
-            'textoAyuda'    => 'Nombre del usuario. M&aacute;ximo 45 caracteres.',
-            'esObligatorio' => true,
-            'esUnico'       => true
-        ],
-        'activo' => [
-            'label'          => 'Activo',
-            'tipo'           => OrmField::TIPO_BOOLEAN,
-            'textoAyuda'    => 'Indica se el usuario est&aacute; activo dentro del sistema.',
-            'esObligatorio' => true,
-        ],
-        'username' => [
-            'label'          => 'Username',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 30,
-            'mostrarLista'  => false,
-            'textoAyuda'    => 'Username para el ingreso al sistema. M&aacute;ximo 30 caracteres.',
-            'esObligatorio' => true,
-            'esUnico'       => true
-        ],
-        'password' => [
-            'label'          => 'Password',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 100,
-            'textoAyuda'    => 'Password para el ingreso al sistema. M&aacute;ximo 40 caracteres.',
-            'mostrarLista'  => false,
-        ],
-        'email' => [
-            'label'          => 'Correo',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 40,
-            'textoAyuda'    => 'Correo del usuario. M&aacute;ximo 40 caracteres.',
-        ],
-        'fecha_login' => [
-            'label'          => 'Fecha &uacute;ltimo login',
-            'tipo'           => OrmField::TIPO_DATETIME,
-            'largo'          => 40,
-            'textoAyuda'    => 'Fecha de la &uacute;ltima entrada al sistema.',
-            'mostrarLista'  => false,
-        ],
-        'ip_login' => [
-            'label'          => 'Direcci&oacute;n IP',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 30,
-            'textoAyuda'    => 'Direcci&oacute;n IP de la &uacute;ltima entrada al sistema.',
-            'mostrarLista'  => false,
-        ],
-        'agente_login' => [
-            'label'          => 'Agente',
-            'tipo'           => OrmField::TIPO_CHAR,
-            'largo'          => 200,
-            'textoAyuda'    => 'Agente web de la &uacute;ltima entrada al sistema.',
-            'mostrarLista'  => false,
-        ],
-        'rol' => [
-            'tipo'           => OrmField::TIPO_HAS_MANY,
-            'relationModel' => Rol::class,
-            'textoAyuda'    => 'Roles asociados al usuario.',
-            'mostrarLista'  => false,
-        ],
-    ];
-
     public $modelOrder = 'nombre';
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->table = config('invfija.bd_usuarios');
+    }
+
+    public function fields()
+    {
+        return [
+            IdField::make()->sortable(),
+
+            CharField::make('nombre')
+                ->sortable()
+                ->rules('max:45', 'required', 'unique')
+                ->helpText('Nombre del usuario. M&aacute;ximo 45 caracteres.'),
+
+            BooleanField::make('activo')
+                ->sortable()
+                ->rules('required')
+                ->helpText('Indica se el usuario est&aacute; activo dentro del sistema.'),
+
+            CharField::make('username')
+                ->sortable()
+                ->rules('max:30', 'required', 'unique')
+                ->helpText('Username para el ingreso al sistema. M&aacute;ximo 30 caracteres.'),
+
+            CharField::make('password')
+                ->rules('max:100')
+                ->hideFromIndex()
+                ->helpText('Password para el ingreso al sistema. M&aacute;ximo 40 caracteres.'),
+
+            CharField::make('email')
+                ->sortable()
+                ->rules('max:40')
+                ->helpText('Correo del usuario. M&aacute;ximo 40 caracteres.'),
+
+            CharField::make('fecha login')
+                ->rules('max:40')
+                ->hideFromIndex()
+                ->helpText('Fecha de la &uacute;ltima entrada al sistema.'),
+
+            CharField::make('direccion ip', 'ip_login')
+                ->rules('max:30')
+                ->hideFromIndex()
+                ->helpText('Direcci&oacute;n IP de la &uacute;ltima entrada al sistema.'),
+
+            CharField::make('agente', 'agente_login')
+                ->rules('max:200')
+                ->hideFromIndex()
+                ->helpText('Agente web de la &uacute;ltima entrada al sistema.'),
+
+            HasManyField::make(Rol::class),
+        ];
     }
 
     public function __toString()

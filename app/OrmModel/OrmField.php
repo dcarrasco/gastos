@@ -3,6 +3,7 @@
 namespace App\OrmModel;
 
 use Form;
+use Illuminate\Support\Str;
 
 class OrmField
 {
@@ -16,13 +17,22 @@ class OrmField
     const TIPO_HAS_MANY = 'HAS_MANY';
 
     protected $name = '';
-    protected $label = '';
+    protected $field = '';
+    protected $rules = '';
+    protected $helpText = '';
+
+    protected $showOnList = true;
+    protected $showOnDetail = true;
+
+    protected $isSortable = false;
+
+    protected $sortByKey = 'sort-by';
+    protected $sortDirectionKey = 'sort-direction';
+
     protected $tipo = '';
     protected $largo;
-    protected $textoAyuda = '';
     protected $choices = [];
     protected $onChange = '';
-    protected $mostrarLista = true;
     protected $parentModel = null;
     protected $relationModel = null;
     protected $relationConditions = [];
@@ -31,33 +41,67 @@ class OrmField
     protected $esId = false;
     protected $esIncrementing = false;
 
-    public function __construct(array $atributos = [])
+    public function __construct($name = '', $field = '')
     {
-        $atributosValidos = [
-            'name',
-            'label',
-            'tipo',
-            'largo',
-            'textoAyuda',
-            'mostrarLista',
-            'choices',
-            'onChange',
-            'parentModel',
-            'parentId',
-            'relationModel',
-            'relationConditions',
-            'esObligatorio',
-            'esUnico',
-            'esId',
-            'esIncrementing',
+        $this->name = $name;
+        $this->field = empty($field) ? Str::snake($name) : $field;
+    }
+
+    public static function make($name = '', $field = '')
+    {
+        return new static($name, $field);
+    }
+
+    public function hideFromIndex()
+    {
+        $this->showOnList = false;
+
+        return $this;
+    }
+
+    public function showOnIndex()
+    {
+        return $this->showOnList;
+    }
+
+    public function sortable()
+    {
+        $this->isSortable = true;
+
+        return $this;
+    }
+
+    public function getSortingIcon()
+    {
+        if (! $this->isSortable) {
+            return '';
+        }
+
+        $iconDefault = 'fa fa-sort text-black-50';
+        $icons = [
+            'asc' => 'fa fa-caret-up text-dark',
+            'desc' => 'fa fa-caret-down text-dark',
         ];
 
-        foreach ($atributos as $atributo => $valor) {
-            if (in_array($atributo, $atributosValidos)) {
-                $this->{$atributo} = $valor;
-            }
+        $iconClass = $iconDefault;
+        $newSortOrder = 'asc';
+
+        if (request($this->sortByKey, '') === $this->field)
+        {
+            $iconClass = array_get($icons, request($this->sortDirectionKey, ''), $iconDefault);
+            $newSortOrder = array_get(['asc' => 'desc', 'desc' => 'asc'], request($this->sortDirectionKey, ''), 'asc');
         }
+
+        $getParams = array_merge(request()->only('filter'), [
+            $this->sortByKey => $this->field,
+            $this->sortDirectionKey => $newSortOrder
+        ]);
+        $sortUrl = request()->fullUrlWithQuery($getParams);
+
+        return "<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>";
     }
+
+
 
     /**
      * @return mixed
@@ -82,9 +126,9 @@ class OrmField
     /**
      * @return mixed
      */
-    public function getLabel()
+    public function getField()
     {
-        return $this->label;
+        return $this->field;
     }
 
     /**
@@ -142,9 +186,9 @@ class OrmField
     /**
      * @return mixed
      */
-    public function getTextoAyuda()
+    public function getHelpText()
     {
-        return $this->textoAyuda;
+        return $this->helpText;
     }
 
     /**
@@ -152,9 +196,9 @@ class OrmField
      *
      * @return self
      */
-    public function setTextoAyuda($textoAyuda)
+    public function helpText($helpText)
     {
-        $this->textoAyuda = $textoAyuda;
+        $this->helpText = $helpText;
 
         return $this;
     }
@@ -417,8 +461,24 @@ class OrmField
         return Form::text($this->name, $value, $extraParam);
     }
 
-    public function isSortable()
+    public function rules (...$rules)
     {
-        return ! in_array($this->getTipo(), [self::TIPO_HAS_MANY]);
+        $rulesArray = [];
+
+        foreach ($rules as $rule)
+        {
+            if (is_array($rule))
+            {
+                $rulesArray = array_merge($rulesArray, $rule);
+            }
+            else
+            {
+                $rulesArray[] = (string) $rule;
+            }
+        }
+
+        $this->rules = implode('|', $rulesArray);
+
+        return $this;
     }
 }

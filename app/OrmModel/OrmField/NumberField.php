@@ -5,19 +5,8 @@ namespace App\OrmModel\OrmField;
 use Form;
 use App\OrmModel\OrmField;
 
-class OrmFieldInt extends OrmField
+class NumberField extends OrmField
 {
-    public function __construct(array $atributos = [])
-    {
-        if ($atributos['tipo'] === OrmField::TIPO_ID) {
-            $atributos['label'] = 'ID';
-            $atributos['esUnico'] = true;
-            $atributos['esId'] = true;
-            $atributos['esIncrementing'] = true;
-        }
-        parent::__construct($atributos);
-    }
-
     public function getValidation()
     {
         $validation = [];

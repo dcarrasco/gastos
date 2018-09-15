@@ -5,7 +5,7 @@ namespace App\OrmModel\OrmField;
 use Form;
 use App\OrmModel\OrmField;
 
-class OrmFieldChar extends OrmField
+class CharField extends OrmField
 {
     public function getValidation()
     {

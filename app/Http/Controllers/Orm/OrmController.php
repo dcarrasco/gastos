@@ -51,7 +51,7 @@ trait OrmController
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
         $modelCollection = $modelObject->modelOrderBy()->filtroOrm(request('filtro'))->paginate();
-        $paginationLinks = $modelCollection->appends(request()->only('filtro', 'orderby'))->links();
+        $paginationLinks = $modelCollection->appends(request()->only('filtro', 'sort-by', 'sort-direction'))->links();
 
         return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName', 'paginationLinks'));
     }
@@ -118,7 +118,7 @@ trait OrmController
     public function edit($modelName = null, $modelID = null)
     {
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::findMultiKey($modelID);
+        $modelObject = $fullModelName::findOrNew($modelID);
 
         $accionForm    = trans('orm.title_edit');
         $createOrEdit  = 'edit';

@@ -5,19 +5,8 @@ namespace App\OrmModel\OrmField;
 use Form;
 use App\OrmModel\OrmField;
 
-class OrmFieldBoolean extends OrmField
+class BooleanField extends OrmField
 {
-    public function getValidation()
-    {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        return collect($validation)->implode('|');
-    }
-
     public function getFormattedValue($value = null)
     {
         return $value

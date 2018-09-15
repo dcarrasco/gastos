@@ -24,34 +24,32 @@
 {!! Form::close() !!}
 
 <div>
+    @if ($modelCollection->count() == 0):
+        <h1 class="display-1">
+            <span class="fa fa-table"></span>
+        </h1>
+        {!! trans('orm.no_records_found') !!}
+    @else
     <table class="table table-hover">
-        <thead class="thead-light">
-            <tr>
-                @foreach($modelObject->getFieldsList() as $field)
-                <th class="text-uppercase">
-                    <small><strong>{!! $modelObject->getFieldLabel($field) !!}</strong></small>
-                    {!! $modelObject->getFieldSortingIcon($field) !!}
-                </th>
-                @endforeach
-                <th class="text-center"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if ($modelCollection->count() == 0):
-            <tr>
-                <td class="text-muted text-center" colspan=100>
-                    <h1 class="display-1">
-                        <span class="fa fa-table"></span>
-                    </h1>
-                    {!! trans('orm.no_records_found') !!}
-                </td>
-            </tr>
+        @foreach ($modelCollection as $modelElem)
+            @if ($loop->first)
+                <thead class="thead-light">
+                    <tr>
+                        @foreach($modelElem->indexFields() as $field)
+                        <th class="text-uppercase">
+                            <small><strong>{!! $field->getName() !!}</strong></small>
+                            {!! $field->getSortingIcon() !!}
+                        </th>
+                        @endforeach
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
             @endif
 
-            @foreach ($modelCollection as $modelElem)
             <tr>
-                @foreach($modelObject->getFieldsList() as $field)
-                <td>{!! $modelElem->getFormattedFieldValue($field) !!}</td>
+                @foreach($modelElem->indexFields() as $field)
+                    <td>{!! $field->getFormattedValue($modelElem->{$field->getField()}) !!}</td>
                 @endforeach
                 <td class="text-center">
                     <a href="{{ route($routeName.'.edit', [$modelName, $modelElem->getKey()]) }}" class="text-muted">
@@ -59,13 +57,15 @@
                     </a>
                 </td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
     </table>
 
     <div class="row justify-content-md-center">
         {{ $paginationLinks }}
     </div>
+
+    @endif
 </div>
 
 <script type="text/javascript">
