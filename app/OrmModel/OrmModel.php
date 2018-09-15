@@ -36,45 +36,8 @@ class OrmModel extends Model
 
     public function __construct(array $attributes = [])
     {
-        // $this->initFields();
         parent::__construct($attributes);
     }
-
-    public function initFields($arrFields = [])
-    {
-        $fieldClasses = [
-            OrmField::TIPO_ID => OrmFieldInt::class,
-            OrmField::TIPO_INT => OrmFieldInt::class,
-            OrmField::TIPO_CHAR => OrmFieldChar::class,
-            OrmField::TIPO_BOOLEAN => OrmFieldBoolean::class,
-            OrmField::TIPO_HAS_ONE => OrmFieldHasOne::class,
-            OrmField::TIPO_HAS_MANY => OrmFieldHasMany::class,
-        ];
-
-        $this->modelFields = array_merge($this->modelFields, $arrFields);
-
-        foreach ($this->modelFields as $field => $fieldSpec) {
-            $fieldSpec = is_array($fieldSpec) ? $fieldSpec : ['tipo' => $fieldSpec];
-
-            $fieldSpec['name'] = $field;
-            $fieldSpec['parentModel'] = get_class($this);
-
-            if ($field === $this->primaryKey) {
-                $fieldSpec['esId'] = true;
-                $fieldSpec['esIncrementing'] = $this->incrementing;
-            }
-
-            if (array_key_exists($fieldSpec['tipo'], $fieldClasses)) {
-                $fieldClass = $fieldClasses[$fieldSpec['tipo']];
-                $fieldObject = new $fieldClass($fieldSpec);
-            } else {
-                $fieldObject = new OrmField($fieldSpec);
-            }
-
-            $this->modelFields[$field] = $fieldObject;
-        }
-    }
-
 
     public static function new()
     {

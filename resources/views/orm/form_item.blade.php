@@ -6,7 +6,7 @@
         @endif
     </label>
     <div class="col-md-9">
-        {!! $field->getForm($modelObject->{$field->getField()}, ['class' => 'form-control']) !!}
+        {!! $field->getForm($modelObject, ['class' => 'form-control']) !!}
         <small class="form-text text-muted">
            <em>{!! $field->getHelpText() !!}</em>
         </small>

@@ -54,9 +54,4 @@ class App extends OrmModel
                     .'M&aacute;ximo 50 caracteres.'),
         ];
     }
-
-    public function __toString()
-    {
-        return (string) $this->app;
-    }
 }

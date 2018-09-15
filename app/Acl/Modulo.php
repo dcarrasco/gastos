@@ -11,6 +11,7 @@ use App\OrmModel\OrmField\BelongsToField;
 class Modulo extends OrmModel
 {
     public $modelLabel = 'Modulo';
+    public $title = 'modulo';
 
     protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
@@ -29,7 +30,7 @@ class Modulo extends OrmModel
         return [
             IdField::make()->sortable(),
 
-            BelongsToField::make('app')
+            BelongsToField::make('aplicacion', 'app')
                 ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.'),
 
             CharField::make('modulo')
@@ -64,11 +65,6 @@ class Modulo extends OrmModel
         ];
 
 
-    }
-
-    public function __toString()
-    {
-        return (string) $this->modulo;
     }
 
     public function app()

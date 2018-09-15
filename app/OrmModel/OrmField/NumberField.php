@@ -7,21 +7,6 @@ use App\OrmModel\OrmField;
 
 class NumberField extends OrmField
 {
-    public function getValidation()
-    {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        if ($this->tipo === OrmField::TIPO_INT) {
-            $validation[] = 'integer';
-        }
-
-        return collect($validation)->implode('|');
-    }
-
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
@@ -32,9 +17,10 @@ class NumberField extends OrmField
     }
 
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField()};
 
         if ($this->hasChoices()) {
             return Form::select(

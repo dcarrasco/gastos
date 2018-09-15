@@ -3,30 +3,10 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\RelationField;
 
-class HasManyField extends OrmField
+class HasManyField extends RelationField
 {
-    public function __construct($related_model = '')
-    {
-        $this->showOnList = false;
-    }
-
-    public function getValidation()
-    {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        if ($this->tipo === OrmField::TIPO_INT) {
-            $validation[] = 'integer';
-        }
-
-        return collect($validation)->implode('|');
-    }
-
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
@@ -37,25 +17,24 @@ class HasManyField extends OrmField
     }
 
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($resource = null, $extraParam = [], $resourceFilter = null)
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField()};
 
-        if ($this->hasChoices()) {
-            return Form::select(
-                $this->name,
-                array_get($this->choices, $value, ''),
-                $value,
-                $extraParam
-            );
-        }
+        $elementosSelected = collect($value)
+            ->map(function ($resourceElem) {
+                return $resourceElem->getKey();
+            })
+            ->all();
 
-        if ($this->esId and $this->esIncrementing) {
-            return '<p class="form-control-static">'.$value.'</p>'
-                .Form::hidden($this->name, null, $extraParam);
-        }
-
-        return Form::text($this->name, $value, $extraParam);
+        return Form::select(
+            $this->name.'[]',
+            $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
+            // $this->getRelatedModel()->getModelFormOptions($relatedModelFilter),
+            $elementosSelected,
+            array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
+        );
     }
 
 }

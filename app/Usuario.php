@@ -15,6 +15,7 @@ class Usuario extends UserACL
     use Notifiable;
 
     public $modelLabel = 'Usuario';
+    public $title = 'nombre';
 
     public $timestamps = true;
     protected $fillable = [
@@ -78,11 +79,6 @@ class Usuario extends UserACL
 
             HasManyField::make(Rol::class),
         ];
-    }
-
-    public function __toString()
-    {
-        return (string) $this->nombre;
     }
 
     public function rol()

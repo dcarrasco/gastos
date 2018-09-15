@@ -17,10 +17,12 @@ class CharField extends OrmField
     }
 
 
-    public function getForm($value = null, $extraParam = [], $parentId = null)
+    public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
         $extraParam['maxlength'] = $this->getFieldLength();
+
+        $value = $resource->{$this->getField()};
 
         if ($this->hasChoices()) {
             return Form::select($this->name, $this->choices, $value, $extraParam);

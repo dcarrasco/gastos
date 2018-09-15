@@ -22,9 +22,10 @@ class BelongsToField extends RelationField
     }
 
 
-    public function getForm($value = null, $extraParam = [], $parentId = null)
+    public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField()}->getKey();
 
         if ($this->hasOnChange()) {
             $route = \Route::currentRouteName();
@@ -36,11 +37,12 @@ class BelongsToField extends RelationField
                 ."$.get('{$url}?{$this->name}='+$('#{$this->name}').val(), "
                 ."function (data) { $('#{$elemDest}').html(data); });";
         }
-
-        dump($this);
-        $options = [];
-
-        return Form::select($this->name, $options, $value, $extraParam);
+        return Form::select(
+            $this->name,
+            $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
+            $value,
+            $extraParam
+        );
     }
 
 }

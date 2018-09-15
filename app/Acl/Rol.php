@@ -5,12 +5,13 @@ namespace App\Acl;
 use App\OrmModel\OrmModel;
 use App\OrmModel\OrmField\IdField;
 use App\OrmModel\OrmField\CharField;
-use App\OrmModel\OrmField\HasOneField;
 use App\OrmModel\OrmField\HasManyField;
+use App\OrmModel\OrmField\BelongsToField;
 
 class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
+    public $title = 'rol';
 
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
@@ -29,7 +30,7 @@ class Rol extends OrmModel
         return [
             IdField::make()->sortable(),
 
-            HasOneField::make('App::class')
+            BelongsToField::make('aplicacion', 'app')
                 ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.')
                 ->onChange('modulo'),
 
@@ -43,15 +44,10 @@ class Rol extends OrmModel
                 ->rules('max:100', 'required')
                 ->helpText('Descripci&oacute;n del rol. M&aacute;ximo 100 caracteres.'),
 
-            HasManyField::make(Modulo::class)
-                ->helpText('M&oacute;dulos del rol.'),
-                // 'relationConditions' => ['app_id' => '@field_value:app_id:NULL'],
+            HasManyField::make('modulo')
+                ->helpText('M&oacute;dulos del rol.')
+                ->relationConditions(['app_id' => '@field_value:app_id:NULL']),
         ];
-    }
-
-    public function __toString()
-    {
-        return (string) $this->rol;
     }
 
     public function app()
