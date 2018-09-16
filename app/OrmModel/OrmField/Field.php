@@ -20,17 +20,11 @@ class Field
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
 
-    protected $tipo = '';
-    protected $largo;
     protected $choices = [];
     protected $onChange = '';
     protected $parentModel = null;
     protected $relationModel = null;
     protected $relationConditions = [];
-    protected $esObligatorio = false;
-    protected $esUnico = false;
-    protected $esId = false;
-    protected $esIncrementing = false;
 
     public function __construct($name = '', $field = '')
     {
@@ -66,6 +60,14 @@ class Field
 
         return $this;
     }
+
+    public function options($options = [])
+    {
+        $this->choices = $options;
+
+        return $this;
+    }
+
 
     public function getSortingIcon()
     {
@@ -435,7 +437,12 @@ class Field
         return collect($this->rules)
             ->map(function($rule) use ($resource) {
                 return ($rule === 'unique')
-                    ? 'unique:'.$resource->getTable().','.$this->getField().','.$resource->getKey()
+                    ? 'unique:'.implode(',', [
+                        $resource->getTable(),
+                        $this->getField(),
+                        $resource->getKey(),
+                        $resource->getKeyName()
+                    ])
                     : $rule;
             })
             ->implode('|');

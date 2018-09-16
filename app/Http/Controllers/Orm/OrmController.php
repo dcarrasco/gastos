@@ -93,10 +93,10 @@ trait OrmController
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
-            ->with(
-                'alert_message',
-                trans('orm.msg_save_ok', ['nombre_modelo'=>ucfirst($modelName), 'valor_modelo'=>(string) $modelObject])
-            );
+            ->with('alert_message', trans('orm.msg_save_ok', [
+                'nombre_modelo'=> $modelObject->getLabel(),
+                'valor_modelo' => $modelObject->title()
+            ]));
     }
 
     /**
@@ -180,7 +180,7 @@ trait OrmController
             ->route($this->routeName.'.index', [$modelName])
             ->with('alert_message', trans('orm.msg_delete_ok', [
                 'nombre_modelo' => $modelObject->getLabel(),
-                'valor_modelo' => (string) $modelObject
+                'valor_modelo' => $modelObject->title(),
             ]));
     }
 

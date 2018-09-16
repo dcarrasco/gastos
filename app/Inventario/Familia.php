@@ -3,52 +3,24 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Select;
 
 class Familia extends OrmModel
 {
-    public $modelLabel = 'Familia';
-
+    // Eloquent
     protected $fillable = ['codigo', 'tipo', 'nombre'];
-
     protected $guarded = [];
-
     protected $primaryKey = 'codigo';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'codigo' => [
-            'label' => 'C&oacute;digo de la familia',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true,
-        ],
-        'tipo' => [
-            'label' => 'Tipo de familia',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 30,
-            'textoAyuda' => 'Seleccione el tipo de familia.',
-            'choices' => [
-                'FAM' => 'Familia',
-                'SUBFAM' => 'SubFamilia'
-            ],
-            'esObligatorio' => true,
-        ],
-        'nombre' => [
-            'label' => 'Nombre de la familia',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true,
-        ],
+    // OrmModel
+    public $title = 'nombre';
+    public $search = [
+        'codigo', 'nombre'
     ];
-
     public $modelOrder = ['codigo' => 'asc'];
+
 
     public function __construct(array $attributes = [])
     {
@@ -56,8 +28,24 @@ class Familia extends OrmModel
         $this->table = config('invfija.bd_familias');
     }
 
-    public function __toString()
+    public function fields()
     {
-        return (string) $this->nombre;
+        return [
+            Text::make('codigo')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+
+            Select::make('tipo')
+                ->sortable()
+                ->options([
+                    'FAM' => 'Familia',
+                    'SUBFAM' => 'SubFamilia'
+                ])
+                ->rules('max:30', 'required'),
+
+            Text::make('nombre')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+        ];
     }
 }

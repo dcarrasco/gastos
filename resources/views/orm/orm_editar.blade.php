@@ -69,7 +69,7 @@
         </div>
 
         <div class="modal-body">
-            {!! trans('orm.delete_confirm', ['model' => $modelObject->getLabel(), 'item' => (string) $modelObject]) !!}
+            {!! trans('orm.delete_confirm', ['model' => $modelObject->getLabel(), 'item' => $modelObject->title()]) !!}
         </div>
 
         <div class="modal-footer bg-light">

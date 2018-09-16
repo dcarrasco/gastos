@@ -22,11 +22,10 @@ class Text extends Field
         $extraParam['id'] = $this->field;
         $extraParam['maxlength'] = $this->getFieldLength();
 
-        $value = $resource->{$this->getField()};
-
-        if ($this->hasChoices()) {
-            return Form::select($this->field, $this->choices, $value, $extraParam);
+        if ($resource->getKeyName() === $this->getField() && !is_null($resource->getKey())) {
+            $extraParam['readonly'] = 'readonly';
         }
+        $value = $resource->{$this->getField()};
 
         return Form::text($this->field, $value, $extraParam);
     }
