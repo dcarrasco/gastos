@@ -3,31 +3,21 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class Almacen extends OrmModel
 {
-    public $modelLabel = 'Almacen';
-
+    // Eloquent
     protected $fillable = ['almacen'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'almacen';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'almacen' => [
-            'label' => 'Almac&eacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'Nombre del almac&eacute;n. M&aacute;ximo 10 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
+    // OrmModel
+    public $title = 'almacen';
+    public $search = [
+        'centro'
     ];
+    public $modelOrder = 'almacen';
 
     public function __construct(array $attributes = [])
     {
@@ -35,8 +25,11 @@ class Almacen extends OrmModel
         $this->table = config('invfija.bd_almacenes');
     }
 
-    public function __toString()
-    {
-        return (string) $this->almacen;
+    public function fields() {
+        return [
+            Text::make('almacen')
+                ->sortable()
+                ->rules('max:10', 'required', 'unique'),
+        ];
     }
 }

@@ -12,7 +12,6 @@ class Rol extends OrmModel
 {
     // Eloquent
     protected $fillable = ['app_id', 'rol', 'descripcion'];
-    protected $guarded = [];
 
     // OrmModel
     public $title = 'rol';

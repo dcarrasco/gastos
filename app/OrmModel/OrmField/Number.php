@@ -9,10 +9,6 @@ class Number extends Field
 {
     public function getFormattedValue($value = null)
     {
-        if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
-        }
-
         return $value;
     }
 
@@ -31,12 +27,7 @@ class Number extends Field
             );
         }
 
-        if ($this->esId and $this->esIncrementing) {
-            return '<p class="form-control-static">'.$value.'</p>'
-                .Form::hidden($this->name, null, $extraParam);
-        }
-
-        return Form::text($this->name, $value, $extraParam);
+        return Form::number($this->name, $value, $extraParam);
     }
 
 }

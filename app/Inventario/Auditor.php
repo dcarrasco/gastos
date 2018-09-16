@@ -11,7 +11,6 @@ class Auditor extends OrmModel
 {
     // Eloquent
     protected $fillable = ['nombre', 'activo'];
-    protected $guarded = [];
 
     // OrmModel
     public $title = 'nombre';

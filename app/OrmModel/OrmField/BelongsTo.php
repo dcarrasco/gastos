@@ -14,11 +14,7 @@ class BelongsTo extends Relation
 
     public function getFormattedValue($value = null)
     {
-        if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
-        }
-
-        return $value;
+        return $value->title();
     }
 
 

@@ -12,7 +12,6 @@ class Modulo extends OrmModel
 {
     // Eloquent
     protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
-    protected $guarded = [];
 
     // OrmModel
     public $title = 'modulo';

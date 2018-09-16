@@ -3,31 +3,22 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class Centro extends OrmModel
 {
-    public $modelLabel = 'Centro';
-
+    // Eloquent
     protected $fillable = ['centro'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'centro';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'centro' => [
-            'label' => 'Centro',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'Nombre del centro. M&aacute;ximo 10 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
+    // OrmModel
+    public $title = 'centro';
+    public $search = [
+        'centro'
     ];
+    public $modelOrder = 'centro';
+
 
     public function __construct(array $attributes = [])
     {
@@ -35,8 +26,11 @@ class Centro extends OrmModel
         $this->table = config('invfija.bd_centros');
     }
 
-    public function __toString()
-    {
-        return (string) $this->centro;
+    public function fields() {
+        return [
+            Text::make('centro')
+                ->sortable()
+                ->rules('max:10', 'required', 'unique'),
+        ];
     }
 }

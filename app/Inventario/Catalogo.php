@@ -3,65 +3,24 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Number;
+use App\OrmModel\OrmField\Boolean;
 
 class Catalogo extends OrmModel
 {
-    public $modelLabel = 'Catalogo';
 
+    // Eloquent
     protected $fillable = ['catalogo', 'descripcion', 'pmp', 'es_seriado'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'catalogo';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'catalogo' => [
-            'label' => 'Cat&aacute;logo',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 20,
-            'textoAyuda' => 'C&oacute;digo del cat&aacute;logo. M&aacute;ximo 20 caracteres',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'descripcion' => [
-            'label' => 'Descripci&oacute;n del material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Descripci&oacute;n del material. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            //'esUnico' => true
-        ],
-        'pmp' => [
-            'label' => 'Precio Medio Ponderado (PMP)',
-            'tipo' => OrmField::TIPO_REAL,
-            'largo' => 10,
-            'decimales' => 2,
-            'textoAyuda' => 'Valor PMP del material',
-            'esObligatorio' => true,
-            'esUnico' => false,
-            'formato' => 'monto,1',
-        ],
-        'es_seriado' => [
-            'label' => 'Material seriado',
-            'tipo' => OrmField::TIPO_BOOLEAN,
-            'textoAyuda' => 'Indica si el material est&aacute; seriado en el sistema.',
-            'esObligatorio' => true,
-            'default' => 0
-        ],
-        // 'tip_material' => [
-        //     'tipo' => OrmField::TIPO_HAS_MANY,
-        //     'relationModel' => 'Tip_material_trabajo_toa',
-        //     'relation_join_table' => config('invfija.bd_catalogo_tip_material_toa'),
-        //     'relation_id_one_table' => ['id_catalogo'],
-        //     'relation_id_many_table' => ['id_tip_material_trabajo'],
-        //     //'relationConditions' => ['id_app' => '@field_value:id_app'],
-        //     'textoAyuda' => 'Tipo de material TOA.',
-        // ],
+    // OrmModel
+    public $title = 'descripcion';
+    public $search = [
+        'catalogo', 'descripcion'
     ];
+    public $modelOrder = ['catalogo' => 'asc'];
 
     public function __construct(array $attributes = [])
     {
@@ -69,8 +28,23 @@ class Catalogo extends OrmModel
         $this->table = config('invfija.bd_catalogos');
     }
 
-    public function __toString()
+    public function fields()
     {
-        return (string) $this->descripcion;
+        return [
+            Text::make('catalogo')
+                ->sortable()
+                ->rules('max:20', 'required', 'unique'),
+
+            Text::make('descripcion')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Number::make('pmp')
+                ->sortable()
+                ->rules('required'),
+
+            Boolean::make('es seriado')
+                ->rules('required'),
+        ];
     }
 }

@@ -18,7 +18,6 @@ class Usuario extends UserACL
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',
     ];
-    protected $guarded = [];
     public $timestamps = true;
 
     // OrmModel

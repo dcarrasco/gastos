@@ -3,37 +3,23 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\BelongsTo;
 
 class TipoUbicacion extends OrmModel
 {
-    public $modelLabel = 'Tipo de Ubicacion';
-
-    public $modelOrder = 'tipo_inventario';
-
+    // Eloquent
     protected $fillable = ['tipo_inventario', 'tipo_ubicacion'];
 
-    protected $guarded = [];
-
-    public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'tipo_inventario' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => TipoInventario::class,
-            'textoAyuda' => 'Seleccione el tipo de inventario.',
-            'esObligatorio' => true,
-        ],
-        'tipo_ubicacion' => [
-            'label' => 'Tipo de ubicaci&oacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 30,
-            'textoAyuda' => 'M&aacute;ximo 30 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
+    // OrmModel
+    public $label = 'Tipo de Ubicacion';
+    public $title = 'tipo_ubicacion';
+    public $search = [
+        'id', 'tipo_ubicacion'
     ];
+    public $modelOrder = 'tipo_inventario';
+
 
     public function __construct(array $attributes = [])
     {
@@ -41,9 +27,18 @@ class TipoUbicacion extends OrmModel
         $this->table = config('invfija.bd_tipo_ubicacion');
     }
 
-    public function __toString()
-    {
-        return (string) $this->tipo_ubicacion;
+
+    public function fields() {
+        return [
+            Id::make()->sortable(),
+
+            BelongsTo::make('tipo inventario', 'tipoInventario')
+                ->rules('required'),
+
+            Text::make('tipo ubicacion')
+                ->sortable()
+                ->rules('max:30', 'required', 'unique'),
+        ];
     }
 
     public function tipoInventario()

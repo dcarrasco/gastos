@@ -3,53 +3,32 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
-use App\Inventario\ReportesInventario;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Boolean;
+use App\OrmModel\OrmField\BelongsTo;
 use App\Inventario\AjustesInventario;
 use App\Inventario\DetalleInventario;
+use App\Inventario\ReportesInventario;
 
 class Inventario extends OrmModel
 {
     use AjustesInventario;
 
-    public $modelLabel = 'Inventario';
-
-    public $modelOrder = 'nombre';
-
+    // Eloquent
     protected $fillable = ['nombre', 'activo', 'tipo_inventario'];
-
     protected $casts = [
         'id' => 'integer',
         'activo' => 'boolean',
     ];
 
-    protected $guarded = [];
-
-    public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'nombre' => [
-            'label' => 'Nombre del inventario',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'activo' => [
-            'label' => 'Activo',
-            'tipo' => OrmField::TIPO_BOOLEAN,
-            'textoAyuda' => 'Indica se el inventario est&aacute; activo dentro del sistema.',
-            'esObligatorio' => true,
-        ],
-        'tipo_inventario' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => TipoInventario::class,
-            'textoAyuda' => 'Seleccione el tipo de inventario.',
-            'esObligatorio' => true,
-        ],
+    // OrmModel
+    public $title = 'nombre';
+    public $search = [
+        'id', 'nombre',
     ];
+    public $modelOrder = 'nombre';
+
 
     public function __construct(array $attributes = [])
     {
@@ -57,9 +36,22 @@ class Inventario extends OrmModel
         $this->table = config('invfija.bd_inventarios');
     }
 
-    public function __toString()
-    {
-        return (string) $this->nombre;
+
+    public function fields() {
+        return [
+            Id::make()->sortable(),
+
+            Text::make('nombre')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+
+            Boolean::make('activo')
+                ->sortable()
+                ->rules('required'),
+
+            BelongsTo::make('tipo inventario', 'tipoInventario')
+                ->rules('required'),
+        ];
     }
 
     public function tipoInventario()

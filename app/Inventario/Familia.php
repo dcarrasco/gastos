@@ -10,7 +10,6 @@ class Familia extends OrmModel
 {
     // Eloquent
     protected $fillable = ['codigo', 'tipo', 'nombre'];
-    protected $guarded = [];
     protected $primaryKey = 'codigo';
     public $incrementing = false;
 

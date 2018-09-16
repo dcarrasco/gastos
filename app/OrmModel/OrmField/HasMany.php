@@ -7,6 +7,12 @@ use App\OrmModel\OrmField\Relation;
 
 class HasMany extends Relation
 {
+    public function __construct($name = '', $field = '')
+    {
+        $this->showOnList = false;
+        parent::__construct($name, $field);
+    }
+
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {

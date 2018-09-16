@@ -3,39 +3,23 @@
 namespace App\Inventario;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class TipoInventario extends OrmModel
 {
-    public $modelLabel = 'Tipo de inventario';
-
+    // Eloquent
     protected $fillable = ['id_tipo_inventario', 'desc_tipo_inventario'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'id_tipo_inventario';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'id_tipo_inventario' => [
-            'label' => 'Tipo de inventario',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'M&aacute;ximo 10 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true,
-        ],
-        'desc_tipo_inventario' => [
-            'label' => 'Descripci&oacute;n tipo de inventario',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Descripci&oacute;n del tipo de inventario. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true,
-        ],
+    // OrmModel
+    public $label = 'Tipo de inventario';
+    public $title = 'desc_tipo_inventario';
+    public $search = [
+        'desc_tipo_inventario'
     ];
+    public $modelOrder = ['id_tipo_inventario' => 'asc'];
+
 
     public function __construct(array $attributes = [])
     {
@@ -43,8 +27,15 @@ class TipoInventario extends OrmModel
         $this->table = config('invfija.bd_tipos_inventario');
     }
 
-    public function __toString()
-    {
-        return (string) $this->desc_tipo_inventario;
+    public function fields() {
+        return [
+            Text::make('id tipo inventario')
+                ->sortable()
+                ->rules('max:10', 'required', 'unique'),
+
+            Text::make('desc tipo inventario')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+        ];
     }
 }

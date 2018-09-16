@@ -11,7 +11,6 @@ class Relation extends Field
 
     public function __construct($name = '', $field = '')
     {
-        $this->showOnList = false;
         parent::__construct($name, $field);
     }
 

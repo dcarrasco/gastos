@@ -11,7 +11,6 @@ class App extends OrmModel
 {
     // Eloquent
     protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
-    protected $guarded = [];
 
     // OrmModel
     public $label = 'Aplicacion';
