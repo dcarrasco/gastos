@@ -4,11 +4,6 @@ namespace App\OrmModel;
 
 use DB;
 use App\OrmModel\OrmField;
-use App\OrmModel\OrmField\OrmFieldInt;
-use App\OrmModel\OrmField\OrmFieldChar;
-use App\OrmModel\OrmField\OrmFieldHasOne;
-use App\OrmModel\OrmField\OrmFieldHasMany;
-use App\OrmModel\OrmField\OrmFieldBoolean;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -86,11 +81,6 @@ class OrmModel extends Model
         return $query;
     }
 
-    public function getModelFields()
-    {
-        return collect($this->fields());
-    }
-
     public function title()
     {
         return $this->{$this->title};
@@ -100,6 +90,11 @@ class OrmModel extends Model
     public function getField($field = '')
     {
         return array_get($this->modelFields, $field, new OrmField);
+    }
+
+    public function getTable()
+    {
+        return $this->table;
     }
 
 
@@ -133,9 +128,11 @@ class OrmModel extends Model
 
     public function getValidation()
     {
-        return $this->getModelFields()
-            ->map(function ($fieldObject, $field) {
-                return $fieldObject->getValidation();
+        $resource = $this;
+
+        return collect($this->fields())
+            ->mapWithKeys(function($field) use ($resource){
+                return [$field->getField() => $field->getValidation($resource)];
             })
             ->all();
     }

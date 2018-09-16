@@ -4,10 +4,10 @@ namespace App;
 
 use App\Acl\Rol;
 use App\Acl\UserACL;
-use App\OrmModel\OrmField\IdField;
-use App\OrmModel\OrmField\CharField;
-use App\OrmModel\OrmField\BooleanField;
-use App\OrmModel\OrmField\HasManyField;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Boolean;
+use App\OrmModel\OrmField\HasMany;
 use Illuminate\Notifications\Notifiable;
 
 class Usuario extends UserACL
@@ -35,49 +35,49 @@ class Usuario extends UserACL
     public function fields()
     {
         return [
-            IdField::make()->sortable(),
+            Id::make()->sortable(),
 
-            CharField::make('nombre')
+            Text::make('nombre')
                 ->sortable()
                 ->rules('max:45', 'required', 'unique')
                 ->helpText('Nombre del usuario. M&aacute;ximo 45 caracteres.'),
 
-            BooleanField::make('activo')
+            Boolean::make('activo')
                 ->sortable()
                 ->rules('required')
                 ->helpText('Indica se el usuario est&aacute; activo dentro del sistema.'),
 
-            CharField::make('username')
+            Text::make('username')
                 ->sortable()
                 ->rules('max:30', 'required', 'unique')
                 ->helpText('Username para el ingreso al sistema. M&aacute;ximo 30 caracteres.'),
 
-            CharField::make('password')
+            Text::make('password')
                 ->rules('max:100')
                 ->hideFromIndex()
                 ->helpText('Password para el ingreso al sistema. M&aacute;ximo 40 caracteres.'),
 
-            CharField::make('email')
+            Text::make('email')
                 ->sortable()
                 ->rules('max:40')
                 ->helpText('Correo del usuario. M&aacute;ximo 40 caracteres.'),
 
-            CharField::make('fecha login')
+            Text::make('fecha login')
                 ->rules('max:40')
                 ->hideFromIndex()
                 ->helpText('Fecha de la &uacute;ltima entrada al sistema.'),
 
-            CharField::make('direccion ip', 'ip_login')
+            Text::make('direccion ip', 'ip_login')
                 ->rules('max:30')
                 ->hideFromIndex()
                 ->helpText('Direcci&oacute;n IP de la &uacute;ltima entrada al sistema.'),
 
-            CharField::make('agente', 'agente_login')
+            Text::make('agente', 'agente_login')
                 ->rules('max:200')
                 ->hideFromIndex()
                 ->helpText('Agente web de la &uacute;ltima entrada al sistema.'),
 
-            HasManyField::make(Rol::class),
+            HasMany::make('rol'),
         ];
     }
 

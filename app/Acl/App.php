@@ -3,9 +3,9 @@
 namespace App\Acl;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField\IdField;
-use App\OrmModel\OrmField\CharField;
-use App\OrmModel\OrmField\NumberField;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Number;
 
 class App extends OrmModel
 {
@@ -26,29 +26,29 @@ class App extends OrmModel
 
     public function fields() {
         return [
-            IdField::make()->sortable(),
+            Id::make()->sortable(),
 
-            CharField::make('aplicacion', 'app')
+            Text::make('aplicacion', 'app')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique')
                 ->helpText('Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.'),
 
-            CharField::make('descripcion')
+            Text::make('descripcion')
                 ->sortable()
                 ->rules('max:50', 'required')
                 ->helpText('Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.'),
 
-            NumberField::make('orden')
+            Number::make('orden')
                 ->sortable()
                 ->rules('required', 'unique')
                 ->helpText('Orden de la aplicaci&oacute;n en el menu.'),
 
-            CharField::make('url')
+            Text::make('url')
                 ->rules('max:100')
                 ->hideFromIndex()
                 ->helpText('Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.'),
 
-            CharField::make('Icono')
+            Text::make('Icono')
                 ->rules('max:50')
                 ->helpText('Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
                     .'M&aacute;ximo 50 caracteres.'),

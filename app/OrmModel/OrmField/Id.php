@@ -3,10 +3,18 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Field;
 
-class NumberField extends OrmField
+class Id extends Field
 {
+    public function __construct($name = '', $field = '')
+    {
+        $name = empty($name) ? 'id' : $name;
+        $this->esIncrementing = true;
+
+        parent::__construct($name, $field);
+    }
+
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
@@ -31,7 +39,7 @@ class NumberField extends OrmField
             );
         }
 
-        if ($this->esId and $this->esIncrementing) {
+        if ($this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'
                 .Form::hidden($this->name, null, $extraParam);
         }

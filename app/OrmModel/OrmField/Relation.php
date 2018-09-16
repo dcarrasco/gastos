@@ -3,9 +3,9 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Field;
 
-class RelationField extends OrmField
+class Relation extends Field
 {
     protected $relationConditions = [];
 
@@ -26,14 +26,16 @@ class RelationField extends OrmField
     {
         $relation = call_user_func([$resource, $field])->getRelated();
         $filter = $this->getResourceFilter($resource, $resourceFilter);
-
+        $optionIni = ['' => trans('orm.choose_option').$relation->modelLabel];
         $relation = empty($filter) ? $relation->modelOrderBy() : $relation->modelOrderBy()->where($filter);
 
-        return $relation->get()
-            ->mapWithKeys(function($resource) {
-                return [$resource->getKey() => $resource->title()];
-            })
-            ->all();
+        $options = $relation->get()->mapWithKeys(function($resource) {
+            return [$resource->getKey() => $resource->title()];
+        })->all();
+
+        return get_class($this) === 'App\OrmModel\OrmField\BelongsToField'
+            ? array_merge_recursive($optionIni, $options)
+            : $options;
     }
 
     protected function getResourceFilter($resource, $resourceFilter)

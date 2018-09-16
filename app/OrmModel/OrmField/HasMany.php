@@ -3,9 +3,9 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField\RelationField;
+use App\OrmModel\OrmField\Relation;
 
-class HasManyField extends RelationField
+class HasMany extends Relation
 {
     public function getFormattedValue($value = null)
     {
@@ -31,7 +31,6 @@ class HasManyField extends RelationField
         return Form::select(
             $this->name.'[]',
             $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
-            // $this->getRelatedModel()->getModelFormOptions($relatedModelFilter),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );

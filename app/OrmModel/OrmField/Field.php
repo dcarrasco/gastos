@@ -1,11 +1,11 @@
 <?php
 
-namespace App\OrmModel;
+namespace App\OrmModel\OrmField;
 
 use Form;
 use Illuminate\Support\Str;
 
-class OrmField
+class Field
 {
     protected $name = '';
     protected $field = '';
@@ -425,15 +425,15 @@ class OrmField
         return $this;
     }
 
-    public function getValidation()
+    public function getValidation($resource)
     {
-        $validation = [];
-
-        if ($this->esObligatorio) {
-            $validation[] = 'required';
-        }
-
-        return collect($validation)->implode('|');
+        return collect($this->rules)
+            ->map(function($rule) use ($resource) {
+                return ($rule === 'unique')
+                    ? 'unique:'.$resource->getTable().','.$this->getField().','.$resource->getKey()
+                    : $rule;
+            })
+            ->implode('|');
     }
 
     public function getRelatedModel($class = '')

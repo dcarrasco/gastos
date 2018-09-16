@@ -3,18 +3,10 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Field;
 
-class IdField extends OrmField
+class Number extends Field
 {
-    public function __construct($name = '', $field = '')
-    {
-        $name = empty($name) ? 'id' : $name;
-        $this->esIncrementing = true;
-
-        parent::__construct($name, $field);
-    }
-
     public function getFormattedValue($value = null)
     {
         if ($this->hasChoices()) {
@@ -25,9 +17,10 @@ class IdField extends OrmField
     }
 
 
-    public function getForm($value = null, $extraParam = [], $parentId = null)
+    public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField()};
 
         if ($this->hasChoices()) {
             return Form::select(
@@ -38,7 +31,7 @@ class IdField extends OrmField
             );
         }
 
-        if ($this->esIncrementing) {
+        if ($this->esId and $this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'
                 .Form::hidden($this->name, null, $extraParam);
         }

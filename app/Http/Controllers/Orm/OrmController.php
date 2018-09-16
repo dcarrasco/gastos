@@ -87,6 +87,7 @@ trait OrmController
     {
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
         $modelObject = new $fullModelName;
+
         $this->validate($request, $modelObject->getValidation());
         $modelObject = $fullModelName::create($request->all());
 
@@ -140,16 +141,16 @@ trait OrmController
     public function update(Request $request, $modelName = null, $modelID = null)
     {
         $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::findMultiKey($modelID);
+        $modelObject = $fullModelName::findOrFail($modelID);
         $this->validate($request, $modelObject->getValidation());
 
         // actualiza el objeto
-        $modelObject->updateMultiKey($request->all());
+        $modelObject->update($request->all());
 
         // actualiza las tablas relacionadas
-        $modelObject->getModelFields()->filter(function ($elem, $field) use ($modelObject) {
+        collect($modelObject->fields())->filter(function($elem) {
             // filtra los campos de TIPO_HAS_MANY
-            return ($modelObject->getFieldType($field) === OrmField::TIPO_HAS_MANY);
+            return get_class($elem) === 'App\OrmModel\OrmField\HasManyField';
         })->each(function ($elem, $field) use ($modelObject, $request) {
             // Sincroniza la tabla relacionada
             $modelObject->$field()->sync($request->input($field, []));
@@ -159,7 +160,7 @@ trait OrmController
             ->route($this->routeName.'.index', [$modelName])
             ->with('alert_message', trans('orm.msg_save_ok', [
                 'nombre_modelo' => $modelObject->modelLabel,
-                'valor_modelo' => (string) $modelObject
+                'valor_modelo' => $modelObject->title(),
             ]));
     }
 

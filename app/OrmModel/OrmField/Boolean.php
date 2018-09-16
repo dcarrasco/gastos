@@ -3,9 +3,9 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Field;
 
-class BooleanField extends OrmField
+class Boolean extends Field
 {
     public function getFormattedValue($value = null)
     {
@@ -15,9 +15,10 @@ class BooleanField extends OrmField
     }
 
 
-    public function getForm($value = null, $parentId = null, $extraParam = [])
+    public function getForm($resource = null, $parentId = null, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField()};
 
         return '<div class="custom-control custom-radio">'
             .Form::radio($this->name, 1, ($value == '1'), ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input'])

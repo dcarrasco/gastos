@@ -3,9 +3,9 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmField\RelationField;
+use App\OrmModel\OrmField\Relation;
 
-class BelongsToField extends RelationField
+class BelongsTo extends Relation
 {
     public function onChange()
     {
@@ -24,8 +24,8 @@ class BelongsToField extends RelationField
 
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
-        $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getField()}->getKey();
+        $extraParam['id'] = $this->field;
+        $value = is_null($resource->{$this->getField()}) ? null : $resource->{$this->getField()}->getKey();
 
         if ($this->hasOnChange()) {
             $route = \Route::currentRouteName();
@@ -34,11 +34,12 @@ class BelongsToField extends RelationField
             $elemDest = $this->onChange;
             $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
             $extraParam['onchange'] = "$('#{$elemDest}').html('');"
-                ."$.get('{$url}?{$this->name}='+$('#{$this->name}').val(), "
+                ."$.get('{$url}?{$this->field}='+$('#{$this->field}').val(), "
                 ."function (data) { $('#{$elemDest}').html(data); });";
         }
+
         return Form::select(
-            $this->name,
+            $this->field,
             $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
             $value,
             $extraParam
