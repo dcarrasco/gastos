@@ -10,15 +10,19 @@ use App\OrmModel\OrmField\BelongsTo;
 
 class Modulo extends OrmModel
 {
-    public $modelLabel = 'Modulo';
-    public $title = 'modulo';
-    public $search = ['id', 'modulo', 'descripcion', 'url', 'icono'];
-
+    // Eloquent
     protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
-
     protected $guarded = [];
 
-    public $modelOrder = ['app_id' =>'asc', 'modulo' =>'asc'];
+    // OrmModel
+    public $title = 'modulo';
+    public $search = [
+        'id', 'modulo', 'descripcion', 'url', 'icono'
+    ];
+    public $modelOrder = [
+        'app_id' =>'asc',
+        'modulo' =>'asc'
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -65,8 +69,6 @@ class Modulo extends OrmModel
                 ->rules('max:20', 'required', 'unique')
                 ->helpText('Cadena de caracteres de seguridad del m&oacute;dulo. M&aacute;ximo 20 caracteres.'),
         ];
-
-
     }
 
     public function app()

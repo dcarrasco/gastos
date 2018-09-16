@@ -159,7 +159,7 @@ trait OrmController
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
             ->with('alert_message', trans('orm.msg_save_ok', [
-                'nombre_modelo' => $modelObject->modelLabel,
+                'nombre_modelo' => $modelObject->getLabel(),
                 'valor_modelo' => $modelObject->title(),
             ]));
     }
@@ -179,7 +179,7 @@ trait OrmController
         return redirect()
             ->route($this->routeName.'.index', [$modelName])
             ->with('alert_message', trans('orm.msg_delete_ok', [
-                'nombre_modelo' => $modelObject->modelLabel,
+                'nombre_modelo' => $modelObject->getLabel(),
                 'valor_modelo' => (string) $modelObject
             ]));
     }

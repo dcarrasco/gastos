@@ -14,18 +14,20 @@ class Usuario extends UserACL
 {
     use Notifiable;
 
-    public $modelLabel = 'Usuario';
-    public $title = 'nombre';
-    public $search = ['id', 'nombre', 'username', 'email'];
-
-    public $timestamps = true;
+    // Eloquent
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',
     ];
-
     protected $guarded = [];
+    public $timestamps = true;
 
+    // OrmModel
+    public $title = 'nombre';
+    public $search = [
+        'id', 'nombre', 'username', 'email'
+    ];
     public $modelOrder = 'nombre';
+
 
     public function __construct(array $attributes = [])
     {

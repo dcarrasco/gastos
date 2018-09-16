@@ -20,6 +20,7 @@ class HasMany extends Relation
     public function getForm($resource = null, $extraParam = [], $resourceFilter = null)
     {
         $extraParam['id'] = $this->name;
+        $extraParam['class'] = $extraParam['class'] . ' custom-select';
         $value = $resource->{$this->getField()};
 
         $elementosSelected = collect($value)

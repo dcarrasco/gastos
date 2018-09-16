@@ -10,15 +10,19 @@ use App\OrmModel\OrmField\BelongsTo;
 
 class Rol extends OrmModel
 {
-    public $modelLabel = 'Rol';
-    public $title = 'rol';
-    public $search = ['id', 'rol', 'descripcion'];
-
+    // Eloquent
     protected $fillable = ['app_id', 'rol', 'descripcion'];
-
     protected $guarded = [];
 
-    public $modelOrder = ['app_id' => 'asc', 'rol' => 'asc'];
+    // OrmModel
+    public $title = 'rol';
+    public $search = [
+        'id', 'rol', 'descripcion'
+    ];
+    public $modelOrder = [
+        'app_id' => 'asc', 'rol' => 'asc'
+    ];
+
 
     public function __construct(array $attributes = [])
     {

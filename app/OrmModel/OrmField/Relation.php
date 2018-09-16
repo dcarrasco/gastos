@@ -26,14 +26,14 @@ class Relation extends Field
     {
         $relation = call_user_func([$resource, $field])->getRelated();
         $filter = $this->getResourceFilter($resource, $resourceFilter);
-        $optionIni = ['' => trans('orm.choose_option').$relation->modelLabel];
+        $optionIni = ['' => trans('orm.choose_option').$relation->getLabel()];
         $relation = empty($filter) ? $relation->modelOrderBy() : $relation->modelOrderBy()->where($filter);
 
         $options = $relation->get()->mapWithKeys(function($resource) {
             return [$resource->getKey() => $resource->title()];
         })->all();
 
-        return get_class($this) === 'App\OrmModel\OrmField\BelongsToField'
+        return get_class($this) === 'App\OrmModel\OrmField\BelongsTo'
             ? array_merge_recursive($optionIni, $options)
             : $options;
     }

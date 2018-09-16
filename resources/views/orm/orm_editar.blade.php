@@ -2,15 +2,14 @@
 
 @section('modulo')
 <div class="row">
-<div class="col-md-10 offset-md-1 card bg-light my-md-4">
+<div class="col-md-10 offset-md-1 my-md-2">
+    <legend>
+        {!! $accionForm !!}
+        {!! $modelObject->getLabel() !!}
+    </legend>
+</div>
+<div class="col-md-10 offset-md-1 card bg-light">
 {!! Form::open(['url' => $formURL, 'id' => 'frm_editar', ' role' => 'form']) !!}
-
-    <div class="card-header row">
-        <legend>
-            {!! $accionForm !!}
-            {!! $modelObject->modelLabel !!}
-        </legend>
-    </div>
 
     <div class="card-body row">
         @if ($createOrEdit === 'edit')
@@ -18,8 +17,8 @@
         @endif
 
 		<fieldset class="offset-md-1 col-md-10">
-            @include('orm.validation_errors')
-	       	@foreach($modelObject->fields() as $field)
+            {{-- @include('orm.validation_errors') --}}
+	       	@foreach($modelObject->detailFields() as $field)
                 @include('orm.form_item')
 			@endforeach
         </fieldset>
@@ -62,7 +61,7 @@
     <div class="modal-content">
         <div class="modal-header bg-light">
             <h5 class="modal-title" id="exampleModalCenterTitle">
-                Borrar {{ $modelObject->modelLabel }}
+                Borrar {{ $modelObject->getLabel() }}
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -70,7 +69,7 @@
         </div>
 
         <div class="modal-body">
-            {!! trans('orm.delete_confirm', ['model' => $modelObject->modelLabel, 'item' => (string) $modelObject]) !!}
+            {!! trans('orm.delete_confirm', ['model' => $modelObject->getLabel(), 'item' => (string) $modelObject]) !!}
         </div>
 
         <div class="modal-footer bg-light">

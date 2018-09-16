@@ -16,16 +16,16 @@ class OrmModel extends Model
      */
     const KEY_SEPARATOR = '~';
 
+    // Eloquent
+    public $timestamps = true;
+    protected $fillable = [];
+    protected $perPage = 10;
+
     public $title = 'id';
     public $search = ['id'];
 
-    public $modelLabel = '';
+    public $label = '';
     protected $modelOrder = [];
-
-    public $timestamps = true;
-    protected $fillable = [];
-    protected $perPage = 12;
-
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
 
@@ -100,18 +100,38 @@ class OrmModel extends Model
         return $this->table;
     }
 
+    public function getLabel()
+    {
+        if (empty($this->label))
+        {
+            $class = explode("\\", get_class($this));
+            return array_pop($class);
+        }
+
+        return $this->label;
+    }
+
+
 
     public function getRelatedModel($field = '')
     {
         return $this->getField($field)->getRelatedModel();
     }
 
-
     public function indexFields()
     {
         return collect($this->fields())
             ->filter(function($field) {
                 return $field->showOnIndex();
+            })
+            ->all();
+    }
+
+    public function detailFields()
+    {
+        return collect($this->fields())
+            ->filter(function($field) {
+                return $field->showOnDetail();
             })
             ->all();
     }

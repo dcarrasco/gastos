@@ -9,15 +9,18 @@ use App\OrmModel\OrmField\Number;
 
 class App extends OrmModel
 {
-    public $modelLabel = 'Aplicacion';
-    public $title = 'app';
-    public $search = ['id', 'app', 'descripcion', 'url', 'icono'];
-
+    // Eloquent
     protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
-
     protected $guarded = [];
 
+    // OrmModel
+    public $label = 'Aplicacion';
+    public $title = 'app';
+    public $search = [
+        'id', 'app', 'descripcion', 'url', 'icono'
+    ];
     public $modelOrder = 'app';
+
 
     public function __construct(array $attributes = [])
     {
@@ -49,7 +52,7 @@ class App extends OrmModel
                 ->hideFromIndex()
                 ->helpText('Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.'),
 
-            Text::make('Icono')
+            Text::make('icono')
                 ->rules('max:50')
                 ->helpText('Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
                     .'M&aacute;ximo 50 caracteres.'),

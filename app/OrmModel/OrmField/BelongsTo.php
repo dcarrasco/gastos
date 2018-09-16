@@ -25,6 +25,7 @@ class BelongsTo extends Relation
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->field;
+        $extraParam['class'] = $extraParam['class'] . ' custom-select';
         $value = is_null($resource->{$this->getField()}) ? null : $resource->{$this->getField()}->getKey();
 
         if ($this->hasOnChange()) {

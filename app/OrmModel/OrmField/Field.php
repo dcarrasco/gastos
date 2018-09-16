@@ -55,6 +55,11 @@ class Field
         return $this->showOnList;
     }
 
+    public function showOnDetail()
+    {
+        return $this->showOnDetail;
+    }
+
     public function sortable()
     {
         $this->isSortable = true;
