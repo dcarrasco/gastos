@@ -16,6 +16,7 @@ class Usuario extends UserACL
 
     public $modelLabel = 'Usuario';
     public $title = 'nombre';
+    public $search = ['id', 'nombre', 'username', 'email'];
 
     public $timestamps = true;
     protected $fillable = [

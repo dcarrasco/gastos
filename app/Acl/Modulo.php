@@ -12,6 +12,7 @@ class Modulo extends OrmModel
 {
     public $modelLabel = 'Modulo';
     public $title = 'modulo';
+    public $search = ['id', 'modulo', 'descripcion', 'url', 'icono'];
 
     protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 

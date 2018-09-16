@@ -11,6 +11,7 @@ class App extends OrmModel
 {
     public $modelLabel = 'Aplicacion';
     public $title = 'app';
+    public $search = ['id', 'app', 'descripcion', 'url', 'icono'];
 
     protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
 

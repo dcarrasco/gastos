@@ -12,6 +12,7 @@ class Rol extends OrmModel
 {
     public $modelLabel = 'Rol';
     public $title = 'rol';
+    public $search = ['id', 'rol', 'descripcion'];
 
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 

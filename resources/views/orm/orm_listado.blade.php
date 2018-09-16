@@ -25,10 +25,12 @@
 
 <div>
     @if ($modelCollection->count() == 0):
-        <h1 class="display-1">
+        <h1 class="display-1 text-center">
             <span class="fa fa-table"></span>
         </h1>
-        {!! trans('orm.no_records_found') !!}
+        <div class="text-center">
+            {!! trans('orm.no_records_found') !!}
+        </div>
     @else
     <table class="table table-hover">
         @foreach ($modelCollection as $modelElem)

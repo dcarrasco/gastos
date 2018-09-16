@@ -17,6 +17,7 @@ class OrmModel extends Model
     const KEY_SEPARATOR = '~';
 
     public $title = 'id';
+    public $search = ['id'];
 
     public $tableColumns = [];
     protected $modelOrder = [];
@@ -46,13 +47,16 @@ class OrmModel extends Model
             return $query;
         }
 
-        $this->getModelFields()
-            ->filter(function ($field) {
-                return ($field->getTipo() === OrmField::TIPO_CHAR);
+        $search = $this->search;
+        collect($this->fields())
+            ->filter(function ($field) use ($search) {
+                return in_array($field->getField(), $search);
             })
-            ->keys()
-            ->each(function ($fieldName) use (&$query, $filtro) {
-                $query = $query->orWhere($fieldName, 'like', '%'.$filtro.'%');
+            ->map(function ($field) {
+                return $field->getField();
+            })
+            ->each(function ($field) use (&$query, $filtro) {
+                $query = $query->orWhere($field, 'like', '%'.$filtro.'%');
             });
 
         return $query;
