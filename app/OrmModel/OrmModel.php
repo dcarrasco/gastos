@@ -19,9 +19,8 @@ class OrmModel extends Model
     public $title = 'id';
     public $search = ['id'];
 
-    public $tableColumns = [];
-    protected $modelOrder = [];
     public $modelLabel = '';
+    protected $modelOrder = [];
 
     public $timestamps = true;
     protected $fillable = [];
