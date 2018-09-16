@@ -36,38 +36,31 @@ class Modulo extends OrmModel
             Id::make()->sortable(),
 
             BelongsTo::make('aplicacion', 'app')
-                ->rules('required')
-                ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.'),
+                ->rules('required'),
 
             Text::make('modulo')
                 ->sortable()
-                ->rules('max:50', 'required', 'unique')
-                ->helpText('Nombre del m&oacute;dulo. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50', 'required', 'unique'),
 
             Text::make('descripcion')
                 ->hideFromIndex()
-                ->rules('max:100', 'required')
-                ->helpText('Descripci&oacute;n del m&oacute;dulo. M&aacute;ximo 100 caracteres.'),
+                ->rules('max:100', 'required'),
 
             Number::make('orden')
                 ->sortable()
-                ->rules('required')
-                ->helpText('Orden del m&oacute;dulo en el men&uacute;.'),
+                ->rules('required'),
 
             Text::make('url')
                 ->sortable()
-                ->rules('max:50')
-                ->helpText('Dirección web (URL) del m&oacute;dulo. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50'),
 
             Text::make('icono')
                 ->hideFromIndex()
-                ->rules('max:50')
-                ->helpText('Nombre de archivo del icono del m&oacute;dulo. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50'),
 
             Text::make('llave modulo')
                 ->hideFromIndex()
-                ->rules('max:20', 'required', 'unique')
-                ->helpText('Cadena de caracteres de seguridad del m&oacute;dulo. M&aacute;ximo 20 caracteres.'),
+                ->rules('max:20', 'required', 'unique'),
         ];
     }
 

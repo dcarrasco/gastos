@@ -34,28 +34,22 @@ class App extends OrmModel
 
             Text::make('aplicacion', 'app')
                 ->sortable()
-                ->rules('max:50', 'required', 'unique')
-                ->helpText('Nombre de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50', 'required', 'unique'),
 
             Text::make('descripcion')
                 ->sortable()
-                ->rules('max:50', 'required')
-                ->helpText('Breve descripcion de la aplicaci&oacute;n. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50', 'required'),
 
             Number::make('orden')
                 ->sortable()
-                ->rules('required', 'unique')
-                ->helpText('Orden de la aplicaci&oacute;n en el menu.'),
+                ->rules('required', 'unique'),
 
             Text::make('url')
                 ->rules('max:100')
-                ->hideFromIndex()
-                ->helpText('Direcci&oacute;n web (URL) de la aplicaci&oacute;n. M&aacute;ximo 100 caracteres.'),
+                ->hideFromIndex(),
 
             Text::make('icono')
-                ->rules('max:50')
-                ->helpText('Nombre del archivo del &iacute;cono de la aplicaci&oacute;n. '
-                    .'M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50'),
         ];
     }
 }

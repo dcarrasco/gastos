@@ -37,18 +37,15 @@ class Rol extends OrmModel
 
             BelongsTo::make('aplicacion', 'app')
                 ->rules('required')
-                ->helpText('Aplicaci&oacute;n a la que pertenece el m&oacute;dulo.')
                 ->onChange('modulo'),
 
             Text::make('rol')
                 ->sortable()
-                ->rules('max:50', 'required', 'unique')
-                ->helpText('Nombre del rol. M&aacute;ximo 50 caracteres.'),
+                ->rules('max:50', 'required', 'unique'),
 
             Text::make('descripcion')
                 ->sortable()
-                ->rules('max:100', 'required')
-                ->helpText('Descripci&oacute;n del rol. M&aacute;ximo 100 caracteres.'),
+                ->rules('max:100', 'required'),
 
             HasMany::make('modulo')
                 ->helpText('M&oacute;dulos del rol.')
