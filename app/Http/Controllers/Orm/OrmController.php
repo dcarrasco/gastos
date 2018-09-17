@@ -39,6 +39,15 @@ trait OrmController
         );
     }
 
+    protected function getResource($resourceName)
+    {
+        $resourceName = empty($resourceName) ? collect(array_keys($this->menuModulo))->first() : $resourceName;
+        $resourceFullName = $this->modelNameSpace.ucfirst($resourceName);
+
+        return new $resourceFullName;
+    }
+
+
 
     /**
      * Display a listing of the resource.
@@ -47,11 +56,9 @@ trait OrmController
      */
     public function index(Request $request, $modelName = null)
     {
-        $modelName = empty($modelName) ? collect(array_keys($this->menuModulo))->first() : $modelName;
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = new $fullModelName;
-        $modelCollection = $modelObject->modelOrderBy()->filtroOrm(request('filtro'))->paginate();
-        $paginationLinks = $modelCollection->appends(request()->only('filtro', 'sort-by', 'sort-direction'))->links();
+        $modelObject = $this->getResource($modelName);
+        $modelCollection = $modelObject->modelOrderBy()->filtroOrm($request->get('filtro'))->paginate();
+        $paginationLinks = $modelCollection->appends($request->only('filtro', 'sort-by', 'sort-direction'))->links();
 
         return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName', 'paginationLinks'));
     }
@@ -64,16 +71,14 @@ trait OrmController
      */
     public function create($modelName = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = new $fullModelName;
-
-        $accionForm    = trans('orm.title_add');
-        $createOrEdit  = 'create';
-        $formURL       = route($this->routeName.'.store', [$modelName]);
+        $modelObject = $this->getResource($modelName);
+        $accionForm = trans('orm.title_add');
+        $createOrEdit = 'create';
+        $formURL = route($this->routeName.'.store', [$modelName]);
 
         return view(
             'orm.orm_editar',
-            compact('modelObject', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL')
+            compact('modelName', 'modelObject', 'accionForm', 'createOrEdit', 'formURL')
         );
     }
 
@@ -85,11 +90,10 @@ trait OrmController
      */
     public function store(Request $request, $modelName = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = new $fullModelName;
-
+        $modelObject = $this->getResource($modelName);
         $this->validate($request, $modelObject->getValidation());
-        $modelObject = $fullModelName::create($request->all());
+
+        $modelObject = $modelObject->create($request->all());
 
         return redirect()
             ->route($this->routeName.'.index', [$modelName])

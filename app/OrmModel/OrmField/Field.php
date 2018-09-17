@@ -44,16 +44,6 @@ class Field
         return $this;
     }
 
-    public function showOnIndex()
-    {
-        return $this->showOnList;
-    }
-
-    public function showOnDetail()
-    {
-        return $this->showOnDetail;
-    }
-
     public function sortable()
     {
         $this->isSortable = true;
@@ -68,6 +58,15 @@ class Field
         return $this;
     }
 
+    public function showOnIndex()
+    {
+        return $this->showOnList;
+    }
+
+    public function showOnDetail()
+    {
+        return $this->showOnDetail;
+    }
 
     public function getSortingIcon()
     {
@@ -100,7 +99,6 @@ class Field
     }
 
 
-
     /**
      * @return mixed
      */
@@ -124,7 +122,7 @@ class Field
     /**
      * @return mixed
      */
-    public function getField()
+    public function getField($resource = null)
     {
         return $this->field;
     }
@@ -439,7 +437,7 @@ class Field
                 return ($rule === 'unique')
                     ? 'unique:'.implode(',', [
                         $resource->getTable(),
-                        $this->getField(),
+                        $this->getField($resource),
                         $resource->getKey(),
                         $resource->getKeyName()
                     ])
@@ -464,9 +462,10 @@ class Field
         return $value;
     }
 
-    public function getForm($value = null, $extraParam = [], $parentId = null)
+    public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
+        $value = $resource->{$this->getField($resource)};
 
         return Form::text($this->name, $value, $extraParam);
     }

@@ -3,14 +3,17 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\OrmModel;
 use App\OrmModel\OrmField\Field;
 
 class Relation extends Field
 {
-    protected $relationConditions = [];
+    protected $relationName = '';
 
     public function __construct($name = '', $field = '')
     {
+        $field = empty($field) ? $name : $field;
+        $this->relationName = $field;
         parent::__construct($name, $field);
     }
 
@@ -32,9 +35,15 @@ class Relation extends Field
             return [$resource->getKey() => $resource->title()];
         })->all();
 
-        return get_class($this) === 'App\OrmModel\OrmField\BelongsTo'
-            ? array_merge_recursive($optionIni, $options)
-            : $options;
+        if (get_class($this) === 'App\OrmModel\OrmField\BelongsTo') {
+            foreach($options as $key => $value) {
+                $optionIni[$key] = $value;
+            }
+
+            $options = $optionIni;
+        }
+
+        return $options;
     }
 
     protected function getResourceFilter($resource, $resourceFilter)

@@ -29,7 +29,8 @@ class Id extends Field
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getField()};
+        $field = $this->$this->getField($resource);
+        $value = $resource->{$field};
 
         if ($this->hasChoices()) {
             return Form::select(

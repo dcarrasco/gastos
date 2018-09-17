@@ -154,8 +154,8 @@ class OrmModel extends Model
         $resource = $this;
 
         return collect($this->fields())
-            ->mapWithKeys(function($field) use ($resource){
-                return [$field->getField() => $field->getValidation($resource)];
+            ->mapWithKeys(function($field) use ($resource) {
+                return [$field->getField($resource) => $field->getValidation($resource)];
             })
             ->all();
     }

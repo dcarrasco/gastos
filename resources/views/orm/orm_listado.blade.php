@@ -24,12 +24,14 @@
 {!! Form::close() !!}
 
 <div>
-    @if ($modelCollection->count() == 0):
-        <h1 class="display-1 text-center">
-            <span class="fa fa-table"></span>
-        </h1>
-        <div class="text-center">
-            {!! trans('orm.no_records_found') !!}
+    @if ($modelCollection->count() == 0)
+        <div class="card py-md-5">
+            <h1 class="display-1 text-center">
+                <span class="fa fa-table"></span>
+            </h1>
+            <div class="text-center">
+                {!! trans('orm.no_records_found') !!}
+            </div>
         </div>
     @else
     <table class="table table-hover">

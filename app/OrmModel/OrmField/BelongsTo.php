@@ -12,6 +12,16 @@ class BelongsTo extends Relation
         return $this;
     }
 
+    public function getField($resource = null)
+    {
+        if (is_null($resource)) {
+            return $this->field;
+        }
+
+        $relationName = $this->field;
+        return $resource->{$relationName}()->getForeignKey();
+    }
+
     public function getFormattedValue($value = null)
     {
         if (isset($value)) {
@@ -24,9 +34,12 @@ class BelongsTo extends Relation
 
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
-        $extraParam['id'] = $this->field;
+        $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
-        $value = is_null($resource->{$this->getField()}) ? null : $resource->{$this->getField()}->getKey();
+
+        $field = $this->getField($resource);
+        $value = $resource->{$field};
+        $foreignKey = $resource->{$this->getField()}()->getForeignKey();
 
         if ($this->hasOnChange()) {
             $route = \Route::currentRouteName();
@@ -40,7 +53,7 @@ class BelongsTo extends Relation
         }
 
         return Form::select(
-            $this->field,
+            $foreignKey,
             $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
             $value,
             $extraParam
