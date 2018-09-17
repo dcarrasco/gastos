@@ -3,44 +3,24 @@
 namespace App\Toa;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
 use App\Inventario\Catalogo;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\HasMany;
 
 class TipMaterialTrabajo extends OrmModel
 {
-    public $modelLabel = 'Tipo de Material Trabajo TOA';
-
+    // Eloquent
+    public $label = 'Tipo de Material Trabajo TOA';
     protected $fillable = ['desc_tip_material', 'color'];
 
-    protected $guarded = [];
-
-    // protected $primaryKey = 'id_tipo';
-    // public $incrementing = false;
-
-    public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'desc_tip_material' => [
-            'label' => 'Descripci&oacute;n tipo de material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Nombre del tipo de material. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'color' => [
-            'label' => 'Color tipo material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 20,
-            'textoAyuda' => 'Color o clase que identifica el tipo de material. M&aacute;ximo 50 caracteres.',
-        ],
-        'catalogo' => [
-            'tipo' => OrmField::TIPO_HAS_MANY,
-            'relationModel' => Catalogo::class,
-            'textoAyuda' => 'Tipo de material TOA.',
-        ],
+    // OrmModel
+    public $title = 'desc_tip_material';
+    public $search = [
+        'id', 'desc_tip_material', 'color',
     ];
+    public $modelOrder = 'id';
+
 
     public function __construct(array $attributes = [])
     {
@@ -48,9 +28,21 @@ class TipMaterialTrabajo extends OrmModel
         $this->table = config('invfija.bd_tip_material_trabajo_toa');
     }
 
-    public function __toString()
+    public function fields()
     {
-        return (string) $this->desc_tipo;
+        return [
+            Id::make()->sortable(),
+
+            Text::make('descripcion', 'desc_tip_material')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+
+            Text::make('color')
+                ->sortable()
+                ->rules('max:20'),
+
+            HasMany::make('catalogo'),
+        ];
     }
 
     public function catalogo()

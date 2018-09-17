@@ -14,7 +14,11 @@ class BelongsTo extends Relation
 
     public function getFormattedValue($value = null)
     {
-        return $value->title();
+        if (isset($value)) {
+            return $value->title();
+        }
+
+        return '';
     }
 
 

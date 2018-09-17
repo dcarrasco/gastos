@@ -3,39 +3,23 @@
 namespace App\Toa;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class TipoTrabajo extends OrmModel
 {
-    public $modelLabel = 'Tipo de Trabajo TOA';
-
+    // Eloquent
+    public $label = 'Tipo de Trabajo TOA';
     protected $fillable = ['id_tipo', 'desc_tipo'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'id_tipo';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'id_tipo' => [
-            'label' => 'Tipo de rabajo',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 30,
-            'textoAyuda' => 'Tipo de trabajo. M&aacute;ximo 30 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'desc_tipo' => [
-            'label' => 'Descripci&oacute;n tipo de trabajo',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Descripci&oacute;n del tipo de trabajo. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
+    // OrmModel
+    public $title = 'desc_tipo';
+    public $search = [
+        'id_tipo', 'desc_tipo',
     ];
+    public $modelOrder = 'id_tipo';
+
 
     public function __construct(array $attributes = [])
     {
@@ -43,9 +27,17 @@ class TipoTrabajo extends OrmModel
         $this->table = config('invfija.bd_tipos_trabajo_toa');
     }
 
-    public function __toString()
+    public function fields()
     {
-        return (string) $this->desc_tipo;
+        return [
+            Text::make('id', 'id_tipo')
+                ->sortable()
+                ->rules('max:30', 'required', 'unique'),
+
+            Text::make('descripcion', 'desc_tipo')
+                ->sortable()
+                ->rules('max:50', 'required', 'unique'),
+        ];
     }
 
     public function mostrarInfo()

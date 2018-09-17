@@ -3,46 +3,23 @@
 namespace App\Toa;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Number;
 
 class Ciudad extends OrmModel
 {
-    public $modelLabel = 'Ciudad TOA';
-
+    // Eloquent
     protected $fillable = ['id_ciudad', 'ciudad', 'orden'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'id_ciudad';
-
     public $incrementing = false;
 
-    public $modelFields = [
-        'id_ciudad' => [
-            'label' => 'ID de la ciudad',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 5,
-            'textoAyuda' => 'ID de la ciudad. M&aacute;ximo 50 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true,
-        ],
-        'ciudad' => [
-            'label' => 'Nombre de la ciudad',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Nombre de la ciudad. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'orden' => [
-            'label' => 'Orden de la ciudad',
-            'tipo' => OrmField::TIPO_INT,
-            'textoAyuda' => 'Orden de despliegue de la ciudad.',
-            'esObligatorio' => true,
-        ],
+    // OrmModel
+    public $title = 'ciudad';
+    public $search = [
+        'id_ciudad', 'ciudad',
     ];
+    public $modelOrder = 'orden';
 
-    public $modelOrder = ['orden' => 'asc'];
 
     public function __construct(array $attributes = [])
     {
@@ -50,8 +27,21 @@ class Ciudad extends OrmModel
         $this->table = config('invfija.bd_ciudades_toa');
     }
 
-    public function __toString()
+    public function fields()
     {
-        return (string) $this->ciudad;
+        return [
+            Text::make('id', 'id_ciudad')
+                ->sortable()
+                ->rules('max:5', 'required', 'unique'),
+
+            Text::make('ciudad')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Number::make('orden')
+                ->sortable()
+                ->rules('required'),
+
+        ];
     }
 }
