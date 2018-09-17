@@ -3,41 +3,24 @@
 namespace App\Stock;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class ClaseMovimiento extends OrmModel
 {
-    public $modelLabel = 'Clase de Movimiento SAP';
-    public static $orderField = 'cmv';
-
-    public $timestamps = false;
+    // Eloquent
+    public $label = 'Clase de Movimiento SAP';
     protected $fillable = ['cmv', 'des_cmv'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'cmv';
-
     public $incrementing = false;
+    public $timestamps = false;
 
-    public $modelFields = [
-        'cmv' => [
-            'label' => 'C&oacute;digo movimiento',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'C&oacute;digo del movimiento. M&aacute;ximo 10 caracteres',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'des_cmv' => [
-            'label' => 'Descripci&oacute;n del movimiento',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Descripci&oacute;n del movimiento. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            //'esUnico' => true
-        ],
+    // OrmModel
+    public $title = 'nom_usuario';
+    public $search = [
+        'cmv', 'des_cmv'
     ];
+    public $modelOrder = 'cmv';
+
 
     public function __construct(array $attributes = [])
     {
@@ -45,9 +28,16 @@ class ClaseMovimiento extends OrmModel
         $this->table = config('invfija.bd_cmv_sap');
     }
 
-    public function __toString()
-    {
-        return (string) $this->cmv.' - '.$this->des_cmv;
+    public function fields() {
+        return [
+            Text::make('cmv')
+                ->sortable()
+                ->rules('max:10', 'required', 'unique'),
+
+            Text::make('descripcion','des_cmv')
+                ->sortable()
+                ->rules('max:50', 'required'),
+        ];
     }
 
     public static function transaccionesConsumoToa()

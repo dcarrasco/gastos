@@ -3,40 +3,24 @@
 namespace App\Stock;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
 
 class TipoClasifAlmacenSap extends OrmModel
 {
-    public $modelLabel = 'Tipo Clasificaci&oacute;n de Almac&eacute;n SAP';
-
-    public $timestamps = false;
+    // Eloquent
     protected $fillable = ['tipo', 'color'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'id_tipoclasif';
+    public $timestamps = false;
 
-    public $incrementing = true;
-
-    public $modelFields = [
-        'id_tipoclasif' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'tipo' => [
-            'label' => 'Tipo Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Tipo Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'color' => [
-            'label' => 'Color del tipo',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Color del tipo para graficar. M&aacute;ximo 20 caracteres.',
-            'esObligatorio' => false,
-        ],
+    // OrmModel
+    public $label = 'Tipo Clasificacion de Almacen SAP';
+    public $title = 'tipo';
+    public $search = [
+        'id_tipoclasif', 'tipo', 'color'
     ];
+    public $modelOrder = 'id_tipoclasif';
+
 
     public function __construct(array $attributes = [])
     {
@@ -44,8 +28,17 @@ class TipoClasifAlmacenSap extends OrmModel
         $this->table = config('invfija.bd_tipo_clasifalm_sap');
     }
 
-    public function __toString()
-    {
-        return (string) $this->tipo;
+    public function fields() {
+        return [
+            Id::make('id', 'id_tipoclasif')->sortable(),
+
+            Text::make('tipo')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Text::make('color')
+                ->sortable()
+                ->rules('max:50'),
+        ];
     }
 }

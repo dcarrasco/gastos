@@ -3,40 +3,23 @@
 namespace App\Stock;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
 
 class UsuarioSap extends OrmModel
 {
-    public $modelLabel = 'Usuarios SAP';
-
-    public $timestamps = false;
+    // Eloquent
     protected $fillable = ['usuario', 'nom_usuario'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'usuario';
-
     public $incrementing = false;
+    public $timestamps = false;
 
-    public $modelFields = [
-        'usuario' => [
-            'label' => 'Codigo Usuario',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'C&oacute;digo del usuario SAP. M&aacute;ximo 10 caracteres',
-            'esId' => true,
-            'esObligatorio' => true,
-            'esUnico' => true
-        ],
-        'nom_usuario' => [
-            'label' => 'Nombre de usuario',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Nombre del usuario. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-            'esUnico' => false,
-        ],
+    // OrmModel
+    public $title = 'nom_usuario';
+    public $search = [
+        'usuario', 'nom_usuario'
     ];
+    public $modelOrder = 'usuario';
+
 
     public function __construct(array $attributes = [])
     {
@@ -44,8 +27,15 @@ class UsuarioSap extends OrmModel
         $this->table = config('invfija.bd_usuarios_sap');
     }
 
-    public function __toString()
-    {
-        return (string) $this->nom_usuario;
+    public function fields() {
+        return [
+            Text::make('usuario')
+                ->sortable()
+                ->rules('max:10', 'required', 'unique'),
+
+            Text::make('nombre','nom_usuario')
+                ->sortable()
+                ->rules('max:50', 'required'),
+        ];
     }
 }

@@ -3,90 +3,28 @@
 namespace App\Stock;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Id;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Number;
+use App\OrmModel\OrmField\Select;
+use App\OrmModel\OrmField\HasMany;
+use App\OrmModel\OrmField\BelongsTo;
 
 class ClasifAlmacenSap extends OrmModel
 {
-    public $modelLabel = 'Clasificaci&oacute;n de Almac&eacute;n SAP';
-
-    public $timestamps = false;
+    // Eloquent
+    public $label = 'Clasificacion de Almacen SAP';
     protected $fillable = ['clasificacion', 'orden', 'dir_responsable', 'estado_ajuste', 'id_tipoclasif', 'tipo_op'];
-
-    protected $guarded = [];
-
     protected $primaryKey = 'id_clasif';
+    public $timestamps = false;
 
-    public $incrementing = true;
-
-    public $modelFields = [
-        'id_clasif' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'clasificacion' => [
-            'label' => 'Clasificaci&oacute;n de Almac&eacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Clasificaci&oacute;n del almac&eacute;n. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'orden' => [
-            'label' => 'Orden de la clasificaci&oacute;n',
-            'tipo' => OrmField::TIPO_INT,
-            'largo' => 10,
-            'textoAyuda' => 'Orden de la clasificaci&oacute;n del almac&eacute;n.',
-            'esObligatorio' => true,
-        ],
-        'dir_responsable' => [
-            'label' => 'Direcci&oacute;n responsable',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 20,
-            'textoAyuda' => 'Seleccione la direcci&oacute;n responsable',
-            'choices' => [
-                '*' => 'Por material',
-                'TERMINALES' => 'Terminales',
-                'REDES' => 'Redes',
-                'EMPRESAS' => 'Empresas',
-                'LOGISTICA' => 'Log&iacute;stica',
-                'TTPP' => 'Telefon&iacute;a P&uacute;blica',
-                'MARKETING' => 'Marketing',
-            ],
-            'esObligatorio' => true,
-        ],
-        'estado_ajuste' => [
-            'label' => 'Estado de ajuste materiales',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 20,
-            'textoAyuda' => 'Indica confiabilidad de existencia del material.',
-            'choices' => [
-                'EXISTE' => 'Existe',
-                'NO_EXISTE' => 'No existe',
-                'NO_SABEMOS' => 'No sabemos',
-            ],
-            'esObligatorio' => true,
-        ],
-        'id_tipoclasif' => [
-            'tipo' =>  OrmField::TIPO_HAS_ONE,
-            'relationModel' => TipoClasifAlmacenSap::class,
-        ],
-        'tipo_op' => [
-            'label' => 'Tipo operaci&oacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Seleccione el tipo de operaci&oacute;n.',
-            'choices' => [
-                'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
-                'FIJA' => 'Operaci&oacute;n Fija'
-            ],
-            'esObligatorio' => true,
-            'onchange' => 'tiposalm',
-        ],
-        'tipoAlmacenSap' => [
-            'tipo' => OrmField::TIPO_HAS_MANY,
-            'relationModel' => TipoAlmacenSap::class,
-            'relationConditions' => array('tipo_op' => '@field_value:tipo_op:MOVIL'),
-            'textoAyuda' => 'Tipos de almac&eacute;n asociados a la clasificaci&oacute;n.',
-        ],
+    // OrmModel
+    public $title = 'tipo';
+    public $search = [
+        'id_clasif', 'clasificacion'
     ];
+    public $modelOrder = 'id_clasif';
+
 
     public function __construct(array $attributes = [])
     {
@@ -94,9 +32,54 @@ class ClasifAlmacenSap extends OrmModel
         $this->table = config('invfija.bd_clasifalm_sap');
     }
 
-    public function __toString()
-    {
-        return (string) $this->tipo;
+    public function fields() {
+        return [
+            Id::make('id clasif')->sortable(),
+
+            Text::make('clasificacion')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Number::make('orden')
+                ->sortable()
+                ->rules('required'),
+
+            Select::make('dir responsable')
+                ->sortable()
+                ->options([
+                    '*' => 'Por material',
+                    'TERMINALES' => 'Terminales',
+                    'REDES' => 'Redes',
+                    'EMPRESAS' => 'Empresas',
+                    'LOGISTICA' => 'Log&iacute;stica',
+                    'TTPP' => 'Telefon&iacute;a P&uacute;blica',
+                    'MARKETING' => 'Marketing',
+                ])
+                ->rules('required'),
+
+            Select::make('estado ajuste')
+                ->sortable()
+                ->options([
+                    'EXISTE' => 'Existe',
+                    'NO_EXISTE' => 'No existe',
+                    'NO_SABEMOS' => 'No sabemos',
+                ])
+                ->rules('required'),
+
+            // BelongsTo::make('tipo clasificacion almacen', 'tipoClasifAlmacenSap'),
+
+            Select::make('dir responsable')
+                ->sortable()
+                ->options([
+                    'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
+                    'FIJA' => 'Operaci&oacute;n Fija'
+                ])
+                ->rules('required'),
+
+            // HasMany::make('tipo almacen SAP', 'tipoAlmacenSap'),
+
+
+        ];
     }
 
     public function tipoClasifAlmacenSap()

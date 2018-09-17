@@ -3,74 +3,73 @@
 namespace App\Stock;
 
 use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField;
+use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Select;
 
 class AlmacenSap extends OrmModel
 {
-    public $modelLabel = 'Almac&eacute;n SAP';
-
-    public $timestamps = false;
+    // Eloquent
+    public $label = 'Almacen SAP';
     protected $fillable = ['centro', 'cod_almacen', 'des_almacen', 'uso_almacen', 'responsable', 'tipo_op'];
-
-    protected $guarded = [];
-
+    protected $primaryKey = 'id_clasif';
     public $incrementing = false;
+    public $timestamps = false;
 
-    public $modelFields = [
-        'centro' => [
-            'label' => 'Centro',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'C&oacute;digo SAP del centro. M&aacute;ximo 10 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-        ],
-        'cod_almacen' => [
-            'label' => 'Almac&eacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'C&oacute;digo SAP del almac&eacuten. M&aacute;ximo 10 caracteres.',
-            'esId' => true,
-            'esObligatorio' => true,
-        ],
-        'des_almacen' => [
-            'label' => 'Descripci&oacute;n Almac&eacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Descripci&oacute;n del almac&eacuten. M&aacute;ximo 50 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'uso_almacen' => [
-                'label' => 'Uso Almac&eacute;n',
-                'tipo' => OrmField::TIPO_CHAR,
-                'largo' => 50,
-                'textoAyuda' => 'Indica para que se usa el almac&eacute;n. M&aacute;ximo 50 caracteres.',
-        ],
-        'responsable' => [
-            'label' => 'Responsable',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Nombre del responsable del almac&eacuten. M&aacute;ximo 50 caracteres.',
-        ],
-        'tipo_op' => [
-            'label' => 'Tipo operaci&oacute;n',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 50,
-            'textoAyuda' => 'Seleccione el tipo de operaci&oacute;n.',
-            'choices' => [
-                'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
-                'FIJA' => 'Operaci&oacute;n Fija'
-            ],
-            'esObligatorio' => true,
-            'onchange' => 'tipos',
-        ],
-        'tipos' => [
-            'tipo' => OrmField::TIPO_HAS_MANY,
-            'relationModel' => TipoAlmacenSap::class,
-            'relationConditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
-            'textoAyuda' => 'Tipos asociados al almac&eacuten.',
-        ],
+    // OrmModel
+    public $title = 'des_almacen';
+    public $search = [
+        'id_clasif', 'clasificacion'
     ];
+    public $modelOrder = ['centro' => 'asc', 'cod_almacen' => 'asc'];
+
+
+
+    public function fields() {
+        return [
+            Text::make('centro')
+                ->sortable()
+                ->rules('max:10', 'required'),
+
+            Text::make('cod almacen')
+                ->sortable()
+                ->rules('max:10', 'required'),
+
+            Text::make('descripcion', 'des_almacen')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Text::make('uso almacen')
+                ->sortable()
+                // ->hideFromIndex()
+                ->rules('max:50', 'required'),
+
+            Text::make('responsable')
+                ->sortable()
+                // ->hideFromIndex()
+                ->rules('max:50', 'required'),
+
+            Text::make('responsable')
+                ->sortable()
+                ->rules('max:50', 'required'),
+
+            Select::make('tipo operacion', 'tipo_op')
+                ->sortable()
+                // ->hideFromIndex()
+                ->options([
+                    'MOVIL' => 'Operaci&oacute;n M&oacute;vil',
+                    'FIJA' => 'Operaci&oacute;n Fija'
+                ])
+                ->rules('required'),
+        ];
+    }
+
+    //     'tipos' => [
+    //         'tipo' => OrmField::TIPO_HAS_MANY,
+    //         'relationModel' => TipoAlmacenSap::class,
+    //         'relationConditions' => ['tipo_op' => '@field_value:tipo_op:MOVIL'],
+    //         'textoAyuda' => 'Tipos asociados al almac&eacuten.',
+    //     ],
+    // ];
 
     public function __construct(array $attributes = [])
     {
