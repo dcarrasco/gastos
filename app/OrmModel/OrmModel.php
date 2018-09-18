@@ -25,6 +25,8 @@ class OrmModel
         if ($this->model === '') {
             throw new \Exception('Modelo no definido en recurso OrmModel!');
         }
+
+        $this->makeModelObject();
     }
 
     public static function new()
@@ -34,14 +36,14 @@ class OrmModel
 
     public function injectModel($model = null)
     {
-        $this->modelObject = $model;
+        $this->modelObject = is_null($model) ? new $this->model : $model;
 
         return $this;
     }
 
-    public function getModel()
+    public function getModelObject()
     {
-        return new $model;
+        return $this->modelObject;
     }
 
     public function resourceFilter($filtro = null)
@@ -92,13 +94,22 @@ class OrmModel
         return $this;
     }
 
-    public function title()
+    public function getValue($field)
     {
-        if (is_null($this->modelObject)) {
-            return null;
+        $fieldObject = collect($this->fields())->first(function($fieldObject) use ($field) {
+            return $fieldObject->getField() === $field;
+        });
+
+        if (! is_null($fieldObject)) {
+            return $fieldObject->getFormattedValue($this->getModelObject());
         }
 
-        return $this->modelObject->{$this->title};
+        return null;
+    }
+
+    public function title()
+    {
+        return $this->getValue($this->title);
     }
 
 

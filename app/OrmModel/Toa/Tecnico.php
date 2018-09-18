@@ -35,7 +35,7 @@ class Tecnico extends OrmModel
 
             BelongsTo::make('empresa', 'empresaToa', 'App\OrmModel\Toa\Empresa'),
 
-            BelongsTo::make('ciudad', 'ciudadToa', 'App\OrmModel\Toa\Ciudad'),
+            // BelongsTo::make('ciudad', 'ciudadToa', 'App\OrmModel\Toa\Ciudad'),
         ];
     }
 }

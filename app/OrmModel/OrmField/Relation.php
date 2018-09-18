@@ -14,6 +14,7 @@ class Relation extends Field
     {
         $field = empty($field) ? $name : $field;
         $this->relatedOrm = empty($relatedOrm) ? $field : $relatedOrm;
+
         parent::__construct($name, $field);
     }
 
@@ -31,13 +32,20 @@ class Relation extends Field
 
     public function getRelationResourceOptions($resource = null, $field = '', $resourceFilter = null)
     {
-        $relation = call_user_func([$resource, $field])->getRelated();
-        $filter = $this->getResourceFilter($resource, $resourceFilter);
-        $optionIni = ['' => trans('orm.choose_option').$relation->getLabel()];
-        $relation = empty($filter) ? $relation->modelOrderBy() : $relation->modelOrderBy()->where($filter);
+        $relationName = (new $this->relatedOrm)->getLabel();
 
-        $options = $relation->get()->mapWithKeys(function($resource) {
-            return [$resource->getKey() => $resource->title()];
+        $filter = $this->getResourceFilter($resource, $resourceFilter);
+        $optionIni = ['' => trans('orm.choose_option').$relationName];
+
+        $relatedModelObject = (new $this->relatedOrm)->resourceOrderBy()->getModelObject();
+        $relation = empty($filter)
+            ? $relatedModelObject->get()
+            : $relatedModelObject->where($filter)->get();
+
+        $relatedOrm = $this->relatedOrm;
+        $options = $relation->mapWithKeys(function($model) use ($relatedOrm) {
+            $resource = (new $relatedOrm)->injectModel($model);
+            return [$model->getKey() => $resource->title()];
         })->all();
 
         if (get_class($this) === 'App\OrmModel\OrmField\BelongsTo') {
@@ -53,12 +61,13 @@ class Relation extends Field
 
     protected function getResourceFilter($resource, $resourceFilter)
     {
-        return collect($resourceFilter)->map(function($condition) use ($resource) {
-            if (strpos($condition, '@field_value:') !== false) {
-                list($label, $field, $defaul) = explode(':', $condition);
+        return collect($resourceFilter)
+            ->map(function($condition) use ($resource) {
+                if (strpos($condition, '@field_value:') !== false) {
+                    list($label, $field, $defaul) = explode(':', $condition);
 
-                return $resource->{$field};
-            }
-        })->all();
-    }
+                    return $resource->getModelObject()->{$field};
+                }
+            })->all();
+        }
 }

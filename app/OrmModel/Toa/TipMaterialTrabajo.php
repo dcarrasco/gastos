@@ -30,7 +30,7 @@ class TipMaterialTrabajo extends OrmModel
                 ->sortable()
                 ->rules('max:20'),
 
-            HasMany::make('catalogo'),
+            HasMany::make('catalogo', 'catalogo', 'App\OrmModel\Inventario\Catalogo'),
         ];
     }
 }

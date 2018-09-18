@@ -20,7 +20,10 @@ class BelongsTo extends Relation
         }
 
         $relationName = $this->field;
-        return $resource->{$relationName}()->getForeignKey();
+
+        return $resource->getModelObject()
+            ->{$relationName}()
+            ->getForeignKey();
     }
 
     public function getFormattedValue($model = null)
@@ -38,8 +41,8 @@ class BelongsTo extends Relation
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
         $field = $this->getField($resource);
-        $value = $resource->{$field};
-        $foreignKey = $resource->{$this->getField()}()->getForeignKey();
+        $value = $resource->getModelObject()->{$field};
+        $foreignKey = $resource->getModelObject()->{$this->getField()}()->getForeignKey();
 
         if ($this->hasOnChange()) {
             $route = \Route::currentRouteName();

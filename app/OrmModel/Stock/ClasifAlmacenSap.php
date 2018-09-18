@@ -13,7 +13,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class ClasifAlmacenSap extends OrmModel
 {
     public $model = 'App\Stock\ClasifAlmacenSap';
-    public $title = 'tipo';
+    public $title = 'clasificacion';
     public $search = [
         'id_clasif', 'clasificacion'
     ];
@@ -64,8 +64,6 @@ class ClasifAlmacenSap extends OrmModel
                 ->rules('required'),
 
             // HasMany::make('tipo almacen SAP', 'tipoAlmacenSap'),
-
-
         ];
     }
 

@@ -7,10 +7,10 @@ use App\OrmModel\OrmField\Relation;
 
 class HasMany extends Relation
 {
-    public function __construct($name = '', $field = '')
+    public function __construct($name = '', $field = '', $relatedOrm = '')
     {
         $this->showOnList = false;
-        parent::__construct($name, $field);
+        parent::__construct($name, $field, $relatedOrm);
     }
 
     public function getFormattedValue($value = null)
@@ -25,9 +25,11 @@ class HasMany extends Relation
 
     public function getForm($resource = null, $extraParam = [], $resourceFilter = null)
     {
-        $extraParam['id'] = $this->name;
+        $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
-        $value = $resource->{$this->getField()};
+
+        $field = $this->getField($resource);
+        $value = $resource->getModelObject()->{$field};
 
         $elementosSelected = collect($value)
             ->map(function ($resourceElem) {

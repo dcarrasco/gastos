@@ -5,7 +5,7 @@
 <div class="col-md-10 offset-md-1 my-md-2">
     <legend>
         {!! $accionForm !!}
-        {!! $modelObject->getLabel() !!}
+        {!! $resource->getLabel() !!}
     </legend>
 </div>
 <div class="col-md-10 offset-md-1 card bg-light">
@@ -18,7 +18,7 @@
 
 		<fieldset class="offset-md-1 col-md-10">
             {{-- @include('orm.validation_errors') --}}
-	       	@foreach($modelObject->detailFields() as $field)
+	       	@foreach($resource->detailFields() as $field)
                 @include('orm.form_item')
 			@endforeach
         </fieldset>
@@ -33,7 +33,7 @@
                         <span class="fa fa-check"></span> {{ $accionForm }}
                     </button>
 
-                    <a href="{{ route($routeName.'.index', [$modelName]) }}" class="btn btn-outline-secondary" role="button">
+                    <a href="{{ route($routeName.'.index', [$resource->getName()]) }}" class="btn btn-outline-secondary" role="button">
                         <span class="fa fa-ban"></span> {{ trans('orm.button_cancel') }}
                     </a>
                 </div>
@@ -61,7 +61,7 @@
     <div class="modal-content">
         <div class="modal-header bg-light">
             <h5 class="modal-title" id="exampleModalCenterTitle">
-                Borrar {{ $modelObject->getLabel() }}
+                Borrar {{ $resource->getLabel() }}
             </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -69,14 +69,14 @@
         </div>
 
         <div class="modal-body">
-            {!! trans('orm.delete_confirm', ['model' => $modelObject->getLabel(), 'item' => $modelObject->title()]) !!}
+            {!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title()]) !!}
         </div>
 
         <div class="modal-footer bg-light">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
                 {{ trans('orm.button_cancel') }}
             </button>
-            {!! Form::open(['url' => route($routeName.'.destroy', [$modelName, $modelID])]) !!}
+            {!! Form::open(['url' => route($routeName.'.destroy', [$resource->getName(), $modelId])]) !!}
             {!! method_field('DELETE')!!}
             <button type="submit" class="btn btn-danger" name="borrar" value="borrar">
                 <span class="fa fa-trash-o"></span>

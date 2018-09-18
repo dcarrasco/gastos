@@ -14,11 +14,10 @@ class Boolean extends Field
             : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
 
-
     public function getForm($resource = null, $parentId = null, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getField()};
+        $value = $resource->getModelObject()->{$this->getField()};
 
         return '<div class="custom-control custom-radio">'
             .Form::radio($this->name, 1, ($value == '1'), ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input'])

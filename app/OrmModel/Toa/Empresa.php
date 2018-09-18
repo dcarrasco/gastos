@@ -26,9 +26,9 @@ class Empresa extends OrmModel
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
 
-            HasMany::make('tipo almacen sap', 'tipoalmacensap'),
+            HasMany::make('tipo almacen sap', 'tipoalmacensap', 'App\OrmModel\Stock\TipoAlmacenSap'),
 
-            HasMany::make('ciudad', 'ciudadToa'),
+            HasMany::make('ciudad', 'ciudadToa', 'App\OrmModel\Toa\Ciudad'),
         ];
     }
 

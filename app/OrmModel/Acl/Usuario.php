@@ -54,7 +54,7 @@ class Usuario extends OrmModel
                 ->rules('max:200')
                 ->hideFromIndex(),
 
-            HasMany::make('rol'),
+            HasMany::make('rol', 'rol', 'App\OrmModel\Acl\Rol'),
         ];
     }
 }

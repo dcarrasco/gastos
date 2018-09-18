@@ -12,10 +12,10 @@ class Text extends Field
         $extraParam['id'] = $this->field;
         $extraParam['maxlength'] = $this->getFieldLength();
 
-        if ($resource->getKeyName() === $this->getField() && !is_null($resource->getKey())) {
+        if ($resource->getModelObject()->getKeyName() === $this->getField() && !is_null($resource->getModelObject()->getKey())) {
             $extraParam['readonly'] = 'readonly';
         }
-        $value = $resource->{$this->getField()};
+        $value = $resource->getModelObject()->{$this->getField()};
 
         return Form::text($this->field, $value, $extraParam);
     }

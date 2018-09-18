@@ -69,16 +69,16 @@ trait OrmController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($modelName = null)
+    public function create($resource = null)
     {
-        $modelObject = $this->getResource($modelName);
+        $resource = $this->getResource($resource);
         $accionForm = trans('orm.title_add');
         $createOrEdit = 'create';
-        $formURL = route($this->routeName.'.store', [$modelName]);
+        $formURL = route($this->routeName.'.store', [$resource->getName()]);
 
         return view(
             'orm.orm_editar',
-            compact('modelName', 'modelObject', 'accionForm', 'createOrEdit', 'formURL')
+            compact('resource', 'accionForm', 'createOrEdit', 'formURL')
         );
     }
 
@@ -120,18 +120,18 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit($modelName = null, $modelID = null)
+    public function edit($resource = null, $modelId = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::findOrNew($modelID);
+        $resource = $this->getResource($resource);
+        $resource = $resource->injectModel($resource->getModelObject()->findOrNew($modelId));
 
         $accionForm    = trans('orm.title_edit');
         $createOrEdit  = 'edit';
-        $formURL       = route($this->routeName.'.update', [$modelName, $modelID]);
+        $formURL       = route($this->routeName.'.update', [$resource->getName(), $modelId]);
 
         return view(
             'orm.orm_editar',
-            compact('modelObject', 'modelID', 'fullModelName', 'modelName', 'accionForm', 'createOrEdit', 'formURL')
+            compact('resource', 'modelId', 'accionForm', 'createOrEdit', 'formURL')
         );
     }
 

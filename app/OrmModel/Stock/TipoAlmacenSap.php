@@ -37,7 +37,7 @@ class TipoAlmacenSap extends OrmModel
             Boolean::make('es sumable')
                 ->rules('required'),
 
-            HasMany::make('almacen'),
+            // HasMany::make('almacen'),
         ];
     }
     //     'almacen' => [

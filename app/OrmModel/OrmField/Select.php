@@ -23,7 +23,7 @@ class Select extends Field
     {
         $extraParam['id'] = $this->field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
-        $value = $resource->{$this->getField()};
+        $value = $resource->getModelObject()->{$this->getField()};
 
         return Form::select($this->field, $this->choices, $value, $extraParam);
     }

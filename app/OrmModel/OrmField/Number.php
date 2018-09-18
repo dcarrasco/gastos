@@ -10,7 +10,7 @@ class Number extends Field
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getField()};
+        $value = $resource->getModelObject()->{$this->getField()};
 
         if ($this->hasChoices()) {
             return Form::select(
