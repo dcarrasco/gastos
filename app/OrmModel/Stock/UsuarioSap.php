@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class UsuarioSap extends OrmModel
 {
     public $model = 'App\Stock\UsuarioSap';
+    public $icono = 'user';
     public $title = 'nom_usuario';
     public $search = [
         'usuario', 'nom_usuario'

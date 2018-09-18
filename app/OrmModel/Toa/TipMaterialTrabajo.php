@@ -10,6 +10,7 @@ use App\OrmModel\OrmField\HasMany;
 class TipMaterialTrabajo extends OrmModel
 {
     public $model = 'App\Toa\TipMaterialTrabajo';
+    public $icono = 'object-group';
     public $label = 'Tipo de Material Trabajo TOA';
     public $title = 'desc_tip_material';
     public $search = [

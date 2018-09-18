@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class UnidadMedida extends OrmModel
 {
     public $model = 'App\Inventario\UnidadMedida';
+    public $icono = 'balance-scale';
     public $title = 'desc_unidad';
     public $search = [
         'centro'

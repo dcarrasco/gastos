@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class TipoTrabajo extends OrmModel
 {
     public $model = 'App\Toa\TipoTrabajo';
+    public $icono = 'television';
     public $label = 'Tipo de Trabajo TOA';
     public $title = 'desc_tipo';
     public $search = [

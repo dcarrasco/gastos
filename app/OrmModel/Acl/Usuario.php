@@ -11,6 +11,7 @@ use App\OrmModel\OrmField\HasMany;
 class Usuario extends OrmModel
 {
     public $model = 'App\Acl\Usuario';
+    public $icono = 'user';
     public $title = 'nombre';
     public $search = [
         'id', 'nombre', 'username', 'email'

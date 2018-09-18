@@ -11,6 +11,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class Inventario extends OrmModel
 {
     public $model = 'App\Inventario\Inventario';
+    public $icono = 'list';
     public $title = 'nombre';
     public $search = [
         'id', 'nombre',

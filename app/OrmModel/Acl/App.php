@@ -11,6 +11,7 @@ class App extends OrmModel
 {
     public $model = 'App\Acl\App';
     public $label = 'Aplicacion';
+    public $icono = 'folder-o';
     public $title = 'app';
     public $search = [
         'id', 'app', 'descripcion', 'url', 'icono'

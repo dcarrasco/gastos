@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Select;
 class AlmacenSap extends OrmModel
 {
     public $model = 'App\Stock\AlmacenSap';
+    public $icono = 'home';
     public $title = 'des_almacen';
     public $search = [
         'id_clasif', 'clasificacion'

@@ -10,6 +10,7 @@ use App\OrmModel\OrmField\Boolean;
 class Auditor extends OrmModel
 {
     public $model = 'App\Inventario\Auditor';
+    public $icono = 'list';
     public $title = 'nombre';
     public $search = [
         'id', 'nombre'

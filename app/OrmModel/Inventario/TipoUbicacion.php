@@ -10,6 +10,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class TipoUbicacion extends OrmModel
 {
     public $model = 'App\Inventario\TipoUbicacion';
+    public $icono = 'th';
     public $label = 'Tipo de Ubicacion';
     public $title = 'tipo_ubicacion';
     public $search = [

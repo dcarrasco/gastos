@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Select;
 class Familia extends OrmModel
 {
     public $model = 'App\Inventario\Familia';
+    public $icono = 'th';
     public $title = 'nombre';
     public $search = [
         'codigo', 'nombre'

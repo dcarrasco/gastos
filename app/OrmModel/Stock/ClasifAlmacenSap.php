@@ -13,6 +13,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class ClasifAlmacenSap extends OrmModel
 {
     public $model = 'App\Stock\ClasifAlmacenSap';
+    public $icono = 'th';
     public $title = 'clasificacion';
     public $search = [
         'id_clasif', 'clasificacion'

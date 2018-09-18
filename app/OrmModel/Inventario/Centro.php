@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class Centro extends OrmModel
 {
     public $model = 'App\Inventario\Centro';
+    public $icono = 'th';
     public $title = 'centro';
     public $search = [
         'centro'

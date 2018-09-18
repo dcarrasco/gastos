@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Text;
 class TipoClasifAlmacenSap extends OrmModel
 {
     public $model = 'App\Stock\TipoClasifAlmacenSap';
+    public $icono = 'th';
     public $label = 'Tipo Clasificacion de Almacen SAP';
     public $title = 'tipo';
     public $search = [

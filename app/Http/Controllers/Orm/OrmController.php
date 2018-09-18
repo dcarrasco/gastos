@@ -17,11 +17,12 @@ trait OrmController
     {
         $routeName = $this->routeName;
 
-        return collect($this->menuModulo)->map(function ($elem, $key) use ($routeName) {
+        return collect($this->menuModulo)->map(function ($resource) use ($routeName) {
             return [
-                'nombre' => $elem['nombre'],
-                'url'    => route($routeName.'.index', [$key]),
-                'icono'  => $elem['icono'],
+                'resource' => $resource->getName(),
+                'nombre' => $resource->getLabel(),
+                'url'    => route($routeName.'.index', $resource->getName()),
+                'icono'  => $resource->icono,
             ];
         });
     }
@@ -39,12 +40,13 @@ trait OrmController
         );
     }
 
-    protected function getResource($resourceName)
+    protected function getResource($resourceName = '')
     {
-        $resourceName = empty($resourceName) ? collect(array_keys($this->menuModulo))->first() : $resourceName;
-        $resourceFullName = $this->modelNameSpace.ucfirst($resourceName);
+        $resourceName = empty($resourceName) ? collect($this->menuModulo)->first()->getName() : $resourceName;
 
-        return new $resourceFullName;
+        return collect($this->menuModulo)->first(function($resource) use ($resourceName) {
+            return $resource->getName() === $resourceName;
+        });
     }
 
 

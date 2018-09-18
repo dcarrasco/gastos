@@ -9,6 +9,7 @@ class TipoInventario extends OrmModel
 {
     public $model = 'App\Inventario\TipoInventario';
     public $label = 'Tipo de inventario';
+    public $icono = 'th';
     public $title = 'desc_tipo_inventario';
     public $search = [
         'desc_tipo_inventario'

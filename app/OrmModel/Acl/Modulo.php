@@ -12,6 +12,7 @@ class Modulo extends OrmModel
 {
     public $model = 'App\Acl\Modulo';
     public $title = 'modulo';
+    public $icono = 'list-alt';
     public $search = [
         'id', 'modulo', 'descripcion', 'url', 'icono'
     ];

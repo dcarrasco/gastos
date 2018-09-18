@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers\Stock;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\OrmModel\Stock\Proveedor;
+use App\OrmModel\Stock\AlmacenSap;
+use App\OrmModel\Stock\UsuarioSap;
+use App\Http\Controllers\Controller;
+use App\OrmModel\Stock\TipoAlmacenSap;
+use App\OrmModel\Stock\ClaseMovimiento;
+use App\OrmModel\Stock\ClasifAlmacenSap;
 use App\Http\Controllers\Orm\OrmController;
+use App\OrmModel\Stock\TipoClasifAlmacenSap;
 
 class ConfigController extends Controller
 {
     use OrmController;
 
-    protected $modelNameSpace = '\\App\\OrmModel\\Stock\\';
-
     public function __construct()
     {
         $this->routeName  = 'stockConfig';
         $this->menuModulo = [
-            'clasifAlmacenSap'        => ['nombre'=>trans('stock.config_menu_clasifalm'), 'icono'=>'th',],
-            'tipoAlmacenSap'          => ['nombre'=>trans('stock.config_menu_tipalm'), 'icono'=>'th',],
-            'almacenSap'              => ['nombre'=>trans('stock.config_menu_alm'), 'icono'=>'home'],
-            'tipoClasifAlmacenSap'    => ['nombre'=>trans('stock.config_menu_tipo_clasifalm'), 'icono'=>'th',],
-            'proveedor'               => ['nombre'=>trans('stock.config_menu_proveedores'), 'icono'=>'shopping-cart',],
-            'usuarioSap'              => ['nombre'=>trans('stock.config_menu_usuarios_sap'), 'icono'=>'user',],
-            'almacenes_no_ingresados' => ['nombre'=>trans('stock.config_menu_alm_no_ing'), 'icono'=>'home',],
-            'claseMovimiento'         => ['nombre'=>trans('stock.config_menu_cmv'), 'icono'=>'th',],
+            new ClasifAlmacenSap,
+            new TipoAlmacenSap,
+            new AlmacenSap,
+            new TipoClasifAlmacenSap,
+            new Proveedor,
+            new UsuarioSap,
+            new ClaseMovimiento,
+            // 'almacenes_no_ingresados' => ['nombre'=>trans('stock.config_menu_alm_no_ing'), 'icono'=>'home',],
         ];
 
         $this->makeView();

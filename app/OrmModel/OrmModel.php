@@ -16,6 +16,7 @@ class OrmModel
     protected $modelList = null;
 
     public $label = '';
+    public $icono = 'table';
     protected $order = [];
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';

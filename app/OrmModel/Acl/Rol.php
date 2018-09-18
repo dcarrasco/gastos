@@ -11,6 +11,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class Rol extends OrmModel
 {
     public $model = 'App\Acl\Rol';
+    public $icono = 'server';
     public $title = 'rol';
     public $search = [
         'id', 'rol', 'descripcion'

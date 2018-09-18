@@ -11,6 +11,7 @@ class Catalogo extends OrmModel
 {
     public $model = 'App\Inventario\Catalogo';
     public $title = 'descripcion';
+    public $icono = 'barcode';
     public $search = [
         'catalogo', 'descripcion'
     ];

@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Number;
 class Ciudad extends OrmModel
 {
     public $model = 'App\Toa\Ciudad';
+    public $icono = 'map-marker';
     public $title = 'ciudad';
     public $search = [
         'id_ciudad', 'ciudad',

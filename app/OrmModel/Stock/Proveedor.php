@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class Proveedor extends OrmModel
 {
     public $model = 'App\Stock\Proveedor';
+    public $icono = 'shopping-cart';
     public $title = 'des_proveedor';
     public $search = [
         'cod_proveedor', 'des_proveedor'

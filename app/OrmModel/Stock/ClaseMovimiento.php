@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Text;
 class ClaseMovimiento extends OrmModel
 {
     public $model = 'App\Stock\ClaseMovimiento';
+    public $icono = 'th';
     public $title = 'nom_usuario';
     public $search = [
         'cmv', 'des_cmv'

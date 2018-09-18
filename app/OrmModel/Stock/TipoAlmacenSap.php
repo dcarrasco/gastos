@@ -12,6 +12,7 @@ use App\OrmModel\OrmField\HasMany;
 class TipoAlmacenSap extends OrmModel
 {
     public $model = 'App\Stock\TipoAlmacenSap';
+    public $icono = 'th';
     public $title = 'tipo';
     public $search = [
         'tipo',

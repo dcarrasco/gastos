@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\HasMany;
 class Empresa extends OrmModel
 {
     public $model = 'App\Toa\Empresa';
+    public $icono = 'home';
     public $title = 'empresa';
     public $search = [
         'id_empresa', 'empresa',

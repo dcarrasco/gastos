@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class Tecnico extends OrmModel
 {
     public $model = 'App\Toa\Tecnico';
+    public $icono = 'user';
     public $title = 'tecnico';
     public $search = [
         'id_tecnico', 'tecnico', 'rut',

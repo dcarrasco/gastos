@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class EmpresaCiudad extends OrmModel
 {
     public $model = 'App\Toa\EmpresaCiudad';
+    public $icono = 'map-marker';
     public $label = 'Empresa Ciudad TOA';
     public $title = 'empresa';
     public $search = [
