@@ -10,7 +10,7 @@ class ConfigController extends Controller
 {
     use OrmController;
 
-    protected $modelNameSpace = '\\App\\Toa\\';
+    protected $modelNameSpace = '\\App\\OrmModel\\Toa\\';
 
     public function __construct()
     {

@@ -8,13 +8,18 @@ use App\OrmModel\OrmField\Field;
 
 class Relation extends Field
 {
-    protected $relationName = '';
+    protected $relatedOrm = '';
 
-    public function __construct($name = '', $field = '')
+    public function __construct($name = '', $field = '', $relatedOrm = '')
     {
         $field = empty($field) ? $name : $field;
-        $this->relationName = $field;
+        $this->relatedOrm = empty($relatedOrm) ? $field : $relatedOrm;
         parent::__construct($name, $field);
+    }
+
+    public static function make($name = '', $field = '', $relatedOrm = '')
+    {
+        return new static($name, $field, $relatedOrm);
     }
 
     public function relationConditions($relationConditions)

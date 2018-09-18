@@ -2,56 +2,26 @@
 
 namespace App\Inventario;
 
-use App\OrmModel\OrmModel;
-use App\OrmModel\OrmField\Id;
-use App\OrmModel\OrmField\Text;
-use App\OrmModel\OrmField\Boolean;
-use App\OrmModel\OrmField\BelongsTo;
+use App\Inventario\TipoInventario;
 use App\Inventario\AjustesInventario;
 use App\Inventario\DetalleInventario;
 use App\Inventario\ReportesInventario;
+use Illuminate\Database\Eloquent\Model;
 
-class Inventario extends OrmModel
+class Inventario extends Model
 {
     use AjustesInventario;
 
-    // Eloquent
     protected $fillable = ['nombre', 'activo', 'tipo_inventario'];
     protected $casts = [
         'id' => 'integer',
         'activo' => 'boolean',
     ];
 
-    // OrmModel
-    public $title = 'nombre';
-    public $search = [
-        'id', 'nombre',
-    ];
-    public $modelOrder = 'nombre';
-
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->table = config('invfija.bd_inventarios');
-    }
-
-
-    public function fields() {
-        return [
-            Id::make()->sortable(),
-
-            Text::make('nombre')
-                ->sortable()
-                ->rules('max:50', 'required', 'unique'),
-
-            Boolean::make('activo')
-                ->sortable()
-                ->rules('required'),
-
-            BelongsTo::make('tipo inventario', 'tipoInventario')
-                ->rules('required'),
-        ];
     }
 
     public function tipoInventario()

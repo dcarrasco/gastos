@@ -7,8 +7,10 @@ use App\OrmModel\OrmField\Field;
 
 class Select extends Field
 {
-    public function getFormattedValue($value = null)
+    public function getFormattedValue($model = null)
     {
+        $value = $model->{$this->getField()};
+
         if ($this->hasChoices()) {
             return array_get($this->choices, $value, '');
         }

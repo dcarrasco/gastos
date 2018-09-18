@@ -3,6 +3,7 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use Illuminate\Support\Str;
 use App\OrmModel\OrmField\Relation;
 
 class BelongsTo extends Relation
@@ -22,13 +23,12 @@ class BelongsTo extends Relation
         return $resource->{$relationName}()->getForeignKey();
     }
 
-    public function getFormattedValue($value = null)
+    public function getFormattedValue($model = null)
     {
-        if (isset($value)) {
-            return $value->title();
-        }
+        $relatedModel = $model->{$this->getField()};
+        $related = (new $this->relatedOrm)->injectModel($relatedModel);
 
-        return '';
+        return $related->title();
     }
 
 

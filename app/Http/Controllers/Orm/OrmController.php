@@ -54,13 +54,13 @@ trait OrmController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $modelName = null)
+    public function index(Request $request, $resource = null)
     {
-        $modelObject = $this->getResource($modelName);
-        $modelCollection = $modelObject->modelOrderBy()->filtroOrm($request->get('filtro'))->paginate();
-        $paginationLinks = $modelCollection->appends($request->only('filtro', 'sort-by', 'sort-direction'))->links();
+        $resource = $this->getResource($resource);
+        $modelList = $resource->getModelList($request);
+        $paginationLinks = $resource->getPaginationLinks($request);
 
-        return view('orm.orm_listado', compact('modelObject', 'modelCollection', 'modelName', 'paginationLinks'));
+        return view('orm.orm_listado', compact('resource', 'modelList', 'paginationLinks'));
     }
 
 

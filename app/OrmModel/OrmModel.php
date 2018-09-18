@@ -4,34 +4,27 @@ namespace App\OrmModel;
 
 use DB;
 use App\OrmModel\OrmField;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
 
-class OrmModel extends Model
+class OrmModel
 {
-    use Notifiable;
-
-    /**
-     * Constantes de tipos de campos
-     */
-    const KEY_SEPARATOR = '~';
-
-    // Eloquent
-    public $timestamps = true;
-    protected $fillable = [];
     protected $perPage = 10;
-
     public $title = 'id';
     public $search = ['id'];
 
+    protected $model = '';
+    protected $modelObject = null;
+    protected $modelList = null;
+
     public $label = '';
-    protected $modelOrder = [];
+    protected $order = [];
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
 
-    public function __construct(array $attributes = [])
+    public function __construct()
     {
-        parent::__construct($attributes);
+        if ($this->model === '') {
+            throw new \Exception('Modelo no definido en recurso OrmModel!');
+        }
     }
 
     public static function new()
@@ -39,14 +32,27 @@ class OrmModel extends Model
         return new static;
     }
 
+    public function injectModel($model = null)
+    {
+        $this->modelObject = $model;
 
-    public function scopeFiltroOrm($query, $filtro = null)
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return new $model;
+    }
+
+    public function resourceFilter($filtro = null)
     {
         if (empty($filtro)) {
-            return $query;
+            return $this;
         }
 
         $search = $this->search;
+        $modelObject = $this->modelObject;
+
         collect($this->fields())
             ->filter(function ($field) use ($search) {
                 return in_array($field->getField(), $search);
@@ -54,39 +60,45 @@ class OrmModel extends Model
             ->map(function ($field) {
                 return $field->getField();
             })
-            ->each(function ($field) use (&$query, $filtro) {
-                $query = $query->orWhere($field, 'like', '%'.$filtro.'%');
+            ->each(function ($field) use (&$modelObject, $filtro) {
+                $modelObject = $modelObject->orWhere($field, 'like', '%'.$filtro.'%');
             });
 
-        return $query;
+        $this->modelObject = $modelObject;
+
+        return $this;
     }
 
 
-    public function scopeModelOrderBy($query)
+    public function resourceOrderBy()
     {
         $orderBy = request($this->sortByKey, '');
         $orderDirection = request($this->sortDirectionKey, 'asc');
 
         if (!empty($orderBy)) {
-            $this->modelOrder = [$orderBy => $orderDirection];
+            $this->order = [$orderBy => $orderDirection];
         }
 
-        if (isset($this->modelOrder)) {
-            if (!is_array($this->modelOrder)) {
-                $this->modelOrder = [$this->modelOrder => 'asc'];
+        if (isset($this->order)) {
+            if (!is_array($this->order)) {
+                $this->order = [$this->order => 'asc'];
             }
 
-            foreach ($this->modelOrder as $field => $order) {
-                $query = $query->orderBy($field, $order);
+            foreach ($this->order as $field => $order) {
+                $this->modelObject = $this->modelObject->orderBy($field, $order);
             }
         }
 
-        return $query;
+        return $this;
     }
 
     public function title()
     {
-        return $this->{$this->title};
+        if (is_null($this->modelObject)) {
+            return null;
+        }
+
+        return $this->modelObject->{$this->title};
     }
 
 
@@ -208,5 +220,41 @@ class OrmModel extends Model
                 return $object->{$campo};
             })
             ->all();
+    }
+
+    public function makeModelObject()
+    {
+        $this->modelObject = (new $this->model)
+            ->setPerPage($this->perPage);
+
+        return $this;
+    }
+
+    public function getPaginated()
+    {
+        return $this->modelObject->paginate();
+    }
+
+    public function getModelList($request)
+    {
+        $this->modelList = $this->makeModelObject()
+            ->resourceOrderBy()
+            ->resourceFilter($request->get('filtro'))
+            ->getPaginated();
+
+        return $this->modelList;
+    }
+
+    public function getPaginationLinks($request)
+    {
+        return $this->modelList
+            ->appends($request->only('filtro', 'sort-by', 'sort-direction'))
+            ->links();
+    }
+
+    public function getName()
+    {
+        $fullName = explode("\\", get_class($this));
+        return array_pop($fullName);
     }
 }

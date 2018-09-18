@@ -7,9 +7,9 @@ use App\OrmModel\OrmField\Field;
 
 class Boolean extends Field
 {
-    public function getFormattedValue($value = null)
+    public function getFormattedValue($model = null)
     {
-        return $value
+        return $model->{$this->getField()}
             ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
             : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }

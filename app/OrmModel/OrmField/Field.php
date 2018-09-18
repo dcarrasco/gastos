@@ -457,9 +457,9 @@ class Field
         return null;
     }
 
-    public function getFormattedValue($value = null)
+    public function getFormattedValue($model = null)
     {
-        return $value;
+        return $model->{$this->getField()};
     }
 
     public function getForm($resource = null, $extraParam = [], $parentId = null)

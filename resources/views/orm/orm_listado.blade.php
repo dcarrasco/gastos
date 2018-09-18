@@ -15,16 +15,16 @@
     </div>
 
     <div class="col-md-9 text-right">
-        <a href="{{ route($routeName.'.create', [$modelName]) }}" class="btn btn-primary btn-sm text-right" id="btn_mostrar_agregar" role="button">
+        <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="btn btn-primary btn-sm text-right" id="btn_mostrar_agregar" role="button">
             <span class="fa fa-plus-circle"></span>
-            {{ trans('orm.button_new') }} {{ $modelObject->getLabel() }}
+            {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
         </a>
     </div>
 </div>
 {!! Form::close() !!}
 
 <div>
-    @if ($modelCollection->count() == 0)
+    @if ($modelList->count() == 0)
         <div class="card py-md-5">
             <h1 class="display-1 text-center">
                 <span class="fa fa-table"></span>
@@ -35,11 +35,11 @@
         </div>
     @else
     <table class="table table-hover">
-        @foreach ($modelCollection as $modelElem)
+        @foreach ($modelList as $model)
             @if ($loop->first)
                 <thead class="thead-light">
                     <tr>
-                        @foreach($modelElem->indexFields() as $field)
+                        @foreach($resource->indexFields() as $field)
                         <th class="text-uppercase">
                             <small><strong>{!! $field->getName() !!}</strong></small>
                             {!! $field->getSortingIcon() !!}
@@ -52,11 +52,11 @@
             @endif
 
             <tr>
-                @foreach($modelElem->indexFields() as $field)
-                    <td>{!! $field->getFormattedValue($modelElem->{$field->getField()}) !!}</td>
+                @foreach($resource->indexFields() as $field)
+                    <td>{!! $field->getFormattedValue($model) !!}</td>
                 @endforeach
                 <td class="text-center">
-                    <a href="{{ route($routeName.'.edit', [$modelName, $modelElem->getKey()]) }}" class="text-muted">
+                    <a href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}" class="text-muted">
                         {{ trans('orm.link_edit') }}
                     </a>
                 </td>

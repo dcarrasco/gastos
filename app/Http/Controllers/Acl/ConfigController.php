@@ -15,7 +15,7 @@ class ConfigController extends Controller
      *
      * @var string
      */
-    protected $modelNameSpace = '\\App\\Acl\\';
+    protected $modelNameSpace = '\\App\\OrmModel\\Acl\\';
 
     /**
      * Crea una nueva instancia del controlador config

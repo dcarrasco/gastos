@@ -16,16 +16,6 @@ class Id extends Field
         parent::__construct($name, $field);
     }
 
-    public function getFormattedValue($value = null)
-    {
-        if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
-        }
-
-        return $value;
-    }
-
-
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;

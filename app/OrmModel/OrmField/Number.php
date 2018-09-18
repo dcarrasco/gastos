@@ -7,12 +7,6 @@ use App\OrmModel\OrmField\Field;
 
 class Number extends Field
 {
-    public function getFormattedValue($value = null)
-    {
-        return $value;
-    }
-
-
     public function getForm($resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
