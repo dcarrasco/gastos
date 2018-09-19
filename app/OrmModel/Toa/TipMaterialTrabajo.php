@@ -2,12 +2,12 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\HasMany;
 
-class TipMaterialTrabajo extends OrmModel
+class TipMaterialTrabajo extends Resource
 {
     public $model = 'App\Toa\TipMaterialTrabajo';
     public $icono = 'object-group';
@@ -16,7 +16,7 @@ class TipMaterialTrabajo extends OrmModel
     public $search = [
         'id', 'desc_tip_material', 'color',
     ];
-    public $modelOrder = 'id';
+    public $order = 'id';
 
     public function fields()
     {

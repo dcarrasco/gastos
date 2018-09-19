@@ -2,19 +2,20 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Select;
 
-class AlmacenSap extends OrmModel
+class AlmacenSap extends Resource
 {
     public $model = 'App\Stock\AlmacenSap';
+    public $label = 'Almacen SAP';
     public $icono = 'home';
     public $title = 'des_almacen';
     public $search = [
         'id_clasif', 'clasificacion'
     ];
-    public $modelOrder = ['centro' => 'asc', 'cod_almacen' => 'asc'];
+    public $order = ['centro' => 'asc', 'cod_almacen' => 'asc'];
 
     public function fields() {
         return [

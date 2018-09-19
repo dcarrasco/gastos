@@ -2,12 +2,12 @@
 
 namespace App\OrmModel\Acl;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 
-class App extends OrmModel
+class App extends Resource
 {
     public $model = 'App\Acl\App';
     public $label = 'Aplicacion';
@@ -16,7 +16,7 @@ class App extends OrmModel
     public $search = [
         'id', 'app', 'descripcion', 'url', 'icono'
     ];
-    public $modelOrder = ['app' => 'desc'];
+    public $order = 'app';
 
     public function fields() {
         return [

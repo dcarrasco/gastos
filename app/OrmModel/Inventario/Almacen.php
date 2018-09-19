@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class Almacen extends OrmModel
+class Almacen extends Resource
 {
     public $model = 'App\Inventario\Almacen';
     public $icono = 'home';
@@ -13,7 +13,7 @@ class Almacen extends OrmModel
     public $search = [
         'centro'
     ];
-    public $modelOrder = 'almacen';
+    public $order = 'almacen';
 
     public function fields() {
         return [

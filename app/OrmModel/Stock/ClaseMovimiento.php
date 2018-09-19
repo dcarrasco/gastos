@@ -2,18 +2,19 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class ClaseMovimiento extends OrmModel
+class ClaseMovimiento extends Resource
 {
     public $model = 'App\Stock\ClaseMovimiento';
+    public $label = 'Clase de Movimiento SAP';
     public $icono = 'th';
     public $title = 'nom_usuario';
     public $search = [
         'cmv', 'des_cmv'
     ];
-    public $modelOrder = 'cmv';
+    public $order = 'cmv';
 
     public function fields() {
         return [

@@ -4,10 +4,10 @@ namespace App\Stock;
 
 use DB;
 use App\Helpers\Reporte;
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField;
 
-class StockSapFija extends OrmModel
+class StockSapFija extends Resource
 {
     protected static $campos = [
         'fecha_stock' => ['titulo'=>'Fecha', 'tipo'=>'fecha'],

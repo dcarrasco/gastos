@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClasifAlmacenSap extends Model
 {
-    public $label = 'Clasificacion de Almacen SAP';
     protected $fillable = ['clasificacion', 'orden', 'dir_responsable', 'estado_ajuste', 'id_tipoclasif', 'tipo_op'];
     protected $primaryKey = 'id_clasif';
     public $timestamps = false;

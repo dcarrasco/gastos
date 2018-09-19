@@ -2,7 +2,7 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
@@ -10,7 +10,7 @@ use App\OrmModel\Filters\PerPage;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\Filters\AuditoresActivos;
 
-class Auditor extends OrmModel
+class Auditor extends Resource
 {
     public $model = 'App\Inventario\Auditor';
     public $icono = 'list';
@@ -18,7 +18,7 @@ class Auditor extends OrmModel
     public $search = [
         'id', 'nombre'
     ];
-    public $modelOrder = ['nombre' => 'asc'];
+    public $order = ['nombre' => 'asc'];
 
     public function fields()
     {

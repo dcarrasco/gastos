@@ -1,6 +1,6 @@
 <?php
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField;
 use App\OrmModel\OrmField\OrmFieldInt;
 use App\OrmModel\OrmField\OrmFieldChar;
@@ -177,11 +177,11 @@ class OrmModelTest extends TestCase
     }
 }
 
-class ModelTest extends OrmModel
+class ModelTest extends Resource
 {
     public $modelLabel = 'LabelTest';
 
-    public $modelOrder = 'campo1';
+    public $order = 'campo1';
 
     protected $fillable = ['campo1', 'campo2', 'campo3'];
 

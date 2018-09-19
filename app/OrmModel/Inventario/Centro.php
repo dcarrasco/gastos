@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class Centro extends OrmModel
+class Centro extends Resource
 {
     public $model = 'App\Inventario\Centro';
     public $icono = 'th';
@@ -13,7 +13,7 @@ class Centro extends OrmModel
     public $search = [
         'centro'
     ];
-    public $modelOrder = 'centro';
+    public $order = 'centro';
 
     public function fields() {
         return [

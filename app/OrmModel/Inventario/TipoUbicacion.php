@@ -2,12 +2,12 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\BelongsTo;
 
-class TipoUbicacion extends OrmModel
+class TipoUbicacion extends Resource
 {
     public $model = 'App\Inventario\TipoUbicacion';
     public $icono = 'th';
@@ -16,7 +16,7 @@ class TipoUbicacion extends OrmModel
     public $search = [
         'id', 'tipo_ubicacion'
     ];
-    public $modelOrder = 'tipo_inventario';
+    public $order = 'tipo_inventario';
 
     public function fields() {
         return [

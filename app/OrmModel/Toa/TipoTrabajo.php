@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class TipoTrabajo extends OrmModel
+class TipoTrabajo extends Resource
 {
     public $model = 'App\Toa\TipoTrabajo';
     public $icono = 'television';
@@ -14,7 +14,7 @@ class TipoTrabajo extends OrmModel
     public $search = [
         'id_tipo', 'desc_tipo',
     ];
-    public $modelOrder = 'id_tipo';
+    public $order = 'id_tipo';
 
     public function fields()
     {

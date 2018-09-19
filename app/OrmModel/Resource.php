@@ -6,7 +6,7 @@ use DB;
 use App\OrmModel\OrmField;
 use Illuminate\Http\Request;
 
-class OrmModel
+class Resource
 {
     use UsesFilters;
 

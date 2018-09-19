@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\OrmField\BelongsTo;
 
-class Inventario extends OrmModel
+class Inventario extends Resource
 {
     public $model = 'App\Inventario\Inventario';
     public $icono = 'list';
@@ -16,7 +16,7 @@ class Inventario extends OrmModel
     public $search = [
         'id', 'nombre',
     ];
-    public $modelOrder = 'nombre';
+    public $order = 'nombre';
 
 
     public function fields() {

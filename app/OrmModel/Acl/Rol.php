@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Acl;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\HasMany;
 use App\OrmModel\OrmField\BelongsTo;
 
-class Rol extends OrmModel
+class Rol extends Resource
 {
     public $model = 'App\Acl\Rol';
     public $icono = 'server';
@@ -16,7 +16,7 @@ class Rol extends OrmModel
     public $search = [
         'id', 'rol', 'descripcion'
     ];
-    public $modelOrder = [
+    public $order = [
         'app_id' => 'asc', 'rol' => 'asc'
     ];
 

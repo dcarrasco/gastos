@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 
-class TipoClasifAlmacenSap extends OrmModel
+class TipoClasifAlmacenSap extends Resource
 {
     public $model = 'App\Stock\TipoClasifAlmacenSap';
     public $icono = 'th';
@@ -15,7 +15,7 @@ class TipoClasifAlmacenSap extends OrmModel
     public $search = [
         'id_tipoclasif', 'tipo', 'color'
     ];
-    public $modelOrder = 'id_tipoclasif';
+    public $order = 'id_tipoclasif';
 
     public function fields() {
         return [

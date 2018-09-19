@@ -2,12 +2,12 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 use App\OrmModel\OrmField\Boolean;
 
-class Catalogo extends OrmModel
+class Catalogo extends Resource
 {
     public $model = 'App\Inventario\Catalogo';
     public $title = 'descripcion';
@@ -15,7 +15,7 @@ class Catalogo extends OrmModel
     public $search = [
         'catalogo', 'descripcion'
     ];
-    public $modelOrder = ['catalogo' => 'asc'];
+    public $order = ['catalogo' => 'asc'];
 
     public function fields()
     {

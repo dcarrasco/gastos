@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\HasMany;
 
-class Empresa extends OrmModel
+class Empresa extends Resource
 {
     public $model = 'App\Toa\Empresa';
     public $icono = 'home';
@@ -14,7 +14,7 @@ class Empresa extends OrmModel
     public $search = [
         'id_empresa', 'empresa',
     ];
-    public $modelOrder = 'empresa';
+    public $order = 'empresa';
 
     public function fields()
     {

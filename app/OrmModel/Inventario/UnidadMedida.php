@@ -2,18 +2,19 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class UnidadMedida extends OrmModel
+class UnidadMedida extends Resource
 {
     public $model = 'App\Inventario\UnidadMedida';
+    public $label = 'Unidad de medida';
     public $icono = 'balance-scale';
     public $title = 'desc_unidad';
     public $search = [
         'centro'
     ];
-    public $modelOrder = 'desc_unidad';
+    public $order = 'desc_unidad';
 
     public function fields() {
         return [

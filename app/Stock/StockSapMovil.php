@@ -4,10 +4,10 @@ namespace App\Stock;
 
 use DB;
 use App\Helpers\Reporte;
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField;
 
-class StockSapMovil extends OrmModel
+class StockSapMovil extends Resource
 {
     protected static $selectFields = [];
 

@@ -2,22 +2,23 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Select;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\OrmField\HasMany;
 
-class TipoAlmacenSap extends OrmModel
+class TipoAlmacenSap extends Resource
 {
     public $model = 'App\Stock\TipoAlmacenSap';
+    public $label = 'Tipo Almacen SAP';
     public $icono = 'th';
     public $title = 'tipo';
     public $search = [
         'tipo',
     ];
-    public $modelOrder = 'id_tipo';
+    public $order = 'id_tipo';
 
     public function fields() {
         return [

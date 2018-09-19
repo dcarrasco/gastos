@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 
-class Ciudad extends OrmModel
+class Ciudad extends Resource
 {
     public $model = 'App\Toa\Ciudad';
     public $icono = 'map-marker';
@@ -14,7 +14,7 @@ class Ciudad extends OrmModel
     public $search = [
         'id_ciudad', 'ciudad',
     ];
-    public $modelOrder = 'orden';
+    public $order = 'orden';
 
     public function fields()
     {

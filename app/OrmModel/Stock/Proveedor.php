@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class Proveedor extends OrmModel
+class Proveedor extends Resource
 {
     public $model = 'App\Stock\Proveedor';
     public $icono = 'shopping-cart';
@@ -13,7 +13,7 @@ class Proveedor extends OrmModel
     public $search = [
         'cod_proveedor', 'des_proveedor'
     ];
-    public $modelOrder = 'des_proveedor';
+    public $order = 'des_proveedor';
 
     public function fields() {
         return [

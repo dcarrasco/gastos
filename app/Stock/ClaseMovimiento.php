@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClaseMovimiento extends Model
 {
-    public $label = 'Clase de Movimiento SAP';
     protected $fillable = ['cmv', 'des_cmv'];
     protected $primaryKey = 'cmv';
     public $incrementing = false;

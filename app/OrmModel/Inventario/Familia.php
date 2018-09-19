@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Select;
 use App\OrmModel\Filters\FamiliaSubFamilia;
 
-class Familia extends OrmModel
+class Familia extends Resource
 {
     public $model = 'App\Inventario\Familia';
     public $icono = 'th';
@@ -16,7 +16,7 @@ class Familia extends OrmModel
     public $search = [
         'codigo', 'nombre'
     ];
-    public $modelOrder = ['codigo' => 'asc'];
+    public $order = ['codigo' => 'asc'];
 
     public function fields()
     {

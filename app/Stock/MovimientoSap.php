@@ -2,10 +2,10 @@
 
 namespace App\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField;
 
-class MovimientoSap extends OrmModel
+class MovimientoSap extends Resource
 {
     public $modelLabel = 'Movimiento SAP';
 

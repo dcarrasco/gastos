@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Inventario;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class TipoInventario extends OrmModel
+class TipoInventario extends Resource
 {
     public $model = 'App\Inventario\TipoInventario';
     public $label = 'Tipo de inventario';
@@ -14,7 +14,7 @@ class TipoInventario extends OrmModel
     public $search = [
         'desc_tipo_inventario'
     ];
-    public $modelOrder = ['id_tipo_inventario' => 'asc'];
+    public $order = ['id_tipo_inventario' => 'asc'];
 
     public function fields() {
         return [

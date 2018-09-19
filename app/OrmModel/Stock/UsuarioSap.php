@@ -2,18 +2,19 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 
-class UsuarioSap extends OrmModel
+class UsuarioSap extends Resource
 {
     public $model = 'App\Stock\UsuarioSap';
+    public $label = 'Usuario SAP';
     public $icono = 'user';
     public $title = 'nom_usuario';
     public $search = [
         'usuario', 'nom_usuario'
     ];
-    public $modelOrder = 'usuario';
+    public $order = 'usuario';
 
     public function fields() {
         return [

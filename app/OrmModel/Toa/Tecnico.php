@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\BelongsTo;
 
-class Tecnico extends OrmModel
+class Tecnico extends Resource
 {
     public $model = 'App\Toa\Tecnico';
     public $icono = 'user';
@@ -14,7 +14,7 @@ class Tecnico extends OrmModel
     public $search = [
         'id_tecnico', 'tecnico', 'rut',
     ];
-    public $modelOrder = 'id_tecnico';
+    public $order = 'id_tecnico';
 
     public function fields() {
         return [

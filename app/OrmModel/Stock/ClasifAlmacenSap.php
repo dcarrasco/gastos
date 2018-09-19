@@ -2,7 +2,7 @@
 
 namespace App\OrmModel\Stock;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
@@ -10,15 +10,16 @@ use App\OrmModel\OrmField\Select;
 use App\OrmModel\OrmField\HasMany;
 use App\OrmModel\OrmField\BelongsTo;
 
-class ClasifAlmacenSap extends OrmModel
+class ClasifAlmacenSap extends Resource
 {
     public $model = 'App\Stock\ClasifAlmacenSap';
+    public $label = 'Clasificacion de Almacen SAP';
     public $icono = 'th';
     public $title = 'clasificacion';
     public $search = [
         'id_clasif', 'clasificacion'
     ];
-    public $modelOrder = 'id_clasif';
+    public $order = 'id_clasif';
 
     public function fields() {
         return [

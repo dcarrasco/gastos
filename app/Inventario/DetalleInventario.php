@@ -3,11 +3,11 @@
 namespace App\Inventario;
 
 use App\Acl\Usuario;
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField;
 use App\Inventario\UploadDetalleInventario;
 
-class DetalleInventario extends OrmModel
+class DetalleInventario extends Resource
 {
     use UploadDetalleInventario;
 

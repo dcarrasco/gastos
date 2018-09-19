@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoAlmacenSap extends Model
 {
-    public $label = 'Tipo Almacen SAP';
     protected $fillable = [
         'tipo', 'tipo_op', 'es_sumable'
     ];

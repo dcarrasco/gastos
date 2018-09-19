@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Acl;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 use App\OrmModel\OrmField\BelongsTo;
 
-class Modulo extends OrmModel
+class Modulo extends Resource
 {
     public $model = 'App\Acl\Modulo';
     public $title = 'modulo';
@@ -16,7 +16,7 @@ class Modulo extends OrmModel
     public $search = [
         'id', 'modulo', 'descripcion', 'url', 'icono'
     ];
-    public $modelOrder = [
+    public $order = [
         'app_id' =>'asc',
         'modulo' =>'asc'
     ];

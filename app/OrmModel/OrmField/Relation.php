@@ -3,7 +3,7 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Field;
 
 class Relation extends Field

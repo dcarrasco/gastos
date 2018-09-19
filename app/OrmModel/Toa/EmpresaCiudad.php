@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Toa;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\BelongsTo;
 
-class EmpresaCiudad extends OrmModel
+class EmpresaCiudad extends Resource
 {
     public $model = 'App\Toa\EmpresaCiudad';
     public $icono = 'map-marker';

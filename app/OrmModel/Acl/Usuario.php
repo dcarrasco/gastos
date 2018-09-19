@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Acl;
 
-use App\OrmModel\OrmModel;
+use App\OrmModel\Resource;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\OrmField\HasMany;
 
-class Usuario extends OrmModel
+class Usuario extends Resource
 {
     public $model = 'App\Acl\Usuario';
     public $icono = 'user';
@@ -16,7 +16,7 @@ class Usuario extends OrmModel
     public $search = [
         'id', 'nombre', 'username', 'email'
     ];
-    public $modelOrder = 'nombre';
+    public $order = 'nombre';
 
     public function fields()
     {
