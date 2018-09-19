@@ -41,7 +41,7 @@
             @if ($loop->first)
                 <thead class="thead-light">
                     <tr>
-                        @foreach($resource->indexFields() as $field)
+                        @foreach($resource->indexFields(request()) as $field)
                         <th class="text-uppercase">
                             <small><strong>{!! $field->getName() !!}</strong></small>
                             {!! $field->getSortingIcon() !!}
@@ -54,8 +54,8 @@
             @endif
 
             <tr>
-                @foreach($resource->indexFields() as $field)
-                    <td>{!! $field->getFormattedValue($model) !!}</td>
+                @foreach($resource->indexFields(request()) as $field)
+                    <td>{!! $field->getFormattedValue(request(), $model) !!}</td>
                 @endforeach
                 <td class="text-center">
                     <a href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}" class="text-muted">

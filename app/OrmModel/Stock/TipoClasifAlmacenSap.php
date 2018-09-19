@@ -3,6 +3,7 @@
 namespace App\OrmModel\Stock;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 
@@ -17,7 +18,8 @@ class TipoClasifAlmacenSap extends Resource
     ];
     public $order = 'id_tipoclasif';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Id::make('id', 'id_tipoclasif')->sortable(),
 

@@ -3,6 +3,7 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Relation;
 
 class HasMany extends Relation
@@ -13,7 +14,7 @@ class HasMany extends Relation
         parent::__construct($name, $field, $relatedOrm);
     }
 
-    public function getFormattedValue($value = null)
+    public function getFormattedValue(Request $request, $value = null)
     {
         if ($this->hasChoices()) {
             return array_get($this->getChoices(), $value, '');
@@ -23,7 +24,7 @@ class HasMany extends Relation
     }
 
 
-    public function getForm($resource = null, $extraParam = [], $resourceFilter = null)
+    public function getForm(Request $request, $resource = null, $extraParam = [], $resourceFilter = null)
     {
         $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
@@ -39,7 +40,7 @@ class HasMany extends Relation
 
         return Form::select(
             $this->name.'[]',
-            $this->getRelationOptions($resource, $this->getField(), $this->relationConditions),
+            $this->getRelationOptions($request, $resource, $this->getField(), $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );

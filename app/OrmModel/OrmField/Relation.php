@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Relation extends Field
@@ -30,7 +31,7 @@ class Relation extends Field
         return $this;
     }
 
-    public function getRelationOptions($resource = null, $field = '', $resourceFilter = null)
+    public function getRelationOptions(Request $request, $resource = null, $field = '', $resourceFilter = null)
     {
         $filter = $this->getResourceFilter($resource, $resourceFilter);
 
@@ -40,9 +41,9 @@ class Relation extends Field
             : $relatedModelObject->where($filter)->get();
 
         $relatedOrm = $this->relatedOrm;
-        $options = $relation->mapWithKeys(function($model) use ($relatedOrm) {
+        $options = $relation->mapWithKeys(function($model) use ($request, $relatedOrm) {
             $resource = (new $relatedOrm)->injectModel($model);
-            return [$model->getKey() => $resource->title()];
+            return [$model->getKey() => $resource->title($request)];
         })->all();
 
         if (get_class($this) === 'App\OrmModel\OrmField\BelongsTo') {

@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class Field
 {
@@ -457,12 +458,12 @@ class Field
         return null;
     }
 
-    public function getFormattedValue($model = null)
+    public function getFormattedValue(Request $request, $model = null)
     {
-        return $model->{$this->getField()};
+        return $model->{$this->getField($request)};
     }
 
-    public function getForm($resource = null, $extraParam = [], $parentId = null)
+    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
         $value = $resource->{$this->getField($resource)};

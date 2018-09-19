@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\BelongsTo;
@@ -18,7 +19,8 @@ class TipoUbicacion extends Resource
     ];
     public $order = 'tipo_inventario';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Id::make()->sortable(),
 

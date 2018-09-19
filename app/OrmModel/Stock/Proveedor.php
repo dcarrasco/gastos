@@ -3,6 +3,7 @@
 namespace App\OrmModel\Stock;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class Proveedor extends Resource
@@ -15,7 +16,8 @@ class Proveedor extends Resource
     ];
     public $order = 'des_proveedor';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('codigo', 'cod_proveedor')
                 ->sortable()

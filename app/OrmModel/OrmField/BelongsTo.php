@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\OrmField\Relation;
 
@@ -27,16 +28,16 @@ class BelongsTo extends Relation
             ->getForeignKey();
     }
 
-    public function getFormattedValue($model = null)
+    public function getFormattedValue(Request $request, $model = null)
     {
         $relatedModel = $model->{$this->getField()};
         $related = (new $this->relatedOrm)->injectModel($relatedModel);
 
-        return $related->title();
+        return $related->title($request);
     }
 
 
-    public function getForm($resource = null, $extraParam = [], $parentId = null)
+    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
@@ -58,7 +59,7 @@ class BelongsTo extends Relation
 
         $form = Form::select(
             $foreignKey,
-            $this->getOptions($resource, $this->getField(), $this->relationConditions),
+            $this->getOptions($request, $resource, $this->getField(), $this->relationConditions),
             $value,
             $extraParam
         );
@@ -66,12 +67,12 @@ class BelongsTo extends Relation
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
     }
 
-    protected function getOptions($resource = null, $field = '', $resourceFilter = null)
+    protected function getOptions(Request $request, $resource = null, $field = '', $resourceFilter = null)
     {
         $relationName = (new $this->relatedOrm)->getLabel();
         $optionIni = ['' => trans('orm.choose_option').$relationName];
 
-        $options = $this->getRelationOptions($resource, $this->getField(), $this->relationConditions);
+        $options = $this->getRelationOptions($request, $resource, $this->getField(), $this->relationConditions);
 
         foreach($options as $key => $value) {
             $optionIni[$key] = $value;

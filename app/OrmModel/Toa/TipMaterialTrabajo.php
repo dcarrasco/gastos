@@ -3,6 +3,7 @@
 namespace App\OrmModel\Toa;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\HasMany;
@@ -18,7 +19,7 @@ class TipMaterialTrabajo extends Resource
     ];
     public $order = 'id';
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Id::make()->sortable(),

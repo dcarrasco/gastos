@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class Almacen extends Resource
@@ -15,7 +16,8 @@ class Almacen extends Resource
     ];
     public $order = 'almacen';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('almacen')
                 ->sortable()

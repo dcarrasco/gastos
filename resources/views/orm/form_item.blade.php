@@ -6,7 +6,7 @@
         @endif
     </label>
     <div class="col-md-9">
-        {!! $field->getForm($resource, [
+        {!! $field->getForm(request(), $resource, [
             'class' => 'form-control' . ($errors->has($field->getField()) ? ' is-invalid' : '')
         ]) !!}
 

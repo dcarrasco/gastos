@@ -20,7 +20,7 @@ class Auditor extends Resource
     ];
     public $order = ['nombre' => 'asc'];
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Id::make()->sortable(),

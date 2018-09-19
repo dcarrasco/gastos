@@ -3,6 +3,7 @@
 namespace App\OrmModel\Stock;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Select;
 
@@ -17,7 +18,8 @@ class AlmacenSap extends Resource
     ];
     public $order = ['centro' => 'asc', 'cod_almacen' => 'asc'];
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('centro')
                 ->sortable()

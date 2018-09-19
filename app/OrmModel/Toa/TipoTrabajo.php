@@ -3,6 +3,7 @@
 namespace App\OrmModel\Toa;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class TipoTrabajo extends Resource
@@ -16,7 +17,7 @@ class TipoTrabajo extends Resource
     ];
     public $order = 'id_tipo';
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Text::make('id', 'id_tipo')

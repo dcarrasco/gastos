@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 use App\OrmModel\OrmField\Boolean;
@@ -15,9 +16,9 @@ class Catalogo extends Resource
     public $search = [
         'catalogo', 'descripcion'
     ];
-    public $order = ['catalogo' => 'asc'];
+    public $order = 'descripcion';
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Text::make('catalogo')

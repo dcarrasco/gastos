@@ -18,7 +18,7 @@
 
 		<fieldset class="offset-md-1 col-md-10">
             {{-- @include('orm.validation_errors') --}}
-	       	@foreach($resource->detailFields() as $field)
+	       	@foreach($resource->detailFields(request()) as $field)
                 @include('orm.form_item')
 			@endforeach
         </fieldset>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="modal-body">
-            {!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title()]) !!}
+            {!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title(request())]) !!}
         </div>
 
         <div class="modal-footer bg-light">

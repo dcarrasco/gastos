@@ -3,6 +3,7 @@
 namespace App\OrmModel\Toa;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\BelongsTo;
 
 class EmpresaCiudad extends Resource
@@ -15,7 +16,7 @@ class EmpresaCiudad extends Resource
         'id_empresa', 'empresa',
     ];
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             BelongsTo::make('empresa', 'empresaToa', 'App\OrmModel\Toa\Empresa'),

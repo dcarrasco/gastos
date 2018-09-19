@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class UnidadMedida extends Resource
@@ -16,7 +17,8 @@ class UnidadMedida extends Resource
     ];
     public $order = 'desc_unidad';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('unidad')
                 ->sortable()

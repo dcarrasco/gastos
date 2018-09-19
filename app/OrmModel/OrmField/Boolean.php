@@ -3,18 +3,19 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Boolean extends Field
 {
-    public function getFormattedValue($model = null)
+    public function getFormattedValue(Request $request, $model = null)
     {
         return $model->{$this->getField()}
             ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
             : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
 
-    public function getForm($resource = null, $parentId = null, $extraParam = [])
+    public function getForm(Request $request, $resource = null, $parentId = null, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
         $value = $resource->getModelObject()->{$this->getField()};

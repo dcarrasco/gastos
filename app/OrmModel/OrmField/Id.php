@@ -3,6 +3,7 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Id extends Field
@@ -16,7 +17,7 @@ class Id extends Field
         parent::__construct($name, $field);
     }
 
-    public function getForm($resource = null, $extraParam = [], $parentId = null)
+    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->name;
         $field = $this->$this->getField($resource);

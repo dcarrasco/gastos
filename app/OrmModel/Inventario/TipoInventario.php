@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class TipoInventario extends Resource
@@ -16,7 +17,8 @@ class TipoInventario extends Resource
     ];
     public $order = ['id_tipo_inventario' => 'asc'];
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('id tipo inventario')
                 ->sortable()

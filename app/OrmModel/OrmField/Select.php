@@ -3,11 +3,12 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Select extends Field
 {
-    public function getFormattedValue($model = null)
+    public function getFormattedValue(Request $request, $model = null)
     {
         $value = $model->{$this->getField()};
 
@@ -19,7 +20,7 @@ class Select extends Field
     }
 
 
-    public function getForm($resource = null, $extraParam = [], $parentId = null)
+    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';

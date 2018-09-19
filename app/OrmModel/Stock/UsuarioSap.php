@@ -3,6 +3,7 @@
 namespace App\OrmModel\Stock;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 
 class UsuarioSap extends Resource
@@ -16,7 +17,8 @@ class UsuarioSap extends Resource
     ];
     public $order = 'usuario';
 
-    public function fields() {
+    public function fields(Request $request)
+    {
         return [
             Text::make('usuario')
                 ->sortable()

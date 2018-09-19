@@ -3,6 +3,7 @@
 namespace App\OrmModel\Acl;
 
 use App\OrmModel\Resource;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
@@ -21,7 +22,7 @@ class Modulo extends Resource
         'modulo' =>'asc'
     ];
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Id::make()->sortable(),

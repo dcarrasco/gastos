@@ -98,22 +98,23 @@ class Resource
         return $this;
     }
 
-    public function getValue($field)
+    public function getValue(Request $request, $field)
     {
-        $fieldObject = collect($this->fields())->first(function($fieldObject) use ($field) {
-            return $fieldObject->getField() === $field;
-        });
+        $fieldObject = collect($this->fields($request))
+            ->first(function($fieldObject) use ($field) {
+                return $fieldObject->getField() === $field;
+            });
 
         if (! is_null($fieldObject)) {
-            return $fieldObject->getFormattedValue($this->getModelObject());
+            return $fieldObject->getFormattedValue($request, $this->getModelObject());
         }
 
         return null;
     }
 
-    public function title()
+    public function title(Request $request)
     {
-        return $this->getValue($this->title);
+        return $this->getValue($request, $this->title);
     }
 
 
@@ -145,18 +146,18 @@ class Resource
         return $this->getField($field)->getRelatedModel();
     }
 
-    public function indexFields()
+    public function indexFields(Request $request)
     {
-        return collect($this->fields())
+        return collect($this->fields($request))
             ->filter(function($field) {
                 return $field->showOnIndex();
             })
             ->all();
     }
 
-    public function detailFields()
+    public function detailFields(Request $request)
     {
-        return collect($this->fields())
+        return collect($this->fields($request))
             ->filter(function($field) {
                 return $field->showOnDetail();
             })
@@ -276,7 +277,7 @@ class Resource
         return array_pop($fullName);
     }
 
-    public function fields()
+    public function fields(Request $Request)
     {
         return [];
     }

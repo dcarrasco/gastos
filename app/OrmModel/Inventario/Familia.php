@@ -18,7 +18,7 @@ class Familia extends Resource
     ];
     public $order = ['codigo' => 'asc'];
 
-    public function fields()
+    public function fields(Request $request)
     {
         return [
             Text::make('codigo')
