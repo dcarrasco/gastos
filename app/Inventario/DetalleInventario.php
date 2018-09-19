@@ -3,15 +3,12 @@
 namespace App\Inventario;
 
 use App\Acl\Usuario;
-use App\OrmModel\Resource;
-use App\OrmModel\OrmField;
+use Illuminate\Database\Eloquent\Model;
 use App\Inventario\UploadDetalleInventario;
 
-class DetalleInventario extends Resource
+class DetalleInventario extends Model
 {
     use UploadDetalleInventario;
-
-    public $modelLabel = 'Detalle Inventario';
 
     protected $fillable = [
         'id_inventario',
@@ -35,8 +32,6 @@ class DetalleInventario extends Resource
         'glosa_ajuste'
     ];
 
-    protected $guarded = [];
-
     protected $casts = [
         'id' => 'integer',
         'id_inventario' => 'integer',
@@ -50,128 +45,6 @@ class DetalleInventario extends Resource
         // 'fecha_ajuste' => 'datetime',
     ];
 
-    public $modelFields = [
-        'id' => [
-            'tipo' => OrmField::TIPO_ID,
-        ],
-        'id_inventario' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => Inventario::class,
-        ],
-        'hoja' => [
-            'label' => 'Hoja',
-            'tipo' => OrmField::TIPO_INT,
-            'largo' => 10,
-            'textoAyuda' => 'N&uacute;mero de la hoja usada en el inventario',
-            'esObligatorio' => true,
-        ],
-        'ubicacion' => [
-            'label' => 'Ubicaci&oacute;n del material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'Indica la posici&oacute;n del material en el almac&eacute;n.',
-            'esObligatorio' => true,
-        ],
-        'hu' => [
-            'label' => 'HU del material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 20,
-            'textoAyuda' => 'Indica la HU del material en el almac&eacute;n.',
-            'esObligatorio' => false,
-        ],
-        'catalogo' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => Catalogo::class,
-            'textoAyuda' => 'Cat&aacute;logo del material.',
-        ],
-        'descripcion' => [
-            'label' => 'Descripci&oacute;n del material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 45,
-            'textoAyuda' => 'M&aacute;ximo 45 caracteres.',
-            'esObligatorio' => true,
-        ],
-        'lote' => [
-            'label' => 'Lote del material',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 10,
-            'textoAyuda' => 'Lote del material.',
-            'esObligatorio' => true,
-        ],
-        'centro' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => Centro::class,
-        ],
-        'almacen' => [
-            'tipo' =>  OrmField::TIPO_HAS_ONE,
-            'relationModel' => Almacen::class,
-        ],
-        'um' => [
-            'tipo' =>  OrmField::TIPO_HAS_ONE,
-            'relationModel' => UnidadMedida::class,
-        ],
-        'stock_sap' => [
-            'label' => 'Stock SAP del material',
-            'tipo' => OrmField::TIPO_INT,
-            'largo' => 10,
-            'textoAyuda' => 'Stock sist&eacute;mico (SAP) del material.',
-            'esObligatorio' => true,
-        ],
-        'stock_fisico' => [
-            'label' => 'Stock f&iacute;sico del material',
-            'tipo' => OrmField::TIPO_INT,
-            'largo' => 10,
-            'textoAyuda' => 'Stock f&iacute;sico (inventariado) del material.',
-            'esObligatorio' => true,
-        ],
-        'digitador' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => Usuario::class,
-            'textoAyuda' => 'Digitador de la hoja.',
-        ],
-        'auditor' => [
-            'tipo' => OrmField::TIPO_HAS_ONE,
-            'relationModel' => Auditor::class,
-            'relationConditions' => ['activo' => 1],
-            'textoAyuda' => 'Auditor de la hoja.',
-        ],
-        'reg_nuevo' => [
-            'label' => 'Registro nuevo',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 1,
-            'textoAyuda' => 'Indica si el registro es nuevo.',
-            'esObligatorio' => true,
-        ],
-        'fecha_modificacion' => [
-            'label' => 'Fecha de modificacion',
-            'tipo' => OrmField::TIPO_DATETIME,
-            'textoAyuda' => 'Fecha de modificaci&oacute;n del registro.',
-            'esObligatorio' => true,
-        ],
-        'observacion' => [
-            'label' => 'Observaci&oacute;n de registro',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 200,
-            'textoAyuda' => 'M&aacute;ximo 200 caracteres.',
-        ],
-        'stock_ajuste' => [
-            'label' => 'Stock de ajuste del material',
-            'tipo' => OrmField::TIPO_INT,
-            'largo' => 10,
-            'textoAyuda' => 'M&aacute;ximo 100 caracteres.',
-        ],
-        'glosa_ajuste' => [
-            'label' => 'Observaci&oacute;n del ajuste',
-            'tipo' => OrmField::TIPO_CHAR,
-            'largo' => 100,
-            'textoAyuda' => 'M&aacute;ximo 100 caracteres.',
-        ],
-        'fecha_ajuste' => [
-            'label' => 'Fecha del ajuste',
-            'tipo' => OrmField::TIPO_DATETIME,
-            'textoAyuda' => 'Fecha de modificacion del ajuste.',
-        ],
-    ];
 
     public function __construct(array $attributes = [])
     {
@@ -184,15 +57,35 @@ class DetalleInventario extends Resource
         return $this->belongsTo(Inventario::class, 'id_inventario');
     }
 
+    public function centroRelation()
+    {
+        return $this->belongsTo(Centro::class, 'centro', 'centro');
+    }
+
+    public function almacenRelation()
+    {
+        return $this->belongsTo(Almacen::class, 'almacen');
+    }
+
+    public function umRelation()
+    {
+        return $this->belongsTo(UnidadMedida::class, 'um');
+    }
+
+    public function digitadorRelation()
+    {
+        return $this->belongsTo(Usuario::class, 'digitador');
+    }
+
+    public function auditorRelation()
+    {
+        return $this->belongsTo(Auditor::class, 'auditor');
+    }
+
     // public function auditor()
     // {
     //     return $this->belongsTo(Auditor::class, 'auditor');
     // }
-
-    public function __toString()
-    {
-        return (string) $this->hoja;
-    }
 
     public function getStockAjusteAttribute($value)
     {

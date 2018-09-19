@@ -8,8 +8,8 @@
             <h6 class="dropdown-header text-uppercase" href="#">{{ $perPageFilter->getLabel() }}</h6>
             @foreach($perPageFilter->options() as $option => $value)
                 <a class="dropdown-item" href="{{ $perPageFilter->getOptionUrl(request(), $value) }}">
-                    {!! $perPageFilter->getUrlMark(request(), $value) !!}
                     {{ $option }}
+                    {!! $perPageFilter->getUrlMark(request(), $value) !!}
                 </a>
             @endforeach
 
@@ -18,8 +18,8 @@
                 <h6 class="dropdown-header text-uppercase" href="#">{{ $filter->getLabel() }}</h6>
                 @foreach($filter->options() as $option => $value)
                     <a class="dropdown-item" href="{{ $filter->getOptionUrl(request(), $value) }}">
-                        {!! $filter->getUrlMark(request(), $value) !!}
                         {{ $option }}
+                        {!! $filter->getUrlMark(request(), $value) !!}
                     </a>
                 @endforeach
             @endforeach

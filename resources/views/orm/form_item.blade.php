@@ -7,11 +7,11 @@
     </label>
     <div class="col-md-9">
         {!! $field->getForm(request(), $resource, [
-            'class' => 'form-control' . ($errors->has($field->getField()) ? ' is-invalid' : '')
+            'class' => 'form-control' . ($errors->has($field->getField($resource)) ? ' is-invalid' : '')
         ]) !!}
 
-        @if ($errors->has($field->getField()))
-            <div class="invalid-feedback">{!! $errors->first($field->getField()) !!}</div>
+        @if ($errors->has($field->getField($resource)))
+            <div class="invalid-feedback">{!! $errors->first($field->getField($resource)) !!}</div>
         @endif
     </div>
 </div>

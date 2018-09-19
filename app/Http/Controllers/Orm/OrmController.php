@@ -94,7 +94,7 @@ trait OrmController
     public function store(Request $request, $modelName = null)
     {
         $modelObject = $this->getResource($modelName);
-        $this->validate($request, $modelObject->getValidation());
+        $this->validate($request, $modelObject->getValidation($request));
 
         $modelObject = $modelObject->create($request->all());
 

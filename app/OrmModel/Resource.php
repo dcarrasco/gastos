@@ -177,11 +177,11 @@ class Resource
             ->all();
     }
 
-    public function getValidation()
+    public function getValidation(Request $request)
     {
         $resource = $this;
 
-        return collect($this->fields())
+        return collect($this->fields($request))
             ->mapWithKeys(function($field) use ($resource) {
                 return [$field->getField($resource) => $field->getValidation($resource)];
             })

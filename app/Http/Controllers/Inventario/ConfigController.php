@@ -14,6 +14,7 @@ use App\OrmModel\Inventario\UnidadMedida;
 use App\OrmModel\Inventario\TipoUbicacion;
 use App\Http\Controllers\Orm\OrmController;
 use App\OrmModel\Inventario\TipoInventario;
+use App\OrmModel\Inventario\DetalleInventario;
 
 class ConfigController extends Controller
 {
@@ -31,6 +32,7 @@ class ConfigController extends Controller
             new Catalogo,
             new TipoInventario,
             new Inventario,
+            new DetalleInventario,
             new TipoUbicacion,
             new Centro,
             new Almacen,
