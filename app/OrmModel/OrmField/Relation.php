@@ -30,12 +30,9 @@ class Relation extends Field
         return $this;
     }
 
-    public function getRelationResourceOptions($resource = null, $field = '', $resourceFilter = null)
+    public function getRelationOptions($resource = null, $field = '', $resourceFilter = null)
     {
-        $relationName = (new $this->relatedOrm)->getLabel();
-
         $filter = $this->getResourceFilter($resource, $resourceFilter);
-        $optionIni = ['' => trans('orm.choose_option').$relationName];
 
         $relatedModelObject = (new $this->relatedOrm)->resourceOrderBy()->getModelObject();
         $relation = empty($filter)
@@ -49,11 +46,6 @@ class Relation extends Field
         })->all();
 
         if (get_class($this) === 'App\OrmModel\OrmField\BelongsTo') {
-            foreach($options as $key => $value) {
-                $optionIni[$key] = $value;
-            }
-
-            $options = $optionIni;
         }
 
         return $options;

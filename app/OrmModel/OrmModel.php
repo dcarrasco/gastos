@@ -4,6 +4,7 @@ namespace App\OrmModel;
 
 use DB;
 use App\OrmModel\OrmField;
+use Illuminate\Http\Request;
 
 class OrmModel
 {
@@ -236,8 +237,10 @@ class OrmModel
 
     public function makeModelObject()
     {
-        $this->modelObject = (new $this->model)
-            ->setPerPage($this->perPage);
+        if (is_null($this->modelObject)) {
+            $this->modelObject = (new $this->model)
+                ->setPerPage(empty(request()->get('PerPage')) ? $this->perPage : request()->get('PerPage'));
+        }
 
         return $this;
     }
@@ -247,11 +250,26 @@ class OrmModel
         return $this->modelObject->paginate();
     }
 
+
+    protected function applyFilters(Request $request)
+    {
+        $this->makeModelObject();
+
+        foreach($this->filters() as $filter) {
+            if ($filter->isSet($request)) {
+                $this->modelObject = $filter->apply($request, $this->modelObject, $filter->getUrlValue($request));
+            }
+        }
+
+        return $this;
+    }
+
     public function getModelList($request)
     {
         $this->modelList = $this->makeModelObject()
             ->resourceOrderBy()
             ->resourceFilter($request->get('filtro'))
+            ->applyFilters($request)
             ->getPaginated();
 
         return $this->modelList;
@@ -268,5 +286,25 @@ class OrmModel
     {
         $fullName = explode("\\", get_class($this));
         return array_pop($fullName);
+    }
+
+    public function fields()
+    {
+        return [];
+    }
+
+    public function filters()
+    {
+        return [];
+    }
+
+    public function renderFilters()
+    {
+        return;
+    }
+
+    public function hasFilters()
+    {
+        return count($this->filters()) > 0;
     }
 }

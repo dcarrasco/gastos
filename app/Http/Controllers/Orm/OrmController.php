@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Orm;
 use Route;
 use App\OrmModel\OrmField;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\OrmModel\Filters\PerPage;
 
 trait OrmController
 {
@@ -30,6 +30,7 @@ trait OrmController
 
     public function makeView()
     {
+        view()->share('perPageFilter', new PerPage);
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
         view()->share('routeName', $this->routeName);
         view()->share(

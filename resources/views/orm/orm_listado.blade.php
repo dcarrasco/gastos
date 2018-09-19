@@ -23,6 +23,8 @@
 </div>
 {!! Form::close() !!}
 
+@include('orm.filters')
+
 <div>
     @if ($modelList->count() == 0)
         <div class="card py-md-5">

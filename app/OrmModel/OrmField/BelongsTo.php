@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use Illuminate\Support\Str;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\OrmField\Relation;
 
 class BelongsTo extends Relation
@@ -55,12 +56,28 @@ class BelongsTo extends Relation
                 ."function (data) { $('#{$elemDest}').html(data); });";
         }
 
-        return Form::select(
+        $form = Form::select(
             $foreignKey,
-            $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
+            $this->getOptions($resource, $this->getField(), $this->relationConditions),
             $value,
             $extraParam
         );
+
+        return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
+    }
+
+    protected function getOptions($resource = null, $field = '', $resourceFilter = null)
+    {
+        $relationName = (new $this->relatedOrm)->getLabel();
+        $optionIni = ['' => trans('orm.choose_option').$relationName];
+
+        $options = $this->getRelationOptions($resource, $this->getField(), $this->relationConditions);
+
+        foreach($options as $key => $value) {
+            $optionIni[$key] = $value;
+        }
+
+        return $optionIni;
     }
 
 }

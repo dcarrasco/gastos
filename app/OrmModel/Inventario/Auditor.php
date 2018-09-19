@@ -5,7 +5,9 @@ namespace App\OrmModel\Inventario;
 use App\OrmModel\OrmModel;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
+use App\OrmModel\Filters\PerPage;
 use App\OrmModel\OrmField\Boolean;
+use App\OrmModel\Filters\AuditoresActivos;
 
 class Auditor extends OrmModel
 {
@@ -29,6 +31,13 @@ class Auditor extends OrmModel
             Boolean::make('activo')
                 ->sortable()
                 ->rules('required'),
+        ];
+    }
+
+    public function filters()
+    {
+        return [
+            new AuditoresActivos,
         ];
     }
 }

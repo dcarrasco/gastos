@@ -39,7 +39,7 @@ class HasMany extends Relation
 
         return Form::select(
             $this->name.'[]',
-            $this->getRelationResourceOptions($resource, $this->getField(), $this->relationConditions),
+            $this->getRelationOptions($resource, $this->getField(), $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );
