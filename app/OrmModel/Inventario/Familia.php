@@ -3,8 +3,10 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\OrmModel;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Select;
+use App\OrmModel\Filters\FamiliaSubFamilia;
 
 class Familia extends OrmModel
 {
@@ -34,6 +36,12 @@ class Familia extends OrmModel
             Text::make('nombre')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
+        ];
+    }
+
+    public function filters(Request $request) {
+        return [
+            new FamiliaSubFamilia,
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\OrmModel\Inventario;
 
 use App\OrmModel\OrmModel;
+use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\Filters\PerPage;
@@ -34,7 +35,7 @@ class Auditor extends OrmModel
         ];
     }
 
-    public function filters()
+    public function filters(Request $request)
     {
         return [
             new AuditoresActivos,

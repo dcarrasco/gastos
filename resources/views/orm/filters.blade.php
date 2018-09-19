@@ -13,7 +13,7 @@
                 </a>
             @endforeach
 
-            @foreach($resource->filters() as $filter)
+            @foreach($resource->filters(request()) as $filter)
                 <div class="dropdown-divider"></div>
                 <h6 class="dropdown-header text-uppercase" href="#">{{ $filter->getLabel() }}</h6>
                 @foreach($filter->options() as $option => $value)

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class OrmModel
 {
+    use UsesFilters;
+
     protected $perPage = 10;
     public $title = 'id';
     public $search = ['id'];
@@ -250,20 +252,6 @@ class OrmModel
         return $this->modelObject->paginate();
     }
 
-
-    protected function applyFilters(Request $request)
-    {
-        $this->makeModelObject();
-
-        foreach($this->filters() as $filter) {
-            if ($filter->isSet($request)) {
-                $this->modelObject = $filter->apply($request, $this->modelObject, $filter->getUrlValue($request));
-            }
-        }
-
-        return $this;
-    }
-
     public function getModelList($request)
     {
         $this->modelList = $this->makeModelObject()
@@ -278,7 +266,7 @@ class OrmModel
     public function getPaginationLinks($request)
     {
         return $this->modelList
-            ->appends($request->only('filtro', 'sort-by', 'sort-direction'))
+            ->appends($request->all())
             ->links();
     }
 
@@ -293,18 +281,4 @@ class OrmModel
         return [];
     }
 
-    public function filters()
-    {
-        return [];
-    }
-
-    public function renderFilters()
-    {
-        return;
-    }
-
-    public function hasFilters()
-    {
-        return count($this->filters()) > 0;
-    }
 }
