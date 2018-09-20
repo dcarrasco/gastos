@@ -15,7 +15,7 @@ class ClaseMovimiento extends Resource
     public $search = [
         'cmv', 'des_cmv'
     ];
-    public $order = 'cmv';
+    public $orderBy = 'cmv';
 
     public function fields(Request $request)
     {

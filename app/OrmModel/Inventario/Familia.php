@@ -16,7 +16,7 @@ class Familia extends Resource
     public $search = [
         'codigo', 'nombre'
     ];
-    public $order = ['codigo' => 'asc'];
+    public $orderBy = ['codigo' => 'asc'];
 
     public function fields(Request $request)
     {

@@ -44,7 +44,7 @@
                         @foreach($resource->indexFields(request()) as $field)
                         <th class="text-uppercase">
                             <small><strong>{!! $field->getName() !!}</strong></small>
-                            {!! $field->getSortingIcon() !!}
+                            {!! $field->getSortingIcon(request()) !!}
                         </th>
                         @endforeach
                         <th class="text-center"></th>

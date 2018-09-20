@@ -15,7 +15,7 @@ class Ciudad extends Resource
     public $search = [
         'id_ciudad', 'ciudad',
     ];
-    public $order = 'orden';
+    public $orderBy = 'orden';
 
     public function fields(Request $request)
     {

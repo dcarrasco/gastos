@@ -181,7 +181,7 @@ class ModelTest extends Resource
 {
     public $modelLabel = 'LabelTest';
 
-    public $order = 'campo1';
+    public $orderBy = 'campo1';
 
     protected $fillable = ['campo1', 'campo2', 'campo3'];
 

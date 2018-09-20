@@ -18,7 +18,7 @@ class Auditor extends Resource
     public $search = [
         'id', 'nombre'
     ];
-    public $order = ['nombre' => 'asc'];
+    public $orderBy = ['nombre' => 'asc'];
 
     public function fields(Request $request)
     {

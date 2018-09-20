@@ -14,7 +14,7 @@ class Proveedor extends Resource
     public $search = [
         'cod_proveedor', 'des_proveedor'
     ];
-    public $order = 'des_proveedor';
+    public $orderBy = 'des_proveedor';
 
     public function fields(Request $request)
     {

@@ -15,7 +15,7 @@ class UnidadMedida extends Resource
     public $search = [
         'centro'
     ];
-    public $order = 'desc_unidad';
+    public $orderBy = 'desc_unidad';
 
     public function fields(Request $request)
     {

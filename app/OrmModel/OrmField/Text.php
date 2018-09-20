@@ -12,6 +12,7 @@ class Text extends Field
     {
         $extraParam['id'] = $this->field;
         $extraParam['maxlength'] = $this->getFieldLength();
+        // $extraParam['placeholder'] = $this->name;
 
         if ($resource->getModelObject()->getKeyName() === $this->getField() && !is_null($resource->getModelObject()->getKey())) {
             $extraParam['readonly'] = 'readonly';

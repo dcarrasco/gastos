@@ -18,14 +18,14 @@ class Usuario extends Resource
     public $search = [
         'id', 'nombre', 'username', 'email'
     ];
-    public $order = 'nombre';
+    public $orderBy = 'nombre';
 
     public function fields(Request $request)
     {
         return [
             Id::make()->sortable(),
 
-            Text::make('nombre')
+            Text::make('Nombre')
                 ->sortable()
                 ->rules('max:45', 'required', 'unique'),
 

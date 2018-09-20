@@ -15,7 +15,7 @@ class Tecnico extends Resource
     public $search = [
         'id_tecnico', 'tecnico', 'rut',
     ];
-    public $order = 'id_tecnico';
+    public $orderBy = 'id_tecnico';
 
     public function fields(Request $request)
     {

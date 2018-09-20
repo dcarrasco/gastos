@@ -17,7 +17,7 @@ class TipoUbicacion extends Resource
     public $search = [
         'id', 'tipo_ubicacion'
     ];
-    public $order = 'tipo_inventario';
+    public $orderBy = 'tipo_inventario';
 
     public function fields(Request $request)
     {

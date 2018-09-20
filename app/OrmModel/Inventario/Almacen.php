@@ -14,7 +14,7 @@ class Almacen extends Resource
     public $search = [
         'centro'
     ];
-    public $order = 'almacen';
+    public $orderBy = 'almacen';
 
     public function fields(Request $request)
     {

@@ -17,7 +17,7 @@ class TipMaterialTrabajo extends Resource
     public $search = [
         'id', 'desc_tip_material', 'color',
     ];
-    public $order = 'id';
+    public $orderBy = 'id';
 
     public function fields(Request $request)
     {

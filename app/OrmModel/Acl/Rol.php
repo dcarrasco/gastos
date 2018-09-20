@@ -17,7 +17,7 @@ class Rol extends Resource
     public $search = [
         'id', 'rol', 'descripcion'
     ];
-    public $order = [
+    public $orderBy = [
         'app_id' => 'asc', 'rol' => 'asc'
     ];
 

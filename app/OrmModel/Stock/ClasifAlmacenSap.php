@@ -20,7 +20,7 @@ class ClasifAlmacenSap extends Resource
     public $search = [
         'id_clasif', 'clasificacion'
     ];
-    public $order = 'id_clasif';
+    public $orderBy = 'id_clasif';
 
     public function fields(Request $request)
     {

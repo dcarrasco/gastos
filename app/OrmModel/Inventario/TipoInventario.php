@@ -15,7 +15,7 @@ class TipoInventario extends Resource
     public $search = [
         'desc_tipo_inventario'
     ];
-    public $order = ['id_tipo_inventario' => 'asc'];
+    public $orderBy = ['id_tipo_inventario' => 'asc'];
 
     public function fields(Request $request)
     {

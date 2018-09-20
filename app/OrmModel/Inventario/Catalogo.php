@@ -16,7 +16,7 @@ class Catalogo extends Resource
     public $search = [
         'catalogo', 'descripcion'
     ];
-    public $order = 'descripcion';
+    public $orderBy = 'descripcion';
 
     public function fields(Request $request)
     {

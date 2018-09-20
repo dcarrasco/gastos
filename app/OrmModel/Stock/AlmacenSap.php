@@ -16,7 +16,7 @@ class AlmacenSap extends Resource
     public $search = [
         'id_clasif', 'clasificacion'
     ];
-    public $order = ['centro' => 'asc', 'cod_almacen' => 'asc'];
+    public $orderBy = ['centro' => 'asc', 'cod_almacen' => 'asc'];
 
     public function fields(Request $request)
     {

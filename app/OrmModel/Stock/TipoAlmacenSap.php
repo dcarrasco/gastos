@@ -19,7 +19,7 @@ class TipoAlmacenSap extends Resource
     public $search = [
         'tipo',
     ];
-    public $order = 'id_tipo';
+    public $orderBy = 'id_tipo';
 
     public function fields(Request $request)
     {

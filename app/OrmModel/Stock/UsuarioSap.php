@@ -15,7 +15,7 @@ class UsuarioSap extends Resource
     public $search = [
         'usuario', 'nom_usuario'
     ];
-    public $order = 'usuario';
+    public $orderBy = 'usuario';
 
     public function fields(Request $request)
     {

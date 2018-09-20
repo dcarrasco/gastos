@@ -14,7 +14,7 @@ class Centro extends Resource
     public $search = [
         'centro'
     ];
-    public $order = 'centro';
+    public $orderBy = 'centro';
 
     public function fields(Request $request)
     {

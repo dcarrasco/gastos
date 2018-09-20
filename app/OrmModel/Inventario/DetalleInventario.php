@@ -20,7 +20,7 @@ class DetalleInventario extends Resource
     public $search = [
         'hoja', 'ubicacion', 'descripcion'
     ];
-    public $order = ['hoja' => 'asc', 'ubicacion' => 'asc'];
+    public $orderBy = ['hoja' => 'asc', 'ubicacion' => 'asc'];
 
     public function fields(Request $request)
     {

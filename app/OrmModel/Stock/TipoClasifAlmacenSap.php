@@ -16,7 +16,7 @@ class TipoClasifAlmacenSap extends Resource
     public $search = [
         'id_tipoclasif', 'tipo', 'color'
     ];
-    public $order = 'id_tipoclasif';
+    public $orderBy = 'id_tipoclasif';
 
     public function fields(Request $request)
     {

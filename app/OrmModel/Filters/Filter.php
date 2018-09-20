@@ -34,12 +34,9 @@ class Filter
 
     public function getOptionUrl(Request $request, $value)
     {
-        if ($this->isSet($request) and $this->getUrlValue($request) == $value) {
-            $parameters = [$this->getUrlParameter() => ''];
-        }
-        else {
-            $parameters = [$this->getUrlParameter() => $value];
-        }
+        $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
+            ? [$this->getUrlParameter() => '']
+            : [$this->getUrlParameter() => $value];
 
         $urlParameters = array_merge($request->all(), $parameters);
 
@@ -53,28 +50,30 @@ class Filter
 
     public function getUrlMark(Request $request, $value)
     {
-        if (is_null($this->getUrlValue($request)))
+        if (is_null($this->getValue($request)))
         {
             return '';
         }
 
-        return $this->getUrlValue($request) == $value
+        return $this->getValue($request) == $value
             ? '<span class="fa fa-check"></span>'
             : '';
     }
 
-    public function getUrlValue(Request $request)
+    public function getValue(Request $request)
     {
-        if (is_null($request->get($this->getUrlParameter())) or $request->get($this->getUrlParameter()) === '') {
+        $value = $request->get($this->getUrlParameter());
+
+        if (is_null($value) or $value === '') {
             return null;
         }
 
-        return $request->get($this->getUrlParameter());
+        return $value;
     }
 
     public function isSet(Request $request)
     {
-        return $request->has($this->getUrlParameter()) and ! is_null($this->getUrlValue($request));
+        return $request->has($this->getUrlParameter()) and ! is_null($this->getValue($request));
     }
 
 }

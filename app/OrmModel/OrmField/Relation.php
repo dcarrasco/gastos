@@ -42,7 +42,7 @@ class Relation extends Field
     public function getRelationOptions(Request $request, $resource = null, $field = '', $resourceFilter = null)
     {
         $filter = $this->getResourceFilter($resource, $resourceFilter);
-        $relatedModelObject = (new $this->relatedOrm)->resourceOrderBy()->getModelObject();
+        $relatedModelObject = (new $this->relatedOrm)->resourceOrderBy($request)->getModelObject();
 
         $relation = empty($filter)
             ? $relatedModelObject->get()

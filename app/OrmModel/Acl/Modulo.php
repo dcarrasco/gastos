@@ -17,7 +17,7 @@ class Modulo extends Resource
     public $search = [
         'id', 'modulo', 'descripcion', 'url', 'icono'
     ];
-    public $order = [
+    public $orderBy = [
         'app_id' =>'asc',
         'modulo' =>'asc'
     ];

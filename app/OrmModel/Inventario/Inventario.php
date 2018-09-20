@@ -17,7 +17,7 @@ class Inventario extends Resource
     public $search = [
         'id', 'nombre',
     ];
-    public $order = 'nombre';
+    public $orderBy = 'nombre';
 
 
     public function fields(Request $request)

@@ -15,7 +15,7 @@ class TipoTrabajo extends Resource
     public $search = [
         'id_tipo', 'desc_tipo',
     ];
-    public $order = 'id_tipo';
+    public $orderBy = 'id_tipo';
 
     public function fields(Request $request)
     {

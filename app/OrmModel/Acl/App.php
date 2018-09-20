@@ -17,7 +17,7 @@ class App extends Resource
     public $search = [
         'id', 'app', 'descripcion', 'url', 'icono'
     ];
-    public $order = 'app';
+    public $orderBy = 'app';
 
     public function fields(Request $request) {
         return [

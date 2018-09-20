@@ -15,7 +15,7 @@ class Empresa extends Resource
     public $search = [
         'id_empresa', 'empresa',
     ];
-    public $order = 'empresa';
+    public $orderBy = 'empresa';
 
     public function fields(Request $request)
     {
