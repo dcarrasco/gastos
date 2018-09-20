@@ -60,7 +60,7 @@ trait OrmController
     public function index(Request $request, $resource = null)
     {
         $resource = $this->getResource($resource);
-        $modelList = $resource->getModelList($request);
+        $modelList = $resource->modelList($request);
         $paginationLinks = $resource->getPaginationLinks($request);
 
         return view('orm.orm_listado', compact('resource', 'modelList', 'paginationLinks'));
@@ -78,10 +78,12 @@ trait OrmController
         $accionForm = trans('orm.title_add');
         $createOrEdit = 'create';
         $formURL = route($this->routeName.'.store', [$resource->getName()]);
+        $buttonAction = trans('orm.button_create').' '.$resource->getLabel();
+        $buttonActionContinue = trans('orm.button_create_continue');
 
         return view(
             'orm.orm_editar',
-            compact('resource', 'accionForm', 'createOrEdit', 'formURL')
+            compact('resource', 'accionForm', 'createOrEdit', 'formURL', 'buttonAction', 'buttonActionContinue')
         );
     }
 
@@ -91,19 +93,23 @@ trait OrmController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $modelName = null)
+    public function store(Request $request, $resource = null)
     {
-        $modelObject = $this->getResource($modelName);
-        $this->validate($request, $modelObject->getValidation($request));
+        $resource = $this->getResource($resource);
+        $this->validate($request, $resource->getValidation($request));
 
-        $modelObject = $modelObject->create($request->all());
+        $resource->getModelObject()->create($request->all());
 
-        return redirect()
-            ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_save_ok', [
-                'nombre_modelo'=> $modelObject->getLabel(),
-                'valor_modelo' => $modelObject->title()
-            ]));
+        $alertMessage = trans('orm.msg_save_ok', [
+            'nombre_modelo' => $resource->getLabel(),
+            'valor_modelo' => $resource->title($request),
+        ]);
+
+        return ($request->get('redirect_to') === 'next')
+            ? redirect()->route($this->routeName.'.index', [$resource->getName()])
+                ->with('alert_message', $alertMessage)
+            : redirect()->route($this->routeName.'.create', [$resource->getName()])
+                ->with('alert_message', $alertMessage);
     }
 
     /**
@@ -112,9 +118,15 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show(Usuario $usuario)
+    public function show($resource = null, $modelId = null)
     {
-        //
+        $resource = $this->getResource($resource);
+        $resource = $resource->injectModel($resource->getModelObject()->findOrNew($modelId));
+
+        return view(
+            'orm.orm_show',
+            compact('resource', 'modelId')
+        );
     }
 
     /**
@@ -128,13 +140,15 @@ trait OrmController
         $resource = $this->getResource($resource);
         $resource = $resource->injectModel($resource->getModelObject()->findOrNew($modelId));
 
-        $accionForm    = trans('orm.title_edit');
+        $accionForm = trans('orm.title_edit');
         $createOrEdit  = 'edit';
-        $formURL       = route($this->routeName.'.update', [$resource->getName(), $modelId]);
+        $formURL = route($this->routeName.'.update', [$resource->getName(), $modelId]);
+        $buttonAction = trans('orm.button_update').' '.$resource->getLabel();
+        $buttonActionContinue = trans('orm.button_update_continue');
 
         return view(
             'orm.orm_editar',
-            compact('resource', 'modelId', 'accionForm', 'createOrEdit', 'formURL')
+            compact('resource', 'modelId', 'accionForm', 'createOrEdit', 'formURL', 'buttonAction', 'buttonActionContinue')
         );
     }
 
@@ -145,30 +159,38 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $modelName = null, $modelID = null)
+    public function update(Request $request, $resource = null, $modelId = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::findOrFail($modelID);
-        $this->validate($request, $modelObject->getValidation());
+        $resource = $this->getResource($resource);
+        $resource = $resource->injectModel($resource->getModelObject()->findOrFail($modelId));
+        $this->validate($request, $resource->getValidation($request));
 
         // actualiza el objeto
-        $modelObject->update($request->all());
+        $resource->getModelObject()->update($request->all());
 
         // actualiza las tablas relacionadas
-        collect($modelObject->fields())->filter(function($elem) {
+        collect($resource->fields($request))
             // filtra los campos de TIPO_HAS_MANY
-            return get_class($elem) === 'App\OrmModel\OrmField\HasManyField';
-        })->each(function ($elem, $field) use ($modelObject, $request) {
+            ->filter(function($elem) {
+                return get_class($elem) === 'App\OrmModel\OrmField\HasMany';
+            })
             // Sincroniza la tabla relacionada
-            $modelObject->$field()->sync($request->input($field, []));
-        });
+            ->each(function ($field) use ($resource, $request) {
+                $resource->getModelObject()
+                    ->{$field->getField()}()
+                    ->sync($request->input($field->getField(), []));
+            });
 
-        return redirect()
-            ->route($this->routeName.'.index', [$modelName])
-            ->with('alert_message', trans('orm.msg_save_ok', [
-                'nombre_modelo' => $modelObject->getLabel(),
-                'valor_modelo' => $modelObject->title(),
-            ]));
+        $alertMessage = trans('orm.msg_save_ok', [
+            'nombre_modelo' => $resource->getLabel(),
+            'valor_modelo' => $resource->title($request),
+        ]);
+
+        return ($request->get('redirect_to') === 'next')
+            ? redirect()->route($this->routeName.'.show', [$resource->getName(), $modelId])
+                ->with('alert_message', $alertMessage)
+            : redirect()->route($this->routeName.'.edit', [$resource->getName(), $modelId])
+                ->with('alert_message', $alertMessage);
     }
 
     /**
@@ -177,17 +199,17 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $modelName = null, $modelID = null)
+    public function destroy(Request $request, $resource = null, $modelId = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = $fullModelName::find($modelID);
-        $fullModelName::destroy($modelID);
+        $resource = $this->getResource($resource);
+        $resource = $resource->injectModel($resource->getModelObject()->findOrFail($modelId));
+        $resource->getModelObject()->destroy($modelId);
 
         return redirect()
-            ->route($this->routeName.'.index', [$modelName])
+            ->route($this->routeName.'.index', [$resource->getName()])
             ->with('alert_message', trans('orm.msg_delete_ok', [
-                'nombre_modelo' => $modelObject->getLabel(),
-                'valor_modelo' => $modelObject->title(),
+                'nombre_modelo' => $resource->getLabel(),
+                'valor_modelo' => $resource->title($request),
             ]));
     }
 

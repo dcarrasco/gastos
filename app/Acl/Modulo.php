@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modulo extends Model
 {
-    protected $fillable = ['id_app', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
+    protected $fillable = ['app_id', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
     public function __construct(array $attributes = [])
     {

@@ -45,29 +45,36 @@ class Resource
         return $this;
     }
 
+    public function injectModelList($modelList = null)
+    {
+        $this->modelList = $modelList;
+
+        return $this;
+    }
+
     public function getModelObject()
     {
         return $this->modelObject;
     }
 
-    public function resourceFilter($filtro = null)
+    public function resourceFilter(Request $request, $filtro = null)
     {
-        if (empty($filtro)) {
+        if (empty($request->get('filtro'))) {
             return $this;
         }
 
         $search = $this->search;
         $modelObject = $this->modelObject;
 
-        collect($this->fields())
+        collect($this->fields($request))
             ->filter(function ($field) use ($search) {
                 return in_array($field->getField(), $search);
             })
             ->map(function ($field) {
                 return $field->getField();
             })
-            ->each(function ($field) use (&$modelObject, $filtro) {
-                $modelObject = $modelObject->orWhere($field, 'like', '%'.$filtro.'%');
+            ->each(function ($field) use (&$modelObject, $request) {
+                $modelObject = $modelObject->orWhere($field, 'like', '%'.$request->get('filtro').'%');
             });
 
         $this->modelObject = $modelObject;
@@ -121,11 +128,6 @@ class Resource
     public function getField($field = '')
     {
         return array_get($this->modelFields, $field, new OrmField);
-    }
-
-    public function getTable()
-    {
-        return $this->table;
     }
 
     public function getLabel()
@@ -253,11 +255,16 @@ class Resource
         return $this->modelObject->paginate();
     }
 
-    public function getModelList($request)
+    public function getModelList()
+    {
+        return $this->modelList;
+    }
+
+    public function modelList($request)
     {
         $this->modelList = $this->makeModelObject()
             ->resourceOrderBy()
-            ->resourceFilter($request->get('filtro'))
+            ->resourceFilter($request)
             ->applyFilters($request)
             ->getPaginated();
 

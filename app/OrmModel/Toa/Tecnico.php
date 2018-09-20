@@ -20,25 +20,21 @@ class Tecnico extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('id tecnico')
+            Text::make('ID', 'id_tecnico')
                 ->sortable()
                 ->rules('max:20', 'required', 'unique'),
 
-            Text::make('tecnico')
+            Text::make('Tecnico')
                 ->sortable()
                 ->rules('max:50', 'required'),
 
-            Text::make('tecnico')
-                ->sortable()
-                ->rules('max:50', 'required'),
-
-            Text::make('rut')
+            Text::make('RUT tecnico', 'rut')
                 ->sortable()
                 ->rules('max:20', 'required'),
 
-            BelongsTo::make('empresa', 'empresaToa', 'App\OrmModel\Toa\Empresa'),
+            BelongsTo::make('Empresa', 'empresaToa', 'App\OrmModel\Toa\Empresa'),
 
-            // BelongsTo::make('ciudad', 'ciudadToa', 'App\OrmModel\Toa\Ciudad'),
+            BelongsTo::make('Ciudad', 'ciudadToa', 'App\OrmModel\Toa\Ciudad'),
         ];
     }
 }

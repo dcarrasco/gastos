@@ -437,10 +437,10 @@ class Field
             ->map(function($rule) use ($resource) {
                 return ($rule === 'unique')
                     ? 'unique:'.implode(',', [
-                        $resource->getTable(),
+                        $resource->getModelObject()->getTable(),
                         $this->getField($resource),
-                        $resource->getKey(),
-                        $resource->getKeyName()
+                        $resource->getModelObject()->getKey(),
+                        $resource->getModelObject()->getKeyName()
                     ])
                     : $rule;
             })

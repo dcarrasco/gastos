@@ -20,6 +20,7 @@ Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'namespace' => 'Ac
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
@@ -31,6 +32,7 @@ Route::group(['prefix' => 'inventario-config', 'as' => 'inventarioConfig.', 'nam
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
@@ -42,6 +44,7 @@ Route::group(['prefix' => 'stock-config', 'as' => 'stockConfig.', 'namespace' =>
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
@@ -53,6 +56,7 @@ Route::group(['prefix' => 'toa-config', 'as' => 'toaConfig.', 'namespace' => 'To
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
     Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
     Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
     Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');

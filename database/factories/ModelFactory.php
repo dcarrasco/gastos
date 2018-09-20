@@ -23,21 +23,21 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Usuario::class, function (Faker\Generator $faker) {
+$factory->define(App\Acl\Usuario::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
         'nombre' => $faker->name,
-        'tipo' => 'DIG',
-        'activo' => 1,
-        'usr' => $faker->firstNameMale,
-        'pwd' => $password ?: $password = bcrypt('secret'),
-        'correo' => $faker->unique()->safeEmail,
+        'activo' => $faker->boolean(80) ? 1 : 0,
+        'username' => $faker->firstNameMale,
+        'password' => $password ?: $password = bcrypt('secret'),
+        'email' => $faker->unique()->safeEmail,
         'fecha_login' => $faker->dateTime,
         'ip_login' => $faker->localIpv4,
         'agente_login' => '',
         'login_errors' => 0,
         'remember_token' => str_random(10),
+        'created_at' => Carbon\Carbon::now(),
     ];
 });
 
@@ -209,7 +209,7 @@ $factory->define(App\Toa\Tecnico::class, function(Faker\Generator $faker) {
 $factory->define(App\Toa\Empresa::class, function(Faker\Generator $faker) {
     return [
         'id_empresa' => strtoupper($faker->unique()->lexify('?????')),
-        'empresa' => strtoupper($faker->words(3, true)),
+        'empresa' => strtoupper($faker->company()),
     ];
 });
 

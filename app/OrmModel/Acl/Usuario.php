@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\OrmField\HasMany;
+use App\OrmModel\Filters\UsuariosActivos;
 
 class Usuario extends Resource
 {
@@ -57,6 +58,13 @@ class Usuario extends Resource
                 ->hideFromIndex(),
 
             HasMany::make('rol', 'rol', 'App\OrmModel\Acl\Rol'),
+        ];
+    }
+
+    public function filters(Request $request)
+    {
+        return [
+            new UsuariosActivos,
         ];
     }
 }

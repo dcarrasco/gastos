@@ -24,6 +24,14 @@ class Relation extends Field
         return new static($name, $field, $relatedOrm);
     }
 
+    public function getRelation($model)
+    {
+        $modelList = $model->{$this->getField()};
+
+        return (new $this->relatedOrm)->injectModelList($modelList);
+    }
+
+
     public function relationConditions($relationConditions)
     {
         $this->relationConditions = $relationConditions;
@@ -34,8 +42,8 @@ class Relation extends Field
     public function getRelationOptions(Request $request, $resource = null, $field = '', $resourceFilter = null)
     {
         $filter = $this->getResourceFilter($resource, $resourceFilter);
-
         $relatedModelObject = (new $this->relatedOrm)->resourceOrderBy()->getModelObject();
+
         $relation = empty($filter)
             ? $relatedModelObject->get()
             : $relatedModelObject->where($filter)->get();

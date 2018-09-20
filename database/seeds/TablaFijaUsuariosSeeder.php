@@ -23,5 +23,7 @@ class TablaFijaUsuariosSeeder extends Seeder
             'login_errors' => 0,
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        factory(App\Acl\Usuario::class, 15)->create();
     }
 }

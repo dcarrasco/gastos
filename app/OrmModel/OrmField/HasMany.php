@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\OrmField\Relation;
 
 class HasMany extends Relation
@@ -14,15 +15,24 @@ class HasMany extends Relation
         parent::__construct($name, $field, $relatedOrm);
     }
 
-    public function getFormattedValue(Request $request, $value = null)
+    public function getFormattedValue(Request $request, $model = null)
     {
-        if ($this->hasChoices()) {
-            return array_get($this->getChoices(), $value, '');
+        $relatedResource = $this->getRelation($model);
+
+        if ($relatedResource->getModelList()->count() === 0)
+        {
+            return '';
         }
 
-        return $value;
-    }
+        $list = "<ul><li>" . $relatedResource->getModelList()
+                    ->map(function($model) use ($relatedResource, $request) {
+                        return $relatedResource->injectModel($model)->title($request);
+                    })
+                    ->implode('</li><li>')
+                ."</li></ul>";
 
+        return new HtmlString($list);
+    }
 
     public function getForm(Request $request, $resource = null, $extraParam = [], $resourceFilter = null)
     {

@@ -23,23 +23,23 @@ class App extends Resource
         return [
             Id::make()->sortable(),
 
-            Text::make('aplicacion', 'app')
+            Text::make('Aplicacion', 'app')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
 
-            Text::make('descripcion')
+            Text::make('Descripcion')
                 ->sortable()
                 ->rules('max:50', 'required'),
 
-            Number::make('orden')
+            Number::make('Orden')
                 ->sortable()
                 ->rules('required', 'unique'),
 
-            Text::make('url')
+            Text::make('URL', 'url')
                 ->rules('max:100')
                 ->hideFromIndex(),
 
-            Text::make('icono')
+            Text::make('Icono')
                 ->rules('max:50'),
         ];
     }

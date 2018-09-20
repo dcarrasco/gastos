@@ -6,7 +6,7 @@
     <div class="col-md-3">
         <div class="input-group input-group-sm">
             <div class="input-group-prepend">
-                <button type="submit" id="btn_filtro" class="btn btn-outline-secondary">
+                <button type="submit" id="btn_filtro" class="btn btn-light border">
                     <span class="fa fa-search"></span>
                 </button>
             </div>
@@ -57,10 +57,10 @@
                 @foreach($resource->indexFields(request()) as $field)
                     <td>{!! $field->getFormattedValue(request(), $model) !!}</td>
                 @endforeach
-                <td class="text-center">
-                    <a href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}" class="text-muted">
-                        {{ trans('orm.link_edit') }}
-                    </a>
+                <td class="text-right">
+                    <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}"><span class="fa fa-eye"></span></a>
+                    <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}"><span class="fa fa-edit"></span></a>
+                    <a class="btn py-md-0 px-md-1 text-muted"><span class="fa fa-trash"></span></a>
                 </td>
             </tr>
         @endforeach
