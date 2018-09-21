@@ -3,19 +3,21 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\OrmField\Relation;
+use Illuminate\Database\Eloquent\Model;
 
 class BelongsTo extends Relation
 {
-    public function onChange()
-    {
-        return $this;
-    }
-
-    public function getField($resource = null)
+    /**
+     * Devuelve nombre del campo de la BD
+     * @param  Resource|null $resource
+     * @return string
+     */
+    public function getField(Resource $resource = null)
     {
         if (is_null($resource)) {
             return $this->field;
@@ -28,16 +30,28 @@ class BelongsTo extends Relation
             ->getForeignKey();
     }
 
-    public function getFormattedValue(Request $request, $model = null)
+    /**
+     * Devuelve valor del campo formateado
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getFormattedValue(Request $request, Model $model = null)
     {
         $relatedModel = $model->{$this->getField()};
-        $related = (new $this->relatedOrm)->injectModel($relatedModel);
+        $related = (new $this->relatedResource)->injectModel($relatedModel);
 
         return $related->title($request);
     }
 
-
-    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  array         $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource = null, $extraParam = [])
     {
         $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
@@ -57,19 +71,20 @@ class BelongsTo extends Relation
                 ."function (data) { $('#{$elemDest}').html(data); });";
         }
 
-        $form = Form::select(
-            $foreignKey,
-            $this->getOptions($request, $resource, $this->getField(), $this->relationConditions),
-            $value,
-            $extraParam
-        );
+        $form = Form::select($foreignKey, $this->getOptions($request, $resource), $value, $extraParam);
 
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
     }
 
-    protected function getOptions(Request $request, $resource = null, $field = '', $resourceFilter = null)
+    /**
+     * Recupera opciones desde modelo relacionado
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @return array
+     */
+    protected function getOptions(Request $request, Resource $resource = null)
     {
-        $relationName = (new $this->relatedOrm)->getLabel();
+        $relationName = (new $this->relatedResource)->getLabel();
         $optionIni = ['' => trans('orm.choose_option').$relationName];
 
         $options = $this->getRelationOptions($request, $resource, $this->getField(), $this->relationConditions);

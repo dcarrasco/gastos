@@ -3,19 +3,34 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
+use Illuminate\Database\Eloquent\Model;
 
 class Boolean extends Field
 {
-    public function getFormattedValue(Request $request, $model = null)
+    /**
+     * Devuelve valor del campo formateado
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getFormattedValue(Request $request, Model $model = null)
     {
         return $model->{$this->getField()}
             ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
             : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
 
-    public function getForm(Request $request, $resource = null, $parentId = null, $extraParam = [])
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  array         $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource = null, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
         $value = $resource->getModelObject()->{$this->getField()};

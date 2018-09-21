@@ -3,19 +3,33 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\OrmField\Relation;
+use Illuminate\Database\Eloquent\Model;
 
 class HasMany extends Relation
 {
+    /**
+     * Constructor de la clase
+     * @param string $name            Nombre o label de la clase
+     * @param string $field           Campo
+     * @param string $relatedResource Nombre del recurso relacionado
+     */
     public function __construct($name = '', $field = '', $relatedOrm = '')
     {
         $this->showOnList = false;
         parent::__construct($name, $field, $relatedOrm);
     }
 
-    public function getFormattedValue(Request $request, $model = null)
+    /**
+     * Devuelve valor del campo formateado
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getFormattedValue(Request $request, Model $model = null)
     {
         $relatedResource = $this->getRelation($model);
 
@@ -24,17 +38,25 @@ class HasMany extends Relation
             return '';
         }
 
-        $list = "<ul><li>" . $relatedResource->getModelList()
-                    ->map(function($model) use ($relatedResource, $request) {
-                        return $relatedResource->injectModel($model)->title($request);
-                    })
-                    ->implode('</li><li>')
-                ."</li></ul>";
+        $list = "<ul><li>"
+            .$relatedResource->getModelList()
+                ->map(function($model) use ($relatedResource, $request) {
+                    return $relatedResource->injectModel($model)->title($request);
+                })
+                ->implode('</li><li>')
+            ."</li></ul>";
 
         return new HtmlString($list);
     }
 
-    public function getForm(Request $request, $resource = null, $extraParam = [], $resourceFilter = null)
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  array         $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource = null, $extraParam = [])
     {
         $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';

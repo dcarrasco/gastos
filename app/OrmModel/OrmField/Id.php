@@ -3,11 +3,17 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Id extends Field
 {
+    /**
+     * Constructor de la clase
+     * @param string $name  Nombre o label de la clase
+     * @param string $field Campo
+     */
     public function __construct($name = '', $field = '')
     {
         $name = empty($name) ? 'id' : $name;
@@ -17,20 +23,18 @@ class Id extends Field
         parent::__construct($name, $field);
     }
 
-    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  array         $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource = null, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
         $field = $this->getField($resource);
-        $value = $resource->{$field};
-
-        if ($this->hasChoices()) {
-            return Form::select(
-                $this->name,
-                array_get($this->choices, $value, ''),
-                $value,
-                $extraParam
-            );
-        }
+        $value = $resource->getModelObject()->{$field};
 
         if ($this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'

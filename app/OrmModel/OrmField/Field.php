@@ -3,8 +3,11 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
+use Illuminate\Database\Eloquent\Model;
 
 class Field
 {
@@ -21,23 +24,37 @@ class Field
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
 
-    protected $choices = [];
     protected $onChange = '';
     protected $parentModel = null;
     protected $relationModel = null;
     protected $relationConditions = [];
 
+    /**
+     * Constructor de la clase
+     * @param string $name  Nombre o label de la clase
+     * @param string $field Campo
+     */
     public function __construct($name = '', $field = '')
     {
         $this->name = $name;
         $this->field = empty($field) ? Str::snake($name) : $field;
     }
 
+    /**
+     * Genera una nueva instancia de la clase
+     * @param  string $name  Nombre o label de la clase
+     * @param  string $field Campo
+     * @return Field
+     */
     public static function make($name = '', $field = '')
     {
         return new static($name, $field);
     }
 
+    /**
+     * Oculta el campo del listado Index
+     * @return Field
+     */
     public function hideFromIndex()
     {
         $this->showOnList = false;
@@ -45,6 +62,10 @@ class Field
         return $this;
     }
 
+    /**
+     * Indica que el campo es "ordenable"
+     * @return Field
+     */
     public function sortable()
     {
         $this->isSortable = true;
@@ -52,23 +73,28 @@ class Field
         return $this;
     }
 
-    public function options($options = [])
-    {
-        $this->choices = $options;
-
-        return $this;
-    }
-
+    /**
+     * Muestra campo en listado Index
+     * @return Field
+     */
     public function showOnIndex()
     {
         return $this->showOnList;
     }
 
+    /**
+     * Muestra campo en detalle / formulario
+     * @return Field
+     */
     public function showOnDetail()
     {
         return $this->showOnDetail;
     }
 
+    /**
+     * Genera iconos para ordenar por campo en listado Index
+     * @return HtmlString
+     */
     public function getSortingIcon()
     {
         if (! $this->isSortable) {
@@ -96,12 +122,12 @@ class Field
         ]);
         $sortUrl = request()->fullUrlWithQuery($getParams);
 
-        return "<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>";
+        return new HtmlString("<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>");
     }
 
-
     /**
-     * @return mixed
+     * Devuelve nombre del campo Field
+     * @return string
      */
     public function getName()
     {
@@ -109,11 +135,11 @@ class Field
     }
 
     /**
-     * @param mixed $name
-     *
-     * @return self
+     * Fija nombre/label del campo
+     * @param string $name
+     * @return Field
      */
-    public function setName($name)
+    public function setName($name = '')
     {
         $this->name = $name;
 
@@ -121,13 +147,19 @@ class Field
     }
 
     /**
-     * @return mixed
+     * Devuelve nombre del campo de la BD
+     * @param  Resource|null $resource
+     * @return string
      */
-    public function getField($resource = null)
+    public function getField(Resource $resource = null)
     {
         return $this->field;
     }
 
+    /**
+     * Indica si el campo es obligatorio
+     * @return boolean
+     */
     public function isRequired()
     {
         return collect($this->rules)->contains('required');
@@ -135,126 +167,8 @@ class Field
 
 
 
-    /**
-     * @param mixed $label
-     *
-     * @return self
-     */
-    public function setLabel($label)
-    {
-        $this->label = $label;
-
-        return $this;
-    }
 
     /**
-     * @return mixed
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * @param mixed $tipo
-     *
-     * @return self
-     */
-    public function setTipo($tipo)
-    {
-        $this->tipo = $tipo;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLargo()
-    {
-        return $this->largo;
-    }
-
-    /**
-     * @param mixed $largo
-     *
-     * @return self
-     */
-    public function setLargo($largo)
-    {
-        $this->largo = $largo;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHelpText()
-    {
-        return $this->helpText;
-    }
-
-    /**
-     * @param mixed $textoAyuda
-     *
-     * @return self
-     */
-    public function helpText($helpText)
-    {
-        $this->helpText = $helpText;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMostrarLista()
-    {
-        return $this->mostrarLista;
-    }
-
-    /**
-     * @param mixed $mostrarLista
-     *
-     * @return self
-     */
-    public function setMostrarLista($mostrarLista)
-    {
-        $this->mostrarLista = $mostrarLista;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getChoices()
-    {
-        return $this->choices;
-    }
-
-    /**
-     * @param mixed $choices
-     *
-     * @return self
-     */
-    public function setChoices($choices)
-    {
-        $this->choices = $choices;
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasChoices()
-    {
-        return count($this->choices) > 0;
-    }
-
     /**
      * @return mixed
      */
@@ -268,7 +182,7 @@ class Field
      *
      * @return self
      */
-    public function setOnChange($onChange)
+    public function onChange($onChange)
     {
         $this->onChange = $onChange;
 
@@ -284,186 +198,55 @@ class Field
     }
 
     /**
-     * @return mixed
+     * Devuelve validación del campo
+     * @param  Resource $resource
+     * @return String
      */
-    public function getParentModel()
-    {
-        return $this->parentModel;
-    }
-
-    /**
-     * @param mixed $parentModel
-     *
-     * @return self
-     */
-    public function setParentModel($parentModel)
-    {
-        $this->parentModel = $parentModel;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRelationModel()
-    {
-        return $this->relationModel;
-    }
-
-    /**
-     * @param mixed $relationModel
-     *
-     * @return self
-     */
-    public function setRelationModel($relationModel)
-    {
-        $this->relationModel = $relationModel;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRelationConditions()
-    {
-        return $this->relationConditions;
-    }
-
-    /**
-     * @param mixed $relationConditions
-     *
-     * @return self
-     */
-    public function setRelationConditions($relationConditions)
-    {
-        $this->relationConditions = $relationConditions;
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function hasRelationConditions()
-    {
-        return count($this->relationConditions) > 0;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEsObligatorio()
-    {
-        return $this->esObligatorio;
-    }
-
-    /**
-     * @param mixed $esObligatorio
-     *
-     * @return self
-     */
-    public function setEsObligatorio($esObligatorio)
-    {
-        $this->esObligatorio = $esObligatorio;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEsUnico()
-    {
-        return $this->esUnico;
-    }
-
-    /**
-     * @param mixed $esUnico
-     *
-     * @return self
-     */
-    public function setEsUnico($esUnico)
-    {
-        $this->esUnico = $esUnico;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEsId()
-    {
-        return $this->esId;
-    }
-
-    /**
-     * @param mixed $esId
-     *
-     * @return self
-     */
-    public function setEsId($esId)
-    {
-        $this->esId = $esId;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEsIncrementing()
-    {
-        return $this->esIncrementing;
-    }
-
-    /**
-     * @param mixed $esIncrementing
-     *
-     * @return self
-     */
-    public function setEsIncrementing($esIncrementing)
-    {
-        $this->esIncrementing = $esIncrementing;
-
-        return $this;
-    }
-
-    public function getValidation($resource)
+    public function getValidation(Resource $resource)
     {
         return collect($this->rules)
             ->map(function($rule) use ($resource) {
                 return ($rule === 'unique')
-                    ? 'unique:'.implode(',', [
-                        $resource->getModelObject()->getTable(),
-                        $this->getField($resource),
-                        $resource->getModelObject()->getKey(),
-                        $resource->getModelObject()->getKeyName()
-                    ])
+                    ? 'unique:'.$this->getUniqueRuleParameters($resource)
                     : $rule;
             })
             ->implode('|');
     }
 
-    public function getRelatedModel($class = '')
+    /**
+     * Recupera los parametros de regla validacion unique
+     * @param  Resource $resource
+     * @return string
+     */
+    protected function getUniqueRuleParameters(Resource $resource)
     {
-        $relatedModelClass = $class === '' ? $this->relationModel : $class;
-
-        if (!empty($relatedModelClass)) {
-            return new $relatedModelClass;
-        }
-
-        return null;
+        return implode(',', [
+            $resource->getModelObject()->getTable(),
+            $this->getField($resource),
+            $resource->getModelObject()->getKey(),
+            $resource->getModelObject()->getKeyName()
+        ]);
     }
 
-    public function getFormattedValue(Request $request, $model = null)
+    /**
+     * Devuelve valor del campo formateado
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getFormattedValue(Request $request, Model $model = null)
     {
-        return $model->{$this->getField($request)};
+        return $model->{$this->getField()};
     }
 
-    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  array         $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource = null, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
         $value = $resource->{$this->getField($resource)};
@@ -471,7 +254,12 @@ class Field
         return Form::text($this->name, $value, $extraParam);
     }
 
-    public function rules (...$rules)
+    /**
+     * Fija las reglas de validacion del campo
+     * @param  mixed $rules
+     * @return Field
+     */
+    public function rules(...$rules)
     {
         $rulesArray = [];
 
@@ -491,4 +279,254 @@ class Field
 
         return $this;
     }
+
+
+    // public function setLabel($label)
+    // {
+    //     $this->label = $label;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getTipo()
+    // {
+    //     return $this->tipo;
+    // }
+
+    // /**
+    //  * @param mixed $tipo
+    //  *
+    //  * @return self
+    //  */
+    // public function setTipo($tipo)
+    // {
+    //     $this->tipo = $tipo;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getLargo()
+    // {
+    //     return $this->largo;
+    // }
+
+    // /**
+    //  * @param mixed $largo
+    //  *
+    //  * @return self
+    //  */
+    // public function setLargo($largo)
+    // {
+    //     $this->largo = $largo;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getHelpText()
+    // {
+    //     return $this->helpText;
+    // }
+
+    // /**
+    //  * @param mixed $textoAyuda
+    //  *
+    //  * @return self
+    //  */
+    // public function helpText($helpText)
+    // {
+    //     $this->helpText = $helpText;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getMostrarLista()
+    // {
+    //     return $this->mostrarLista;
+    // }
+
+    // /**
+    //  * @param mixed $mostrarLista
+    //  *
+    //  * @return self
+    //  */
+    // public function setMostrarLista($mostrarLista)
+    // {
+    //     $this->mostrarLista = $mostrarLista;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getParentModel()
+    // {
+    //     return $this->parentModel;
+    // }
+
+    // /**
+    //  * @param mixed $parentModel
+    //  *
+    //  * @return self
+    //  */
+    // public function setParentModel($parentModel)
+    // {
+    //     $this->parentModel = $parentModel;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getRelationModel()
+    // {
+    //     return $this->relationModel;
+    // }
+
+    // /**
+    //  * @param mixed $relationModel
+    //  *
+    //  * @return self
+    //  */
+    // public function setRelationModel($relationModel)
+    // {
+    //     $this->relationModel = $relationModel;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getRelationConditions()
+    // {
+    //     return $this->relationConditions;
+    // }
+
+    // /**
+    //  * @param mixed $relationConditions
+    //  *
+    //  * @return self
+    //  */
+    // public function setRelationConditions($relationConditions)
+    // {
+    //     $this->relationConditions = $relationConditions;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return boolean
+    //  */
+    // public function hasRelationConditions()
+    // {
+    //     return count($this->relationConditions) > 0;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getEsObligatorio()
+    // {
+    //     return $this->esObligatorio;
+    // }
+
+    // /**
+    //  * @param mixed $esObligatorio
+    //  *
+    //  * @return self
+    //  */
+    // public function setEsObligatorio($esObligatorio)
+    // {
+    //     $this->esObligatorio = $esObligatorio;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getEsUnico()
+    // {
+    //     return $this->esUnico;
+    // }
+
+    // /**
+    //  * @param mixed $esUnico
+    //  *
+    //  * @return self
+    //  */
+    // public function setEsUnico($esUnico)
+    // {
+    //     $this->esUnico = $esUnico;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getEsId()
+    // {
+    //     return $this->esId;
+    // }
+
+    // /**
+    //  * @param mixed $esId
+    //  *
+    //  * @return self
+    //  */
+    // public function setEsId($esId)
+    // {
+    //     $this->esId = $esId;
+
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return mixed
+    //  */
+    // public function getEsIncrementing()
+    // {
+    //     return $this->esIncrementing;
+    // }
+
+    // /**
+    //  * @param mixed $esIncrementing
+    //  *
+    //  * @return self
+    //  */
+    // public function setEsIncrementing($esIncrementing)
+    // {
+    //     $this->esIncrementing = $esIncrementing;
+
+    //     return $this;
+    // }
+
+    // public function getRelatedModel($class = '')
+    // {
+    //     $relatedModelClass = $class === '' ? $this->relationModel : $class;
+
+    //     if (!empty($relatedModelClass)) {
+    //         return new $relatedModelClass;
+    //     }
+
+    //     return null;
+    // }
+
+
+
 }

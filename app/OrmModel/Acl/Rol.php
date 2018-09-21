@@ -39,7 +39,6 @@ class Rol extends Resource
                 ->rules('max:100', 'required'),
 
             HasMany::make('modulo', 'modulo', 'App\OrmModel\Acl\Modulo')
-                ->helpText('M&oacute;dulos del rol.')
                 ->relationConditions(['app_id' => '@field_value:app_id:NULL']),
         ];
     }
