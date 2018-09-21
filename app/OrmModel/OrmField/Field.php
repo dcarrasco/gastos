@@ -234,19 +234,19 @@ class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Request $request, Model $model = null)
+    public function getValue(Request $request, Model $model = null)
     {
         return $model->{$this->getField()};
     }
 
     /**
      * Devuelve elemento de formulario para el campo
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @param  array         $extraParam
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource = null, array $extraParam = [])
+    public function getForm(Request $request, Resource $resource, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
         $value = $resource->{$this->getField($resource)};

@@ -11,12 +11,12 @@ class Number extends Field
 {
     /**
      * Devuelve elemento de formulario para el campo
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @param  array         $extraParam
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource = null, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->field;
         $value = $resource->getModelObject()->{$this->getField()};

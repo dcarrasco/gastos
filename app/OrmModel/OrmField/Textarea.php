@@ -3,12 +3,20 @@
 namespace App\OrmModel\OrmField;
 
 use Form;
+use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 
 class Textarea extends Field
 {
-    public function getForm(Request $request, $resource = null, $extraParam = [], $parentId = null)
+    /**
+     * Devuelve elemento de formulario para el campo
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array    $extraParam
+     * @return HtmlString
+     */
+    public function getForm(Request $request, Resource $resource, $extraParam = [], $parentId = null)
     {
         $extraParam['id'] = $this->field;
         $extraParam['rows'] = 5;

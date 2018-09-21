@@ -55,7 +55,7 @@
 
             <tr>
                 @foreach($resource->indexFields(request()) as $field)
-                    <td>{!! $field->getFormattedValue(request(), $model) !!}</td>
+                    <td>{!! $field->getValue(request(), $model) !!}</td>
                 @endforeach
                 <td class="text-right">
                     <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}"><span class="fa fa-eye"></span></a>

@@ -24,6 +24,7 @@ return [
             'index'  => '81b87511e28532f',
             'edit'   => '81b87511e28532f',
             'create' => '81b87511e28532f',
+            'show' => '81b87511e28532f',
         ],
         'stock' => [
             'analisisSeries'     => '02173df489952b0',
@@ -34,6 +35,7 @@ return [
             'index'  => '46f163ae6eddc0c',
             'edit'   => '46f163ae6eddc0c',
             'create' => '46f163ae6eddc0c',
+            'show' => '46f163ae6eddc0c',
         ],
         'toa' => [
             'peticion'   => '470d090393a1e7f',
@@ -45,11 +47,13 @@ return [
             'index'  => '80aa1468e0a10ca',
             'edit'   => '80aa1468e0a10ca',
             'create' => '80aa1468e0a10ca',
+            'show' => '80aa1468e0a10ca',
         ],
         'aclConfig' => [
             'index'  => '4bd0769215f77e7',
             'edit'   => '4bd0769215f77e7',
             'create' => '4bd0769215f77e7',
+            'show' => '4bd0769215f77e7',
         ],
         'adminbd' => [
             'queries'  => 'cb3f6b85ca73e82',

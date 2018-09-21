@@ -200,7 +200,7 @@ class Resource
             return null;
         }
 
-        return $fieldObject->getFormattedValue($request, $this->getModelObject());
+        return $fieldObject->getValue($request, $this->getModelObject());
     }
 
     /**

@@ -29,7 +29,7 @@ class HasMany extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Request $request, Model $model = null)
+    public function getValue(Request $request, Model $model = null)
     {
         $relatedResource = $this->getRelation($model);
 
@@ -51,12 +51,12 @@ class HasMany extends Relation
 
     /**
      * Devuelve elemento de formulario para el campo
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @param  array         $extraParam
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource = null, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->getField($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
