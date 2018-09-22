@@ -302,16 +302,9 @@ class Field
     {
         $rulesArray = [];
 
-        foreach ($rules as $rule)
-        {
-            if (is_array($rule))
-            {
-                $rulesArray = array_merge($rulesArray, $rule);
-            }
-            else
-            {
-                $rulesArray[] = (string) $rule;
-            }
+        foreach ($rules as $rule) {
+            $rule = is_array($rule) ? $rule : [$rule];
+            $rulesArray = array_merge($rulesArray, $rule);
         }
 
         $this->rules = $rulesArray;

@@ -34,10 +34,9 @@ trait OrmController
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
         view()->share('routeName', $this->routeName);
         view()->share(
-            'moduloSelected',
-            empty(Route::input('modelName'))
-            ? collect(array_keys($this->menuModulo))->first()
-            : Route::input('modelName')
+            'moduloSelected', empty(Route::input('modelName'))
+                ? collect(array_keys($this->menuModulo))->first()
+                : Route::input('modelName')
         );
     }
 

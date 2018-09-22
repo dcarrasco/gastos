@@ -100,9 +100,7 @@ class Resource
     {
         if (is_null($this->modelObject)) {
             $this->modelObject = (new $this->model)->setPerPage(
-                empty($request->input('PerPage'))
-                    ? $this->perPage
-                    : $request->input('PerPage')
+                empty($request->input('PerPage')) ? $this->perPage : $request->input('PerPage')
             );
         }
 

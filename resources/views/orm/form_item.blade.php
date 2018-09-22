@@ -1,7 +1,7 @@
 <tr>
 <td>
 <div class="row">
-    <div class="col-md-3 mt-md-2 pl-md-5 text-muted">
+    <div class="col-md-3 mt-md-2 pl-md-5 font-weight-bold {{ $errors->has($field->getField($resource)) ? 'text-danger' : 'text-muted' }}">
         {{ $field->getName() }}
         @if ($field->isRequired())
             <span class="text-danger">*</span>
