@@ -25,7 +25,7 @@ class BelongsTo extends Relation
 
         $relationName = $this->field;
 
-        return $resource->getModelObject()
+        return $resource->model()
             ->{$relationName}()
             ->getForeignKey();
     }
@@ -57,8 +57,8 @@ class BelongsTo extends Relation
         $extraParam['id'] = $field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
-        $value = $resource->getModelObject()->{$field};
-        $foreignKey = $resource->getModelObject()->{$this->getField()}()->getForeignKey();
+        $value = $resource->model()->{$field};
+        $foreignKey = $resource->model()->{$this->getField()}()->getForeignKey();
 
         if ($this->hasOnChange()) {
             $route = \Route::currentRouteName();

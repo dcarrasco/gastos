@@ -34,7 +34,7 @@ class Id extends Field
     {
         $extraParam['id'] = $this->name;
         $field = $this->getField($resource);
-        $value = $resource->getModelObject()->{$field};
+        $value = $resource->model()->{$field};
 
         if ($this->esIncrementing) {
             return '<p class="form-control-static">'.$value.'</p>'

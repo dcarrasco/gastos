@@ -19,7 +19,7 @@ class Number extends Field
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->field;
-        $value = $resource->getModelObject()->{$this->getField()};
+        $value = $resource->model()->{$this->getField()};
 
         return Form::number($this->field, $value, $extraParam);
     }

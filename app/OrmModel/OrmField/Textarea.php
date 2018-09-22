@@ -21,7 +21,7 @@ class Textarea extends Field
         $extraParam['id'] = $this->field;
         $extraParam['rows'] = 5;
         $extraParam['maxlength'] = $this->getFieldLength();
-        $value = $resource->getModelObject()->{$this->getField()};
+        $value = $resource->model()->{$this->getField()};
 
         return Form::textarea($this->field, $value, $extraParam);
     }

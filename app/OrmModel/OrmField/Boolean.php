@@ -33,7 +33,7 @@ class Boolean extends Field
     public function getForm(Request $request, Resource $resource, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->getModelObject()->{$this->getField()};
+        $value = $resource->model()->{$this->getField()};
 
         return '<div class="custom-control custom-radio">'
             .Form::radio($this->name, 1, ($value == '1'), ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input'])

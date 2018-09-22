@@ -12,7 +12,7 @@
         <a href="" class="btn btn-light border py-md-1" data-toggle="modal" data-target="#modalBorrar">
             <span class="fa fa-trash"></span>
         </a>
-        <a href="{{ route($routeName.'.edit', [$resource->getName(), $resource->getmodelObject()->getKey()]) }}" class="btn btn-primary border py-md-1">
+        <a href="{{ route($routeName.'.edit', [$resource->getName(), $resource->model()->getKey()]) }}" class="btn btn-primary border py-md-1">
             <span class="fa fa-edit"></span>
         </a>
     </div>
@@ -30,7 +30,7 @@
                             {{ $field->getName() }}
                         </div>
                         <div class="col-md-9">
-                            {!! $field->getValue(request(), $resource->getModelObject()) !!}
+                            {!! $field->getValue(request(), $resource->model()) !!}
                         </div>
                     </div>
                 </td>

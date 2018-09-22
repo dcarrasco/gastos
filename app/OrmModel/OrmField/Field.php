@@ -23,6 +23,11 @@ class Field
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
+    protected $sortIconDefault = 'fa fa-sort text-black-50';
+    protected $sortIcons = [
+        'asc' => 'fa fa-caret-up text-dark',
+        'desc' => 'fa fa-caret-down text-dark',
+    ];
 
     protected $onChange = '';
     protected $parentModel = null;
@@ -95,34 +100,64 @@ class Field
      * Genera iconos para ordenar por campo en listado Index
      * @return HtmlString
      */
-    public function getSortingIcon()
+    public function getSortingIcon(Request $request, Resource $resource)
     {
         if (! $this->isSortable) {
             return '';
         }
 
-        $iconDefault = 'fa fa-sort text-black-50';
-        $icons = [
-            'asc' => 'fa fa-caret-up text-dark',
-            'desc' => 'fa fa-caret-down text-dark',
-        ];
-
-        $iconClass = $iconDefault;
-        $newSortOrder = 'asc';
-
-        if (request($this->sortByKey, '') === $this->field)
-        {
-            $iconClass = array_get($icons, request($this->sortDirectionKey, ''), $iconDefault);
-            $newSortOrder = array_get(['asc' => 'desc', 'desc' => 'asc'], request($this->sortDirectionKey, ''), 'asc');
-        }
-
-        $getParams = array_merge(request()->only('filter'), [
-            $this->sortByKey => $this->field,
-            $this->sortDirectionKey => $newSortOrder
-        ]);
-        $sortUrl = request()->fullUrlWithQuery($getParams);
+        $iconClass = $this->getSortingIconClass($request, $resource);
+        $sortOrder = $this->getSortingOrder($request, $resource);
+        $sortUrl = $this->getSortUrl($request, $sortOrder);
 
         return new HtmlString("<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>");
+    }
+
+    /**
+     * Devuelve la clase o icono a aplicar en un campo
+     * @param  Request $request
+     * @return string
+     */
+    protected function getSortingIconClass(Request $request, Resource $resource)
+    {
+        $iconClass = $this->sortIconDefault;
+        $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
+        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
+
+        if ($sortingField === $this->field)
+        {
+            $iconClass = array_get($this->sortIcons, $sortDirection, $this->sortIconDefault);
+        }
+
+        return $iconClass;
+    }
+
+    /**
+     * Devuelve el orden (asc/desc) de ordenamiento de un campo
+     * @param  Request $request
+     * @return string
+     */
+    protected function getSortingOrder(Request $request, Resource $resource)
+    {
+        $sortOrder = 'asc';
+        $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
+        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
+        $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
+
+        if ($sortingField === $this->field)
+        {
+            $sortOrder = array_get($newSortOrder, $sortDirection, 'asc');
+        }
+
+        return $sortOrder;
+    }
+
+    protected function getSortUrl(Request $request, $sortOrder = '')
+    {
+        return $request->fullUrlWithQuery(array_merge($request->all(), [
+            $this->sortByKey => $this->field,
+            $this->sortDirectionKey => $sortOrder,
+        ]));
     }
 
     /**
@@ -221,10 +256,10 @@ class Field
     protected function getUniqueRuleParameters(Resource $resource)
     {
         return implode(',', [
-            $resource->getModelObject()->getTable(),
+            $resource->model()->getTable(),
             $this->getField($resource),
-            $resource->getModelObject()->getKey(),
-            $resource->getModelObject()->getKeyName()
+            $resource->model()->getKey(),
+            $resource->model()->getKeyName()
         ]);
     }
 

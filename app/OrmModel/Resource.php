@@ -87,7 +87,7 @@ class Resource
      * Recupera instancia del modelo del recurso
      * @return Model
      */
-    public function getModelObject()
+    public function model()
     {
         return $this->modelObject;
     }
@@ -200,7 +200,7 @@ class Resource
             return null;
         }
 
-        return $fieldObject->getValue($request, $this->getModelObject());
+        return $fieldObject->getValue($request, $this->modelObject);
     }
 
     /**

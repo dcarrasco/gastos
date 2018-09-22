@@ -77,7 +77,7 @@ class Relation extends Field
         $filter = $this->getResourceFilter($resource, $conditions);
         $relatedModelObject = (new $this->relatedResource)
             ->resourceOrderBy($request)
-            ->getModelObject();
+            ->model();
 
         $relation = empty($filter)
             ? $relatedModelObject->get()
@@ -103,7 +103,7 @@ class Relation extends Field
         return collect($conditions)->map(function($condition) use ($resource) {
             if (strpos($condition, '@field_value:') !== false) {
                 list($label, $field, $defaul) = explode(':', $condition);
-                return $resource->getModelObject()->{$field};
+                return $resource->model()->{$field};
             }
         })
         ->all();

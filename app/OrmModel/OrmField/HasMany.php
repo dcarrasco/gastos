@@ -62,7 +62,7 @@ class HasMany extends Relation
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
         $field = $this->getField($resource);
-        $value = $resource->getModelObject()->{$field};
+        $value = $resource->model()->{$field};
 
         $elementosSelected = collect($value)
             ->map(function ($resourceElem) {

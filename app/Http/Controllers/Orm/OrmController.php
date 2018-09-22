@@ -99,7 +99,7 @@ trait OrmController
         $resource = $this->getResource($resource);
         $this->validate($request, $resource->getValidation($request));
 
-        $resource->getModelObject()->create($request->all());
+        $resource->model()->create($request->all());
 
         $alertMessage = trans('orm.msg_save_ok', [
             'nombre_modelo' => $resource->getLabel(),
@@ -122,7 +122,7 @@ trait OrmController
     public function show($resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->getModelObject()->findOrNew($modelId));
+        $resource = $resource->injectModel($resource->model()->findOrNew($modelId));
 
         return view(
             'orm.orm_show',
@@ -139,7 +139,7 @@ trait OrmController
     public function edit($resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->getModelObject()->findOrNew($modelId));
+        $resource = $resource->injectModel($resource->model()->findOrNew($modelId));
 
         $accionForm = trans('orm.title_edit');
         $createOrEdit  = 'edit';
@@ -163,11 +163,11 @@ trait OrmController
     public function update(Request $request, $resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->getModelObject()->findOrFail($modelId));
+        $resource = $resource->injectModel($resource->model()->findOrFail($modelId));
         $this->validate($request, $resource->getValidation($request));
 
         // actualiza el objeto
-        $resource->getModelObject()->update($request->all());
+        $resource->model()->update($request->all());
 
         // actualiza las tablas relacionadas
         collect($resource->fields($request))
@@ -177,7 +177,7 @@ trait OrmController
             })
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($resource, $request) {
-                $resource->getModelObject()
+                $resource->model()
                     ->{$field->getField()}()
                     ->sync($request->input($field->getField(), []));
             });
@@ -203,8 +203,8 @@ trait OrmController
     public function destroy(Request $request, $resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->getModelObject()->findOrFail($modelId));
-        $resource->getModelObject()->destroy($modelId);
+        $resource = $resource->injectModel($resource->model()->findOrFail($modelId));
+        $resource->model()->destroy($modelId);
 
         return redirect()
             ->route($this->routeName.'.index', [$resource->getName()])

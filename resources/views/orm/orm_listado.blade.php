@@ -1,7 +1,7 @@
 @extends('common.app_layout')
 
 @section('modulo')
-{!! Form::open(['class'=>'form-search col-md-12', 'method'=>'get']) !!}
+{!! Form::open(['class'=>'form-search', 'method'=>'get']) !!}
 <div class="row hidden-print orm-list-header">
     <div class="col-md-3">
         <div class="input-group input-group-sm">
@@ -44,7 +44,7 @@
                         @foreach($resource->indexFields(request()) as $field)
                         <th class="text-uppercase">
                             <small><strong>{!! $field->getName() !!}</strong></small>
-                            {!! $field->getSortingIcon(request()) !!}
+                            {!! $field->getSortingIcon(request(), $resource) !!}
                         </th>
                         @endforeach
                         <th class="text-center"></th>
