@@ -62,8 +62,9 @@ trait OrmController
         $resource = $this->getResource($resource);
         $modelList = $resource->modelList($request);
         $paginationLinks = $resource->getPaginationLinks($request);
+        $modelId = null;
 
-        return view('orm.orm_listado', compact('resource', 'modelList', 'paginationLinks'));
+        return view('orm.orm_listado', compact('resource', 'modelList', 'paginationLinks', 'modelId'));
     }
 
 

@@ -251,9 +251,14 @@ class Resource
      * Devuelve paginador del modelo
      * @return Paginator
      */
-    public function getPaginated()
+    public function getPaginated(Request $request)
     {
-        return $this->modelObject->paginate();
+        $paginate = $this->modelObject->paginate();
+
+        $this->modelObject = null;
+        $this->makeModelObject($request);
+
+        return $paginate;
     }
 
     /**
@@ -276,7 +281,7 @@ class Resource
             ->resourceOrderBy($request)
             ->resourceFilter($request)
             ->applyFilters($request)
-            ->getPaginated();
+            ->getPaginated($request);
 
         return $this->modelList;
     }

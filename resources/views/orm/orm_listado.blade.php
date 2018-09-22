@@ -60,7 +60,7 @@
                 <td class="text-right">
                     <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}"><span class="fa fa-eye"></span></a>
                     <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}"><span class="fa fa-edit"></span></a>
-                    <a class="btn py-md-0 px-md-1 text-muted"><span class="fa fa-trash"></span></a>
+                    <a class="btn py-md-0 px-md-1 text-muted" data-toggle="modal" data-target="#modalBorrar" data-url-form="{!! route($routeName.'.destroy', [$resource->getName(), $model->getKey()]) !!}"" id="delete-href"><span class="fa fa-trash"></span></a>
                 </td>
             </tr>
         @endforeach
@@ -74,8 +74,17 @@
     @endif
 </div>
 
+@include('orm.orm_modal_delete')
+
 <script type="text/javascript">
 $(document).ready(function() {
+
+    $('a#delete-href').click(function(e) {
+        e.preventDefault();
+        $('#formDelete').attr('action', $(this).data('url-form'));
+    });
+
+
     if ($('#filtro').val() != '')
     {
         $('#filtro').addClass('search_found');
