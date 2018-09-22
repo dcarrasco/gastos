@@ -53,10 +53,10 @@ class BelongsTo extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->getField($resource);
+        $field = $this->getField($resource);
+        $extraParam['id'] = $field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
-        $field = $this->getField($resource);
         $value = $resource->getModelObject()->{$field};
         $foreignKey = $resource->getModelObject()->{$this->getField()}()->getForeignKey();
 
@@ -67,7 +67,7 @@ class BelongsTo extends Relation
             $elemDest = $this->onChange;
             $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
             $extraParam['onchange'] = "$('#{$elemDest}').html('');"
-                ."$.get('{$url}?{$this->field}='+$('#{$this->field}').val(), "
+                ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
                 ."function (data) { $('#{$elemDest}').html(data); });";
         }
 

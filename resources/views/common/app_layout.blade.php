@@ -49,18 +49,18 @@
 @yield('modulo')
 <!-- ============================== /MODULOS APP ============================== -->
 
+<footer class="footer">
+    <div class="text-center text-muted">
+        <small><i class="fa fa-creative-commons"></i> 2013 &ndash; <?= date('Y'); ?></small>
+    </div>
+</footer>
+
 @if (isset($menuModulo))
     </div> <!-- DIV   class="col-md-10" -->
     </div> <!-- DIV   class="row"    -->
 @endif
 
 </div> <!-- DIV principal de la aplicacion   class="container"-->
-
-<footer class="footer">
-    <div class="text-center text-muted">
-        <small><i class="fa fa-creative-commons"></i> 2013 &ndash; <?= date('Y'); ?></small>
-    </div>
-</footer>
 
 </body>
 </html>

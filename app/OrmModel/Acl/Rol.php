@@ -28,7 +28,7 @@ class Rol extends Resource
 
             BelongsTo::make('aplicacion', 'app', 'App\OrmModel\Acl\App')
                 ->rules('required')
-                ->onChange('modulo'),
+                ->onChange('Modulo'),
 
             Text::make('rol')
                 ->sortable()

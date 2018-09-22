@@ -1,16 +1,14 @@
 @if (isset($menuModulo))
-<div class="row">
+<div class="row mh-100" style="min-height: 100vh;">
 	<!-- ============================== MENU MODULO ============================== -->
-	<div class="col-md-2 h-100">
-	<ul class="list-group hidden-print">
-		@foreach ($menuModulo as $modulo )
-		<li class="list-group-item {{ $modulo['resource'] === $moduloSelected ? 'active' : '' }}">
-			<a href="{{ $modulo['url'] }}">
-				<span class="fa fa-{{ $modulo['icono'] }} fa-fw"></span>
-				{!! $modulo['nombre'] !!}
-			</a>
-		</li>
-		@endforeach
+	<div class="col-md-2 bg-secondary px-md-0">
+	<ul class="list-group list-group-flush hidden-print">
+	@foreach ($menuModulo as $modulo )
+		<a href="{{ $modulo['url'] }}" class="list-group-item list-group-item-action {{ $modulo['resource'] === $moduloSelected ? 'active' : '' }}">
+			<span class="fa fa-{{ $modulo['icono'] }} fa-fw"></span>
+			{!! $modulo['nombre'] !!}
+		</a>
+	@endforeach
 	</ul>
 	</div>
 	<!-- ============================== /MENU MODULO ============================== -->

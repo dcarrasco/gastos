@@ -214,11 +214,16 @@ trait OrmController
             ]));
     }
 
-    public function ajaxOnChange(Request $request, $modelName = null)
+    /**
+     * Recupera el recurso para ser usado en llamadas ajax
+     * @param  Request $request  [description]
+     * @param  [type]  $resource [description]
+     * @return [type]            [description]
+     */
+    public function ajaxOnChange(Request $request, $resource = null)
     {
-        $fullModelName = $this->modelNameSpace.ucfirst($modelName);
-        $modelObject = new $fullModelName;
+        $resource = $this->getResource($resource);
 
-        return $modelObject->getModelAjaxFormOptions(request()->input());
+        return $resource->getModelAjaxFormOptions($request->input());
     }
 }

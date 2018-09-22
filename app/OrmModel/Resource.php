@@ -298,6 +298,38 @@ class Resource
             ->links();
     }
 
+    public function getModelAjaxFormOptions($where = [])
+    {
+        return ajax_options($this->getModelFormOptions($where));
+    }
+
+    public function getModelFormOptions($where = [])
+    {
+        $query = $this->modelObject;
+
+        $whereIn = collect($where)->filter(function ($elem, $key) {
+            return !is_integer($key) and is_array($elem);
+        });
+
+        $whereValue = collect($where)->filter(function ($elem, $key) {
+            return is_integer($key) or !is_array($elem);
+        })->all();
+
+        $query = $query->where($whereValue);
+
+        if (! $whereIn->isEmpty()) {
+            $whereIn->each(function ($elem, $key) use (&$query) {
+                return $query->whereIn($key, $elem);
+            });
+        }
+
+        $resource = $this;
+        return $query->get()->mapWithKeys(function ($model) use ($resource) {
+            return [$model->getKey() => $resource->title()];
+        });
+    }
+
+
 
     // public static function new()
     // {
@@ -327,36 +359,6 @@ class Resource
     //         ->all();
     // }
 
-    // public static function getModelFormOptions($where = [])
-    // {
-    //     $whereIn = collect($where)->filter(function ($elem, $key) {
-    //         return !is_integer($key) and is_array($elem);
-    //     });
-
-    //     $whereValue = collect($where)->filter(function ($elem, $key) {
-    //         return is_integer($key) or !is_array($elem);
-    //     })->all();
-
-    //     $query = static::where($whereValue);
-
-    //     if (! $whereIn->isEmpty()) {
-    //         $whereIn->each(function ($elem, $key) use (&$query) {
-    //             return $query->whereIn($key, $elem);
-    //         });
-    //     }
-    //     if (isset(static::$orderField)) {
-    //         $query = $query->orderBy(static::$orderField);
-    //     }
-
-    //     return $query->get()->mapWithKeys(function ($model) {
-    //         return [$model->getKey() => (string) $model];
-    //     });
-    // }
-
-    // public static function getModelAjaxFormOptions($where = [])
-    // {
-    //     return ajax_options(static::getModelFormOptions($where));
-    // }
 
 
     // public function getWhereFromRelation($field = null)

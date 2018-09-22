@@ -7,7 +7,7 @@
 }
 
 body {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #333;
@@ -22,20 +22,20 @@ right-menu {
 .checkbox > label,
 label.checkbox-inline,
 label.radio-inline {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
 .btn {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-family: "Segoe UI", Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
-.navbar {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+.list-group, .pagination, .navbar {
+	font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
 table.table > thead,
 label {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
 fieldset > legend {
@@ -43,11 +43,11 @@ fieldset > legend {
 }
 
 .nav-tabs, .panel-heading {
-	font-family: "TelefonicaWeb-Regular", Calibri, "Helvetica Neue", Arial, sans-serif;
+	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
 .well > div > h2 {
-	font-family: "TelefonicaWeb-Regular";
+	font-family: Calibri;
 }
 
 .navbar-inverse {
@@ -117,15 +117,6 @@ fieldset > legend {
 	height: 100vh;
 }
 
-li.list-group-item {
-	background-color: #ffffff;
-	border: none;
-}
-li.list-group-item.active {
-	background-color: #f0f0f0;
-	border: none;
-}
-
 .orm-list-header {
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -167,7 +158,10 @@ table .header-fixed {
 	}
 }
 
-
+.fill-viewport {
+	min-height: 100%;
+	height: 100%;
+}
 
 
 /*
@@ -175,9 +169,10 @@ table .header-fixed {
 Pie de pagina fijo
 ==============================================================================
 */
-
+/*
 html, body, #container { height: 100%; }
 body > #container { height: auto; min-height: 80%; }
+*/
 
 /*
 ==============================================================================
