@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
 use App\Gastos\Gasto;
+use App\Gastos\SaldoMes;
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Cuenta;
 use App\OrmModel\Gastos\TipoGasto;
@@ -20,9 +21,10 @@ class IngresoGastos extends Controller
         $formTipoGasto = (new TipoGasto)->getFormTipoGasto($request);
 
         $movimientosMes = (new Gasto)->movimientosMes($request);
+        $saldoMesAnterior = (new SaldoMes)->getSaldoMesAnterior($request);
 
         return view('gastos.showmes', compact(
-            'formCuenta', 'formAnno', 'formMes', 'movimientosMes', 'formTipoGasto'
+            'formCuenta', 'formAnno', 'formMes', 'movimientosMes', 'formTipoGasto', 'saldoMesAnterior'
         ));
     }
 
@@ -32,6 +34,18 @@ class IngresoGastos extends Controller
         $gasto->tipo_movimiento_id = $gasto->tipoGasto->tipo_movimiento_id;
         $gasto->usuario_id = auth()->id();
         $gasto->save();
+
+        $saldoMesAnterior = (new SaldoMes)->getSaldoMesAnterior($request);
+        if (is_null($saldoMesActual = (new SaldoMes)->getSaldoMes($request))) {
+            $saldoMesActual = (new SaldoMes)->fill(
+                array_merge($request->all(), [
+                    'saldo_inicial' => $saldoMesAnterior,
+                    'saldo_final' => $saldoMesAnterior,
+                ])
+            );
+        }
+        $saldoMesActual->saldo_final += $gasto->monto*$gasto->tipoMovimiento->signo;
+        $saldoMesActual->save();
 
         return redirect()->route('gastos.showMes', [
             'cuenta_id' => $request->input('cuenta_id'),

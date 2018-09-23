@@ -28,11 +28,11 @@ class TipoGasto extends Resource
         return [
             Id::make()->sortable(),
 
+            BelongsTo::make('Tipo Movimiento', 'tipoMovimiento', TipoMovimiento::class),
+
             Text::make('Tipo gasto')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
-
-            BelongsTo::make('Tipo Movimiento', 'tipoMovimiento', TipoMovimiento::class),
         ];
     }
 

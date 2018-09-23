@@ -24,9 +24,8 @@
     </div>
 </form>
 
-@if (count($movimientosMes) > 0)
 {{ Form::open([]) }}
-<table class="offset-md-2 col-md-8 mt-md-3 table">
+<table class="offset-md-2 col-md-8 mt-md-3 table table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>Año</th>
@@ -35,11 +34,22 @@
             <th>Tipo Gasto</th>
             <th>Tipo Movimiento</th>
             <th>Signo</th>
-            <th>Monto</th>
-            <th>Saldo</th>
+            <th class="text-right">Monto</th>
+            <th class="text-right">Saldo</th>
         </tr>
     </thead>
     <tbody>
+    <?php $saldo = $saldoMesAnterior; ?>
+        <tr>
+            <th>{{ request()->input('anno') }}</th>
+            <th>{{ request()->input('mes') }}</th>
+            <th></th>
+            <th>Saldo Inicial</th>
+            <th></th>
+            <th></th>
+            <th class="text-right"></th>
+            <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
+        </tr>
     @foreach ($movimientosMes as $mov)
         <tr>
             <td>{{ $mov->anno }}</td>
@@ -48,8 +58,8 @@
             <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
             <td>{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
             <td>{{ $mov->tipoMovimiento->signo }}</td>
-            <td>{{ $mov->monto }}</td>
-            <td>{{ $mov->monto }}</td>
+            <td class="text-right">$ {{ number_format($mov->monto, 0, ',', '.') }}</td>
+            <td class="text-right">$ {{ number_format($saldo += $mov->tipoMovimiento->signo*$mov->monto, 0, ',', '.') }}</td>
         </tr>
     @endforeach
         <tr>
@@ -63,7 +73,7 @@
             <td></td>
             <td></td>
             <td>
-                <input type="text" name="monto" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
+                <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
             </td>
             <td>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
@@ -72,5 +82,5 @@
     </tbody>
 </table>
 {{ Form::close() }}
-@endif
+
 @endsection
