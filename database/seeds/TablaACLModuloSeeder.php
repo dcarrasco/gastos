@@ -190,6 +190,18 @@ class TablaACLModuloSeeder extends Seeder
             'llave_modulo' => 'sv8346jhsguan2o',
             'icono' => 'cogs',
             'url' => 'gastosConfig.index',
+            'orden' => 90,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
+        // 15
+        DB::table('acl_modulo')->insert([
+            'app_id' => 5,
+            'modulo' => 'Ingreso Gastos',
+            'descripcion' => 'Ingreso gastos',
+            'llave_modulo' => 'insh85tons930ic',
+            'icono' => 'calculator',
+            'url' => 'gastos.showMes',
             'orden' => 10,
             'created_at' => Carbon\Carbon::now(),
         ]);

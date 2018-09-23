@@ -75,6 +75,14 @@ Route::group(['prefix' => 'gastos-config', 'as' => 'gastosConfig.', 'namespace' 
     Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
 });
 
+// Gastos
+Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
+    // Digitacion
+    Route::get('ingresar', 'IngresoGastos@showMes')->name('showMes');
+    Route::post('ingresar', 'IngresoGastos@addGasto')->name('addGasto');
+});
+
+
 
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {

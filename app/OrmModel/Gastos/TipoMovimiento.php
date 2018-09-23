@@ -6,6 +6,7 @@ use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Select;
 
 class TipoMovimiento extends Resource
 {
@@ -27,6 +28,11 @@ class TipoMovimiento extends Resource
             Text::make('Tipo movimiento')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
+
+            Select::make('Signo')->options([
+                '1' => 'Positivo',
+                '-1' => 'Negativo',
+            ]),
         ];
     }
 }

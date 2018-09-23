@@ -15,6 +15,7 @@ class CreaTablaCtaTiposGastos extends Migration
     {
         Schema::create('cta_tipos_gastos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tipo_movimiento_id')->unsigned();
             $table->string('tipo_gasto', 50)->unique();
             $table->timestamps();
         });

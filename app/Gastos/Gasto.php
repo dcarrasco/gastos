@@ -5,6 +5,7 @@ namespace App\Gastos;
 use App\Acl\Usuario;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
+use Illuminate\Http\Request;
 use App\Gastos\TipoMovimiento;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,5 +43,18 @@ class Gasto extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class);
+    }
+
+    public function movimientosMes(Request $request)
+    {
+        $filtro = $request->only('cuenta_id', 'anno', 'mes');
+
+        if (count($filtro) !== 3) {
+            return [];
+        }
+
+        return $this->where($filtro)
+            ->orderBy('id', 'asc')
+            ->get();
     }
 }

@@ -3,11 +3,12 @@
 namespace App\Gastos;
 
 use App\Gastos\Banco;
+use App\Gastos\TipoCuenta;
 use Illuminate\Database\Eloquent\Model;
 
 class Cuenta extends Model
 {
-    protected $fillable = ['banco_id', 'cuenta'];
+    protected $fillable = ['banco_id', 'tipo_cuenta_id', 'cuenta'];
 
     public function __construct(array $attributes = [])
     {
@@ -18,5 +19,10 @@ class Cuenta extends Model
     public function banco()
     {
         return $this->belongsTo(Banco::class);
+    }
+
+    public function tipoCuenta()
+    {
+        return $this->belongsTo(TipoCuenta::class);
     }
 }

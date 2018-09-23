@@ -44,5 +44,6 @@ class TablaACLRolModuloSeeder extends Seeder
         // GASTOS
         // ---------------------------------------------------------------------
         DB::table('acl_rol_modulo')->insert(['rol_id' => 5, 'modulo_id' => 14]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 5, 'modulo_id' => 15]);
     }
 }

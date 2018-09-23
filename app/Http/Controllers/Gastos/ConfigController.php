@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Banco;
 use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\Gastos\Cuenta;
+use App\OrmModel\Gastos\SaldoMes;
 use App\OrmModel\Gastos\TipoGasto;
 use App\OrmModel\Gastos\TipoCuenta;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,7 @@ class ConfigController extends Controller
             new Cuenta,
             new TipoMovimiento,
             new TipoGasto,
+            new SaldoMes,
             new Gasto,
         ];
 

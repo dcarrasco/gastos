@@ -16,6 +16,7 @@ class CreaTablaCtaTiposMovimientos extends Migration
         Schema::create('cta_tipos_movimientos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tipo_movimiento', 50)->unique();
+            $table->integer('signo');
             $table->timestamps();
         });
     }

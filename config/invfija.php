@@ -64,6 +64,9 @@ return [
             'create' => 'sv8346jhsguan2o',
             'show' => 'sv8346jhsguan2o',
         ],
+        'gastos' => [
+            'showMes' => 'insh85tons930ic',
+        ],
     ],
 
     /*

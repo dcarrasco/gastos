@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoMovimiento extends Model
 {
-    protected $fillable = ['tipo_movimiento'];
+    protected $fillable = ['tipo_movimiento', 'signo'];
 
     public function __construct(array $attributes = [])
     {
