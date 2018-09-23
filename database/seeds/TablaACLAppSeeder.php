@@ -17,7 +17,7 @@ class TablaACLAppSeeder extends Seeder
             'descripcion' => 'ACL',
             'orden' => 10,
             'url' => '',
-            'icono' => '',
+            'icono' => 'table',
             'created_at' => Carbon\Carbon::now(),
         ]);
 
@@ -27,7 +27,7 @@ class TablaACLAppSeeder extends Seeder
             'descripcion' => 'Inventario',
             'orden' => 20,
             'url' => '',
-            'icono' => '',
+            'icono' => 'table',
             'created_at' => Carbon\Carbon::now(),
         ]);
 
@@ -37,7 +37,7 @@ class TablaACLAppSeeder extends Seeder
             'descripcion' => 'Stock',
             'orden' => 30,
             'url' => '',
-            'icono' => '',
+            'icono' => 'table',
             'created_at' => Carbon\Carbon::now(),
         ]);
 
@@ -47,7 +47,17 @@ class TablaACLAppSeeder extends Seeder
             'descripcion' => 'TOA',
             'orden' => 40,
             'url' => '',
-            'icono' => '',
+            'icono' => 'table',
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
+        // 5
+        DB::table('acl_app')->insert([
+            'app' => 'Gastos',
+            'descripcion' => 'Gastos DCR',
+            'orden' => 50,
+            'url' => '',
+            'icono' => 'credit-card',
             'created_at' => Carbon\Carbon::now(),
         ]);
     }

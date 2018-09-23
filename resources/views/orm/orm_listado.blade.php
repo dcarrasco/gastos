@@ -1,8 +1,12 @@
 @extends('common.app_layout')
 
 @section('modulo')
+<div class="row col-md-12 pt-md-2">
+    <h4>{{ $resource->getLabelPlural() }}</h4>
+</div>
+
 {!! Form::open(['class'=>'form-search', 'method'=>'get']) !!}
-<div class="row hidden-print orm-list-header">
+<div class="row hidden-print py-md-2">
     <div class="col-md-3">
         <div class="input-group input-group-sm">
             <div class="input-group-prepend">

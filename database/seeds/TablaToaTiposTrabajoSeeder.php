@@ -11,6 +11,6 @@ class TablaToaTiposTrabajoSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Toa\TipoTrabajo::class, 30)->create();
+        factory(App\Toa\TipoTrabajo::class, 5)->create();
     }
 }

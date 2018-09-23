@@ -178,5 +178,21 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 50,
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        // ---------------------------------------------------------------------
+        // Gastos
+        // ---------------------------------------------------------------------
+        // 14
+        DB::table('acl_modulo')->insert([
+            'app_id' => 5,
+            'modulo' => 'Config Gastos',
+            'descripcion' => 'Configuración gastos',
+            'llave_modulo' => 'sv8346jhsguan2o',
+            'icono' => 'cogs',
+            'url' => 'gastosConfig.index',
+            'orden' => 10,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
     }
 }

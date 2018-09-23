@@ -58,6 +58,12 @@ return [
         'adminbd' => [
             'queries'  => 'cb3f6b85ca73e82',
         ],
+        'gastosConfig' => [
+            'index'  => 'sv8346jhsguan2o',
+            'edit'   => 'sv8346jhsguan2o',
+            'create' => 'sv8346jhsguan2o',
+            'show' => 'sv8346jhsguan2o',
+        ],
     ],
 
     /*

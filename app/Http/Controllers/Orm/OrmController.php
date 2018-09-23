@@ -20,7 +20,7 @@ trait OrmController
         return collect($this->menuModulo)->map(function ($resource) use ($routeName) {
             return [
                 'resource' => $resource->getName(),
-                'nombre' => $resource->getLabel(),
+                'nombre' => $resource->getLabelPlural(),
                 'url'    => route($routeName.'.index', $resource->getName()),
                 'icono'  => $resource->icono,
             ];

@@ -38,5 +38,12 @@ class TablaACLRolSeeder extends Seeder
             'descripcion' => 'Rol TOA',
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        DB::table('acl_rol')->insert([
+            'app_id' => 5,
+            'rol' => 'Rol Gastos',
+            'descripcion' => 'Rol Gastos',
+            'created_at' => Carbon\Carbon::now(),
+        ]);
     }
 }

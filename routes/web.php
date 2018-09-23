@@ -63,6 +63,19 @@ Route::group(['prefix' => 'toa-config', 'as' => 'toaConfig.', 'namespace' => 'To
     Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
 });
 
+// Gastos Config
+Route::group(['prefix' => 'gastos-config', 'as' => 'gastosConfig.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
+    Route::get('{modelName?}', 'ConfigController@index')->name('index');
+    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+    Route::post('{modelName}', 'ConfigController@store')->name('store');
+    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
+    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
+});
+
+
 // Inventario
 Route::group(['prefix' => 'inventario', 'as' => 'inventario.', 'namespace' => 'Inventario', 'middleware' => 'auth'], function () {
     // Digitacion

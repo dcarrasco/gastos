@@ -117,11 +117,6 @@ fieldset > legend {
 	height: 100vh;
 }
 
-.orm-list-header {
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
-
 table.table {
 	background-color: #ffffff;
 	border-radius: 0.7em;

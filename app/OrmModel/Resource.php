@@ -4,6 +4,7 @@ namespace App\OrmModel;
 
 use DB;
 use App\OrmModel\OrmField;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +15,7 @@ class Resource
 
     public $model = '';
     public $label = '';
+    public $labelPlural = '';
     public $icono = 'table';
     public $title = 'id';
 
@@ -63,14 +65,22 @@ class Resource
      */
     public function getLabel()
     {
-        if (empty($this->label))
-        {
+        if (empty($this->label)) {
             $class = explode("\\", get_class($this));
 
             return array_pop($class);
         }
 
         return $this->label;
+    }
+
+    public function getLabelPlural()
+    {
+        if (empty($this->labelPlural)) {
+            return Str::plural($this->getLabel());
+        }
+
+        return $this->labelPlural;
     }
 
     /**

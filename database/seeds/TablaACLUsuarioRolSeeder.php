@@ -15,5 +15,6 @@ class TablaACLUsuarioRolSeeder extends Seeder
         DB::table('acl_usuario_rol')->insert(['usuario_id' => 1, 'rol_id' => 2]);
         DB::table('acl_usuario_rol')->insert(['usuario_id' => 1, 'rol_id' => 3]);
         DB::table('acl_usuario_rol')->insert(['usuario_id' => 1, 'rol_id' => 4]);
+        DB::table('acl_usuario_rol')->insert(['usuario_id' => 1, 'rol_id' => 5]);
     }
 }

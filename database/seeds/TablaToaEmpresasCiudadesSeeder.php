@@ -11,6 +11,6 @@ class TablaToaEmpresasCiudadesSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Toa\EmpresaCiudad::class, 20)->create();
+        factory(App\Toa\EmpresaCiudad::class, 5)->create();
     }
 }

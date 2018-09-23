@@ -1,7 +1,7 @@
 @extends('common.app_layout')
 
 @section('modulo')
-<div class="row mt-md-4 col-md-12 my-md-2">
+<div class="row mt-md-2 col-md-12 my-md-2">
     <h4>
         {!! $accionForm !!}
         {!! $resource->getLabel() !!}
