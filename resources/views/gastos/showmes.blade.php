@@ -47,7 +47,6 @@
             <th></th>
             <th></th>
             <th>Saldo Inicial</th>
-            <th></th>
             <th class="text-right"></th>
             <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
             <th></th>
@@ -99,7 +98,6 @@
                 {{ Form::text('serie', request()->input('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
             </td>
             <td>{{ $formTipoGasto }}</td>
-            <td></td>
             <td>
                 <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
             </td>

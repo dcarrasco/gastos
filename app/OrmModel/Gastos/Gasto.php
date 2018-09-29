@@ -2,14 +2,12 @@
 
 namespace App\OrmModel\Gastos;
 
-use Carbon\Carbon;
-use App\Gastos\TipoGasto as TipoGastoModel;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\Acl\Usuario;
 use App\OrmModel\OrmField\Id;
-use App\Gastos\GlosaTipoGasto;
 use App\OrmModel\Gastos\Cuenta;
+use App\OrmModel\OrmField\Date;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 use App\OrmModel\Gastos\TipoGasto;
@@ -39,7 +37,7 @@ class Gasto extends Resource
 
             Number::make('Mes')->sortable()->rules('required'),
 
-            Text::make('Fecha')->sortable(),
+            Date::make('Fecha')->sortable(),
 
             Text::make('Glosa')->sortable()->hideFromIndex(),
 
