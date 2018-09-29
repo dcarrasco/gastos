@@ -66,6 +66,8 @@ return [
         ],
         'gastos' => [
             'showMes' => 'insh85tons930ic',
+            'reporte' => 'pd7nd92jtopol0q',
+            'ingresoMasivo' => 'oms73ueg39dmn03',
         ],
     ],
 
