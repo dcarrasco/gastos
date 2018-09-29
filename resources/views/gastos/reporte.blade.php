@@ -33,9 +33,9 @@
         <th class="text-right">Prom</th>
     </thead>
     <tbody>
-        @foreach($datos['tipo_gasto_id'] as $tipo_gasto_id)
+        @foreach($tipoGasto as $tipo_gasto_id => $tipo_gasto)
         <tr>
-            <th scope="row">{{ array_get($tipoGasto, $tipo_gasto_id) }}</th>
+            <th scope="row">{{ $tipo_gasto }}</th>
             @foreach($datos['meses'] as $mes => $nombre)
             <td class="text-right">
                 @if (array_get($datos, "datos.$tipo_gasto_id.$mes", 0) == 0)
@@ -44,9 +44,9 @@
                     @endif
             </td>
             @endforeach
-            <td class="text-right">
+            <th class="text-right">
                 $&nbsp;{{ number_format(array_get($datos, "sum_tipo_gasto.$tipo_gasto_id")/count($datos['sum_mes']), 0, ',', '.') }}
-            </td>
+            </th>
         </tr>
         @endforeach
         <tr class="table-secondary">

@@ -21,9 +21,8 @@ class Date extends Field
      */
     public function getValue(Request $request, Model $model = null)
     {
-        $value = $model->{$this->getField()};
 
-        return isset($value) ? $value->format($this->outputDateFormat) : '';
+        return optional($model->{$this->getField()})->format($this->outputDateFormat);
     }
 
     /**

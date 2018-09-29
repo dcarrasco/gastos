@@ -71,7 +71,7 @@ class Gasto extends Model
             ->groupBy(['mes', 'tipo_gasto_id'])
             ->get();
 
-        $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique();
+        $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
 
         $datos = [];
         $data->each(function($gasto) use (&$datos) {

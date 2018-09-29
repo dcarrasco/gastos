@@ -6,9 +6,21 @@ use Form;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
+use Illuminate\Database\Eloquent\Model;
 
 class Number extends Field
 {
+    /**
+     * Devuelve valor del campo formateado
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getValue(Request $request, Model $model = null)
+    {
+        return number_format(optional($model)->{$this->getField()}, 0, ',', '.');
+    }
+
     /**
      * Devuelve elemento de formulario para el campo
      * @param  Request  $request

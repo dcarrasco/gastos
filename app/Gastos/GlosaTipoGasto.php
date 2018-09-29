@@ -35,6 +35,6 @@ class GlosaTipoGasto extends Model
             })
             ->first();
 
-        return isset($glosaTipoGasto) ? $glosaTipoGasto->tipo_gasto_id : null;
+        return optional($glosaTipoGasto)->tipo_gasto_id;
     }
 }

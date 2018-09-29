@@ -59,7 +59,7 @@ class VisaParser extends GastosParser
             'serie' => $this->getSerie($linea),
             'glosa' => $this->getGlosa($linea),
             'tipo_gasto_id' => $tipoGasto->id,
-            'tipo_movimiento_id' => isset($tipoGasto->tipoMovimiento) ? $tipoGasto->tipoMovimiento->id : null,
+            'tipo_movimiento_id' => optional($tipoGasto->tipoMovimiento)->id,
             'monto' => (int) str_replace('.', '', str_replace('$', '', $linea->last())),
             'usuario_id' => auth()->id(),
         ]);

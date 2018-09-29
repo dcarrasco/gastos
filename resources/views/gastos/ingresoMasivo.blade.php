@@ -56,10 +56,10 @@
             <td> {{ $gasto->fecha }} </td>
             <td> {{ $gasto->glosa }} </td>
             <td> {{ $gasto->serie }} </td>
-             <td> {{ isset($gasto->tipoGasto) ? $gasto->tipoGasto->tipo_gasto : '' }} </td>
+             <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
             <td class="text-right">
                 $&nbsp;{{ number_format($gasto->monto, 0, ",", ".") }}
-                @if (isset($gasto->tipoMovimiento) and $gasto->tipoMovimiento->signo == -1)
+                @if (optional($gasto->tipoMovimiento)->signo == -1)
                     <small><span class="fa fa-minus-circle text-danger"></span></small>
                 @else
                     <small><span class="fa fa-plus-circle text-success"></span></small>

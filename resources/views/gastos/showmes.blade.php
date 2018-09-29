@@ -55,7 +55,7 @@
         <tr>
             <td>{{ $mov->anno }}</td>
             <td>{{ $mov->mes }}</td>
-            <td>{{ isset($mov->fecha) ? $mov->fecha->format('d-m-Y') : null }}</td>
+            <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
             <td>{{ $mov->glosa }}</td>
             <td>{{ $mov->serie }}</td>
             <td>{{ $mov->tipoGasto->tipo_gasto }}</td>

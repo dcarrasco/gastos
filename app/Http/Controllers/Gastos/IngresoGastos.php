@@ -80,9 +80,12 @@ class IngresoGastos extends Controller
         $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request);
 
         $datos = (new Gasto)->getReporte($request);
-        $tipoGasto = (new TipoGastoModel)->all()
+        $tipoGasto = (new TipoGastoModel)->orderBy('tipo_gasto')->get()
             ->mapWithKeys(function($tipoGasto) {
                 return [$tipoGasto->getKey() => $tipoGasto->tipo_gasto];
+            })
+            ->filter(function($tipoGasto, $idTipoGasto) use ($datos) {
+                return in_array($idTipoGasto, array_get($datos, 'tipo_gasto_id', []));
             })
             ->all();
 

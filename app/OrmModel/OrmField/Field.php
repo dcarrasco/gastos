@@ -271,11 +271,7 @@ class Field
      */
     public function getValue(Request $request, Model $model = null)
     {
-        if (is_null($model)) {
-            return null;
-        }
-
-        return $model->{$this->getField()};
+        return optional($model)->{$this->getField()};
     }
 
     /**
