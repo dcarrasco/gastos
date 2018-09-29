@@ -80,6 +80,10 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
     // Digitacion
     Route::get('ingresar', 'IngresoGastos@showMes')->name('showMes');
     Route::post('ingresar', 'IngresoGastos@addGasto')->name('addGasto');
+    Route::delete('borrar', 'IngresoGastos@borrarGasto')->name('borrarGasto');
+    Route::get('reporte', 'IngresoGastos@reporte')->name('reporte');
+    Route::get('ingreso-masivo', 'IngresoMasivoGastos@ingresoMasivo')->name('ingresoMasivo');
+    Route::post('ingreso-masivo', 'IngresoMasivoGastos@ingresoMasivo')->name('ingresoMasivo');
 });
 
 

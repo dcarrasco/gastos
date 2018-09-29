@@ -2,6 +2,7 @@
 
 namespace App\OrmModel\Gastos;
 
+use Carbon\Carbon;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
@@ -46,6 +47,39 @@ class Cuenta extends Resource
             ->mapWithKeys(function($cuenta) {
                 return [$cuenta->getKey() => $cuenta->cuenta];
             });
+
+        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+    }
+
+    public function getFormAnno(Request $request)
+    {
+        $inputName = 'anno';
+        $options = collect(range(Carbon::now()->year, 2010, -1))
+            ->mapWithKeys(function($anno) {
+                return [$anno => $anno];
+            })
+            ->all();
+
+        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+    }
+
+    public function getFormMes(Request $request)
+    {
+        $inputName = 'mes';
+        $options = [
+            1 => 'Enero',
+            2 =>'Febrero',
+            3 =>'Marzo',
+            4 =>'Abril',
+            5 =>'Mayo',
+            6 =>'Junio',
+            7 =>'Julio',
+            8 =>'Agosto',
+            9 =>'Septiembre',
+            10 =>'Octubre',
+            11 =>'Noviembre',
+            12 =>'Diciembre',
+        ];
 
         return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
     }

@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Gastos;
+
+use Illuminate\Database\Eloquent\Model;
+
+class GlosaTipoGasto extends Model
+{
+    protected $fillable = [
+        'cuenta_id', 'glosa', 'tipo_gasto_id',
+    ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->table = 'cta_glosa_tipo_gasto';
+    }
+
+    public function cuenta()
+    {
+        return $this->belongsTo(Cuenta::class);
+    }
+
+    public function tipoGasto()
+    {
+        return $this->belongsTo(TipoGasto::class);
+    }
+
+    public function getPorGlosa($cuenta_id = 0, $glosa = '')
+    {
+        $glosaTipoGasto = $this->where('cuenta_id', $cuenta_id)
+            ->get()
+            ->filter(function($glosaTipoGasto) use ($glosa) {
+                return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
+            })
+            ->first();
+
+        return isset($glosaTipoGasto) ? $glosaTipoGasto->tipo_gasto_id : null;
+    }
+}

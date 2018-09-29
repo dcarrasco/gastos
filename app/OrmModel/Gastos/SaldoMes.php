@@ -19,7 +19,11 @@ class SaldoMes extends Resource
         'id', 'monto'
     ];
 
-    public $orderBy = 'id';
+    public $orderBy = [
+        'cuenta_id' => 'asc',
+        'anno' => 'asc',
+        'mes' => 'asc',
+    ];
 
     public function fields(Request $request)
     {

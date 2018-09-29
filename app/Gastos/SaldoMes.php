@@ -61,6 +61,6 @@ class SaldoMes extends Model
             return $saldoMes->saldo_final;
         }
 
-        return;
+        return 0;
     }
 }

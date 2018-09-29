@@ -10,6 +10,7 @@ use App\OrmModel\Gastos\SaldoMes;
 use App\OrmModel\Gastos\TipoGasto;
 use App\OrmModel\Gastos\TipoCuenta;
 use App\Http\Controllers\Controller;
+use App\OrmModel\Gastos\GlosaTipoGasto;
 use App\OrmModel\Gastos\TipoMovimiento;
 use App\Http\Controllers\Orm\OrmController;
 
@@ -30,6 +31,7 @@ class ConfigController extends Controller
             new Cuenta,
             new TipoMovimiento,
             new TipoGasto,
+            new GlosaTipoGasto,
             new SaldoMes,
             new Gasto,
         ];
