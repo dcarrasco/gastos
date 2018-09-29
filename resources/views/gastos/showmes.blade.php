@@ -33,7 +33,6 @@
             <th>Glosa</th>
             <th>Serie</th>
             <th>Tipo Gasto</th>
-            <th>Mov</th>
             <th class="text-right">Monto</th>
             <th class="text-right">Saldo</th>
             <th></th>
@@ -61,7 +60,6 @@
             <td>{{ $mov->glosa }}</td>
             <td>{{ $mov->serie }}</td>
             <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
-            <td>{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
             <td class="text-right">
                 $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
                 @if ($mov->tipoMovimiento->signo == -1)

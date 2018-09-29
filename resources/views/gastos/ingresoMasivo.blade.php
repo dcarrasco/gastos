@@ -47,7 +47,6 @@
                 <th>Glosa</th>
                 <th>Serie</th>
                 <th>Tipo Gasto</th>
-                <th>Tipo Movimiento</th>
                 <th class="text-right">Monto</th>
             </tr>
         </thead>
@@ -58,8 +57,14 @@
             <td> {{ $gasto->glosa }} </td>
             <td> {{ $gasto->serie }} </td>
              <td> {{ isset($gasto->tipoGasto) ? $gasto->tipoGasto->tipo_gasto : '' }} </td>
-             <td> {{ isset($gasto->tipoMovimiento) ? $gasto->tipoMovimiento->tipo_movimiento : '' }} </td>
-            <td class="text-right"> $&nbsp;{{ number_format($gasto->monto, 0, ",", ".") }} </td>
+            <td class="text-right">
+                $&nbsp;{{ number_format($gasto->monto, 0, ",", ".") }}
+                @if (isset($gasto->tipoMovimiento) and $gasto->tipoMovimiento->signo == -1)
+                    <small><span class="fa fa-minus-circle text-danger"></span></small>
+                @else
+                    <small><span class="fa fa-plus-circle text-success"></span></small>
+                @endif
+            </td>
         </tr>
     @endforeach
     </tbody>

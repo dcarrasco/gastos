@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
+use App\Gastos\VisaParser;
 use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\Gastos\Cuenta;
 use App\Http\Controllers\Controller;
 
@@ -15,7 +15,7 @@ class IngresoMasivoGastos extends Controller
         $formCuenta = (new Cuenta)->getFormCuenta($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $formMes = (new Cuenta)->getFormMes($request);
-        $datosMasivos = (new Gasto)->procesaMasivo($request);
+        $datosMasivos = (new VisaParser)->procesaMasivo($request);
 
         if ($request->agregar === 'agregar') {
             return $this->addGastosMasivos($request, $datosMasivos);
