@@ -13,10 +13,14 @@ use App\OrmModel\Gastos\TipoMovimiento;
 use App\Gastos\TipoGasto as TipoGastoModel;
 use App\Http\Requests\Gasto\AddGastoRequest;
 
-class IngresoGastos extends Controller
+class Ingreso extends Controller
 {
     public function showMes(Request $request)
     {
+        if ($request->recalcula === 'recalcula') {
+            (new SaldoMes)->recalculaSaldoMes($request);
+        }
+
         $formCuenta = (new Cuenta)->getFormCuenta($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $formMes = (new Cuenta)->getFormMes($request);
@@ -35,25 +39,12 @@ class IngresoGastos extends Controller
         $gasto = (new Gasto)->fill($request->all());
         $gasto->tipo_movimiento_id = $gasto->tipoGasto->tipo_movimiento_id;
         $gasto->fecha = empty($gasto->fecha)
-            ? Carbon::now()
-                ->year($request->input('anno'))
-                ->month($request->input('mes'))
-                ->day(1)->hour(0)->minute(0)->second(0)
+            ? Carbon::createMidnightDate($request->anno, $request->mes, 1)
             : $gasto->fecha;
         $gasto->usuario_id = auth()->id();
         $gasto->save();
 
-        $saldoMesAnterior = (new SaldoMes)->getSaldoMesAnterior($request);
-        if (is_null($saldoMesActual = (new SaldoMes)->getSaldoMes($request))) {
-            $saldoMesActual = (new SaldoMes)->fill(
-                array_merge($request->all(), [
-                    'saldo_inicial' => $saldoMesAnterior,
-                    'saldo_final' => $saldoMesAnterior,
-                ])
-            );
-        }
-        $saldoMesActual->saldo_final += $gasto->monto*$gasto->tipoMovimiento->signo;
-        $saldoMesActual->save();
+        $saldoMesAnterior = (new SaldoMes)->recalculaSaldoMes($request);
 
         return redirect()->route('gastos.showMes', [
             'cuenta_id' => $request->input('cuenta_id'),

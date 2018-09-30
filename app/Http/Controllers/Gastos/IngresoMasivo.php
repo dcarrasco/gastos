@@ -7,8 +7,9 @@ use App\Gastos\VisaParser;
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Cuenta;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Gasto\IngresoMasivoRequest;
 
-class IngresoMasivoGastos extends Controller
+class IngresoMasivo extends Controller
 {
     public function ingresoMasivo(Request $request)
     {
@@ -26,7 +27,7 @@ class IngresoMasivoGastos extends Controller
         ));
     }
 
-    protected function addGastosMasivos(Request $request, $datosMasivos)
+    protected function addGastosMasivos(IngresoMasivoRequest $request, $datosMasivos)
     {
         collect($datosMasivos)->each(function($gasto) {
             $gasto->save();

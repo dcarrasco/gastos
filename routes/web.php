@@ -78,12 +78,12 @@ Route::group(['prefix' => 'gastos-config', 'as' => 'gastosConfig.', 'namespace' 
 // Gastos
 Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', 'IngresoGastos@showMes')->name('showMes');
-    Route::post('ingresar', 'IngresoGastos@addGasto')->name('addGasto');
-    Route::delete('borrar', 'IngresoGastos@borrarGasto')->name('borrarGasto');
-    Route::get('reporte', 'IngresoGastos@reporte')->name('reporte');
-    Route::get('ingreso-masivo', 'IngresoMasivoGastos@ingresoMasivo')->name('ingresoMasivo');
-    Route::post('ingreso-masivo', 'IngresoMasivoGastos@ingresoMasivo')->name('ingresoMasivo');
+    Route::get('ingresar', 'Ingreso@showMes')->name('showMes');
+    Route::post('ingresar', 'Ingreso@addGasto')->name('addGasto');
+    Route::delete('borrar', 'Ingreso@borrarGasto')->name('borrarGasto');
+    Route::get('reporte', 'Reporte@reporte')->name('reporte');
+    Route::get('ingreso-masivo', 'IngresoMasivo@ingresoMasivo')->name('ingresoMasivo');
+    Route::post('ingreso-masivo', 'IngresoMasivo@ingresoMasivo')->name('ingresoMasivo');
 });
 
 

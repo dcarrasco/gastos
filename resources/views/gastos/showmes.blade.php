@@ -15,11 +15,12 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2"> {{ $formCuenta }} </div>
+        <div class="offset-md-1 col-md-2"> {{ $formCuenta }} </div>
         <div class="col-md-2"> {{ $formAnno }} </div>
         <div class="col-md-2"> {{ $formMes }} </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <button type="submit" class="btn btn-primary">Consultar</button>
+            <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
         </div>
     </div>
 </form>

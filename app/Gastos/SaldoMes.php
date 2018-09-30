@@ -31,29 +31,28 @@ class SaldoMes extends Model
         $anno = (int) $request->input('anno', 0);
         $mes = (int) $request->input('mes', 0);
 
-        if ($mes === 1) {
-            $mesAnterior = 12;
-            $annoAnterior = $anno - 1;
-        }
-        else
-        {
-            $mesAnterior = $mes - 1;
-            $annoAnterior = $anno;
-        }
+        $mesAnterior = ($mes === 1) ? 12 : $mes - 1;
+        $annoAnterior = ($mes === 1) ? $anno - 1 : $anno;
 
-        return $this->getSaldo($request->input('cuenta_id', 0), $annoAnterior, $mesAnterior);
+        return $this->getSaldoFinal($request->input('cuenta_id', 0), $annoAnterior, $mesAnterior);
     }
 
     public function getSaldoMes(Request $request)
     {
-        return $this->where([
+        $saldo = $this->where([
             'cuenta_id' => $request->input('cuenta_id', 0),
             'anno' => $request->input('anno', 0),
             'mes' => $request->input('mes', 0),
         ])->first();
+
+        if (is_null($saldo)) {
+            $saldo = (new static)->fill($request->all());
+        }
+
+        return $saldo;
     }
 
-    protected function getSaldo($cuenta_id = 0, $anno = 0, $mes = 0)
+    protected function getSaldoFinal($cuenta_id = 0, $anno = 0, $mes = 0)
     {
         $saldoMes = $this->where(compact('cuenta_id', 'anno', 'mes'))->first();
 
@@ -62,5 +61,14 @@ class SaldoMes extends Model
         }
 
         return 0;
+    }
+
+    public function recalculaSaldoMes(Request $request)
+    {
+        $saldoMes = $this->getSaldoMes($request);
+        $saldoMes->saldo_inicial = $this->getSaldoMesAnterior($request);
+        $saldoMes->saldo_final = $saldoMes->saldo_inicial + (new Gasto)->getTotalMes($request);
+
+        return $saldoMes->save();
     }
 }

@@ -32,6 +32,7 @@ class VisaParser extends GastosParser
                     'anno' => $request->anno,
                     'fecha' => $gasto->fecha,
                     'serie' => $gasto->serie,
+                    'monto' => $gasto->monto,
                 ])
                 ->get()
                 ->first();
@@ -93,7 +94,7 @@ class VisaParser extends GastosParser
         $indexFecha = $this->getIndexFecha($linea);
         $serie = $linea->get($indexFecha+1).$linea->get($indexFecha+2);
 
-        if (preg_match('/^[0-9]{12}/', $serie) === 1) {
+        if (preg_match('/^[0-9]{12}$/', $serie) === 1) {
             return range($indexFecha + 1, $indexFecha + 2);
         }
 

@@ -61,6 +61,15 @@ class Gasto extends Model
             ->get();
     }
 
+    public function getTotalMes(Request $request)
+    {
+        return $this->movimientosMes($request)
+            ->map(function($gasto) {
+                return $gasto->monto * $gasto->tipoMovimiento->signo;
+            })
+            ->sum();
+    }
+
     public function getReporte(Request $request)
     {
         $data = $this
