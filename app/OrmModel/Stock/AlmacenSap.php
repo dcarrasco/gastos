@@ -11,6 +11,7 @@ class AlmacenSap extends Resource
 {
     public $model = 'App\Stock\AlmacenSap';
     public $label = 'Almacen SAP';
+    public $labelPlural = 'Almacenes SAP';
     public $icono = 'home';
     public $title = 'des_almacen';
     public $search = [

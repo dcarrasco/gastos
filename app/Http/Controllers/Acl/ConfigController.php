@@ -22,10 +22,10 @@ class ConfigController extends Controller
         $this->routeName  = 'aclConfig';
 
         $this->menuModulo = [
-            new Usuario,
-            new App,
-            new Rol,
-            new Modulo,
+            Usuario::class,
+            App::class,
+            Rol::class,
+            Modulo::class,
         ];
 
         $this->makeView();

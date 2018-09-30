@@ -10,6 +10,7 @@ use App\OrmModel\OrmField\Number;
 class Ciudad extends Resource
 {
     public $model = 'App\Toa\Ciudad';
+    public $labelPlural = 'Ciudades';
     public $icono = 'map-marker';
     public $title = 'ciudad';
     public $search = [

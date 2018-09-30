@@ -21,13 +21,13 @@ class ConfigController extends Controller
     {
         $this->routeName  = 'stockConfig';
         $this->menuModulo = [
-            new ClasifAlmacenSap,
-            new TipoAlmacenSap,
-            new AlmacenSap,
-            new TipoClasifAlmacenSap,
-            new Proveedor,
-            new UsuarioSap,
-            new ClaseMovimiento,
+            ClasifAlmacenSap::class,
+            TipoAlmacenSap::class,
+            AlmacenSap::class,
+            TipoClasifAlmacenSap::class,
+            Proveedor::class,
+            UsuarioSap::class,
+            ClaseMovimiento::class,
             // 'almacenes_no_ingresados' => ['nombre'=>trans('stock.config_menu_alm_no_ing'), 'icono'=>'home',],
         ];
 

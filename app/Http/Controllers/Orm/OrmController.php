@@ -17,7 +17,9 @@ trait OrmController
     {
         $routeName = $this->routeName;
 
-        return collect($this->menuModulo)->map(function ($resource) use ($routeName) {
+        return collect($this->menuModulo)->map(function ($resourceName) use ($routeName) {
+            $resource = new $resourceName;
+
             return [
                 'resource' => $resource->getName(),
                 'nombre' => $resource->getLabelPlural(),
@@ -33,23 +35,21 @@ trait OrmController
         view()->share('perPageFilter', new PerPage);
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
         view()->share('routeName', $this->routeName);
-        view()->share(
-            'moduloSelected', empty(Route::input('modelName'))
-                ? collect(array_keys($this->menuModulo))->first()
-                : Route::input('modelName')
+        view()->share('moduloSelected', empty(Route::input('modelName'))
+            ? collect(array_keys($this->menuModulo))->first()
+            : Route::input('modelName')
         );
     }
 
     protected function getResource($resourceName = '')
     {
-        $resourceName = empty($resourceName) ? collect($this->menuModulo)->first()->getName() : $resourceName;
+        $resource = collect($this->menuModulo)
+            ->first(function($resource) use ($resourceName) {
+                return empty($resourceName) or (new $resource)->getName() === $resourceName;
+            });
 
-        return collect($this->menuModulo)->first(function($resource) use ($resourceName) {
-            return $resource->getName() === $resourceName;
-        });
+        return new $resource;
     }
-
-
 
     /**
      * Display a listing of the resource.
@@ -63,7 +63,9 @@ trait OrmController
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 
-        return view('orm.orm_listado', compact('resource', 'modelList', 'paginationLinks', 'modelId'));
+        return view('orm.orm_listado',
+            compact('resource', 'modelList', 'paginationLinks', 'modelId')
+        );
     }
 
 
@@ -81,8 +83,7 @@ trait OrmController
         $buttonAction = trans('orm.button_create').' '.$resource->getLabel();
         $buttonActionContinue = trans('orm.button_create_continue');
 
-        return view(
-            'orm.orm_editar',
+        return view('orm.orm_editar',
             compact('resource', 'accionForm', 'createOrEdit', 'formURL', 'buttonAction', 'buttonActionContinue')
         );
     }
@@ -104,11 +105,9 @@ trait OrmController
             'nombre_modelo' => $resource->getLabel(),
             'valor_modelo' => $resource->title($request),
         ]);
+        $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
 
-        return ($request->get('redirect_to') === 'next')
-            ? redirect()->route($this->routeName.'.index', [$resource->getName()])
-                ->with('alert_message', $alertMessage)
-            : redirect()->route($this->routeName.'.create', [$resource->getName()])
+        return redirect()->route($this->routeName.$nextRoute, [$resource->getName()])
                 ->with('alert_message', $alertMessage);
     }
 
@@ -120,13 +119,9 @@ trait OrmController
      */
     public function show($resource = null, $modelId = null)
     {
-        $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->model()->findOrNew($modelId));
+        $resource = $this->getResource($resource)->findOrNew($modelId);
 
-        return view(
-            'orm.orm_show',
-            compact('resource', 'modelId')
-        );
+        return view('orm.orm_show', compact('resource', 'modelId'));
     }
 
     /**
@@ -137,8 +132,7 @@ trait OrmController
      */
     public function edit($resource = null, $modelId = null)
     {
-        $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->model()->findOrNew($modelId));
+        $resource = $this->getResource($resource)->findOrNew($modelId);
 
         $accionForm = trans('orm.title_edit');
         $createOrEdit  = 'edit';
@@ -161,35 +155,18 @@ trait OrmController
      */
     public function update(Request $request, $resource = null, $modelId = null)
     {
-        $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->model()->findOrFail($modelId));
+        $resource = $this->getResource($resource)->findOrFail($modelId);
         $this->validate($request, $resource->getValidation($request));
 
-        // actualiza el objeto
-        $resource->model()->update($request->all());
-
-        // actualiza las tablas relacionadas
-        collect($resource->fields($request))
-            // filtra los campos de TIPO_HAS_MANY
-            ->filter(function($elem) {
-                return get_class($elem) === 'App\OrmModel\OrmField\HasMany';
-            })
-            // Sincroniza la tabla relacionada
-            ->each(function ($field) use ($resource, $request) {
-                $resource->model()
-                    ->{$field->getField()}()
-                    ->sync($request->input($field->getField(), []));
-            });
+        $resource->update($request, $modelId);
 
         $alertMessage = trans('orm.msg_save_ok', [
             'nombre_modelo' => $resource->getLabel(),
             'valor_modelo' => $resource->title($request),
         ]);
+        $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
 
-        return ($request->get('redirect_to') === 'next')
-            ? redirect()->route($this->routeName.'.show', [$resource->getName(), $modelId])
-                ->with('alert_message', $alertMessage)
-            : redirect()->route($this->routeName.'.edit', [$resource->getName(), $modelId])
+        return redirect()->route($this->routeName.$nextRoute, [$resource->getName(), $modelId])
                 ->with('alert_message', $alertMessage);
     }
 
@@ -201,8 +178,7 @@ trait OrmController
      */
     public function destroy(Request $request, $resource = null, $modelId = null)
     {
-        $resource = $this->getResource($resource);
-        $resource = $resource->injectModel($resource->model()->findOrFail($modelId));
+        $resource = $this->getResource($resource)->findOrFail($modelId);
         $resource->model()->destroy($modelId);
 
         return redirect()

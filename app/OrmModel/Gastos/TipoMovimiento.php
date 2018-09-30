@@ -12,6 +12,7 @@ class TipoMovimiento extends Resource
 {
     public $model = 'App\Gastos\TipoMovimiento';
     public $label = 'Tipo de Movimiento';
+    public $labelPlural = 'Tipos de Movimiento';
     public $icono = 'sitemap';
     public $title = 'tipo_movimiento';
     public $search = [

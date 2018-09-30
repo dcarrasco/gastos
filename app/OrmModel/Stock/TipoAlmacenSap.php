@@ -13,7 +13,8 @@ use App\OrmModel\OrmField\HasMany;
 class TipoAlmacenSap extends Resource
 {
     public $model = 'App\Stock\TipoAlmacenSap';
-    public $label = 'Tipo Almacen SAP';
+    public $label = 'Tipo de Almacen SAP';
+    public $labelPlural = 'Tipos de Almacenes SAP';
     public $icono = 'th';
     public $title = 'tipo';
     public $search = [

@@ -27,17 +27,16 @@ class ConfigController extends Controller
     {
         $this->routeName  = 'inventarioConfig';
         $this->menuModulo = [
-            new Auditor,
-            new Familia,
-            new Catalogo,
-            new TipoInventario,
-            new Inventario,
-            new DetalleInventario,
-            new TipoUbicacion,
-            new Centro,
-            new Almacen,
-            new UnidadMedida,
-            // 'detalleInventario' => ['nombre'=>'Detalle inventario', 'icono'=>'list'],
+            Auditor::class,
+            Familia::class,
+            Catalogo::class,
+            TipoInventario::class,
+            Inventario::class,
+            DetalleInventario::class,
+            TipoUbicacion::class,
+            Centro::class,
+            Almacen::class,
+            UnidadMedida::class,
         ];
 
         $this->makeView();

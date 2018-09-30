@@ -10,6 +10,7 @@ class TipoInventario extends Resource
 {
     public $model = 'App\Inventario\TipoInventario';
     public $label = 'Tipo de inventario';
+    public $labelPlural = 'Tipos de inventario';
     public $icono = 'th';
     public $title = 'desc_tipo_inventario';
     public $search = [

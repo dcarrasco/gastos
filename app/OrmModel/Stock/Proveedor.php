@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Text;
 class Proveedor extends Resource
 {
     public $model = 'App\Stock\Proveedor';
+    public $labelPlural = 'Proveedores';
     public $icono = 'shopping-cart';
     public $title = 'des_proveedor';
     public $search = [

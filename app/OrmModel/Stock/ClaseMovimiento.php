@@ -10,6 +10,7 @@ class ClaseMovimiento extends Resource
 {
     public $model = 'App\Stock\ClaseMovimiento';
     public $label = 'Clase de Movimiento SAP';
+    public $labelPlural = 'Clases de Movimientos SAP';
     public $icono = 'th';
     public $title = 'nom_usuario';
     public $search = [

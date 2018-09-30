@@ -12,6 +12,7 @@ class App extends Resource
 {
     public $model = 'App\Acl\App';
     public $label = 'Aplicacion';
+    public $labelPlural = 'Aplicaciones';
     public $icono = 'folder-o';
     public $title = 'app';
     public $search = [

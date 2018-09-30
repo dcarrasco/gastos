@@ -15,6 +15,7 @@ class ClasifAlmacenSap extends Resource
 {
     public $model = 'App\Stock\ClasifAlmacenSap';
     public $label = 'Clasificacion de Almacen SAP';
+    public $labelPlural = 'Clasificaciones de Almacenes SAP';
     public $icono = 'th';
     public $title = 'clasificacion';
     public $search = [

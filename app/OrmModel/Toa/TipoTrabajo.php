@@ -11,6 +11,7 @@ class TipoTrabajo extends Resource
     public $model = 'App\Toa\TipoTrabajo';
     public $icono = 'television';
     public $label = 'Tipo de Trabajo TOA';
+    public $labelPlural = 'Tipos de Trabajos TOA';
     public $title = 'desc_tipo';
     public $search = [
         'id_tipo', 'desc_tipo',

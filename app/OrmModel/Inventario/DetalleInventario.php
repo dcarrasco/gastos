@@ -15,6 +15,7 @@ class DetalleInventario extends Resource
 {
     public $model = 'App\Inventario\DetalleInventario';
     public $label = 'Detalle de inventario';
+    public $labelPlural = 'Detalles de inventario';
     public $icono = 'search-plus';
     public $title = 'descripcion';
     public $search = [

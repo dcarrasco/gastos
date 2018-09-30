@@ -20,12 +20,12 @@ class ConfigController extends Controller
     {
         $this->routeName  = 'toaConfig';
         $this->menuModulo = [
-            new Tecnico,
-            new Empresa,
-            new TipMaterialTrabajo,
-            new TipoTrabajo,
-            new Ciudad,
-            new EmpresaCiudad,
+            Tecnico::class,
+            Empresa::class,
+            TipMaterialTrabajo::class,
+            TipoTrabajo::class,
+            Ciudad::class,
+            EmpresaCiudad::class,
         ];
 
         $this->makeView();

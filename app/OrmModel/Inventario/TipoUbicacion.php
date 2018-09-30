@@ -13,6 +13,7 @@ class TipoUbicacion extends Resource
     public $model = 'App\Inventario\TipoUbicacion';
     public $icono = 'th';
     public $label = 'Tipo de Ubicacion';
+    public $labelPlural = 'Tipos de Ubicacion';
     public $title = 'tipo_ubicacion';
     public $search = [
         'id', 'tipo_ubicacion'

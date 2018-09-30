@@ -6,6 +6,7 @@ use DB;
 use App\OrmModel\OrmField;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\OrmModel\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -25,7 +26,7 @@ class Resource
     protected $modelObject = null;
     protected $modelList = null;
 
-    protected $perPage = 10;
+    protected $perPage = 25;
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
     protected $filterKey = 'filtro';
@@ -109,9 +110,8 @@ class Resource
     public function makeModelObject(Request $request)
     {
         if (is_null($this->modelObject)) {
-            $this->modelObject = (new $this->model)->setPerPage(
-                empty($request->input('PerPage')) ? $this->perPage : $request->input('PerPage')
-            );
+            $this->modelObject = (new $this->model)
+                ->setPerPage(empty($request->PerPage) ? $this->perPage : $request->PerPage);
         }
 
         return $this;
@@ -337,52 +337,36 @@ class Resource
         });
     }
 
+    public function findOrFail($modelId)
+    {
+        $this->injectModel($this->modelObject->findOrFail($modelId));
 
+        return $this;
+    }
 
-    // public static function new()
-    // {
-    //     return new static;
-    // }
+    public function findOrNew($modelId)
+    {
+        $this->injectModel($this->modelObject->findOrNew($modelId));
 
-    // public function getField($field = '')
-    // {
-    //     return array_get($this->modelFields, $field, new OrmField);
-    // }
+        return $this;
+    }
 
-    // public function getRelatedModel($field = '')
-    // {
-    //     return $this->getField($field)->getRelatedModel();
-    // }
+    public function update(Request $request)
+    {
+        // actualiza el objeto
+        $this->modelObject->update($request->all());
 
-    // public function getFieldsList($mostrarID = false)
-    // {
-    //     return collect($this->modelFields)
-    //         ->filter(function ($field) {
-    //             return $field->getMostrarLista();
-    //         })
-    //         // ->filter(function ($field) use ($mostrarID) {
-    //         //     return ($mostrarID or $field->getTipo() !== OrmField::TIPO_ID);
-    //         // })
-    //         ->keys()
-    //         ->all();
-    // }
-
-
-
-    // public function getWhereFromRelation($field = null)
-    // {
-    //     if (!$this->getField($field)->hasRelationConditions()) {
-    //         return [];
-    //     }
-
-    //     $object = $this;
-
-    //     return collect($this->getField($field)->getRelationConditions())
-    //         ->map(function ($elem, $key) use ($object) {
-    //             list($tipo, $campo, $default) = explode(':', $elem);
-    //             return $object->{$campo};
-    //         })
-    //         ->all();
-    // }
+        // actualiza las tablas relacionadas
+        collect($this->fields($request))
+            // filtra los campos de TIPO_HAS_MANY
+            ->filter(function($elem) {
+                return get_class($elem) === HasMany::class;
+            })
+            // Sincroniza la tabla relacionada
+            ->each(function ($field) use ($request) {
+                $this->modelObject->{$field->getField()}()
+                    ->sync($request->input($field->getField(), []));
+            });
+    }
 
 }

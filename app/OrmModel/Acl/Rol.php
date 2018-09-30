@@ -12,6 +12,7 @@ use App\OrmModel\OrmField\BelongsTo;
 class Rol extends Resource
 {
     public $model = 'App\Acl\Rol';
+    public $labelPlural = 'Roles';
     public $icono = 'server';
     public $title = 'rol';
     public $search = [

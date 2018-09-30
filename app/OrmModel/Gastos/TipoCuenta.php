@@ -12,6 +12,7 @@ class TipoCuenta extends Resource
 {
     public $model = 'App\Gastos\TipoCuenta';
     public $label = 'Tipo de Cuenta';
+    public $labelPlural = 'Tipos de Cuenta';
     public $icono = 'sitemap';
     public $title = 'tipo_cuenta';
     public $search = [

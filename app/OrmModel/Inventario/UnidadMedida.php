@@ -10,6 +10,7 @@ class UnidadMedida extends Resource
 {
     public $model = 'App\Inventario\UnidadMedida';
     public $label = 'Unidad de medida';
+    public $labelPlural = 'Unidades de medida';
     public $icono = 'balance-scale';
     public $title = 'desc_unidad';
     public $search = [

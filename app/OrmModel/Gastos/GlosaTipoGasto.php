@@ -11,6 +11,8 @@ use App\OrmModel\OrmField\BelongsTo;
 class GlosaTipoGasto extends Resource
 {
     public $model = 'App\Gastos\GlosaTipoGasto';
+    public $label = 'Glosa Tipo de Gasto';
+    public $labelPlural = 'Glosas Tipos de Gasto';
     public $icono = 'sitemap';
     public $title = 'glosa';
     public $search = [

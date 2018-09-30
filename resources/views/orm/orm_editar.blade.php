@@ -38,7 +38,7 @@
         </table>
    </div>
 </div> <!-- DIV   class="row" -->
-{!! Form::hidden('redirect_to','next') !!}
+{!! Form::hidden('redirect_to', 'next') !!}
 {!! Form::close()!!}
 
 

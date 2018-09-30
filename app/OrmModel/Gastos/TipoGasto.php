@@ -12,6 +12,7 @@ class TipoGasto extends Resource
 {
     public $model = 'App\Gastos\TipoGasto';
     public $label = 'Tipo de Gasto';
+    public $labelPlural = 'Tipos de Gasto';
     public $icono = 'sitemap';
     public $title = 'tipo_gasto';
     public $search = [

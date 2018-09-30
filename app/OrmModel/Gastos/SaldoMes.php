@@ -13,6 +13,7 @@ class SaldoMes extends Resource
 {
     public $model = 'App\Gastos\SaldoMes';
     public $label = 'Saldo Mes';
+    public $labelPlural = 'Saldos Mes';
     public $icono = 'calculator';
     public $title = 'id';
     public $search = [

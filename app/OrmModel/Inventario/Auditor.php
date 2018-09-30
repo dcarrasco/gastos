@@ -13,6 +13,7 @@ use App\OrmModel\Filters\AuditoresActivos;
 class Auditor extends Resource
 {
     public $model = 'App\Inventario\Auditor';
+    public $labelPlural = 'Auditores';
     public $icono = 'list';
     public $title = 'nombre';
     public $search = [

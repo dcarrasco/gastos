@@ -13,6 +13,7 @@ class TipMaterialTrabajo extends Resource
     public $model = 'App\Toa\TipMaterialTrabajo';
     public $icono = 'object-group';
     public $label = 'Tipo de Material Trabajo TOA';
+    public $labelPlural = 'Tipos de Materiales Trabajo TOA';
     public $title = 'desc_tip_material';
     public $search = [
         'id', 'desc_tip_material', 'color',

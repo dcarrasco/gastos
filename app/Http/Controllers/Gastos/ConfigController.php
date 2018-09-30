@@ -26,14 +26,14 @@ class ConfigController extends Controller
         $this->routeName  = 'gastosConfig';
 
         $this->menuModulo = [
-            new Banco,
-            new TipoCuenta,
-            new Cuenta,
-            new TipoMovimiento,
-            new TipoGasto,
-            new GlosaTipoGasto,
-            new SaldoMes,
-            new Gasto,
+            Banco::class,
+            TipoCuenta::class,
+            Cuenta::class,
+            TipoMovimiento::class,
+            TipoGasto::class,
+            GlosaTipoGasto::class,
+            SaldoMes::class,
+            Gasto::class,
         ];
 
         $this->makeView();

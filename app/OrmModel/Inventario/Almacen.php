@@ -9,6 +9,7 @@ use App\OrmModel\OrmField\Text;
 class Almacen extends Resource
 {
     public $model = 'App\Inventario\Almacen';
+    public $labelPlural = 'Almacenes';
     public $icono = 'home';
     public $title = 'almacen';
     public $search = [

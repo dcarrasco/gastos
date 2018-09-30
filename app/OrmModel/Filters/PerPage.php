@@ -17,7 +17,6 @@ class PerPage extends Filter
     public function options()
     {
         return [
-            '10' => 10,
             '25' => 25,
             '50' => 50,
             '100' => 100,

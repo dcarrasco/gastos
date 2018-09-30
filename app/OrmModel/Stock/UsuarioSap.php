@@ -10,6 +10,7 @@ class UsuarioSap extends Resource
 {
     public $model = 'App\Stock\UsuarioSap';
     public $label = 'Usuario SAP';
+    public $labelPlural = 'Usuarios SAP';
     public $icono = 'user';
     public $title = 'nom_usuario';
     public $search = [

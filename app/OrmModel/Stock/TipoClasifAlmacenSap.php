@@ -11,7 +11,8 @@ class TipoClasifAlmacenSap extends Resource
 {
     public $model = 'App\Stock\TipoClasifAlmacenSap';
     public $icono = 'th';
-    public $label = 'Tipo Clasificacion de Almacen SAP';
+    public $label = 'Tipo de Clasificacion de Almacen SAP';
+    public $labelPlural = 'Tipos de Clasificacion de Almacenes SAP';
     public $title = 'tipo';
     public $search = [
         'id_tipoclasif', 'tipo', 'color'
