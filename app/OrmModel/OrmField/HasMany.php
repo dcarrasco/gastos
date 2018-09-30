@@ -64,11 +64,10 @@ class HasMany extends Relation
         $field = $this->getField($resource);
         $value = $resource->model()->{$field};
 
-        $elementosSelected = collect($value)
-            ->map(function ($resourceElem) {
-                return $resourceElem->getKey();
-            })
-            ->all();
+        $elementosSelected = collect($value)->map(function ($resourceElem) {
+            return $resourceElem->getKey();
+        })
+        ->all();
 
         return Form::select(
             $this->name.'[]',

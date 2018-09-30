@@ -35,9 +35,10 @@ trait OrmController
         view()->share('perPageFilter', new PerPage);
         view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
         view()->share('routeName', $this->routeName);
-        view()->share('moduloSelected', empty(Route::input('modelName'))
-            ? collect(array_keys($this->menuModulo))->first()
-            : Route::input('modelName')
+
+        $resource = collect($this->menuModulo)->first();
+        view()->share('moduloSelected',
+            empty(Route::input('modelName')) ? (new $resource)->getName() : Route::input('modelName')
         );
     }
 
@@ -197,8 +198,7 @@ trait OrmController
      */
     public function ajaxOnChange(Request $request, $resource = null)
     {
-        $resource = $this->getResource($resource);
-
-        return $resource->getModelAjaxFormOptions($request->input());
+        return $this->getResource($resource)
+            ->getModelAjaxFormOptions($request);
     }
 }

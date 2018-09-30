@@ -306,20 +306,20 @@ class Resource
             ->links();
     }
 
-    public function getModelAjaxFormOptions($where = [])
+    public function getModelAjaxFormOptions(Request $request)
     {
-        return ajax_options($this->getModelFormOptions($where));
+        return ajax_options($this->getModelFormOptions($request));
     }
 
-    public function getModelFormOptions($where = [])
+    public function getModelFormOptions(Request $request)
     {
         $query = $this->modelObject;
 
-        $whereIn = collect($where)->filter(function ($elem, $key) {
+        $whereIn = collect($request->all())->filter(function ($elem, $key) {
             return !is_integer($key) and is_array($elem);
         });
 
-        $whereValue = collect($where)->filter(function ($elem, $key) {
+        $whereValue = collect($request->all())->filter(function ($elem, $key) {
             return is_integer($key) or !is_array($elem);
         })->all();
 
@@ -332,9 +332,10 @@ class Resource
         }
 
         $resource = $this;
-        return $query->get()->mapWithKeys(function ($model) use ($resource) {
-            return [$model->getKey() => $resource->title()];
-        });
+        return $query->get()
+            ->mapWithKeys(function ($model) use ($request, $resource) {
+                return [$model->getKey() => $resource->injectModel($model)->title($request)];
+            });
     }
 
     public function findOrFail($modelId)

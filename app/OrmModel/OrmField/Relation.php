@@ -63,6 +63,22 @@ class Relation extends Field
         return (new $this->relatedResource)->injectModelList($modelList);
     }
 
+    /**
+     * Recupera objetos del recurso relacionado
+     * @param  Request       $request
+     * @param  Resource|null $resource
+     * @param  string        $field
+     * @param  array         $conditions
+     * @return array
+     */
+    protected function getRelatedListModels(Request $request, Resource $resource = null, $conditions = [])
+    {
+        return (new $this->relatedResource)
+            ->resourceOrderBy($request)
+            ->model()
+            ->where($this->getResourceFilter($resource, $conditions))
+            ->get();
+    }
 
     /**
      * Recupera elementos del recurso relacionado
@@ -74,22 +90,13 @@ class Relation extends Field
      */
     public function getRelationOptions(Request $request, Resource $resource = null, $field = '', $conditions = [])
     {
-        $filter = $this->getResourceFilter($resource, $conditions);
-        $relatedModelObject = (new $this->relatedResource)
-            ->resourceOrderBy($request)
-            ->model();
+        $relation = $this->getRelatedListModels($request, $resource, $conditions);
 
-        $relation = empty($filter)
-            ? $relatedModelObject->get()
-            : $relatedModelObject->where($filter)->get();
-
-        $relatedResource = $this->relatedResource;
-        $options = $relation->mapWithKeys(function($model) use ($request, $relatedResource) {
-            $resource = (new $relatedResource)->injectModel($model);
-            return [$model->getKey() => $resource->title($request)];
+        return $relation->mapWithKeys(function($model) use ($request) {
+            return [$model->getKey() =>
+                (new $this->relatedResource)->injectModel($model)->title($request)
+            ];
         })->all();
-
-        return $options;
     }
 
     /**

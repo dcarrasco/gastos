@@ -56,24 +56,33 @@ class BelongsTo extends Relation
         $field = $this->getField($resource);
         $extraParam['id'] = $field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
-
-        $value = $resource->model()->{$field};
-        $foreignKey = $resource->model()->{$this->getField()}()->getForeignKey();
-
         if ($this->hasOnChange()) {
-            $route = \Route::currentRouteName();
-            list($routeName, $routeAction) = explode('.', $route);
-
-            $elemDest = $this->onChange;
-            $url = route($routeName.'.ajaxOnChange', ['modelName' => $elemDest]);
-            $extraParam['onchange'] = "$('#{$elemDest}').html('');"
-                ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
-                ."function (data) { $('#{$elemDest}').html(data); });";
+            $extraParam['onchange'] = $this->makeOnChange($field);
         }
 
-        $form = Form::select($foreignKey, $this->getOptions($request, $resource), $value, $extraParam);
+        $value = $resource->model()->{$field};
+        $form = Form::select($field, $this->getOptions($request, $resource), $value, $extraParam);
 
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
+    }
+
+    protected function makeOnChange($field)
+    {
+            $route = \Route::currentRouteName();
+            list($routeName, $routeAction) = explode('.', $route);
+            if (!is_array($this->onChange)) {
+                $this->onChange = [
+                    'resource' => ucfirst($this->onChange),
+                    'elem' => strtolower($this->onChange),
+                ];
+            }
+
+            $resourceDest = array_get($this->onChange, 'resource');
+            $elemDest = array_get($this->onChange, 'elem');
+            $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
+            return "$('#{$elemDest}').html('');"
+                ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
+                ."function (data) { $('#{$elemDest}').html(data); });";
     }
 
     /**
