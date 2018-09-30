@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 class Resource
 {
     use UsesFilters;
+    use UsesDatabase;
 
     public $model = '';
     public $label = '';
@@ -21,7 +22,6 @@ class Resource
     public $title = 'id';
 
     public $search = ['id'];
-    public $orderBy = [];
 
     protected $modelObject = null;
     protected $modelList = null;
@@ -137,56 +137,6 @@ class Resource
     public function injectModelList(Collection $modelList = null)
     {
         $this->modelList = $modelList;
-
-        return $this;
-    }
-
-    /**
-     * Agrega condiciones de filtro a objecto modelo
-     * @param  Request $request
-     * @return Resource
-     */
-    public function resourceFilter(Request $request)
-    {
-        if (empty($request->input($this->filterKey))) {
-            return $this;
-        }
-
-        foreach($this->search as $field) {
-            $this->modelObject = $this->modelObject
-                ->orWhere($field, 'like', '%'.$request->input($this->filterKey).'%');
-        };
-
-        return $this;
-    }
-
-    /**
-     * Devuelve orden del modelo
-     * @return array Arreglo con campos de ordenamiento
-     */
-    public function getOrder()
-    {
-        if (!is_array($this->orderBy)) {
-            $this->orderBy = [(string) $this->orderBy => 'asc'];
-        }
-
-        return $this->orderBy;
-    }
-
-    /**
-     * Agrega condiciones order-by a objeto del modelo
-     * @param  Request $request
-     * @return Resource
-     */
-    public function resourceOrderBy(Request $request)
-    {
-        $orderBy = $request->has($this->sortByKey)
-            ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
-            : $this->getOrder();
-
-        foreach ($orderBy as $field => $order) {
-            $this->modelObject = $this->modelObject->orderBy($field, $order);
-        }
 
         return $this;
     }
@@ -313,7 +263,7 @@ class Resource
 
     public function getModelFormOptions(Request $request)
     {
-        $query = $this->modelObject;
+        $this->makeModelObject()->resourceOrderBy();
 
         $whereIn = collect($request->all())->filter(function ($elem, $key) {
             return !is_integer($key) and is_array($elem);
@@ -323,51 +273,15 @@ class Resource
             return is_integer($key) or !is_array($elem);
         })->all();
 
-        $query = $query->where($whereValue);
-
+        $query = $this->modelObject->where($whereValue);
         if (! $whereIn->isEmpty()) {
             $whereIn->each(function ($elem, $key) use (&$query) {
                 return $query->whereIn($key, $elem);
             });
         }
 
-        $resource = $this;
-        return $query->get()
-            ->mapWithKeys(function ($model) use ($request, $resource) {
-                return [$model->getKey() => $resource->injectModel($model)->title($request)];
-            });
+        return $query->get()->mapWithKeys(function ($model) use ($request) {
+            return [$model->getKey() => $this->injectModel($model)->title($request)];
+        });
     }
-
-    public function findOrFail($modelId)
-    {
-        $this->injectModel($this->modelObject->findOrFail($modelId));
-
-        return $this;
-    }
-
-    public function findOrNew($modelId)
-    {
-        $this->injectModel($this->modelObject->findOrNew($modelId));
-
-        return $this;
-    }
-
-    public function update(Request $request)
-    {
-        // actualiza el objeto
-        $this->modelObject->update($request->all());
-
-        // actualiza las tablas relacionadas
-        collect($this->fields($request))
-            // filtra los campos de TIPO_HAS_MANY
-            ->filter(function($elem) {
-                return get_class($elem) === HasMany::class;
-            })
-            // Sincroniza la tabla relacionada
-            ->each(function ($field) use ($request) {
-                $this->modelObject->{$field->getField()}()
-                    ->sync($request->input($field->getField(), []));
-            });
-    }
-
 }
