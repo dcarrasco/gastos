@@ -8,6 +8,10 @@ trait UsesDatabase
 {
     public $orderBy = [];
 
+    protected $sortByKey = 'sort-by';
+    protected $sortDirectionKey = 'sort-direction';
+    protected $filterKey = 'filtro';
+
     /**
      * Agrega condiciones de filtro a objecto modelo
      * @param  Request $request

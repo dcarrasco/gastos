@@ -27,9 +27,6 @@ class Resource
     protected $modelList = null;
 
     protected $perPage = 25;
-    protected $sortByKey = 'sort-by';
-    protected $sortDirectionKey = 'sort-direction';
-    protected $filterKey = 'filtro';
 
     public function __construct()
     {
@@ -154,11 +151,7 @@ class Resource
                 return $fieldObject->getField() === $field;
             });
 
-        if (is_null($fieldObject)) {
-            return null;
-        }
-
-        return $fieldObject->getValue($request, $this->modelObject);
+        return optional($fieldObject)->getValue($request, $this->modelObject);
     }
 
     /**
@@ -196,11 +189,9 @@ class Resource
      */
     public function getValidation(Request $request)
     {
-        $resource = $this;
-
         return collect($this->fields($request))
-            ->mapWithKeys(function($field) use ($resource) {
-                return [$field->getField($resource) => $field->getValidation($resource)];
+            ->mapWithKeys(function($field) {
+                return [$field->getField($this) => $field->getValidation($this)];
             })
             ->all();
     }
