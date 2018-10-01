@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\Gastos\Cuenta;
 use App\OrmModel\OrmField\Number;
+use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
 
 class SaldoMes extends Resource
@@ -38,9 +39,9 @@ class SaldoMes extends Resource
 
             Number::make('Mes')->sortable()->rules('required'),
 
-            Number::make('Saldo inicial')->sortable()->rules('required'),
+            Currency::make('Saldo inicial')->sortable()->rules('required'),
 
-            Number::make('Saldo final')->sortable()->rules('required'),
+            Currency::make('Saldo final')->sortable()->rules('required'),
 
         ];
     }

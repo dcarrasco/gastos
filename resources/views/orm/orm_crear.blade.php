@@ -3,34 +3,29 @@
 @section('modulo')
 <div class="row mt-md-2 col-md-12 my-md-2">
     <h4>
-        {{ trans('orm.title_edit') }}
+        {{ trans('orm.title_add') }}
         {{ $resource->getLabel() }}
     </h4>
 </div>
 
-{{ Form::open([
-    'url' => route($routeName.'.update', [$resource->getName(), $modelId]),
-    'id' => 'frm_editar',
-]) }}
-{{ method_field('PUT') }}
+{{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
 <div class="row">
     <div class="col-md-12 my-md-2">
 
-
         <table class="table">
             <tbody>
-    	       	@foreach($resource->detailFields(request()) as $field)
+                @foreach($resource->detailFields(request()) as $field)
                     @include('orm.item_form')
-    			@endforeach
+                @endforeach
 
                 <tr class="bg-light">
                     <td class="text-right">
                         <button type="submit" class="btn btn-primary btn-sm" id="button_continue">
-                            {{ trans('orm.button_update_continue') }}
+                            {{ trans('orm.button_create_continue') }}
                         </button>
 
                         <button type="submit" class="btn btn-primary btn-sm">
-                            {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
+                            {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
                         </button>
                     </td>
                 </tr>

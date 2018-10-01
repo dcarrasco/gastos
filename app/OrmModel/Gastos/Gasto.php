@@ -11,6 +11,7 @@ use App\OrmModel\OrmField\Date;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Number;
 use App\OrmModel\Gastos\TipoGasto;
+use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
 use App\OrmModel\Gastos\TipoMovimiento;
 
@@ -49,7 +50,7 @@ class Gasto extends Resource
             BelongsTo::make('Tipo de Movimiento', 'tipoMovimiento', TipoMovimiento::class)
                 ->rules('required'),
 
-            Number::make('Monto')->sortable()->rules('required'),
+            Currency::make('Monto')->sortable()->rules('required'),
 
             BelongsTo::make('Usuario', 'usuario', Usuario::class)
                 ->hideFromIndex()

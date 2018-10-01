@@ -78,15 +78,8 @@ trait OrmController
     public function create($resource = null)
     {
         $resource = $this->getResource($resource);
-        $accionForm = trans('orm.title_add');
-        $createOrEdit = 'create';
-        $formURL = route($this->routeName.'.store', [$resource->getName()]);
-        $buttonAction = trans('orm.button_create').' '.$resource->getLabel();
-        $buttonActionContinue = trans('orm.button_create_continue');
 
-        return view('orm.orm_editar',
-            compact('resource', 'accionForm', 'createOrEdit', 'formURL', 'buttonAction', 'buttonActionContinue')
-        );
+        return view('orm.orm_crear', compact('resource'));
     }
 
     /**
@@ -102,14 +95,15 @@ trait OrmController
 
         $resource->model()->create($request->all());
 
+        $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
         $alertMessage = trans('orm.msg_save_ok', [
             'nombre_modelo' => $resource->getLabel(),
             'valor_modelo' => $resource->title($request),
         ]);
-        $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
 
-        return redirect()->route($this->routeName.$nextRoute, [$resource->getName()])
-                ->with('alert_message', $alertMessage);
+        return redirect()
+            ->route($this->routeName.$nextRoute, [$resource->getName()])
+            ->with('alert_message', $alertMessage);
     }
 
     /**
@@ -135,16 +129,7 @@ trait OrmController
     {
         $resource = $this->getResource($resource)->findOrNew($modelId);
 
-        $accionForm = trans('orm.title_edit');
-        $createOrEdit  = 'edit';
-        $formURL = route($this->routeName.'.update', [$resource->getName(), $modelId]);
-        $buttonAction = trans('orm.button_update').' '.$resource->getLabel();
-        $buttonActionContinue = trans('orm.button_update_continue');
-
-        return view(
-            'orm.orm_editar',
-            compact('resource', 'modelId', 'accionForm', 'createOrEdit', 'formURL', 'buttonAction', 'buttonActionContinue')
-        );
+        return view('orm.orm_editar', compact('resource', 'modelId'));
     }
 
     /**
@@ -161,14 +146,15 @@ trait OrmController
 
         $resource->update($request, $modelId);
 
+        $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
         $alertMessage = trans('orm.msg_save_ok', [
             'nombre_modelo' => $resource->getLabel(),
             'valor_modelo' => $resource->title($request),
         ]);
-        $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
 
-        return redirect()->route($this->routeName.$nextRoute, [$resource->getName(), $modelId])
-                ->with('alert_message', $alertMessage);
+        return redirect()
+            ->route($this->routeName.$nextRoute, [$resource->getName(), $modelId])
+            ->with('alert_message', $alertMessage);
     }
 
     /**
@@ -182,12 +168,14 @@ trait OrmController
         $resource = $this->getResource($resource)->findOrFail($modelId);
         $resource->model()->destroy($modelId);
 
+        $alertMessage = trans('orm.msg_delete_ok', [
+            'nombre_modelo' => $resource->getLabel(),
+            'valor_modelo' => $resource->title($request)
+        ]);
+
         return redirect()
             ->route($this->routeName.'.index', [$resource->getName()])
-            ->with('alert_message', trans('orm.msg_delete_ok', [
-                'nombre_modelo' => $resource->getLabel(),
-                'valor_modelo' => $resource->title($request),
-            ]));
+            ->with('alert_message', $alertMessage);
     }
 
     /**
