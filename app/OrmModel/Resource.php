@@ -88,7 +88,7 @@ class Resource
      */
     public function title(Request $request)
     {
-        return $this->getValue($request, $this->title);
+        return $this->getFieldValue($request, $this->title);
     }
 
     /**
@@ -141,17 +141,17 @@ class Resource
     /**
      * Recupera el valor de un campo
      * @param  Request $request
-     * @param  string  $field   Campo a recuperar
+     * @param  string  $fieldName   Campo a recuperar
      * @return mixed
      */
-    public function getValue(Request $request, $field = '')
+    public function getFieldValue(Request $request, $fieldName = '')
     {
-        $fieldObject = collect($this->fields($request))
-            ->first(function($fieldObject) use ($field) {
-                return $fieldObject->getField() === $field;
+        $field = collect($this->fields($request))
+            ->first(function($field) use ($fieldName) {
+                return $field->getField() === $fieldName;
             });
 
-        return optional($fieldObject)->getValue($request, $this->modelObject);
+        return optional($field)->getValue($request, $this->modelObject);
     }
 
     /**

@@ -120,16 +120,12 @@ class Field
      */
     protected function getSortingIconClass(Request $request, Resource $resource)
     {
-        $iconClass = $this->sortIconDefault;
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
 
-        if ($sortingField === $this->field)
-        {
-            $iconClass = array_get($this->sortIcons, $sortDirection, $this->sortIconDefault);
-        }
-
-        return $iconClass;
+        return ($sortingField === $this->field)
+            ? array_get($this->sortIcons, $sortDirection, $this->sortIconDefault)
+            : $this->sortIconDefault;
     }
 
     /**
@@ -139,17 +135,13 @@ class Field
      */
     protected function getSortingOrder(Request $request, Resource $resource)
     {
-        $sortOrder = 'asc';
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
         $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
-        if ($sortingField === $this->field)
-        {
-            $sortOrder = array_get($newSortOrder, $sortDirection, 'asc');
-        }
-
-        return $sortOrder;
+        return ($sortingField === $this->field)
+            ? array_get($newSortOrder, $sortDirection, 'asc')
+            : 'asc';
     }
 
     protected function getSortUrl(Request $request, $sortOrder = '')
