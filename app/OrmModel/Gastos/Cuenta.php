@@ -60,7 +60,7 @@ class Cuenta extends Resource
             })
             ->all();
 
-        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->year), ['class' => 'form-control']);
     }
 
     public function getFormMes(Request $request)
@@ -81,6 +81,6 @@ class Cuenta extends Resource
             12 =>'Diciembre',
         ];
 
-        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->month), ['class' => 'form-control']);
     }
 }
