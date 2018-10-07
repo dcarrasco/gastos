@@ -3,24 +3,19 @@
 @section('modulo')
 <form>
     <div class="form-row">
-        <div class="offset-md-2 col-md-2">
+        <div class="offset-md-3 col-md-3">
             <label class="col-form-label">Cuenta</label>
         </div>
         <div class="col-md-2">
             <label class="col-form-label">Año</label>
         </div>
-        <div class="col-md-2">
-            <label class="col-form-label">Mes</label>
-        </div>
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2"> {{ $formCuenta }} </div>
+        <div class="offset-md-3 col-md-3"> {{ $formCuenta }} </div>
         <div class="col-md-2"> {{ $formAnno }} </div>
-        <div class="col-md-2"> {{ $formMes }} </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
-            <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
         </div>
     </div>
 </form>
@@ -32,34 +27,24 @@
             <th>Mes</th>
             <th>Fecha</th>
             <th>Glosa</th>
-            <th>Serie</th>
-            <th>Tipo Gasto</th>
+            <th>Tipo Movimiento</th>
             <th class="text-right">Monto</th>
             <th class="text-right">Saldo</th>
+            <th class="text-right">Util</th>
+            <th class="text-right">Rentab</th>
+            <th class="text-right">Rentab Año</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    <?php $saldo = $saldoMesAnterior; ?>
-        <tr>
-            <th>{{ request()->input('anno') }}</th>
-            <th>{{ request()->input('mes') }}</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>Saldo Inicial</th>
-            <th class="text-right"></th>
-            <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
-            <th></th>
-        </tr>
-    @foreach ($movimientosMes as $mov)
+    <?php $saldo = 0; ?>
+    @foreach ($inversion->getMovimientos() as $mov)
         <tr>
             <td>{{ $mov->anno }}</td>
             <td>{{ $mov->mes }}</td>
             <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
             <td>{{ $mov->glosa }}</td>
-            <td>{{ $mov->serie }}</td>
-            <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
+            <td>{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
             <td class="text-right">
                 $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
                 @if ($mov->tipoMovimiento->signo == -1)
@@ -71,6 +56,9 @@
             <td class="text-right">
                 $&nbsp;{{ number_format($saldo += $mov->tipoMovimiento->signo*$mov->monto, 0, ',', '.') }}
             </td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td>
                 {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
                     {!! method_field('DELETE')!!}
@@ -82,29 +70,49 @@
             </td>
         </tr>
     @endforeach
+        <tr>
+            <td>{{ optional($inversion->saldoFinal())->anno }}</td>
+            <td>{{ optional($inversion->saldoFinal())->mes }}</td>
+            <td>{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</td>
+            <td>{{ optional($inversion->saldoFinal())->glosa }}</td>
+            <td>{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</td>
+            <td></td>
+            <td class="text-right">
+                $&nbsp;{{ number_format(optional($inversion->saldoFinal())->monto, 0, ',', '.') }}
+            </td>
+            <td class="text-right">
+                $&nbsp;{{ number_format($inversion->util(), 0, ',', '.') }}
+            </td>
+            <td class="text-right">
+                {{ number_format(100*$inversion->rentabilidad(), 2, ',', '.') }}%
+            </td>
+            <td class="text-right">
+                {{ number_format(100*$inversion->rentabilidadAnual(), 2, ',', '.') }}%
+            </td>
+            <td></td>
+        </tr>
         {{ Form::open([]) }}
         <tr>
             {{ Form::hidden('cuenta_id', request()->input('cuenta_id')) }}
             {{ Form::hidden('anno', request()->input('anno')) }}
-            {{ Form::hidden('mes', request()->input('mes')) }}
             <td></td>
             <td></td>
             <td>
-                {{ Form::date('fecha', request()->input('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                {{ Form::date('fecha', request()->input('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
             </td>
             <td>
-                {{ Form::text('glosa', request()->input('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                {{ Form::text('glosa', request()->input('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('glosa') ? ' is-invalid' : '')]) }}
             </td>
-            <td>
-                {{ Form::text('serie', request()->input('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
-            </td>
-            <td>{{ $formTipoGasto }}</td>
+            <td>{{ $formTipoMovimiento }}</td>
             <td>
                 <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
             </td>
             <td>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
             </td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
         </tr>
         {{ Form::close() }}

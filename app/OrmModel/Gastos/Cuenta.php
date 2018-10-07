@@ -3,6 +3,7 @@
 namespace App\OrmModel\Gastos;
 
 use Carbon\Carbon;
+use App\Gastos\TipoCuenta as TipoCuentaModel;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
@@ -39,16 +40,28 @@ class Cuenta extends Resource
         ];
     }
 
-    public function getFormCuenta(Request $request)
+    protected function getFormCuenta(Request $request, $filtroTipoCuenta = [])
     {
         $inputName = 'cuenta_id';
 
-        $options = $this->resourceOrderBy($request)->model()->get()
+        $options = $this->resourceOrderBy($request)->model()
+            ->whereIn('tipo_cuenta_id', $filtroTipoCuenta)
+            ->get()
             ->mapWithKeys(function($cuenta) {
                 return [$cuenta->getKey() => $cuenta->cuenta];
             });
 
         return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+    }
+
+    public function getFormCuentaGastos(Request $request)
+    {
+        return $this->getFormCuenta($request, TipoCuentaModel::CUENTAS_GASTOS);
+    }
+
+    public function getFormCuentaInversiones(Request $request)
+    {
+        return $this->getFormCuenta($request, TipoCuentaModel::CUENTAS_INVERSIONES);
     }
 
     public function getFormAnno(Request $request)
@@ -63,7 +76,7 @@ class Cuenta extends Resource
         return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->year), ['class' => 'form-control']);
     }
 
-    public function getFormMes(Request $request)
+    public function getFormMes(Request $request, $extraParam = [])
     {
         $inputName = 'mes';
         $options = [
@@ -81,6 +94,6 @@ class Cuenta extends Resource
             12 =>'Diciembre',
         ];
 
-        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->month), ['class' => 'form-control']);
+        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->month), array_merge(['class' => 'form-control'], $extraParam));
     }
 }

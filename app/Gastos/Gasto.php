@@ -61,6 +61,34 @@ class Gasto extends Model
             ->get();
     }
 
+    public function movimientosAnno(Request $request)
+    {
+        $filtro = $request->only('cuenta_id', 'anno');
+
+        if (count($filtro) !== 2) {
+            return [];
+        }
+
+        return $this->where($filtro)
+            ->where('tipo_movimiento_id', '<>', 4)
+            ->orderBy('fecha', 'asc')
+            ->get();
+    }
+
+    public function saldos(Request $request)
+    {
+        $filtro = $request->only('cuenta_id', 'anno');
+
+        if (count($filtro) !== 2) {
+            return [];
+        }
+
+        return $this->where($filtro)
+            ->where('tipo_movimiento_id', 4)
+            ->orderBy('fecha', 'asc')
+            ->get();
+    }
+
     public function getTotalMes(Request $request)
     {
         return $this->movimientosMes($request)

@@ -38,7 +38,7 @@ class TipoMovimiento extends Resource
     }
 
 
-    public function getFormTipoMovimiento(Request $request)
+    public function getFormTipoMovimiento(Request $request, $extraParam = [])
     {
         $inputName = 'tipo_movimiento_id';
         $options = $this->resourceOrderBy($request)
@@ -48,6 +48,6 @@ class TipoMovimiento extends Resource
             })
             ->all();
 
-        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
+        return \Form::select($inputName, $options, $request->input($inputName), array_merge(['class' => 'form-control'], $extraParam));
     }
 }

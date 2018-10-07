@@ -84,6 +84,8 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
     Route::get('reporte', 'Reporte@reporte')->name('reporte');
     Route::get('ingreso-masivo', 'IngresoMasivo@ingresoMasivo')->name('ingresoMasivo');
     Route::post('ingreso-masivo', 'IngresoMasivo@ingresoMasivo')->name('ingresoMasivo');
+    Route::get('ingreso-inversion', 'IngresoInversion@formularioIngreso')->name('ingresoInversion');
+    Route::post('ingreso-inversion', 'IngresoInversion@addInversion')->name('addInversion');
 });
 
 

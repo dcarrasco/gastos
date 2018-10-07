@@ -13,7 +13,7 @@ class Reporte extends Controller
 {
     protected function reporte(Request $request)
     {
-        $formCuenta = (new Cuenta)->getFormCuenta($request);
+        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request);
 

@@ -21,7 +21,7 @@ class Ingreso extends Controller
             (new SaldoMes)->recalculaSaldoMes($request);
         }
 
-        $formCuenta = (new Cuenta)->getFormCuenta($request);
+        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $formMes = (new Cuenta)->getFormMes($request);
         $formTipoGasto = (new TipoGasto)->getFormTipoGasto($request);

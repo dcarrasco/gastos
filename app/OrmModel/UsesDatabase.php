@@ -3,6 +3,7 @@
 namespace App\OrmModel;
 
 use Illuminate\Http\Request;
+use App\OrmModel\OrmField\HasMany;
 
 trait UsesDatabase
 {

@@ -13,7 +13,7 @@ class IngresoMasivo extends Controller
 {
     public function ingresoMasivo(Request $request)
     {
-        $formCuenta = (new Cuenta)->getFormCuenta($request);
+        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $formMes = (new Cuenta)->getFormMes($request);
         $datosMasivos = (new VisaParser)->procesaMasivo($request);
