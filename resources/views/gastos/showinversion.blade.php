@@ -30,10 +30,10 @@
             <th>Tipo Movimiento</th>
             <th class="text-right">Monto</th>
             <th class="text-right">Saldo</th>
+            <th></th>
             <th class="text-right">Util</th>
             <th class="text-right">Rentab</th>
             <th class="text-right">Rentab Año</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -56,9 +56,6 @@
             <td class="text-right">
                 $&nbsp;{{ number_format($saldo += $mov->tipoMovimiento->signo*$mov->monto, 0, ',', '.') }}
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td>
                 {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
                     {!! method_field('DELETE')!!}
@@ -68,28 +65,31 @@
                     </button>
                 {{ Form::close() }}
             </td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     @endforeach
-        <tr>
-            <td>{{ optional($inversion->saldoFinal())->anno }}</td>
-            <td>{{ optional($inversion->saldoFinal())->mes }}</td>
-            <td>{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</td>
-            <td>{{ optional($inversion->saldoFinal())->glosa }}</td>
-            <td>{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</td>
-            <td></td>
-            <td class="text-right">
+        <tr class="bg-light">
+            <th>{{ optional($inversion->saldoFinal())->anno }}</th>
+            <th>{{ optional($inversion->saldoFinal())->mes }}</th>
+            <th>{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</th>
+            <th>{{ optional($inversion->saldoFinal())->glosa }}</th>
+            <th>{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</th>
+            <th></th>
+            <th class="text-right">
                 $&nbsp;{{ number_format(optional($inversion->saldoFinal())->monto, 0, ',', '.') }}
-            </td>
-            <td class="text-right">
+            </th>
+            <th></th>
+            <th class="text-right">
                 $&nbsp;{{ number_format($inversion->util(), 0, ',', '.') }}
-            </td>
-            <td class="text-right">
+            </th>
+            <th class="text-right">
                 {{ number_format(100*$inversion->rentabilidad(), 2, ',', '.') }}%
-            </td>
-            <td class="text-right">
+            </th>
+            <th class="text-right">
                 {{ number_format(100*$inversion->rentabilidadAnual(), 2, ',', '.') }}%
-            </td>
-            <td></td>
+            </th>
         </tr>
         {{ Form::open([]) }}
         <tr>

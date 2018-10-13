@@ -29,7 +29,7 @@ class Inversion
 
     protected function getSumMovimientos()
     {
-        if ($this->sumMovimientos === 0) {
+        if ($this->sumMovimientos === 0 and ! empty($this->movimientos)) {
             $this->sumMovimientos = $this->movimientos
                 ->map(function($movimiento) {
                     return $movimiento->monto * optional($movimiento->tipoMovimiento)->signo;
@@ -56,6 +56,10 @@ class Inversion
 
     public function rentabilidadAnual($saldoFinal = null)
     {
+        if (empty($this->movimientos)) {
+            return;
+        }
+
         $fechaIni = optional($this->movimientos->first())->fecha;
 
         if (is_null($fechaIni)) {
