@@ -19,24 +19,20 @@
 	        @include('orm.validation_errors')
 		</div>
 
-		{{ Form::open(['id' => 'form_login', 'class' => 'form-horizontal']) }}
+		{{ Form::open(['id' => 'form_login']) }}
 
-			<div class="control-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
-				<label class="control-label" for="username">
+			<div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
+				<label for="username">
 					{{ trans('login.input_user') }}
 				</label>
-				<div class="controls">
-					{{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control input-lg', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
-				</div>
+				{{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control form-control-lg', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
 			</div>
 
-			<div class="control-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
-				<label class="control-label" for="pwd">
+			<div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
+				<label for="pwd">
 					{{ trans('login.input_password') }}
 				</label>
-				<div class="controls">
-					{{ Form::password('password', ['maxlength' => '45', 'size' => '40', 'tabindex' => '2', 'class' => 'form-control input-lg', 'autocomplete' => 'off']) }}
-				</div>
+				{{ Form::password('password', ['maxlength' => '45', 'size' => '40', 'tabindex' => '2', 'class' => 'form-control form-control-lg', 'autocomplete' => 'off']) }}
 			</div>
 
 			<div class="control-group col-md-10 offset-md-1 col-xs-12">
@@ -57,13 +53,11 @@
 				</div>
 			@endif
 
-			<div class="control-group col-md-10 offset-md-1 col-xs-12">
-				<div class="checkbox">
-					<label>
-						{{ Form::checkbox('remember', 'remember', old('remember')) }}
-						{{ trans('login.check_remember_me') }}
-					</label>
-				</div>
+			<div class="custom-control custom-checkbox col-md-10 offset-md-2">
+				{{ Form::checkbox('remember', 'remember', old('remember'), ['class' => 'custom-control-input', 'id' => 'remember-id']) }}
+				<label class="custom-control-label" for="remember-id">
+					{{ trans('login.check_remember_me') }}
+				</label>
 			</div>
 
 			<div class="control-group col-md-10 offset-md-1 col-xs-12">
@@ -71,7 +65,7 @@
 			</div>
 
 			<div class="control-group col-md-10 offset-md-1 col-xs-12">
-				<button type="submit" name="btn_submit" class="btn btn-success input-lg col-md-12">
+				<button type="submit" name="btn_submit" class="btn btn-success btn-lg col-md-12">
 					{{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
 				</button>
 			</div>

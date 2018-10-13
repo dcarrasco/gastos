@@ -129,10 +129,9 @@ class Gasto extends Model
 
         return [
             'datos' => $datos,
-            'meses' => [
-                1 => 'Ene', 2 => 'Feb', 3 => 'Mar', 4 => 'Abr', 5 => 'May', 6 => 'Jun',
-                7 => 'Jul', 8 => 'Ago', 9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dic',
-            ],
+            'meses' => collect(range(1,12))->mapWithKeys(function($mes) {
+                return [$mes => Carbon::create(2000, $mes, 1)->format('M')];
+            }),
             'tipo_gasto_id' => $tipo_gasto_id,
             'sum_tipo_gasto' => $sum_tipo_gasto,
             'sum_mes' => $sum_mes,
