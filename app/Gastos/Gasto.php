@@ -49,11 +49,10 @@ class Gasto extends Model
 
     public function movimientosMes(Request $request)
     {
-        $filtro = $request->only('cuenta_id', 'anno', 'mes');
-
-        if (count($filtro) !== 3) {
-            return [];
-        }
+        $filtro = array_merge(
+            ['cuenta_id' => 0, 'anno' => 0, 'mes' => 0],
+            $request->only('cuenta_id', 'anno', 'mes')
+        );
 
         return $this->where($filtro)
             ->orderBy('fecha', 'asc')
@@ -63,11 +62,10 @@ class Gasto extends Model
 
     public function movimientosAnno(Request $request)
     {
-        $filtro = $request->only('cuenta_id', 'anno');
-
-        if (count($filtro) !== 2) {
-            return [];
-        }
+        $filtro = array_merge(
+            ['cuenta_id' => 0, 'anno' => 0],
+            $request->only('cuenta_id', 'anno')
+        );
 
         return $this->where($filtro)
             ->where('tipo_movimiento_id', '<>', 4)
