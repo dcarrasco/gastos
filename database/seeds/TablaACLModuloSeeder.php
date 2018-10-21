@@ -206,5 +206,41 @@ class TablaACLModuloSeeder extends Seeder
             'created_at' => Carbon\Carbon::now(),
         ]);
 
+        // 16
+        DB::table('acl_modulo')->insert([
+            'app_id' => 5,
+            'modulo' => 'Reporte gastos',
+            'descripcion' => 'Reporte gastos',
+            'llave_modulo' => 'pd7nd92jtopol0q',
+            'icono' => 'table',
+            'url' => 'gastos.reporte',
+            'orden' => 20,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
+        // 17
+        DB::table('acl_modulo')->insert([
+            'app_id' => 5,
+            'modulo' => 'Ingreso masivo',
+            'descripcion' => 'Ingreso masivo',
+            'llave_modulo' => 'oms73ueg39dmn03',
+            'icono' => 'calculator',
+            'url' => 'gastos.ingresoMasivo',
+            'orden' => 40,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
+        // 18
+        DB::table('acl_modulo')->insert([
+            'app_id' => 5,
+            'modulo' => 'Ingreso inversiones',
+            'descripcion' => 'Ingreso inversiones',
+            'llave_modulo' => '837dhpo93hnbq3v',
+            'icono' => 'calculator',
+            'url' => 'gastos.ingresoInversion',
+            'orden' => 30,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
+
     }
 }
