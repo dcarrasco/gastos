@@ -26,11 +26,12 @@
 
 <table class="table table-hover table-sm mt-md-3">
     <thead class="thead-light">
-        <th></th>
+        <th>Item</th>
         @foreach($datos['meses'] as $mes)
-        <th class="text-right">{{ $mes}} </th>
+        <th class="text-center">{{ $mes}} </th>
         @endforeach
-        <th class="text-right">Prom</th>
+        <th class="text-center">Total</th>
+        <th class="text-center">Prom</th>
     </thead>
     <tbody>
         @foreach($tipoGasto as $tipo_gasto_id => $tipo_gasto)
@@ -44,7 +45,10 @@
                     @endif
             </td>
             @endforeach
-            <th class="text-right">
+            <th class="text-right table-secondary">
+                $&nbsp;{{ number_format(array_get($datos, "sum_tipo_gasto.$tipo_gasto_id"), 0, ',', '.') }}
+            </th>
+            <th class="text-right table-secondary">
                 $&nbsp;{{ number_format(array_get($datos, "sum_tipo_gasto.$tipo_gasto_id")/count($datos['sum_mes']), 0, ',', '.') }}
             </th>
         </tr>
@@ -56,6 +60,9 @@
                 $&nbsp;{{ number_format(array_get($datos, "sum_mes.$mes", 0), 0, ',', '.') }}
             </td>
             @endforeach
+            <td class="text-right font-weight-bold">
+                $&nbsp;{{ number_format(collect($datos['sum_tipo_gasto'])->sum(), 0, ',', '.') }}
+            </td>
             <td class="text-right font-weight-bold">
                 @if (count($datos['sum_mes']) > 0)
                 $&nbsp;{{ number_format(collect($datos['sum_tipo_gasto'])->sum()/count($datos['sum_mes']), 0, ',', '.') }}

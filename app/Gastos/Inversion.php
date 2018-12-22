@@ -76,8 +76,9 @@ class Inversion
 
     public function getAllRentabilidadesAnual()
     {
-        return $this->saldos->mapWithKeys(function($saldo) {
-            return [$saldo->fecha->format('Y-m-d') => $this->rentabilidadAnual($saldo)];
-        });
+        return "['fecha', 'tasa'],"
+            .$this->saldos->map(function($saldo) {
+                return "['".$saldo->fecha->format('Y-m-d')."',".$this->rentabilidadAnual($saldo)."]";
+            })->implode(',');
     }
 }

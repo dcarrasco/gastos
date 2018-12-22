@@ -118,5 +118,37 @@
         {{ Form::close() }}
     </tbody>
 </table>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+        <?= $rentabilidadesAnual ?>
+    ]);
+
+    var options = {
+      title: 'Desempeño Inversion',
+      legend: { position: 'bottom' },
+      series: {
+        0: {
+            pointSize: 5
+        }
+      },
+      vAxis: {
+        format: '#,##%',
+        minValue: 0
+      }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+    chart.draw(data, options);
+  }
+</script>
+<div id="curve_chart" class="col-md-8 offset-md-2" style="height: 500px"></div>
+
+
 
 @endsection

@@ -19,10 +19,10 @@ class IngresoInversion extends Controller
         $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request, ['class' => 'form-control form-control-sm']);
 
         $inversion = new Inversion($request);
-        // dump($inversion->getAllRentabilidadesAnual());
+        $rentabilidadesAnual = $inversion->getAllRentabilidadesAnual();
 
         return view('gastos.showinversion', compact(
-            'formCuenta', 'formAnno', 'formTipoMovimiento', 'inversion'
+            'formCuenta', 'formAnno', 'formTipoMovimiento', 'inversion', 'rentabilidadesAnual'
         ));
     }
 

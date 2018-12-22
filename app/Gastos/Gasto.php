@@ -78,7 +78,7 @@ class Gasto extends Model
         $filtro = $request->only('cuenta_id', 'anno');
 
         if (count($filtro) !== 2) {
-            return [];
+            return collect();
         }
 
         return $this->where($filtro)
