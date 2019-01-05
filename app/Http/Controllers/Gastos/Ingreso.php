@@ -23,14 +23,16 @@ class Ingreso extends Controller
 
         $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
+        $annoDefault = Carbon::now()->year;
         $formMes = (new Cuenta)->getFormMes($request);
+        $mesDefault = Carbon::now()->month;
         $formTipoGasto = (new TipoGasto)->getFormTipoGasto($request);
 
         $movimientosMes = (new Gasto)->movimientosMes($request);
         $saldoMesAnterior = (new SaldoMes)->getSaldoMesAnterior($request);
 
         return view('gastos.showmes', compact(
-            'formCuenta', 'formAnno', 'formMes', 'movimientosMes', 'formTipoGasto', 'saldoMesAnterior'
+            'formCuenta', 'formAnno', 'annoDefault', 'formMes', 'mesDefault', 'movimientosMes', 'formTipoGasto', 'saldoMesAnterior'
         ));
     }
 

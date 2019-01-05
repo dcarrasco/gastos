@@ -15,9 +15,15 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2"> {{ $formCuenta }} </div>
-        <div class="col-md-2"> {{ $formAnno }} </div>
-        <div class="col-md-2"> {{ $formMes }} </div>
+        <div class="offset-md-2 col-md-2">
+            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('mes', $formMes, request('mes', $mesDefault), ['class' => 'form-control']) }}
+         </div>
         <div class="col-md-3">
             <button type="submit" class="btn btn-primary">Consultar</button>
             <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
@@ -42,8 +48,8 @@
     <tbody>
     <?php $saldo = $saldoMesAnterior; ?>
         <tr>
-            <th>{{ request()->input('anno') }}</th>
-            <th>{{ request()->input('mes') }}</th>
+            <th>{{ request('anno') }}</th>
+            <th>{{ request('mes') }}</th>
             <th></th>
             <th></th>
             <th></th>
@@ -84,19 +90,19 @@
     @endforeach
         {{ Form::open([]) }}
         <tr>
-            {{ Form::hidden('cuenta_id', request()->input('cuenta_id')) }}
-            {{ Form::hidden('anno', request()->input('anno')) }}
-            {{ Form::hidden('mes', request()->input('mes')) }}
+            {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
+            {{ Form::hidden('anno', request('anno')) }}
+            {{ Form::hidden('mes', request('mes')) }}
             <td></td>
             <td></td>
             <td>
-                {{ Form::date('fecha', request()->input('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                {{ Form::date('fecha', request('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
             </td>
             <td>
-                {{ Form::text('glosa', request()->input('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                {{ Form::text('glosa', request('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
             </td>
             <td>
-                {{ Form::text('serie', request()->input('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                {{ Form::text('serie', request('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
             </td>
             <td>{{ $formTipoGasto }}</td>
             <td>

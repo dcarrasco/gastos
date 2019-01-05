@@ -12,8 +12,12 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-3 col-md-3"> {{ $formCuenta }} </div>
-        <div class="col-md-2"> {{ $formAnno }} </div>
+        <div class="offset-md-3 col-md-3">
+            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+        </div>
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
         </div>
@@ -93,17 +97,19 @@
         </tr>
         {{ Form::open([]) }}
         <tr>
-            {{ Form::hidden('cuenta_id', request()->input('cuenta_id')) }}
-            {{ Form::hidden('anno', request()->input('anno')) }}
+            {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
+            {{ Form::hidden('anno', request('anno')) }}
             <td></td>
             <td></td>
             <td>
-                {{ Form::date('fecha', request()->input('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
+                {{ Form::date('fecha', request('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
             </td>
             <td>
-                {{ Form::text('glosa', request()->input('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('glosa') ? ' is-invalid' : '')]) }}
+                {{ Form::text('glosa', request('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('glosa') ? ' is-invalid' : '')]) }}
             </td>
-            <td>{{ $formTipoMovimiento }}</td>
+            <td>
+                {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
+            </td>
             <td>
                 <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
             </td>

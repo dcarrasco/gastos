@@ -27,6 +27,7 @@ class AddGastoRequest extends FormRequest
             'cuenta_id' => 'required',
             'anno' => 'required',
             'mes' => 'required',
+            'fecha' => 'required',
             'tipo_gasto_id' => 'required',
             'monto' => 'required|numeric',
         ];

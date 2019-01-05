@@ -49,12 +49,9 @@ class Gasto extends Model
 
     public function movimientosMes(Request $request)
     {
-        $filtro = array_merge(
-            ['cuenta_id' => 0, 'anno' => 0, 'mes' => 0],
-            $request->only('cuenta_id', 'anno', 'mes')
-        );
-
-        return $this->where($filtro)
+        return $this->whereCuentaId($request->cuenta_id)
+            ->whereAnno($request->anno)
+            ->whereMes($request->mes)
             ->orderBy('fecha', 'asc')
             ->orderBy('id', 'asc')
             ->get();
@@ -62,26 +59,17 @@ class Gasto extends Model
 
     public function movimientosAnno(Request $request)
     {
-        $filtro = array_merge(
-            ['cuenta_id' => 0, 'anno' => 0],
-            $request->only('cuenta_id', 'anno')
-        );
-
-        return $this->where($filtro)
-            ->where('tipo_movimiento_id', '<>', 4)
+         return $this->where('cuenta_id', $request->cuenta_id)
+            ->where('anno', $request->anno)
+            ->where('tipo_movimiento_id', '<>', 4) // excluye movimientos de saldos
             ->orderBy('fecha', 'asc')
             ->get();
     }
 
     public function saldos(Request $request)
     {
-        $filtro = $request->only('cuenta_id', 'anno');
-
-        if (count($filtro) !== 2) {
-            return collect();
-        }
-
-        return $this->where($filtro)
+         return $this->where('cuenta_id', $request->cuenta_id)
+            ->where('anno', $request->anno)
             ->where('tipo_movimiento_id', 4)
             ->orderBy('fecha', 'asc')
             ->get();
@@ -96,15 +84,31 @@ class Gasto extends Model
             ->sum();
     }
 
-    public function getReporte(Request $request)
+    protected function getDataReporte(Request $request)
     {
-        $data = $this
+        return $this
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
             ->where('cuenta_id', $request->cuenta_id)
             ->where('anno', $request->anno)
             ->where('tipo_movimiento_id', $request->tipo_movimiento_id)
             ->groupBy(['mes', 'tipo_gasto_id'])
             ->get();
+    }
+
+    protected function getSumMesDataReporte($request)
+    {
+         return $this
+            ->select(DB::raw('mes, sum(monto) as sum_monto'))
+            ->where('cuenta_id', $request->cuenta_id)
+            ->where('anno', $request->anno)
+            ->where('tipo_movimiento_id', $request->tipo_movimiento_id)
+            ->groupBy(['mes'])
+            ->get();
+    }
+
+    public function getReporte(Request $request)
+    {
+        $data = $this->getDataReporte($request);
 
         $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
 
@@ -118,11 +122,8 @@ class Gasto extends Model
         })->all();
 
         $sum_mes = [];
-        collect($data)->each(function($gasto) use(&$sum_mes) {
-            if (!isset($sum_mes[$gasto->mes])) {
-                $sum_mes[$gasto->mes] = 0;
-            }
-            $sum_mes[$gasto->mes] += $gasto->sum_monto;
+        collect($this->getSumMesDataReporte($request))->each(function($gasto) use(&$sum_mes) {
+            $sum_mes[$gasto->mes] = $gasto->sum_monto;
         });
 
         return [

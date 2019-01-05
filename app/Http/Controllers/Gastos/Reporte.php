@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Gastos;
 
+use \Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class Reporte extends Controller
     {
         $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
+        $annoDefault = Carbon::now()->year;
         $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request);
 
         $datos = (new Gasto)->getReporte($request);
@@ -28,7 +30,7 @@ class Reporte extends Controller
             ->all();
 
         return view('gastos.reporte', compact(
-            'formCuenta', 'formAnno', 'formTipoMovimiento', 'datos', 'tipoGasto'
+            'formCuenta', 'formAnno', 'annoDefault', 'formTipoMovimiento', 'datos', 'tipoGasto'
         ));
     }
 

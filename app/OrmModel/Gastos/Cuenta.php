@@ -42,16 +42,12 @@ class Cuenta extends Resource
 
     protected function getFormCuenta(Request $request, $filtroTipoCuenta = [])
     {
-        $inputName = 'cuenta_id';
-
-        $options = $this->resourceOrderBy($request)->model()
+        return $this->resourceOrderBy($request)->model()
             ->whereIn('tipo_cuenta_id', $filtroTipoCuenta)
             ->get()
             ->mapWithKeys(function($cuenta) {
                 return [$cuenta->getKey() => $cuenta->cuenta];
             });
-
-        return \Form::select($inputName, $options, $request->input($inputName), ['class' => 'form-control']);
     }
 
     public function getFormCuentaGastos(Request $request)
@@ -66,22 +62,17 @@ class Cuenta extends Resource
 
     public function getFormAnno(Request $request)
     {
-        $inputName = 'anno';
         $options = range(Carbon::now()->year, 2010, -1);
-        $options = array_combine($options, $options);
 
-        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->year), ['class' => 'form-control']);
+        return array_combine($options, $options);
     }
 
-    public function getFormMes(Request $request, $extraParam = [])
+    public function getFormMes(Request $request)
     {
-        $inputName = 'mes';
-        $options = collect(range(1,12))
+        return collect(range(1,12))
             ->mapWithKeys(function ($mes) {
                 return [$mes => Carbon::create(2000, $mes, 1)->format('F')];
             })
             ->all();
-
-        return \Form::select($inputName, $options, $request->input($inputName, Carbon::now()->month), array_merge(['class' => 'form-control'], $extraParam));
     }
 }

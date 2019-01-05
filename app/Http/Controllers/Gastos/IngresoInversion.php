@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Gastos;
 
+use \Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\Inversion;
 use Illuminate\Http\Request;
@@ -16,13 +17,14 @@ class IngresoInversion extends Controller
     {
         $formCuenta = (new Cuenta)->getFormCuentaInversiones($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
+        $annoDefault = Carbon::now()->year;
         $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request, ['class' => 'form-control form-control-sm']);
 
         $inversion = new Inversion($request);
         $rentabilidadesAnual = $inversion->getAllRentabilidadesAnual();
 
         return view('gastos.showinversion', compact(
-            'formCuenta', 'formAnno', 'formTipoMovimiento', 'inversion', 'rentabilidadesAnual'
+            'formCuenta', 'formAnno', 'annoDefault', 'formTipoMovimiento', 'inversion', 'rentabilidadesAnual'
         ));
     }
 

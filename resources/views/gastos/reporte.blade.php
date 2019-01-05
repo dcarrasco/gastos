@@ -15,9 +15,15 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2"> {{ $formCuenta }} </div>
-        <div class="col-md-2"> {{ $formAnno }} </div>
-        <div class="col-md-2"> {{ $formTipoMovimiento }} </div>
+        <div class="offset-md-2 col-md-2">
+            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control']) }}
+        </div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary">Consultar</button>
         </div>

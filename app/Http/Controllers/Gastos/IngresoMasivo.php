@@ -15,7 +15,9 @@ class IngresoMasivo extends Controller
     {
         $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
+        $annoDefault = Carbon::now()->year;
         $formMes = (new Cuenta)->getFormMes($request);
+        $mesDefault = Carbon::now()->month;
         $datosMasivos = (new VisaParser)->procesaMasivo($request);
 
         if ($request->agregar === 'agregar') {
@@ -23,7 +25,7 @@ class IngresoMasivo extends Controller
         }
 
         return view('gastos.ingresoMasivo', compact(
-            'formCuenta', 'formAnno', 'formMes', 'datosMasivos'
+            'formCuenta', 'formAnno', 'annoDefault', 'formMes', 'mesDefault', 'datosMasivos'
         ));
     }
 

@@ -37,17 +37,13 @@ class TipoMovimiento extends Resource
         ];
     }
 
-
-    public function getFormTipoMovimiento(Request $request, $extraParam = [])
+    public function getFormTipoMovimiento(Request $request)
     {
-        $inputName = 'tipo_movimiento_id';
-        $options = $this->resourceOrderBy($request)
+        return $this->resourceOrderBy($request)
             ->model()->get()
             ->mapWithKeys(function($tipoMovimiento) {
                 return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];
             })
             ->all();
-
-        return \Form::select($inputName, $options, $request->input($inputName), array_merge(['class' => 'form-control'], $extraParam));
     }
 }

@@ -15,9 +15,15 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-3 col-md-2"> {{ $formCuenta }} </div>
-        <div class="col-md-2"> {{ $formAnno }} </div>
-        <div class="col-md-2"> {{ $formMes }} </div>
+        <div class="offset-md-3 col-md-2">
+            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('mes', $formMes, request('mes', $mesDefault), ['class' => 'form-control']) }}
+        </div>
     </div>
 
     <div class="form-row">
@@ -27,7 +33,7 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-8"> {{ Form::textarea('datos', request()->input('datos'), ['class' => 'form-control']) }} </div>
+        <div class="offset-md-2 col-md-8"> {{ Form::textarea('datos', request('datos'), ['class' => 'form-control']) }} </div>
     </div>
 
     <div class="form-row">
