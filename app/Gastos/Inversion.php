@@ -66,7 +66,7 @@ class Inversion
             return;
         }
 
-        $fechaFin = is_null($saldoFinal) ? $this->saldoFinal()->fecha : $saldoFinal->fecha;
+        $fechaFin = is_null($saldoFinal) ? optional($this->saldoFinal())->fecha : $saldoFinal->fecha;
         $diasInversion = $fechaIni->diffInDays($fechaFin);
 
         if ($diasInversion != 0) {
