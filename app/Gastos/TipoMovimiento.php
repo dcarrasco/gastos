@@ -14,4 +14,14 @@ class TipoMovimiento extends Model
         parent::__construct($attributes);
         $this->table = 'cta_tipos_movimientos';
     }
+
+    public function formArray()
+    {
+        return $this->orderBy('tipo_movimiento')
+            ->get()
+            ->mapWithKeys(function($tipoMovimiento) {
+                return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];
+            })
+            ->all();
+    }
 }

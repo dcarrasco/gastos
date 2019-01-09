@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
+use App\Gastos\Cuenta;
 use App\Gastos\VisaParser;
 use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Cuenta;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 
@@ -13,7 +13,7 @@ class IngresoMasivo extends Controller
 {
     public function ingresoMasivo(Request $request)
     {
-        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
+        $formCuenta = (new Cuenta)->formArrayGastos($request);
         $formAnno = (new Cuenta)->getFormAnno($request);
         $annoDefault = Carbon::now()->year;
         $formMes = (new Cuenta)->getFormMes($request);

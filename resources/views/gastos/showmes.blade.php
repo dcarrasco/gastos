@@ -104,7 +104,9 @@
             <td>
                 {{ Form::text('serie', request('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
             </td>
-            <td>{{ $formTipoGasto }}</td>
+            <td>
+                {{ Form::select('tipo_gasto_id', $formTipoGasto, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
+            </td>
             <td>
                 <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
             </td>

@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
 use App\Gastos\Gasto;
+use App\Gastos\Cuenta;
 use App\Gastos\SaldoMes;
+use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Cuenta;
-use App\OrmModel\Gastos\TipoGasto;
 use App\Http\Controllers\Controller;
-use App\OrmModel\Gastos\TipoMovimiento;
-use App\Gastos\TipoGasto as TipoGastoModel;
 use App\Http\Requests\Gasto\AddGastoRequest;
 
 class Ingreso extends Controller
@@ -21,70 +19,43 @@ class Ingreso extends Controller
             (new SaldoMes)->recalculaSaldoMes($request);
         }
 
-        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
-        $formAnno = (new Cuenta)->getFormAnno($request);
-        $annoDefault = Carbon::now()->year;
-        $formMes = (new Cuenta)->getFormMes($request);
-        $mesDefault = Carbon::now()->month;
-        $formTipoGasto = (new TipoGasto)->getFormTipoGasto($request);
-
-        $movimientosMes = (new Gasto)->movimientosMes($request);
-        $saldoMesAnterior = (new SaldoMes)->getSaldoMesAnterior($request);
-
-        return view('gastos.showmes', compact(
-            'formCuenta', 'formAnno', 'annoDefault', 'formMes', 'mesDefault', 'movimientosMes', 'formTipoGasto', 'saldoMesAnterior'
-        ));
+        return view('gastos.showmes', [
+            'formCuenta' => (new Cuenta)->formArrayGastos($request),
+            'formAnno' => (new Cuenta)->getFormAnno($request),
+            'annoDefault' => Carbon::now()->year,
+            'formMes' => (new Cuenta)->getFormMes($request),
+            'mesDefault' => Carbon::now()->month,
+            'movimientosMes' => (new Gasto)->movimientosMes($request),
+            'formTipoGasto' => (new TipoGasto)->formArray(),
+            'saldoMesAnterior' => (new SaldoMes)->getSaldoMesAnterior($request),
+        ]);
     }
 
     public function addGasto(AddGastoRequest $request)
     {
-        $gasto = (new Gasto)->fill($request->all());
+        $gasto = new Gasto($request->all());
+
         $gasto->tipo_movimiento_id = $gasto->tipoGasto->tipo_movimiento_id;
         $gasto->fecha = empty($gasto->fecha)
             ? Carbon::createMidnightDate($request->anno, $request->mes, 1)
             : $gasto->fecha;
         $gasto->usuario_id = auth()->id();
+
         $gasto->save();
 
         $saldoMesAnterior = (new SaldoMes)->recalculaSaldoMes($request);
 
-        return redirect()->route('gastos.showMes', [
-            'cuenta_id' => $request->input('cuenta_id'),
-            'anno' => $request->input('anno'),
-            'mes' => $request->input('mes'),
-        ]);
+        return redirect()->route('gastos.showMes', $request->only([
+            'cuenta_id', 'anno', 'mes'
+        ]));
     }
 
     public function borrarGasto(Request $request)
     {
-        $gasto = (new Gasto)->findOrFail($request->id)->delete();
+        $gasto = Gasto::findOrFail($request->id)->delete();
 
-        return redirect()->route('gastos.showMes', [
-            'cuenta_id' => $request->input('cuenta_id'),
-            'anno' => $request->input('anno'),
-            'mes' => $request->input('mes'),
-        ]);
+        return redirect()->route('gastos.showMes', $request->only([
+            'cuenta_id', 'anno', 'mes'
+        ]));
     }
-
-    protected function reporte(Request $request)
-    {
-        $formCuenta = (new Cuenta)->getFormCuenta($request);
-        $formAnno = (new Cuenta)->getFormAnno($request);
-        $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request);
-
-        $datos = (new Gasto)->getReporte($request);
-        $tipoGasto = (new TipoGastoModel)->orderBy('tipo_gasto')->get()
-            ->mapWithKeys(function($tipoGasto) {
-                return [$tipoGasto->getKey() => $tipoGasto->tipo_gasto];
-            })
-            ->filter(function($tipoGasto, $idTipoGasto) use ($datos) {
-                return in_array($idTipoGasto, array_get($datos, 'tipo_gasto_id', []));
-            })
-            ->all();
-
-        return view('gastos.reporte', compact(
-            'formCuenta', 'formAnno', 'formTipoMovimiento', 'datos', 'tipoGasto'
-        ));
-    }
-
 }

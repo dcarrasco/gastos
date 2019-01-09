@@ -36,14 +36,4 @@ class TipoMovimiento extends Resource
             ]),
         ];
     }
-
-    public function getFormTipoMovimiento(Request $request)
-    {
-        return $this->resourceOrderBy($request)
-            ->model()->get()
-            ->mapWithKeys(function($tipoMovimiento) {
-                return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];
-            })
-            ->all();
-    }
 }

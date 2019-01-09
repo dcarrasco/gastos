@@ -4,30 +4,29 @@ namespace App\Http\Controllers\Gastos;
 
 use \Carbon\Carbon;
 use App\Gastos\Gasto;
+use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Cuenta;
+use App\Gastos\TipoMovimiento;
 use App\Http\Controllers\Controller;
-use App\OrmModel\Gastos\TipoMovimiento;
 
 class Reporte extends Controller
 {
     protected function reporte(Request $request)
     {
-        $formCuenta = (new Cuenta)->getFormCuentaGastos($request);
+        $formCuenta = (new Cuenta)->formArrayGastos();
         $formAnno = (new Cuenta)->getFormAnno($request);
         $annoDefault = Carbon::now()->year;
-        $formTipoMovimiento = (new TipoMovimiento)->getFormTipoMovimiento($request);
+        $formTipoMovimiento = (new TipoMovimiento)->formArray();
 
         $datos = (new Gasto)->getReporte($request);
-        $tipoGasto = (new TipoGasto)->orderBy('tipo_gasto')->get()
+
+        $tipoGasto = TipoGasto::orderBy('tipo_gasto')
+            ->whereIn('id', array_get($datos, 'tipo_gasto_id', []))
+            ->get()
             ->mapWithKeys(function($tipoGasto) {
                 return [$tipoGasto->getKey() => $tipoGasto->tipo_gasto];
-            })
-            ->filter(function($tipoGasto, $idTipoGasto) use ($datos) {
-                return in_array($idTipoGasto, array_get($datos, 'tipo_gasto_id', []));
-            })
-            ->all();
+            });
 
         return view('gastos.reporte', compact(
             'formCuenta', 'formAnno', 'annoDefault', 'formTipoMovimiento', 'datos', 'tipoGasto'
