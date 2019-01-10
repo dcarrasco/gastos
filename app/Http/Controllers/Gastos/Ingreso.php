@@ -20,10 +20,10 @@ class Ingreso extends Controller
         }
 
         return view('gastos.showmes', [
-            'formCuenta' => (new Cuenta)->formArrayGastos($request),
-            'formAnno' => (new Cuenta)->getFormAnno($request),
+            'formCuenta' => (new Cuenta)->formArrayGastos(),
+            'formAnno' => (new Cuenta)->getFormAnno(),
             'annoDefault' => Carbon::now()->year,
-            'formMes' => (new Cuenta)->getFormMes($request),
+            'formMes' => (new Cuenta)->getFormMes(),
             'mesDefault' => Carbon::now()->month,
             'movimientosMes' => (new Gasto)->movimientosMes($request),
             'formTipoGasto' => (new TipoGasto)->formArray(),

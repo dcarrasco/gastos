@@ -34,7 +34,7 @@
     <thead class="thead-light">
         <th>Item</th>
         @foreach($datos['meses'] as $mes)
-        <th class="text-center">{{ $mes}} </th>
+        <th class="text-center">{{ $mes }}</th>
         @endforeach
         <th class="text-center">Total</th>
         <th class="text-center">Prom</th>

@@ -95,45 +95,35 @@ class Gasto extends Model
             ->get();
     }
 
-    protected function getSumMesDataReporte($request)
+    protected function getSumDataReporte(Request $request, string $campo)
     {
          return $this
-            ->select(DB::raw('mes, sum(monto) as sum_monto'))
+            ->select(DB::raw($campo.', sum(monto) as sum_monto'))
             ->where('cuenta_id', $request->cuenta_id)
             ->where('anno', $request->anno)
             ->where('tipo_movimiento_id', $request->tipo_movimiento_id)
-            ->groupBy(['mes'])
-            ->get();
+            ->groupBy([$campo])
+            ->get()
+            ->pluck('sum_monto', $campo);
     }
 
     public function getReporte(Request $request)
     {
         $data = $this->getDataReporte($request);
-
         $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
 
-        $datos = [];
-        $data->each(function($gasto) use (&$datos) {
-            $datos[$gasto->tipo_gasto_id][$gasto->mes] = $gasto->sum_monto;
+        $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
+            ->map(function($tipo_gasto_id) use ($data) {
+               return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
+            })->all();
+
+        $meses = collect(range(1,12))->mapWithKeys(function($mes) {
+            return [$mes => Carbon::create(2000, $mes, 1)->format('M')];
         });
 
-        $sum_tipo_gasto = collect($datos)->map(function($dato) {
-            return collect($dato)->sum();
-        })->all();
+        $sum_tipo_gasto = $this->getSumDataReporte($request, 'tipo_gasto_id');
+        $sum_mes = $this->getSumDataReporte($request, 'mes');
 
-        $sum_mes = [];
-        collect($this->getSumMesDataReporte($request))->each(function($gasto) use(&$sum_mes) {
-            $sum_mes[$gasto->mes] = $gasto->sum_monto;
-        });
-
-        return [
-            'datos' => $datos,
-            'meses' => collect(range(1,12))->mapWithKeys(function($mes) {
-                return [$mes => Carbon::create(2000, $mes, 1)->format('M')];
-            }),
-            'tipo_gasto_id' => $tipo_gasto_id,
-            'sum_tipo_gasto' => $sum_tipo_gasto,
-            'sum_mes' => $sum_mes,
-        ];
+        return compact ('datos', 'meses', 'tipo_gasto_id', 'sum_tipo_gasto', 'sum_mes');
     }
 }

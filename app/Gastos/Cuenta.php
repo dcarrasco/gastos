@@ -32,9 +32,7 @@ class Cuenta extends Model
         return $this->whereIn('tipo_cuenta_id', $filtroTipoCuenta)
             ->orderBy('cuenta')
             ->get()
-            ->mapWithKeys(function($cuenta) {
-                return [$cuenta->getKey() => $cuenta->cuenta];
-            });
+            ->pluck('cuenta', 'id');
     }
 
     public function formArrayGastos()
@@ -59,7 +57,6 @@ class Cuenta extends Model
         return collect(range(1,12))
             ->mapWithKeys(function ($mes) {
                 return [$mes => Carbon::create(2000, $mes, 1)->format('F')];
-            })
-            ->all();
+            });
     }
 }
