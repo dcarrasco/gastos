@@ -47,10 +47,23 @@ class Gasto extends Model
         return $this->belongsTo(Usuario::class);
     }
 
+    public function scopeCuentaAnno($query, $cuentaId, $anno)
+    {
+        return $query->where('cuenta_id', $cuentaId)
+            ->where('anno', $anno);
+    }
+
+
+    public function scopeCuentaAnnoTipMov($query, $cuentaId, $anno, $tipoMovimientoId)
+    {
+        return $query->where('cuenta_id', $cuentaId)
+            ->where('anno', $anno)
+            ->where('tipo_movimiento_id', $tipoMovimientoId);
+    }
+
     public function movimientosMes(Request $request)
     {
-        return $this->whereCuentaId($request->cuenta_id)
-            ->whereAnno($request->anno)
+        return $this->cuentaAnno($request->cuenta_id, $request->anno)
             ->whereMes($request->mes)
             ->orderBy('fecha', 'asc')
             ->orderBy('id', 'asc')
@@ -59,8 +72,7 @@ class Gasto extends Model
 
     public function movimientosAnno(Request $request)
     {
-         return $this->where('cuenta_id', $request->cuenta_id)
-            ->where('anno', $request->anno)
+         return $this->cuentaAnno($request->cuenta_id, $request->anno)
             ->where('tipo_movimiento_id', '<>', 4) // excluye movimientos de saldos
             ->orderBy('fecha', 'asc')
             ->get();
@@ -68,9 +80,7 @@ class Gasto extends Model
 
     public function saldos(Request $request)
     {
-         return $this->where('cuenta_id', $request->cuenta_id)
-            ->where('anno', $request->anno)
-            ->where('tipo_movimiento_id', 4)
+         return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, 4)
             ->orderBy('fecha', 'asc')
             ->get();
     }
@@ -86,22 +96,16 @@ class Gasto extends Model
 
     protected function getDataReporte(Request $request)
     {
-        return $this
+        return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
-            ->where('cuenta_id', $request->cuenta_id)
-            ->where('anno', $request->anno)
-            ->where('tipo_movimiento_id', $request->tipo_movimiento_id)
             ->groupBy(['mes', 'tipo_gasto_id'])
             ->get();
     }
 
     protected function getSumDataReporte(Request $request, string $campo)
     {
-         return $this
+        return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
             ->select(DB::raw($campo.', sum(monto) as sum_monto'))
-            ->where('cuenta_id', $request->cuenta_id)
-            ->where('anno', $request->anno)
-            ->where('tipo_movimiento_id', $request->tipo_movimiento_id)
             ->groupBy([$campo])
             ->get()
             ->pluck('sum_monto', $campo);
@@ -117,10 +121,7 @@ class Gasto extends Model
                return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
             })->all();
 
-        $meses = collect(range(1,12))->mapWithKeys(function($mes) {
-            return [$mes => Carbon::create(2000, $mes, 1)->format('M')];
-        });
-
+        $meses = (new Cuenta)->getFormMes('M');
         $sum_tipo_gasto = $this->getSumDataReporte($request, 'tipo_gasto_id');
         $sum_mes = $this->getSumDataReporte($request, 'mes');
 

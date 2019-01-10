@@ -52,11 +52,10 @@ class Cuenta extends Model
         return array_combine($options, $options);
     }
 
-    public function getFormMes()
+    public function getFormMes(string $format = 'F')
     {
-        return collect(range(1,12))
-            ->mapWithKeys(function ($mes) {
-                return [$mes => Carbon::create(2000, $mes, 1)->format('F')];
+        return collect(range(1,12))->mapWithKeys(function ($mes) use ($format) {
+                return [$mes => Carbon::create(2000, $mes, 1)->format($format)];
             });
     }
 }
