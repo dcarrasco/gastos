@@ -72,7 +72,7 @@ class Gasto extends Model
 
     public function movimientosAnno(Request $request)
     {
-         return $this->cuentaAnno($request->cuenta_id, $request->anno)
+        return $this->cuentaAnno($request->cuenta_id, $request->anno)
             ->where('tipo_movimiento_id', '<>', 4) // excluye movimientos de saldos
             ->orderBy('fecha', 'asc')
             ->get();
@@ -80,7 +80,7 @@ class Gasto extends Model
 
     public function saldos(Request $request)
     {
-         return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, 4)
+        return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, 4)
             ->orderBy('fecha', 'asc')
             ->get();
     }
@@ -90,8 +90,7 @@ class Gasto extends Model
         return $this->movimientosMes($request)
             ->map(function($gasto) {
                 return $gasto->monto * $gasto->tipoMovimiento->signo;
-            })
-            ->sum();
+            })->sum();
     }
 
     protected function getDataReporte(Request $request)
