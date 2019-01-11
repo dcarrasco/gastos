@@ -65,8 +65,7 @@ class Gasto extends Model
     {
         return $this->cuentaAnno($request->cuenta_id, $request->anno)
             ->whereMes($request->mes)
-            ->orderBy('fecha', 'asc')
-            ->orderBy('id', 'asc')
+            ->orderBy('fecha')->orderBy('id')
             ->get();
     }
 
@@ -74,14 +73,14 @@ class Gasto extends Model
     {
         return $this->cuentaAnno($request->cuenta_id, $request->anno)
             ->where('tipo_movimiento_id', '<>', 4) // excluye movimientos de saldos
-            ->orderBy('fecha', 'asc')
+            ->orderBy('fecha')
             ->get();
     }
 
     public function saldos(Request $request)
     {
         return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, 4)
-            ->orderBy('fecha', 'asc')
+            ->orderBy('fecha')
             ->get();
     }
 
@@ -93,7 +92,7 @@ class Gasto extends Model
             })->sum();
     }
 
-    protected function getDataReporte(Request $request)
+    protected function dataReporte(Request $request)
     {
         return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
@@ -101,7 +100,7 @@ class Gasto extends Model
             ->get();
     }
 
-    protected function getSumDataReporte(Request $request, string $campo)
+    protected function sumDataReporte(Request $request, string $campo)
     {
         return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
             ->select(DB::raw($campo.', sum(monto) as sum_monto'))
@@ -112,7 +111,7 @@ class Gasto extends Model
 
     public function getReporte(Request $request)
     {
-        $data = $this->getDataReporte($request);
+        $data = $this->dataReporte($request);
         $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
 
         $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
@@ -121,8 +120,8 @@ class Gasto extends Model
             })->all();
 
         $meses = (new Cuenta)->getFormMes('M');
-        $sum_tipo_gasto = $this->getSumDataReporte($request, 'tipo_gasto_id');
-        $sum_mes = $this->getSumDataReporte($request, 'mes');
+        $sum_tipo_gasto = $this->sumDataReporte($request, 'tipo_gasto_id');
+        $sum_mes = $this->sumDataReporte($request, 'mes');
 
         return compact ('datos', 'meses', 'tipo_gasto_id', 'sum_tipo_gasto', 'sum_mes');
     }

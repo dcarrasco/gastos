@@ -21,20 +21,18 @@ class TipoGasto extends Model
 
     public function formArray()
     {
-        $tiposGasto = $this->orderBy('tipo_movimiento_id', 'asc')
-            ->orderBy('tipo_gasto', 'asc')
+        $tiposGasto = $this->orderBy('tipo_movimiento_id')
+            ->orderBy('tipo_gasto')
             ->get();
 
         return $tiposGasto->map(function($tipoGasto) {
                 return $tipoGasto->tipoMovimiento;
-            })
-            ->unique()
+            })->unique()
             ->pluck('id', 'tipo_movimiento')
-            ->map(function($tipo_movimiento_id, $tipoMov) use ($tiposGasto) {
-                return $tiposGasto->filter(function($tipoGasto) use ($tipo_movimiento_id) {
-                        return $tipoGasto->tipo_movimiento_id === $tipo_movimiento_id;
-                    })
-                    ->pluck('tipo_gasto', 'id')
+            ->map(function($tipoMovimientoId, $tipoMov) use ($tiposGasto) {
+                return $tiposGasto->filter(function($tipoGasto) use ($tipoMovimientoId) {
+                        return $tipoGasto->tipo_movimiento_id === $tipoMovimientoId;
+                    })->pluck('tipo_gasto', 'id')
                     ->all();
             });
     }

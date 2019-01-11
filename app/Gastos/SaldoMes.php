@@ -39,11 +39,7 @@ class SaldoMes extends Model
 
     public function getSaldoMes(Request $request)
     {
-        $saldo = $this->where([
-            'cuenta_id' => $request->input('cuenta_id', 0),
-            'anno' => $request->input('anno', 0),
-            'mes' => $request->input('mes', 0),
-        ])->first();
+        $saldo = $this->where($request->only('cuenta_id', 'anno', 'mes'))->first();
 
         if (is_null($saldo)) {
             $saldo = (new static)->fill($request->all());
@@ -56,11 +52,11 @@ class SaldoMes extends Model
     {
         $saldoMes = $this->where(compact('cuenta_id', 'anno', 'mes'))->first();
 
-        if (! is_null($saldoMes)) {
-            return $saldoMes->saldo_final;
+        if (is_null($saldoMes)) {
+            return 0;
         }
 
-        return 0;
+        return $saldoMes->saldo_final;
     }
 
     public function recalculaSaldoMes(Request $request)

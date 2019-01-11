@@ -30,11 +30,9 @@ class Inversion
     protected function getSumMovimientos()
     {
         if ($this->sumMovimientos === 0 and ! empty($this->movimientos)) {
-            $this->sumMovimientos = $this->movimientos
-                ->map(function($movimiento) {
-                    return $movimiento->monto * optional($movimiento->tipoMovimiento)->signo;
-                })
-                ->sum();
+            $this->sumMovimientos = $this->movimientos->map(function($movimiento) {
+                return $movimiento->monto * optional($movimiento->tipoMovimiento)->signo;
+            })->sum();
         }
 
         return $this->sumMovimientos;
@@ -51,7 +49,7 @@ class Inversion
             return 0;
         }
 
-        return $this->util()/$this->getSumMovimientos();
+        return $this->util() / $this->getSumMovimientos();
     }
 
     public function rentabilidadAnual($saldoFinal = null)
@@ -70,7 +68,7 @@ class Inversion
         $diasInversion = $fechaIni->diffInDays($fechaFin);
 
         if ($diasInversion != 0) {
-            return pow(pow(1 + $this->rentabilidad(), 1/$diasInversion), 365) - 1;
+            return pow(pow(1 + $this->rentabilidad(), 1 / $diasInversion), 365) - 1;
         }
     }
 

@@ -21,7 +21,6 @@ class TipoMovimiento extends Model
             ->get()
             ->mapWithKeys(function($tipoMovimiento) {
                 return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];
-            })
-            ->all();
+            })->all();
     }
 }

@@ -32,8 +32,7 @@ class GlosaTipoGasto extends Model
             ->get()
             ->filter(function($glosaTipoGasto) use ($glosa) {
                 return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
-            })
-            ->first();
+            })->first();
 
         return optional($glosaTipoGasto)->tipo_gasto_id;
     }
