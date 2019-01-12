@@ -2,10 +2,12 @@
 
 namespace App\OrmModel\Gastos;
 
+use App\Gastos\TipoCuenta as ModelTipoCuenta;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Select;
 use App\OrmModel\Gastos\TipoMovimiento;
 
 class TipoCuenta extends Resource
@@ -29,6 +31,14 @@ class TipoCuenta extends Resource
             Text::make('Tipo cuenta')
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
+
+            Select::make('tipo')
+                ->options([
+                    ModelTipoCuenta::CUENTA_GASTO => 'Gasto',
+                    ModelTipoCuenta::CUENTA_INVERSION => 'Inversion',
+                ])
+                ->sortable()
+                ->rules(['required'])
         ];
     }
 }

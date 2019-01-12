@@ -7,19 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoCuenta extends Model
 {
-    protected $fillable = ['tipo_movimiento_id', 'tipo_cuenta'];
+    protected $fillable = ['tipo_movimiento_id', 'tipo_cuenta', 'tipo'];
 
-    const TIPO_CUENTA_CORRIENTE = 1;
-    const TIPO_CUENTA_TARJETA_CREDITO = 2;
-    const TIPO_CUENTA_INVERSION = 3;
-
-    const CUENTAS_GASTOS = [
-        self::TIPO_CUENTA_CORRIENTE,
-        self::TIPO_CUENTA_TARJETA_CREDITO,
-    ];
-    const CUENTAS_INVERSIONES = [
-        self::TIPO_CUENTA_INVERSION,
-    ];
+    const CUENTA_GASTO = 1;
+    const CUENTA_INVERSION = 2;
 
     public function __construct(array $attributes = [])
     {

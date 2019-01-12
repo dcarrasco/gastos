@@ -27,9 +27,11 @@ class Cuenta extends Model
         return $this->belongsTo(TipoCuenta::class);
     }
 
-    protected function formArray($filtroTipoCuenta = [])
+    protected function formArray($filtroTipoCuenta = 0)
     {
-        return $this->whereIn('tipo_cuenta_id', $filtroTipoCuenta)
+        return $this->select(['cta_cuentas.id', 'cuenta'])
+            ->join('cta_tipos_cuentas', 'tipo_cuenta_id', 'cta_tipos_cuentas.id')
+            ->where('tipo', $filtroTipoCuenta)
             ->orderBy('cuenta')
             ->get()
             ->pluck('cuenta', 'id');
@@ -37,12 +39,12 @@ class Cuenta extends Model
 
     public function formArrayGastos()
     {
-        return $this->formArray(TipoCuenta::CUENTAS_GASTOS);
+        return $this->formArray(TipoCuenta::CUENTA_GASTO);
     }
 
     public function formArrayInversiones()
     {
-        return $this->formArray(TipoCuenta::CUENTAS_INVERSIONES);
+        return $this->formArray(TipoCuenta::CUENTA_INVERSION);
     }
 
     public function getFormAnno()
