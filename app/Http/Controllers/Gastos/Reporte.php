@@ -14,15 +14,15 @@ class Reporte extends Controller
 {
     protected function reporte(Request $request)
     {
-        $datos = (new Gasto)->getReporte($request);
+        $datos = Gasto::getReporte($request);
 
         return view('gastos.reporte', [
-            'formCuenta' => (new Cuenta)->formArrayGastos(),
-            'formAnno' => (new Cuenta)->getFormAnno($request),
+            'formCuenta' => Cuenta::formArrayGastos(),
+            'formAnno' => Cuenta::getFormAnno($request),
             'annoDefault' => Carbon::now()->year,
-            'formTipoMovimiento' => (new TipoMovimiento)->formArray(),
+            'formTipoMovimiento' => TipoMovimiento::formArray(),
             'datos' => $datos,
-            'tipoGasto' => (new TipoGasto)->nombresTipoGastos($datos),
+            'tipoGasto' => TipoGasto::nombresTipoGastos($datos),
         ]);
     }
 

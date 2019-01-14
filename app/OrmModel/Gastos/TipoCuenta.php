@@ -32,13 +32,13 @@ class TipoCuenta extends Resource
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
 
-            Select::make('tipo')
+            Select::make('Tipo')
                 ->options([
                     ModelTipoCuenta::CUENTA_GASTO => 'Gasto',
                     ModelTipoCuenta::CUENTA_INVERSION => 'Inversion',
                 ])
                 ->sortable()
-                ->rules(['required'])
+                ->rules('required')
         ];
     }
 }

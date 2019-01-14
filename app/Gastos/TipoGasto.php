@@ -19,9 +19,9 @@ class TipoGasto extends Model
         return $this->belongsTo(TipoMovimiento::class);
     }
 
-    public function formArray()
+    public static function formArray()
     {
-        $tiposGasto = $this->orderBy('tipo_movimiento_id')
+        $tiposGasto = static::orderBy('tipo_movimiento_id')
             ->orderBy('tipo_gasto')
             ->get();
 
@@ -37,7 +37,7 @@ class TipoGasto extends Model
             });
     }
 
-    public function nombresTipoGastos(array $idTiposGastos)
+    public static function nombresTipoGastos(array $idTiposGastos)
     {
         return TipoGasto::orderBy('tipo_gasto')
             ->whereIn('id', array_get($idTiposGastos, 'tipo_gasto_id', []))

@@ -27,34 +27,34 @@ class Cuenta extends Model
         return $this->belongsTo(TipoCuenta::class);
     }
 
-    protected function formArray($filtroTipoCuenta = 0)
+    protected static function formArray($tipo = 0)
     {
-        return $this->select(['cta_cuentas.id', 'cuenta'])
+        return static::select(['cta_cuentas.id', 'cuenta'])
             ->join('cta_tipos_cuentas', 'tipo_cuenta_id', 'cta_tipos_cuentas.id')
-            ->where('tipo', $filtroTipoCuenta)
+            ->where('tipo', $tipo)
             ->orderBy('cuenta')
             ->get()
             ->pluck('cuenta', 'id');
     }
 
-    public function formArrayGastos()
+    public static function formArrayGastos()
     {
-        return $this->formArray(TipoCuenta::CUENTA_GASTO);
+        return static::formArray(TipoCuenta::CUENTA_GASTO);
     }
 
-    public function formArrayInversiones()
+    public static function formArrayInversiones()
     {
-        return $this->formArray(TipoCuenta::CUENTA_INVERSION);
+        return static::formArray(TipoCuenta::CUENTA_INVERSION);
     }
 
-    public function getFormAnno()
+    public static function getFormAnno()
     {
         $options = range(Carbon::now()->year, 2010, -1);
 
         return array_combine($options, $options);
     }
 
-    public function getFormMes(string $format = 'F')
+    public static function getFormMes(string $format = 'F')
     {
         return collect(range(1,12))->mapWithKeys(function ($mes) use ($format) {
                 return [$mes => Carbon::create(2000, $mes, 1)->format($format)];

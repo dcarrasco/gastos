@@ -15,9 +15,9 @@ class TipoMovimiento extends Model
         $this->table = 'cta_tipos_movimientos';
     }
 
-    public function formArray()
+    public static function formArray()
     {
-        return $this->orderBy('tipo_movimiento')
+        return static::orderBy('tipo_movimiento')
             ->get()
             ->mapWithKeys(function($tipoMovimiento) {
                 return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];

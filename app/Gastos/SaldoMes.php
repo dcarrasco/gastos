@@ -26,7 +26,7 @@ class SaldoMes extends Model
         return $this->belongsTo(Cuenta::class);
     }
 
-    public function getSaldoMesAnterior(Request $request)
+    public static function getSaldoMesAnterior(Request $request)
     {
         $anno = (int) $request->input('anno', 0);
         $mes = (int) $request->input('mes', 0);
@@ -34,7 +34,7 @@ class SaldoMes extends Model
         $mesAnterior = ($mes === 1) ? 12 : $mes - 1;
         $annoAnterior = ($mes === 1) ? $anno - 1 : $anno;
 
-        return $this->getSaldoFinal($request->input('cuenta_id', 0), $annoAnterior, $mesAnterior);
+        return static::getSaldoFinal($request->input('cuenta_id', 0), $annoAnterior, $mesAnterior);
     }
 
     public function getSaldoMes(Request $request)
@@ -48,9 +48,9 @@ class SaldoMes extends Model
         return $saldo;
     }
 
-    protected function getSaldoFinal($cuenta_id = 0, $anno = 0, $mes = 0)
+    protected static function getSaldoFinal($cuenta_id = 0, $anno = 0, $mes = 0)
     {
-        $saldoMes = $this->where(compact('cuenta_id', 'anno', 'mes'))->first();
+        $saldoMes = static::where(compact('cuenta_id', 'anno', 'mes'))->first();
 
         if (is_null($saldoMes)) {
             return 0;
