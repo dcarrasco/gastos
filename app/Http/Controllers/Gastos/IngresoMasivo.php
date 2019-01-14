@@ -13,10 +13,10 @@ class IngresoMasivo extends Controller
 {
     public function ingresoMasivo(Request $request)
     {
-        $formCuenta = (new Cuenta)->formArrayGastos($request);
-        $formAnno = (new Cuenta)->getFormAnno($request);
+        $formCuenta = Cuenta::formArrayGastos();
+        $formAnno = Cuenta::getFormAnno();
         $annoDefault = Carbon::now()->year;
-        $formMes = (new Cuenta)->getFormMes($request);
+        $formMes = Cuenta::getFormMes();
         $mesDefault = Carbon::now()->month;
         $datosMasivos = (new VisaParser)->procesaMasivo($request);
 
@@ -35,11 +35,7 @@ class IngresoMasivo extends Controller
             $gasto->save();
         });
 
-        return redirect()->route('gastos.ingresoMasivo', [
-            'cuenta_id' => $request->input('cuenta_id'),
-            'anno' => $request->input('anno'),
-            'mes' => $request->input('mes'),
-        ]);
+        return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes'));
     }
 
 }
