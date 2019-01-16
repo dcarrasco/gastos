@@ -2,6 +2,7 @@
 
 namespace App\Gastos;
 
+use Carbon\Carbon;
 use App\Acl\Usuario;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
@@ -28,42 +29,21 @@ class SaldoMes extends Model
 
     public static function getSaldoMesAnterior(Request $request)
     {
-        $anno = (int) $request->input('anno', 0);
-        $mes = (int) $request->input('mes', 0);
+        $fechaAnterior = Carbon::create($request->anno, $request->mes, 1)->subMonth();
 
-        $mesAnterior = ($mes === 1) ? 12 : $mes - 1;
-        $annoAnterior = ($mes === 1) ? $anno - 1 : $anno;
-
-        return static::getSaldoFinal($request->input('cuenta_id', 0), $annoAnterior, $mesAnterior);
-    }
-
-    public function getSaldoMes(Request $request)
-    {
-        $saldo = $this->where($request->only('cuenta_id', 'anno', 'mes'))->first();
-
-        if (is_null($saldo)) {
-            $saldo = (new static)->fill($request->all());
-        }
-
-        return $saldo;
-    }
-
-    protected static function getSaldoFinal($cuenta_id = 0, $anno = 0, $mes = 0)
-    {
-        $saldoMes = static::where(compact('cuenta_id', 'anno', 'mes'))->first();
-
-        if (is_null($saldoMes)) {
-            return 0;
-        }
-
-        return $saldoMes->saldo_final;
+        return static::firstOrNew([
+            'cuenta_id' => $request->cuenta_id,
+            'anno' => $fechaAnterior->year,
+            'mes' => $fechaAnterior->month,
+        ])->saldo_final ?: 0;
     }
 
     public function recalculaSaldoMes(Request $request)
     {
-        $saldoMes = $this->getSaldoMes($request);
+        $saldoMes = static::firstOrNew($request->only('cuenta_id', 'anno', 'mes'));
+
         $saldoMes->saldo_inicial = $this->getSaldoMesAnterior($request);
-        $saldoMes->saldo_final = $saldoMes->saldo_inicial + (new Gasto)->getTotalMes($request);
+        $saldoMes->saldo_final = $saldoMes->saldo_inicial + Gasto::totalMes($request);
 
         return $saldoMes->save();
     }

@@ -49,7 +49,7 @@ class Cuenta extends Model
 
     public static function getFormAnno()
     {
-        $options = range(Carbon::now()->year, 2010, -1);
+        $options = range(Carbon::now()->year, 2015, -1);
 
         return array_combine($options, $options);
     }

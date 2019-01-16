@@ -26,15 +26,12 @@ class TipoGasto extends Model
             ->get();
 
         return $tiposGasto->map(function($tipoGasto) {
-                return $tipoGasto->tipoMovimiento;
-            })->unique()
-            ->pluck('id', 'tipo_movimiento')
-            ->map(function($tipoMovimientoId, $tipoMov) use ($tiposGasto) {
-                return $tiposGasto->filter(function($tipoGasto) use ($tipoMovimientoId) {
-                        return $tipoGasto->tipo_movimiento_id === $tipoMovimientoId;
-                    })->pluck('tipo_gasto', 'id')
-                    ->all();
-            });
+            return $tipoGasto->tipoMovimiento;
+        })->unique()
+        ->pluck('id', 'tipo_movimiento')
+        ->map(function($tipoMovimientoId, $tipoMov) use ($tiposGasto) {
+            return $tiposGasto->where('tipo_movimiento_id',$tipoMovimientoId)->pluck('tipo_gasto', 'id');
+        });
     }
 
     public static function nombresTipoGastos(array $idTiposGastos)

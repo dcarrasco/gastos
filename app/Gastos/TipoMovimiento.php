@@ -17,10 +17,7 @@ class TipoMovimiento extends Model
 
     public static function formArray()
     {
-        return static::orderBy('tipo_movimiento')
-            ->get()
-            ->mapWithKeys(function($tipoMovimiento) {
-                return [$tipoMovimiento->getKey() => $tipoMovimiento->tipo_movimiento];
-            })->all();
+        return static::orderBy('tipo_movimiento')->get()
+            ->pluck('tipo_movimiento', 'id');
     }
 }
