@@ -1,6 +1,9 @@
 @extends('common.app_layout')
 
 @section('modulo')
+
+@include('orm.cardsContainer')
+
 <div class="row col-md-12 pt-md-2">
     <h4>{{ $resource->getLabelPlural() }}</h4>
 </div>

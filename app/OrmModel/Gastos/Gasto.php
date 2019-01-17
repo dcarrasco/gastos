@@ -13,6 +13,7 @@ use App\OrmModel\OrmField\Number;
 use App\OrmModel\Gastos\TipoGasto;
 use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
+use App\OrmModel\Metrics\GastosPerDay;
 use App\OrmModel\Gastos\TipoMovimiento;
 
 class Gasto extends Resource
@@ -56,12 +57,13 @@ class Gasto extends Resource
                 ->hideFromIndex()
                 ->rules('required'),
 
-            // Text::make('Fecha')->sortable()->rules('max:20')->hideFromIndex(),
-
-            // Text::make('Glosa')->sortable()->rules('max:200')->hideFromIndex(),
-
-            // Text::make('Serie')->sortable()->rules('max:50')->hideFromIndex(),
         ];
     }
 
+    public function cards(Request $request)
+    {
+        return [
+            new GastosPerDay,
+        ];
+    }
 }

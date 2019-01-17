@@ -14,6 +14,7 @@ class Resource
 {
     use UsesFilters;
     use UsesDatabase;
+    use UsesCards;
 
     public $model = '';
     public $label = '';
