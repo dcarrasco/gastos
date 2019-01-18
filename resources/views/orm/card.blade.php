@@ -12,15 +12,11 @@
             </div>
         </div>
 
-        <div id="{{ $cardId }}" class="row mx-0" style="height: 100px"></div>
+        <div id="{{ $cardId }}" class="row mx-0" style="height: 100px">
+            {!! $content !!}
+        </div>
     </div>
 
-    <script type="text/javascript">
-        google.charts.setOnLoadCallback(initDrawChart);
-
-        function initDrawChart() {
-            arrayData = @JSON($data);
-            initDrawChart = drawChart(arrayData, '{{ $cardId }}');
-        }
-    </script>
+    {!! $contentScript !!}
 </div>
+

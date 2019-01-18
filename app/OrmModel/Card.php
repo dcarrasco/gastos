@@ -16,10 +16,11 @@ class Card
     public function render(Request $request)
     {
         return view('orm.card', [
-            'data' => $this->data($request),
+            'content' => $this->content($request),
+            'contentScript' => $this->contentScript($request),
             'cardWidth' => $this->bootstrapCardWidth(),
             'title' => $this->title(),
-            'cardId' => spl_object_hash($this),
+            'cardId' => $this->cardId(),
             'ranges' => $this->ranges(),
             'uriKey' => $this->uriKey(),
             'resource' => $request->segment(2),
@@ -47,4 +48,10 @@ class Card
 
         return $this;
     }
+
+    protected function cardId()
+    {
+        return spl_object_hash($this);
+    }
+
 }

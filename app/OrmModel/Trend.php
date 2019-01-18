@@ -110,4 +110,69 @@ class Trend extends Card
     {
         return $request->input('range', collect($this->ranges())->keys()->first());
     }
+
+    protected function content(Request $request)
+    {
+        return '';
+    }
+
+    protected function contentScript(Request $request)
+    {
+        $data = json_encode($this->data($request));
+        $cardId = $this->cardId();
+        $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
+
+        $script = <<<EOD
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+
+    function drawChart(arrayData, cardId) {
+        var data = google.visualization.arrayToDataTable(arrayData);
+
+        var options = {
+          legend: { position: 'none' },
+          hAxis: { textPosition: 'none'},
+          chartArea: {width: '100%', height: '100%'},
+          vAxis: {gridlines: {color: 'none'}},
+          series: {
+            0: {pointSize: 3}
+          }
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById(cardId));
+
+        chart.draw(data, options);
+    }
+
+    function loadCardData(uriKey, cardId) {
+        $('#spinner-' + cardId).removeClass('d-none');
+        $.ajax({
+            url: '$urlRoute',
+            data: {'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
+            async: true,
+            success: function(data) {
+                if (data) {
+                    drawChart(data, cardId);
+                    $('#spinner-' + cardId).addClass('d-none');
+                }
+            },
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.setOnLoadCallback(initDrawChart);
+
+    function initDrawChart() {
+        arrayData = $data;
+        initDrawChart = drawChart(arrayData, '$cardId');
+    }
+</script>
+EOD;
+
+        return $script;
+    }
+
 }

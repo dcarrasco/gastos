@@ -15,6 +15,8 @@ use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
 use App\OrmModel\Metrics\GastosPerDay;
 use App\OrmModel\Gastos\TipoMovimiento;
+use App\OrmModel\Metrics\MontoRegistros;
+use App\OrmModel\Metrics\NuevosRegistros;
 use App\OrmModel\Metrics\RegistrosPorDia;
 
 class Gasto extends Resource
@@ -63,8 +65,10 @@ class Gasto extends Resource
     public function cards(Request $request)
     {
         return [
-            new GastosPerDay,
-            new RegistrosPorDia,
+            (new GastosPerDay),
+            (new RegistrosPorDia),
+            // (new NuevosRegistros),
+            (new MontoRegistros)->prefix('$')->suffix('total'),
         ];
     }
 }
