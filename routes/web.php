@@ -65,6 +65,7 @@ Route::group(['prefix' => 'toa-config', 'as' => 'toaConfig.', 'namespace' => 'To
 
 // Gastos Config
 Route::group(['prefix' => 'gastos-config', 'as' => 'gastosConfig.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
+    Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
     Route::get('{modelName?}', 'ConfigController@index')->name('index');
     Route::get('{modelName}/create', 'ConfigController@create')->name('create');
     Route::post('{modelName}', 'ConfigController@store')->name('store');

@@ -192,4 +192,13 @@ trait OrmController
         return $this->getResource($resource)
             ->getModelAjaxFormOptions($request);
     }
+
+    public function ajaxCard(Request $request, $resource = null)
+    {
+        return collect($this->getResource($resource)->cards($request))
+            ->first(function ($card) use ($request) {
+                return $card->uriKey() === $request->input('uri-key');
+            })->data($request);
+    }
+
 }

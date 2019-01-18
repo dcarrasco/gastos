@@ -9,7 +9,7 @@ trait UsesCards
     public function renderCards(Request $request)
     {
         return collect($this->cards($request))->map(function($cardClass) use ($request) {
-            return (new $cardClass)->render($request);
+            return $cardClass->render($request);
         });
     }
 }

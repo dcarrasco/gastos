@@ -15,6 +15,7 @@ use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
 use App\OrmModel\Metrics\GastosPerDay;
 use App\OrmModel\Gastos\TipoMovimiento;
+use App\OrmModel\Metrics\RegistrosPorDia;
 
 class Gasto extends Resource
 {
@@ -56,7 +57,6 @@ class Gasto extends Resource
             BelongsTo::make('Usuario', 'usuario', Usuario::class)
                 ->hideFromIndex()
                 ->rules('required'),
-
         ];
     }
 
@@ -64,6 +64,7 @@ class Gasto extends Resource
     {
         return [
             new GastosPerDay,
+            new RegistrosPorDia,
         ];
     }
 }

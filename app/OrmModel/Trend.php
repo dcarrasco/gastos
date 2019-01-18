@@ -19,21 +19,32 @@ class Trend extends Card
 
     protected function formatGoogleGraphData($data = [])
     {
-        $formattedData = $data->map(function($valor, $fecha) {
-            return "['$fecha', $valor]";
-        })->implode(', ');
+        $formattedData = collect([['Fecha', 'Valor']])
+            ->merge($data->map(function($valor, $fecha) {
+                return [$fecha, $valor];
+            })->values())->all();
 
-        return "[['Fecha', 'Valor'], $formattedData ]";
+        return $formattedData;
     }
 
     public function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $dateInterval = $this->dateInterval($request);
 
-        $data = $this->fetchData($model, $sumColumn, $timeColumn, $dateInterval);
+        $data = $this->fetchSumData($model, $sumColumn, $timeColumn, $dateInterval);
 
         return $this->totalizedData($data, $dateInterval, $sumColumn, $timeColumn);
     }
+
+    public function count(Request $request, $model = '', $timeColumn = 'created_at')
+    {
+        $dateInterval = $this->dateInterval($request);
+
+        $data = $this->fetchCountData($model, $timeColumn, $dateInterval);
+
+        return $this->totalizedData($data, $dateInterval, 'count', $timeColumn);
+    }
+
 
     protected function totalizedData($data = [], $dateInterval = [], $sumColumn = '', $timeColumn = '')
     {
@@ -55,7 +66,7 @@ class Trend extends Card
        return collect($baseDates);
     }
 
-    protected function fetchData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchSumData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
         return (new $model)->whereBetween($timeColumn, $dateInterval)
             ->get()
@@ -67,12 +78,31 @@ class Trend extends Card
             });
     }
 
+
+    protected function fetchCountData($model = '', $timeColumn = '', $dateInterval = [])
+    {
+        return (new $model)->whereBetween($timeColumn, $dateInterval)
+            ->get()
+            ->map(function($modelObject) use($timeColumn) {
+                return [
+                    'count' => 1,
+                    $timeColumn => $modelObject->$timeColumn->format($this->dateFormat),
+                ];
+            });
+    }
+
     protected function dateInterval(Request $request)
     {
         $dateIntervalOption = $this->dateIntervalOption($request);
 
         if (is_numeric($dateIntervalOption)) {
             return [Carbon::now()->subDays($dateIntervalOption), Carbon::now()];
+        } else if ($dateIntervalOption === 'MTD') {
+            return [Carbon::create(Carbon::now()->year, Carbon::now()->month, 1), Carbon::now()];
+        } else if ($dateIntervalOption === 'QTD') {
+            return [Carbon::now()->firstOfQuarter(), Carbon::now()];
+        } else if ($dateIntervalOption === 'YTD') {
+            return [Carbon::create(Carbon::now()->year, 1, 1), Carbon::now()];
         }
     }
 
