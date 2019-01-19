@@ -68,7 +68,7 @@ class Gasto extends Resource
             (new GastosPerDay),
             (new RegistrosPorDia),
             // (new NuevosRegistros),
-            (new MontoRegistros)->prefix('$')->suffix('total'),
+            (new MontoRegistros)->prefix('$'),
         ];
     }
 }

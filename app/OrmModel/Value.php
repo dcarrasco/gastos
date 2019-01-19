@@ -41,27 +41,6 @@ class Value extends Card
         ];
     }
 
-
-    protected function totalizedData($data = [], $dateInterval = [], $sumColumn = '', $timeColumn = '')
-    {
-        return $this->initTotalizedData($dateInterval)
-            ->map(function($value, $date) use ($data, $sumColumn, $timeColumn) {
-                return $data->where($timeColumn, $date)->sum($sumColumn);
-            });
-    }
-
-    protected function initTotalizedData($dateInterval = [])
-    {
-        $period = CarbonPeriod::create($dateInterval[0], $dateInterval[1]);
-
-        $baseDates = [];
-        foreach ($period as $date) {
-            $baseDates[$date->format($this->dateFormat)] = 0;
-       }
-
-       return collect($baseDates);
-    }
-
     protected function fetchSumData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
         return (new $model)->whereBetween($timeColumn, $dateInterval)->sum($sumColumn);
@@ -186,6 +165,5 @@ EOD;
 </script>
 EOD;
     }
-
 
 }

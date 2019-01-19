@@ -8,7 +8,7 @@
             </div>
 
             <div class="col-md-4">
-                {{ Form::select('range', $ranges, request('range'), ['class' => 'form-control form-control-sm', 'onchange' => "loadCardData('$uriKey', '$cardId')", 'id' => 'select-'.$cardId]) }}
+                {{ Form::select('range', $ranges, request('range'), ['class' => 'custom-select custom-select-sm', 'onchange' => "loadCardData('$uriKey', '$cardId')", 'id' => 'select-'.$cardId]) }}
             </div>
         </div>
 
