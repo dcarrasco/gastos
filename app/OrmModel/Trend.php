@@ -19,12 +19,7 @@ class Trend extends Card
 
     protected function formatGoogleGraphData($data = [])
     {
-        $formattedData = collect([['Fecha', 'Valor']])
-            ->merge($data->map(function($valor, $fecha) {
-                return [$fecha, $valor];
-            })->values())->all();
-
-        return $formattedData;
+        return $data->values()->all();
     }
 
     public function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
@@ -56,14 +51,11 @@ class Trend extends Card
 
     protected function initTotalizedData($dateInterval = [])
     {
-        $period = CarbonPeriod::create($dateInterval[0], $dateInterval[1]);
+        [$fechaInicio, $fechaFin] = $dateInterval;
 
-        $baseDates = [];
-        foreach ($period as $date) {
-            $baseDates[$date->format($this->dateFormat)] = 0;
-       }
-
-       return collect($baseDates);
+        return collect(CarbonPeriod::create($fechaInicio, $fechaFin))->mapWithKeys(function($date) {
+            return [$date->format($this->dateFormat) => 0];
+        });
     }
 
     protected function fetchSumData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
@@ -113,7 +105,9 @@ class Trend extends Card
 
     protected function content(Request $request)
     {
-        return '';
+        $cardId = $this->cardId();
+
+        return "<canvas id=\"canvas-{$cardId}\" height=\"100%\"></canvas>";
     }
 
     protected function contentScript(Request $request)
@@ -121,54 +115,69 @@ class Trend extends Card
         $data = json_encode($this->data($request));
         $cardId = $this->cardId();
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
+        $baseUrl = asset('');
 
         $script = <<<EOD
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="{$baseUrl}js/Chart.min.js"></script>
+<script type="text/javascript" src="{$baseUrl}js/Chart.bundle.min.js"></script>
 
 <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-
-    function drawChart(arrayData, cardId) {
-        var data = google.visualization.arrayToDataTable(arrayData);
-
-        var options = {
-          legend: { position: 'none' },
-          hAxis: { textPosition: 'none'},
-          chartArea: {width: '100%', height: '100%'},
-          vAxis: {gridlines: {color: 'none'}},
-          series: {
-            0: {pointSize: 3}
-          }
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById(cardId));
-
-        chart.draw(data, options);
+var chartData_{$cardId} = {
+    labels: $data,
+    datasets: [{
+        fill: true,
+        backgroundColor: 'rgba(54,162,235,0.5)',
+        borderColor: 'rgb(54,162,235)',
+        data: $data
+    }]
+};
+var options_{$cardId} = {
+    legend: {display: false},
+    elements: {
+        line: {
+            tension: 0.001,
+        }
+    },
+    scales: {
+        xAxes: [{
+            display: false
+        }],
+        yAxes: [{
+            display: false
+        }]
     }
+};
 
-    function loadCardData(uriKey, cardId) {
-        $('#spinner-' + cardId).removeClass('d-none');
-        $.ajax({
-            url: '$urlRoute',
-            data: {'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
-            async: true,
-            success: function(data) {
-                if (data) {
-                    drawChart(data, cardId);
-                    $('#spinner-' + cardId).addClass('d-none');
-                }
-            },
-        });
-    }
-</script>
+function drawCardChart_{$cardId}() {
+    var ctx = document.getElementById('canvas-{$cardId}').getContext('2d');
 
-<script type="text/javascript">
-    google.charts.setOnLoadCallback(initDrawChart);
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: chartData_{$cardId},
+        options: options_{$cardId}
+    });
+}
 
-    function initDrawChart() {
-        arrayData = $data;
-        initDrawChart = drawChart(arrayData, '$cardId');
-    }
+$(document).ready(function() {
+    drawCardChart_{$cardId}();
+});
+
+function loadCardData_{$cardId}(uriKey, cardId) {
+    $('#spinner-' + cardId).removeClass('d-none');
+    $.ajax({
+        url: '$urlRoute',
+        data: {'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
+        async: true,
+        success: function(data) {
+            if (data) {
+                chartData_{$cardId}.labels = data;
+                chartData_{$cardId}.datasets[0].data = data;
+                drawCardChart_{$cardId}();
+                $('#spinner-' + cardId).addClass('d-none');
+            }
+        },
+    });
+}
 </script>
 EOD;
 

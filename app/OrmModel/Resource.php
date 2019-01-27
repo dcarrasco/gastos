@@ -48,6 +48,11 @@ class Resource
         return [];
     }
 
+    public function cards(Request $request)
+    {
+        return [];
+    }
+
     /**
      * Recupera nombre del recurso
      * @return string

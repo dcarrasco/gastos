@@ -144,10 +144,11 @@ EOD;
     protected function contentScript(Request $request)
     {
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
+        $cardId = $this->cardId();
 
         return <<<EOD
 <script type="text/javascript">
-    function loadCardData(uriKey, cardId) {
+    function loadCardData_{$cardId}(uriKey, cardId) {
         $('#spinner-' + cardId).removeClass('d-none');
         $.ajax({
             url: '$urlRoute',
