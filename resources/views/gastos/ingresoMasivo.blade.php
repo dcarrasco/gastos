@@ -62,7 +62,7 @@
             <td> {{ $gasto->fecha }} </td>
             <td> {{ $gasto->glosa }} </td>
             <td> {{ $gasto->serie }} </td>
-             <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
+            <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
             <td class="text-right">
                 $&nbsp;{{ number_format($gasto->monto, 0, ",", ".") }}
                 @if (optional($gasto->tipoMovimiento)->signo == -1)
@@ -73,6 +73,13 @@
             </td>
         </tr>
     @endforeach
+    <tr>
+        <th>Total {{ $datosMasivos->count() }}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="text-right">{{ number_format($datosMasivos->pluck('monto')->sum(),0, ",", ".") }}</th>
+    </tr>
     </tbody>
 </table>
 
