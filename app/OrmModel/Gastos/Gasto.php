@@ -14,6 +14,7 @@ use App\OrmModel\Gastos\TipoGasto;
 use App\OrmModel\OrmField\Currency;
 use App\OrmModel\OrmField\BelongsTo;
 use App\OrmModel\Metrics\GastosPerDay;
+use App\OrmModel\Filters\CuentasGastos;
 use App\OrmModel\Gastos\TipoMovimiento;
 use App\OrmModel\Metrics\MontoRegistros;
 use App\OrmModel\Metrics\NuevosRegistros;
@@ -71,4 +72,12 @@ class Gasto extends Resource
             (new MontoRegistros)->prefix('$'),
         ];
     }
+
+    public function filters(Request $request)
+    {
+        return [
+            new CuentasGastos,
+        ];
+    }
+
 }

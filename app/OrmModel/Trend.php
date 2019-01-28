@@ -14,19 +14,14 @@ class Trend extends Card
 
     public function data(Request $request)
     {
-        return $this->formatGoogleGraphData($this->calculate($request));
-    }
-
-    protected function formatGoogleGraphData($data = [])
-    {
-        return $data->values()->all();
+        return $this->calculate($request)->values()->all();
     }
 
     public function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $dateInterval = $this->dateInterval($request);
 
-        $data = $this->fetchSumData($model, $sumColumn, $timeColumn, $dateInterval);
+        $data = $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $dateInterval);
 
         return $this->totalizedData($data, $dateInterval, $sumColumn, $timeColumn);
     }
@@ -35,7 +30,7 @@ class Trend extends Card
     {
         $dateInterval = $this->dateInterval($request);
 
-        $data = $this->fetchCountData($model, $timeColumn, $dateInterval);
+        $data = $this->fetchCountData($request, $model, $timeColumn, $dateInterval);
 
         return $this->totalizedData($data, $dateInterval, 'count', $timeColumn);
     }
@@ -58,10 +53,9 @@ class Trend extends Card
         });
     }
 
-    protected function fetchSumData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchSumData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
-        return (new $model)->whereBetween($timeColumn, $dateInterval)
-            ->get()
+        return $this->fetchData($request, $model, $timeColumn, $dateInterval)
             ->map(function($modelObject) use($sumColumn, $timeColumn) {
                 return [
                     $sumColumn => $modelObject->$sumColumn,
@@ -70,11 +64,33 @@ class Trend extends Card
             });
     }
 
-
-    protected function fetchCountData($model = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
     {
-        return (new $model)->whereBetween($timeColumn, $dateInterval)
-            ->get()
+        $query = (new $model)->whereBetween($timeColumn, $dateInterval);
+
+        $query = $this->applyResourceFilters($request, $model, $query);
+
+        return $query->get();
+    }
+
+    protected function applyResourceFilters(Request $request, $model = '', $query)
+    {
+        $resourceClass = 'App\\OrmModel\\Gastos\\' . class_basename($model);
+        $resourceFilters = (new $resourceClass)->filters($request);
+
+        foreach($resourceFilters as $filter) {
+            if ($filter->isSet($request)) {
+                $query = $filter->apply($request, $query, $filter->getValue($request));
+            }
+        }
+
+        return $query;
+    }
+
+
+    protected function fetchCountData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
+    {
+        return $this->fetchData($request, $model, $timeColumn, $dateInterval)
             ->map(function($modelObject) use($timeColumn) {
                 return [
                     'count' => 1,

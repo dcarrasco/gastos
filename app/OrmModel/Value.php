@@ -25,8 +25,8 @@ class Value extends Card
         $previousDateInterval = $this->previousDateInterval($request);
 
         return [
-            'currentValue' => $this->fetchSumData($model, $sumColumn, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchSumData($model, $sumColumn, $timeColumn, $previousDateInterval),
+            'currentValue' => $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $currentDateInterval),
+            'previousValue' => $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $previousDateInterval),
         ];
     }
 
@@ -36,20 +36,43 @@ class Value extends Card
         $previousDateInterval = $this->previousDateInterval($request);
 
         return [
-            'currentValue' => $this->fetchCountData($model, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchCountData($model, $timeColumn, $previousDateInterval),
+            'currentValue' => $this->fetchCountData($request, $model, $timeColumn, $currentDateInterval),
+            'previousValue' => $this->fetchCountData($request, $model, $timeColumn, $previousDateInterval),
         ];
     }
 
-    protected function fetchSumData($model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchSumData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
-        return (new $model)->whereBetween($timeColumn, $dateInterval)->sum($sumColumn);
+        return $this->fetchData($request, $model, $timeColumn, $dateInterval)->sum($sumColumn);
     }
 
 
-    protected function fetchCountData($model = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchCountData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
     {
-        return (new $model)->whereBetween($timeColumn, $dateInterval)->count();
+        return $this->fetchData($request, $model, $timeColumn, $dateInterval)->count();
+    }
+
+    protected function fetchData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
+    {
+        $query = (new $model)->whereBetween($timeColumn, $dateInterval);
+
+        $query = $this->applyResourceFilters($request, $model, $query);
+
+        return $query->get();
+    }
+
+    protected function applyResourceFilters(Request $request, $model = '', $query)
+    {
+        $resourceClass = 'App\\OrmModel\\Gastos\\' . class_basename($model);
+        $resourceFilters = (new $resourceClass)->filters($request);
+
+        foreach($resourceFilters as $filter) {
+            if ($filter->isSet($request)) {
+                $query = $filter->apply($request, $query, $filter->getValue($request));
+            }
+        }
+
+        return $query;
     }
 
     protected function currentDateInterval(Request $request)
