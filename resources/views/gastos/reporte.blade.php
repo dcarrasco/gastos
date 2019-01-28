@@ -19,7 +19,7 @@
             {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+            {{ Form::select('anno', $formAnno, request('anno'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
             {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control']) }}
@@ -40,7 +40,7 @@
         <th class="text-center">Prom</th>
     </thead>
     <tbody>
-        @foreach($tipoGasto as $tipo_gasto_id => $tipo_gasto)
+        @foreach(array_get($datos, 'tiposGasto') as $tipo_gasto_id => $tipo_gasto)
         <tr>
             <th scope="row">{{ $tipo_gasto }}</th>
             @foreach($datos['meses'] as $mes => $nombre)

@@ -34,10 +34,10 @@ class TipoGasto extends Model
         });
     }
 
-    public static function nombresTipoGastos(array $idTiposGastos)
+    public static function nombresTipoGastos(array $idTiposGastos = [])
     {
         return TipoGasto::orderBy('tipo_gasto')
-            ->whereIn('id', array_get($idTiposGastos, 'tipo_gasto_id', []))
+            ->whereIn('id', $idTiposGastos)
             ->get()
             ->pluck('tipo_gasto', 'id');
     }

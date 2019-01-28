@@ -112,6 +112,7 @@ class Gasto extends Model
     {
         $data = static::dataReporte($request);
         $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
+        $tiposGasto = TipoGasto::nombresTipoGastos($tipo_gasto_id);
 
         $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
             ->map(function($tipo_gasto_id) use ($data) {
@@ -122,6 +123,6 @@ class Gasto extends Model
         $sum_tipo_gasto = static::sumDataReporte($request, 'tipo_gasto_id');
         $sum_mes = static::sumDataReporte($request, 'mes');
 
-        return compact ('datos', 'meses', 'tipo_gasto_id', 'sum_tipo_gasto', 'sum_mes');
+        return compact ('datos', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
     }
 }
