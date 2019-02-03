@@ -10,7 +10,7 @@ class RegistrosPorDia extends Trend
 {
     public function calculate(Request $request)
     {
-        return $this->count($request, Gasto::class, 'fecha');
+        return $this->countByDays($request, Gasto::class, 'fecha');
     }
 
     public function ranges()

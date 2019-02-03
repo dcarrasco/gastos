@@ -10,7 +10,7 @@ class GastosPerDay extends Trend
 {
     public function calculate(Request $request)
     {
-        return $this->sum($request, Gasto::class, 'monto', 'fecha');
+        return $this->sumByDays($request, Gasto::class, 'monto', 'fecha');
     }
 
     public function ranges()

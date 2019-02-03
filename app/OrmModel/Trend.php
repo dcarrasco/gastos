@@ -2,121 +2,164 @@
 
 namespace App\OrmModel;
 
-use Carbon\Carbon;
-use App\OrmModel\Card;
+use App\OrmModel\Metric;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
-class Trend extends Card
+class Trend extends Metric
 {
     protected $dateFormat = 'Y-m-d';
 
+    protected $trend = [];
 
-    public function data(Request $request)
-    {
-        return $this->calculate($request)->values()->all();
-    }
 
-    public function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
-    {
-        $dateInterval = $this->dateInterval($request);
-
-        $data = $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $dateInterval);
-
-        return $this->totalizedData($data, $dateInterval, $sumColumn, $timeColumn);
-    }
-
-    public function count(Request $request, $model = '', $timeColumn = 'created_at')
+    /**
+     * Suma los registros
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    protected function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $dateInterval = $this->dateInterval($request);
 
-        $data = $this->fetchCountData($request, $model, $timeColumn, $dateInterval);
-
-        return $this->totalizedData($data, $dateInterval, 'count', $timeColumn);
+        return $this->fetchData($request, $model, $sumColumn, $timeColumn, $dateInterval);
     }
 
-
-    protected function totalizedData($data = [], $dateInterval = [], $sumColumn = '', $timeColumn = '')
+    /**
+     * Suma los registros por dias
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function sumByDays(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
     {
-        return $this->initTotalizedData($dateInterval)
-            ->map(function($value, $date) use ($data, $sumColumn, $timeColumn) {
-                return $data->where($timeColumn, $date)->sum($sumColumn);
-            });
+        return $this->sum($request, $model, $sumColumn, $timeColumn);
     }
 
+    /**
+     * Suma los registros por semanas
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function sumByWeeks(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    {
+        $this->dateFormat = 'W';
+
+        return $this->sum($request, $model, $sumColumn, $timeColumn);
+    }
+
+    /**
+     * Suma los registros por meses
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function sumByMonths(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    {
+        $this->dateFormat = 'M';
+
+        return $this->sum($request, $model, $sumColumn, $timeColumn);
+    }
+
+    /**
+     * Cuenta los registros
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    protected function count(Request $request, $model = '', $timeColumn = 'created_at')
+    {
+        $dateInterval = $this->dateInterval($request);
+
+        return $this->fetchData($request, $model, '__count__', $timeColumn, $dateInterval);
+    }
+
+    /**
+     * Cuenta los registros por dias
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function countByDays(Request $request, $model = '', $timeColumn = 'created_at')
+    {
+        return $this->count($request, $model, $timeColumn);
+    }
+
+    /**
+     * Cuenta los registros por semanas
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function countByWeeks(Request $request, $model = '', $timeColumn = 'created_at')
+    {
+        $this->dateFormat = 'W';
+
+        return $this->count($request, $model, $timeColumn);
+    }
+
+    /**
+     * Cuenta los registros por meses
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function countByMonths(Request $request, $model = '', $timeColumn = 'created_at')
+    {
+        $this->dateFormat = 'M';
+
+        return $this->count($request, $model, $timeColumn);
+    }
+
+    /**
+     * Inicializa arreglo de fechas con valores en cero
+     * @param  array  $dateInterval
+     * @return Collection
+     */
     protected function initTotalizedData($dateInterval = [])
     {
         [$fechaInicio, $fechaFin] = $dateInterval;
 
-        return collect(CarbonPeriod::create($fechaInicio, $fechaFin))->mapWithKeys(function($date) {
-            return [$date->format($this->dateFormat) => 0];
+        $period = collect(CarbonPeriod::create($fechaInicio, $fechaFin))->map(function($date) {
+            return $date->format($this->dateFormat);
         });
+
+        return $period->combine(array_fill(0, $period->count(), 0));
     }
 
-    protected function fetchSumData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    /**
+     * Recupera conjunto de datos para utilizar
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $sumColumn
+     * @param  string  $timeColumn
+     * @param  array   $dateInterval
+     * @return Collection
+     */
+    protected function fetchData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
-        return $this->fetchData($request, $model, $timeColumn, $dateInterval)
-            ->map(function($modelObject) use($sumColumn, $timeColumn) {
+        $data = $this->getModelData($request, $model, $timeColumn, $dateInterval)
+            ->map(function($data) use ($sumColumn, $timeColumn) {
                 return [
-                    $sumColumn => $modelObject->$sumColumn,
-                    $timeColumn => $modelObject->$timeColumn->format($this->dateFormat),
+                    'value' => $sumColumn === '__count__' ? 1 : $data->{$sumColumn},
+                    'time' => $data->{$timeColumn}->format($this->dateFormat)
                 ];
             });
-    }
 
-    protected function fetchData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
-    {
-        $query = (new $model)->whereBetween($timeColumn, $dateInterval);
-
-        $query = $this->applyResourceFilters($request, $model, $query);
-
-        return $query->get();
-    }
-
-    protected function applyResourceFilters(Request $request, $model = '', $query)
-    {
-        $resourceClass = 'App\\OrmModel\\Gastos\\' . class_basename($model);
-        $resourceFilters = (new $resourceClass)->filters($request);
-
-        foreach($resourceFilters as $filter) {
-            if ($filter->isSet($request)) {
-                $query = $filter->apply($request, $query, $filter->getValue($request));
-            }
-        }
-
-        return $query;
-    }
-
-
-    protected function fetchCountData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
-    {
-        return $this->fetchData($request, $model, $timeColumn, $dateInterval)
-            ->map(function($modelObject) use($timeColumn) {
-                return [
-                    'count' => 1,
-                    $timeColumn => $modelObject->$timeColumn->format($this->dateFormat),
-                ];
+        return $this->initTotalizedData($dateInterval)
+            ->map(function($value, $date) use ($data) {
+                return $data->where('time', $date)->sum('value');
             });
-    }
-
-    protected function dateInterval(Request $request)
-    {
-        $dateIntervalOption = $this->dateIntervalOption($request);
-
-        if (is_numeric($dateIntervalOption)) {
-            return [Carbon::now()->subDays($dateIntervalOption), Carbon::now()];
-        } else if ($dateIntervalOption === 'MTD') {
-            return [Carbon::create(Carbon::now()->year, Carbon::now()->month, 1), Carbon::now()];
-        } else if ($dateIntervalOption === 'QTD') {
-            return [Carbon::now()->firstOfQuarter(), Carbon::now()];
-        } else if ($dateIntervalOption === 'YTD') {
-            return [Carbon::create(Carbon::now()->year, 1, 1), Carbon::now()];
-        }
-    }
-
-    protected function dateIntervalOption(Request $request)
-    {
-        return $request->input('range', collect($this->ranges())->keys()->first());
     }
 
     protected function content(Request $request)
@@ -128,9 +171,12 @@ class Trend extends Card
 
     protected function contentScript(Request $request)
     {
-        $data = json_encode($this->data($request));
+        $dataSet = $this->calculate($request);
+        $data = json_encode($dataSet->values());
+        $labels = json_encode($dataSet->keys());
         $cardId = $this->cardId();
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
+        $resourceParams = json_encode($request->query());
         $baseUrl = asset('');
 
         $script = <<<EOD
@@ -139,10 +185,10 @@ class Trend extends Card
 
 <script type="text/javascript">
 var chartData_{$cardId} = {
-    labels: $data,
+    labels: $labels,
     datasets: [{
         fill: true,
-        backgroundColor: 'rgba(54,162,235,0.5)',
+        backgroundColor: 'rgba(54,162,235,0.3)',
         borderColor: 'rgb(54,162,235)',
         data: $data
     }]
@@ -182,12 +228,15 @@ function loadCardData_{$cardId}(uriKey, cardId) {
     $('#spinner-' + cardId).removeClass('d-none');
     $.ajax({
         url: '$urlRoute',
-        data: {'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
+        data: {
+            ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
+            ...{$resourceParams}
+            },
         async: true,
         success: function(data) {
             if (data) {
-                chartData_{$cardId}.labels = data;
-                chartData_{$cardId}.datasets[0].data = data;
+                chartData_{$cardId}.labels = Object.keys(data);
+                chartData_{$cardId}.datasets[0].data = Object.values(data);
                 drawCardChart_{$cardId}();
                 $('#spinner-' + cardId).addClass('d-none');
             }

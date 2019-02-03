@@ -198,7 +198,7 @@ trait OrmController
         return collect($this->getResource($resource)->cards($request))
             ->first(function ($card) use ($request) {
                 return $card->uriKey() === $request->input('uri-key');
-            })->data($request);
+            })->calculate($request);
     }
 
 }
