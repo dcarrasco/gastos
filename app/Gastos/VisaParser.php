@@ -38,8 +38,7 @@ class VisaParser extends GastosParser
                 ->first();
 
                 return is_null($gastoAnterior);
-            })
-            ->all();
+            });
     }
 
 

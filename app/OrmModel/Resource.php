@@ -48,6 +48,11 @@ class Resource
         return [];
     }
 
+    /**
+     * Cards del recurso
+     * @param  Request $request
+     * @return array
+     */
     public function cards(Request $request)
     {
         return [];
@@ -69,22 +74,16 @@ class Resource
      */
     public function getLabel()
     {
-        if (empty($this->label)) {
-            $class = explode("\\", get_class($this));
-
-            return array_pop($class);
-        }
-
-        return $this->label;
+        return empty($this->label) ? class_basename($this) : $this->label;
     }
 
+    /**
+     * Devuelve descripcion del recurso en plural
+     * @return string
+     */
     public function getLabelPlural()
     {
-        if (empty($this->labelPlural)) {
-            return Str::plural($this->getLabel());
-        }
-
-        return $this->labelPlural;
+        return empty($this->labelPlural) ? Str::plural($this->getLabel()) : $this->labelPlural;
     }
 
     /**
