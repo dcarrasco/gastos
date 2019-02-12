@@ -22,4 +22,12 @@ class Reporte extends Controller
         ]);
     }
 
+    public function detalle(Request $request)
+    {
+        return view('gastos.detalle', [
+            'movimientosMes' => Gasto::detalleMovimientosMes($request),
+        ]);
+    }
+
+
 }

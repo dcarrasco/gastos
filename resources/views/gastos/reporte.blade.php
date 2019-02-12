@@ -47,8 +47,15 @@
             <td class="text-right">
                 @if (array_get($datos, "datos.$tipo_gasto_id.$mes", 0) == 0)
                 @else
-                    $&nbsp;{{ number_format(array_get($datos, "datos.$tipo_gasto_id.$mes"), 0, ',', '.') }}
-                    @endif
+                    <a href="{{ route('gastos.detalle', [
+                        'cuenta_id' => request('cuenta_id'),
+                        'anno' => request('anno'),
+                        'mes' => $mes,
+                        'tipo_gasto_id' => $tipo_gasto_id,
+                    ]) }}" class="text-reset">
+                        $&nbsp;{{ number_format(array_get($datos, "datos.$tipo_gasto_id.$mes"), 0, ',', '.') }}
+                    </a>
+                @endif
             </td>
             @endforeach
             <th class="text-right table-secondary">

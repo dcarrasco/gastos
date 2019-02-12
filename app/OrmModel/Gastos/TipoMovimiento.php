@@ -6,6 +6,7 @@ use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
+use App\OrmModel\OrmField\Number;
 use App\OrmModel\OrmField\Select;
 
 class TipoMovimiento extends Resource
@@ -34,6 +35,8 @@ class TipoMovimiento extends Resource
                 '1' => 'Positivo',
                 '-1' => 'Negativo',
             ]),
+
+            Number::make('Orden')->rules('required'),
         ];
     }
 }

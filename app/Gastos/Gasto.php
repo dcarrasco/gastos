@@ -69,6 +69,15 @@ class Gasto extends Model
             ->get();
     }
 
+    public static function detalleMovimientosMes(Request $request)
+    {
+        return static::cuentaAnno($request->cuenta_id, $request->anno)
+            ->whereMes($request->mes)
+            ->whereTipoGastoId($request->tipo_gasto_id)
+            ->orderBy('fecha')->orderBy('id')
+            ->get();
+    }
+
     public function movimientosAnno(Request $request)
     {
         return $this->cuentaAnno($request->cuenta_id, $request->anno)

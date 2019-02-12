@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoMovimiento extends Model
 {
-    protected $fillable = ['tipo_movimiento', 'signo'];
+    protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
 
     public function __construct(array $attributes = [])
     {
@@ -17,7 +17,7 @@ class TipoMovimiento extends Model
 
     public static function formArray()
     {
-        return static::orderBy('tipo_movimiento')->get()
+        return static::orderBy('orden')->get()
             ->pluck('tipo_movimiento', 'id');
     }
 }
