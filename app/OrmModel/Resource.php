@@ -7,6 +7,7 @@ use App\OrmModel\OrmField;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\HasMany;
+use App\OrmModel\OrmField\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -201,6 +202,22 @@ class Resource
             ->all();
     }
 
+    public function getBelongsToRelations(Request $request)
+    {
+        $belongsToRelations = collect($this->fields($request))
+            ->filter(function($field) {
+                return get_class($field) === BelongsTo::class;
+            })->map(function($field) {
+                return $field->getField();
+            })->toArray();
+
+        if (count($belongsToRelations)>0) {
+            $this->modelObject = $this->modelObject->with($belongsToRelations);
+        }
+
+        return $this;
+    }
+
     /**
      * Devuelve paginador del modelo
      * @return Paginator
@@ -235,6 +252,7 @@ class Resource
             ->resourceOrderBy($request)
             ->resourceFilter($request)
             ->applyFilters($request)
+            ->getBelongsToRelations($request)
             ->getPaginated($request);
 
         return $this->modelList;

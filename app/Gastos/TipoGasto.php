@@ -21,7 +21,8 @@ class TipoGasto extends Model
 
     public static function formArray()
     {
-        $tiposGasto = static::orderBy('tipo_movimiento_id')
+        $tiposGasto = static::with('tipoMovimiento')
+            ->orderBy('tipo_movimiento_id')
             ->orderBy('tipo_gasto')
             ->get();
 
