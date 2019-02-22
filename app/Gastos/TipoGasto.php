@@ -31,7 +31,7 @@ class TipoGasto extends Model
         })->unique()
         ->pluck('id', 'tipo_movimiento')
         ->map(function($tipoMovimientoId, $tipoMov) use ($tiposGasto) {
-            return $tiposGasto->where('tipo_movimiento_id',$tipoMovimientoId)->pluck('tipo_gasto', 'id');
+            return $tiposGasto->where('tipo_movimiento_id', $tipoMovimientoId)->pluck('tipo_gasto', 'id');
         });
     }
 

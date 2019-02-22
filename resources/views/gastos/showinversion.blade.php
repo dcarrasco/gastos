@@ -74,6 +74,8 @@
             <td></td>
         </tr>
     @endforeach
+
+    @if($inversion->saldoFinal())
         <tr class="bg-light">
             <th>{{ optional($inversion->saldoFinal())->anno }}</th>
             <th>{{ optional($inversion->saldoFinal())->mes }}</th>
@@ -86,13 +88,13 @@
             </th>
             <th></th>
             <th class="text-right">
-                $&nbsp;{{ number_format($inversion->util(), 0, ',', '.') }}
+                $&nbsp;{{ number_format($inversion->util($inversion->saldoFinal()), 0, ',', '.') }}
             </th>
             <th class="text-right">
-                {{ number_format(100*$inversion->rentabilidad(), 2, ',', '.') }}%
+                {{ number_format(100*$inversion->rentabilidad($inversion->saldoFinal()), 2, ',', '.') }}%
             </th>
             <th class="text-right">
-                {{ number_format(100*$inversion->rentabilidadAnual(), 2, ',', '.') }}%
+                {{ number_format(100*$inversion->rentabilidadAnual($inversion->saldoFinal()), 2, ',', '.') }}%
             </th>
         </tr>
         {{ Form::open([]) }}
@@ -122,6 +124,7 @@
             <td></td>
         </tr>
         {{ Form::close() }}
+    @endif
     </tbody>
 </table>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

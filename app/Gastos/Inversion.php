@@ -4,12 +4,12 @@ namespace App\Gastos;
 
 use App\Gastos\Gasto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class Inversion
 {
     protected $movimientos;
     protected $saldos;
-    protected $sumMovimientos = 0;
 
     public function __construct(Request $request)
     {
@@ -27,29 +27,28 @@ class Inversion
         return optional($this->saldos)->last();
     }
 
-    protected function getSumMovimientos()
+    protected function getSumMovimientos(Gasto $saldo)
     {
-        if ($this->sumMovimientos === 0 and ! empty($this->movimientos)) {
-            $this->sumMovimientos = $this->movimientos->map(function($movimiento) {
+        return $this->movimientos
+            ->filter(function ($movimiento) use ($saldo) {
+                return $movimiento->fecha <= $saldo->fecha;
+            })->map(function($movimiento) {
                 return $movimiento->monto * optional($movimiento->tipoMovimiento)->signo;
             })->sum();
-        }
-
-        return $this->sumMovimientos;
     }
 
-    public function util()
+    public function util(Gasto $saldo)
     {
-        return optional($this->saldoFinal())->monto - $this->getSumMovimientos();
+        return $saldo->monto - $this->getSumMovimientos($saldo);
     }
 
-    public function rentabilidad()
+    public function rentabilidad(Gasto $saldo)
     {
-        if ($this->getSumMovimientos() == 0) {
+        if ($this->getSumMovimientos($saldo) == 0) {
             return 0;
         }
 
-        return $this->util() / $this->getSumMovimientos();
+        return $this->util($saldo) / $this->getSumMovimientos($saldo);
     }
 
     public function rentabilidadAnual($saldoFinal = null)
@@ -68,7 +67,7 @@ class Inversion
         $diasInversion = $fechaIni->diffInDays($fechaFin);
 
         if ($diasInversion != 0) {
-            return pow(pow(1 + $this->rentabilidad(), 1 / $diasInversion), 365) - 1;
+            return pow(pow(1 + $this->rentabilidad($saldoFinal), 1 / $diasInversion), 365) - 1;
         }
     }
 
