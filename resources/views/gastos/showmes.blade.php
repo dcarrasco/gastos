@@ -46,48 +46,6 @@
         </tr>
     </thead>
     <tbody>
-    <?php $saldo = $saldoMesAnterior; ?>
-        <tr>
-            <th>{{ request('anno') }}</th>
-            <th>{{ request('mes') }}</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>Saldo Inicial</th>
-            <th class="text-right"></th>
-            <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
-            <th></th>
-        </tr>
-    @foreach ($movimientosMes as $mov)
-        <tr>
-            <td>{{ $mov->anno }}</td>
-            <td>{{ $mov->mes }}</td>
-            <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
-            <td>{{ $mov->glosa }}</td>
-            <td>{{ $mov->serie }}</td>
-            <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
-            <td class="text-right">
-                $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
-                @if ($mov->tipoMovimiento->signo == -1)
-                    <small><span class="fa fa-minus-circle text-danger"></span></small>
-                @else
-                    <small><span class="fa fa-plus-circle text-success"></span></small>
-                @endif
-            </td>
-            <td class="text-right">
-                $&nbsp;{{ number_format($saldo += $mov->tipoMovimiento->signo*$mov->monto, 0, ',', '.') }}
-            </td>
-            <td>
-                {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
-                    {!! method_field('DELETE')!!}
-                    {{ Form::hidden('id', $mov->getKey()) }}
-                    <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
-                        <span class="fa fa-trash text-muted"></span>
-                    </button>
-                {{ Form::close() }}
-            </td>
-        </tr>
-    @endforeach
         {{ Form::open([]) }}
         <tr>
             {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
@@ -116,6 +74,51 @@
             <td></td>
         </tr>
         {{ Form::close() }}
+
+        <?php $saldo = $saldoMesAnterior + $movimientosMes->map(function($gasto) {return $gasto->monto * $gasto->tipoMovimiento->signo;})->sum(); ?>
+        @foreach ($movimientosMes as $mov)
+        <tr>
+            <td>{{ $mov->anno }}</td>
+            <td>{{ $mov->mes }}</td>
+            <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
+            <td>{{ $mov->glosa }}</td>
+            <td>{{ $mov->serie }}</td>
+            <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
+            <td class="text-right">
+                $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
+                @if ($mov->tipoMovimiento->signo == -1)
+                    <small><span class="fa fa-minus-circle text-danger"></span></small>
+                @else
+                    <small><span class="fa fa-plus-circle text-success"></span></small>
+                @endif
+            </td>
+            <td class="text-right">
+                $&nbsp;{{ number_format($saldo, 0, ',', '.') }}
+                <?php $saldo -= $mov->monto * $mov->tipoMovimiento->signo; ?>
+            </td>
+            <td>
+                {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
+                    {!! method_field('DELETE')!!}
+                    {{ Form::hidden('id', $mov->getKey()) }}
+                    <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
+                        <span class="fa fa-trash text-muted"></span>
+                    </button>
+                {{ Form::close() }}
+            </td>
+        </tr>
+        @endforeach
+
+        <tr>
+            <th>{{ request('anno') }}</th>
+            <th>{{ request('mes') }}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Saldo Inicial</th>
+            <th class="text-right"></th>
+            <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
+            <th></th>
+        </tr>
     </tbody>
 </table>
 

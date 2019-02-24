@@ -53,7 +53,6 @@ class Gasto extends Model
             ->where('anno', $anno);
     }
 
-
     public function scopeCuentaAnnoTipMov($query, $cuentaId, $anno, $tipoMovimientoId)
     {
         return $query->where('cuenta_id', $cuentaId)
@@ -61,12 +60,17 @@ class Gasto extends Model
             ->where('tipo_movimiento_id', $tipoMovimientoId);
     }
 
+    public function scopeNoSaldos($query)
+    {
+        return $query->where('tipo_movimiento_id', '<>', 4); // excluye movimientos de saldos
+    }
+
     public static function movimientosMes(Request $request)
     {
         return static::with('tipoGasto', 'tipoMovimiento')
             ->cuentaAnno($request->cuenta_id, $request->anno)
             ->whereMes($request->mes)
-            ->orderBy('fecha')->orderBy('id')
+            ->latest('fecha')->latest('id')
             ->get();
     }
 
@@ -83,7 +87,7 @@ class Gasto extends Model
     {
         return $this->with('tipoMovimiento')
             ->cuentaAnno($request->cuenta_id, $request->anno)
-            ->where('tipo_movimiento_id', '<>', 4) // excluye movimientos de saldos
+            ->noSaldos()
             ->orderBy('fecha')
             ->get();
     }
@@ -127,7 +131,7 @@ class Gasto extends Model
 
         $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
             ->map(function($tipo_gasto_id) use ($data) {
-               return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
+                return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
             })->all();
 
         $meses = Cuenta::getFormMes('M');
