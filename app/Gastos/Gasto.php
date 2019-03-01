@@ -76,7 +76,8 @@ class Gasto extends Model
 
     public static function detalleMovimientosMes(Request $request)
     {
-        return static::cuentaAnno($request->cuenta_id, $request->anno)
+        return static::with('tipoGasto', 'tipoMovimiento')
+            ->cuentaAnno($request->cuenta_id, $request->anno)
             ->whereMes($request->mes)
             ->whereTipoGastoId($request->tipo_gasto_id)
             ->orderBy('fecha')->orderBy('id')
@@ -119,7 +120,6 @@ class Gasto extends Model
         return static::cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
             ->select(DB::raw($campo.', sum(monto) as sum_monto'))
             ->groupBy([$campo])
-            ->get()
             ->pluck('sum_monto', $campo);
     }
 
@@ -130,14 +130,14 @@ class Gasto extends Model
         $tiposGasto = TipoGasto::nombresTipoGastos($tipo_gasto_id);
 
         $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
-            ->map(function($tipo_gasto_id) use ($data) {
+            ->map(function ($tipo_gasto_id) use ($data) {
                 return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
-            })->all();
+            });
 
         $meses = Cuenta::getFormMes('M');
         $sum_tipo_gasto = static::sumDataReporte($request, 'tipo_gasto_id');
         $sum_mes = static::sumDataReporte($request, 'mes');
 
-        return compact ('datos', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
+        return compact('datos', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
     }
 }
