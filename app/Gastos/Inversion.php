@@ -13,8 +13,8 @@ class Inversion
 
     public function __construct(Request $request)
     {
-        $this->movimientos = (new Gasto)->movimientosAnno($request);
-        $this->saldos = (new Gasto)->saldos($request);
+        $this->movimientos = (new Gasto)->movimientosAnno($request->cuenta_id, $request->anno);
+        $this->saldos = (new Gasto)->saldos($request->cuenta_id, $request->anno);
     }
 
     public function getMovimientos()

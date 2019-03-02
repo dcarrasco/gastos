@@ -47,10 +47,11 @@ class Gasto extends Model
         return $this->belongsTo(Usuario::class);
     }
 
-    public function scopeCuentaAnno($query, $cuentaId, $anno)
+    public function scopeCuentaAnnoMes($query, $cuentaId, $anno, $mes)
     {
         return $query->where('cuenta_id', $cuentaId)
-            ->where('anno', $anno);
+            ->where('anno', $anno)
+            ->where('mes', $mes);
     }
 
     public function scopeCuentaAnnoTipMov($query, $cuentaId, $anno, $tipoMovimientoId)
@@ -62,70 +63,73 @@ class Gasto extends Model
 
     public function scopeNoSaldos($query)
     {
-        return $query->where('tipo_movimiento_id', '<>', 4); // excluye movimientos de saldos
+        $tipoMovimientoSaldo = 4;
+
+        return $query->where('tipo_movimiento_id', '<>', $tipoMovimientoSaldo); // excluye movimientos de saldos
     }
 
-    public static function movimientosMes(Request $request)
+    public static function movimientosMes($cuentaId, $anno, $mes)
     {
         return static::with('tipoGasto', 'tipoMovimiento')
-            ->cuentaAnno($request->cuenta_id, $request->anno)
-            ->whereMes($request->mes)
+            ->cuentaAnnoMes($cuentaId, $anno, $mes)
             ->latest('fecha')->latest('id')
             ->get();
     }
 
-    public static function detalleMovimientosMes(Request $request)
+    public static function detalleMovimientosMes($cuentaId, $anno, $mes, $tipoGastoId)
     {
         return static::with('tipoGasto', 'tipoMovimiento')
-            ->cuentaAnno($request->cuenta_id, $request->anno)
-            ->whereMes($request->mes)
-            ->whereTipoGastoId($request->tipo_gasto_id)
+            ->cuentaAnnoMes($cuentaId, $anno, $mes)
+            ->whereTipoGastoId($tipoGastoId)
             ->orderBy('fecha')->orderBy('id')
             ->get();
     }
 
-    public function movimientosAnno(Request $request)
+    public function movimientosAnno($cuentaId, $anno)
     {
         return $this->with('tipoMovimiento')
-            ->cuentaAnno($request->cuenta_id, $request->anno)
+            ->where('cuenta_id', $cuentaId)
+            ->where('anno', $anno)
             ->noSaldos()
             ->orderBy('fecha')
             ->get();
     }
 
-    public function saldos(Request $request)
+    public function saldos($cuentaId, $anno)
     {
-        return $this->cuentaAnnoTipMov($request->cuenta_id, $request->anno, 4)
+        $tipoMovimientoSaldo = 4;
+
+        return $this->cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoSaldo)
             ->orderBy('fecha')
             ->get();
     }
 
-    public static function totalMes(Request $request)
+    public static function totalMes($cuentaId, $anno, $mes)
     {
-        return static::movimientosMes($request)->map(function($gasto) {
+        return static::movimientosMes($cuentaId, $anno, $mes)->map(function($gasto) {
             return $gasto->monto * $gasto->tipoMovimiento->signo;
         })->sum();
     }
 
-    protected static function dataReporte(Request $request)
+    protected static function dataReporte($cuentaId, $anno, $tipoMovimientoId)
     {
-        return static::cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
+        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
             ->groupBy(['mes', 'tipo_gasto_id'])
             ->get();
     }
 
-    protected static function sumDataReporte(Request $request, string $campo)
+    protected static function sumDataReporte($cuentaId, $anno, $tipoMovimientoId, string $campo)
     {
-        return static::cuentaAnnoTipMov($request->cuenta_id, $request->anno, $request->tipo_movimiento_id)
+        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
             ->select(DB::raw($campo.', sum(monto) as sum_monto'))
             ->groupBy([$campo])
             ->pluck('sum_monto', $campo);
     }
 
-    public static function getReporte(Request $request)
+    public static function getReporte($cuentaId, $anno, $tipoMovimientoId)
     {
-        $data = static::dataReporte($request);
+        $data = static::dataReporte($cuentaId, $anno, $tipoMovimientoId);
         $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
         $tiposGasto = TipoGasto::nombresTipoGastos($tipo_gasto_id);
 
@@ -135,8 +139,8 @@ class Gasto extends Model
             });
 
         $meses = Cuenta::getFormMes('M');
-        $sum_tipo_gasto = static::sumDataReporte($request, 'tipo_gasto_id');
-        $sum_mes = static::sumDataReporte($request, 'mes');
+        $sum_tipo_gasto = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'tipo_gasto_id');
+        $sum_mes = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'mes');
 
         return compact('datos', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
     }

@@ -18,14 +18,14 @@ class Reporte extends Controller
             'formCuenta' => Cuenta::formArrayGastos(),
             'formAnno' => Cuenta::getFormAnno($request),
             'formTipoMovimiento' => TipoMovimiento::formArray(),
-            'datos' => Gasto::getReporte($request),
+            'datos' => Gasto::getReporte($request->cuenta_id, $request->anno, $request->tipo_movimiento_id),
         ]);
     }
 
     public function detalle(Request $request)
     {
         return view('gastos.detalle', [
-            'movimientosMes' => Gasto::detalleMovimientosMes($request),
+            'movimientosMes' => Gasto::detalleMovimientosMes($request->cuenta_id, $request->anno, $request->mes, $request->tipo_gasto_id),
         ]);
     }
 
