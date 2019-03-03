@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Acl\Usuario;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
-use Illuminate\Http\Request;
 use App\Gastos\TipoMovimiento;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
