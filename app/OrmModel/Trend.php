@@ -62,7 +62,7 @@ class Trend extends Metric
      */
     public function sumByMonths(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
     {
-        $this->dateFormat = 'M';
+        $this->dateFormat = 'Y-m';
 
         return $this->sum($request, $model, $sumColumn, $timeColumn);
     }
@@ -116,7 +116,7 @@ class Trend extends Metric
      */
     public function countByMonths(Request $request, $model = '', $timeColumn = 'created_at')
     {
-        $this->dateFormat = 'M';
+        $this->dateFormat = 'Y-m';
 
         return $this->count($request, $model, $timeColumn);
     }
