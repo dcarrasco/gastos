@@ -4,10 +4,7 @@ namespace App\Gastos;
 
 use Illuminate\Http\Request;
 
-class GastosParser
+interface GastosParser
 {
-    public function procesaMasivo(Request $request)
-    {
-
-    }
+    public function procesaMasivo(Request $request);
 }

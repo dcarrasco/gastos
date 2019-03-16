@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
 use App\Gastos\Cuenta;
-use App\Gastos\VisaParser;
+use App\Gastos\GastosParser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 
 class IngresoMasivo extends Controller
 {
+    public function __construct(GastosParser $parser)
+    {
+        $this->parser = $parser;
+    }
+
     public function ingresoMasivo(Request $request)
     {
         $formCuenta = Cuenta::formArrayGastos();
@@ -18,7 +23,7 @@ class IngresoMasivo extends Controller
         $annoDefault = Carbon::now()->year;
         $formMes = Cuenta::getFormMes();
         $mesDefault = Carbon::now()->month;
-        $datosMasivos = (new VisaParser)->procesaMasivo($request);
+        $datosMasivos = $this->parser->procesaMasivo($request);
 
         if ($request->agregar === 'agregar') {
             return $this->addGastosMasivos($request, $datosMasivos);

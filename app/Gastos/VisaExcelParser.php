@@ -11,7 +11,7 @@ use App\Gastos\GlosaTipoGasto;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Gastos\TipoGastoModel;
 
-class VisaParser implements GastosParser
+class VisaExcelParser implements GastosParser
 {
     public function procesaMasivo(Request $request)
     {
@@ -48,7 +48,7 @@ class VisaParser implements GastosParser
             return null;
         }
 
-        $linea = collect(explode(' ', $linea));
+        $linea = collect(explode("\t", $linea));
         $tipoGasto = (new TipoGasto)->findOrNew((new GlosaTipoGasto)->getPorGlosa($request->cuenta_id, $this->getGlosa($linea)));
 
         return (new Gasto)->fill([
@@ -78,14 +78,14 @@ class VisaParser implements GastosParser
 
     protected function getFecha(Collection $linea)
     {
-        $fecha = $linea->get($this->getIndexFecha($linea));
+        $fecha = $linea[2];
 
         return (new Carbon)->create(2000 + (int)substr($fecha, 6, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
 
     protected function esLineaValida($linea = '')
     {
-        return preg_match('/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]/', $linea) === 1;
+        return preg_match('/[0-9]{4}/', $linea) === 1;
     }
 
     protected function getIndexSerie(Collection $linea)
@@ -102,16 +102,12 @@ class VisaParser implements GastosParser
 
     protected function getSerie(Collection $linea)
     {
-        return $linea->only($this->getIndexSerie($linea))->implode('');
+        return $linea[0];
     }
 
     protected function getGlosa($linea = [])
     {
-        $indexFecha = $this->getIndexFecha($linea);
-        $indexIni = count($this->getIndexSerie($linea)) === 1 ? $indexFecha + 2 : $indexFecha + 3;
-        $indexFin = $this->montosConSigno($linea) ? $linea->count() - 5 : $linea->count() - 8;
-
-        return collect($linea)->only(range($indexIni, $indexFin))->implode(' ');
+        return trim($linea[3]);
     }
 
     protected function montosConSigno(Collection $linea)
