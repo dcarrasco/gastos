@@ -60,7 +60,7 @@ class VisaExcelParser implements GastosParser
             'glosa' => $this->getGlosa($linea),
             'tipo_gasto_id' => $tipoGasto->id,
             'tipo_movimiento_id' => optional($tipoGasto->tipoMovimiento)->id,
-            'monto' => (int) str_replace('.', '', str_replace('$', '', $linea->last())),
+            'monto' => $this->getMonto($linea),
             'usuario_id' => auth()->id(),
         ]);
     }
@@ -80,7 +80,7 @@ class VisaExcelParser implements GastosParser
     {
         $fecha = $linea[2];
 
-        return (new Carbon)->create(2000 + (int)substr($fecha, 6, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
+        return (new Carbon)->create(2000 + (int)substr($fecha, 8, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
 
     protected function esLineaValida($linea = '')
@@ -108,6 +108,11 @@ class VisaExcelParser implements GastosParser
     protected function getGlosa($linea = [])
     {
         return trim($linea[3]);
+    }
+
+    protected function getMonto($linea = [])
+    {
+        return (int) str_replace('.', '', str_replace('$', '', trim($linea[4])));
     }
 
     protected function montosConSigno(Collection $linea)

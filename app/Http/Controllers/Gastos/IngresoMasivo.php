@@ -18,23 +18,21 @@ class IngresoMasivo extends Controller
 
     public function ingresoMasivo(Request $request)
     {
-        $formCuenta = Cuenta::formArrayGastos();
-        $formAnno = Cuenta::getFormAnno();
-        $annoDefault = Carbon::now()->year;
-        $formMes = Cuenta::getFormMes();
-        $mesDefault = Carbon::now()->month;
-        $datosMasivos = $this->parser->procesaMasivo($request);
-
         if ($request->agregar === 'agregar') {
-            return $this->addGastosMasivos($request, $datosMasivos);
+            return $this->addGastosMasivos($request, $this->parser->procesaMasivo($request));
         }
 
-        return view('gastos.ingresoMasivo', compact(
-            'formCuenta', 'formAnno', 'annoDefault', 'formMes', 'mesDefault', 'datosMasivos'
-        ));
+        return view('gastos.ingresoMasivo', [
+            'formCuenta' => Cuenta::formArrayGastos(),
+            'formAnno' => Cuenta::getFormAnno(),
+            'annoDefault' => Carbon::now()->year,
+            'formMes' => Cuenta::getFormMes(),
+            'mesDefault' => Carbon::now()->month,
+            'datosMasivos' => $this->parser->procesaMasivo($request),
+        ]);
     }
 
-    protected function addGastosMasivos(IngresoMasivoRequest $request, $datosMasivos)
+    protected function addGastosMasivos($request, $datosMasivos)
     {
         collect($datosMasivos)->each(function($gasto) {
             $gasto->save();
