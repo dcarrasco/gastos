@@ -18,7 +18,11 @@ class Reporte extends Controller
             'formCuenta' => Cuenta::formArrayGastos(),
             'formAnno' => Cuenta::getFormAnno($request),
             'formTipoMovimiento' => TipoMovimiento::formArray(),
-            'datos' => Gasto::getReporte($request->cuenta_id, $request->anno, $request->tipo_movimiento_id),
+            'datos' => Gasto::getReporte(
+                $request->input('cuenta_id', key(Cuenta::formArrayGastos()->all())),
+                $request->input('anno', key(Cuenta::getFormAnno())),
+                $request->input('tipo_movimiento_id', key(TipoMovimiento::formArray()->all()))
+            ),
         ]);
     }
 

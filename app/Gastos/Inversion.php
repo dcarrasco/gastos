@@ -11,10 +11,10 @@ class Inversion
     protected $movimientos;
     protected $saldos;
 
-    public function __construct(Request $request)
+    public function __construct($cuenta, $anno)
     {
-        $this->movimientos = (new Gasto)->movimientosAnno($request->cuenta_id, $request->anno);
-        $this->saldos = (new Gasto)->saldos($request->cuenta_id, $request->anno);
+        $this->movimientos = (new Gasto)->movimientosAnno($cuenta, $anno);
+        $this->saldos = (new Gasto)->saldos($cuenta, $anno);
     }
 
     public function getMovimientos()

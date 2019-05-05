@@ -25,9 +25,17 @@ class Ingreso extends Controller
             'annoDefault' => Carbon::now()->year,
             'formMes' => Cuenta::getFormMes(),
             'mesDefault' => Carbon::now()->month,
-            'movimientosMes' => Gasto::movimientosMes($request->cuenta_id, $request->anno, $request->mes),
+            'movimientosMes' => Gasto::movimientosMes(
+                $request->input('cuenta_id', key(Cuenta::formArrayGastos()->all())),
+                $request->input('anno', Carbon::now()->year),
+                $request->input('mes', Carbon::now()->month)
+            ),
             'formTipoGasto' => TipoGasto::formArray(),
-            'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior($request->cuenta_id, $request->anno, $request->mes),
+            'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior(
+                $request->input('cuenta_id', key(Cuenta::formArrayGastos()->all())),
+                $request->input('anno', Carbon::now()->year),
+                $request->input('mes', Carbon::now()->month)
+            ),
         ]);
     }
 
