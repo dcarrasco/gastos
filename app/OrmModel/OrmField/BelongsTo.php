@@ -27,7 +27,7 @@ class BelongsTo extends Relation
 
         return $resource->model()
             ->{$relationName}()
-            ->getForeignKey();
+            ->getForeignKeyName();
     }
 
     /**
