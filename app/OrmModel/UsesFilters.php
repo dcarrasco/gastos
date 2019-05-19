@@ -34,4 +34,12 @@ trait UsesFilters
         return $this;
     }
 
+    public function countAppliedFilters(Request $request)
+    {
+        return collect($this->filters($request))
+            ->filter(function($filter) use ($request) {
+                return $filter->isSet($request);
+            })->count();
+    }
+
 }

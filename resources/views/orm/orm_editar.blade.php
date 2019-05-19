@@ -25,11 +25,11 @@
 
                 <tr class="bg-light">
                     <td class="text-right">
-                        <button type="submit" class="btn btn-primary btn-sm" id="button_continue">
+                        <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
                             {{ trans('orm.button_update_continue') }}
                         </button>
 
-                        <button type="submit" class="btn btn-primary btn-sm">
+                        <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold">
                             {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
                         </button>
                     </td>
