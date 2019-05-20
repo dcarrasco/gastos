@@ -265,9 +265,14 @@ class Resource
      */
     public function getPaginationLinks(Request $request)
     {
-        return $this->modelList
-            ->appends($request->all())
-            ->links();
+        return view('common.app_nova_paginator_detail', [
+            'modelList' => $this->modelList,
+            'resource' => $this,
+            'paginationLinks' => $this->modelList
+                ->appends($request->all())
+                ->links(),
+            ]
+        );
     }
 
     public function getModelAjaxFormOptions(Request $request)

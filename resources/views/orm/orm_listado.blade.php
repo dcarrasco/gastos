@@ -77,12 +77,10 @@
             </tr>
         @endforeach
         </tbody>
+
+        {!! $paginationLinks !!}
+
     </table>
-
-    <div class="row justify-content-md-center">
-        {{ $paginationLinks }}
-    </div>
-
     @endif
 </div>
 
