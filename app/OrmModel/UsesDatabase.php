@@ -90,8 +90,8 @@ trait UsesDatabase
             })
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
-                $this->modelObject->{$field->getField()}()
-                    ->sync($request->input($field->getField(), []));
+                $this->modelObject->{$field->getFieldName()}()
+                    ->sync($request->input($field->getFieldName(), []));
             });
 
         return $this;

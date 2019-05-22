@@ -17,13 +17,13 @@ class BelongsTo extends Relation
      * @param  Resource|null $resource
      * @return string
      */
-    public function getField(Resource $resource = null)
+    public function getFieldName(Resource $resource = null)
     {
         if (is_null($resource)) {
-            return $this->field;
+            return $this->fieldName;
         }
 
-        $relationName = $this->field;
+        $relationName = $this->fieldName;
 
         return $resource->model()
             ->{$relationName}()
@@ -36,12 +36,12 @@ class BelongsTo extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Request $request, Model $model = null)
+    public function getValue(Model $model = null)
     {
-        $relatedModel = $model->{$this->getField()};
+        $relatedModel = $model->{$this->getFieldName()};
         $related = (new $this->relatedResource)->injectModel($relatedModel);
 
-        return $related->title($request);
+        return $related->title(request());
     }
 
     /**
@@ -53,7 +53,7 @@ class BelongsTo extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $field = $this->getField($resource);
+        $field = $this->getFieldName($resource);
         $extraParam['id'] = $field;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
         if ($this->hasOnChange()) {
@@ -96,7 +96,7 @@ class BelongsTo extends Relation
         $relationName = (new $this->relatedResource)->getLabel();
         $optionIni = ['' => trans('orm.choose_option').$relationName];
 
-        $options = $this->getRelationOptions($request, $resource, $this->getField(), $this->relationConditions);
+        $options = $this->getRelationOptions($request, $resource, $this->getFieldName(), $this->relationConditions);
 
         foreach($options as $key => $value) {
             $optionIni[$key] = $value;

@@ -47,10 +47,10 @@
             @if ($loop->first)
                 <thead class="thead-light">
                     <tr>
-                        @foreach($resource->indexFields(request()) as $field)
+                        @foreach($fields as $field)
                         <th class="text-uppercase">
                             <small><strong>{!! $field->getName() !!}</strong></small>
-                            {!! $field->getSortingIcon(request(), $resource) !!}
+                            {!! $field->sortingIcon() !!}
                         </th>
                         @endforeach
                         <th class="text-center"></th>
@@ -60,8 +60,8 @@
             @endif
 
             <tr>
-                @foreach($resource->indexFields(request()) as $field)
-                    <td>{!! $field->getValue(request(), $model) !!}</td>
+                @foreach($fields as $field)
+                    <td>{!! $field->getValue($model) !!}</td>
                 @endforeach
                 <td class="text-right">
                     <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}">

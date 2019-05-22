@@ -27,6 +27,7 @@ class Resource
 
     protected $modelObject = null;
     protected $modelList = null;
+    protected $fields = null;
 
     protected $perPage = 25;
 
@@ -154,10 +155,10 @@ class Resource
     {
         $field = collect($this->fields($request))
             ->first(function($field) use ($fieldName) {
-                return $field->getField() === $fieldName;
+                return $field->getFieldName() === $fieldName;
             });
 
-        return optional($field)->getValue($request, $this->modelObject);
+        return optional($field)->getValue($this->modelObject);
     }
 
     /**
@@ -170,6 +171,9 @@ class Resource
         return collect($this->fields($request))
             ->filter(function($field) {
                 return $field->showOnIndex();
+            })
+            ->map(function($field) use ($request) {
+                return $field->makeSortingIcon($request, $this);
             })
             ->all();
     }
@@ -197,7 +201,7 @@ class Resource
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {
-                return [$field->getField($this) => $field->getValidation($this)];
+                return [$field->getFieldName($this) => $field->getValidation($this)];
             })
             ->all();
     }
@@ -208,7 +212,7 @@ class Resource
             ->filter(function($field) {
                 return get_class($field) === BelongsTo::class;
             })->map(function($field) {
-                return $field->getField();
+                return $field->getFieldName();
             })->toArray();
 
         if (count($belongsToRelations)>0) {
@@ -272,7 +276,7 @@ class Resource
                 ->appends($request->all())
                 ->links(),
             ]
-        );
+        )->render();
     }
 
     public function getModelAjaxFormOptions(Request $request)

@@ -58,7 +58,7 @@ class Relation extends Field
      */
     public function getRelation(Model $model)
     {
-        $modelList = $model->{$this->getField()};
+        $modelList = $model->{$this->getFieldName()};
 
         return (new $this->relatedResource)->injectModelList($modelList);
     }

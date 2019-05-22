@@ -60,15 +60,14 @@ trait OrmController
     public function index(Request $request, $resource = null)
     {
         $resource = $this->getResource($resource);
-
         $cards = $resource->renderCards($request);
-
         $modelList = $resource->modelList($request);
+        $fields = $resource->indexFields($request);
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 
         return view('orm.orm_listado',
-            compact('resource', 'cards', 'modelList', 'paginationLinks', 'modelId')
+            compact('resource', 'cards', 'modelList', 'paginationLinks', 'modelId', 'fields')
         );
     }
 

@@ -18,18 +18,18 @@ class Text extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->field;
+        $extraParam['id'] = $this->fieldName;
         $extraParam['maxlength'] = $this->getFieldLength();
         // $extraParam['placeholder'] = $this->name;
 
-        if ($resource->model()->getKeyName() === $this->getField()
+        if ($resource->model()->getKeyName() === $this->getFieldName()
             && !is_null($resource->model()->getKey())
         ) {
             $extraParam['readonly'] = 'readonly';
         }
-        $value = $resource->model()->{$this->getField()};
+        $value = $resource->model()->{$this->getFieldName()};
 
-        return Form::text($this->field, $value, $extraParam);
+        return Form::text($this->fieldName, $value, $extraParam);
     }
 
     /**

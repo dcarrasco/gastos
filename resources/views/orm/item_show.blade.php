@@ -5,7 +5,7 @@
         {{ $field->getName() }}
     </div>
     <div class="col-md-9">
-        {!! $field->getValue(request(), $resource->model()) !!}
+        {!! $field->getValue($resource->model()) !!}
     </div>
 </div>
 </td>

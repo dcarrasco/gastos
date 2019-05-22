@@ -33,7 +33,7 @@ class Id extends Field
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-        $field = $this->getField($resource);
+        $field = $this->getFieldName($resource);
         $value = $resource->model()->{$field};
 
         if ($this->esIncrementing) {

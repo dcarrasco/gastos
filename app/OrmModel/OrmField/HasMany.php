@@ -29,7 +29,7 @@ class HasMany extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Request $request, Model $model = null)
+    public function getValue(Model $model = null)
     {
         $relatedResource = $this->getRelation($model);
 
@@ -58,10 +58,10 @@ class HasMany extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->getField($resource);
+        $extraParam['id'] = $this->getFieldName($resource);
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
-        $field = $this->getField($resource);
+        $field = $this->getFieldName($resource);
         $value = $resource->model()->{$field};
 
         $elementosSelected = collect($value)->map(function ($resourceElem) {
@@ -71,7 +71,7 @@ class HasMany extends Relation
 
         return Form::select(
             $this->name.'[]',
-            $this->getRelationOptions($request, $resource, $this->getField(), $this->relationConditions),
+            $this->getRelationOptions($request, $resource, $this->getFieldName(), $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );

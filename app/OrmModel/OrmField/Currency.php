@@ -16,9 +16,9 @@ class Currency extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Request $request, Model $model = null)
+    public function getValue(Model $model = null)
     {
-        return '$&nbsp;'.number_format(optional($model)->{$this->getField()}, 0, ',', '.');
+        return '$&nbsp;'.number_format(optional($model)->{$this->getFieldName()}, 0, ',', '.');
     }
 
     /**
@@ -30,10 +30,10 @@ class Currency extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->field;
-        $value = $resource->model()->{$this->getField()};
+        $extraParam['id'] = $this->fieldName;
+        $value = $resource->model()->{$this->getFieldName()};
 
-        return Form::number($this->field, $value, $extraParam);
+        return Form::number($this->fieldName, $value, $extraParam);
     }
 
 }

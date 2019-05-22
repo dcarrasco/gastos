@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Field
 {
     protected $name = '';
-    protected $field = '';
+    protected $fieldName = '';
     protected $rules = [];
     protected $helpText = '';
 
@@ -28,6 +28,9 @@ class Field
         'asc' => 'fa fa-caret-up text-dark',
         'desc' => 'fa fa-caret-down text-dark',
     ];
+    protected $sortingIcon = '';
+
+    protected $showValue = '';
 
     protected $onChange = '';
     protected $parentModel = null;
@@ -42,7 +45,7 @@ class Field
     public function __construct($name = '', $field = '')
     {
         $this->name = $name;
-        $this->field = empty($field) ? Str::snake($name) : $field;
+        $this->fieldName = empty($field) ? Str::snake($name) : $field;
     }
 
     /**
@@ -96,21 +99,26 @@ class Field
         return $this->showOnDetail;
     }
 
+    public function sortingIcon()
+    {
+        return $this->sortingIcon;
+    }
+
     /**
      * Genera iconos para ordenar por campo en listado Index
      * @return HtmlString
      */
-    public function getSortingIcon(Request $request, Resource $resource)
+    public function makeSortingIcon(Request $request, Resource $resource)
     {
-        if (! $this->isSortable) {
-            return '';
+        if ($this->isSortable) {
+            $iconClass = $this->getSortingIconClass($request, $resource);
+            $sortOrder = $this->getSortingOrder($request, $resource);
+            $sortUrl = $this->getSortUrl($request, $sortOrder);
+
+            $this->sortingIcon = new HtmlString("<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>");
         }
 
-        $iconClass = $this->getSortingIconClass($request, $resource);
-        $sortOrder = $this->getSortingOrder($request, $resource);
-        $sortUrl = $this->getSortUrl($request, $sortOrder);
-
-        return new HtmlString("<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>");
+        return $this;
     }
 
     /**
@@ -123,7 +131,7 @@ class Field
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
 
-        return ($sortingField === $this->field)
+        return ($sortingField === $this->fieldName)
             ? array_get($this->sortIcons, $sortDirection, $this->sortIconDefault)
             : $this->sortIconDefault;
     }
@@ -139,7 +147,7 @@ class Field
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
         $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
-        return ($sortingField === $this->field)
+        return ($sortingField === $this->fieldName)
             ? array_get($newSortOrder, $sortDirection, 'asc')
             : 'asc';
     }
@@ -147,7 +155,7 @@ class Field
     protected function getSortUrl(Request $request, $sortOrder = '')
     {
         return $request->fullUrlWithQuery(array_merge($request->all(), [
-            $this->sortByKey => $this->field,
+            $this->sortByKey => $this->fieldName,
             $this->sortDirectionKey => $sortOrder,
         ]));
     }
@@ -178,9 +186,9 @@ class Field
      * @param  Resource|null $resource
      * @return string
      */
-    public function getField(Resource $resource = null)
+    public function getFieldName(Resource $resource = null)
     {
-        return $this->field;
+        return $this->fieldName;
     }
 
     /**
@@ -249,7 +257,7 @@ class Field
     {
         return implode(',', [
             $resource->model()->getTable(),
-            $this->getField($resource),
+            $this->getFieldName($resource),
             $resource->model()->getKey(),
             $resource->model()->getKeyName()
         ]);
@@ -261,9 +269,9 @@ class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Request $request, Model $model = null)
+    public function getValue(Model $model = null)
     {
-        return optional($model)->{$this->getField()};
+        return optional($model)->{$this->getFieldName()};
     }
 
     /**
@@ -276,7 +284,7 @@ class Field
     public function getForm(Request $request, Resource $resource, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getField($resource)};
+        $value = $resource->{$this->getFieldName($resource)};
 
         return Form::text($this->name, $value, $extraParam);
     }
