@@ -1,5 +1,4 @@
-<div class="col-md-12 mb-md-0">
-<div class="row bg-white border-bottom py-md-4">
+<div class="row bg-white border-bottom py-md-4 rounded-top-lg">
     <div class="col-md-3 mt-md-2 pl-md-5 font-weight-bold {{ $errors->has($field->getFieldName($resource)) ? 'text-danger' : 'text-muted' }}">
         <h6 class="">
             {{ $field->getName() }}
@@ -17,5 +16,4 @@
             <div class="invalid-feedback">{!! $errors->first($field->getFieldName($resource)) !!}</div>
         @endif
     </div>
-</div>
 </div>

@@ -1,7 +1,7 @@
 @extends('common.app_layout')
 
 @section('modulo')
-<div class="row my-md-4 mx-md-4">
+<div class="row py-md-4 px-md-4">
     <div class="col-md-12 my-md-3">
         <h4>
             {{ trans('orm.title_edit') }}
@@ -9,7 +9,7 @@
         </h4>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12 px-md-3 rounded-lg bg-white shadow-sm">
         {{ Form::open([
             'url' => route($routeName.'.update', [$resource->getName(), $modelId]),
             'id' => 'frm_editar',
@@ -20,7 +20,8 @@
             @include('orm.item_form')
     	@endforeach
 
-        <div class="col-md-12 bg-light py-md-4 text-right">
+        <div class="row">
+        <div class="col-md-12 bg-light rounded-bottom-lg py-md-4 text-right">
             <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
                 {{ trans('orm.button_update_continue') }}
             </button>
@@ -28,6 +29,7 @@
             <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold">
                 {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
             </button>
+        </div>
         </div>
         {!! Form::hidden('redirect_to', 'next') !!}
         {!! Form::close()!!}

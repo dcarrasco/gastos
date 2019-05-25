@@ -19,7 +19,7 @@
         </a>
     </div>
 
-    <div class="col-md-12 bg-white rounded">
+    <div class="col-md-12 bg-white rounded-lg shadow-sm">
         @foreach($resource->detailFields(request()) as $field)
             @include('orm.item_show')
         @endforeach

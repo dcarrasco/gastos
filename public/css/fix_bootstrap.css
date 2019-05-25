@@ -6,6 +6,23 @@
 	background-color: #D3F3FF;
 }
 
+.rounded-top-lg {
+	border-top-left-radius: 0.75em !important;
+	border-top-right-radius: 0.75em !important;
+}
+
+.rounded-bottom-lg {
+	border-bottom-left-radius: 0.75em !important;
+	border-bottom-right-radius: 0.75em !important;
+}
+
+.rounded-lg {
+	border-top-left-radius: 0.75em !important;
+	border-top-right-radius: 0.75em !important;
+	border-bottom-left-radius: 0.75em !important;
+	border-bottom-right-radius: 0.75em !important;
+}
+
 body {
 	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 	font-size: 14px;
@@ -119,7 +136,15 @@ fieldset > legend {
 
 table.table {
 	background-color: #ffffff;
-	border-radius: 0.7em;
+}
+
+td > a > svg {
+	fill: #aaa;
+}
+
+td > a:hover > svg {
+	fill: #007bff;
+	/*fill: #0056b3;*/
 }
 
 table .header-fixed {

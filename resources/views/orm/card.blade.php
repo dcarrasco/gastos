@@ -1,4 +1,4 @@
-<div class="card {{ $cardWidth }} px-0">
+<div class="card {{ $cardWidth }} px-0 rounded-lg shadow-sm">
     <div class="card-body px-1 py-2">
         <div class="row px-3">
             <div class="{{ count($ranges) ? 'col-md-6' : 'col-md-12' }}">

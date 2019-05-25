@@ -49,7 +49,7 @@
 @yield('modulo')
 <!-- ============================== /MODULOS APP ============================== -->
 
-<footer class="footer">
+<footer class="footer my-md-4">
     <div class="text-center text-muted">
         <small><i class="fa fa-creative-commons"></i> 2013 &ndash; <?= date('Y'); ?></small>
     </div>
