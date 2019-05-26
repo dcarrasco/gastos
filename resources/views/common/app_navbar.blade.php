@@ -1,11 +1,21 @@
 <!-- ============================== NAVBAR ============================== -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
-	<a class="navbar-brand" href="#">{!! auth()->user()->moduloAppName() !!} </a>
+<nav class="navbar navbar-expand-lg p-0 navbar-light" style="background-color: #fff;" role="navigation">
+	<div class="h-100 col-2 d-inline-block bg-dark py-2 text-center">
+		<span class="navbar-brand text-light">
+			{{ config('app.name') }}
+		</span>
+	</div>
+
 	<button class="navbar-toggler" data-toggle="collapse" data-target="#navMenuCollapse">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="collapse navbar-collapse" id="navMenuCollapse">
+	<div class="collapse navbar-collapse col-10 py-2 shadow-sm" id="navMenuCollapse">
+
+		<span class="h5 my-0">
+			{!! auth()->user()->moduloAppName() !!}
+		</span>
+
 		<ul class="navbar-nav ml-auto">
 			@foreach(auth()->user()->getMenuApp() as $menuApp)
 			<li class="nav-item dropdown {{ $menuApp['selected'] ? 'active' : '' }}">

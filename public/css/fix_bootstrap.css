@@ -67,39 +67,6 @@ fieldset > legend {
 	font-family: Calibri;
 }
 
-.navbar-inverse {
-	/*background-color:#005466;*/
-	background-color:#006476;
-	border-color:#080808
-}
-
-.navbar-inverse .navbar-nav>.active>a,
-.navbar-inverse .navbar-nav>.active>a:hover,
-.navbar-inverse .navbar-nav>.active>a:focus {
-	color:#fff;
-	background-color:#004B59;
-}
-
-.navbar-inverse .navbar-nav>.open>a,
-.navbar-inverse .navbar-nav>.open>a:hover,
-.navbar-inverse .navbar-nav>.open>a:focus {
-	background-color:#004B59;
-	color:#fff
-}
-
-.navbar-inverse .navbar-brand {
-	color:#dfdfdf;
-	font-size: 20px;
-}
-
-.navbar-inverse .navbar-text{
-	color:#dfdfdf
-}
-
-.navbar-inverse .navbar-nav>li>a{
-	color:#dfdfdf
-}
-
 .tab-pane {
 	border-bottom: 1px solid #ddd;
 	padding: 10px;

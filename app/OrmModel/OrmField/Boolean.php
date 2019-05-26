@@ -18,9 +18,13 @@ class Boolean extends Field
      */
     public function getValue(Model $model = null)
     {
-        return $model->{$this->getFieldName()}
-            ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
-            : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
+        return "<small><span class=\"fa fa-circle text-"
+            . ($model->{$this->getFieldName()} ? "success" : "danger")
+            . "\"></span></small>";
+
+        // return $model->{$this->getFieldName()}
+            // ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
+            // : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
 
     /**
