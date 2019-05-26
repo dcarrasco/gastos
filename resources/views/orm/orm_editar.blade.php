@@ -1,32 +1,33 @@
 @extends('common.app_layout')
 
 @section('modulo')
-<div class="row py-md-4 px-md-4">
-    <div class="col-md-12 my-md-3">
+<div class="row my-4 mx-5">
+
+    <div class="col-12 my-2">
         <h4>
             {{ trans('orm.title_edit') }}
             {{ $resource->getLabel() }}
         </h4>
     </div>
 
-    <div class="col-md-12 px-md-3 rounded-lg bg-white shadow-sm">
+    <div class="col-12 bg-white rounded-lg shadow-sm">
         {{ Form::open([
             'url' => route($routeName.'.update', [$resource->getName(), $modelId]),
             'id' => 'frm_editar',
         ]) }}
         {{ method_field('PUT') }}
 
-       	@foreach($resource->detailFields(request()) as $field)
+        @foreach($resource->detailFields(request()) as $field)
             @include('orm.item_form')
-    	@endforeach
+        @endforeach
 
         <div class="row">
-        <div class="col-md-12 bg-light rounded-bottom-lg py-md-4 text-right">
-            <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
+        <div class="col-12 bg-light rounded-bottom-lg py-4 text-right">
+            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold" id="button_continue">
                 {{ trans('orm.button_update_continue') }}
             </button>
 
-            <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold">
+            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold">
                 {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
             </button>
         </div>

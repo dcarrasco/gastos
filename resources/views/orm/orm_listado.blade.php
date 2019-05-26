@@ -3,17 +3,17 @@
 @section('modulo')
 
 @include('orm.cardsContainer')
-<div class="col-md-12 px-md-2 py-md-4">
+<div class="col-12 px-2 py-4">
 
 
-<div class="col-md-12 pt-md-2">
+<div class="col-12 pt-2">
     <h4>{{ $resource->getLabelPlural() }}</h4>
 </div>
 
 {!! Form::open(['class'=>'form-search', 'method'=>'get']) !!}
-<div class="col-md-12 hidden-print py-md-2">
-    <div class="row mb-md-3">
-        <div class="col-md-3">
+<div class="col-12 hidden-print py-2">
+    <div class="row mb-3">
+        <div class="col-4">
             <div class="input-group input-group-sm shadow-sm">
                 <div class="input-group-prepend">
                     <button type="submit" id="btn_filtro" class="btn btn-light border">
@@ -24,8 +24,8 @@
             </div>
         </div>
 
-        <div class="col-md-9 text-right">
-            <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="btn btn-primary btn-sm text-right px-md-3 font-weight-bold" id="btn_mostrar_agregar" role="button">
+        <div class="col-8 text-right">
+            <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="btn btn-primary btn-sm text-right px-3 font-weight-bold" id="btn_mostrar_agregar" role="button">
                 {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
             </a>
         </div>
@@ -33,13 +33,14 @@
 </div>
 {!! Form::close() !!}
 
-<div class="col-md-12 shadow-sm rounded-lg px-md-0">
+<div class="px-3">
+<div class="col-12 px-0 shadow-sm rounded-lg">
 
 @include('orm.filters')
 
 <div>
     @if ($modelList->count() == 0)
-    <div class="card py-md-5">
+    <div class="card py-5">
         <h1 class="display-1 text-center">
             <span class="fa fa-table"></span>
         </h1>
@@ -48,15 +49,19 @@
         </div>
     </div>
     @else
-    <table class="table table-hover mb-md-0">
+    <table class="table table-hover mb-0">
         @foreach ($modelList as $model)
             @if ($loop->first)
                 <thead class="thead-light">
                     <tr>
                         @foreach($fields as $field)
-                        <th class="text-uppercase">
-                            <small><strong>{!! $field->getName() !!}</strong></small>
-                            {!! $field->sortingIcon() !!}
+                        <th>
+                            <h6 class="my-0">
+                                <small class="text-muted text-uppercase font-weight-bold">
+                                    {!! $field->getName() !!}
+                                </small>
+                                {!! $field->sortingIcon() !!}
+                            </h6>
                         </th>
                         @endforeach
                         <th class="text-center"></th>
@@ -69,14 +74,14 @@
                 @foreach($fields as $field)
                     <td>{!! $field->getValue($model) !!}</td>
                 @endforeach
-                <td class="text-right">
-                    <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}">
+                <td class="text-right text-nowrap">
+                    <a class="btn py-0 px-1 text-muted" href="{{ route($routeName.'.show', [$resource->getName(), $model->getKey()]) }}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M17.56 17.66a8 8 0 0 1-11.32 0L1.3 12.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95zm-9.9-1.42a6 6 0 0 0 8.48 0L20.38 12l-4.24-4.24a6 6 0 0 0-8.48 0L3.4 12l4.25 4.24zM11.9 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
                     </a>
-                    <a class="btn py-md-0 px-md-1 text-muted" href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}">
+                    <a class="btn py-0 px-1 text-muted" href="{{ route($routeName.'.edit', [$resource->getName(), $model->getKey()]) }}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M6.3 12.3l10-10a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1 0 1.4l-10 10a1 1 0 0 1-.7.3H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 .3-.7zM8 16h2.59l9-9L17 4.41l-9 9V16zm10-2a1 1 0 0 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2h6a1 1 0 0 1 0 2H4v14h14v-6z"/></svg>
                     </a>
-                    <a class="btn py-md-0 px-md-1 text-muted" data-toggle="modal" data-target="#modalBorrar" data-url-form="{!! route($routeName.'.destroy', [$resource->getName(), $model->getKey()]) !!}"" id="delete-href">
+                    <a class="btn py-0 px-1 text-muted" data-toggle="modal" data-target="#modalBorrar" data-url-form="{!! route($routeName.'.destroy', [$resource->getName(), $model->getKey()]) !!}"" id="delete-href">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path class="heroicon-ui" d="M8 6V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v2h5a1 1 0 0 1 0 2h-1v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8H3a1 1 0 1 1 0-2h5zM6 8v12h12V8H6zm8-2V4h-4v2h4zm-4 4a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1z"/></svg>
                     </a>
                 </td>
@@ -92,6 +97,7 @@
 {!! $paginationLinks !!}
 </div>
 </div>
+
 @include('orm.orm_modal_delete')
 
 <script type="text/javascript">
