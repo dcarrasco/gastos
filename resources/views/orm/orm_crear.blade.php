@@ -1,40 +1,35 @@
 @extends('common.app_layout')
 
 @section('modulo')
-<div class="row mt-md-2 col-md-12 my-md-2">
-    <h4>
-        {{ trans('orm.title_add') }}
-        {{ $resource->getLabel() }}
-    </h4>
+<div class="row py-md-4 px-md-4">
+    <div class="col-md-12 my-md-3">
+        <h4>
+            {{ trans('orm.title_add') }}
+            {{ $resource->getLabel() }}
+        </h4>
+    </div>
+
+    <div class="col-md-12 px-md-3 rounded-lg bg-white shadow-sm">
+        {{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
+        @foreach($resource->detailFields(request()) as $field)
+            @include('orm.item_form')
+        @endforeach
+
+        <div class="row">
+        <div class="col-md-12 bg-light rounded-bottom-lg py-md-4 text-right">
+            <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
+                {{ trans('orm.button_create_continue') }}
+            </button>
+
+            <button type="submit" class="btn btn-primary btn-sm btn-sm px-md-3 font-weight-bold">
+                {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
+            </button>
+       </div>
+       </div>
+        {!! Form::hidden('redirect_to', 'next') !!}
+        {!! Form::close()!!}
+    </div>
 </div>
-
-{{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
-<div class="row">
-    <div class="col-md-12 my-md-2">
-
-        <table class="table">
-            <tbody>
-                @foreach($resource->detailFields(request()) as $field)
-                    @include('orm.item_form')
-                @endforeach
-
-                <tr class="bg-light">
-                    <td class="text-right">
-                        <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
-                            {{ trans('orm.button_create_continue') }}
-                        </button>
-
-                        <button type="submit" class="btn btn-primary btn-sm btn-sm px-md-3 font-weight-bold">
-                            {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-   </div>
-</div> <!-- DIV   class="row" -->
-{!! Form::hidden('redirect_to', 'next') !!}
-{!! Form::close()!!}
 
 <script>
     $("#button_continue").click(function(event) {
