@@ -40,8 +40,8 @@ class HasMany extends Relation
 
         $list = "<ul><li>"
             .$relatedResource->getModelList()
-                ->map(function($model) use ($relatedResource, $request) {
-                    return $relatedResource->injectModel($model)->title($request);
+                ->map(function($model) use ($relatedResource) {
+                    return $relatedResource->injectModel($model)->title(request());
                 })
                 ->implode('</li><li>')
             ."</li></ul>";

@@ -8,6 +8,7 @@ use App\OrmModel\OrmField\Id;
 use App\OrmModel\OrmField\Text;
 use App\OrmModel\OrmField\Boolean;
 use App\OrmModel\OrmField\HasMany;
+use App\OrmModel\OrmField\Gravatar;
 use App\OrmModel\Filters\UsuariosActivos;
 
 class Usuario extends Resource
@@ -24,6 +25,8 @@ class Usuario extends Resource
     {
         return [
             Id::make()->sortable(),
+
+            Gravatar::make(),
 
             Text::make('Nombre')
                 ->sortable()

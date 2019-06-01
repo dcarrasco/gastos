@@ -1,5 +1,5 @@
 <!-- ============================== NAVBAR ============================== -->
-<nav class="navbar navbar-expand-lg p-0 navbar-light" style="background-color: #fff;" role="navigation">
+<nav class="navbar navbar-expand-lg p-0 navbar-light shadow-sm" style="background-color: #fff;" role="navigation">
 	<div class="h-100 col-2 d-inline-block bg-dark py-2 text-center">
 		<span class="navbar-brand text-light">
 			{{ config('app.name') }}
@@ -10,7 +10,7 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="collapse navbar-collapse col-10 py-2 shadow-sm" id="navMenuCollapse">
+	<div class="collapse navbar-collapse col-10 py-2" id="navMenuCollapse">
 
 		<span class="h5 my-0">
 			{!! auth()->user()->moduloAppName() !!}
@@ -35,7 +35,9 @@
 			@endforeach
 			<li class="nav-item">
 				<a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-					<span class="fa fa-power-off fa-fw"></span> Logout {{ auth()->user()->getFirstName() }}
+					<span class="fa fa-power-off fa-fw"></span>
+					Logout {{ auth()->user()->getFirstName() }}
+            		<img src="https://secure.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?size=24" class="rounded-circle border" />
 				</a>
 				{{ Form::open(['url' => route('logout'), 'id' => 'logout-form']) }}{{ Form::close() }}
 			</li>
