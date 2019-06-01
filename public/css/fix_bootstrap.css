@@ -105,7 +105,7 @@ table.table {
 	background-color: #ffffff;
 }
 
-td > a > svg {
+svg {
 	fill: #aaa;
 }
 

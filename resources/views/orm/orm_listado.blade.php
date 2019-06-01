@@ -14,13 +14,9 @@
 <div class="col-12 hidden-print py-2">
     <div class="row mb-3">
         <div class="col-4">
-            <div class="input-group input-group-sm shadow-sm">
-                <div class="input-group-prepend">
-                    <button type="submit" id="btn_filtro" class="btn btn-light border">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
-                    </button>
-                </div>
-                {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter')]); !!}
+            <div class="input-group input-group-sm shadow-sm bg-white rounded">
+                <svg class="m-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+                {!! Form::text('filtro', Request::input('filtro'), ['class' => 'form-control border-0', 'id' => 'filtro', 'maxlength' => '30', 'placeholder' => trans('orm.filter')]); !!}
             </div>
         </div>
 
