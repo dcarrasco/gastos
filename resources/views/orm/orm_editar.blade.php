@@ -23,11 +23,11 @@
 
         <div class="row">
         <div class="col-12 bg-light rounded-bottom-lg py-4 text-right">
-            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold" id="button_continue">
+            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold text-shadow" id="button_continue">
                 {{ trans('orm.button_update_continue') }}
             </button>
 
-            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold">
+            <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold text-shadow">
                 {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
             </button>
         </div>

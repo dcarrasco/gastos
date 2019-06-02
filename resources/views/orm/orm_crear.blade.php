@@ -16,12 +16,12 @@
         @endforeach
 
         <div class="row">
-        <div class="col-md-12 bg-light rounded-bottom-lg py-md-4 text-right">
+        <div class="col-md-12 bg-light rounded-bottom-lg py-md-4 text-right text-shadow">
             <button type="submit" class="btn btn-primary btn-sm px-md-3 font-weight-bold" id="button_continue">
                 {{ trans('orm.button_create_continue') }}
             </button>
 
-            <button type="submit" class="btn btn-primary btn-sm btn-sm px-md-3 font-weight-bold">
+            <button type="submit" class="btn btn-primary btn-sm btn-sm px-md-3 font-weight-bold text-shadow">
                 {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
             </button>
        </div>
