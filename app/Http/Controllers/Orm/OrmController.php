@@ -66,7 +66,7 @@ trait OrmController
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 
-        return view('orm.orm_listado',
+        return view('orm.listado',
             compact('resource', 'cards', 'modelList', 'paginationLinks', 'modelId', 'fields')
         );
     }
@@ -81,7 +81,7 @@ trait OrmController
     {
         $resource = $this->getResource($resource);
 
-        return view('orm.orm_crear', compact('resource'));
+        return view('orm.form_crear', compact('resource'));
     }
 
     /**
@@ -118,7 +118,7 @@ trait OrmController
     {
         $resource = $this->getResource($resource)->findOrNew($modelId);
 
-        return view('orm.orm_show', compact('resource', 'modelId'));
+        return view('orm.show', compact('resource', 'modelId'));
     }
 
     /**
@@ -131,7 +131,7 @@ trait OrmController
     {
         $resource = $this->getResource($resource)->findOrNew($modelId);
 
-        return view('orm.orm_editar', compact('resource', 'modelId'));
+        return view('orm.form_editar', compact('resource', 'modelId'));
     }
 
     /**

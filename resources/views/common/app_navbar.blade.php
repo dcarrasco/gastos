@@ -37,7 +37,7 @@
 				<a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 					<span class="fa fa-power-off fa-fw"></span>
 					Logout {{ auth()->user()->getFirstName() }}
-            		<img src="https://secure.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?size=24" class="rounded-circle border" />
+            		<img src="https://secure.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?size=24" class="rounded-circle border mx-2" />
 				</a>
 				{{ Form::open(['url' => route('logout'), 'id' => 'logout-form']) }}{{ Form::close() }}
 			</li>

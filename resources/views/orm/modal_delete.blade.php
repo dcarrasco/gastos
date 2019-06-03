@@ -17,12 +17,12 @@
         </div>
 
         <div class="modal-footer bg-light">
-            <button type="button" class="btn btn-light border" data-dismiss="modal">
+            <button type="button" class="btn btn-light border text-shadow" data-dismiss="modal">
                 {{ trans('orm.button_cancel') }}
             </button>
             {!! Form::open(['url' => route($routeName.'.destroy', [$resource->getName(), $modelId]), 'id' => 'formDelete']) !!}
             {!! method_field('DELETE')!!}
-            <button type="submit" class="btn btn-danger" name="borrar" value="borrar">
+            <button type="submit" class="btn btn-danger text-shadow" name="borrar" value="borrar">
                 <span class="fa fa-trash-o"></span>
                 {{ trans('orm.button_delete') }}
             </button>

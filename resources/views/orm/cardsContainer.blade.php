@@ -1,11 +1,9 @@
 @if ($cards->count())
-<!-- ---------- Cards Container ---------- -->
-<div class="col-md-12">
-    <div class="mt-2 row">
+    <!-- ---------- Cards Container ---------- -->
+    <div class="row pt-4">
     @foreach($cards as $card)
         {!! $card !!}
     @endforeach
     </div>
-</div>
-<!-- ---------- End Cards Container ---------- -->
+    <!-- ---------- End Cards Container ---------- -->
 @endif
