@@ -18,6 +18,7 @@ class Field
 
     protected $showOnList = true;
     protected $showOnDetail = true;
+    protected $showOnForm = true;
 
     protected $isSortable = false;
 
@@ -91,12 +92,21 @@ class Field
     }
 
     /**
-     * Muestra campo en detalle / formulario
+     * Muestra campo en detalle
      * @return Field
      */
     public function showOnDetail()
     {
         return $this->showOnDetail;
+    }
+
+    /**
+     * Muestra campo en formulario
+     * @return Field
+     */
+    public function showOnForm()
+    {
+        return $this->showOnForm;
     }
 
     public function sortingIcon()

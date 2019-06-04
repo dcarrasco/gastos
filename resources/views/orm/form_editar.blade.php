@@ -19,7 +19,7 @@
         ]) }}
         {{ method_field('PUT') }}
 
-        @foreach($resource->detailFields(request()) as $field)
+        @foreach($resource->formFields(request()) as $field)
             @include('orm.item_form')
         @endforeach
 

@@ -18,7 +18,7 @@ class Id extends Field
     {
         $name = empty($name) ? 'id' : $name;
         $this->esIncrementing = true;
-        $this->showOnDetail = false;
+        $this->showOnForm = false;
 
         parent::__construct($name, $field);
     }

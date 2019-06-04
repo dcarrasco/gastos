@@ -179,7 +179,7 @@ class Resource
     }
 
     /**
-     * Devuelve campos a mostrar en detalle y formularios
+     * Devuelve campos a mostrar en detalle
      * @param  Request $request
      * @return array
      */
@@ -188,6 +188,20 @@ class Resource
         return collect($this->fields($request))
             ->filter(function($field) {
                 return $field->showOnDetail();
+            })
+            ->all();
+    }
+
+    /**
+     * Devuelve campos a mostrar en formularios
+     * @param  Request $request
+     * @return array
+     */
+    public function formFields(Request $request)
+    {
+        return collect($this->fields($request))
+            ->filter(function($field) {
+                return $field->showOnForm();
             })
             ->all();
     }
