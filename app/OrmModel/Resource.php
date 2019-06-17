@@ -176,7 +176,7 @@ class Resource
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {
-                return [$field->getAttribute($this) => $field->getValidation($this)];
+                return [$field->getAttribute() => $field->getValidation($this)];
             })
             ->all();
     }
@@ -186,11 +186,11 @@ class Resource
         $belongsToRelations = collect($this->fields($request))
             ->filter(function($field) {
                 return get_class($field) === BelongsTo::class;
-            })->map(function($field) {
-                return $field->getAttribute();
-            })->toArray();
+            })
+            ->map->getAttribute()
+            ->toArray();
 
-        if (count($belongsToRelations)>0) {
+        if (count($belongsToRelations) > 0) {
             $this->modelObject = $this->modelObject->with($belongsToRelations);
         }
 
@@ -209,15 +209,6 @@ class Resource
         $this->makeModelObject($request);
 
         return $paginate;
-    }
-
-    /**
-     * Devuelve listado de modelos
-     * @return Collection
-     */
-    public function getModelList()
-    {
-        return $this->modelList;
     }
 
     /**
@@ -277,7 +268,7 @@ class Resource
         }
 
         return $query->get()->mapWithKeys(function ($model) use ($request) {
-            return [$model->getKey() => $this->injectModel($model)->title($request)];
+            return [$model->getKey() => $this->injectModel($model)->title()];
         });
     }
 }

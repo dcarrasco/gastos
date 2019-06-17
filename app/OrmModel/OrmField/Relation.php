@@ -52,16 +52,14 @@ class Relation extends Field
     }
 
     /**
-     * Devuelve recurso relacionado con valores
+     * Devuelve recursos relacionados con valores
+     *
      * @param  Model  $model
-     * @return Resource
+     * @return Collection
      */
     public function getRelation(Model $model)
     {
-        return $model->{$this->attribute}
-            ->map(function($modelObject) {
-                return (new $this->relatedResource)->injectModel($modelObject);
-            });
+        return $model->{$this->attribute}->mapInto($this->relatedResource);
     }
 
     /**
@@ -91,13 +89,10 @@ class Relation extends Field
      */
     public function getRelationOptions(Request $request, Resource $resource = null, $field = '', $conditions = [])
     {
-        $relation = $this->getRelatedListModels($request, $resource, $conditions);
-
-        return $relation->mapWithKeys(function($model) use ($request) {
-            return [$model->getKey() =>
-                (new $this->relatedResource)->injectModel($model)->title($request)
-            ];
-        })->all();
+        return $this->getRelatedListModels($request, $resource, $conditions)
+            ->mapWithKeys(function($model) {
+                return [$model->getKey() => (new $this->relatedResource($model))->title()];
+            });
     }
 
     /**
