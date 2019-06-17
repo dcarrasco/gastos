@@ -38,7 +38,7 @@ class Gravatar extends Field
     public function getValue(Model $model = null)
     {
         return app()->make(HtmlBuilder::class)
-            ->image($this->getGravatarUrl(optional($model)->{$this->getFieldName()}, 24), null, ['class' => 'rounded-circle border']);
+            ->image($this->getGravatarUrl(optional($model)->{$this->attribute}, 24), null, ['class' => 'rounded-circle border']);
     }
 
     /**
@@ -50,10 +50,10 @@ class Gravatar extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->fieldName;
-        $value = $resource->model()->{$this->getFieldName()};
+        $extraParam['id'] = $this->attribute;
+        $value = $resource->model()->{$this->attribute};
 
-        return Form::number($this->fieldName, $value, $extraParam);
+        return Form::number($this->attribute, $value, $extraParam);
     }
 
 }

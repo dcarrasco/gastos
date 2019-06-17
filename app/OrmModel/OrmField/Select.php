@@ -32,7 +32,7 @@ class Select extends Field
      */
     public function getValue(Model $model = null)
     {
-        $value = $model->{$this->getFieldName()};
+        $value = $model->{$this->attribute};
 
         if ($this->hasChoices()) {
             return array_get($this->choices, $value, '');
@@ -59,10 +59,10 @@ class Select extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->fieldName;
+        $extraParam['id'] = $this->attribute;
         $extraParam['class'] = array_get('class', $extraParam, '') . ' custom-select';
-        $value = $resource->model()->{$this->getFieldName()};
+        $value = $resource->model()->{$this->attribute};
 
-        return Form::select($this->fieldName, $this->choices, $value, $extraParam);
+        return Form::select($this->attribute, $this->choices, $value, $extraParam);
     }
 }

@@ -54,20 +54,16 @@ class HasMany extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->getFieldName($resource);
+        $extraParam['id'] = $this->attribute;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
-        $field = $this->getFieldName($resource);
-        $value = $resource->model()->{$field};
+        $value = $resource->model()->{$this->attribute};
 
-        $elementosSelected = collect($value)->map(function ($resourceElem) {
-            return $resourceElem->getKey();
-        })
-        ->all();
+        $elementosSelected = collect($value)->map->getKey()->all();
 
         return Form::select(
             $this->name.'[]',
-            $this->getRelationOptions($request, $resource, $this->getFieldName(), $this->relationConditions),
+            $this->getRelationOptions($request, $resource, $this->attribute, $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );

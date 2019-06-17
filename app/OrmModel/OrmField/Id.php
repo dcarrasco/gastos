@@ -32,8 +32,8 @@ class Id extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->name;
-        $field = $this->getFieldName($resource);
+        $extraParam['id'] = $this->attribute;
+        $field = $this->attribute;
         $value = $resource->model()->{$field};
 
         if ($this->esIncrementing) {
@@ -41,7 +41,7 @@ class Id extends Field
                 .Form::hidden($this->name, null, $extraParam);
         }
 
-        return Form::text($this->name, $value, $extraParam);
+        return Form::text($this->attribute, $value, $extraParam);
     }
 
 }

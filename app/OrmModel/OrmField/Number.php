@@ -18,7 +18,7 @@ class Number extends Field
      */
     public function getValue(Model $model = null)
     {
-        return number_format(optional($model)->{$this->getFieldName()}, 0, ',', '.');
+        return number_format(optional($model)->{$this->attribute}, 0, ',', '.');
     }
 
     /**
@@ -30,10 +30,10 @@ class Number extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->fieldName;
-        $value = $resource->model()->{$this->getFieldName()};
+        $extraParam['id'] = $this->attribute;
+        $value = $resource->model()->{$this->attribute};
 
-        return Form::number($this->fieldName, $value, $extraParam);
+        return Form::number($this->attribute, $value, $extraParam);
     }
 
 }

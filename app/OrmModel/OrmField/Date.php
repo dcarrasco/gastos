@@ -22,7 +22,7 @@ class Date extends Field
     public function getValue(Model $model = null)
     {
 
-        return optional($model->{$this->getFieldName()})->format($this->outputDateFormat);
+        return optional($model->{$this->attribute})->format($this->outputDateFormat);
     }
 
     /**
@@ -34,10 +34,10 @@ class Date extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $extraParam['id'] = $this->fieldName;
-        $value = $resource->model()->{$this->getFieldName()};
+        $extraParam['id'] = $this->attribute;
+        $value = $resource->model()->{$this->attribute};
 
-        return Form::date($this->fieldName, $value, $extraParam);
+        return Form::date($this->attribute, $value, $extraParam);
     }
 
 }

@@ -176,7 +176,7 @@ class Resource
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {
-                return [$field->getFieldName($this) => $field->getValidation($this)];
+                return [$field->getAttribute($this) => $field->getValidation($this)];
             })
             ->all();
     }
@@ -187,7 +187,7 @@ class Resource
             ->filter(function($field) {
                 return get_class($field) === BelongsTo::class;
             })->map(function($field) {
-                return $field->getFieldName();
+                return $field->getAttribute();
             })->toArray();
 
         if (count($belongsToRelations)>0) {

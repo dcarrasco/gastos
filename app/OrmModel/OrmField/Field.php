@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Field
 {
     protected $name = '';
-    protected $fieldName = '';
+    protected $attribute = '';
     protected $rules = [];
     protected $helpText = '';
 
@@ -49,7 +49,7 @@ class Field
     public function __construct($name = '', $field = '')
     {
         $this->name = $name;
-        $this->fieldName = empty($field) ? Str::snake($name) : $field;
+        $this->attribute = empty($field) ? Str::snake($name) : $field;
     }
 
     /**
@@ -148,7 +148,7 @@ class Field
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
 
-        return ($sortingField === $this->fieldName)
+        return ($sortingField === $this->attribute)
             ? array_get($this->sortIcons, $sortDirection, $this->sortIconDefault)
             : $this->sortIconDefault;
     }
@@ -164,7 +164,7 @@ class Field
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
         $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
-        return ($sortingField === $this->fieldName)
+        return ($sortingField === $this->attribute)
             ? array_get($newSortOrder, $sortDirection, 'asc')
             : 'asc';
     }
@@ -178,7 +178,7 @@ class Field
     protected function getSortUrl(Request $request, $sortOrder = '')
     {
         return $request->fullUrlWithQuery(array_merge($request->all(), [
-            $this->sortByKey => $this->fieldName,
+            $this->sortByKey => $this->attribute,
             $this->sortDirectionKey => $sortOrder,
         ]));
     }
@@ -209,9 +209,9 @@ class Field
      * @param  Resource|null $resource
      * @return string
      */
-    public function getFieldName()
+    public function getAttribute()
     {
-        return $this->fieldName;
+        return $this->attribute;
     }
 
     /**
@@ -276,7 +276,7 @@ class Field
     {
         return implode(',', [
             $resource->model()->getTable(),
-            $this->getFieldName($resource),
+            $this->attribute,
             $resource->model()->getKey(),
             $resource->model()->getKeyName()
         ]);
@@ -301,10 +301,10 @@ class Field
      * @param  array    $extraParam
      * @return Field
      */
-    public function resolveFormItem(Request $request, $resource, $extraParam)
+    public function resolveFormItem(Request $request, Resource $resource, $extraParam)
     {
         $extraParam['class'] = array_get($extraParam, 'class', '')
-            .(optional($request->session()->get('errors'))->has($this->fieldName) ? ' is-invalid' : '');
+            .(optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
 
         $this->formItem = $this->getForm($request, $resource, $extraParam);
 
@@ -328,7 +328,7 @@ class Field
      */
     public function getValue(Model $model = null)
     {
-        return optional($model)->{$this->getFieldName()};
+        return optional($model)->{$this->getAttribute()};
     }
 
     /**
@@ -350,7 +350,7 @@ class Field
     public function getForm(Request $request, Resource $resource, array $extraParam = [])
     {
         $extraParam['id'] = $this->name;
-        $value = $resource->{$this->getFieldName($resource)};
+        $value = $resource->{$this->attribute};
 
         return Form::text($this->name, $value, $extraParam);
     }

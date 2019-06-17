@@ -20,10 +20,10 @@ class Boolean extends Field
     public function getValue(Model $model = null)
     {
         return new HtmlString("<small><span class=\"fa fa-circle text-"
-            . ($model->{$this->getFieldName()} ? "success" : "danger")
+            . ($model->{$this->attribute} ? "success" : "danger")
             . "\"></span></small>");
 
-        // return $model->{$this->getFieldName()}
+        // return $model->{$this->attribute}
             // ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
             // : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
@@ -37,8 +37,8 @@ class Boolean extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = [])
     {
-        $extraParam['id'] = $this->name;
-        $value = $resource->model()->{$this->getFieldName()};
+        $extraParam['id'] = $this->attribute;
+        $value = $resource->model()->{$this->attribute};
 
         return new HtmlString('<div class="custom-control custom-radio">'
             .Form::radio($this->name, 1, ($value == '1'), ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input'])

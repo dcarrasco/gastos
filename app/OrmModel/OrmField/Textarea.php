@@ -18,10 +18,10 @@ class Textarea extends Field
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [], $parentId = null)
     {
-        $extraParam['id'] = $this->fieldName;
+        $extraParam['id'] = $this->attribute;
         $extraParam['rows'] = 5;
         $extraParam['maxlength'] = $this->getFieldLength();
-        $value = $resource->model()->{$this->getFieldName()};
+        $value = $resource->model()->{$this->attribute};
 
         return Form::textarea($this->field, $value, $extraParam);
     }
