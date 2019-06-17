@@ -27,17 +27,16 @@ class Resource
 
     protected $modelObject = null;
     protected $modelList = null;
-    protected $fields = null;
 
     protected $perPage = 25;
 
-    public function __construct()
+    public function __construct($modelObject = null)
     {
         if ($this->model === '') {
             throw new \Exception('Modelo no definido en recurso OrmModel!');
         }
 
-        $this->makeModelObject(request());
+        $this->modelObject = $modelObject ?: $this->makeModelObject();
     }
 
     /**
@@ -93,9 +92,9 @@ class Resource
      * @param  Request $request
      * @return mixed
      */
-    public function title(Request $request)
+    public function title()
     {
-        return $this->getFieldValue($request, $this->title);
+        return optional($this->modelObject)->{$this->title};
     }
 
     /**
@@ -111,14 +110,9 @@ class Resource
      * Genera objecto del modelo del recurso
      * @return Resource
      */
-    public function makeModelObject(Request $request)
+    public function makeModelObject()
     {
-        if (is_null($this->modelObject)) {
-            $this->modelObject = (new $this->model)
-                ->setPerPage(empty($request->PerPage) ? $this->perPage : $request->PerPage);
-        }
-
-        return $this;
+        return (new $this->model);
     }
 
     /**
@@ -134,48 +128,19 @@ class Resource
     }
 
     /**
-     * Agrega un listado de instancias de modelos al recurso
-     * @param  Collection|null $modelList
-     * @return Resource
-     */
-    public function injectModelList(Collection $modelList = null)
-    {
-        $this->modelList = $modelList;
-
-        return $this;
-    }
-
-    /**
-     * Recupera el valor de un campo
-     * @param  Request $request
-     * @param  string  $fieldName   Campo a recuperar
-     * @return mixed
-     */
-    public function getFieldValue(Request $request, $fieldName = '')
-    {
-        $field = collect($this->fields($request))
-            ->first(function($field) use ($fieldName) {
-                return $field->getFieldName() === $fieldName;
-            });
-
-        return optional($field)->getValue($this->modelObject);
-    }
-
-    /**
      * Devuelve campos a mostrar en listado
      * @param  Request $request
      * @return array
      */
     public function indexFields(Request $request)
     {
-        return collect($this->fields($request))
-            ->filter(function($field) {
-                return $field->showOnIndex();
-            })
-            ->map(function($field) use ($request) {
-                return $field->makeSortingIcon($request, $this);
-            })
-            ->all();
+        return [
+            'resource' => $this,
+            'fields' => collect($this->fields($request))
+                ->filter->showOnIndex()
+                ->map->makeSortingIcon($request, $this)
+                ->map->resolveValue($this->modelObject)
+        ];
     }
 
     /**
@@ -186,10 +151,8 @@ class Resource
     public function detailFields(Request $request)
     {
         return collect($this->fields($request))
-            ->filter(function($field) {
-                return $field->showOnDetail();
-            })
-            ->all();
+            ->filter->showOnDetail()
+            ->map->resolveValue($this->modelObject);
     }
 
     /**
@@ -200,10 +163,8 @@ class Resource
     public function formFields(Request $request)
     {
         return collect($this->fields($request))
-            ->filter(function($field) {
-                return $field->showOnForm();
-            })
-            ->all();
+            ->filter->showOnForm()
+            ->map->resolveFormItem($request, $this, ['class' => 'form-control']);
     }
 
     /**
@@ -264,16 +225,14 @@ class Resource
      * @param  Request $request
      * @return Collection
      */
-    public function modelList(Request $request)
+    public function paginator(Request $request)
     {
-        $this->modelList = $this->makeModelObject($request)
+        return $this->modelList = $this->resourceSetPerPage($request)
             ->resourceOrderBy($request)
             ->resourceFilter($request)
             ->applyFilters($request)
             ->getBelongsToRelations($request)
             ->getPaginated($request);
-
-        return $this->modelList;
     }
 
     /**

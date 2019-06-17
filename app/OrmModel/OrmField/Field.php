@@ -16,6 +16,9 @@ class Field
     protected $rules = [];
     protected $helpText = '';
 
+    protected $value;
+    protected $formItem;
+
     protected $showOnList = true;
     protected $showOnDetail = true;
     protected $showOnForm = true;
@@ -109,6 +112,10 @@ class Field
         return $this->showOnForm;
     }
 
+    /**
+     * Devuelve icono de ordenamiento
+     * @return string
+     */
     public function sortingIcon()
     {
         return $this->sortingIcon;
@@ -162,6 +169,12 @@ class Field
             : 'asc';
     }
 
+    /**
+     * Devuelve URL de ordenamiento
+     * @param  Request $request
+     * @param  string  $sortOrder
+     * @return string
+     */
     protected function getSortUrl(Request $request, $sortOrder = '')
     {
         return $request->fullUrlWithQuery(array_merge($request->all(), [
@@ -196,7 +209,7 @@ class Field
      * @param  Resource|null $resource
      * @return string
      */
-    public function getFieldName(Resource $resource = null)
+    public function getFieldName()
     {
         return $this->fieldName;
     }
@@ -210,10 +223,6 @@ class Field
         return collect($this->rules)->contains('required');
     }
 
-
-
-
-    /**
     /**
      * @return mixed
      */
@@ -274,6 +283,44 @@ class Field
     }
 
     /**
+     * Genera valor a mostrar a partir de modelo
+     * @param  Model  $model
+     * @return Field
+     */
+    public function resolveValue(Model $model)
+    {
+        $this->value = $this->getValue($model);
+
+        return $this;
+    }
+
+    /**
+     * Genera elemento de formulario a mostrar a partir de request y resource
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array    $extraParam
+     * @return Field
+     */
+    public function resolveFormItem(Request $request, $resource, $extraParam)
+    {
+        $extraParam['class'] = array_get($extraParam, 'class', '')
+            .(optional($request->session()->get('errors'))->has($this->fieldName) ? ' is-invalid' : '');
+
+        $this->formItem = $this->getForm($request, $resource, $extraParam);
+
+        return $this;
+    }
+
+    /**
+     * Devuelve elemento de formulario calculado
+     * @return string
+     */
+    public function formItem()
+    {
+        return $this->formItem;
+    }
+
+    /**
      * Devuelve valor del campo formateado
      * @param  Request    $request
      * @param  Model|null $model
@@ -282,6 +329,15 @@ class Field
     public function getValue(Model $model = null)
     {
         return optional($model)->{$this->getFieldName()};
+    }
+
+    /**
+     * Devuelve valor del campo calculado
+     * @return mixed
+     */
+    public function value()
+    {
+        return $this->value;
     }
 
     /**

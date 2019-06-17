@@ -11,7 +11,7 @@
             <p>
                 {!! trans('orm.delete_confirm', [
                     'model' => $resource->getLabel(),
-                    'item' => $resource->title(request())
+                    'item' => $resource->title()
                 ]) !!}
             </p>
         </div>

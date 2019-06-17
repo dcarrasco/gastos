@@ -23,9 +23,7 @@
     </div>
 
     <div class="container mt-4 border rounded-lg bg-white shadow-sm">
-        @foreach($resource->detailFields(request()) as $field)
-            @include('orm.item_show')
-        @endforeach
+        @each('orm.item_show', $fields, 'field')
     </div>
 
 </div>

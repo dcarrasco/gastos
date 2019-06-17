@@ -31,19 +31,15 @@ class HasMany extends Relation
      */
     public function getValue(Model $model = null)
     {
-        $relatedResource = $this->getRelation($model);
+        $relatedResources = $this->getRelation($model);
 
-        if ($relatedResource->getModelList()->count() === 0)
+        if ($relatedResources->count() === 0)
         {
             return '';
         }
 
         $list = "<ul><li>"
-            .$relatedResource->getModelList()
-                ->map(function($model) use ($relatedResource) {
-                    return $relatedResource->injectModel($model)->title(request());
-                })
-                ->implode('</li><li>')
+            .$relatedResources->map->title()->implode('</li><li>')
             ."</li></ul>";
 
         return new HtmlString($list);

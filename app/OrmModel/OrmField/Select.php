@@ -60,7 +60,7 @@ class Select extends Field
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->fieldName;
-        $extraParam['class'] = $extraParam['class'] . ' custom-select';
+        $extraParam['class'] = array_get('class', $extraParam, '') . ' custom-select';
         $value = $resource->model()->{$this->getFieldName()};
 
         return Form::select($this->fieldName, $this->choices, $value, $extraParam);

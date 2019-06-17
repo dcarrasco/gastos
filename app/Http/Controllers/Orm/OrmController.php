@@ -13,6 +13,11 @@ trait OrmController
 
     protected $menuModulo = [];
 
+    /**
+     * Genera menu
+     *
+     * @return array
+     */
     public function makeMenuModuloURL()
     {
         $routeName = $this->routeName;
@@ -33,7 +38,7 @@ trait OrmController
     public function makeView()
     {
         view()->share('perPageFilter', new PerPage);
-        view()->share('menuModulo', $this->makeMenuModuloURL($this->menuModulo));
+        view()->share('menuModulo', $this->makeMenuModuloURL());
         view()->share('routeName', $this->routeName);
 
         $resource = collect($this->menuModulo)->first();
@@ -42,12 +47,20 @@ trait OrmController
         );
     }
 
+    /**
+     * Devuelve un recurso
+     *
+     * @param  string  $resourceName Nombre del recurso a recuperar
+     * @param  Request $request
+     * @return Resource
+     */
     protected function getResource($resourceName = '')
     {
-        $resource = collect($this->menuModulo)
-            ->first(function($resource) use ($resourceName) {
-                return empty($resourceName) or (new $resource)->getName() === $resourceName;
-            });
+        $resource = collect($this->menuModulo)->first(function($resource) use ($resourceName) {
+            return (new $resource)->getName() === $resourceName;
+        });
+
+        $resource = $resource ?: collect($this->menuModulo)->first();
 
         return new $resource;
     }
@@ -61,13 +74,13 @@ trait OrmController
     {
         $resource = $this->getResource($resource);
         $cards = $resource->renderCards($request);
-        $modelList = $resource->modelList($request);
-        $fields = $resource->indexFields($request);
+        $paginator = $resource->paginator($request);
+        $resources = $paginator->getCollection()->mapInto($resource)->map->indexFields($request);
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 
         return view('orm.listado',
-            compact('resource', 'cards', 'modelList', 'paginationLinks', 'modelId', 'fields')
+            compact('resource', 'cards', 'resources', 'paginationLinks', 'modelId')
         );
     }
 
@@ -77,7 +90,7 @@ trait OrmController
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($resource = null)
+    public function create(Request $request, $resource = null)
     {
         $resource = $this->getResource($resource);
 
@@ -100,7 +113,7 @@ trait OrmController
         $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
         $alertMessage = trans('orm.msg_save_ok', [
             'nombre_modelo' => $resource->getLabel(),
-            'valor_modelo' => $resource->title($request),
+            'valor_modelo' => $resource->title(),
         ]);
 
         return redirect()
@@ -114,11 +127,12 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function show($resource = null, $modelId = null)
+    public function show(Request $request, $resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource)->findOrNew($modelId);
+        $fields = $resource->detailFields($request);
 
-        return view('orm.show', compact('resource', 'modelId'));
+        return view('orm.show', compact('resource', 'modelId', 'fields'));
     }
 
     /**
@@ -127,11 +141,12 @@ trait OrmController
      * @param  \App\Usuario  $usuario
      * @return \Illuminate\Http\Response
      */
-    public function edit($resource = null, $modelId = null)
+    public function edit(Request $request, $resource = null, $modelId = null)
     {
         $resource = $this->getResource($resource)->findOrNew($modelId);
+        $fields = $resource->formFields($request);
 
-        return view('orm.form_editar', compact('resource', 'modelId'));
+        return view('orm.form_editar', compact('resource', 'modelId', 'fields'));
     }
 
     /**

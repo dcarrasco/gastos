@@ -46,6 +46,19 @@ trait UsesDatabase
     }
 
     /**
+     * Agrega limite de despliegue en listado
+     * @param  Request $request
+     * @return Resource
+     */
+    public function resourceSetPerPage(Request $request)
+    {
+        $this->modelObject
+            ->setPerPage($request->PerPage ?: $this->perPage);
+
+        return $this;
+    }
+
+    /**
      * Agrega condiciones order-by a objeto del modelo
      * @param  Request $request
      * @return Resource

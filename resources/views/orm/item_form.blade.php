@@ -1,7 +1,8 @@
 <div class="row border-bottom py-4">
-    <div class="col-3 mt-2 pl-5 {{ $errors->has($field->getFieldName($resource)) ? 'text-danger' : 'text-muted' }}">
+    <div class="col-3 mt-2 pl-5 {{ $errors->has($field->getFieldName()) ? 'text-danger' : 'text-muted' }}">
         <h6 class="font-weight-bold">
             {{ $field->getName() }}
+
             @if ($field->isRequired())
                 <span class="text-danger">*</span>
             @endif
@@ -9,12 +10,10 @@
     </div>
 
     <div class="col-6">
-        {!! $field->getForm(request(), $resource, [
-            'class' => 'form-control' . ($errors->has($field->getFieldName($resource)) ? ' is-invalid' : '')
-        ]) !!}
+        {{ $field->formItem() }}
 
-        @if ($errors->has($field->getFieldName($resource)))
-            <div class="invalid-feedback">{!! $errors->first($field->getFieldName($resource)) !!}</div>
+        @if ($errors->has($field->getFieldName()))
+            <div class="invalid-feedback">{!! $errors->first($field->getFieldName()) !!}</div>
         @endif
     </div>
 </div>
