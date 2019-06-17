@@ -16,9 +16,7 @@
     <div class="container mt-4 border rounded-lg bg-white shadow-sm">
         {{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
 
-        @foreach($resource->detailFields(request()) as $field)
-            @include('orm.item_form')
-        @endforeach
+        @each('orm.item_form', $fields, 'field')
 
         <div class="row">
             <div class="col-12 bg-light rounded-bottom-lg py-4 text-right text-shadow">

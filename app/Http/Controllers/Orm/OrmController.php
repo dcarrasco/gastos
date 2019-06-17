@@ -93,8 +93,9 @@ trait OrmController
     public function create(Request $request, $resource = null)
     {
         $resource = $this->getResource($resource);
+        $fields = $resource->formFields($request);
 
-        return view('orm.form_crear', compact('resource'));
+        return view('orm.form_crear', compact('resource', 'fields'));
     }
 
     /**
