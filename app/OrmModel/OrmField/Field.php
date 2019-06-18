@@ -328,7 +328,7 @@ class Field
      */
     public function getValue(Model $model = null)
     {
-        return optional($model)->{$this->getAttribute()};
+        return optional($model)->{$this->attribute};
     }
 
     /**

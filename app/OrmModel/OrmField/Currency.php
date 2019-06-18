@@ -6,6 +6,7 @@ use Form;
 use App\OrmModel\Resource;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
+use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Field
@@ -18,7 +19,9 @@ class Currency extends Field
      */
     public function getValue(Model $model = null)
     {
-        return '$&nbsp;'.number_format(optional($model)->{$this->attribute}, 0, ',', '.');
+        return new HtmlString('$&nbsp;'
+            .number_format(optional($model)->{$this->attribute}, 0, ',', '.')
+        );
     }
 
     /**

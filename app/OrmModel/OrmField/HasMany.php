@@ -33,8 +33,7 @@ class HasMany extends Relation
     {
         $relatedResources = $this->getRelation($model);
 
-        if ($relatedResources->count() === 0)
-        {
+        if ($relatedResources->count() === 0) {
             return '';
         }
 
