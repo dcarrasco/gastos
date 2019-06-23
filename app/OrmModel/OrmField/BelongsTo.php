@@ -13,24 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class BelongsTo extends Relation
 {
     /**
-     * Devuelve nombre del campo de la BD
-     * @param  Resource|null $resource
-     * @return string
-     */
-    public function getAttribute(Resource $resource = null)
-    {
-        if (is_null($resource)) {
-            return $this->attribute;
-        }
-
-        $relationName = $this->attribute;
-
-        return $resource->model()
-            ->{$relationName}()
-            ->getForeignKeyName();
-    }
-
-    /**
      * Devuelve valor del campo formateado
      * @param  Request    $request
      * @param  Model|null $model
@@ -52,8 +34,10 @@ class BelongsTo extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
+        $foreignKeyName = $resource->model()->{$this->attribute}()->getForeignKeyName();
+
         $field = $this->attribute;
-        $extraParam['id'] = $field;
+        $extraParam['id'] = $foreignKeyName;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
         if ($this->hasOnChange()) {
@@ -61,7 +45,7 @@ class BelongsTo extends Relation
         }
 
         $value = $resource->model()->{$field};
-        $form = Form::select($field, $this->getOptions($request, $resource), $value, $extraParam);
+        $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
 
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
     }
