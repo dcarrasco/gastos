@@ -103,12 +103,12 @@ class Relation extends Field
      */
     protected function getResourceFilter(Resource $resource, $conditions = [])
     {
-        return collect($conditions)->map(function($condition) use ($resource) {
-            if (strpos($condition, '@field_value:') !== false) {
+        return collect($conditions)
+            ->filter(function($condition) {
+                return strpos($condition, '@field_value:') !== false;
+            })->map(function($condition) use ($resource) {
                 list($label, $field, $defaul) = explode(':', $condition);
                 return $resource->model()->{$field};
-            }
-        })
-        ->all();
+            })->all();
     }
 }

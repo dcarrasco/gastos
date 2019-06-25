@@ -41,7 +41,7 @@ class BelongsTo extends Relation
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
         if ($this->hasOnChange()) {
-            $extraParam['onchange'] = $this->makeOnChange($field);
+            $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
         }
 
         $value = $resource->model()->{$field};

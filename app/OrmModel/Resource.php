@@ -250,7 +250,8 @@ class Resource
 
     public function getModelFormOptions(Request $request)
     {
-        $this->makeModelObject()->resourceOrderBy();
+        $this->modelObject = $this->makeModelObject();
+        $this->resourceOrderBy($request);
 
         $whereIn = collect($request->all())->filter(function ($elem, $key) {
             return !is_integer($key) and is_array($elem);
