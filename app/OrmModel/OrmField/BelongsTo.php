@@ -44,7 +44,7 @@ class BelongsTo extends Relation
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
         }
 
-        $value = $resource->model()->{$field};
+        $value = $resource->model()->{$foreignKeyName};
         $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
 
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
