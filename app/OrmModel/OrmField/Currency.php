@@ -17,7 +17,7 @@ class Currency extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null)
+    public function getValue(Model $model = null, Request $request)
     {
         return new HtmlString('$&nbsp;'
             .number_format(optional($model)->{$this->attribute}, 0, ',', '.')

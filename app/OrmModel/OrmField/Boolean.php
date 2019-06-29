@@ -17,7 +17,7 @@ class Boolean extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null)
+    public function getValue(Model $model = null, Request $request)
     {
         return new HtmlString("<small><span class=\"fa fa-circle text-"
             . ($model->{$this->attribute} ? "success" : "danger")

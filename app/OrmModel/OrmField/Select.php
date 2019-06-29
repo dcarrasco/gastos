@@ -30,7 +30,7 @@ class Select extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null)
+    public function getValue(Model $model = null, Request $request)
     {
         $value = $model->{$this->attribute};
 

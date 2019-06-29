@@ -287,9 +287,9 @@ class Field
      * @param  Model  $model
      * @return Field
      */
-    public function resolveValue(Model $model)
+    public function resolveValue(Model $model, Request $request)
     {
-        $this->value = $this->getValue($model);
+        $this->value = $this->getValue($model, $request);
 
         return $this;
     }
@@ -326,7 +326,7 @@ class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null)
+    public function getValue(Model $model = null, Request $request)
     {
         return optional($model)->{$this->attribute};
     }

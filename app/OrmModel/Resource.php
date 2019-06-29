@@ -139,7 +139,7 @@ class Resource
             'fields' => collect($this->fields($request))
                 ->filter->showOnIndex()
                 ->map->makeSortingIcon($request, $this)
-                ->map->resolveValue($this->modelObject)
+                ->map->resolveValue($this->modelObject, $request)
         ];
     }
 
@@ -152,7 +152,7 @@ class Resource
     {
         return collect($this->fields($request))
             ->filter->showOnDetail()
-            ->map->resolveValue($this->modelObject);
+            ->map->resolveValue($this->modelObject, $request);
     }
 
     /**

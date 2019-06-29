@@ -18,7 +18,7 @@ class BelongsTo extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null)
+    public function getValue(Model $model = null, Request $request)
     {
         $relatedModel = $model->{$this->attribute};
 
