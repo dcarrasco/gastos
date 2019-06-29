@@ -52,6 +52,10 @@ trait UsesDatabase
      */
     public function resourceSetPerPage(Request $request)
     {
+        if (is_null($this->modelObject)) {
+            $this->modelObject = $this->makeModelObject();
+        }
+
         $this->modelObject
             ->setPerPage($request->PerPage ?: $this->perPage);
 

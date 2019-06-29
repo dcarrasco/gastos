@@ -1,4 +1,4 @@
-<table class="table table-hover mb-0">
+<table class="table listado table-hover mb-0">
     @foreach ($resources as $resource)
         @if ($loop->first)
             <thead class="thead-light">
@@ -13,7 +13,7 @@
 
         <tr>
             @foreach($resource['fields'] as $field)
-                <td>{{ $field->value() }}</td>
+                <td class="align-middle text-black-70">{{ $field->value() }}</td>
             @endforeach
 
             <td class="text-right text-nowrap">

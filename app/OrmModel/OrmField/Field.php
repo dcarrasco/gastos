@@ -27,10 +27,10 @@ class Field
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
-    protected $sortIconDefault = 'fa fa-sort text-black-50';
+    protected $sortIconDefault = 'fa fa-sort text-black-20';
     protected $sortIcons = [
-        'asc' => 'fa fa-caret-up text-dark',
-        'desc' => 'fa fa-caret-down text-dark',
+        'asc' => 'fa fa-caret-up text-muted',
+        'desc' => 'fa fa-caret-down text-muted',
     ];
     protected $sortingIcon = '';
 

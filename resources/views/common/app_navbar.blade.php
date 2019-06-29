@@ -10,7 +10,7 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-	<div class="collapse navbar-collapse col-10 py-2" id="navMenuCollapse">
+	<div class="collapse navbar-collapse col-10" id="navMenuCollapse">
 
 		<span class="h5 my-0">
 			{!! auth()->user()->moduloAppName() !!}

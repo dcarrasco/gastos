@@ -74,8 +74,12 @@ trait OrmController
     {
         $resource = $this->getResource($resource);
         $cards = $resource->renderCards($request);
-        $paginator = $resource->paginator($request);
-        $resources = $paginator->getCollection()->mapInto($resource)->map->indexFields($request);
+
+        $resources = $resource->paginator($request)
+            ->getCollection()
+            ->mapInto($resource)
+            ->map->indexFields($request);
+
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 

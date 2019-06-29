@@ -231,14 +231,17 @@ class Resource
      * @param  Request $request
      * @return HtmlString
      */
-    public function getPaginationLinks(Request $request)
+    public function getPaginationLinks(Request $request, $detail = false)
     {
-        return view('common.app_nova_paginator_detail', [
-            'modelList' => $this->modelList,
-            'resource' => $this,
-            'paginationLinks' => $this->modelList
-                ->appends($request->all())
-                ->links(),
+        return view(
+            $detail ? 'common.app_nova_paginator_detail' : 'common.app_nova_paginator_short',
+            [
+                'modelList' => $this->modelList,
+                'resource' => $this,
+                'paginator' => $this->paginator($request),
+                'paginationLinks' => $this->modelList
+                    ->appends($request->all())
+                    ->links(),
             ]
         )->render();
     }
