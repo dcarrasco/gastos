@@ -169,9 +169,9 @@ $(document).ready(function() {
 				}
 			});
 			$('tr.not_found').hide();
-			$('#filtrar_material').addClass('search_found');
+			$('#filtrar_material').addClass('search-found');
 		} else {
-			$('#filtrar_material').removeClass('search_found');
+			$('#filtrar_material').removeClass('search-found');
 		}
 	});
 

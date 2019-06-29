@@ -85,11 +85,11 @@ $(document).ready(function() {
 				}
 			});
 			$('tr.not_found').hide();
-			$('#filtrar_material').addClass('search_found');
-			$('#btn_filtrar').addClass('search_found');
+			$('#filtrar_material').addClass('search-found');
+			$('#btn_filtrar').addClass('search-found');
 		} else {
-			$('#filtrar_material').removeClass('search_found');
-			$('#btn_filtrar').removeClass('search_found');
+			$('#filtrar_material').removeClass('search-found');
+			$('#btn_filtrar').removeClass('search-found');
 			$('tr.not_found').show();
 			$('tr.not_found').removeClass('not_found');
 		}
