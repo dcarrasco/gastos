@@ -26,7 +26,7 @@ class Gasto extends Resource
     public $icono = 'dollar';
     public $title = 'id';
     public $search = [
-        'id', 'monto', 'glosa', 'serie'
+        'id', 'monto', 'glosa', 'serie', 'anno', 'mes'
     ];
 
     public $orderBy = 'id';

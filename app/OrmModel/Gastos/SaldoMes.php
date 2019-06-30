@@ -18,7 +18,7 @@ class SaldoMes extends Resource
     public $icono = 'calculator';
     public $title = 'id';
     public $search = [
-        'id', 'monto'
+        'id', 'anno', 'mes'
     ];
 
     public $orderBy = [
