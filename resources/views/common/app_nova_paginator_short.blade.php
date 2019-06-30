@@ -1,7 +1,11 @@
 <div class="row border-top bg-light rounded-bottom-lg">
     <div class="col-3 py-3 px-4">
         <h6 class="mb-0 font-weight-bold">
-            <a href="{{ $paginator->previousPageUrl() }}" class="{{ $paginator->onFirstPage() ? 'text-black-40' : ''}}">Anterior</a>
+            @if($paginator->onFirstPage())
+                <span class="text-black-40" style="cursor: not-allowed !important;">Anterior</span>
+            @else
+                <a href="{{ $paginator->previousPageUrl() }}">Anterior</a>
+            @endif
         </h6>
     </div>
 
@@ -14,7 +18,11 @@
 
     <div class="col-3 text-right py-3 px-4">
         <h6 class="mb-0 font-weight-bold">
-            <a href="{{ $paginator->nextPageUrl() }}" class="{{ $paginator->currentPage() == $paginator->lastPage() ? 'text-black-40' : ''}}">Siguiente</a>
+            @if($paginator->currentPage() == $paginator->lastPage())
+                <span class="text-black-40" style="cursor: not-allowed !important;">Siguiente</span>
+            @else
+                <a href="{{ $paginator->nextPageUrl() }}">Siguiente</a>
+            @endif
         </h6>
     </div>
 </div>
