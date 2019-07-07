@@ -176,7 +176,7 @@ class Resource
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {
-                return [$field->getAttribute() => $field->getValidation($this)];
+                return [$field->getModelAttribute($this) => $field->getValidation($this)];
             })
             ->all();
     }

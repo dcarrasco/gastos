@@ -25,6 +25,11 @@ class BelongsTo extends Relation
         return (new $this->relatedResource($relatedModel))->title();
     }
 
+    public function getModelAttribute(Resource $resource)
+    {
+        return $resource->model()->{$this->attribute}()->getForeignKeyName();
+    }
+
     /**
      * Devuelve elemento de formulario para el campo
      * @param  Request  $request
@@ -34,8 +39,7 @@ class BelongsTo extends Relation
      */
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
-        $foreignKeyName = $resource->model()->{$this->attribute}()->getForeignKeyName();
-
+        $foreignKeyName = $this->getModelAttribute($resource);
         $field = $this->attribute;
         $extraParam['id'] = $foreignKeyName;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';

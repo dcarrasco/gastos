@@ -214,6 +214,11 @@ class Field
         return $this->attribute;
     }
 
+    public function getModelAttribute(Resource $resource)
+    {
+        return $this->attribute;
+    }
+
     /**
      * Indica si el campo es obligatorio
      * @return boolean
