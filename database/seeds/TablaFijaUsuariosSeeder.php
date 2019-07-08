@@ -16,7 +16,7 @@ class TablaFijaUsuariosSeeder extends Seeder
             'activo' => 1,
             'username' => 'laravel',
             'password' => bcrypt('laravel'),
-            'email' => '',
+            'email' => 'larave@laravel.com',
             'fecha_login' => \Carbon\Carbon::now(),
             'ip_login' => '',
             'agente_login' => '',
@@ -24,6 +24,6 @@ class TablaFijaUsuariosSeeder extends Seeder
             'created_at' => Carbon\Carbon::now(),
         ]);
 
-        factory(App\Acl\Usuario::class, 15)->create();
+        // factory(App\Acl\Usuario::class, 15)->create();
     }
 }
