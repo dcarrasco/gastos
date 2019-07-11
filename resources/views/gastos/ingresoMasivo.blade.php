@@ -27,21 +27,19 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2">
+        <div class="offset-md-1 col-md-2">
             <label class="col-form-label">Datos</label>
         </div>
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-8"> {{ Form::textarea('datos', request('datos'), ['class' => 'form-control']) }} </div>
-    </div>
-
-    <div class="form-row">
-        <div class="offset-md-8 col-md-2 text-right">
-            <button type="submit" class="btn btn-primary">Procesar</button>
+        <div class="offset-md-1 col-md-10">
+            {{ Form::textarea('datos', request('datos'), ['class' => 'form-control']) }}
+            <div class="text-right my-3">
+                <button type="submit" class="btn btn-primary text-right">Procesar</button>
+            </div>
         </div>
     </div>
-
 
 @if (count($datosMasivos))
 <table class="table table-hover table-sm offset-md-2 col-md-8">

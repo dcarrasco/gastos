@@ -3,7 +3,7 @@
 @section('modulo')
 <form>
     <div class="form-row">
-        <div class="offset-md-2 col-md-2">
+        <div class="offset-md-1 col-md-2">
             <label class="col-form-label">Cuenta</label>
         </div>
         <div class="col-md-2">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-row">
-        <div class="offset-md-2 col-md-2">
+        <div class="offset-md-1 col-md-2">
             {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
@@ -31,7 +31,7 @@
     </div>
 </form>
 
-<table class="offset-md-1 col-md-10 mt-md-3 table table-hover table-sm">
+<table class="col-md-12 mt-md-3 table table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>Año</th>

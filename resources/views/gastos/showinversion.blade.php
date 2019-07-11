@@ -24,7 +24,7 @@
     </div>
 </form>
 
-<table class="offset-md-1 col-md-10 mt-md-3 table table-hover table-sm">
+<table class="col-md-12 mt-md-3 table table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>Año</th>
@@ -156,7 +156,7 @@
     chart.draw(data, options);
   }
 </script>
-<div id="curve_chart" class="col-md-8 offset-md-2" style="height: 500px"></div>
+<div id="curve_chart" class="col-md-10 offset-md-1" style="height: 500px"></div>
 
 
 

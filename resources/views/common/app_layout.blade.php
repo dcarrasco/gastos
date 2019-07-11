@@ -29,38 +29,28 @@
     </script>
 
     @if (auth()->guest())
-    <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>    @endif
-
+    <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>
+    @endif
 </head>
 
-
 <body>
+    @includeWhen(auth()->check(), 'common.app_navbar')
 
-@if (auth()->check())
-    @include('common.app_navbar')
-@endif
-<div class="container-fluid" id="container">
+    <div class="container-fluid" id="container">
+        <div class="row mh-100" style="min-height: 100vh;">
 
-@include('common.app_menu_modulo')
+            <div class="col-2 bg-secondary px-0">
+                @include('common.app_menu_modulo')
+            </div>
 
-@include('common.alert')
+            <div class="col-10">
+                @include('common.alert')
+                @yield('modulo')
+                @include('common.app_footer')
+            </div>
 
-<!-- ============================== MODULOS APP ============================== -->
-@yield('modulo')
-<!-- ============================== /MODULOS APP ============================== -->
-
-<footer class="footer my-md-4">
-    <div class="text-center text-black-40">
-        <small><i class="fa fa-creative-commons"></i> 2013 &ndash; <?= date('Y'); ?></small>
-    </div>
-</footer>
-
-@if (isset($menuModulo))
-    </div> <!-- DIV   class="col-md-10" -->
-    </div> <!-- DIV   class="row"    -->
-@endif
-
-</div> <!-- DIV principal de la aplicacion   class="container"-->
+        </div> <!-- DIV   class="row"    -->
+    </div> <!-- DIV principal de la aplicacion   class="container"-->
 
 </body>
 </html>
