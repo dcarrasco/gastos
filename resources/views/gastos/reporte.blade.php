@@ -48,8 +48,8 @@
                 @if (array_get($datos, "datos.$tipo_gasto_id.$mes", 0) == 0)
                 @else
                     <a href="{{ route('gastos.detalle', [
-                        'cuenta_id' => request('cuenta_id'),
-                        'anno' => request('anno'),
+                        'cuenta_id' => $cuentaId,
+                        'anno' => $anno,
                         'mes' => $mes,
                         'tipo_gasto_id' => $tipo_gasto_id,
                     ]) }}" class="text-reset">
