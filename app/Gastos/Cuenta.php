@@ -57,7 +57,7 @@ class Cuenta extends Model
     public static function getFormMes(string $format = 'F')
     {
         return collect(range(1,12))->mapWithKeys(function ($mes) use ($format) {
-                return [$mes => Carbon::create(2000, $mes, 1)->format($format)];
+                return [$mes => trans('fechas.'.Carbon::create(2000, $mes, 1)->format($format))];
             });
     }
 }
