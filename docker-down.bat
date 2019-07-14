@@ -1,2 +1,2 @@
 docker-compose down
-docker-machine stop
+docker-machine stop default
