@@ -39,6 +39,12 @@
     <div class="container-fluid" id="container">
         <div class="row mh-100" style="min-height: 100vh;">
 
+        @guest
+            <div class="col-12">
+                @include('common.alert')
+                @yield('modulo')
+            </div>
+        @else
             <div class="col-2 bg-secondary px-0">
                 @include('common.app_menu_modulo')
             </div>
@@ -48,6 +54,7 @@
                 @yield('modulo')
                 @include('common.app_footer')
             </div>
+        @endguest
 
         </div> <!-- DIV   class="row"    -->
     </div> <!-- DIV principal de la aplicacion   class="container"-->
