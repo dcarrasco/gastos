@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TablaFijaUsuariosSeeder extends Seeder
+class TablaACLUsuariosSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class TablaFijaUsuariosSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('fija_usuarios')->insert([
+        DB::table('acl_usuarios')->insert([
             'nombre' => 'Laravel Test',
             'activo' => 1,
             'username' => 'laravel',

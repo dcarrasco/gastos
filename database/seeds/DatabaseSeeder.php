@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // ---------------------------------------------------------------------
         // ACL
         // ---------------------------------------------------------------------
-        $this->call(TablaFijaUsuariosSeeder::class);
+        $this->call(TablaACLUsuariosSeeder::class);
         $this->call(TablaACLAppSeeder::class);
         $this->call(TablaACLModuloSeeder::class);
         $this->call(TablaACLRolSeeder::class);

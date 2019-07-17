@@ -13,7 +13,7 @@ class CreaTablaUsuarios extends Migration
      */
     public function up()
     {
-        Schema::create('fija_usuarios', function (Blueprint $table) {
+        Schema::create('acl_usuarios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 45);
             $table->tinyInteger('activo');
@@ -37,6 +37,6 @@ class CreaTablaUsuarios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fija_usuarios');
+        Schema::dropIfExists('acl_usuarios');
     }
 }
