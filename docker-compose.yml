@@ -29,16 +29,17 @@ services:
 
   # Database
   database:
-    image: postgres
+    image: mariadb
     restart: always
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - dbdata:/var/lib/mysql
     environment:
-      - POSTGRES_DB=${DB_DATABASE}
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
-        - 5432:5432
+        - 3306:3306
     networks:
       - app-network
 
