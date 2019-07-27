@@ -233,17 +233,15 @@ class Resource
      */
     public function getPaginationLinks(Request $request, $detail = false)
     {
-        return view(
-            $detail ? 'common.app_nova_paginator_detail' : 'common.app_nova_paginator_short',
-            [
-                'modelList' => $this->modelList,
-                'resource' => $this,
-                'paginator' => $this->paginator($request),
-                'paginationLinks' => $this->modelList
-                    ->appends($request->all())
-                    ->links(),
-            ]
-        )->render();
+        return [
+            'detail' => $detail,
+            'modelList' => $this->modelList,
+            'resource' => $this,
+            'paginator' => $this->paginator($request),
+            'paginationLinks' => $this->modelList
+                ->appends($request->all())
+                ->links(),
+        ];
     }
 
     public function getModelAjaxFormOptions(Request $request)
