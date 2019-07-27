@@ -56,7 +56,8 @@
             </div>
         </div>
 
-        {!! $paginationLinks !!}
+        @include('orm.paginator_links')
+
     @endif
     </div> <!-- container -->
 
