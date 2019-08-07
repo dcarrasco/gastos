@@ -24,7 +24,7 @@
         <div class="col-md-2">
             {{ Form::select('mes', $formMes, request('mes', $mesDefault), ['class' => 'form-control']) }}
          </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
             <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
         </div>

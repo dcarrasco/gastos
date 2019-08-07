@@ -2,9 +2,9 @@
 
 @section('modulo')
 
-<div class="container">
+<div class="">
 
-    <div class="row pt-4">
+    <div class="row">
         <div class="col-10">
             <h4>
                 {{ trans('orm.title_show') }}
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="container mt-4 border rounded-lg bg-white shadow-sm">
+    <div class="container mt-2 border rounded-lg bg-white shadow-sm">
         @each('orm.item_show', $fields, 'field')
     </div>
 

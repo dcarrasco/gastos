@@ -10,6 +10,8 @@
     <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png" />
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('img/favicon-152.png') }}">
 
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
@@ -49,7 +51,7 @@
                 @include('common.app_menu_modulo')
             </div>
 
-            <div class="col-10">
+            <div class="col-10 px-5 py-5">
                 @include('common.alert')
                 @yield('modulo')
                 @include('common.app_footer')

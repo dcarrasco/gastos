@@ -2,9 +2,9 @@
 
 @section('modulo')
 
-<div class="container">
+<div class="">
 
-    <div class="row pt-4">
+    <div class="row">
         <div class="col-12">
             <h4>
                 {{ trans('orm.title_add') }}
@@ -13,18 +13,18 @@
         </div>
     </div>
 
-    <div class="container mt-4 border rounded-lg bg-white shadow-sm">
+    <div class="container mt-2 border rounded-lg bg-white shadow-sm">
         {{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
 
         @each('orm.item_form', $fields, 'field')
 
         <div class="row">
             <div class="col-12 bg-light rounded-bottom-lg py-4 text-right text-shadow">
-                <button type="submit" class="btn btn-primary btn-sm px-3 font-weight-bold" id="button_continue">
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold" id="button_continue">
                     {{ trans('orm.button_create_continue') }}
                 </button>
 
-                <button type="submit" class="btn btn-primary btn-sm btn-sm px-3 font-weight-bold text-shadow">
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow">
                     {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
                 </button>
            </div>
