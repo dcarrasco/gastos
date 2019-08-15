@@ -14,15 +14,16 @@ class Reporte extends Controller
 {
     protected function reporte(Request $request)
     {
-        $formCuenta = Cuenta::formArrayGastos();
-        $formAnno = Cuenta::getFormAnno($request);
+        $cuenta = new Cuenta;
         $formTipoMovimiento = TipoMovimiento::formArray();
-        $cuentaId = $request->input('cuenta_id', key($formCuenta->all()));
-        $anno = $request->input('anno', key($formAnno));
+
+        $cuentaId = $request->input('cuenta_id', key($cuenta->selectCuentasGastos()));
+        $anno = $request->input('anno', key($cuenta->selectAnnos()));
         $tipoMovimientoId = $request->input('tipo_movimiento_id', key($formTipoMovimiento->all()));
+
         $datos = Gasto::getReporte($cuentaId, $anno, $tipoMovimientoId);
 
-        return view('gastos.reporte', compact('formCuenta', 'formAnno', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'datos'));
+        return view('gastos.reporte', compact('cuenta', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'datos'));
     }
 
     public function detalle(Request $request)

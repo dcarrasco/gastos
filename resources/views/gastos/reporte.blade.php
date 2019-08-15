@@ -16,10 +16,10 @@
 
     <div class="form-row">
         <div class="offset-md-2 col-md-2">
-            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+            {{ Form::select('cuenta_id', $cuenta->selectCuentasGastos(), request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $formAnno, request('anno'), ['class' => 'form-control']) }}
+            {{ Form::select('anno', $cuenta->selectAnnos(), request('anno'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
             {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control']) }}

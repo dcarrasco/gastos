@@ -137,7 +137,7 @@ class Gasto extends Model
                 return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
             });
 
-        $meses = Cuenta::getFormMes('M');
+        $meses = Cuenta::selectMeses('M');
         $sum_tipo_gasto = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'tipo_gasto_id');
         $sum_mes = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'mes');
 

@@ -16,13 +16,13 @@
 
     <div class="form-row">
         <div class="offset-md-1 col-md-2">
-            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+            {{ Form::select('cuenta_id', $selectCuentas, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+            {{ Form::select('anno', $cuenta->selectAnnos(), request('anno', $today->year), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('mes', $formMes, request('mes', $mesDefault), ['class' => 'form-control']) }}
+            {{ Form::select('mes', $cuenta->selectMeses(), request('mes', $today->month), ['class' => 'form-control']) }}
          </div>
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
@@ -63,7 +63,7 @@
                 {{ Form::text('serie', request('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
             </td>
             <td>
-                {{ Form::select('tipo_gasto_id', $formTipoGasto, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
+                {{ Form::select('tipo_gasto_id', $selectTiposGastos, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
             </td>
             <td>
                 <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">

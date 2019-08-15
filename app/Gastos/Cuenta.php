@@ -34,27 +34,28 @@ class Cuenta extends Model
             ->where('tipo', $tipo)
             ->orderBy('cuenta')
             ->get()
-            ->pluck('cuenta', 'id');
+            ->pluck('cuenta', 'id')
+            ->all();
     }
 
-    public static function formArrayGastos()
+    public static function selectCuentasGastos()
     {
         return static::formArray(TipoCuenta::CUENTA_GASTO);
     }
 
-    public static function formArrayInversiones()
+    public static function selectCuentasInversiones()
     {
         return static::formArray(TipoCuenta::CUENTA_INVERSION);
     }
 
-    public static function getFormAnno()
+    public static function selectAnnos()
     {
         $options = range(Carbon::now()->year, 2015, -1);
 
         return array_combine($options, $options);
     }
 
-    public static function getFormMes(string $format = 'F')
+    public static function selectMeses(string $format = 'F')
     {
         return collect(range(1,12))->mapWithKeys(function ($mes) use ($format) {
                 return [$mes => trans('fechas.'.Carbon::create(2000, $mes, 1)->format($format))];

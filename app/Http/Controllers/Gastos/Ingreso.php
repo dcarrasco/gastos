@@ -15,30 +15,23 @@ class Ingreso extends Controller
 {
     public function showMes(Request $request)
     {
+        $cuenta = new Cuenta;
+        $selectCuentas = $cuenta->selectCuentasGastos();
+        $selectTiposGastos = TipoGasto::formArray();
+        $today = Carbon::now();
+
+        $cuentaId = $request->input('cuenta_id', key($selectCuentas));
+        $anno = $request->input('anno', $today->year);
+        $mes = $request->input('mes', $today->month);
+
+        $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
+        $saldoMesAnterior = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes);
+
         if ($request->recalcula === 'recalcula') {
-            (new SaldoMes)->recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
+            (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        $formCuenta = Cuenta::formArrayGastos();
-
-        return view('gastos.showmes', [
-            'formCuenta' => $formCuenta,
-            'formAnno' => Cuenta::getFormAnno(),
-            'annoDefault' => Carbon::now()->year,
-            'formMes' => Cuenta::getFormMes(),
-            'mesDefault' => Carbon::now()->month,
-            'movimientosMes' => Gasto::movimientosMes(
-                $request->input('cuenta_id', key($formCuenta->all())),
-                $request->input('anno', Carbon::now()->year),
-                $request->input('mes', Carbon::now()->month)
-            ),
-            'formTipoGasto' => TipoGasto::formArray(),
-            'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior(
-                $request->input('cuenta_id', key($formCuenta->all())),
-                $request->input('anno', Carbon::now()->year),
-                $request->input('mes', Carbon::now()->month)
-            ),
-        ]);
+        return view('gastos.showmes', compact('today', 'cuenta', 'selectCuentas', 'movimientosMes', 'saldoMesAnterior', 'selectTiposGastos'));
     }
 
     public function addGasto(AddGastoRequest $request)
