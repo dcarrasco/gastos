@@ -38,21 +38,15 @@ right-menu {
 .radio > label,
 .checkbox > label,
 label.checkbox-inline,
-label.radio-inline {
-	font-family: Nunito, Calibri, "Helvetica Neue", Arial, sans-serif;
-}
-
-.btn {
+label.radio-inline,
+label,
+.btn,
+.list-group, .pagination, .navbar {
 	font-family: Nunito, "Segoe UI", Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
-.list-group, .pagination, .navbar {
-	font-family: Nunito, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-}
-
-table.table > thead,
-label {
-	font-family: Nunito, Calibri, "Helvetica Neue", Arial, sans-serif;
+table.table {
+	font-family: Calibri, "Helvetica Neue", Arial, sans-serif;
 }
 
 fieldset > legend {

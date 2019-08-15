@@ -115,8 +115,8 @@
             <th></th>
             <th></th>
             <th>Saldo Inicial</th>
-            <th class="text-right"></th>
             <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
+            <th></th>
             <th></th>
         </tr>
     </tbody>
