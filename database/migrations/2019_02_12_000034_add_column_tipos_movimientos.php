@@ -14,7 +14,7 @@ class AddColumnTiposMovimientos extends Migration
     public function up()
     {
         Schema::table('cta_tipos_movimientos', function(Blueprint $table) {
-           $table->integer('orden')->unsigned()->after('signo');
+           $table->integer('orden')->nullable()->unsigned()->after('signo');
         });
     }
 

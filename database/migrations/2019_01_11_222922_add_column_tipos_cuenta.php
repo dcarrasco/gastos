@@ -14,7 +14,7 @@ class AddColumnTiposCuenta extends Migration
     public function up()
     {
         Schema::table('cta_tipos_cuentas', function(Blueprint $table) {
-           $table->integer('tipo')->unsigned()->after('tipo_cuenta');
+           $table->integer('tipo')->nullable()->unsigned()->after('tipo_cuenta');
         });
     }
 

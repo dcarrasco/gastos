@@ -1,5 +1,7 @@
 <?php
 
+use Faker\Generator;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,7 +14,7 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\User::class, function (Generator $faker) {
     static $password;
 
     return [
@@ -23,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Acl\Usuario::class, function (Faker\Generator $faker) {
+$factory->define(App\Acl\Usuario::class, function (Generator $faker) {
     static $password;
 
     return [
@@ -38,5 +40,24 @@ $factory->define(App\Acl\Usuario::class, function (Faker\Generator $faker) {
         'login_errors' => 0,
         'remember_token' => str_random(10),
         'created_at' => Carbon\Carbon::now(),
+    ];
+});
+
+$factory->define(App\Gastos\Banco::class, function (Generator $faker) {
+    return [
+        'nombre' => $faker->company,
+    ];
+});
+
+$factory->define(App\Gastos\Cuenta::class, function (Generator $faker) {
+    return [
+        'cuenta' => $faker->company,
+    ];
+});
+
+$factory->define(App\Gastos\TipoCuenta::class, function (Generator $faker) {
+    return [
+        'tipo_cuenta' => $faker->company,
+        'tipo' => App\Gastos\TipoCuenta::CUENTA_GASTO
     ];
 });
