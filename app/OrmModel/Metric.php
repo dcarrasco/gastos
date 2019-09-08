@@ -3,6 +3,7 @@
 namespace App\OrmModel;
 
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class Metric extends Card
@@ -27,7 +28,7 @@ class Metric extends Card
         ];
 
         $dateInterval = ( ! is_numeric($dateOption))
-            ? array_get($intervalOption, $dateOption, [$todayIni, $todayEnd])
+            ? Arr::get($intervalOption, $dateOption, [$todayIni, $todayEnd])
             : [$todayIni->copy()->subDays($dateOption - 1), $todayEnd];
 
         if ($period === 'previous') {
@@ -48,7 +49,7 @@ class Metric extends Card
         ];
 
         return ( ! is_numeric($dateOption))
-            ? array_get($intervalOption, $dateOption, [$dateIni, $dateEnd])
+            ? Arr::get($intervalOption, $dateOption, [$dateIni, $dateEnd])
             : [$dateIni->copy()->subDays($dateOption), $dateEnd->copy()->subDays($dateOption)];
     }
 

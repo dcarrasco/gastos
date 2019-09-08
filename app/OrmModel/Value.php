@@ -3,6 +3,7 @@
 namespace App\OrmModel;
 
 use App\OrmModel\Metric;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class Value extends Metric
@@ -61,8 +62,8 @@ class Value extends Metric
     protected function formattedData($data = [])
     {
         return [
-            'currentValue' => $this->prefix.' '.number_format(array_get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
-            'previousValue' => $this->previousMessage(array_get($data, 'currentValue', 0), array_get($data, 'previousValue', 0)),
+            'currentValue' => $this->prefix.' '.number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
+            'previousValue' => $this->previousMessage(Arr::get($data, 'currentValue', 0), Arr::get($data, 'previousValue', 0)),
         ];
     }
 
@@ -84,8 +85,8 @@ class Value extends Metric
     {
         $data = $this->calculate($request);
 
-        $currentValue = array_get($data, 'currentValue', 0);
-        $previousValue = array_get($data, 'previousValue', 0);
+        $currentValue = Arr::get($data, 'currentValue', 0);
+        $previousValue = Arr::get($data, 'previousValue', 0);
 
         $content = <<<EOD
             <div class="col-md-12">

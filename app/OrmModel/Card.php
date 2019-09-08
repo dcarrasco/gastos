@@ -2,6 +2,7 @@
 
 namespace App\OrmModel;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class Card
@@ -29,7 +30,7 @@ class Card
 
     protected function bootstrapCardWidth()
     {
-        return array_get([
+        return Arr::get([
             '1/2' => 'col-md-6',
             '1/3' => 'col-md-4',
             '2/3' => 'col-md-8',

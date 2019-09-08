@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Arr;
+
 if (!function_exists('ajax_options')) {
     function ajax_options($opciones)
     {
@@ -31,7 +33,7 @@ if (!function_exists('diaSemana')) {
     {
         $dias = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
 
-        return array_get($dias, $numDiaSem);
+        return Arr::get($dias, $numDiaSem);
     }
 }
 

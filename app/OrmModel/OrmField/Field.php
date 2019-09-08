@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use App\OrmModel\Resource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
@@ -149,7 +150,7 @@ class Field
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
 
         return ($sortingField === $this->attribute)
-            ? array_get($this->sortIcons, $sortDirection, $this->sortIconDefault)
+            ? Arr::get($this->sortIcons, $sortDirection, $this->sortIconDefault)
             : $this->sortIconDefault;
     }
 
@@ -165,7 +166,7 @@ class Field
         $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
         return ($sortingField === $this->attribute)
-            ? array_get($newSortOrder, $sortDirection, 'asc')
+            ? Arr::get($newSortOrder, $sortDirection, 'asc')
             : 'asc';
     }
 
@@ -308,7 +309,7 @@ class Field
      */
     public function resolveFormItem(Request $request, Resource $resource, $extraParam)
     {
-        $extraParam['class'] = array_get($extraParam, 'class', '')
+        $extraParam['class'] = Arr::get($extraParam, 'class', '')
             .(optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
 
         $this->formItem = $this->getForm($request, $resource, $extraParam);

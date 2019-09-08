@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Arr;
+
 class ReporteTable
 {
     protected static $template = [
@@ -45,7 +47,7 @@ class ReporteTable
             return $carry
                 .$template['row_open']
                 .collect($campos)->map(function ($campo) use ($elem) {
-                    return array_get($elem, $campo);
+                    return Arr::get($elem, $campo);
                 })
                 ->reduce(function ($carry2, $elem) use ($template) {
                     return $carry2.$template['data_open'].$elem.$template['data_close'];

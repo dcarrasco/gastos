@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use App\OrmModel\Resource;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
@@ -65,8 +66,8 @@ class BelongsTo extends Relation
                 ];
             }
 
-            $resourceDest = array_get($this->onChange, 'resource');
-            $elemDest = array_get($this->onChange, 'elem');
+            $resourceDest = Arr::get($this->onChange, 'resource');
+            $elemDest = Arr::get($this->onChange, 'elem');
             $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
             return "$('#{$elemDest}').html('');"
                 ."$.get('{$url}?{$field}='+$('#{$field}').val(), "

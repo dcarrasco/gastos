@@ -4,6 +4,7 @@ namespace App\Acl;
 
 use DB;
 use Route;
+use Illuminate\Support\Arr;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -123,12 +124,12 @@ class UserACL extends Model implements
                 return $modulo['llave_modulo'] === $llaveModulo;
             });
 
-        return '<i class="fa fa-'.array_get($elem, 'icono').' fa-fw"></i> '.array_get($elem, 'modulo');
+        return '<i class="fa fa-'.Arr::get($elem, 'icono').' fa-fw"></i> '.Arr::get($elem, 'modulo');
     }
 
     protected function getLlaveModulo()
     {
-        return array_get(config('invfija.llavesApp'), Route::currentRouteName());
+        return Arr::get(config('invfija.llavesApp'), Route::currentRouteName());
     }
 
     public static function checkUserPassword($username = '', $password = '')

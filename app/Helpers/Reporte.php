@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Collective\Html;
+use Illuminate\Support\Arr;
 
 class Reporte
 {
@@ -90,17 +91,17 @@ class Reporte
                 return fmtMonto($valor, 'UN', '$', 0, true, true);
             },
             'link' => function ($valor, $param) {
-                return link_to(array_get($param, 'href').$valor, $valor);
+                return link_to(Arr::get($param, 'href').$valor, $valor);
             },
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
-                    array_get($param, 'routeFixedParams', []),
-                    collect(array_get($param, 'routeVariableParams'))->map(function ($param) use ($registro) {
+                    Arr::get($param, 'routeFixedParams', []),
+                    collect(Arr::get($param, 'routeVariableParams'))->map(function ($param) use ($registro) {
                         return $registro->{$param};
                     })->all()
                 );
 
-                return link_to(route(array_get($param, 'route'), $routeParams), $valor);
+                return link_to(route(Arr::get($param, 'route'), $routeParams), $valor);
             },
             'link_detalle_series' => function ($valor, $arr_param_campo, $registro, $campo) {
                 $registro['permanencia'] = $campo;
@@ -488,10 +489,10 @@ class Reporte
             ->mapWithKeys(function ($llave) use ($dias, $data) {
                 $data_llave = $data
                     ->filter(function ($dato) use ($llave) {
-                        return array_get($dato, 'llave') === $llave;
+                        return Arr::get($dato, 'llave') === $llave;
                     })
                     ->mapWithKeys(function ($dato) {
-                        return [fmtFecha(array_get($dato, 'fecha'), 'd') => array_get($dato, 'dato')];
+                        return [fmtFecha(Arr::get($dato, 'fecha'), 'd') => Arr::get($dato, 'dato')];
                     });
 
                 return [

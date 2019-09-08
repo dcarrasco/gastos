@@ -4,6 +4,7 @@ namespace App\OrmModel\OrmField;
 
 use Form;
 use App\OrmModel\Resource;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +36,7 @@ class Select extends Field
         $value = $model->{$this->attribute};
 
         if ($this->hasChoices()) {
-            return array_get($this->choices, $value, '');
+            return Arr::get($this->choices, $value, '');
         }
 
         return $value;
@@ -60,7 +61,7 @@ class Select extends Field
     public function getForm(Request $request, Resource $resource, $extraParam = [])
     {
         $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = array_get('class', $extraParam, '') . ' custom-select';
+        $extraParam['class'] = Arr::get('class', $extraParam, '') . ' custom-select';
         $value = $resource->model()->{$this->attribute};
 
         return Form::select($this->attribute, $this->choices, $value, $extraParam);

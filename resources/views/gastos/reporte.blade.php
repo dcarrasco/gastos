@@ -1,3 +1,6 @@
+<?php
+use Illuminate\Support\Arr;
+?>
 @extends('common.app_layout')
 
 @section('modulo')
@@ -40,12 +43,12 @@
         <th class="text-center">Prom</th>
     </thead>
     <tbody>
-        @foreach(array_get($datos, 'tiposGasto') as $tipo_gasto_id => $tipo_gasto)
+        @foreach(Arr::get($datos, 'tiposGasto') as $tipo_gasto_id => $tipo_gasto)
         <tr>
             <th scope="row">{{ $tipo_gasto }}</th>
             @foreach($datos['meses'] as $mes => $nombre)
             <td class="text-right">
-                @if (array_get($datos, "datos.$tipo_gasto_id.$mes", 0) == 0)
+                @if (Arr::get($datos, "datos.$tipo_gasto_id.$mes", 0) == 0)
                 @else
                     <a href="{{ route('gastos.detalle', [
                         'cuenta_id' => $cuentaId,
@@ -53,16 +56,16 @@
                         'mes' => $mes,
                         'tipo_gasto_id' => $tipo_gasto_id,
                     ]) }}" class="text-reset">
-                        $&nbsp;{{ number_format(array_get($datos, "datos.$tipo_gasto_id.$mes"), 0, ',', '.') }}
+                        $&nbsp;{{ number_format(Arr::get($datos, "datos.$tipo_gasto_id.$mes"), 0, ',', '.') }}
                     </a>
                 @endif
             </td>
             @endforeach
             <th class="text-right table-secondary">
-                $&nbsp;{{ number_format(array_get($datos, "sum_tipo_gasto.$tipo_gasto_id"), 0, ',', '.') }}
+                $&nbsp;{{ number_format(Arr::get($datos, "sum_tipo_gasto.$tipo_gasto_id"), 0, ',', '.') }}
             </th>
             <th class="text-right table-secondary">
-                $&nbsp;{{ number_format(array_get($datos, "sum_tipo_gasto.$tipo_gasto_id")/count($datos['sum_mes']), 0, ',', '.') }}
+                $&nbsp;{{ number_format(Arr::get($datos, "sum_tipo_gasto.$tipo_gasto_id")/count($datos['sum_mes']), 0, ',', '.') }}
             </th>
         </tr>
         @endforeach
@@ -70,7 +73,7 @@
             <td></td>
             @foreach($datos['meses'] as $mes => $nombre)
             <td class="text-right font-weight-bold">
-                $&nbsp;{{ number_format(array_get($datos, "sum_mes.$mes", 0), 0, ',', '.') }}
+                $&nbsp;{{ number_format(Arr::get($datos, "sum_mes.$mes", 0), 0, ',', '.') }}
             </td>
             @endforeach
             <td class="text-right font-weight-bold">
