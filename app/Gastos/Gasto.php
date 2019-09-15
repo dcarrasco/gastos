@@ -134,22 +134,4 @@ class Gasto extends Model
             ->with('tipoGasto')
             ->get();
     }
-
-    public static function getReporte($cuentaId, $anno, $tipoMovimientoId)
-    {
-        return static::dataReporte($cuentaId, $anno, $tipoMovimientoId);
-        $tiposGasto = static::reporteTiposGasto($data);
-
-        return $tiposGasto->keys()->combine($tiposGasto->keys())
-            ->map(function ($tipo_gasto_id) use ($data) {
-                return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
-            });
-// dump($data->map(function($dato) {return [$dato->sum_monto, $dato->mes];}), $datos);
-
-        $meses = Cuenta::selectMeses('M');
-        $sum_tipo_gasto = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'tipo_gasto_id');
-        $sum_mes = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'mes');
-
-        return compact('data', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
-    }
 }
