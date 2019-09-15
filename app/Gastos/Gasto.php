@@ -110,14 +110,6 @@ class Gasto extends Model
         })->sum();
     }
 
-    protected static function dataReporte($cuentaId, $anno, $tipoMovimientoId)
-    {
-        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
-            ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
-            ->groupBy(['mes', 'tipo_gasto_id'])
-            ->get();
-    }
-
     protected static function sumDataReporte($cuentaId, $anno, $tipoMovimientoId, string $campo)
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
@@ -126,21 +118,38 @@ class Gasto extends Model
             ->pluck('sum_monto', $campo);
     }
 
+    public static function reporteTiposGasto($data)
+    {
+        return $data->map->tipoGasto
+            ->unique()
+            ->sortBy('tipo_gasto')
+            ->pluck('tipo_gasto', 'id');
+    }
+
+    protected function getDataReporte($cuentaId, $anno, $tipoMovimientoId)
+    {
+        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
+            ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
+            ->groupBy(['mes', 'tipo_gasto_id'])
+            ->with('tipoGasto')
+            ->get();
+    }
+
     public static function getReporte($cuentaId, $anno, $tipoMovimientoId)
     {
-        $data = static::dataReporte($cuentaId, $anno, $tipoMovimientoId);
-        $tipo_gasto_id = $data->pluck('tipo_gasto_id')->unique()->all();
-        $tiposGasto = TipoGasto::nombresTipoGastos($tipo_gasto_id);
+        return static::dataReporte($cuentaId, $anno, $tipoMovimientoId);
+        $tiposGasto = static::reporteTiposGasto($data);
 
-        $datos = collect($tipo_gasto_id)->combine($tipo_gasto_id)
+        return $tiposGasto->keys()->combine($tiposGasto->keys())
             ->map(function ($tipo_gasto_id) use ($data) {
                 return $data->where('tipo_gasto_id', $tipo_gasto_id)->pluck('sum_monto', 'mes')->all();
             });
+// dump($data->map(function($dato) {return [$dato->sum_monto, $dato->mes];}), $datos);
 
         $meses = Cuenta::selectMeses('M');
         $sum_tipo_gasto = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'tipo_gasto_id');
         $sum_mes = static::sumDataReporte($cuentaId, $anno, $tipoMovimientoId, 'mes');
 
-        return compact('datos', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
+        return compact('data', 'meses', 'tiposGasto', 'sum_tipo_gasto', 'sum_mes');
     }
 }

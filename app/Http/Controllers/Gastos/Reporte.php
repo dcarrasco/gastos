@@ -7,6 +7,7 @@ use App\Gastos\Gasto;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
+use App\Gastos\ReporteGastos;
 use App\Gastos\TipoMovimiento;
 use App\Http\Controllers\Controller;
 
@@ -21,9 +22,9 @@ class Reporte extends Controller
         $anno = $request->input('anno', key($cuenta->selectAnnos()));
         $tipoMovimientoId = $request->input('tipo_movimiento_id', key($formTipoMovimiento->all()));
 
-        $datos = Gasto::getReporte($cuentaId, $anno, $tipoMovimientoId);
+        $reporte = new ReporteGastos($cuentaId, $anno, $tipoMovimientoId);
 
-        return view('gastos.reporte', compact('cuenta', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'datos'));
+        return view('gastos.reporte', compact('reporte', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'cuenta'));
     }
 
     public function detalle(Request $request)

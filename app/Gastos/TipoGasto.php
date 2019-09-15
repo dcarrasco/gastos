@@ -34,12 +34,4 @@ class TipoGasto extends Model
             return $tiposGasto->where('tipo_movimiento_id', $tipoMovimientoId)->pluck('tipo_gasto', 'id');
         });
     }
-
-    public static function nombresTipoGastos(array $idTiposGastos = [])
-    {
-        return TipoGasto::orderBy('tipo_gasto')
-            ->whereIn('id', $idTiposGastos)
-            ->get()
-            ->pluck('tipo_gasto', 'id');
-    }
 }
