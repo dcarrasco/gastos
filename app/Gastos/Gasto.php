@@ -110,22 +110,6 @@ class Gasto extends Model
         })->sum();
     }
 
-    protected static function sumDataReporte($cuentaId, $anno, $tipoMovimientoId, string $campo)
-    {
-        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
-            ->select(DB::raw($campo.', sum(monto) as sum_monto'))
-            ->groupBy([$campo])
-            ->pluck('sum_monto', $campo);
-    }
-
-    public static function reporteTiposGasto($data)
-    {
-        return $data->map->tipoGasto
-            ->unique()
-            ->sortBy('tipo_gasto')
-            ->pluck('tipo_gasto', 'id');
-    }
-
     protected function getDataReporte($cuentaId, $anno, $tipoMovimientoId)
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
