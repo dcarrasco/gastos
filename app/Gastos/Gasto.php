@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gasto extends Model
 {
+    protected $table = 'cta_gastos';
+
     protected $fillable = [
         'cuenta_id', 'anno', 'mes', 'fecha', 'glosa', 'serie', 'tipo_gasto_id', 'monto', 'tipo_movimiento_id', 'usuario_id',
     ];
@@ -20,11 +22,6 @@ class Gasto extends Model
         'fecha'
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'cta_gastos';
-    }
 
     public function cuenta()
     {

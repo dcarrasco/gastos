@@ -113,7 +113,7 @@
                 {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
             </td>
             <td>
-                <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
+                {{ Form::text('monto', request('monto'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('monto') ? ' is-invalid' : '')]) }}
             </td>
             <td>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>

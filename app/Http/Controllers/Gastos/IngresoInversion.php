@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use \Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\Cuenta;
 use App\Gastos\Inversion;
 use Illuminate\Http\Request;
 use App\Gastos\TipoMovimiento;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\AddInversionRequest;
 
@@ -32,13 +32,11 @@ class IngresoInversion extends Controller
 
     public function addInversion(AddInversionRequest $request)
     {
-        $gasto = new Gasto($request->all());
-
-        $gasto->mes = $gasto->fecha->month;
-        $gasto->usuario_id = auth()->id();
-        $gasto->tipo_gasto_id = 0;
-
-        $gasto->save();
+        Gasto::create(array_merge($request->validated(), [
+            'mes' => Carbon::create($request->fecha)->month,
+            'usuario_id' => auth()->id(),
+            'tipo_gasto_id' => 0,
+        ]));
 
         return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
     }
