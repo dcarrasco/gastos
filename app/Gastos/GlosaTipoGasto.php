@@ -6,15 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class GlosaTipoGasto extends Model
 {
+    protected $table = 'cta_glosa_tipo_gasto';
+
     protected $fillable = [
         'cuenta_id', 'glosa', 'tipo_gasto_id',
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'cta_glosa_tipo_gasto';
-    }
 
     public function cuenta()
     {

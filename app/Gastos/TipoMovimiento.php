@@ -6,13 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoMovimiento extends Model
 {
+    protected $table = 'cta_tipos_movimientos';
+
     protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'cta_tipos_movimientos';
-    }
 
     public static function formArray()
     {

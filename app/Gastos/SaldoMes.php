@@ -12,15 +12,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaldoMes extends Model
 {
+    protected $table = 'cta_saldos_mes';
+
     protected $fillable = [
         'cuenta_id', 'anno', 'mes', 'saldo_inicial', 'saldo_final',
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'cta_saldos_mes';
-    }
 
     public function cuenta()
     {
