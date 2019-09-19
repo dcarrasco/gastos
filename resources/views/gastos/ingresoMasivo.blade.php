@@ -42,7 +42,7 @@
     </div>
 
 @if (count($datosMasivos))
-<table class="table table-hover table-sm offset-md-2 col-md-8">
+<table class="table table-hover table-sm offset-md-1 col-md-10">
     @foreach($datosMasivos as $gasto)
         @if ($loop->first)
         <thead>
@@ -82,7 +82,7 @@
 </table>
 
 <div class="form-row">
-    <div class="offset-md-8 col-md-2 text-right">
+    <div class="offset-md-1 col-md-10 text-right">
         <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
     </div>
 </div>
