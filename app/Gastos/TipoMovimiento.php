@@ -11,6 +11,11 @@ class TipoMovimiento extends Model
     protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
 
 
+    public function tiposGastos()
+    {
+        return $this->hasMany(TipoGasto::class);
+    }
+
     public static function formArray()
     {
         return static::orderBy('orden')->get()

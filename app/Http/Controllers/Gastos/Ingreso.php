@@ -20,7 +20,7 @@ class Ingreso extends Controller
         $selectTiposGastos = TipoGasto::formArray();
         $today = Carbon::now();
 
-        $cuentaId = $request->input('cuenta_id', key($selectCuentas));
+        $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
         $anno = $request->input('anno', $today->year);
         $mes = $request->input('mes', $today->month);
 

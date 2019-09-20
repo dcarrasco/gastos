@@ -18,17 +18,12 @@ class TipoGasto extends Model
 
     public static function formArray()
     {
-        $tiposGasto = static::with('tipoMovimiento')
-            ->orderBy('tipo_movimiento_id')
-            ->orderBy('tipo_gasto')
-            ->get();
-
-        return $tiposGasto->map(function($tipoGasto) {
-            return $tipoGasto->tipoMovimiento;
-        })->unique()
-        ->pluck('id', 'tipo_movimiento')
-        ->map(function($tipoMovimientoId, $tipoMov) use ($tiposGasto) {
-            return $tiposGasto->where('tipo_movimiento_id', $tipoMovimientoId)->pluck('tipo_gasto', 'id');
-        });
+        return TipoMovimiento::with('tiposGastos')->get()
+            ->mapWithKeys(function($elem, $key) {return [$elem->tipo_movimiento => $elem];})
+            ->map->tiposGastos
+            ->filter(function($elem) {return $elem->count() > 0;})
+            ->map->pluck('tipo_gasto', 'id')
+            ->map->sort()
+            ->map->all();
     }
 }

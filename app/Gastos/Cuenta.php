@@ -26,13 +26,10 @@ class Cuenta extends Model
 
     protected static function formArray($tipo = 0)
     {
-        return static::select(['cta_cuentas.id', 'cuenta'])
-            ->join('cta_tipos_cuentas', 'tipo_cuenta_id', 'cta_tipos_cuentas.id')
-            ->where('tipo', $tipo)
-            ->orderBy('cuenta')
-            ->get()
-            ->pluck('cuenta', 'id')
-            ->all();
+        return TipoCuenta::where('tipo', $tipo)->with('cuentas')->get()
+            ->map->cuentas
+            ->collapse()
+            ->pluck('cuenta', 'id');
     }
 
     public static function selectCuentasGastos()

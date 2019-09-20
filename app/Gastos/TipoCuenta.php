@@ -2,7 +2,7 @@
 
 namespace App\Gastos;
 
-use App\Gastos\TipoMovimiento;
+use App\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoCuenta extends Model
@@ -14,4 +14,8 @@ class TipoCuenta extends Model
     const CUENTA_GASTO = 1;
     const CUENTA_INVERSION = 2;
 
+    public function cuentas()
+    {
+        return $this->hasMany(Cuenta::class);
+    }
 }
