@@ -9,7 +9,9 @@ use Illuminate\Support\Carbon;
 class Inversion
 {
     protected $movimientos;
+
     protected $saldos;
+
 
     public function __construct($cuenta, $anno)
     {
@@ -71,7 +73,7 @@ class Inversion
         }
     }
 
-    public function getAllRentabilidadesAnual()
+    public function getJSONRentabilidadesAnual()
     {
         return "['fecha', 'tasa'],"
             .$this->saldos->map(function($saldo) {

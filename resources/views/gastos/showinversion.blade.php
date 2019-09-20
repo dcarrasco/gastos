@@ -16,7 +16,7 @@
             {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+            {{ Form::select('anno', $formAnno, request('anno', $today->year), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
@@ -134,7 +134,7 @@
 
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        <?= $rentabilidadesAnual ?>
+        <?= $inversion->getJSONRentabilidadesAnual() ?>
     ]);
 
     var options = {

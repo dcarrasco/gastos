@@ -15,18 +15,17 @@ class IngresoInversion extends Controller
 {
     public function formularioIngreso(Request $request)
     {
-        $inversion = new Inversion(
-            $request->input('cuenta_id', key(Cuenta::selectCuentasInversiones())),
-            $request->input('anno', Carbon::now()->year)
-        );
+        $today = Carbon::now();
 
         return view('gastos.showinversion', [
             'formCuenta' => Cuenta::selectCuentasInversiones(),
             'formAnno' => Cuenta::selectAnnos($request),
-            'annoDefault' => Carbon::now()->year,
+            'today' => $today,
             'formTipoMovimiento' => TipoMovimiento::formArray(),
-            'inversion' => $inversion,
-            'rentabilidadesAnual' => $inversion->getAllRentabilidadesAnual(),
+            'inversion' => new Inversion(
+                $request->input('cuenta_id', key(Cuenta::selectCuentasInversiones())),
+                $request->input('anno', $today->year)
+            ),
         ]);
     }
 
