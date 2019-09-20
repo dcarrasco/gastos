@@ -23,11 +23,8 @@ class IngresoMasivo extends Controller
         }
 
         return view('gastos.ingresoMasivo', [
+            'today' => Carbon::now(),
             'formCuenta' => Cuenta::selectCuentasGastos(),
-            'formAnno' => Cuenta::selectAnnos(),
-            'annoDefault' => Carbon::now()->year,
-            'formMes' => Cuenta::selectMeses(),
-            'mesDefault' => Carbon::now()->month,
             'datosMasivos' => $this->parser->procesaMasivo($request),
         ]);
     }

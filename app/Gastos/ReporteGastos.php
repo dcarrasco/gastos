@@ -4,6 +4,7 @@ namespace App\Gastos;
 
 use App\Gastos\Gasto;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 
 class ReporteGastos
 {
@@ -84,7 +85,9 @@ class ReporteGastos
 
     protected function makeTitulosColumnas()
     {
-        return Cuenta::selectMeses('M');
+        return collect(range(1,12))->map(function($mes) {
+            return trans('fechas.'.Carbon::create(2000, $mes, 1)->format('F'));
+        });
     }
 
     protected function makeTitulosFilas()

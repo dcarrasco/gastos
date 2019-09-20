@@ -19,7 +19,7 @@
             {{ Form::select('cuenta_id', $cuenta->selectCuentasGastos(), request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $cuenta->selectAnnos(), request('anno'), ['class' => 'form-control']) }}
+            {{ Form::selectYear('anno', $today->year, 2015, request('anno'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
             {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control']) }}

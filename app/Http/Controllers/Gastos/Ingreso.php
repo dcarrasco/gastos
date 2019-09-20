@@ -27,6 +27,8 @@ class Ingreso extends Controller
         $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
         $saldoMesAnterior = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes);
 
+dump($selectCuentas, $selectTiposGastos, $movimientosMes, $saldoMesAnterior);
+
         if ($request->recalcula === 'recalcula') {
             (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
         }

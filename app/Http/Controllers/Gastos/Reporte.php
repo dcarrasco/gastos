@@ -16,15 +16,16 @@ class Reporte extends Controller
     protected function reporte(Request $request)
     {
         $cuenta = new Cuenta;
+        $today = Carbon::now();
         $formTipoMovimiento = TipoMovimiento::formArray();
 
         $cuentaId = $request->input('cuenta_id', key($cuenta->selectCuentasGastos()));
-        $anno = $request->input('anno', key($cuenta->selectAnnos()));
+        $anno = $request->input('anno', $today->year);
         $tipoMovimientoId = $request->input('tipo_movimiento_id', key($formTipoMovimiento->all()));
 
         $reporte = new ReporteGastos($cuentaId, $anno, $tipoMovimientoId);
 
-        return view('gastos.reporte', compact('reporte', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'cuenta'));
+        return view('gastos.reporte', compact('reporte', 'today', 'formTipoMovimiento', 'cuentaId', 'anno', 'tipoMovimientoId', 'cuenta'));
     }
 
     public function detalle(Request $request)

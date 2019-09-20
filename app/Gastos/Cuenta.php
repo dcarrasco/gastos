@@ -41,18 +41,4 @@ class Cuenta extends Model
     {
         return static::formArray(TipoCuenta::CUENTA_INVERSION);
     }
-
-    public static function selectAnnos()
-    {
-        $options = range(Carbon::now()->year, 2015, -1);
-
-        return array_combine($options, $options);
-    }
-
-    public static function selectMeses(string $format = 'F')
-    {
-        return collect(range(1,12))->mapWithKeys(function ($mes) use ($format) {
-                return [$mes => trans('fechas.'.Carbon::create(2000, $mes, 1)->format($format))];
-            });
-    }
 }

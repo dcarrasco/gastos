@@ -19,7 +19,6 @@ class IngresoInversion extends Controller
 
         return view('gastos.showinversion', [
             'formCuenta' => Cuenta::selectCuentasInversiones(),
-            'formAnno' => Cuenta::selectAnnos($request),
             'today' => $today,
             'formTipoMovimiento' => TipoMovimiento::formArray(),
             'inversion' => new Inversion(

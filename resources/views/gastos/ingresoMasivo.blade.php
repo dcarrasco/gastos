@@ -19,10 +19,10 @@
             {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('anno', $formAnno, request('anno', $annoDefault), ['class' => 'form-control']) }}
+            {{ Form::selectYear('anno', $today->year, 2015, request('anno', $today->year), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
-            {{ Form::select('mes', $formMes, request('mes', $mesDefault), ['class' => 'form-control']) }}
+            {{ Form::selectMonth('mes', request('mes', $today->month), ['class' => 'form-control']) }}
         </div>
     </div>
 
