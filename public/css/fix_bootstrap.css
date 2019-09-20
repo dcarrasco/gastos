@@ -23,14 +23,6 @@
 	border-bottom-right-radius: 0.75em !important;
 }
 
-body {
-	font-family: Nunito, Calibri, "Helvetica Neue", Arial, sans-serif;
-	font-size: 14px;
-	line-height: 1.42857143;
-	color: #333;
-	background-color: #f0f0f0;
-}
-
 right-menu {
 	background-color: #ffffff;
 }

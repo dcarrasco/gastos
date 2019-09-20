@@ -12,18 +12,12 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/fix_bootstrap.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.jqplot.min.css') }}" />
-
-    <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/locales/bootstrap-datepicker.es.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/jquery.jqplot.min.js') }}"></script>
 
     <script type="text/javascript">
