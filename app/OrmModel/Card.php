@@ -3,6 +3,7 @@
 namespace App\OrmModel;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class Card
@@ -40,7 +41,7 @@ class Card
 
     public function title()
     {
-        return title_case(str_replace('_', ' ', snake_case(class_basename($this))));
+        return Str::title(str_replace('_', ' ', Str::snake(class_basename($this))));
     }
 
     public function width($width = '')
