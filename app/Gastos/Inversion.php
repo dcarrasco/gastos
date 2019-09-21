@@ -75,9 +75,11 @@ class Inversion
 
     public function getJSONRentabilidadesAnual()
     {
-        return "['fecha', 'tasa'],"
-            .$this->saldos->map(function($saldo) {
-                return "['".$saldo->fecha->format('Y-m-d')."',".$this->rentabilidadAnual($saldo)."]";
-            })->implode(',');
+        return $this->saldos->count() == 0
+            ? ""
+            : "['fecha', 'tasa'],"
+                .$this->saldos->map(function($saldo) {
+                    return "['".$saldo->fecha->format('Y-m-d')."',".$this->rentabilidadAnual($saldo)."]";
+                })->implode(',');
     }
 }

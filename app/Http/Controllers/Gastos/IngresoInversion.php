@@ -18,11 +18,11 @@ class IngresoInversion extends Controller
         $today = Carbon::now();
 
         return view('gastos.showinversion', [
-            'formCuenta' => Cuenta::selectCuentasInversiones(),
             'today' => $today,
+            'formCuenta' => Cuenta::selectCuentasInversiones(),
             'formTipoMovimiento' => TipoMovimiento::formArray(),
             'inversion' => new Inversion(
-                $request->input('cuenta_id', key(Cuenta::selectCuentasInversiones())),
+                $request->input('cuenta_id'),
                 $request->input('anno', $today->year)
             ),
         ]);

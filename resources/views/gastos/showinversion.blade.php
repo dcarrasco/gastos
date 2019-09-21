@@ -104,16 +104,16 @@
             <td></td>
             <td></td>
             <td>
-                {{ Form::date('fecha', request('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
+                <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
             </td>
             <td>
-                {{ Form::text('glosa', request('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('glosa') ? ' is-invalid' : '')]) }}
+                <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
             </td>
             <td>
                 {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
             </td>
             <td>
-                {{ Form::text('monto', request('monto'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('monto') ? ' is-invalid' : '')]) }}
+                <input type="text" name="monto" value="{{ old('monto') }}" autocomplete="off" class="form-control form-control-sm @error('monto') is-invalid @enderror">
             </td>
             <td>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
@@ -127,6 +127,7 @@
     @endif
     </tbody>
 </table>
+@if(! empty($inversion->getJSONRentabilidadesAnual()))
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
   google.charts.load('current', {'packages':['corechart']});
@@ -157,7 +158,7 @@
   }
 </script>
 <div id="curve_chart" class="col-md-10 offset-md-1" style="height: 500px"></div>
-
+@endif
 
 
 @endsection
