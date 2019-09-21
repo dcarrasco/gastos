@@ -25,6 +25,7 @@ class AddInversionRequest extends FormRequest
     {
         return [
             'cuenta_id' => 'required',
+            'anno' => 'required',
             'fecha' => 'required',
             'glosa' => 'required',
             'tipo_movimiento_id' => 'required',
