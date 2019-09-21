@@ -15,38 +15,30 @@ class Ingreso extends Controller
 {
     public function showMes(Request $request)
     {
-        $cuenta = new Cuenta;
-        $selectCuentas = $cuenta->selectCuentasGastos();
-        $selectTiposGastos = TipoGasto::formArray();
         $today = Carbon::now();
-
-        $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
-        $anno = $request->input('anno', $today->year);
-        $mes = $request->input('mes', $today->month);
-
-        $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
-        $saldoMesAnterior = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes);
-
-dump($selectCuentas, $selectTiposGastos, $movimientosMes, $saldoMesAnterior);
+        $cuentaId = $request->input('cuenta_id');
+        $anno = $request->input('anno');
+        $mes = $request->input('mes');
 
         if ($request->recalcula === 'recalcula') {
             (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        return view('gastos.showmes', compact('today', 'cuenta', 'selectCuentas', 'movimientosMes', 'saldoMesAnterior', 'selectTiposGastos'));
+        return view('gastos.showmes', [
+            'today' => $today,
+            'selectCuentas' => Cuenta::selectCuentasGastos(),
+            'selectTiposGastos' => TipoGasto::formArray(),
+            'movimientosMes' => Gasto::movimientosMes($cuentaId, $anno, $mes),
+            'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes),
+        ]);
     }
 
     public function addGasto(AddGastoRequest $request)
     {
-        $gasto = new Gasto($request->all());
-
-        $gasto->tipo_movimiento_id = $gasto->tipoGasto->tipo_movimiento_id;
-        $gasto->fecha = empty($gasto->fecha)
-            ? Carbon::createMidnightDate($request->anno, $request->mes, 1)
-            : $gasto->fecha;
-        $gasto->usuario_id = auth()->id();
-
-        $gasto->save();
+        Gasto::create(array_merge($request->validated(), [
+            'tipo_movimiento_id' => TipoGasto::find($request->tipo_gasto_id)->tipo_movimiento_id,
+            'usuario_id' => auth()->id(),
+        ]));
 
         $saldoMesAnterior = (new SaldoMes)->recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 

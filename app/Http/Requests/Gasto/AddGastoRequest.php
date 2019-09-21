@@ -28,6 +28,8 @@ class AddGastoRequest extends FormRequest
             'anno' => 'required',
             'mes' => 'required',
             'fecha' => 'required',
+            'glosa' => 'required',
+            'serie' => 'required',
             'tipo_gasto_id' => 'required',
             'monto' => 'required|numeric',
         ];

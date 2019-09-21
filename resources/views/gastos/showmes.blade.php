@@ -3,35 +3,35 @@
 @section('modulo')
 <form>
     <div class="form-row">
-        <div class="offset-md-1 col-md-2">
+        <div class="col-3">
             <label class="col-form-label">Cuenta</label>
         </div>
-        <div class="col-md-2">
+        <div class="col-2">
             <label class="col-form-label">Año</label>
         </div>
-        <div class="col-md-2">
+        <div class="col-3">
             <label class="col-form-label">Mes</label>
         </div>
     </div>
 
     <div class="form-row">
-        <div class="offset-md-1 col-md-2">
+        <div class="col-3">
             {{ Form::select('cuenta_id', $selectCuentas, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-2">
             {{ Form::selectYear('anno', $today->year, 2015, request('anno', $today->year), ['class' => 'form-control']) }}
         </div>
-        <div class="col-md-2">
+        <div class="col-3">
             {{ Form::selectMonth('mes', request('mes', $today->month), ['class' => 'form-control']) }}
          </div>
-        <div class="col-md-4">
+        <div class="col-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
             <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
         </div>
     </div>
 </form>
 
-<table class="col-md-12 mt-md-3 table table-hover table-sm">
+<table class="col-12 mt-md-3 table table-hover table-sm">
     <thead class="thead-light">
         <tr>
             <th>Año</th>
@@ -54,13 +54,13 @@
             <td></td>
             <td></td>
             <td>
-                {{ Form::date('fecha', request('fecha'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm'.($errors->has('fecha') ? ' is-invalid' : '')]) }}
+                <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
             </td>
             <td>
-                {{ Form::text('glosa', request('glosa'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
             </td>
             <td>
-                {{ Form::text('serie', request('serie'), ['autocomplete' => 'off', 'class' => 'form-control form-control-sm']) }}
+                <input type="text" name="serie" value="{{ old('serie') }}" autocomplete="off" class="form-control form-control-sm @error('serie') is-invalid @enderror">
             </td>
             <td>
                 {{ Form::select('tipo_gasto_id', $selectTiposGastos, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
