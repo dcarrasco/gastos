@@ -127,6 +127,7 @@
     @endif
     </tbody>
 </table>
+
 @if(! empty($inversion->getJSONRentabilidadesAnual()))
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">

@@ -30,6 +30,7 @@
     </div>
 </form>
 
+@if($reporte->getReporte()->count() > 0)
 <table class="table table-hover table-sm mt-md-3">
     <thead class="thead-light">
         <th>Item</th>
@@ -45,11 +46,10 @@
             <th scope="row">{{ $tipoGasto }}</th>
             @foreach($reporte->titulosColumnas() as $numMes => $mes)
             <td class="text-right">
-                @if ($reporte->getDato($idTipoGasto, $numMes, 0) == 0)
-                @else
+                @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
                     <a href="{{ route('gastos.detalle', [
-                        'cuenta_id' => $cuentaId,
-                        'anno' => $anno,
+                        'cuenta_id' => request('cuenta_id'),
+                        'anno' => request('anno'),
                         'mes' => $numMes,
                         'tipo_gasto_id' => $idTipoGasto,
                     ]) }}" class="text-reset">
@@ -84,5 +84,6 @@
         </tr>
     </tbody>
 </table>
+@endif
 
 @endsection
