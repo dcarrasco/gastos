@@ -30,8 +30,10 @@
     </div>
 </form>
 
-@if($reporte->getReporte()->count() > 0)
-<table class="table table-hover table-sm mt-md-3">
+@foreach ($reporte->titulosFilas() as $idTipoGasto => $tipoGasto)
+
+    @if ($loop->first)
+    <table class="table table-hover table-sm mt-md-3">
     <thead class="thead-light">
         <th>Item</th>
         @foreach($reporte->titulosColumnas() as $mes)
@@ -41,49 +43,48 @@
         <th class="text-center">Prom</th>
     </thead>
     <tbody>
-        @foreach($reporte->titulosFilas() as $idTipoGasto => $tipoGasto)
-        <tr>
-            <th scope="row">{{ $tipoGasto }}</th>
-            @foreach($reporte->titulosColumnas() as $numMes => $mes)
-            <td class="text-right">
-                @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
-                    <a href="{{ route('gastos.detalle', [
-                        'cuenta_id' => request('cuenta_id'),
-                        'anno' => request('anno'),
-                        'mes' => $numMes,
-                        'tipo_gasto_id' => $idTipoGasto,
-                    ]) }}" class="text-reset">
-                        $&nbsp;{{ number_format($reporte->getDato($idTipoGasto, $numMes), 0, ',', '.') }}
-                    </a>
-                @endif
-            </td>
-            @endforeach
-            <th class="text-right table-secondary">
-                $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto), 0, ',', '.') }}
-            </th>
-            <th class="text-right table-secondary">
-                $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto), 0, ',', '.') }}
-            </th>
-        </tr>
+    @endif
+
+    <tr>
+        <th scope="row">{{ $tipoGasto }}</th>
+
+        @foreach($reporte->titulosColumnas() as $numMes => $mes)
+        <td class="text-right">
+            @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
+            <a href="{{ route('gastos.detalle', ['cuenta_id' => request('cuenta_id'), 'anno' => request('anno'), 'mes' => $numMes, 'tipo_gasto_id' => $idTipoGasto]) }}" class="text-reset">
+                $&nbsp;{{ number_format($reporte->getDato($idTipoGasto, $numMes), 0, ',', '.') }}
+            </a>
+            @endif
+        </td>
         @endforeach
-        <tr class="table-secondary">
-            <td></td>
-            @foreach($reporte->titulosColumnas() as $numMes => $mes)
-            <td class="text-right font-weight-bold">
-                $&nbsp;{{ number_format($reporte->totalColumna($numMes), 0, ',', '.') }}
-            </td>
-            @endforeach
-            <td class="text-right font-weight-bold">
-                $&nbsp;{{ number_format($reporte->totalReporte(), 0, ',', '.') }}
-            </td>
-            <td class="text-right font-weight-bold">
-                @if ($reporte->getReporte()->count() > 0)
-                $&nbsp;{{ number_format($reporte->promedioReporte(), 0, ',', '.') }}
-                @endif
-            </td>
-        </tr>
+
+        <th class="text-right table-secondary">
+            $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto), 0, ',', '.') }}
+        </th>
+        <th class="text-right table-secondary">
+            $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto), 0, ',', '.') }}
+        </th>
+    </tr>
+
+    @if ($loop->last)
+    <tr class="table-secondary">
+        <td></td>
+        @foreach($reporte->titulosColumnas() as $numMes => $mes)
+        <td class="text-right font-weight-bold">
+            $&nbsp;{{ number_format($reporte->totalColumna($numMes), 0, ',', '.') }}
+        </td>
+        @endforeach
+        <td class="text-right font-weight-bold">
+            $&nbsp;{{ number_format($reporte->totalReporte(), 0, ',', '.') }}
+        </td>
+        <td class="text-right font-weight-bold">
+            $&nbsp;{{ number_format($reporte->promedioReporte(), 0, ',', '.') }}
+        </td>
+    </tr>
     </tbody>
-</table>
-@endif
+    </table>
+    @endif
+
+@endforeach
 
 @endsection
