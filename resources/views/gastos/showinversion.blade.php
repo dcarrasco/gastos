@@ -24,28 +24,27 @@
     </div>
 </form>
 
+
+<table class="col-md-12 mt-md-3 table table-hover table-sm">
+<thead class="thead-light">
+    <tr>
+        <th>Año</th>
+        <th>Mes</th>
+        <th>Fecha</th>
+        <th>Glosa</th>
+        <th>Tipo Movimiento</th>
+        <th class="text-right">Monto</th>
+        <th class="text-right">Saldo</th>
+        <th></th>
+        <th class="text-right">Util</th>
+        <th class="text-right">Rentab</th>
+        <th class="text-right">Rentab Año</th>
+    </tr>
+</thead>
+<tbody>
+
 <?php $saldo = 0; ?>
 @foreach ($inversion->getMovimientos() as $mov)
-
-    @if ($loop->first)
-    <table class="col-md-12 mt-md-3 table table-hover table-sm">
-    <thead class="thead-light">
-        <tr>
-            <th>Año</th>
-            <th>Mes</th>
-            <th>Fecha</th>
-            <th>Glosa</th>
-            <th>Tipo Movimiento</th>
-            <th class="text-right">Monto</th>
-            <th class="text-right">Saldo</th>
-            <th></th>
-            <th class="text-right">Util</th>
-            <th class="text-right">Rentab</th>
-            <th class="text-right">Rentab Año</th>
-        </tr>
-    </thead>
-    <tbody>
-    @endif
 
     <tr>
         <td>{{ $mov->anno }}</td>
@@ -102,72 +101,71 @@
                 </th>
             </tr>
         @endif
-
-        {{ Form::open([]) }}
-        <tr>
-            {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
-            {{ Form::hidden('anno', request('anno')) }}
-            <td></td>
-            <td></td>
-            <td>
-                <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
-            </td>
-            <td>
-                <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
-            </td>
-            <td>
-                {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
-            </td>
-            <td>
-                <input type="text" name="monto" value="{{ old('monto') }}" autocomplete="off" class="form-control form-control-sm @error('monto') is-invalid @enderror">
-            </td>
-            <td>
-                <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        {{ Form::close() }}
-
-        </tbody>
-        </table>
-
-        @if(! empty($inversion->getJSONRentabilidadesAnual()))
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-            <script type="text/javascript">
-                google.charts.load('current', {'packages':['corechart']});
-                google.charts.setOnLoadCallback(drawChart);
-
-                function drawChart() {
-                    var data = google.visualization.arrayToDataTable([
-                        <?= $inversion->getJSONRentabilidadesAnual() ?>
-                    ]);
-
-                    var options = {
-                        title: 'Desempeño Inversion',
-                        legend: { position: 'bottom' },
-                        series: {
-                            0: {
-                                pointSize: 5
-                            }
-                        },
-                        vAxis: {
-                            format: '#,##%',
-                            minValue: 0
-                        }
-                    };
-
-                    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-                    chart.draw(data, options);
-                }
-            </script>
-            <div id="curve_chart" class="col-md-10 offset-md-1" style="height: 500px"></div>
-        @endif
     @endif
-
 @endforeach
+
+{{ Form::open([]) }}
+<tr>
+    {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
+    {{ Form::hidden('anno', request('anno')) }}
+    <td></td>
+    <td></td>
+    <td>
+        <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
+    </td>
+    <td>
+        <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
+    </td>
+    <td>
+        {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
+    </td>
+    <td>
+        <input type="text" name="monto" value="{{ old('monto') }}" autocomplete="off" class="form-control form-control-sm @error('monto') is-invalid @enderror">
+    </td>
+    <td>
+        <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+</tr>
+{{ Form::close() }}
+</tbody>
+</table>
+
+@if(! empty($inversion->getJSONRentabilidadesAnual()))
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                <?= $inversion->getJSONRentabilidadesAnual() ?>
+            ]);
+
+            var options = {
+                title: 'Desempeño Inversion',
+                legend: { position: 'bottom' },
+                series: {
+                    0: {
+                        pointSize: 5
+                    }
+                },
+                vAxis: {
+                    format: '#,##%',
+                    minValue: 0
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <div id="curve_chart" class="col-md-10 offset-md-1" style="height: 500px"></div>
+@endif
+
 
 @endsection
