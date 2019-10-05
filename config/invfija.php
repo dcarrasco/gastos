@@ -9,7 +9,7 @@ return [
     | Listado con las tablas del sistema
     |
     */
-    'app_nombre' => 'Inventario Fija',
+    'app_nombre' => 'AppGastos',
 
     'llavesApp' => [
         'aclConfig' => [
