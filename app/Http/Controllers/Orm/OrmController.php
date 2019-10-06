@@ -70,16 +70,11 @@ trait OrmController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $resource = null)
+    public function index(Request $request, $resourceClass = null)
     {
-        $resource = $this->getResource($resource);
+        $resource = $this->getResource($resourceClass)->makePaginator($request);
         $cards = $resource->renderCards($request);
-
-        $resources = $resource->paginator($request)
-            ->getCollection()
-            ->mapInto($resource)
-            ->map->indexFields($request);
-
+        $resources = $resource->getPaginationResources($request);
         $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 

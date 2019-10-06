@@ -211,6 +211,13 @@ class Resource
         return $paginate;
     }
 
+    public function makePaginator(Request $request)
+    {
+        $this->paginator($request);
+
+        return $this;
+    }
+
     /**
      * Genera listado de modelos ordenados y filtrados
      * @param  Request $request
@@ -218,12 +225,22 @@ class Resource
      */
     public function paginator(Request $request)
     {
-        return $this->modelList = $this->resourceSetPerPage($request)
-            ->resourceOrderBy($request)
-            ->resourceFilter($request)
-            ->applyFilters($request)
-            ->getBelongsToRelations($request)
-            ->getPaginated($request);
+        return is_null($this->modelList)
+            ? $this->modelList = $this->resourceSetPerPage($request)
+                ->resourceOrderBy($request)
+                ->resourceFilter($request)
+                ->applyFilters($request)
+                ->getBelongsToRelations($request)
+                ->getPaginated($request)
+            : $this->modelList;
+    }
+
+    public function getPaginationResources(Request $request)
+    {
+        return $this->paginator($request)
+            ->getCollection()
+            ->mapInto($this)
+            ->map->indexFields($request);
     }
 
     /**
