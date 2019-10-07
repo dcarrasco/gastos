@@ -26,7 +26,9 @@ class Resource
     public $search = ['id'];
 
     protected $modelObject = null;
-    protected $modelList = null;
+    protected $paginator = null;
+    protected $paginationResources = [];
+    protected $paginationLinksDetail = false;
 
     protected $perPage = 25;
 
@@ -211,12 +213,30 @@ class Resource
         return $paginate;
     }
 
+    /**
+     * Genera paginador del recurso y listado de recursos de la pagina
+     * @param  Request $request
+     * @return Resource
+     */
     public function makePaginator(Request $request)
     {
-        $this->paginator($request);
+        $this->paginationResources = $this->paginator($request)
+            ->getCollection()
+            ->mapInto($this)
+            ->map->indexFields($request);
 
         return $this;
     }
+
+    /**
+     * Devuelve el paginador del recurso
+     * @return paginador
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
+    }
+
 
     /**
      * Genera listado de modelos ordenados y filtrados
@@ -225,40 +245,32 @@ class Resource
      */
     public function paginator(Request $request)
     {
-        return is_null($this->modelList)
-            ? $this->modelList = $this->resourceSetPerPage($request)
+        return is_null($this->paginator)
+            ? $this->paginator = $this->resourceSetPerPage($request)
                 ->resourceOrderBy($request)
                 ->resourceFilter($request)
                 ->applyFilters($request)
                 ->getBelongsToRelations($request)
                 ->getPaginated($request)
-            : $this->modelList;
-    }
-
-    public function getPaginationResources(Request $request)
-    {
-        return $this->paginator($request)
-            ->getCollection()
-            ->mapInto($this)
-            ->map->indexFields($request);
+            : $this->paginator;
     }
 
     /**
-     * Genera links de paginacion de un listado de modelos
-     * @param  Request $request
-     * @return HtmlString
+     * Devuelve listado de recursos del paginador
+     * @return Collection
      */
-    public function getPaginationLinks(Request $request, $detail = false)
+    public function getPaginationResources()
     {
-        return [
-            'detail' => $detail,
-            'modelList' => $this->modelList,
-            'resource' => $this,
-            'paginator' => $this->paginator($request),
-            'paginationLinks' => $this->modelList
-                ->appends($request->all())
-                ->links(),
-        ];
+        return $this->paginationResources;
+    }
+
+    /**
+     * Devuelve propiedad de detalle de links del paginador del recurso
+     * @return boolean
+     */
+    public function paginationLinksDetail()
+    {
+        return $this->paginationLinksDetail;
     }
 
     public function getModelAjaxFormOptions(Request $request)

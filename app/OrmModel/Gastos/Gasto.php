@@ -31,6 +31,8 @@ class Gasto extends Resource
 
     public $orderBy = 'id';
 
+    protected $paginationLinksDetail = true;
+
     public function fields(Request $request)
     {
         return [

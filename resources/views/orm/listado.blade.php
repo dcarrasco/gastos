@@ -34,7 +34,7 @@
 
     <!-- ------------------------- LIST DATA ------------------------- -->
     <div class="container shadow-sm rounded-lg border">
-    @if ($resources->count() == 0)
+    @if ($resource->getPaginationResources()->count() == 0)
         <div class="row">
             <div class="col-12 px-0">
                 <div class="card py-5 border-0 rounded-lg">
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        @include('orm.paginator_links')
+        @include($resource->paginationLinksDetail() ? 'orm.paginator_links_detail' : 'orm.paginator_links_short')
 
     @endif
     </div> <!-- container -->

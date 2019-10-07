@@ -74,13 +74,9 @@ trait OrmController
     {
         $resource = $this->getResource($resourceClass)->makePaginator($request);
         $cards = $resource->renderCards($request);
-        $resources = $resource->getPaginationResources($request);
-        $paginationLinks = $resource->getPaginationLinks($request);
         $modelId = null;
 
-        return view('orm.listado',
-            compact('resource', 'cards', 'resources', 'paginationLinks', 'modelId')
-        );
+        return view('orm.listado', compact('resource', 'cards', 'modelId'));
     }
 
 
