@@ -48,9 +48,9 @@
     <tbody>
         {{ Form::open([]) }}
         <tr>
-            {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
-            {{ Form::hidden('anno', request('anno')) }}
-            {{ Form::hidden('mes', request('mes')) }}
+            {{ Form::hidden('cuenta_id', request('cuenta_id', $selectCuentas->keys()->first())) }}
+            {{ Form::hidden('anno', request('anno', $today->year)) }}
+            {{ Form::hidden('mes', request('mes', $today->month)) }}
             <td></td>
             <td></td>
             <td>

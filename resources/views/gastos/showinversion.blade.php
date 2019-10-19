@@ -13,7 +13,7 @@
 
     <div class="form-row">
         <div class="offset-md-3 col-md-3">
-            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+            {{ Form::select('cuenta_id', $cuentas, request('cuenta_id'), ['class' => 'form-control']) }}
         </div>
         <div class="col-md-2">
             {{ Form::selectYear('anno', $today->year, 2015, request('anno', $today->year), ['class' => 'form-control']) }}
@@ -106,8 +106,8 @@
 
 {{ Form::open([]) }}
 <tr>
-    {{ Form::hidden('cuenta_id', request('cuenta_id')) }}
-    {{ Form::hidden('anno', request('anno')) }}
+    {{ Form::hidden('cuenta_id', request('cuenta_id', $cuentas->keys()->first())) }}
+    {{ Form::hidden('anno', request('anno', $today->year)) }}
     <td></td>
     <td></td>
     <td>
@@ -117,7 +117,7 @@
         <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
     </td>
     <td>
-        {{ Form::select('tipo_movimiento_id', $formTipoMovimiento, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
+        {{ Form::select('tipo_movimiento_id', $tiposMovimientos, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
     </td>
     <td>
         <input type="text" name="monto" value="{{ old('monto') }}" autocomplete="off" class="form-control form-control-sm @error('monto') is-invalid @enderror">

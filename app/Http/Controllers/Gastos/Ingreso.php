@@ -16,9 +16,11 @@ class Ingreso extends Controller
     public function showMes(Request $request)
     {
         $today = Carbon::now();
-        $cuentaId = $request->input('cuenta_id');
-        $anno = $request->input('anno');
-        $mes = $request->input('mes');
+        $selectCuentas = Cuenta::selectCuentasGastos();
+
+        $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
+        $anno = $request->input('anno', $today->year);
+        $mes = $request->input('mes', $today->month);
 
         if ($request->recalcula === 'recalcula') {
             (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
@@ -26,7 +28,7 @@ class Ingreso extends Controller
 
         return view('gastos.showmes', [
             'today' => $today,
-            'selectCuentas' => Cuenta::selectCuentasGastos(),
+            'selectCuentas' => $selectCuentas,
             'selectTiposGastos' => TipoGasto::formArray(),
             'movimientosMes' => Gasto::movimientosMes($cuentaId, $anno, $mes),
             'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes),
