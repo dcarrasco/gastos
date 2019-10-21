@@ -75,31 +75,29 @@
         </tr>
         {{ Form::close() }}
 
-        <?php $saldo = $saldoMesAnterior + $movimientosMes->map(function($gasto) {return $gasto->monto * $gasto->tipoMovimiento->signo;})->sum(); ?>
-        @foreach ($movimientosMes as $mov)
+        @foreach ($movimientosMes as $movimiento)
         <tr>
-            <td>{{ $mov->anno }}</td>
-            <td>{{ $mov->mes }}</td>
-            <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
-            <td>{{ $mov->glosa }}</td>
-            <td>{{ $mov->serie }}</td>
-            <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
+            <td>{{ $movimiento['movimiento']->anno }}</td>
+            <td>{{ $movimiento['movimiento']->mes }}</td>
+            <td>{{ optional($movimiento['movimiento']->fecha)->format('d-m-Y') }}</td>
+            <td>{{ $movimiento['movimiento']->glosa }}</td>
+            <td>{{ $movimiento['movimiento']->serie }}</td>
+            <td>{{ $movimiento['movimiento']->tipoGasto->tipo_gasto }}</td>
             <td class="text-right">
-                $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
-                @if ($mov->tipoMovimiento->signo == -1)
+                $&nbsp;{{ number_format($movimiento['movimiento']->monto, 0, ',', '.') }}
+                @if ($movimiento['movimiento']->tipoMovimiento->signo == -1)
                     <small><span class="fa fa-minus-circle text-danger"></span></small>
                 @else
                     <small><span class="fa fa-plus-circle text-success"></span></small>
                 @endif
             </td>
             <td class="text-right">
-                $&nbsp;{{ number_format($saldo, 0, ',', '.') }}
-                <?php $saldo -= $mov->monto * $mov->tipoMovimiento->signo; ?>
+                $&nbsp;{{ number_format($movimiento['saldoInicial'] + $movimiento['movimiento']->valor_monto, 0, ',', '.') }}
             </td>
             <td>
                 {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
                     {!! method_field('DELETE')!!}
-                    {{ Form::hidden('id', $mov->getKey()) }}
+                    {{ Form::hidden('id', $movimiento['movimiento']->getKey()) }}
                     <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
                         <span class="fa fa-trash text-muted"></span>
                     </button>
@@ -115,7 +113,7 @@
             <th></th>
             <th></th>
             <th>Saldo Inicial</th>
-            <th class="text-right">$ {{ number_format($saldo, 0, ',', '.') }}</th>
+            <th class="text-right">$ {{ number_format($movimientosMes->last()['saldoInicial'], 0, ',', '.') }}</th>
             <th></th>
             <th></th>
         </tr>

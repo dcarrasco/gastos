@@ -31,7 +31,6 @@ class Ingreso extends Controller
             'selectCuentas' => $selectCuentas,
             'selectTiposGastos' => TipoGasto::formArray(),
             'movimientosMes' => Gasto::movimientosMes($cuentaId, $anno, $mes),
-            'saldoMesAnterior' => SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes),
         ]);
     }
 

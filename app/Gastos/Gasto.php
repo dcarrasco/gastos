@@ -43,6 +43,12 @@ class Gasto extends Model
         return $this->belongsTo(Usuario::class);
     }
 
+    public function getValorMontoAttribute()
+    {
+        return $this->monto * $this->tipoMovimiento->signo;
+    }
+
+
     public function scopeCuentaAnnoMes($query, $cuentaId, $anno, $mes)
     {
         return $query->where('cuenta_id', $cuentaId)
@@ -66,10 +72,19 @@ class Gasto extends Model
 
     public static function movimientosMes($cuentaId, $anno, $mes)
     {
-        return static::with('tipoGasto', 'tipoMovimiento')
+        $movimientos = static::with('tipoGasto', 'tipoMovimiento')
             ->cuentaAnnoMes($cuentaId, $anno, $mes)
             ->latest('fecha')->latest('id')
             ->get();
+
+        $saldoMes = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes) + $movimientos->map->valor_monto->sum();
+
+        return $movimientos->map(function($gasto) use (&$saldoMes) {
+            return [
+                'movimiento' => $gasto,
+                'saldoInicial' => $saldoMes = $saldoMes - $gasto->valor_monto,
+            ];
+        });
     }
 
     public static function detalleMovimientosMes($cuentaId, $anno, $mes, $tipoGastoId)
@@ -102,9 +117,11 @@ class Gasto extends Model
 
     public static function totalMes($cuentaId, $anno, $mes)
     {
-        return static::movimientosMes($cuentaId, $anno, $mes)->map(function($gasto) {
-            return $gasto->monto * $gasto->tipoMovimiento->signo;
-        })->sum();
+        return static::movimientosMes($cuentaId, $anno, $mes)
+            ->map(function($movimiento) {
+                return $movimiento['movimiento']->valor_monto;
+            })
+            ->sum();
     }
 
     protected function getDataReporte($cuentaId, $anno, $tipoMovimientoId)
