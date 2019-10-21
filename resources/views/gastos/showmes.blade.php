@@ -113,8 +113,8 @@
             <th></th>
             <th></th>
             <th>Saldo Inicial</th>
-            <th class="text-right">$ {{ number_format($movimientosMes->last()['saldoInicial'], 0, ',', '.') }}</th>
             <th></th>
+            <th class="text-right">$&nbsp;{{ number_format($movimientosMes->last()['saldoInicial'], 0, ',', '.') }}</th>
             <th></th>
         </tr>
     </tbody>
