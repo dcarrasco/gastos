@@ -142,7 +142,7 @@
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                <?= $inversion->getJSONRentabilidadesAnual() ?>
+                {!! $inversion->getJSONRentabilidadesAnual() !!}
             ]);
 
             var options = {
