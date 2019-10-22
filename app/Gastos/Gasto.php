@@ -96,9 +96,9 @@ class Gasto extends Model
             ->get();
     }
 
-    public function movimientosAnno($cuentaId, $anno)
+    public static function movimientosAnno($cuentaId, $anno)
     {
-        return $this->with('tipoMovimiento')
+        return static::with('tipoMovimiento')
             ->where('cuenta_id', $cuentaId)
             ->where('anno', $anno)
             ->noSaldos()
@@ -106,11 +106,11 @@ class Gasto extends Model
             ->get();
     }
 
-    public function saldos($cuentaId, $anno)
+    public static function saldos($cuentaId, $anno)
     {
         $tipoMovimientoSaldo = 4;
 
-        return $this->cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoSaldo)
+        return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoSaldo)
             ->orderBy('fecha')
             ->get();
     }
@@ -118,9 +118,8 @@ class Gasto extends Model
     public static function totalMes($cuentaId, $anno, $mes)
     {
         return static::movimientosMes($cuentaId, $anno, $mes)
-            ->map(function($movimiento) {
-                return $movimiento['movimiento']->valor_monto;
-            })
+            ->map->movimiento
+            ->map->valor_monto
             ->sum();
     }
 

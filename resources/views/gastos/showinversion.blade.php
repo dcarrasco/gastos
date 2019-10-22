@@ -61,7 +61,7 @@
             @endif
         </td>
         <td class="text-right">
-            $&nbsp;{{ number_format($saldo += $mov->tipoMovimiento->signo*$mov->monto, 0, ',', '.') }}
+            $&nbsp;{{ number_format($saldo += $mov->valor_monto, 0, ',', '.') }}
         </td>
         <td>
             {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}

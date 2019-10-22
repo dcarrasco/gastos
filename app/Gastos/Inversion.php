@@ -15,8 +15,8 @@ class Inversion
 
     public function __construct($cuenta, $anno)
     {
-        $this->movimientos = (new Gasto)->movimientosAnno($cuenta, $anno);
-        $this->saldos = (new Gasto)->saldos($cuenta, $anno);
+        $this->movimientos = Gasto::movimientosAnno($cuenta, $anno);
+        $this->saldos = Gasto::saldos($cuenta, $anno);
     }
 
     public function getMovimientos()
@@ -34,9 +34,9 @@ class Inversion
         return $this->movimientos
             ->filter(function ($movimiento) use ($saldo) {
                 return $movimiento->fecha <= $saldo->fecha;
-            })->map(function($movimiento) {
-                return $movimiento->monto * optional($movimiento->tipoMovimiento)->signo;
-            })->sum();
+            })
+            ->map->valor_monto
+            ->sum();
     }
 
     public function util(Gasto $saldo)
@@ -46,11 +46,9 @@ class Inversion
 
     public function rentabilidad(Gasto $saldo)
     {
-        if ($this->getSumMovimientos($saldo) == 0) {
-            return 0;
-        }
+        $sumMovimientos = $this->getSumMovimientos($saldo);
 
-        return $this->util($saldo) / $this->getSumMovimientos($saldo);
+        return $sumMovimientos == 0 ? 0 : $saldo->monto / $sumMovimientos - 1;
     }
 
     public function rentabilidadAnual($saldoFinal = null)
