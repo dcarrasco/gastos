@@ -8,14 +8,5 @@
     </a>
 @endforeach
 @endforeach
-
-@if (isset($menuModulo))
-@foreach ($menuModulo as $modulo )
-    <a href="{{ $modulo['url'] }}" class="list-group-item list-group-item-action {{ $modulo['resource'] === $moduloSelected ? 'active' : '' }}">
-        <span class="fa fa-{{ $modulo['icono'] }} fa-fw"></span>
-        {!! $modulo['nombre'] !!}
-    </a>
-@endforeach
-@endif
 </ul>
 <!-- ============================== /MENU MODULO ============================== -->
