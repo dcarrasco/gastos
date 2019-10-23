@@ -77,27 +77,27 @@
 
         @foreach ($movimientosMes as $movimiento)
         <tr>
-            <td>{{ $movimiento['movimiento']->anno }}</td>
-            <td>{{ $movimiento['movimiento']->mes }}</td>
-            <td>{{ optional($movimiento['movimiento']->fecha)->format('d-m-Y') }}</td>
-            <td>{{ $movimiento['movimiento']->glosa }}</td>
-            <td>{{ $movimiento['movimiento']->serie }}</td>
-            <td>{{ $movimiento['movimiento']->tipoGasto->tipo_gasto }}</td>
+            <td>{{ $movimiento->anno }}</td>
+            <td>{{ $movimiento->mes }}</td>
+            <td>{{ optional($movimiento->fecha)->format('d-m-Y') }}</td>
+            <td>{{ $movimiento->glosa }}</td>
+            <td>{{ $movimiento->serie }}</td>
+            <td>{{ $movimiento->tipoGasto->tipo_gasto }}</td>
             <td class="text-right">
-                $&nbsp;{{ number_format($movimiento['movimiento']->monto, 0, ',', '.') }}
-                @if ($movimiento['movimiento']->tipoMovimiento->signo == -1)
+                $&nbsp;{{ number_format($movimiento->monto, 0, ',', '.') }}
+                @if ($movimiento->tipoMovimiento->signo == -1)
                     <small><span class="fa fa-minus-circle text-danger"></span></small>
                 @else
                     <small><span class="fa fa-plus-circle text-success"></span></small>
                 @endif
             </td>
             <td class="text-right">
-                $&nbsp;{{ number_format($movimiento['saldoInicial'] + $movimiento['movimiento']->valor_monto, 0, ',', '.') }}
+                $&nbsp;{{ number_format($movimiento->saldo_final, 0, ',', '.') }}
             </td>
             <td>
                 {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
                     {!! method_field('DELETE')!!}
-                    {{ Form::hidden('id', $movimiento['movimiento']->getKey()) }}
+                    {{ Form::hidden('id', $movimiento->getKey()) }}
                     <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
                         <span class="fa fa-trash text-muted"></span>
                     </button>
@@ -114,7 +114,7 @@
             <th></th>
             <th>Saldo Inicial</th>
             <th></th>
-            <th class="text-right">$&nbsp;{{ number_format($movimientosMes->last()['saldoInicial'], 0, ',', '.') }}</th>
+            <th class="text-right">$&nbsp;{{ number_format($movimientosMes->last()->saldo_inicial, 0, ',', '.') }}</th>
             <th></th>
         </tr>
     </tbody>

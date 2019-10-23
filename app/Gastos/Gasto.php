@@ -80,10 +80,11 @@ class Gasto extends Model
         $saldoMes = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes) + $movimientos->map->valor_monto->sum();
 
         return $movimientos->map(function($gasto) use (&$saldoMes) {
-            return [
-                'movimiento' => $gasto,
-                'saldoInicial' => $saldoMes = $saldoMes - $gasto->valor_monto,
-            ];
+            $saldoMes = $saldoMes - $gasto->valor_monto;
+            $gasto->saldo_inicial = $saldoMes;
+            $gasto->saldo_final = $saldoMes + $gasto->valor_monto;
+
+            return $gasto;
         });
     }
 
@@ -118,7 +119,6 @@ class Gasto extends Model
     public static function totalMes($cuentaId, $anno, $mes)
     {
         return static::movimientosMes($cuentaId, $anno, $mes)
-            ->map->movimiento
             ->map->valor_monto
             ->sum();
     }
