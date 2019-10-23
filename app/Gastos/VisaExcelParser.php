@@ -13,6 +13,9 @@ use App\Http\Controllers\Gastos\TipoGastoModel;
 
 class VisaExcelParser implements GastosParser
 {
+    protected $glosasTipoGasto = null;
+
+
     public function procesaMasivo(Request $request)
     {
         if (! $request->has('datos')) {
@@ -26,6 +29,7 @@ class VisaExcelParser implements GastosParser
             ->map(function($linea) use ($request) {
                 return $this->procesaLineaMasivo($request, $linea);
             })
+            ->dump()
             ->filter(function ($gasto) use ($request) {
                 $gastoAnterior = (new Gasto)->where([
                     'cuenta_id' => $request->cuenta_id,
@@ -41,6 +45,27 @@ class VisaExcelParser implements GastosParser
             });
     }
 
+    protected function getTipoGasto(Request $request, $linea = '')
+    {
+        if (is_null($this->glosasTipoGasto)) {
+            $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
+        }
+
+        $tipoGastoId = $this->getTipoGastoPorGlosa($this->getGlosa($linea));
+
+        return TipoGasto::findOrNew($tipoGastoId);
+    }
+
+
+    protected function getTipoGastoPorGlosa($glosa = '')
+    {
+        $glosaTipoGasto = $this->glosasTipoGasto
+            ->first(function($glosaTipoGasto) use ($glosa) {
+                return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
+            });
+
+        return optional($glosaTipoGasto)->tipo_gasto_id;
+    }
 
     protected function procesaLineaMasivo(Request $request, $linea = '')
     {
@@ -49,7 +74,8 @@ class VisaExcelParser implements GastosParser
         }
 
         $linea = collect(explode("\t", $linea));
-        $tipoGasto = (new TipoGasto)->findOrNew((new GlosaTipoGasto)->getPorGlosa($request->cuenta_id, $this->getGlosa($linea)));
+
+        $tipoGasto = $this->getTipoGasto($request, $linea);
 
         return (new Gasto)->fill([
             'cuenta_id' => $request->cuenta_id,
@@ -119,6 +145,4 @@ class VisaExcelParser implements GastosParser
     {
         return strpos($linea->last(), '$') !== false;
     }
-
-
 }
