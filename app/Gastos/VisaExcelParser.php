@@ -5,6 +5,7 @@ namespace App\Gastos;
 use Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\TipoGasto;
+use Illuminate\Support\Arr;
 use App\Gastos\GastosParser;
 use Illuminate\Http\Request;
 use App\Gastos\GlosaTipoGasto;
@@ -30,15 +31,10 @@ class VisaExcelParser implements GastosParser
                 return $this->procesaLineaMasivo($request, $linea);
             })
             ->filter(function ($gasto) use ($request) {
-                $gastoAnterior = (new Gasto)->where([
-                    'cuenta_id' => $request->cuenta_id,
-                    'anno' => $request->anno,
-                    'fecha' => $gasto->fecha,
-                    'serie' => $gasto->serie,
-                    'monto' => $gasto->monto,
-                ])
-                ->get()
-                ->first();
+                $gastoAnterior = Gasto::where(
+                        Arr::only($gasto->toArray(), ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'])
+                    )->get()
+                    ->first();
 
                 return is_null($gastoAnterior);
             });
@@ -76,7 +72,7 @@ class VisaExcelParser implements GastosParser
 
         $tipoGasto = $this->getTipoGasto($request, $linea);
 
-        return (new Gasto)->fill([
+        return new Gasto([
             'cuenta_id' => $request->cuenta_id,
             'anno' => $request->anno,
             'mes' => $request->mes,
@@ -105,7 +101,7 @@ class VisaExcelParser implements GastosParser
     {
         $fecha = $linea[2];
 
-        return (new Carbon)->create(2000 + (int)substr($fecha, 8, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
+        return Carbon::create(substr($fecha, 6, 4), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
 
     protected function esLineaValida($linea = '')
