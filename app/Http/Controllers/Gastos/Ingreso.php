@@ -17,21 +17,19 @@ class Ingreso extends Controller
     {
         $today = Carbon::now();
         $selectCuentas = Cuenta::selectCuentasGastos();
+        $selectTiposGastos = TipoGasto::formArray();
 
         $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
         $anno = $request->input('anno', $today->year);
         $mes = $request->input('mes', $today->month);
 
+        $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
+
         if ($request->recalcula === 'recalcula') {
             (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        return view('gastos.showmes', [
-            'today' => $today,
-            'selectCuentas' => $selectCuentas,
-            'selectTiposGastos' => TipoGasto::formArray(),
-            'movimientosMes' => Gasto::movimientosMes($cuentaId, $anno, $mes),
-        ]);
+        return view('gastos.showmes', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
     }
 
     public function addGasto(AddGastoRequest $request)
