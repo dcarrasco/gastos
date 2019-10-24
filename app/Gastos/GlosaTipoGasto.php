@@ -25,17 +25,6 @@ class GlosaTipoGasto extends Model
 
     public static function getCuenta($cuentaId = 0)
     {
-        return static::whereCuentaId($cuentaId)->get();
-    }
-
-    public function getPorGlosa($cuenta_id = 0, $glosa = '')
-    {
-        $glosaTipoGasto = $this->where('cuenta_id', $cuenta_id)
-            ->get()
-            ->first(function($glosaTipoGasto) use ($glosa) {
-                return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
-            });
-
-        return optional($glosaTipoGasto)->tipo_gasto_id;
+        return static::with('tipoGasto', 'tipoGasto.tipoMovimiento')->whereCuentaId($cuentaId)->get();
     }
 }

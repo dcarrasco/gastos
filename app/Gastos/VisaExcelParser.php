@@ -46,20 +46,14 @@ class VisaExcelParser implements GastosParser
             $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
         }
 
-        $tipoGastoId = $this->getTipoGastoPorGlosa($this->getGlosa($linea));
+        $glosa = $this->getGlosa($linea);
 
-        return TipoGasto::findOrNew($tipoGastoId);
-    }
-
-
-    protected function getTipoGastoPorGlosa($glosa = '')
-    {
         $glosaTipoGasto = $this->glosasTipoGasto
             ->first(function($glosaTipoGasto) use ($glosa) {
                 return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
             });
 
-        return optional($glosaTipoGasto)->tipo_gasto_id;
+        return $glosaTipoGasto->tipoGasto;
     }
 
     protected function procesaLineaMasivo(Request $request, $linea = '')
