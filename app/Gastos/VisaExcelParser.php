@@ -29,7 +29,6 @@ class VisaExcelParser implements GastosParser
             ->map(function($linea) use ($request) {
                 return $this->procesaLineaMasivo($request, $linea);
             })
-            ->dump()
             ->filter(function ($gasto) use ($request) {
                 $gastoAnterior = (new Gasto)->where([
                     'cuenta_id' => $request->cuenta_id,
