@@ -68,7 +68,7 @@ class VisaExcelParser implements GastosParser
 
         $this->datosMasivos = $this->datosMasivos
             ->filter(function ($gasto) use ($request, $camposFiltro) {
-                return Gasto::where(Arr::only($gasto->toArray(), $camposFiltro))->get()->count() == 0;
+                return Gasto::where($gasto->only($camposFiltro))->get()->count() == 0;
             });
 
         return $this;
@@ -115,7 +115,7 @@ class VisaExcelParser implements GastosParser
 
     protected function getSerie(Collection $linea)
     {
-        return $linea[0];
+        return trim($linea[0]);
     }
 
     protected function getGlosa($linea = [])
