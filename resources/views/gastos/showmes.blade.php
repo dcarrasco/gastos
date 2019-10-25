@@ -23,7 +23,7 @@
         </div>
         <div class="col-3">
             {{ Form::selectMonth('mes', request('mes', $today->month), ['class' => 'form-control']) }}
-         </div>
+        </div>
         <div class="col-4">
             <button type="submit" class="btn btn-primary">Consultar</button>
             <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
