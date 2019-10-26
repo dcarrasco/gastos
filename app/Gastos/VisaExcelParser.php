@@ -24,10 +24,10 @@ class VisaExcelParser implements GastosParser
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
         return $this->requestDatosMasivos($request)
-                ->filtrarLineasValidas($request)
-                ->procesaLineas($request)
-                ->filtraLineasExistentes($request)
-                ->getDatosMasivos();
+            ->filtrarLineasValidas($request)
+            ->procesaLineas($request)
+            ->filtraLineasExistentes($request)
+            ->getDatosMasivos();
     }
 
     protected function getDatosMasivos()
@@ -37,7 +37,7 @@ class VisaExcelParser implements GastosParser
 
     protected function requestDatosMasivos(Request $request)
     {
-        $this->datosMasivos = collect(explode(PHP_EOL, $request->input('datos')));
+        $this->datosMasivos = collect(explode(PHP_EOL, $request->datos));
 
         return $this;
     }
@@ -108,7 +108,7 @@ class VisaExcelParser implements GastosParser
 
     protected function getFecha(Collection $linea)
     {
-        $fecha = $linea[2];
+        $fecha = trim($linea[2]);
 
         return Carbon::create(substr($fecha, 6, 4), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
