@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Gastos\ParserMasivo;
 
 use Illuminate\Http\Request;
 

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Gastos\ParserMasivo;
 
 use Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\TipoGasto;
-use Illuminate\Support\Arr;
-use App\Gastos\GastosParser;
 use Illuminate\Http\Request;
 use App\Gastos\GlosaTipoGasto;
 use Illuminate\Support\Collection;
