@@ -29,10 +29,6 @@ class IngresoMasivo extends Controller
 
     public function ingresoMasivo(Request $request)
     {
-        if ($request->agregar === 'agregar') {
-            return $this->addGastosMasivos($request, $this->parser->procesaMasivo($request));
-        }
-
         return view('gastos.ingresoMasivo', [
             'today' => Carbon::now(),
             'formCuenta' => Cuenta::selectCuentasGastos(),
@@ -40,13 +36,11 @@ class IngresoMasivo extends Controller
         ])->withErrors($this->getParserError());
     }
 
-    protected function addGastosMasivos($request, $datosMasivos)
+    protected function addGastosMasivos(IngresoMasivoRequest $request)
     {
-        collect($datosMasivos)->each(function($gasto) {
-            $gasto->save();
-        });
+        $this->parser->procesaMasivo($request)
+            ->each->save();
 
         return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes'));
     }
-
 }

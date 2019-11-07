@@ -1,7 +1,8 @@
 @extends('common.app_layout')
 
 @section('modulo')
-{{ Form::open() }}
+<form method="POST" id="form-masivo">
+    @csrf
     <div class="form-row">
         <div class="offset-md-3 col-md-2">
             <label class="col-form-label">Cuenta</label>
@@ -86,8 +87,14 @@
         <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
     </div>
 </div>
-
-{{ Form::close() }}
+</form>
 @endif
 
+<script type="text/javascript">
+    $('button[name="agregar"]').click(function(e) {
+        e.preventDefault();
+        $('#form-masivo').attr('action', '{{ route("gastos.ingresoMasivoAdd") }}');
+        $('#form-masivo').submit();
+    });
+</script>
 @endsection
