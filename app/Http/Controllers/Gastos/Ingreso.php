@@ -26,7 +26,7 @@ class Ingreso extends Controller
         $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
 
         if ($request->recalcula === 'recalcula') {
-            (new SaldoMes)->recalculaSaldoMes($cuentaId, $anno, $mes);
+            SaldoMes::recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
         return view('gastos.showmes', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
@@ -39,7 +39,7 @@ class Ingreso extends Controller
             'usuario_id' => auth()->id(),
         ]));
 
-        $saldoMesAnterior = (new SaldoMes)->recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
+        SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 
         return redirect()->route('gastos.showMes', $request->only([
             'cuenta_id', 'anno', 'mes'
@@ -48,7 +48,7 @@ class Ingreso extends Controller
 
     public function borrarGasto(Request $request)
     {
-        $gasto = Gasto::findOrFail($request->id)->delete();
+        Gasto::findOrFail($request->id)->delete();
 
         return redirect()->route('gastos.showMes', $request->only([
             'cuenta_id', 'anno', 'mes'

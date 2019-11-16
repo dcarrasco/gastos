@@ -3,11 +3,7 @@
 namespace App\Gastos;
 
 use Carbon\Carbon;
-use App\Acl\Usuario;
 use App\Gastos\Cuenta;
-use App\Gastos\TipoGasto;
-use Illuminate\Http\Request;
-use App\Gastos\TipoMovimiento;
 use Illuminate\Database\Eloquent\Model;
 
 class SaldoMes extends Model
@@ -17,7 +13,6 @@ class SaldoMes extends Model
     protected $fillable = [
         'cuenta_id', 'anno', 'mes', 'saldo_inicial', 'saldo_final',
     ];
-
 
     public function cuenta()
     {
@@ -35,7 +30,7 @@ class SaldoMes extends Model
         ])->saldo_final ?: 0;
     }
 
-    public function recalculaSaldoMes($cuentaId, $anno, $mes)
+    public static function recalculaSaldoMes($cuentaId, $anno, $mes)
     {
         $saldoMes = static::firstOrNew([
             'cuenta_id' => $cuentaId,
