@@ -2,7 +2,6 @@
 
 namespace App\Gastos;
 
-use Carbon\Carbon;
 use App\Acl\Usuario;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;

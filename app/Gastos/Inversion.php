@@ -3,8 +3,6 @@
 namespace App\Gastos;
 
 use App\Gastos\Gasto;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class Inversion
 {

@@ -2,7 +2,6 @@
 
 namespace App\Gastos;
 
-use \Carbon\Carbon;
 use App\Gastos\Banco;
 use App\Gastos\TipoCuenta;
 use Illuminate\Database\Eloquent\Model;
