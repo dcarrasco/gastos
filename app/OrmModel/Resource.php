@@ -2,11 +2,8 @@
 
 namespace App\OrmModel;
 
-use DB;
-use App\OrmModel\OrmField;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\HasMany;
 use App\OrmModel\OrmField\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;

@@ -3,15 +3,21 @@
 namespace App\Http\Controllers\Orm;
 
 use Route;
-use App\OrmModel\OrmField;
 use Illuminate\Http\Request;
 use App\OrmModel\Filters\PerPage;
+use App\Http\Controllers\Controller;
 
-trait OrmController
+class OrmController extends Controller
 {
     protected $routeName = '';
 
     protected $menuModulo = [];
+
+
+    public function __construct()
+    {
+        $this->makeView();
+    }
 
     /**
      * Genera menu
@@ -42,6 +48,7 @@ trait OrmController
         view()->share('routeName', $this->routeName);
 
         $resource = collect($this->menuModulo)->first();
+
         view()->share('moduloSelected',
             empty(Route::input('modelName')) ? (new $resource)->getName() : Route::input('modelName')
         );
@@ -68,6 +75,8 @@ trait OrmController
     /**
      * Display a listing of the resource.
      *
+     * @param  Request $request
+     * @param  string  $resourceClass Nombre del recurso a recuperar
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $resourceClass = null)
@@ -83,11 +92,13 @@ trait OrmController
     /**
      * Show the form for creating a new resource.
      *
+     * @param  Request $request
+     * @param  string  $resourceClass Nombre del recurso
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $resource = null)
+    public function create(Request $request, $resourceClass = null)
     {
-        $resource = $this->getResource($resource);
+        $resource = $this->getResource($resourceClass);
         $fields = $resource->formFields($request);
 
         return view('orm.form_crear', compact('resource', 'fields'));
@@ -96,12 +107,13 @@ trait OrmController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request $request
+     * @param  string  $resourceClass Nombre del recurso
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $resource = null)
+    public function store(Request $request, $resourceClass = null)
     {
-        $resource = $this->getResource($resource);
+        $resource = $this->getResource($resourceClass);
         $this->validate($request, $resource->getValidation($request));
 
         $resource->model()->create($request->all());
@@ -120,12 +132,14 @@ trait OrmController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Usuario  $usuario
+     * @param  Request $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $resource = null, $modelId = null)
+    public function show(Request $request, $resourceClass = null, $modelId = null)
     {
-        $resource = $this->getResource($resource)->findOrNew($modelId);
+        $resource = $this->getResource($resourceClass)->findOrNew($modelId);
         $fields = $resource->detailFields($request);
 
         return view('orm.show', compact('resource', 'modelId', 'fields'));
@@ -134,12 +148,14 @@ trait OrmController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Usuario  $usuario
+     * @param  Request $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $resource = null, $modelId = null)
+    public function edit(Request $request, $resourceClass = null, $modelId = null)
     {
-        $resource = $this->getResource($resource)->findOrNew($modelId);
+        $resource = $this->getResource($resourceClass)->findOrNew($modelId);
         $fields = $resource->formFields($request);
 
         return view('orm.form_editar', compact('resource', 'modelId', 'fields'));
@@ -148,13 +164,14 @@ trait OrmController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Usuario  $usuario
+     * @param  Request  $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $resource = null, $modelId = null)
+    public function update(Request $request, $resourceClass = null, $modelId = null)
     {
-        $resource = $this->getResource($resource)->findOrFail($modelId);
+        $resource = $this->getResource($resourceClass)->findOrFail($modelId);
         $this->validate($request, $resource->getValidation($request));
 
         $resource->update($request, $modelId);
@@ -173,12 +190,14 @@ trait OrmController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Usuario  $usuario
+     * @param  Request  $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $resource = null, $modelId = null)
+    public function destroy(Request $request, $resourceClass = null, $modelId = null)
     {
-        $resource = $this->getResource($resource)->findOrFail($modelId);
+        $resource = $this->getResource($resourceClass)->findOrFail($modelId);
         $resource->model()->destroy($modelId);
 
         $alertMessage = trans('orm.msg_delete_ok', [
@@ -193,22 +212,29 @@ trait OrmController
 
     /**
      * Recupera el recurso para ser usado en llamadas ajax
-     * @param  Request $request  [description]
-     * @param  [type]  $resource [description]
-     * @return [type]            [description]
+     *
+     * @param  Request  $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @return string
      */
-    public function ajaxOnChange(Request $request, $resource = null)
+    public function ajaxOnChange(Request $request, $resourceClass = null)
     {
-        return $this->getResource($resource)
+        return $this->getResource($resourceClass)
             ->getModelAjaxFormOptions($request);
     }
 
-    public function ajaxCard(Request $request, $resource = null)
+    /**
+     * Recupera el recurso para ser usado en llamadas ajax
+     *
+     * @param  Request  $request
+     * @param  string  $resourceClass Nombre del recurso
+     * @return
+     */
+    public function ajaxCard(Request $request, $resourceClass = null)
     {
-        return collect($this->getResource($resource)->cards($request))
-            ->first(function ($card) use ($request) {
+        return collect($this->getResource($resourceClass)->cards($request))
+            ->first(function($card) use ($request) {
                 return $card->uriKey() === $request->input('uri-key');
             })->calculate($request);
     }
-
 }
