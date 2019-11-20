@@ -37,7 +37,7 @@
     <thead class="thead-light">
         <th>Item</th>
         @foreach($reporte->titulosColumnas() as $mes)
-        <th class="text-center">{{ $mes }}</th>
+            <th class="text-center">{{ $mes }}</th>
         @endforeach
         <th class="text-center">Total</th>
         <th class="text-center">Prom</th>
@@ -49,19 +49,24 @@
         <th scope="row">{{ $tipoGasto }}</th>
 
         @foreach($reporte->titulosColumnas() as $numMes => $mes)
-        <td class="text-right">
+        <td class="text-center">
             @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
-            <a href="{{ route('gastos.detalle', ['cuenta_id' => request('cuenta_id'), 'anno' => request('anno'), 'mes' => $numMes, 'tipo_gasto_id' => $idTipoGasto]) }}" class="text-reset">
+            <a href="{{ route('gastos.detalle', [
+                'cuenta_id' => request('cuenta_id', $cuentas->keys()->first()),
+                'anno' => request('anno', $today->year),
+                'mes' => $numMes,
+                'tipo_gasto_id' => $idTipoGasto
+            ]) }}" class="text-reset">
                 $&nbsp;{{ number_format($reporte->getDato($idTipoGasto, $numMes), 0, ',', '.') }}
             </a>
             @endif
         </td>
         @endforeach
 
-        <th class="text-right table-secondary">
+        <th class="text-center table-secondary">
             $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto), 0, ',', '.') }}
         </th>
-        <th class="text-right table-secondary">
+        <th class="text-center table-secondary">
             $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto), 0, ',', '.') }}
         </th>
     </tr>
@@ -70,14 +75,14 @@
     <tr class="table-secondary">
         <td></td>
         @foreach($reporte->titulosColumnas() as $numMes => $mes)
-        <td class="text-right font-weight-bold">
+        <td class="text-center font-weight-bold">
             $&nbsp;{{ number_format($reporte->totalColumna($numMes), 0, ',', '.') }}
         </td>
         @endforeach
-        <td class="text-right font-weight-bold">
+        <td class="text-center font-weight-bold">
             $&nbsp;{{ number_format($reporte->totalReporte(), 0, ',', '.') }}
         </td>
-        <td class="text-right font-weight-bold">
+        <td class="text-center font-weight-bold">
             $&nbsp;{{ number_format($reporte->promedioReporte(), 0, ',', '.') }}
         </td>
     </tr>
