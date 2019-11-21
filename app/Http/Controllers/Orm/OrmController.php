@@ -83,9 +83,8 @@ class OrmController extends Controller
     {
         $resource = $this->getResource($resourceClass)->makePaginator($request);
         $cards = $resource->renderCards($request);
-        $modelId = null;
 
-        return view('orm.listado', compact('resource', 'cards', 'modelId'));
+        return view('orm.listado', compact('resource', 'cards'));
     }
 
 

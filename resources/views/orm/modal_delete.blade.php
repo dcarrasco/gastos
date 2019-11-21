@@ -8,19 +8,19 @@
             <h5 class="modal-title" id="exampleModalCenterTitle">
                 Borrar {{ $resource->getLabel() }}
             </h5>
-            <p>
+            <div id="delete-message">
                 {!! trans('orm.delete_confirm', [
                     'model' => $resource->getLabel(),
                     'item' => $resource->title()
                 ]) !!}
-            </p>
+            </div>
         </div>
 
         <div class="modal-footer bg-light">
             <button type="button" class="btn btn-light border text-shadow" data-dismiss="modal">
                 {{ trans('orm.button_cancel') }}
             </button>
-            {!! Form::open(['url' => route($routeName.'.destroy', [$resource->getName(), $modelId]), 'id' => 'formDelete']) !!}
+            {!! Form::open(['url' => route($routeName.'.destroy', [$resource->getName(), null]), 'id' => 'formDelete']) !!}
             {!! method_field('DELETE')!!}
             <button type="submit" class="btn btn-danger text-shadow" name="borrar" value="borrar">
                 <span class="fa fa-trash-o"></span>

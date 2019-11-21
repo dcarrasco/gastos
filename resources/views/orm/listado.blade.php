@@ -72,6 +72,7 @@ $(document).ready(function() {
     $('a#delete-href').click(function(e) {
         e.preventDefault();
         $('#formDelete').attr('action', $(this).data('url-form'));
+        $('#delete-message').html($(this).data('message'));
     });
 
 
