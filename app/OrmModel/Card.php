@@ -17,7 +17,7 @@ class Card
 
     public function render(Request $request)
     {
-        return view('orm.card', [
+        return view('orm.components.card', [
             'content' => $this->content($request),
             'contentScript' => $this->contentScript($request),
             'cardWidth' => $this->bootstrapCardWidth(),

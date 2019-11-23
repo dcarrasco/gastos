@@ -14,7 +14,7 @@
         </div>
 
         <div class="col-md-12">
-            @include('orm.validation_errors')
+            @include('common.alert')
         </div>
 
         <div class="col-md-12">

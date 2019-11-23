@@ -3,7 +3,7 @@
         @if ($loop->first)
             <thead class="thead-light">
                 <tr>
-                    @each('orm.listado_table_header', $resource['fields'], 'field')
+                    @each('orm.components.listado.tabla_header', $resource['fields'], 'field')
                     <th class="text-center"></th>
                 </tr>
             </thead>
@@ -17,7 +17,7 @@
             @endforeach
 
             <td class="text-right text-nowrap">
-                @include('orm.listado_table_item_buttons')
+                @include('orm.components.listado.tabla_item_buttons')
             </td>
         </tr>
     @endforeach

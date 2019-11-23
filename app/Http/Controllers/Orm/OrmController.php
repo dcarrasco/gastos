@@ -84,7 +84,7 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass)->makePaginator($request);
         $cards = $resource->renderCards($request);
 
-        return view('orm.listado', compact('resource', 'cards'));
+        return view('orm.list', compact('resource', 'cards'));
     }
 
 
@@ -100,7 +100,7 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass);
         $fields = $resource->formFields($request);
 
-        return view('orm.form_crear', compact('resource', 'fields'));
+        return view('orm.create', compact('resource', 'fields'));
     }
 
     /**
@@ -157,7 +157,7 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass)->findOrNew($modelId);
         $fields = $resource->formFields($request);
 
-        return view('orm.form_editar', compact('resource', 'modelId', 'fields'));
+        return view('orm.edit', compact('resource', 'modelId', 'fields'));
     }
 
     /**
