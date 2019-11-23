@@ -19,7 +19,7 @@
         @if (isset($menuModulo))
         <ul class="navbar-nav">
             <li class="nav-item dropdown active mx-3">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle border rounded" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="fa fa-{{ $menuModulo->pluck('icono', 'resource')->get($moduloSelected) }} fa-fw"></span>
                     {{ $menuModulo->pluck('nombre', 'resource')->get($moduloSelected) }}
                 </a>

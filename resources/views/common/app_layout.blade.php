@@ -41,10 +41,12 @@
                 @yield('modulo')
             </div>
         @else
+            <!-- -----------------------------  MENU MODULO  --------------------------- -->
             <div class="col-2 bg-secondary px-0">
                 @include('common.app_menu_modulo')
             </div>
 
+            <!-- -----------------------------  PANEL MODULO  --------------------------- -->
             <div class="col-10 px-5 py-5">
                 @include('common.alert')
                 @yield('modulo')
