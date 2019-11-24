@@ -16,25 +16,6 @@
             {!! auth()->user()->moduloAppName() !!}
         </span>
 
-        @if (isset($menuModulo))
-        <ul class="navbar-nav">
-            <li class="nav-item dropdown active mx-3">
-                <a class="nav-link dropdown-toggle border rounded" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="fa fa-{{ $menuModulo->pluck('icono', 'resource')->get($moduloSelected) }} fa-fw"></span>
-                    {{ $menuModulo->pluck('nombre', 'resource')->get($moduloSelected) }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    @foreach ($menuModulo as $modulo )
-                    <a href="{{ $modulo['url'] }}" class="dropdown-item @if($modulo['resource'] == $moduloSelected) active @endif">
-                        <span class="fa fa-{{ $modulo['icono'] }} fa-fw"></span>
-                        {!! $modulo['nombre'] !!}
-                    </a>
-                    @endforeach
-                </div>
-            </li>
-        </ul>
-        @endif
-
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

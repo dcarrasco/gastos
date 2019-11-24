@@ -1,12 +1,22 @@
 <!-- ============================== MENU MODULO ============================== -->
-<ul class="list-group list-group-flush hidden-print">
 @foreach(auth()->user()->getMenuApp() as $menuApp)
 @foreach($menuApp['modulos'] as $modulo)
-    <a href="{{ route($modulo['url']) }}" class="list-group-item list-group-item-action {{ $modulo['selected'] ? 'active' : ''}}">
+<div class="px-4 py-2">
+    <a href="{{ route($modulo['url']) }}" class="text-white font-weight-bold">
         <span class="fa fa-{{ $modulo['icono'] }} fa-fw"></span>
         {{ $modulo['modulo'] }}
     </a>
+
+    @if (isset($menuModulo) and $modulo['selected'])
+    @foreach ($menuModulo as $modulo )
+    <div class="pl-4 py-1">
+        <a href="{{ $modulo['url'] }}" class="text-white">
+            {!! $modulo['nombre'] !!}
+        </a>
+    </div>
+    @endforeach
+    @endif
+</div>
 @endforeach
 @endforeach
-</ul>
 <!-- ============================== /MENU MODULO ============================== -->
