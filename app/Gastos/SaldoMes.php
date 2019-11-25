@@ -38,7 +38,7 @@ class SaldoMes extends Model
             'mes' => $mes,
         ]);
 
-        $saldoMes->saldo_inicial = $this->getSaldoMesAnterior($cuentaId, $anno, $mes);
+        $saldoMes->saldo_inicial = static::getSaldoMesAnterior($cuentaId, $anno, $mes);
         $saldoMes->saldo_final = $saldoMes->saldo_inicial + Gasto::totalMes($cuentaId, $anno, $mes);
 
         return $saldoMes->save();
