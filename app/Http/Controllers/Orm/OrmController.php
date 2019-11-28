@@ -73,6 +73,31 @@ class OrmController extends Controller
     }
 
     /**
+     * Genera las rutas web del configuración del módulo
+     * 
+     * @param  string $modulo
+     * @return none
+     */
+    public static function routes($modulo = '')
+    {
+        $prefix = strtolower($modulo).'-config';
+        $as = strtolower($modulo).'Config.';
+        $namespace = ucfirst(strtolower($modulo));
+
+        Route::group(['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'], function () {
+            Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
+            Route::get('{modelName?}', 'ConfigController@index')->name('index');
+            Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+            Route::post('{modelName}', 'ConfigController@store')->name('store');
+            Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
+            Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+            Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+            Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+            Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
+        });
+   }
+
+    /**
      * Display a listing of the resource.
      *
      * @param  Request $request

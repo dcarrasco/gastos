@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Orm\OrmController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,29 +18,10 @@ Route::get('/', function () {
 });
 
 // ACL Config
-Route::group(['prefix' => 'acl_config', 'as' => 'aclConfig.', 'namespace' => 'Acl', 'middleware' => 'auth'], function () {
-    Route::get('{modelName?}', 'ConfigController@index')->name('index');
-    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
-    Route::post('{modelName}', 'ConfigController@store')->name('store');
-    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
-    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
-    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
-    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
-    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
-});
+OrmController::routes('acl');
 
 // Gastos Config
-Route::group(['prefix' => 'gastos-config', 'as' => 'gastosConfig.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
-    Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
-    Route::get('{modelName?}', 'ConfigController@index')->name('index');
-    Route::get('{modelName}/create', 'ConfigController@create')->name('create');
-    Route::post('{modelName}', 'ConfigController@store')->name('store');
-    Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
-    Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
-    Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
-    Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
-    Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
-});
+OrmController::routes('gastos');
 
 // Gastos
 Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
