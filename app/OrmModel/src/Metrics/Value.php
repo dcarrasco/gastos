@@ -1,8 +1,7 @@
 <?php
 
-namespace App\OrmModel;
+namespace App\OrmModel\src\Metrics;
 
-use App\OrmModel\Metric;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use App\OrmModel\Resource;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Field;
+use App\OrmModel\src\Resource;
+use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
 class Select extends Field

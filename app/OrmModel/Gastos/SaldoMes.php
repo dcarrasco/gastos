@@ -2,13 +2,13 @@
 
 namespace App\OrmModel\Gastos;
 
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Id;
+use App\OrmModel\src\Resource;
 use App\OrmModel\Gastos\Cuenta;
-use App\OrmModel\OrmField\Number;
-use App\OrmModel\OrmField\Currency;
-use App\OrmModel\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Number;
+use App\OrmModel\src\OrmField\Currency;
+use App\OrmModel\src\OrmField\BelongsTo;
 
 class SaldoMes extends Resource
 {

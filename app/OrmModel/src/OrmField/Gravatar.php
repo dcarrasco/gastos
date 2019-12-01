@@ -1,13 +1,13 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use App\OrmModel\Resource;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Field;
+use App\OrmModel\src\Resource;
 use Collective\Html\HtmlBuilder;
+use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
 class Gravatar extends Field

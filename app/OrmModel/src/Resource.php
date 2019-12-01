@@ -1,6 +1,6 @@
 <?php
 
-namespace App\OrmModel;
+namespace App\OrmModel\src;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;

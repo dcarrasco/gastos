@@ -3,12 +3,12 @@
 namespace App\OrmModel\Gastos;
 
 use App\Gastos\TipoCuenta as ModelTipoCuenta;
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Id;
-use App\OrmModel\OrmField\Text;
-use App\OrmModel\OrmField\Select;
-use App\OrmModel\Gastos\TipoMovimiento;
+use App\OrmModel\src\Resource;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\OrmField\Select;
+use App\OrmModel\src\Gastos\TipoMovimiento;
 
 class TipoCuenta extends Resource
 {

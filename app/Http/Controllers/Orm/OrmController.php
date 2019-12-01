@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Orm;
 
 use Route;
 use Illuminate\Http\Request;
-use App\OrmModel\Filters\PerPage;
+use App\OrmModel\src\Filters\PerPage;
 use App\Http\Controllers\Controller;
 
 class OrmController extends Controller
@@ -74,7 +74,7 @@ class OrmController extends Controller
 
     /**
      * Genera las rutas web del configuración del módulo
-     * 
+     *
      * @param  string $modulo
      * @return none
      */

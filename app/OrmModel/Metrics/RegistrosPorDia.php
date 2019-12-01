@@ -3,8 +3,8 @@
 namespace App\OrmModel\Metrics;
 
 use App\Gastos\Gasto;
-use App\OrmModel\Trend;
 use Illuminate\Http\Request;
+use App\OrmModel\src\Metrics\Trend;
 
 class RegistrosPorDia extends Trend
 {

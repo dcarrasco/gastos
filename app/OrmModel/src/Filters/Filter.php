@@ -1,6 +1,6 @@
 <?php
 
-namespace App\OrmModel\Filters;
+namespace App\OrmModel\src\Filters;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;

@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Acl;
 
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Id;
-use App\OrmModel\OrmField\Text;
-use App\OrmModel\OrmField\Number;
+use App\OrmModel\src\Resource;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\OrmField\Number;
 
 class App extends Resource
 {

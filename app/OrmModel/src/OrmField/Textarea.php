@@ -1,11 +1,11 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Field;
+use App\OrmModel\src\Resource;
+use App\OrmModel\src\OrmField\Field;
 
 class Textarea extends Field
 {

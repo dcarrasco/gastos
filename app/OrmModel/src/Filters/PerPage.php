@@ -1,9 +1,9 @@
 <?php
 
-namespace App\OrmModel\Filters;
+namespace App\OrmModel\src\Filters;
 
 use Illuminate\Http\Request;
-use App\OrmModel\Filters\Filter;
+use App\OrmModel\src\Filters\Filter;
 
 class PerPage extends Filter
 {

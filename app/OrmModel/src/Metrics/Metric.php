@@ -1,8 +1,9 @@
 <?php
 
-namespace App\OrmModel;
+namespace App\OrmModel\src\Metrics;
 
 use Carbon\Carbon;
+use App\OrmModel\src\Card;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 

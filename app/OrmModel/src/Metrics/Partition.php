@@ -1,8 +1,7 @@
 <?php
 
-namespace App\OrmModel;
+namespace App\OrmModel\src\Metrics;
 
-use App\OrmModel\Metric;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

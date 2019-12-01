@@ -1,18 +1,16 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use Carbon\Carbon;
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Field;
+use App\OrmModel\src\Resource;
+use Illuminate\Support\HtmlString;
+use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
-class Date extends Field
+class Currency extends Field
 {
-    public $inputDateFormat = 'Y-m-d';
-    public $outputDateFormat = 'Y-m-d';
     /**
      * Devuelve valor del campo formateado
      * @param  Request    $request
@@ -21,8 +19,9 @@ class Date extends Field
      */
     public function getValue(Model $model = null, Request $request)
     {
-
-        return optional($model->{$this->attribute})->format($this->outputDateFormat);
+        return new HtmlString('$&nbsp;'
+            .number_format(optional($model)->{$this->attribute}, 0, ',', '.')
+        );
     }
 
     /**
@@ -37,7 +36,7 @@ class Date extends Field
         $extraParam['id'] = $this->attribute;
         $value = $resource->model()->{$this->attribute};
 
-        return Form::date($this->attribute, $value, $extraParam);
+        return Form::number($this->attribute, $value, $extraParam);
     }
 
 }

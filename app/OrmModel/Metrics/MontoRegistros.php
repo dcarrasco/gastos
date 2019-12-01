@@ -3,8 +3,8 @@
 namespace App\OrmModel\Metrics;
 
 use App\Gastos\Gasto;
-use App\OrmModel\Value;
 use Illuminate\Http\Request;
+use App\OrmModel\src\Metrics\Value;
 
 class MontoRegistros extends Value
 {

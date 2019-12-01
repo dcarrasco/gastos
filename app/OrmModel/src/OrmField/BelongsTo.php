@@ -1,14 +1,14 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use App\OrmModel\Resource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\OrmField\Relation;
+use App\OrmModel\src\OrmField\Relation;
 use Illuminate\Database\Eloquent\Model;
 
 class BelongsTo extends Relation

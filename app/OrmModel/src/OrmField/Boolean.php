@@ -1,12 +1,12 @@
 <?php
 
-namespace App\OrmModel\OrmField;
+namespace App\OrmModel\src\OrmField;
 
 use Form;
-use App\OrmModel\Resource;
+use App\OrmModel\src\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Field;
 use Illuminate\Support\HtmlString;
+use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
 class Boolean extends Field

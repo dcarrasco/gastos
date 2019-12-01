@@ -3,13 +3,13 @@
 namespace App\OrmModel\Gastos;
 
 use Carbon\Carbon;
-use App\OrmModel\Resource;
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\Id;
 use App\OrmModel\Gastos\Banco;
-use App\OrmModel\OrmField\Text;
+use App\OrmModel\src\Resource;
+use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\Gastos\TipoCuenta;
-use App\OrmModel\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\OrmField\BelongsTo;
 use App\Gastos\TipoCuenta as TipoCuentaModel;
 
 class Cuenta extends Resource

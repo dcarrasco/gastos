@@ -3,7 +3,7 @@
 namespace App\OrmModel\Filters;
 
 use Illuminate\Http\Request;
-use App\OrmModel\Filters\Filter;
+use App\OrmModel\src\Filters\Filter;
 
 class AuditoresActivos extends Filter
 {
