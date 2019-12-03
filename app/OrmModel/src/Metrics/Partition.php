@@ -25,19 +25,11 @@ class Partition extends Metric
         return [];
     }
 
-    protected function content(Request $request)
-    {
-        $cardId = $this->cardId();
-
-        return "<canvas id=\"canvas-{$cardId}\" height=\"100%\"></canvas>";
-    }
-
     protected function contentScript(Request $request)
     {
         $dataSet = $this->calculate($request);
         $data = json_encode($dataSet->pluck('cant'));
         $labels = json_encode($dataSet->pluck('grupo'));
-        dump($labels);
         $cardId = $this->cardId();
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
         $resourceParams = json_encode($request->query());

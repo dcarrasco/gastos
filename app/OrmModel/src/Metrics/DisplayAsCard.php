@@ -1,12 +1,12 @@
 <?php
 
-namespace App\OrmModel\src;
+namespace App\OrmModel\src\Metrics;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
-class Card
+trait DisplayAsCard
 {
     public $width = '1/3';
 

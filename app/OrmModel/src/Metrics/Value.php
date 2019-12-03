@@ -99,6 +99,11 @@ EOD;
         return $content;
     }
 
+    /**
+     * Devuelve script para dibujar valores
+     * @param  Request $request
+     * @return string
+     */
     protected function contentScript(Request $request)
     {
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);

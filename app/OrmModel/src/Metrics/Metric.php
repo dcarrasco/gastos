@@ -2,13 +2,15 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Carbon\Carbon;
-use App\OrmModel\src\Card;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
-class Metric extends Card
+class Metric
 {
+    use DisplayAsCard;
+
     /**
      * Genera rango de fechas para realizar consultas
      * @param  Request $request
@@ -39,6 +41,12 @@ class Metric extends Card
         return $dateInterval;
     }
 
+    /**
+     * Devuelve el intervalo de fechas del periodo anterior
+     * @param  array $dateInterval
+     * @param  string/integer $dateOption
+     * @return array
+     */
     protected function previousDateInterval($dateInterval, $dateOption)
     {
         [$dateIni, $dateEnd] = $dateInterval;
@@ -55,26 +63,51 @@ class Metric extends Card
     }
 
 
+    /**
+     * Ejecuta query y devuelve datos
+     * @param  Request $request
+     * @param  string  $model
+     * @param  string  $timeColumn
+     * @param  array   $dateInterval
+     * @return Collection
+     */
     protected function getModelData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
     {
         $query = (new $model)->whereBetween($timeColumn, $dateInterval);
 
-        $query = $this->applyResourceFilters($request, $model, $query);
-
-        return $query->get();
+        return $this->applyResourceFilters($request, $model, $query)
+            ->get();
     }
 
-    protected function applyResourceFilters(Request $request, $model = '', $query)
+    /**
+     * Aplica los filtros definidos para el recurso
+     * @param  Request $request
+     * @param  string  $model
+     * @param  Builder $query
+     * @return Builder
+     */
+    protected function applyResourceFilters(Request $request, $model = '', Builder $query)
     {
         $resourceClass = 'App\\OrmModel\\Gastos\\' . class_basename($model);
-        $resourceFilters = (new $resourceClass)->filters($request);
 
-        foreach($resourceFilters as $filter) {
-            if ($filter->isSet($request)) {
+        collect((new $resourceClass)->filters($request))
+            ->filter->isSet($request)
+            ->each(function($filter) use ($request, &$query) {
                 $query = $filter->apply($request, $query, $filter->getValue($request));
-            }
-        }
+            });
 
         return $query;
+    }
+
+    /**
+     * Devuelve HTML con contenido de la metrica
+     * @param  Request $request
+     * @return string
+     */
+    protected function content(Request $request)
+    {
+        $cardId = $this->cardId();
+
+        return "<canvas id=\"canvas-{$cardId}\" height=\"100%\"></canvas>";
     }
 }

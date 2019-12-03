@@ -129,9 +129,8 @@ class Trend extends Metric
     {
         [$fechaInicio, $fechaFin] = $dateInterval;
 
-        $period = collect(CarbonPeriod::create($fechaInicio, $fechaFin))->map(function($date) {
-            return $date->format($this->dateFormat);
-        });
+        $period = collect(CarbonPeriod::create($fechaInicio, $fechaFin))
+            ->map->format($this->dateFormat);
 
         return $period->combine(array_fill(0, $period->count(), 0));
     }
@@ -161,13 +160,11 @@ class Trend extends Metric
             });
     }
 
-    protected function content(Request $request)
-    {
-        $cardId = $this->cardId();
-
-        return "<canvas id=\"canvas-{$cardId}\" height=\"100%\"></canvas>";
-    }
-
+    /**
+     * Devuelve script para dibujar grafico de tendencia
+     * @param  Request $request
+     * @return string
+     */
     protected function contentScript(Request $request)
     {
         $dataSet = $this->calculate($request);
