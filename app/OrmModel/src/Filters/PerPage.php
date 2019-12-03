@@ -4,12 +4,13 @@ namespace App\OrmModel\src\Filters;
 
 use Illuminate\Http\Request;
 use App\OrmModel\src\Filters\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class PerPage extends Filter
 {
     protected $parameterPrefix = '';
 
-    public function apply(Request $request, $query, $value)
+    public function apply(Request $request, Builder $query, $value)
     {
         return $query;
     }
