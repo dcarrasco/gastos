@@ -32,31 +32,31 @@
 
 <!-- ------------------------- LIST DATA ------------------------- -->
 <div class="container shadow-sm rounded-lg border">
-@if ($resource->getPaginationResources()->count() == 0)
-    <div class="row">
-        <div class="col-12 px-0">
-            <div class="card py-5 border-0 rounded-lg">
-                <h1 class="display-1 text-center text-muted">
-                    <span class="fa fa-table"></span>
-                </h1>
-                <div class="text-center text-muted">
-                    <h5> {{ trans('orm.no_records_found') }} </h5>
+    @include('orm.components.listado.filters')
+
+    @if ($resource->getPaginationResources()->count() == 0)
+        <div class="row">
+            <div class="col-12 px-0">
+                <div class="card py-5 border-0 rounded-lg">
+                    <h1 class="display-1 text-center text-muted">
+                        <span class="fa fa-table"></span>
+                    </h1>
+                    <div class="text-center text-muted">
+                        <h5> {{ trans('orm.no_records_found') }} </h5>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@else
-    @include('orm.components.listado.filters')
-
-    <div class="row">
-        <div class="col-12 px-0">
-            @include('orm.components.listado.tabla')
+    @else
+        <div class="row">
+            <div class="col-12 px-0">
+                @include('orm.components.listado.tabla')
+            </div>
         </div>
-    </div>
 
-    @include($resource->paginationLinksDetail() ? 'orm.components.listado.paginator_links_detail' : 'orm.components.listado.paginator_links_short')
+        @include($resource->paginationLinksDetail() ? 'orm.components.listado.paginator_links_detail' : 'orm.components.listado.paginator_links_short')
 
-@endif
+    @endif
 </div> <!-- container -->
 
 @include('orm.components.modal_delete')
