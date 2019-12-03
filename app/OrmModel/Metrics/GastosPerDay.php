@@ -2,8 +2,8 @@
 
 namespace App\OrmModel\Metrics;
 
-use App\Gastos\Gasto;
 use Illuminate\Http\Request;
+use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Trend;
 
 class GastosPerDay extends Trend

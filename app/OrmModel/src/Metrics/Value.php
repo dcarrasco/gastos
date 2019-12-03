@@ -12,37 +12,37 @@ class Value extends Metric
     protected $suffix = '';
 
 
-    public function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $currentDateInterval = $this->dateInterval($request);
         $previousDateInterval = $this->dateInterval($request, 'previous');
 
         return $this->formattedData([
-            'currentValue' => $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchSumData($request, $model, $sumColumn, $timeColumn, $previousDateInterval),
+            'currentValue' => $this->fetchSumData($request, $resource, $sumColumn, $timeColumn, $currentDateInterval),
+            'previousValue' => $this->fetchSumData($request, $resource, $sumColumn, $timeColumn, $previousDateInterval),
         ]);
     }
 
-    public function count(Request $request, $model = '', $timeColumn = 'created_at')
+    public function count(Request $request, $resource = '', $timeColumn = 'created_at')
     {
         $currentDateInterval = $this->dateInterval($request);
         $previousDateInterval = $this->dateInterval($request, 'previous');
 
         return $this->formattedData([
-            'currentValue' => $this->fetchCountData($request, $model, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchCountData($request, $model, $timeColumn, $previousDateInterval),
+            'currentValue' => $this->fetchCountData($request, $resource, $timeColumn, $currentDateInterval),
+            'previousValue' => $this->fetchCountData($request, $resource, $timeColumn, $previousDateInterval),
         ]);
     }
 
-    protected function fetchSumData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchSumData(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
-        return $this->getModelData($request, $model, $timeColumn, $dateInterval)
+        return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->sum($sumColumn);
     }
 
-    protected function fetchCountData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchCountData(Request $request, $resource = '', $timeColumn = '', $dateInterval = [])
     {
-        return $this->getModelData($request, $model, $timeColumn, $dateInterval)
+        return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->count();
     }
 

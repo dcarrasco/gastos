@@ -15,109 +15,109 @@ class Trend extends Metric
     /**
      * Suma los registros
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function sum(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    protected function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $dateInterval = $this->dateInterval($request);
 
-        return $this->fetchData($request, $model, $sumColumn, $timeColumn, $dateInterval);
+        return $this->fetchData($request, $resource, $sumColumn, $timeColumn, $dateInterval);
     }
 
     /**
      * Suma los registros por dias
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByDays(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByDays(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
     {
-        return $this->sum($request, $model, $sumColumn, $timeColumn);
+        return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
 
     /**
      * Suma los registros por semanas
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByWeeks(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByWeeks(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $this->dateFormat = 'W';
 
-        return $this->sum($request, $model, $sumColumn, $timeColumn);
+        return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
 
     /**
      * Suma los registros por meses
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByMonths(Request $request, $model = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByMonths(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
     {
         $this->dateFormat = 'Y-m';
 
-        return $this->sum($request, $model, $sumColumn, $timeColumn);
+        return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
 
     /**
      * Cuenta los registros
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function count(Request $request, $model = '', $timeColumn = 'created_at')
+    protected function count(Request $request, $resource = '', $timeColumn = 'created_at')
     {
         $dateInterval = $this->dateInterval($request);
 
-        return $this->fetchData($request, $model, '__count__', $timeColumn, $dateInterval);
+        return $this->fetchData($request, $resource, '__count__', $timeColumn, $dateInterval);
     }
 
     /**
      * Cuenta los registros por dias
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByDays(Request $request, $model = '', $timeColumn = 'created_at')
+    public function countByDays(Request $request, $resource = '', $timeColumn = 'created_at')
     {
-        return $this->count($request, $model, $timeColumn);
+        return $this->count($request, $resource, $timeColumn);
     }
 
     /**
      * Cuenta los registros por semanas
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByWeeks(Request $request, $model = '', $timeColumn = 'created_at')
+    public function countByWeeks(Request $request, $resource = '', $timeColumn = 'created_at')
     {
         $this->dateFormat = 'W';
 
-        return $this->count($request, $model, $timeColumn);
+        return $this->count($request, $resource, $timeColumn);
     }
 
     /**
      * Cuenta los registros por meses
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByMonths(Request $request, $model = '', $timeColumn = 'created_at')
+    public function countByMonths(Request $request, $resource = '', $timeColumn = 'created_at')
     {
         $this->dateFormat = 'Y-m';
 
-        return $this->count($request, $model, $timeColumn);
+        return $this->count($request, $resource, $timeColumn);
     }
 
     /**
@@ -138,15 +138,15 @@ class Trend extends Metric
     /**
      * Recupera conjunto de datos para utilizar
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function fetchData(Request $request, $model = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchData(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
     {
-        $data = $this->getModelData($request, $model, $timeColumn, $dateInterval)
+        $data = $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->map(function($data) use ($sumColumn, $timeColumn) {
                 return [
                     'value' => $sumColumn === '__count__' ? 1 : $data->{$sumColumn},

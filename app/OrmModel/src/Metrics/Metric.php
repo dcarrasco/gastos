@@ -66,31 +66,29 @@ class Metric
     /**
      * Ejecuta query y devuelve datos
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  string  $timeColumn
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function getModelData(Request $request, $model = '', $timeColumn = '', $dateInterval = [])
+    protected function getModelData(Request $request, $resource = '', $timeColumn = '', $dateInterval = [])
     {
-        $query = (new $model)->whereBetween($timeColumn, $dateInterval);
+        $query = (new $resource)->model()->whereBetween($timeColumn, $dateInterval);
 
-        return $this->applyResourceFilters($request, $model, $query)
+        return $this->applyResourceFilters($request, $resource, $query)
             ->get();
     }
 
     /**
      * Aplica los filtros definidos para el recurso
      * @param  Request $request
-     * @param  string  $model
+     * @param  string  $resource
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(Request $request, $model = '', Builder $query)
+    protected function applyResourceFilters(Request $request, $resource = '', Builder $query)
     {
-        $resourceClass = 'App\\OrmModel\\Gastos\\' . class_basename($model);
-
-        collect((new $resourceClass)->filters($request))
+        collect((new $resource)->filters($request))
             ->filter->isSet($request)
             ->each(function($filter) use ($request, &$query) {
                 $query = $filter->apply($request, $query, $filter->getValue($request));

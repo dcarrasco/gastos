@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\DB;
 
 class Partition extends Metric
 {
-    public function count(Request $request, $model = '', $column = '')
+    public function count(Request $request, $resource = '', $column = '')
     {
-        return (new $model)
+        return (new $resource)->model()
             ->select(DB::raw($column . ' as grupo, count(*) as cant'))
             ->groupBy($column)
             ->get();
     }
 
-    protected function countTotal(Request $request, $model = '')
+    protected function countTotal(Request $request, $resource = '')
     {
-        return (new $model)->count();
+        return (new $resource)->model()->count();
     }
 
     public function ranges()
