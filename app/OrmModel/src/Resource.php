@@ -5,7 +5,7 @@ namespace App\OrmModel\src;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use App\OrmModel\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -174,16 +174,16 @@ abstract class Resource
 
     public function getBelongsToRelations(Request $request): Resource
     {
+        $query = $this->modelQueryBuilder;
+
         $belongsToRelations = collect($this->fields($request))
             ->filter(function($field) {
                 return get_class($field) === BelongsTo::class;
             })
             ->map->getAttribute()
-            ->toArray();
-
-        if (count($belongsToRelations) > 0) {
-            $this->modelQueryBuilder = $this->modelQueryBuilder->with($belongsToRelations);
-        }
+            ->each(function($relatedClass) use (&$query) {
+                $query = $query->with($relatedClass);
+            });
 
         return $this;
     }
