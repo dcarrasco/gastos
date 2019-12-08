@@ -22,7 +22,7 @@ class Rol extends Resource
         'app_id' => 'asc', 'rol' => 'asc'
     ];
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

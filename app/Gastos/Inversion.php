@@ -3,6 +3,7 @@
 namespace App\Gastos;
 
 use App\Gastos\Gasto;
+use Illuminate\Database\Eloquent\Collection;
 
 class Inversion
 {
@@ -17,17 +18,17 @@ class Inversion
         $this->saldos = Gasto::saldos($cuenta, $anno);
     }
 
-    public function getMovimientos()
+    public function getMovimientos(): Collection
     {
         return $this->movimientos;
     }
 
-    public function saldoFinal()
+    public function saldoFinal(): Gasto
     {
         return optional($this->saldos)->last();
     }
 
-    protected function getSumMovimientos(Gasto $saldo)
+    protected function getSumMovimientos(Gasto $saldo): int
     {
         return $this->movimientos
             ->filter(function ($movimiento) use ($saldo) {
@@ -37,28 +38,28 @@ class Inversion
             ->sum();
     }
 
-    public function util(Gasto $saldo)
+    public function util(Gasto $saldo): int
     {
         return $saldo->monto - $this->getSumMovimientos($saldo);
     }
 
-    public function rentabilidad(Gasto $saldo)
+    public function rentabilidad(Gasto $saldo): float
     {
         $sumMovimientos = $this->getSumMovimientos($saldo);
 
         return $sumMovimientos == 0 ? 0 : $saldo->monto / $sumMovimientos - 1;
     }
 
-    public function rentabilidadAnual($saldoFinal = null)
+    public function rentabilidadAnual($saldoFinal = null): float
     {
         if (empty($this->movimientos)) {
-            return;
+            return 0;
         }
 
         $fechaIni = optional($this->movimientos->first())->fecha;
 
         if (is_null($fechaIni)) {
-            return;
+            return 0;
         }
 
         $fechaFin = is_null($saldoFinal) ? optional($this->saldoFinal())->fecha : $saldoFinal->fecha;
@@ -69,7 +70,7 @@ class Inversion
         }
     }
 
-    public function getJSONRentabilidadesAnual()
+    public function getJSONRentabilidadesAnual(): string
     {
         return $this->saldos->count() == 0
             ? ""

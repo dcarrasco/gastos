@@ -3,8 +3,9 @@
 namespace App\Gastos;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
-class Reporte
+abstract class Reporte
 {
     protected $data;
     protected $reporte = [];
@@ -23,60 +24,60 @@ class Reporte
         $this->titulosFilas = $this->makeTitulosFilas();
     }
 
-    public function getDato($fila = '', $columna = '', $default = '')
+    public function getDato($fila = '', $columna = '', $default = ''): int
     {
         return Arr::get($this->reporte, "{$fila}.{$columna}", $default);
     }
 
-    public function totalFila($fila = '')
+    public function totalFila($fila = ''): int
     {
         return $this->reporte
             ->get($fila)
             ->sum();
     }
 
-    public function countFila($fila = '')
+    public function countFila($fila = ''): int
     {
         return $this->reporte
             ->get($fila)
             ->count();
     }
 
-    public function totalColumna($columna)
+    public function totalColumna($columna): int
     {
         return $this->reporte
             ->map->get($columna)
             ->sum();
     }
 
-    public function totalReporte()
+    public function totalReporte(): int
     {
         return $this->reporte
             ->map->sum()
             ->sum();
     }
 
-    public function promedioReporte()
+    public function promedioReporte(): int
     {
         return $this->totalReporte() / $this->reporte->map->keys()->max()->max();
     }
 
-    public function getReporte()
+    public function getReporte(): Collection
     {
         return $this->reporte;
     }
 
-    public function titulosColumnas()
+    public function titulosColumnas(): Collection
     {
         return $this->titulosColumnas;
     }
 
-    public function titulosFilas()
+    public function titulosFilas(): Collection
     {
         return $this->titulosFilas;
     }
 
-    protected function makeReporte()
+    protected function makeReporte(): Collection
     {
         $reporte = [];
 
@@ -89,11 +90,7 @@ class Reporte
         });
     }
 
-    protected function makeTitulosColumnas()
-    {
-    }
+    abstract protected function makeTitulosColumnas(): Collection;
 
-    protected function makeTitulosFilas()
-    {
-    }
+    abstract protected function makeTitulosFilas(): Collection;
 }

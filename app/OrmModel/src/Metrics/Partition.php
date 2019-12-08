@@ -5,9 +5,9 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Partition extends Metric
+abstract class Partition extends Metric
 {
-    public function count(Request $request, $resource = '', $column = '')
+    public function count(Request $request, $resource = '', $column = ''): int
     {
         return (new $resource)->model()
             ->select(DB::raw($column . ' as grupo, count(*) as cant'))
@@ -15,17 +15,17 @@ class Partition extends Metric
             ->get();
     }
 
-    protected function countTotal(Request $request, $resource = '')
+    protected function countTotal(Request $request, $resource = ''): int
     {
         return (new $resource)->model()->count();
     }
 
-    public function ranges()
+    public function ranges(): array
     {
         return [];
     }
 
-    protected function contentScript(Request $request)
+    protected function contentScript(Request $request): string
     {
         $dataSet = $this->calculate($request);
         $data = json_encode($dataSet->pluck('cant'));

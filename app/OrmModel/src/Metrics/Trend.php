@@ -4,8 +4,9 @@ namespace App\OrmModel\src\Metrics;
 
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-class Trend extends Metric
+abstract class Trend extends Metric
 {
     protected $dateFormat = 'Y-m-d';
 
@@ -19,7 +20,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
+    protected function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at'): Collection
     {
         $dateInterval = $this->dateInterval($request);
 
@@ -33,7 +34,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByDays(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByDays(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at'): Collection
     {
         return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
@@ -45,7 +46,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByWeeks(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByWeeks(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at'):Collection
     {
         $this->dateFormat = 'W';
 
@@ -59,7 +60,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByMonths(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at')
+    public function sumByMonths(Request $request, $resource = '', $sumColumn = '', $timeColumn = 'created_at'): Collection
     {
         $this->dateFormat = 'Y-m';
 
@@ -73,7 +74,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function count(Request $request, $resource = '', $timeColumn = 'created_at')
+    protected function count(Request $request, $resource = '', $timeColumn = 'created_at'): Collection
     {
         $dateInterval = $this->dateInterval($request);
 
@@ -87,7 +88,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByDays(Request $request, $resource = '', $timeColumn = 'created_at')
+    public function countByDays(Request $request, $resource = '', $timeColumn = 'created_at'): Collection
     {
         return $this->count($request, $resource, $timeColumn);
     }
@@ -99,7 +100,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByWeeks(Request $request, $resource = '', $timeColumn = 'created_at')
+    public function countByWeeks(Request $request, $resource = '', $timeColumn = 'created_at'): Collection
     {
         $this->dateFormat = 'W';
 
@@ -113,7 +114,7 @@ class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByMonths(Request $request, $resource = '', $timeColumn = 'created_at')
+    public function countByMonths(Request $request, $resource = '', $timeColumn = 'created_at'): Collection
     {
         $this->dateFormat = 'Y-m';
 
@@ -125,7 +126,7 @@ class Trend extends Metric
      * @param  array  $dateInterval
      * @return Collection
      */
-    protected function initTotalizedData($dateInterval = [])
+    protected function initTotalizedData($dateInterval = []): Collection
     {
         [$fechaInicio, $fechaFin] = $dateInterval;
 
@@ -144,7 +145,7 @@ class Trend extends Metric
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function fetchData(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $dateInterval = [])
+    protected function fetchData(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $dateInterval = []): Collection
     {
         $data = $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->map(function($data) use ($sumColumn, $timeColumn) {
@@ -165,7 +166,7 @@ class Trend extends Metric
      * @param  Request $request
      * @return string
      */
-    protected function contentScript(Request $request)
+    protected function contentScript(Request $request): string
     {
         $dataSet = $this->calculate($request);
         $data = json_encode($dataSet->values());

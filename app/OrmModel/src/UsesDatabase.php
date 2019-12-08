@@ -3,29 +3,37 @@
 namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
+use App\OrmModel\src\Resource;
 use App\OrmModel\OrmField\HasMany;
 
 trait UsesDatabase
 {
     public $orderBy = [];
 
+    protected $modelQueryBuilder;
+
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
     protected $filterKey = 'filtro';
+
+    public function getModelQueryBuilder()
+    {
+        return $this->modelQueryBuilder;
+    }
 
     /**
      * Agrega condiciones de filtro a objecto modelo
      * @param  Request $request
      * @return Resource
      */
-    public function resourceFilter(Request $request)
+    public function resourceFilter(Request $request): Resource
     {
         if (empty($request->input($this->filterKey))) {
             return $this;
         }
 
         foreach($this->search as $field) {
-            $this->modelObject = $this->modelObject
+            $this->modelQueryBuilder = $this->modelQueryBuilder
                 ->orWhere($field, 'like', '%'.$request->input($this->filterKey).'%');
         };
 
@@ -36,7 +44,7 @@ trait UsesDatabase
      * Devuelve orden del modelo
      * @return array Arreglo con campos de ordenamiento
      */
-    public function getOrder()
+    public function getOrder(): array
     {
         if (!is_array($this->orderBy)) {
             $this->orderBy = [(string) $this->orderBy => 'asc'];
@@ -50,7 +58,7 @@ trait UsesDatabase
      * @param  Request $request
      * @return Resource
      */
-    public function resourceSetPerPage(Request $request)
+    public function resourceSetPerPage(Request $request): Resource
     {
         if (is_null($this->modelObject)) {
             $this->modelObject = $this->makeModelObject();
@@ -67,34 +75,34 @@ trait UsesDatabase
      * @param  Request $request
      * @return Resource
      */
-    public function resourceOrderBy(Request $request)
+    public function resourceOrderBy(Request $request): Resource
     {
         $orderBy = $request->has($this->sortByKey)
             ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
             : $this->getOrder();
 
         foreach ($orderBy as $field => $order) {
-            $this->modelObject = $this->modelObject->orderBy($field, $order);
+            $this->modelQueryBuilder = $this->modelQueryBuilder->orderBy($field, $order);
         }
 
         return $this;
     }
 
-    public function findOrFail($modelId)
+    public function findOrFail($modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrFail($modelId));
 
         return $this;
     }
 
-    public function findOrNew($modelId)
+    public function findOrNew($modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrNew($modelId));
 
         return $this;
     }
 
-    public function update(Request $request)
+    public function update(Request $request): Resource
     {
         // actualiza el objeto
         $this->modelObject->update($request->all());
@@ -113,5 +121,4 @@ trait UsesDatabase
 
         return $this;
     }
-
 }

@@ -17,7 +17,7 @@ class VisaExcelParser implements GastosParser
     protected $datosMasivos = null;
 
 
-    public function procesaMasivo(Request $request)
+    public function procesaMasivo(Request $request): Collection
     {
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
@@ -33,14 +33,14 @@ class VisaExcelParser implements GastosParser
         return $this->datosMasivos;
     }
 
-    protected function requestDatosMasivos(Request $request)
+    protected function requestDatosMasivos(Request $request): VisaExcelParser
     {
         $this->datosMasivos = collect(explode(PHP_EOL, $request->datos));
 
         return $this;
     }
 
-    protected function filtrarLineasValidas(Request $request)
+    protected function filtrarLineasValidas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
             ->filter(function($linea) {
@@ -50,7 +50,7 @@ class VisaExcelParser implements GastosParser
         return $this;
     }
 
-    protected function procesaLineas(Request $request)
+    protected function procesaLineas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
             ->map(function($linea) use ($request) {
@@ -60,7 +60,7 @@ class VisaExcelParser implements GastosParser
         return $this;
     }
 
-    protected function filtraLineasExistentes(Request $request)
+    protected function filtraLineasExistentes(Request $request): VisaExcelParser
     {
         $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
 
@@ -72,7 +72,7 @@ class VisaExcelParser implements GastosParser
         return $this;
     }
 
-    protected function getTipoGasto(Request $request, $linea = '')
+    protected function getTipoGasto(Request $request, $linea = ''): TipoGasto
     {
         $glosa = $this->getGlosa($linea);
 
@@ -85,7 +85,7 @@ class VisaExcelParser implements GastosParser
         return $glosaTipoGasto->tipoGasto ?? new TipoGasto;
     }
 
-    protected function procesaLineaMasivo(Request $request, $linea = '')
+    protected function procesaLineaMasivo(Request $request, $linea = ''): Gasto
     {
         $linea = collect(explode("\t", $linea));
         $tipoGasto = $this->getTipoGasto($request, $linea);
@@ -104,24 +104,24 @@ class VisaExcelParser implements GastosParser
         ]);
     }
 
-    protected function getFecha(Collection $linea)
+    protected function getFecha(Collection $linea): Carbon
     {
         $fecha = trim($linea[2]);
 
         return Carbon::create(substr($fecha, 6, 4), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
 
-    protected function getSerie(Collection $linea)
+    protected function getSerie(Collection $linea): string
     {
         return trim($linea[0]);
     }
 
-    protected function getGlosa($linea = [])
+    protected function getGlosa($linea = []): string
     {
         return trim($linea[3]);
     }
 
-    protected function getMonto($linea = [])
+    protected function getMonto($linea = []): int
     {
         return (int) str_replace('.', '', str_replace('$', '', trim($linea[4])));
     }

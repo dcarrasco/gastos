@@ -2,6 +2,7 @@
 
 namespace App\Gastos;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoGasto extends Model
@@ -16,7 +17,7 @@ class TipoGasto extends Model
         return $this->belongsTo(TipoMovimiento::class);
     }
 
-    public static function formArray()
+    public static function formArray(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()
             ->mapWithKeys(function($elem, $key) {return [$elem->tipo_movimiento => $elem];})

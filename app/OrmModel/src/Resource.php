@@ -4,11 +4,12 @@ namespace App\OrmModel\src;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\OrmModel\OrmField\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class Resource
+abstract class Resource
 {
     use UsesFilters;
     use UsesDatabase;
@@ -29,13 +30,14 @@ class Resource
 
     protected $perPage = 25;
 
-    public function __construct($modelObject = null)
+    public function __construct(Model $modelObject = null)
     {
         if ($this->model === '') {
             throw new \Exception('Modelo no definido en recurso OrmModel!');
         }
 
         $this->modelObject = $modelObject ?: $this->makeModelObject();
+        $this->modelQueryBuilder = $this->modelObject->newQuery();
     }
 
     /**
@@ -43,17 +45,7 @@ class Resource
      * @param  Request $request
      * @return array
      */
-    public function fields(Request $request)
-    {
-        return [];
-    }
-
-    /**
-     * Cards del recurso
-     * @param  Request $request
-     * @return array
-     */
-    public function cards(Request $request)
+    public function fields(Request $request): array
     {
         return [];
     }
@@ -62,7 +54,7 @@ class Resource
      * Recupera nombre del recurso
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         $fullName = explode("\\", get_class($this));
         return array_pop($fullName);
@@ -72,7 +64,7 @@ class Resource
      * Devuelve descripcion del recurso
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return empty($this->label) ? class_basename($this) : $this->label;
     }
@@ -81,7 +73,7 @@ class Resource
      * Devuelve descripcion del recurso en plural
      * @return string
      */
-    public function getLabelPlural()
+    public function getLabelPlural(): string
     {
         return empty($this->labelPlural) ? Str::plural($this->getLabel()) : $this->labelPlural;
     }
@@ -91,16 +83,16 @@ class Resource
      * @param  Request $request
      * @return mixed
      */
-    public function title()
+    public function title(): string
     {
-        return optional($this->modelObject)->{$this->title};
+        return optional($this->modelObject)->{$this->title} ?? '';
     }
 
     /**
      * Recupera instancia del modelo del recurso
      * @return Model
      */
-    public function model()
+    public function model(): Model
     {
         return $this->modelObject;
     }
@@ -109,7 +101,7 @@ class Resource
      * Genera objecto del modelo del recurso
      * @return Resource
      */
-    public function makeModelObject()
+    public function makeModelObject(): Model
     {
         return (new $this->model);
     }
@@ -119,7 +111,7 @@ class Resource
      * @param  Model|null $model
      * @return Resource
      */
-    public function injectModel(Model $model = null)
+    public function injectModel(Model $model = null): Resource
     {
         $this->modelObject = is_null($model) ? new $this->model : $model;
 
@@ -131,7 +123,7 @@ class Resource
      * @param  Request $request
      * @return array
      */
-    public function indexFields(Request $request)
+    public function indexFields(Request $request): array
     {
         return [
             'resource' => $this,
@@ -147,7 +139,7 @@ class Resource
      * @param  Request $request
      * @return array
      */
-    public function detailFields(Request $request)
+    public function detailFields(Request $request): Collection
     {
         return collect($this->fields($request))
             ->filter->showOnDetail()
@@ -159,7 +151,7 @@ class Resource
      * @param  Request $request
      * @return array
      */
-    public function formFields(Request $request)
+    public function formFields(Request $request): Collection
     {
         return collect($this->fields($request))
             ->filter->showOnForm()
@@ -171,7 +163,7 @@ class Resource
      * @param  Request $request
      * @return array
      */
-    public function getValidation(Request $request)
+    public function getValidation(Request $request): Collection
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {
@@ -180,7 +172,7 @@ class Resource
             ->all();
     }
 
-    public function getBelongsToRelations(Request $request)
+    public function getBelongsToRelations(Request $request): Resource
     {
         $belongsToRelations = collect($this->fields($request))
             ->filter(function($field) {
@@ -190,7 +182,7 @@ class Resource
             ->toArray();
 
         if (count($belongsToRelations) > 0) {
-            $this->modelObject = $this->modelObject->with($belongsToRelations);
+            $this->modelQueryBuilder = $this->modelQueryBuilder->with($belongsToRelations);
         }
 
         return $this;
@@ -200,12 +192,11 @@ class Resource
      * Devuelve paginador del modelo
      * @return Paginator
      */
-    public function getPaginated(Request $request)
+    public function getPaginated(Request $request): LengthAwarePaginator
     {
-        $paginate = $this->modelObject->paginate();
+        $paginate = $this->modelQueryBuilder->paginate();
 
-        $this->modelObject = null;
-        $this->makeModelObject($request);
+        $this->modelQueryBuilder = $this->makeModelObject($request)->newQuery();
 
         return $paginate;
     }
@@ -215,7 +206,7 @@ class Resource
      * @param  Request $request
      * @return Resource
      */
-    public function makePaginator(Request $request)
+    public function makePaginator(Request $request): Resource
     {
         $this->paginationResources = $this->paginator($request)
             ->getCollection()
@@ -229,7 +220,7 @@ class Resource
      * Devuelve el paginador del recurso
      * @return paginador
      */
-    public function getPaginator()
+    public function getPaginator(): LengthAwarePaginator
     {
         return $this->paginator;
     }
@@ -240,7 +231,7 @@ class Resource
      * @param  Request $request
      * @return Collection
      */
-    public function paginator(Request $request)
+    public function paginator(Request $request): LengthAwarePaginator
     {
         return is_null($this->paginator)
             ? $this->paginator = $this->resourceSetPerPage($request)
@@ -256,7 +247,7 @@ class Resource
      * Devuelve listado de recursos del paginador
      * @return Collection
      */
-    public function getPaginationResources()
+    public function getPaginationResources(): Collection
     {
         return $this->paginationResources;
     }
@@ -265,17 +256,17 @@ class Resource
      * Devuelve propiedad de detalle de links del paginador del recurso
      * @return boolean
      */
-    public function paginationLinksDetail()
+    public function paginationLinksDetail(): bool
     {
         return $this->paginationLinksDetail;
     }
 
-    public function getModelAjaxFormOptions(Request $request)
+    public function getModelAjaxFormOptions(Request $request): string
     {
         return ajax_options($this->getModelFormOptions($request));
     }
 
-    public function getModelFormOptions(Request $request)
+    public function getModelFormOptions(Request $request): Collection
     {
         $this->modelObject = $this->makeModelObject();
         $this->resourceOrderBy($request);
@@ -288,12 +279,10 @@ class Resource
             return is_integer($key) or !is_array($elem);
         })->all();
 
-        $query = $this->modelObject->where($whereValue);
-        if (! $whereIn->isEmpty()) {
-            $whereIn->each(function ($elem, $key) use (&$query) {
-                return $query->whereIn($key, $elem);
-            });
-        }
+        $query = $this->modelQueryBuilder->where($whereValue);
+        $whereIn->each(function ($elem, $key) use (&$query) {
+            return $query->whereIn($key, $elem);
+        });
 
         return $query->get()->mapWithKeys(function ($model) use ($request) {
             return [$model->getKey() => $this->injectModel($model)->title()];

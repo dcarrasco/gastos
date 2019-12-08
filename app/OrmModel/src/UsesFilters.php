@@ -3,6 +3,7 @@
 namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
+use App\OrmModel\src\Resource;
 
 trait UsesFilters
 {
@@ -11,7 +12,7 @@ trait UsesFilters
      * @param  Request $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [];
     }
@@ -21,20 +22,18 @@ trait UsesFilters
      * @param  Request $request
      * @return Resource
      */
-    protected function applyFilters(Request $request)
+    protected function applyFilters(Request $request): Resource
     {
-        $this->makeModelObject($request);
-
         foreach($this->filters($request) as $filter) {
             if ($filter->isSet($request)) {
-                $this->modelObject = $filter->apply($request, $this->modelObject, $filter->getValue($request));
+                $this->modelQueryBuilder = $filter->apply($request, $this->modelQueryBuilder, $filter->getValue($request));
             }
         }
 
         return $this;
     }
 
-    public function countAppliedFilters(Request $request)
+    public function countAppliedFilters(Request $request): int
     {
         return collect($this->filters($request))
             ->filter->isSet($request)

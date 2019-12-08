@@ -27,7 +27,7 @@ class SaldoMes extends Resource
         'mes' => 'asc',
     ];
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

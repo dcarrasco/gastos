@@ -5,6 +5,7 @@ namespace App\OrmModel\src\OrmField;
 use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 
 class Textarea extends Field
@@ -16,7 +17,7 @@ class Textarea extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = [], $parentId = null)
+    public function getForm(Request $request, Resource $resource, $extraParam = [], $parentId = null): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $extraParam['rows'] = 5;
@@ -26,7 +27,7 @@ class Textarea extends Field
         return Form::textarea($this->field, $value, $extraParam);
     }
 
-    protected function getFieldLength()
+    protected function getFieldLength(): int
     {
         $maxRule = collect($this->rules)
             ->first(function($rule) {

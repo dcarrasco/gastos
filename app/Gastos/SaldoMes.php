@@ -19,7 +19,7 @@ class SaldoMes extends Model
         return $this->belongsTo(Cuenta::class);
     }
 
-    public static function getSaldoMesAnterior($cuentaId, $anno, $mes)
+    public static function getSaldoMesAnterior($cuentaId, $anno, $mes): int
     {
         $fechaAnterior = Carbon::create($anno, $mes, 1)->subMonth();
 

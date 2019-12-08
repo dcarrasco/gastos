@@ -5,6 +5,7 @@ namespace App\OrmModel\src\OrmField;
 use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 
 class Text extends Field
@@ -16,7 +17,7 @@ class Text extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $extraParam['maxlength'] = $this->getFieldLength();
@@ -36,7 +37,7 @@ class Text extends Field
      * Devuelve largo del campo, de acuerdo a regla de validacion
      * @return string
      */
-    protected function getFieldLength()
+    protected function getFieldLength(): int
     {
         $maxRule = collect($this->rules)->first(function($rule) {
             return strpos($rule, 'max:') !== false;

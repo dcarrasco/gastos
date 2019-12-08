@@ -5,6 +5,7 @@ namespace App\OrmModel\src\OrmField;
 use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\Collection;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,7 +33,7 @@ class Relation extends Field
      * @param  array $relationConditions
      * @return Relation
      */
-    public function relationConditions($relationConditions = [])
+    public function relationConditions($relationConditions = []): Field
     {
         $this->relationConditions = $relationConditions;
 
@@ -46,7 +47,7 @@ class Relation extends Field
      * @param  string $relatedResource Nombre del recurso relacionado
      * @return Field
      */
-    public static function make($name = '', $field = '', $relatedResource = '')
+    public static function make($name = '', $field = '', $relatedResource = ''): Field
     {
         return new static($name, $field, $relatedResource);
     }
@@ -57,7 +58,7 @@ class Relation extends Field
      * @param  Model  $model
      * @return Collection
      */
-    public function getRelation(Model $model)
+    public function getRelation(Model $model): Collection
     {
         return $model->{$this->attribute}->mapInto($this->relatedResource);
     }
@@ -74,7 +75,7 @@ class Relation extends Field
     {
         return (new $this->relatedResource)
             ->resourceOrderBy($request)
-            ->model()
+            ->getModelQueryBuilder()
             ->where($this->getResourceFilter($resource, $conditions))
             ->get();
     }
@@ -87,7 +88,7 @@ class Relation extends Field
      * @param  array         $conditions
      * @return array
      */
-    public function getRelationOptions(Request $request, Resource $resource = null, $field = '', $conditions = [])
+    public function getRelationOptions(Request $request, Resource $resource = null, $field = '', $conditions = []): Collection
     {
         return $this->getRelatedListModels($request, $resource, $conditions)
             ->mapWithKeys(function($model) {
@@ -101,7 +102,7 @@ class Relation extends Field
      * @param  array    $conditions
      * @return array
      */
-    protected function getResourceFilter(Resource $resource, $conditions = [])
+    protected function getResourceFilter(Resource $resource, $conditions = []): array
     {
         return collect($conditions)
             ->filter(function($condition) {

@@ -10,7 +10,7 @@ use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Model;
 
-class Field
+abstract class Field
 {
     protected $name = '';
     protected $attribute = '';
@@ -59,7 +59,7 @@ class Field
      * @param  string $field Campo
      * @return Field
      */
-    public static function make($name = '', $field = '')
+    public static function make($name = '', $field = ''): Field
     {
         return new static($name, $field);
     }
@@ -68,7 +68,7 @@ class Field
      * Oculta el campo del listado Index
      * @return Field
      */
-    public function hideFromIndex()
+    public function hideFromIndex(): Field
     {
         $this->showOnList = false;
 
@@ -79,7 +79,7 @@ class Field
      * Indica que el campo es "ordenable"
      * @return Field
      */
-    public function sortable()
+    public function sortable(): Field
     {
         $this->isSortable = true;
 
@@ -90,7 +90,7 @@ class Field
      * Muestra campo en listado Index
      * @return Field
      */
-    public function showOnIndex()
+    public function showOnIndex(): bool
     {
         return $this->showOnList;
     }
@@ -99,7 +99,7 @@ class Field
      * Muestra campo en detalle
      * @return Field
      */
-    public function showOnDetail()
+    public function showOnDetail(): bool
     {
         return $this->showOnDetail;
     }
@@ -108,7 +108,7 @@ class Field
      * Muestra campo en formulario
      * @return Field
      */
-    public function showOnForm()
+    public function showOnForm(): bool
     {
         return $this->showOnForm;
     }
@@ -117,7 +117,7 @@ class Field
      * Devuelve icono de ordenamiento
      * @return string
      */
-    public function sortingIcon()
+    public function sortingIcon(): string
     {
         return $this->sortingIcon;
     }
@@ -126,7 +126,7 @@ class Field
      * Genera iconos para ordenar por campo en listado Index
      * @return HtmlString
      */
-    public function makeSortingIcon(Request $request, Resource $resource)
+    public function makeSortingIcon(Request $request, Resource $resource): Field
     {
         if ($this->isSortable) {
             $iconClass = $this->getSortingIconClass($request, $resource);
@@ -144,7 +144,7 @@ class Field
      * @param  Request $request
      * @return string
      */
-    protected function getSortingIconClass(Request $request, Resource $resource)
+    protected function getSortingIconClass(Request $request, Resource $resource): string
     {
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
@@ -159,7 +159,7 @@ class Field
      * @param  Request $request
      * @return string
      */
-    protected function getSortingOrder(Request $request, Resource $resource)
+    protected function getSortingOrder(Request $request, Resource $resource): string
     {
         $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
         $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
@@ -176,7 +176,7 @@ class Field
      * @param  string  $sortOrder
      * @return string
      */
-    protected function getSortUrl(Request $request, $sortOrder = '')
+    protected function getSortUrl(Request $request, $sortOrder = ''): string
     {
         return $request->fullUrlWithQuery(array_merge($request->all(), [
             $this->sortByKey => $this->attribute,
@@ -188,7 +188,7 @@ class Field
      * Devuelve nombre del campo Field
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -198,7 +198,7 @@ class Field
      * @param string $name
      * @return Field
      */
-    public function setName($name = '')
+    public function setName($name = ''): Field
     {
         $this->name = $name;
 
@@ -210,12 +210,12 @@ class Field
      * @param  Resource|null $resource
      * @return string
      */
-    public function getAttribute()
+    public function getAttribute(): string
     {
         return $this->attribute;
     }
 
-    public function getModelAttribute(Resource $resource)
+    public function getModelAttribute(Resource $resource): string
     {
         return $this->attribute;
     }
@@ -224,7 +224,7 @@ class Field
      * Indica si el campo es obligatorio
      * @return boolean
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return collect($this->rules)->contains('required');
     }
@@ -232,7 +232,7 @@ class Field
     /**
      * @return mixed
      */
-    public function getOnChange()
+    public function getOnChange(): string
     {
         return $this->onChange;
     }
@@ -242,7 +242,7 @@ class Field
      *
      * @return self
      */
-    public function onChange($onChange)
+    public function onChange($onChange): Field
     {
         $this->onChange = $onChange;
 
@@ -252,7 +252,7 @@ class Field
     /**
      * @return boolean
      */
-    public function hasOnChange()
+    public function hasOnChange(): bool
     {
         return !empty($this->onChange);
     }
@@ -262,7 +262,7 @@ class Field
      * @param  Resource $resource
      * @return String
      */
-    public function getValidation(Resource $resource)
+    public function getValidation(Resource $resource): string
     {
         return collect($this->rules)
             ->map(function($rule) use ($resource) {
@@ -278,7 +278,7 @@ class Field
      * @param  Resource $resource
      * @return string
      */
-    protected function getUniqueRuleParameters(Resource $resource)
+    protected function getUniqueRuleParameters(Resource $resource): string
     {
         return implode(',', [
             $resource->model()->getTable(),
@@ -293,7 +293,7 @@ class Field
      * @param  Model  $model
      * @return Field
      */
-    public function resolveValue(Model $model, Request $request)
+    public function resolveValue(Model $model, Request $request): Field
     {
         $this->value = $this->getValue($model, $request);
 
@@ -307,7 +307,7 @@ class Field
      * @param  array    $extraParam
      * @return Field
      */
-    public function resolveFormItem(Request $request, Resource $resource, $extraParam)
+    public function resolveFormItem(Request $request, Resource $resource, $extraParam): Field
     {
         $extraParam['class'] = Arr::get($extraParam, 'class', '')
             .(optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
@@ -321,7 +321,7 @@ class Field
      * Devuelve elemento de formulario calculado
      * @return string
      */
-    public function formItem()
+    public function formItem(): HtmlString
     {
         return $this->formItem;
     }
@@ -353,7 +353,7 @@ class Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, array $extraParam = [])
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->name;
         $value = $resource->{$this->attribute};
@@ -366,7 +366,7 @@ class Field
      * @param  mixed $rules
      * @return Field
      */
-    public function rules(...$rules)
+    public function rules(...$rules): Field
     {
         $rulesArray = [];
 

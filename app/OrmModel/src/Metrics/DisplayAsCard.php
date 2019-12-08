@@ -5,12 +5,13 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\OrmModel\src\Metrics\Metric;
 
 trait DisplayAsCard
 {
     public $width = '1/3';
 
-    public function component()
+    public function component(): string
     {
         return '';
     }
@@ -29,7 +30,7 @@ trait DisplayAsCard
         ])->render();
     }
 
-    protected function bootstrapCardWidth()
+    protected function bootstrapCardWidth(): string
     {
         return Arr::get([
             '1/2' => 'col-md-6',
@@ -39,19 +40,19 @@ trait DisplayAsCard
         ], $this->width, '');
     }
 
-    public function title()
+    public function title(): string
     {
         return Str::title(str_replace('_', ' ', Str::snake(class_basename($this))));
     }
 
-    public function width($width = '')
+    public function width($width = ''): Metric
     {
         $this->width = $width;
 
         return $this;
     }
 
-    protected function cardId()
+    protected function cardId(): string
     {
         return spl_object_hash($this);
     }

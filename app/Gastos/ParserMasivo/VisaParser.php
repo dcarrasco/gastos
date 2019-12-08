@@ -12,7 +12,7 @@ use App\Http\Controllers\Gastos\TipoGastoModel;
 
 class VisaParser implements GastosParser
 {
-    public function procesaMasivo(Request $request)
+    public function procesaMasivo(Request $request): Collection
     {
         if (! $request->has('datos')) {
             return [];
@@ -41,7 +41,7 @@ class VisaParser implements GastosParser
     }
 
 
-    protected function procesaLineaMasivo(Request $request, $linea = '')
+    protected function procesaLineaMasivo(Request $request, $linea = ''): Gasto
     {
         if (empty($linea)) {
             return null;
@@ -64,7 +64,7 @@ class VisaParser implements GastosParser
         ]);
     }
 
-    protected function getIndexFecha(Collection $linea)
+    protected function getIndexFecha(Collection $linea): int
     {
         return $linea->filter(function($item) {
                 return preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}/', $item) === 1;
@@ -75,14 +75,14 @@ class VisaParser implements GastosParser
             ->first();
     }
 
-    protected function getFecha(Collection $linea)
+    protected function getFecha(Collection $linea): Carbon
     {
         $fecha = $linea->get($this->getIndexFecha($linea));
 
         return (new Carbon)->create(2000 + (int)substr($fecha, 6, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
     }
 
-    protected function esLineaValida($linea = '')
+    protected function esLineaValida($linea = ''): boolean
     {
         return preg_match('/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]/', $linea) === 1;
     }
@@ -99,12 +99,12 @@ class VisaParser implements GastosParser
         return range($indexFecha + 1, $indexFecha + 1);
     }
 
-    protected function getSerie(Collection $linea)
+    protected function getSerie(Collection $linea): string
     {
         return $linea->only($this->getIndexSerie($linea))->implode('');
     }
 
-    protected function getGlosa($linea = [])
+    protected function getGlosa($linea = []): string
     {
         $indexFecha = $this->getIndexFecha($linea);
         $indexIni = count($this->getIndexSerie($linea)) === 1 ? $indexFecha + 2 : $indexFecha + 3;
@@ -113,7 +113,7 @@ class VisaParser implements GastosParser
         return collect($linea)->only(range($indexIni, $indexFin))->implode(' ');
     }
 
-    protected function montosConSigno(Collection $linea)
+    protected function montosConSigno(Collection $linea): boolean
     {
         return strpos($linea->last(), '$') !== false;
     }

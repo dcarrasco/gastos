@@ -4,16 +4,17 @@ namespace App\OrmModel\Metrics;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
+use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Value;
 
 class MontoRegistros extends Value
 {
-    public function calculate(Request $request)
+    public function calculate(Request $request): array
     {
         return $this->sum($request, Gasto::class, 'monto');
     }
 
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -25,7 +26,7 @@ class MontoRegistros extends Value
         ];
     }
 
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'monto-registros';
     }

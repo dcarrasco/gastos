@@ -3,6 +3,7 @@
 namespace App\Gastos;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class GlosaTipoGasto extends Model
 {
@@ -23,7 +24,7 @@ class GlosaTipoGasto extends Model
         return $this->belongsTo(TipoGasto::class);
     }
 
-    public static function getCuenta($cuentaId = 0)
+    public static function getCuenta($cuentaId = 0): Collection
     {
         return static::with('tipoGasto', 'tipoGasto.tipoMovimiento')->whereCuentaId($cuentaId)->get();
     }

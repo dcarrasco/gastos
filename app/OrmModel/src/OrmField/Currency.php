@@ -31,7 +31,7 @@ class Currency extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $value = $resource->model()->{$this->attribute};

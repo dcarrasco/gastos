@@ -23,7 +23,7 @@ class Cuenta extends Resource
 
     public $orderBy = 'cuenta';
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

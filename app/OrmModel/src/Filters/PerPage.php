@@ -10,12 +10,12 @@ class PerPage extends Filter
 {
     protected $parameterPrefix = '';
 
-    public function apply(Request $request, Builder $query, $value)
+    public function apply(Request $request, Builder $query, $value): Builder
     {
         return $query;
     }
 
-    public function options()
+    public function options(): array
     {
         return [
             '25' => 25,

@@ -33,7 +33,7 @@ class Gasto extends Resource
 
     protected $paginationLinksDetail = true;
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),
@@ -65,7 +65,7 @@ class Gasto extends Resource
         ];
     }
 
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [
             (new GastosPerDay),
@@ -75,7 +75,7 @@ class Gasto extends Resource
         ];
     }
 
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
             new CuentasGastos,

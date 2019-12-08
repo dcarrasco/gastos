@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Orm;
 
 use Route;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Filters\PerPage;
+use App\OrmModel\src\Resource;
 use App\Http\Controllers\Controller;
+use App\OrmModel\src\Filters\PerPage;
 
 class OrmController extends Controller
 {
@@ -61,7 +62,7 @@ class OrmController extends Controller
      * @param  Request $request
      * @return Resource
      */
-    protected function getResource($resourceName = '')
+    protected function getResource($resourceName = ''): Resource
     {
         $resource = collect($this->menuModulo)->first(function($resource) use ($resourceName) {
             return (new $resource)->getName() === $resourceName;

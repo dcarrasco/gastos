@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UsuariosActivos extends Filter
 {
-    public function apply(Request $request, Builder $query, $value)
+    public function apply(Request $request, Builder $query, $value): Builder
     {
         return $query->where('activo', $value);
     }
 
-    public function options()
+    public function options(): array
     {
         return [
             'Activos' => 1,

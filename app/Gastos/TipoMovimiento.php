@@ -2,6 +2,7 @@
 
 namespace App\Gastos;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoMovimiento extends Model
@@ -16,7 +17,7 @@ class TipoMovimiento extends Model
         return $this->hasMany(TipoGasto::class);
     }
 
-    public static function formArray()
+    public static function formArray(): Collection
     {
         return static::orderBy('orden')->get()
             ->pluck('tipo_movimiento', 'id');

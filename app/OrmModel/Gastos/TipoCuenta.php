@@ -23,7 +23,7 @@ class TipoCuenta extends Resource
 
     public $orderBy = 'tipo_cuenta';
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

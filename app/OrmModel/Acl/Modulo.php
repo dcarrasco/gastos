@@ -22,7 +22,7 @@ class Modulo extends Resource
         'modulo' =>'asc'
     ];
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

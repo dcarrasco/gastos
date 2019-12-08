@@ -24,7 +24,7 @@ class TipoGasto extends Resource
         'tipo_gasto' => 'asc'
     ];
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

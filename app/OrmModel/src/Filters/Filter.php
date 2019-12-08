@@ -17,16 +17,16 @@ class Filter
      * @param  mixed  $value
      * @return Builder
      */
-    public function apply(Request $request, Builder $query, $value)
+    public function apply(Request $request, Builder $query, $value): Builder
     {
         return $query;
     }
 
     /**
-     * Opciones a mostrar para el filtrp
+     * Opciones a mostrar para el filtro
      * @return array
      */
-    public function options()
+    public function options(): array
     {
         return [];
     }
@@ -35,7 +35,7 @@ class Filter
      * Devuelve nombre del filtro
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         $fullName = explode('\\', get_class($this));
         $name = array_pop($fullName);
@@ -47,7 +47,7 @@ class Filter
      * Devuelve etiqueta o titulo del recurso
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return str_replace('_', ' ', Str::snake($this->getName()));
     }
@@ -58,7 +58,7 @@ class Filter
      * @param  mixed  $value
      * @return string
      */
-    public function getOptionUrl(Request $request, $value)
+    public function getOptionUrl(Request $request, $value): string
     {
         $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
             ? [$this->getUrlParameter() => '']
@@ -73,7 +73,7 @@ class Filter
      * Devuelve nombre del parámetro string query del filtro
      * @return string
      */
-    public function getUrlParameter()
+    public function getUrlParameter(): string
     {
         return $this->parameterPrefix.$this->getName();
     }
@@ -84,7 +84,7 @@ class Filter
      * @param  mixed  $value
      * @return string
      */
-    public function getUrlMark(Request $request, $value)
+    public function getUrlMark(Request $request, $value): string
     {
         if (is_null($this->getValue($request)))
         {
@@ -101,12 +101,12 @@ class Filter
      * @param  Request $request
      * @return mixed
      */
-    public function getValue(Request $request)
+    public function getValue(Request $request): string
     {
         $value = $request->get($this->getUrlParameter());
 
         if (is_null($value) or $value === '') {
-            return null;
+            return '';
         }
 
         return $value;
@@ -117,9 +117,9 @@ class Filter
      * @param  Request $request
      * @return boolean
      */
-    public function isSet(Request $request)
+    public function isSet(Request $request): bool
     {
-        return $request->has($this->getUrlParameter()) and ! is_null($this->getValue($request));
+        return $request->has($this->getUrlParameter()) and $this->getValue($request) != '';
     }
 
 }

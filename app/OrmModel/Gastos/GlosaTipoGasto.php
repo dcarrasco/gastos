@@ -21,7 +21,7 @@ class GlosaTipoGasto extends Resource
 
     public $orderBy = 'glosa';
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),

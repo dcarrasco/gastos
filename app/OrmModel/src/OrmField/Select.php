@@ -6,6 +6,7 @@ use Form;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,7 @@ class Select extends Field
      * @param  array  $options
      * @return Field
      */
-    public function options($options = [])
+    public function options($options = []): Field
     {
         $this->choices = $options;
 
@@ -46,7 +47,7 @@ class Select extends Field
      * Indica si el campo tiene opciones
      * @return boolean
      */
-    public function hasChoices()
+    public function hasChoices(): bool
     {
         return count($this->choices) > 0;
     }
@@ -58,7 +59,7 @@ class Select extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $extraParam['class'] = Arr::get('class', $extraParam, '') . ' custom-select';

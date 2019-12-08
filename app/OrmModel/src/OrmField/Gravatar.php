@@ -31,7 +31,7 @@ class Gravatar extends Field
     }
 
 
-    protected function getGravatarUrl($email = '', $size = 256)
+    protected function getGravatarUrl($email = '', $size = 256): string
     {
         $md5Email = md5($email);
 

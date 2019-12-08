@@ -21,7 +21,7 @@ class Usuario extends Resource
     ];
     public $orderBy = 'nombre';
 
-    public function fields(Request $request)
+    public function fields(Request $request): array
     {
         return [
             Id::make()->sortable(),
@@ -64,7 +64,7 @@ class Usuario extends Resource
         ];
     }
 
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [
             new UsuariosActivos,

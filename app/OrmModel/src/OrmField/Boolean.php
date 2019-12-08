@@ -35,7 +35,7 @@ class Boolean extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, array $extraParam = [])
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $value = $resource->model()->{$this->attribute};

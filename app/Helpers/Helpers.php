@@ -3,7 +3,7 @@
 use Illuminate\Support\Arr;
 
 if (!function_exists('ajax_options')) {
-    function ajax_options($opciones)
+    function ajax_options($opciones): string
     {
         return collect($opciones)
             ->map(function ($item, $key) {

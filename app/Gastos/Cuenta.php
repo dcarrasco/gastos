@@ -4,6 +4,7 @@ namespace App\Gastos;
 
 use App\Gastos\Banco;
 use App\Gastos\TipoCuenta;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Cuenta extends Model
@@ -23,7 +24,7 @@ class Cuenta extends Model
         return $this->belongsTo(TipoCuenta::class);
     }
 
-    protected static function formArray($tipo = 0)
+    protected static function formArray($tipo = 0): Collection
     {
         return TipoCuenta::where('tipo', $tipo)->with('cuentas')->get()
             ->map->cuentas
@@ -31,12 +32,12 @@ class Cuenta extends Model
             ->pluck('cuenta', 'id');
     }
 
-    public static function selectCuentasGastos()
+    public static function selectCuentasGastos(): Collection
     {
         return static::formArray(TipoCuenta::CUENTA_GASTO);
     }
 
-    public static function selectCuentasInversiones()
+    public static function selectCuentasInversiones(): Collection
     {
         return static::formArray(TipoCuenta::CUENTA_INVERSION);
     }

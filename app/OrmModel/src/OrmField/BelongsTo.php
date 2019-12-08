@@ -26,7 +26,7 @@ class BelongsTo extends Relation
         return (new $this->relatedResource($relatedModel))->title();
     }
 
-    public function getModelAttribute(Resource $resource)
+    public function getModelAttribute(Resource $resource): string
     {
         return $resource->model()->{$this->attribute}()->getForeignKeyName();
     }
@@ -38,7 +38,7 @@ class BelongsTo extends Relation
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = [])
+    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $foreignKeyName = $this->getModelAttribute($resource);
         $field = $this->attribute;
@@ -80,7 +80,7 @@ class BelongsTo extends Relation
      * @param  Resource|null $resource
      * @return array
      */
-    protected function getOptions(Request $request, Resource $resource = null)
+    protected function getOptions(Request $request, Resource $resource = null): array
     {
         $relationName = (new $this->relatedResource)->getLabel();
         $optionIni = ['' => trans('orm.choose_option').$relationName];

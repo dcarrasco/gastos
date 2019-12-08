@@ -5,7 +5,7 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
-class Value extends Metric
+abstract class Value extends Metric
 {
     protected $dateFormat = 'Y-m-d';
     protected $prefix = '';
@@ -58,7 +58,7 @@ class Value extends Metric
         return number_format($percentChange, 0, '.', ',') . '% de ' . $textChange;
     }
 
-    protected function formattedData($data = [])
+    protected function formattedData($data = []): array
     {
         return [
             'currentValue' => $this->prefix.' '.number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
@@ -66,21 +66,21 @@ class Value extends Metric
         ];
     }
 
-    public function prefix($prefix = '')
+    public function prefix($prefix = ''): Metric
     {
         $this->prefix = $prefix;
 
         return $this;
     }
 
-    public function suffix($suffix = '')
+    public function suffix($suffix = ''): Metric
     {
         $this->suffix = $suffix;
 
         return $this;
     }
 
-    protected function content(Request $request)
+    protected function content(Request $request): string
     {
         $data = $this->calculate($request);
 
@@ -104,7 +104,7 @@ EOD;
      * @param  Request $request
      * @return string
      */
-    protected function contentScript(Request $request)
+    protected function contentScript(Request $request): string
     {
         $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
         $cardId = $this->cardId();

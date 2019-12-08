@@ -5,9 +5,10 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
 
-class Metric
+abstract class Metric
 {
     use DisplayAsCard;
 
@@ -17,7 +18,7 @@ class Metric
      * @param  string  $period
      * @return Array
      */
-    protected function dateInterval(Request $request, $period = 'current')
+    protected function dateInterval(Request $request, $period = 'current'): array
     {
         $dateOption = $request->input('range', collect($this->ranges())->keys()->first());
 
@@ -47,7 +48,7 @@ class Metric
      * @param  string/integer $dateOption
      * @return array
      */
-    protected function previousDateInterval($dateInterval, $dateOption)
+    protected function previousDateInterval($dateInterval, $dateOption): array
     {
         [$dateIni, $dateEnd] = $dateInterval;
 
@@ -71,7 +72,7 @@ class Metric
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function getModelData(Request $request, $resource = '', $timeColumn = '', $dateInterval = [])
+    protected function getModelData(Request $request, $resource = '', $timeColumn = '', $dateInterval = []): Collection
     {
         $query = (new $resource)->model()->whereBetween($timeColumn, $dateInterval);
 
@@ -86,7 +87,7 @@ class Metric
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(Request $request, $resource = '', Builder $query)
+    protected function applyResourceFilters(Request $request, $resource = '', Builder $query): Builder
     {
         collect((new $resource)->filters($request))
             ->filter->isSet($request)
@@ -102,7 +103,7 @@ class Metric
      * @param  Request $request
      * @return string
      */
-    protected function content(Request $request)
+    protected function content(Request $request): string
     {
         $cardId = $this->cardId();
 

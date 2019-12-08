@@ -20,7 +20,8 @@ class App extends Resource
     ];
     public $orderBy = 'app';
 
-    public function fields(Request $request) {
+    public function fields(Request $request): array
+    {
         return [
             Id::make()->sortable(),
 
