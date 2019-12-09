@@ -176,7 +176,7 @@ abstract class Resource
     {
         $query = $this->modelQueryBuilder;
 
-        $belongsToRelations = collect($this->fields($request))
+        collect($this->fields($request))
             ->filter(function($field) {
                 return get_class($field) === BelongsTo::class;
             })
@@ -184,6 +184,8 @@ abstract class Resource
             ->each(function($relatedClass) use (&$query) {
                 $query = $query->with($relatedClass);
             });
+
+        $this->modelQueryBuilder = $query;
 
         return $this;
     }
