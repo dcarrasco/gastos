@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Metric
@@ -103,10 +104,10 @@ abstract class Metric
      * @param  Request $request
      * @return string
      */
-    protected function content(Request $request): string
+    protected function content(Request $request): HtmlString
     {
-        $cardId = $this->cardId();
-
-        return "<canvas id=\"canvas-{$cardId}\" height=\"100%\"></canvas>";
+        return new HtmlString(view('orm.metrics.metric_content', [
+            'cardId' => $this->cardId(),
+        ]));
     }
 }

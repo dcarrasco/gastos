@@ -4,6 +4,7 @@ namespace App\OrmModel\src\Metrics;
 
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 
 abstract class Value extends Metric
 {
@@ -80,23 +81,14 @@ abstract class Value extends Metric
         return $this;
     }
 
-    protected function content(Request $request): string
+    protected function content(Request $request): HtmlString
     {
         $data = $this->calculate($request);
 
-        $currentValue = Arr::get($data, 'currentValue', 0);
-        $previousValue = Arr::get($data, 'previousValue', 0);
-
-        $content = <<<EOD
-            <div class="col-md-12">
-                <h1 class="">$currentValue</h1>
-            </div>
-            <div class="col-md-12">
-                <h5 class="text-secondary">$previousValue</h2>
-            </div>
-EOD;
-
-        return $content;
+        return new HtmlString(view('orm.metrics.value_content', [
+            'currentValue' => Arr::get($data, 'currentValue', 0),
+            'previousValue' => Arr::get($data, 'previousValue', 0),
+        ]));
     }
 
     /**
@@ -104,34 +96,13 @@ EOD;
      * @param  Request $request
      * @return string
      */
-    protected function contentScript(Request $request): string
+    protected function contentScript(Request $request): HtmlString
     {
-        $urlRoute = route('gastosConfig.ajaxCard', [request()->segment(2)]);
-        $cardId = $this->cardId();
-        $resourceParams = json_encode($request->query());
-
-        return <<<EOD
-<script type="text/javascript">
-    function loadCardData_{$cardId}(uriKey, cardId) {
-        $('#spinner-' + cardId).removeClass('d-none');
-        $.ajax({
-            url: '$urlRoute',
-            data: {
-                ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
-                ...{$resourceParams}
-                },
-            async: true,
-            success: function(data) {
-                if (data) {
-                    $('#' + cardId + '> div > h1').text(data.currentValue);
-                    $('#' + cardId + '> div > h5').text(data.previousValue);
-                    $('#spinner-' + cardId).addClass('d-none');
-                }
-            },
-        });
-    }
-</script>
-EOD;
+        return new HtmlString(view('orm.metrics.value_script', [
+            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2)]),
+            'cardId' => $this->cardId(),
+            'resourceParams' => new HtmlString(json_encode($request->query())),
+        ])->render());
     }
 
 }

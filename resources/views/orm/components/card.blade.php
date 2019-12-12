@@ -3,8 +3,6 @@
     <div class="card-body px-1 py-2">
         <div class="row px-3">
             <div class="{{ count($ranges) ? 'col-6' : 'col-12' }}">
-                <div id="spinner-{{ $cardId }}" class="spinner-border spinner-border-sm d-none" role="status">
-                </div>
                 <strong>{{ $title }}</strong>
             </div>
 
@@ -15,12 +13,20 @@
             @endif
         </div>
 
+        <div id="spinner-{{ $cardId }}" class="row mx-4 d-none" style="height: 100px">
+            <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+            <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+            <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+            <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+            <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+        </div>
+
         <div id="{{ $cardId }}" class="row mx-2" style="height: 100px">
-            {!! $content !!}
+            {{ $content }}
         </div>
     </div>
 
-    {!! $contentScript !!}
+    {{ $contentScript }}
 </div>
 </div>
 
