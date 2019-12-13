@@ -62,7 +62,7 @@ class OrmController extends Controller
      * @param  Request $request
      * @return Resource
      */
-    protected function getResource($resourceName = ''): Resource
+    protected function getResource(string $resourceName = ''): Resource
     {
         $resource = collect($this->menuModulo)->first(function($resource) use ($resourceName) {
             return (new $resource)->getName() === $resourceName;
@@ -79,7 +79,7 @@ class OrmController extends Controller
      * @param  string $modulo
      * @return none
      */
-    public static function routes($modulo = '')
+    public static function routes(string $modulo = '')
     {
         $prefix = strtolower($modulo).'-config';
         $as = strtolower($modulo).'Config.';
@@ -105,7 +105,7 @@ class OrmController extends Controller
      * @param  string  $resourceClass Nombre del recurso a recuperar
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $resourceClass = null)
+    public function index(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass)->makePaginator($request);
         $cards = $resource->renderCards($request);
@@ -121,7 +121,7 @@ class OrmController extends Controller
      * @param  string  $resourceClass Nombre del recurso
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $resourceClass = null)
+    public function create(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass);
         $fields = $resource->formFields($request);
@@ -136,7 +136,7 @@ class OrmController extends Controller
      * @param  string  $resourceClass Nombre del recurso
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $resourceClass = null)
+    public function store(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass);
         $this->validate($request, $resource->getValidation($request));
@@ -162,7 +162,7 @@ class OrmController extends Controller
      * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $resourceClass = null, $modelId = null)
+    public function show(Request $request, string $resourceClass = '', string $modelId = '')
     {
         $resource = $this->getResource($resourceClass)->findOrNew($modelId);
         $fields = $resource->detailFields($request);
@@ -178,7 +178,7 @@ class OrmController extends Controller
      * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $resourceClass = null, $modelId = null)
+    public function edit(Request $request, string $resourceClass = '', string $modelId = '')
     {
         $resource = $this->getResource($resourceClass)->findOrNew($modelId);
         $fields = $resource->formFields($request);
@@ -194,7 +194,7 @@ class OrmController extends Controller
      * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $resourceClass = null, $modelId = null)
+    public function update(Request $request, string $resourceClass = '', string $modelId = '')
     {
         $resource = $this->getResource($resourceClass)->findOrFail($modelId);
         $this->validate($request, $resource->getValidation($request));
@@ -220,7 +220,7 @@ class OrmController extends Controller
      * @param  string  $modelId       ID del recurso
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $resourceClass = null, $modelId = null)
+    public function destroy(Request $request, string $resourceClass = '', string $modelId = '')
     {
         $resource = $this->getResource($resourceClass)->findOrFail($modelId);
         $resource->model()->destroy($modelId);
@@ -242,7 +242,7 @@ class OrmController extends Controller
      * @param  string  $resourceClass Nombre del recurso
      * @return string
      */
-    public function ajaxOnChange(Request $request, $resourceClass = null)
+    public function ajaxOnChange(Request $request, string $resourceClass = '')
     {
         return $this->getResource($resourceClass)
             ->getModelAjaxFormOptions($request);
@@ -255,7 +255,7 @@ class OrmController extends Controller
      * @param  string  $resourceClass Nombre del recurso
      * @return
      */
-    public function ajaxCard(Request $request, $resourceClass = null)
+    public function ajaxCard(Request $request, string $resourceClass = '')
     {
         return collect($this->getResource($resourceClass)->cards($request))
             ->first(function($card) use ($request) {

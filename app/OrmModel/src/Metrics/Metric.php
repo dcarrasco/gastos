@@ -15,11 +15,12 @@ abstract class Metric
 
     /**
      * Genera rango de fechas para realizar consultas
+     *
      * @param  Request $request
      * @param  string  $period
      * @return Array
      */
-    protected function dateInterval(Request $request, $period = 'current'): array
+    protected function dateInterval(Request $request, string $period = 'current'): array
     {
         $dateOption = $request->input('range', collect($this->ranges())->keys()->first());
 
@@ -45,11 +46,12 @@ abstract class Metric
 
     /**
      * Devuelve el intervalo de fechas del periodo anterior
+     *
      * @param  array $dateInterval
      * @param  string/integer $dateOption
      * @return array
      */
-    protected function previousDateInterval($dateInterval, $dateOption): array
+    protected function previousDateInterval(array $dateInterval, string $dateOption): array
     {
         [$dateIni, $dateEnd] = $dateInterval;
 
@@ -67,13 +69,15 @@ abstract class Metric
 
     /**
      * Ejecuta query y devuelve datos
+     *
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function getModelData(Request $request, $resource = '', $timeColumn = '', $dateInterval = []): Collection
+    protected function getModelData(Request $request, string $resource = '',
+                                    string $timeColumn = '', array $dateInterval = []): Collection
     {
         $query = (new $resource)->model()->whereBetween($timeColumn, $dateInterval);
 
@@ -83,12 +87,14 @@ abstract class Metric
 
     /**
      * Aplica los filtros definidos para el recurso
+     *
      * @param  Request $request
      * @param  string  $resource
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(Request $request, $resource = '', Builder $query): Builder
+    protected function applyResourceFilters(Request $request, string $resource = '',
+                                            Builder $query): Builder
     {
         collect((new $resource)->filters($request))
             ->filter->isSet($request)
@@ -101,8 +107,9 @@ abstract class Metric
 
     /**
      * Devuelve HTML con contenido de la metrica
+     *
      * @param  Request $request
-     * @return string
+     * @return HtmlString
      */
     protected function content(Request $request): HtmlString
     {

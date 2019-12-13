@@ -15,8 +15,9 @@ class BelongsTo extends Relation
 {
     /**
      * Devuelve valor del campo formateado
-     * @param  Request    $request
+     *
      * @param  Model|null $model
+     * @param  Request    $request
      * @return mixed
      */
     public function getValue(Model $model = null, Request $request)
@@ -38,7 +39,7 @@ class BelongsTo extends Relation
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $foreignKeyName = $this->getModelAttribute($resource);
         $field = $this->attribute;
@@ -55,7 +56,7 @@ class BelongsTo extends Relation
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
     }
 
-    protected function makeOnChange($field)
+    protected function makeOnChange(string $field)
     {
             $route = \Route::currentRouteName();
             list($routeName, $routeAction) = explode('.', $route);

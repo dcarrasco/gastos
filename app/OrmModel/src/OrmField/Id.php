@@ -15,7 +15,7 @@ class Id extends Field
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
-    public function __construct($name = '', $field = '')
+    public function __construct(string $name = '', string $field = '')
     {
         $name = empty($name) ? 'id' : $name;
         $this->esIncrementing = true;
@@ -31,7 +31,7 @@ class Id extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $field = $this->attribute;

@@ -10,11 +10,24 @@ class PerPage extends Filter
 {
     protected $parameterPrefix = '';
 
+    /**
+     * Aplica filtro en la query
+     *
+     * @param  Request $request
+     * @param  Builder $query
+     * @param  mixed  $value
+     * @return Builder
+     */
     public function apply(Request $request, Builder $query, $value): Builder
     {
         return $query;
     }
 
+    /**
+     * Opciones a mostrar para el filtro
+     *
+     * @return array
+     */
     public function options(): array
     {
         return [

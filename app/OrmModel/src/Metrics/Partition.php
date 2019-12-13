@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 abstract class Partition extends Metric
 {
-    public function count(Request $request, $resource = '', $column = ''): int
+    public function count(Request $request, string $resource = '', string $column = ''): int
     {
         return (new $resource)->model()
             ->select(DB::raw($column . ' as grupo, count(*) as cant'))
@@ -15,7 +15,7 @@ abstract class Partition extends Metric
             ->get();
     }
 
-    protected function countTotal(Request $request, $resource = ''): int
+    protected function countTotal(Request $request, string $resource = ''): int
     {
         return (new $resource)->model()->count();
     }

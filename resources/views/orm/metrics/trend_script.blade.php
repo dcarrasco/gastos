@@ -20,7 +20,7 @@ var options_{{ $cardId }} = {
     legend: {display: false},
     elements: {
         line: {
-            tension: 0.001,
+            tension: 0,
         }
     },
     scales: {

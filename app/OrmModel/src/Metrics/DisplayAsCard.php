@@ -45,7 +45,7 @@ trait DisplayAsCard
         return Str::title(str_replace('_', ' ', Str::snake(class_basename($this))));
     }
 
-    public function width($width = ''): Metric
+    public function width(string $width = ''): Metric
     {
         $this->width = $width;
 

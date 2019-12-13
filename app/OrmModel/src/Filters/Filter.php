@@ -12,6 +12,7 @@ class Filter
 
     /**
      * Aplica filtro en la query
+     *
      * @param  Request $request
      * @param  Builder $query
      * @param  mixed  $value
@@ -24,6 +25,7 @@ class Filter
 
     /**
      * Opciones a mostrar para el filtro
+     *
      * @return array
      */
     public function options(): array
@@ -33,6 +35,7 @@ class Filter
 
     /**
      * Devuelve nombre del filtro
+     *
      * @return string
      */
     public function getName(): string
@@ -45,6 +48,7 @@ class Filter
 
     /**
      * Devuelve etiqueta o titulo del recurso
+     *
      * @return string
      */
     public function getLabel(): string
@@ -54,6 +58,7 @@ class Filter
 
     /**
      * Devuelve link para activar el filtro
+     *
      * @param  Request $request
      * @param  mixed  $value
      * @return string
@@ -71,6 +76,7 @@ class Filter
 
     /**
      * Devuelve nombre del parámetro string query del filtro
+     *
      * @return string
      */
     public function getUrlParameter(): string
@@ -80,6 +86,7 @@ class Filter
 
     /**
      * Devuelve html para marcar la opcion de filtro activa
+     *
      * @param  Request $request
      * @param  mixed  $value
      * @return string
@@ -98,6 +105,7 @@ class Filter
 
     /**
      * Devuelve el valor del filtro en el stringquery
+     *
      * @param  Request $request
      * @return mixed
      */
@@ -114,6 +122,7 @@ class Filter
 
     /**
      * Determina si un filtro esta activo
+     *
      * @param  Request $request
      * @return boolean
      */

@@ -20,7 +20,7 @@ class Relation extends Field
      * @param string $field           Campo
      * @param string $relatedResource Nombre del recurso relacionado
      */
-    public function __construct($name = '', $field = '', $relatedResource = '')
+    public function __construct(string $name = '', string $field = '', string $relatedResource = '')
     {
         $field = empty($field) ? $name : $field;
         $this->relatedResource = empty($relatedResource) ? $field : $relatedResource;
@@ -33,7 +33,7 @@ class Relation extends Field
      * @param  array $relationConditions
      * @return Relation
      */
-    public function relationConditions($relationConditions = []): Field
+    public function relationConditions(array $relationConditions = []): Field
     {
         $this->relationConditions = $relationConditions;
 
@@ -47,7 +47,7 @@ class Relation extends Field
      * @param  string $relatedResource Nombre del recurso relacionado
      * @return Field
      */
-    public static function make($name = '', $field = '', $relatedResource = ''): Field
+    public static function make(string $name = '', string $field = '', string $relatedResource = ''): Field
     {
         return new static($name, $field, $relatedResource);
     }
@@ -71,7 +71,7 @@ class Relation extends Field
      * @param  array         $conditions
      * @return array
      */
-    protected function getRelatedListModels(Request $request, Resource $resource = null, $conditions = [])
+    protected function getRelatedListModels(Request $request, Resource $resource = null, array $conditions = [])
     {
         return (new $this->relatedResource)
             ->resourceOrderBy($request)
@@ -82,13 +82,15 @@ class Relation extends Field
 
     /**
      * Recupera elementos del recurso relacionado
+     *
      * @param  Request       $request
      * @param  Resource|null $resource
      * @param  string        $field
      * @param  array         $conditions
      * @return array
      */
-    public function getRelationOptions(Request $request, Resource $resource = null, $field = '', $conditions = []): Collection
+    public function getRelationOptions(Request $request, Resource $resource = null,
+                                       string $field = '', array $conditions = []): Collection
     {
         return $this->getRelatedListModels($request, $resource, $conditions)
             ->mapWithKeys(function($model) {
@@ -102,7 +104,7 @@ class Relation extends Field
      * @param  array    $conditions
      * @return array
      */
-    protected function getResourceFilter(Resource $resource, $conditions = []): array
+    protected function getResourceFilter(Resource $resource, array $conditions = []): array
     {
         return collect($conditions)
             ->filter(function($condition) {

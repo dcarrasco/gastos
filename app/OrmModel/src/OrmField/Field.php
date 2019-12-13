@@ -47,7 +47,7 @@ abstract class Field
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
-    public function __construct($name = '', $field = '')
+    public function __construct(string $name = '', string $field = '')
     {
         $this->name = $name;
         $this->attribute = empty($field) ? Str::snake($name) : $field;
@@ -59,7 +59,7 @@ abstract class Field
      * @param  string $field Campo
      * @return Field
      */
-    public static function make($name = '', $field = ''): Field
+    public static function make(string $name = '', string $field = ''): Field
     {
         return new static($name, $field);
     }
@@ -176,7 +176,7 @@ abstract class Field
      * @param  string  $sortOrder
      * @return string
      */
-    protected function getSortUrl(Request $request, $sortOrder = ''): string
+    protected function getSortUrl(Request $request, string $sortOrder = ''): string
     {
         return $request->fullUrlWithQuery(array_merge($request->all(), [
             $this->sortByKey => $this->attribute,
@@ -198,7 +198,7 @@ abstract class Field
      * @param string $name
      * @return Field
      */
-    public function setName($name = ''): Field
+    public function setName(string $name = ''): Field
     {
         $this->name = $name;
 
@@ -242,7 +242,7 @@ abstract class Field
      *
      * @return self
      */
-    public function onChange($onChange): Field
+    public function onChange(string $onChange): Field
     {
         $this->onChange = $onChange;
 
@@ -307,7 +307,7 @@ abstract class Field
      * @param  array    $extraParam
      * @return Field
      */
-    public function resolveFormItem(Request $request, Resource $resource, $extraParam): Field
+    public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
     {
         $extraParam['class'] = Arr::get($extraParam, 'class', '')
             .(optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');

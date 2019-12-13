@@ -17,7 +17,7 @@ class Text extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $extraParam['maxlength'] = $this->getFieldLength();

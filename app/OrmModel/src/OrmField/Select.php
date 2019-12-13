@@ -19,7 +19,7 @@ class Select extends Field
      * @param  array  $options
      * @return Field
      */
-    public function options($options = []): Field
+    public function options(array $options = []): Field
     {
         $this->choices = $options;
 
@@ -59,7 +59,7 @@ class Select extends Field
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
         $extraParam['class'] = Arr::get('class', $extraParam, '') . ' custom-select';

@@ -163,7 +163,7 @@ abstract class Resource
      * @param  Request $request
      * @return array
      */
-    public function getValidation(Request $request): Collection
+    public function getValidation(Request $request): array
     {
         return collect($this->fields($request))
             ->mapWithKeys(function($field) {

@@ -5,6 +5,7 @@ namespace App\OrmModel\src;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\OrmField\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 
 trait UsesDatabase
 {
@@ -16,7 +17,7 @@ trait UsesDatabase
     protected $sortDirectionKey = 'sort-direction';
     protected $filterKey = 'filtro';
 
-    public function getModelQueryBuilder()
+    public function getModelQueryBuilder(): Builder
     {
         return $this->modelQueryBuilder;
     }
@@ -88,14 +89,14 @@ trait UsesDatabase
         return $this;
     }
 
-    public function findOrFail($modelId): Resource
+    public function findOrFail(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrFail($modelId));
 
         return $this;
     }
 
-    public function findOrNew($modelId): Resource
+    public function findOrNew(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrNew($modelId));
 
