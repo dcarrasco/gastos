@@ -4,7 +4,6 @@ namespace App\OrmModel\src\OrmField;
 
 use Form;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -27,6 +26,12 @@ class BelongsTo extends Relation
         return (new $this->relatedResource($relatedModel))->title();
     }
 
+    /**
+     * Recupera nombre del atributo (foreign key)
+     *
+     * @param Resource $resource
+     * @return string
+     */
     public function getModelAttribute(Resource $resource): string
     {
         return $resource->model()->{$this->attribute}()->getForeignKeyName();
@@ -34,6 +39,7 @@ class BelongsTo extends Relation
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -42,7 +48,6 @@ class BelongsTo extends Relation
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $foreignKeyName = $this->getModelAttribute($resource);
-        $field = $this->attribute;
         $extraParam['id'] = $foreignKeyName;
         $extraParam['class'] = $extraParam['class'] . ' custom-select';
 
@@ -56,7 +61,13 @@ class BelongsTo extends Relation
         return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
     }
 
-    protected function makeOnChange(string $field)
+    /**
+     * Genera HTML para script onchange
+     *
+     * @param string $field
+     * @return HtmlString
+     */
+    protected function makeOnChange(string $field): HtmlString
     {
             $route = \Route::currentRouteName();
             list($routeName, $routeAction) = explode('.', $route);
@@ -70,29 +81,25 @@ class BelongsTo extends Relation
             $resourceDest = Arr::get($this->onChange, 'resource');
             $elemDest = Arr::get($this->onChange, 'elem');
             $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
-            return "$('#{$elemDest}').html('');"
+
+            return new HtmlString("$('#{$elemDest}').html('');"
                 ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
-                ."function (data) { $('#{$elemDest}').html(data); });";
+                ."function (data) { $('#{$elemDest}').html(data); });");
     }
 
     /**
      * Recupera opciones desde modelo relacionado
+     * 
      * @param  Request       $request
      * @param  Resource|null $resource
      * @return array
      */
     protected function getOptions(Request $request, Resource $resource = null): array
     {
-        $relationName = (new $this->relatedResource)->getLabel();
-        $optionIni = ['' => trans('orm.choose_option').$relationName];
-
-        $options = $this->getRelationOptions($request, $resource, $this->attribute, $this->relationConditions);
-
-        foreach($options as $key => $value) {
-            $optionIni[$key] = $value;
-        }
-
-        return $optionIni;
+        return array_merge(
+            ['' => trans('orm.choose_option').(new $this->relatedResource)->getLabel()],
+            $this->getRelationOptions($request, $resource, $this->relationConditions)->all()
+        );
     }
 
 }

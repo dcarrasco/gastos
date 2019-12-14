@@ -13,6 +13,7 @@ class HasMany extends Relation
 {
     /**
      * Constructor de la clase
+     * 
      * @param string $name            Nombre o label de la clase
      * @param string $field           Campo
      * @param string $relatedResource Nombre del recurso relacionado
@@ -25,6 +26,7 @@ class HasMany extends Relation
 
     /**
      * Devuelve valor del campo formateado
+     * 
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
@@ -46,6 +48,7 @@ class HasMany extends Relation
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -62,10 +65,9 @@ class HasMany extends Relation
 
         return Form::select(
             $this->name.'[]',
-            $this->getRelationOptions($request, $resource, $this->attribute, $this->relationConditions),
+            $this->getRelationOptions($request, $resource, $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );
     }
-
 }

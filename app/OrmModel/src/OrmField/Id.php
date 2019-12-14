@@ -12,6 +12,7 @@ class Id extends Field
 {
     /**
      * Constructor de la clase
+     * 
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
@@ -26,6 +27,7 @@ class Id extends Field
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -44,5 +46,4 @@ class Id extends Field
 
         return Form::text($this->attribute, $value, $extraParam);
     }
-
 }

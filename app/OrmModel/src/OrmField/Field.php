@@ -44,6 +44,7 @@ abstract class Field
 
     /**
      * Constructor de la clase
+     * 
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
@@ -55,6 +56,7 @@ abstract class Field
 
     /**
      * Genera una nueva instancia de la clase
+     * 
      * @param  string $name  Nombre o label de la clase
      * @param  string $field Campo
      * @return Field
@@ -66,6 +68,7 @@ abstract class Field
 
     /**
      * Oculta el campo del listado Index
+     * 
      * @return Field
      */
     public function hideFromIndex(): Field
@@ -77,6 +80,7 @@ abstract class Field
 
     /**
      * Indica que el campo es "ordenable"
+     * 
      * @return Field
      */
     public function sortable(): Field
@@ -88,6 +92,7 @@ abstract class Field
 
     /**
      * Muestra campo en listado Index
+     * 
      * @return Field
      */
     public function showOnIndex(): bool
@@ -97,6 +102,7 @@ abstract class Field
 
     /**
      * Muestra campo en detalle
+     * 
      * @return Field
      */
     public function showOnDetail(): bool
@@ -106,6 +112,7 @@ abstract class Field
 
     /**
      * Muestra campo en formulario
+     * 
      * @return Field
      */
     public function showOnForm(): bool
@@ -115,6 +122,7 @@ abstract class Field
 
     /**
      * Devuelve icono de ordenamiento
+     * 
      * @return string
      */
     public function sortingIcon(): string
@@ -124,6 +132,7 @@ abstract class Field
 
     /**
      * Genera iconos para ordenar por campo en listado Index
+     * 
      * @return HtmlString
      */
     public function makeSortingIcon(Request $request, Resource $resource): Field
@@ -141,6 +150,7 @@ abstract class Field
 
     /**
      * Devuelve la clase o icono a aplicar en un campo
+     * 
      * @param  Request $request
      * @return string
      */
@@ -156,6 +166,7 @@ abstract class Field
 
     /**
      * Devuelve el orden (asc/desc) de ordenamiento de un campo
+     * 
      * @param  Request $request
      * @return string
      */
@@ -172,6 +183,7 @@ abstract class Field
 
     /**
      * Devuelve URL de ordenamiento
+     * 
      * @param  Request $request
      * @param  string  $sortOrder
      * @return string
@@ -186,6 +198,7 @@ abstract class Field
 
     /**
      * Devuelve nombre del campo Field
+     * 
      * @return string
      */
     public function getName(): string
@@ -195,6 +208,7 @@ abstract class Field
 
     /**
      * Fija nombre/label del campo
+     * 
      * @param string $name
      * @return Field
      */
@@ -207,6 +221,7 @@ abstract class Field
 
     /**
      * Devuelve nombre del campo de la BD
+     * 
      * @param  Resource|null $resource
      * @return string
      */
@@ -222,6 +237,7 @@ abstract class Field
 
     /**
      * Indica si el campo es obligatorio
+     * 
      * @return boolean
      */
     public function isRequired(): bool
@@ -230,6 +246,8 @@ abstract class Field
     }
 
     /**
+     * Recupera la glosa onchange
+     * 
      * @return mixed
      */
     public function getOnChange(): string
@@ -238,8 +256,9 @@ abstract class Field
     }
 
     /**
+     * Fija la glosa onchange
+     * 
      * @param mixed $onChange
-     *
      * @return self
      */
     public function onChange(string $onChange): Field
@@ -250,6 +269,8 @@ abstract class Field
     }
 
     /**
+     * Indica si el campo tiene glosa onchange
+     * 
      * @return boolean
      */
     public function hasOnChange(): bool
@@ -259,6 +280,7 @@ abstract class Field
 
     /**
      * Devuelve validación del campo
+     * 
      * @param  Resource $resource
      * @return String
      */
@@ -275,6 +297,7 @@ abstract class Field
 
     /**
      * Recupera los parametros de regla validacion unique
+     * 
      * @param  Resource $resource
      * @return string
      */
@@ -290,6 +313,7 @@ abstract class Field
 
     /**
      * Genera valor a mostrar a partir de modelo
+     * 
      * @param  Model  $model
      * @return Field
      */
@@ -302,6 +326,7 @@ abstract class Field
 
     /**
      * Genera elemento de formulario a mostrar a partir de request y resource
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -319,6 +344,7 @@ abstract class Field
 
     /**
      * Devuelve elemento de formulario calculado
+     * 
      * @return string
      */
     public function formItem(): HtmlString
@@ -339,6 +365,7 @@ abstract class Field
 
     /**
      * Devuelve valor del campo calculado
+     * 
      * @return mixed
      */
     public function value()
@@ -348,6 +375,7 @@ abstract class Field
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -363,6 +391,7 @@ abstract class Field
 
     /**
      * Fija las reglas de validacion del campo
+     * 
      * @param  mixed $rules
      * @return Field
      */
@@ -379,5 +408,4 @@ abstract class Field
 
         return $this;
     }
-
 }

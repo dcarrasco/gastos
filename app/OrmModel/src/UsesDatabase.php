@@ -17,6 +17,11 @@ trait UsesDatabase
     protected $sortDirectionKey = 'sort-direction';
     protected $filterKey = 'filtro';
 
+    /**
+     * Recupera la query del modelo
+     *
+     * @return Builder
+     */
     public function getModelQueryBuilder(): Builder
     {
         return $this->modelQueryBuilder;
@@ -24,6 +29,7 @@ trait UsesDatabase
 
     /**
      * Agrega condiciones de filtro a objecto modelo
+     * 
      * @param  Request $request
      * @return Resource
      */
@@ -43,6 +49,7 @@ trait UsesDatabase
 
     /**
      * Devuelve orden del modelo
+     * 
      * @return array Arreglo con campos de ordenamiento
      */
     public function getOrder(): array
@@ -56,6 +63,7 @@ trait UsesDatabase
 
     /**
      * Agrega limite de despliegue en listado
+     * 
      * @param  Request $request
      * @return Resource
      */
@@ -73,6 +81,7 @@ trait UsesDatabase
 
     /**
      * Agrega condiciones order-by a objeto del modelo
+     * 
      * @param  Request $request
      * @return Resource
      */
@@ -89,6 +98,12 @@ trait UsesDatabase
         return $this;
     }
 
+    /**
+     * Recupera modelo a partir de un ID, o falla
+     *
+     * @param string $modelId
+     * @return Resource
+     */ 
     public function findOrFail(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrFail($modelId));
@@ -96,6 +111,12 @@ trait UsesDatabase
         return $this;
     }
 
+    /**
+     * Recupera modelo a partir de un ID, o genera uno en blanco
+     *
+     * @param string $modelId
+     * @return Resource
+     */ 
     public function findOrNew(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrNew($modelId));
@@ -103,6 +124,12 @@ trait UsesDatabase
         return $this;
     }
 
+    /**
+     * Actualiza el modelo
+     *
+     * @param Request $request
+     * @return Resource
+     */
     public function update(Request $request): Resource
     {
         // actualiza el objeto

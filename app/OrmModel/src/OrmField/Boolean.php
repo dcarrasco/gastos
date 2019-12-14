@@ -13,6 +13,7 @@ class Boolean extends Field
 {
     /**
      * Devuelve valor del campo formateado
+     * 
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
@@ -22,14 +23,11 @@ class Boolean extends Field
         return new HtmlString("<small><span class=\"fa fa-circle text-"
             . ($model->{$this->attribute} ? "success" : "danger")
             . "\"></span></small>");
-
-        // return $model->{$this->attribute}
-            // ? "<small><span class=\"fa fa-circle text-success\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_yes')
-            // : "<small><span class=\"fa fa-circle text-danger\"></span></small>&nbsp;&nbsp;" . trans('orm.radio_no');
     }
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam

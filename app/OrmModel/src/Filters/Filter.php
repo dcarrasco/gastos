@@ -60,10 +60,10 @@ class Filter
      * Devuelve link para activar el filtro
      *
      * @param  Request $request
-     * @param  mixed  $value
+     * @param  string  $value
      * @return string
      */
-    public function getOptionUrl(Request $request, $value): string
+    public function getOptionUrl(Request $request, string $value): string
     {
         $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
             ? [$this->getUrlParameter() => '']
@@ -88,10 +88,10 @@ class Filter
      * Devuelve html para marcar la opcion de filtro activa
      *
      * @param  Request $request
-     * @param  mixed  $value
+     * @param  string  $value
      * @return string
      */
-    public function getUrlMark(Request $request, $value): string
+    public function getUrlMark(Request $request, string $value): string
     {
         if (is_null($this->getValue($request)))
         {

@@ -13,6 +13,7 @@ class Currency extends Field
 {
     /**
      * Devuelve valor del campo formateado
+     * 
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
@@ -26,6 +27,7 @@ class Currency extends Field
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -38,5 +40,4 @@ class Currency extends Field
 
         return Form::number($this->attribute, $value, $extraParam);
     }
-
 }

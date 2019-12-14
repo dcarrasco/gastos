@@ -14,20 +14,22 @@ class Date extends Field
 {
     public $inputDateFormat = 'Y-m-d';
     public $outputDateFormat = 'Y-m-d';
+
     /**
      * Devuelve valor del campo formateado
+     * 
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
      */
     public function getValue(Model $model = null, Request $request)
     {
-
         return optional($model->{$this->attribute})->format($this->outputDateFormat);
     }
 
     /**
      * Devuelve elemento de formulario para el campo
+     * 
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -40,5 +42,4 @@ class Date extends Field
 
         return Form::date($this->attribute, $value, $extraParam);
     }
-
 }

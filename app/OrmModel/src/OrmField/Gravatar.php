@@ -18,6 +18,7 @@ class Gravatar extends Field
 
     /**
      * Constructor de la clase
+     * 
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
@@ -30,7 +31,13 @@ class Gravatar extends Field
         $this->showOnForm = false;
     }
 
-
+    /**
+     * Devuelve el url del gravatar
+     *
+     * @param string $email
+     * @param integer $size
+     * @return string
+     */
     protected function getGravatarUrl(string $email = '', int $size = 256): string
     {
         $md5Email = md5($email);
@@ -40,6 +47,7 @@ class Gravatar extends Field
 
     /**
      * Devuelve valor del campo formateado
+     * 
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed

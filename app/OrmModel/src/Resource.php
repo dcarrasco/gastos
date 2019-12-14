@@ -30,6 +30,11 @@ abstract class Resource
 
     protected $perPage = 25;
 
+    /**
+     * Constructor del recurso
+     *
+     * @param Model $modelObject
+     */
     public function __construct(Model $modelObject = null)
     {
         if ($this->model === '') {
@@ -42,6 +47,7 @@ abstract class Resource
 
     /**
      * Campos del recurso
+     * 
      * @param  Request $request
      * @return array
      */
@@ -52,6 +58,7 @@ abstract class Resource
 
     /**
      * Recupera nombre del recurso
+     * 
      * @return string
      */
     public function getName(): string
@@ -62,6 +69,7 @@ abstract class Resource
 
     /**
      * Devuelve descripcion del recurso
+     * 
      * @return string
      */
     public function getLabel(): string
@@ -71,6 +79,7 @@ abstract class Resource
 
     /**
      * Devuelve descripcion del recurso en plural
+     * 
      * @return string
      */
     public function getLabelPlural(): string
@@ -80,6 +89,7 @@ abstract class Resource
 
     /**
      * Devuelve la representación del recurso
+     * 
      * @param  Request $request
      * @return mixed
      */
@@ -90,6 +100,7 @@ abstract class Resource
 
     /**
      * Recupera instancia del modelo del recurso
+     * 
      * @return Model
      */
     public function model(): Model
@@ -99,6 +110,7 @@ abstract class Resource
 
     /**
      * Genera objecto del modelo del recurso
+     * 
      * @return Resource
      */
     public function makeModelObject(): Model
@@ -108,6 +120,7 @@ abstract class Resource
 
     /**
      * Agrega una instancia del modelo al recurso
+     * 
      * @param  Model|null $model
      * @return Resource
      */
@@ -120,6 +133,7 @@ abstract class Resource
 
     /**
      * Devuelve campos a mostrar en listado
+     * 
      * @param  Request $request
      * @return array
      */
@@ -136,6 +150,7 @@ abstract class Resource
 
     /**
      * Devuelve campos a mostrar en detalle
+     * 
      * @param  Request $request
      * @return array
      */
@@ -148,6 +163,7 @@ abstract class Resource
 
     /**
      * Devuelve campos a mostrar en formularios
+     * 
      * @param  Request $request
      * @return array
      */
@@ -160,6 +176,7 @@ abstract class Resource
 
     /**
      * Devuelve arreglo de validacion del recurso
+     * 
      * @param  Request $request
      * @return array
      */
@@ -172,6 +189,12 @@ abstract class Resource
             ->all();
     }
 
+    /**
+     * Agrega a la query los nombres de las relaciones para traer campos relacionados
+     *
+     * @param Request $request
+     * @return Resource
+     */
     public function getBelongsToRelations(Request $request): Resource
     {
         $query = $this->modelQueryBuilder;
@@ -192,6 +215,7 @@ abstract class Resource
 
     /**
      * Devuelve paginador del modelo
+     * 
      * @return Paginator
      */
     public function getPaginated(Request $request): LengthAwarePaginator
@@ -205,6 +229,7 @@ abstract class Resource
 
     /**
      * Genera paginador del recurso y listado de recursos de la pagina
+     * 
      * @param  Request $request
      * @return Resource
      */
@@ -220,6 +245,7 @@ abstract class Resource
 
     /**
      * Devuelve el paginador del recurso
+     * 
      * @return paginador
      */
     public function getPaginator(): LengthAwarePaginator
@@ -227,9 +253,9 @@ abstract class Resource
         return $this->paginator;
     }
 
-
     /**
      * Genera listado de modelos ordenados y filtrados
+     * 
      * @param  Request $request
      * @return Collection
      */
@@ -247,6 +273,7 @@ abstract class Resource
 
     /**
      * Devuelve listado de recursos del paginador
+     * 
      * @return Collection
      */
     public function getPaginationResources(): Collection
@@ -256,6 +283,7 @@ abstract class Resource
 
     /**
      * Devuelve propiedad de detalle de links del paginador del recurso
+     * 
      * @return boolean
      */
     public function paginationLinksDetail(): bool

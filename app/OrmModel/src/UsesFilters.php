@@ -9,6 +9,7 @@ trait UsesFilters
 {
     /**
      * Filtros del recurso
+     * 
      * @param  Request $request
      * @return array
      */
@@ -19,6 +20,7 @@ trait UsesFilters
 
     /**
      * Aplica filtros al modelo del recurso
+     * 
      * @param  Request $request
      * @return Resource
      */
@@ -33,11 +35,16 @@ trait UsesFilters
         return $this;
     }
 
+    /**
+     * Devuelve la cantidad de filtros aplicados en el request
+     *
+     * @param Request $request
+     * @return integer
+     */
     public function countAppliedFilters(Request $request): int
     {
         return collect($this->filters($request))
             ->filter->isSet($request)
             ->count();
     }
-
 }
