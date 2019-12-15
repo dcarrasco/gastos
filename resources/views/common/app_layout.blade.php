@@ -5,10 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ config('invfija.app_nombre') }}</title>
 
-    <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png" />
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('img/favicon-152.png') }}">
+    {{-- <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png" /> --}}
+    {{-- <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('img/favicon-152.png') }}"> --}}
 
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
@@ -25,7 +28,7 @@
     </script>
 
     @if (auth()->guest())
-    <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>
+        <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>
     @endif
 </head>
 
