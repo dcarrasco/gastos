@@ -18,6 +18,8 @@ class CuentasGastos extends Filter
         return [
             '45006288' => 1,
             'VISA' => 2,
+            'FM Gran Valor S-A' => 3,
+            'FM Preferencial Ahorro' => 6,
         ];
     }
 }
