@@ -11,8 +11,9 @@
             async: true,
             success: function(data) {
                 if (data) {
-                    $('#' + cardId + '> div > h1').text(data.currentValue);
-                    $('#' + cardId + '> div > h5').text(data.previousValue);
+                    $('#' + cardId + ' > div > h1').text(data.currentValue);
+                    $('#' + cardId + ' > div > h5 > span#text').text(data.previousValue);
+                    $('#' + cardId + ' > div > h5 > span#icon > svg').attr('style', data.trend);
                     $('#spinner-' + cardId).addClass('d-none');
                     $('div#' + cardId).removeClass('d-none');
                 }

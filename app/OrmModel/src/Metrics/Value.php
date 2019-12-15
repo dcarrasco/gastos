@@ -12,6 +12,11 @@ abstract class Value extends Metric
     protected $prefix = '';
     protected $suffix = '';
 
+    protected $trendIconStyle = [
+        'up' => 'transform: rotate(180deg);',
+        'down' => 'transform: scaleX(-1);',
+    ];
+
 
     /**
      * Recupera datos de valor, sumando una columna
@@ -121,6 +126,9 @@ abstract class Value extends Metric
         return [
             'currentValue' => $this->prefix.' '.number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
             'previousValue' => $this->previousMessage(Arr::get($data, 'currentValue', 0), Arr::get($data, 'previousValue', 0)),
+            'trend' => Arr::get($data, 'currentValue', 0) >= Arr::get($data, 'previousValue', 0)
+                ? Arr::get($this->trendIconStyle, 'up')
+                : Arr::get($this->trendIconStyle, 'down'),
         ];
     }
 
@@ -163,6 +171,7 @@ abstract class Value extends Metric
         return new HtmlString(view('orm.metrics.value_content', [
             'currentValue' => Arr::get($data, 'currentValue', 0),
             'previousValue' => Arr::get($data, 'previousValue', 0),
+            'trendIconStyle' => Arr::get($data, 'trend', ''),
         ]));
     }
 
