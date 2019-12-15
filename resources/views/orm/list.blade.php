@@ -23,7 +23,7 @@
     </div>
 
     <div class="col-8 text-right">
-        <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="btn btn-primary text-right px-3 font-weight-bold text-shadow" id="btn_mostrar_agregar" role="button">
+        <a href="{{ route("$routeName.create", [$resource->getName()]) }}" class="btn btn-primary text-right px-3 font-weight-bold text-shadow" id="btn_mostrar_agregar" role="button">
             {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
         </a>
     </div>

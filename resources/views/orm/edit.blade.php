@@ -4,15 +4,15 @@
 <div class="row">
     <div class="col-12">
         <h4>
-        {{ trans('orm.title_edit') }}
-        {{ $resource->getLabel() }}
+            {{ trans('orm.title_edit') }}
+            {{ $resource->getLabel() }}
         </h4>
     </div>
 </div>
 
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
     {{ Form::open([
-        'url' => route($routeName.'.update', [$resource->getName(), $modelId]),
+        'url' => route("$routeName.update", [$resource->getName(), $modelId]),
         'id' => 'frm_editar',
     ]) }}
     {{ method_field('PUT') }}

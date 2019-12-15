@@ -11,7 +11,7 @@
 </div>
 
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
-    {{ Form::open(['url' => route($routeName.'.store', [$resource->getName()]), 'id' => 'frm_editar']) }}
+    {{ Form::open(['url' => route("$routeName.store", [$resource->getName()]), 'id' => 'frm_editar']) }}
 
     <!-- -----------------------------  FIELDS  ---------------------------- -->
     @each('orm.components.item_form', $fields, 'field')
