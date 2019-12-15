@@ -13,8 +13,8 @@ abstract class Value extends Metric
     protected $suffix = '';
 
     protected $trendIconStyle = [
-        'up' => 'transform: rotate(180deg);',
-        'down' => 'transform: scaleX(-1);',
+        'up' => 'transform: rotate(180deg); fill: #38c172;',
+        'down' => 'transform: scaleX(-1); fill: #e3342f;',
     ];
 
 
