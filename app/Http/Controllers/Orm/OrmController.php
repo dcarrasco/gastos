@@ -107,7 +107,7 @@ class OrmController extends Controller
      */
     public function index(Request $request, string $resourceClass = '')
     {
-        $resource = $this->getResource($resourceClass)->makePaginator($request);
+        $resource = $this->getResource($resourceClass)->makePaginatedResources($request);
         $cards = $resource->renderCards($request);
 
         return view('orm.list', compact('resource', 'cards'));

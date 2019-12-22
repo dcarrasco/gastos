@@ -25,7 +25,7 @@ abstract class Resource
 
     protected $modelObject = null;
     protected $paginator = null;
-    protected $paginationResources = [];
+    protected $paginatedResources = null;
     protected $paginationLinksDetail = false;
 
     protected $perPage = 25;
@@ -228,22 +228,6 @@ abstract class Resource
     }
 
     /**
-     * Genera paginador del recurso y listado de recursos de la pagina
-     * 
-     * @param  Request $request
-     * @return Resource
-     */
-    public function makePaginator(Request $request): Resource
-    {
-        $this->paginationResources = $this->paginator($request)
-            ->getCollection()
-            ->mapInto($this)
-            ->map->indexFields($request);
-
-        return $this;
-    }
-
-    /**
      * Devuelve el paginador del recurso
      * 
      * @return paginador
@@ -272,13 +256,29 @@ abstract class Resource
     }
 
     /**
+     * Genera paginador del recurso y listado de recursos de la pagina
+     * 
+     * @param  Request $request
+     * @return Resource
+     */
+    public function makePaginatedResources(Request $request): Resource
+    {
+        $this->paginatedResources = $this->paginator($request)
+            ->getCollection()
+            ->mapInto($this)
+            ->map->indexFields($request);
+
+        return $this;
+    }
+
+    /**
      * Devuelve listado de recursos del paginador
      * 
      * @return Collection
      */
-    public function getPaginationResources(): Collection
+    public function getPaginatedResources(): Collection
     {
-        return $this->paginationResources;
+        return $this->paginatedResources;
     }
 
     /**
