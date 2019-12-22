@@ -36,7 +36,6 @@
         <th class="text-right">Monto</th>
         <th class="text-right">Saldo</th>
         <th></th>
-        <th class="text-right">Util</th>
         <th class="text-right">Rentab</th>
         <th class="text-right">Rentab Año</th>
     </tr>
@@ -51,7 +50,7 @@
         <td>{{ $mov->mes }}</td>
         <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
         <td>{{ $mov->glosa }}</td>
-        <td>{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
+        <td class="text-center">{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
         <td class="text-right">
             $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
             @if ($mov->tipoMovimiento->signo == -1)
@@ -74,7 +73,6 @@
         </td>
         <td></td>
         <td></td>
-        <td></td>
     </tr>
 
     @if ($loop->last)
@@ -84,15 +82,26 @@
                 <th>{{ optional($inversion->saldoFinal())->mes }}</th>
                 <th>{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</th>
                 <th>{{ optional($inversion->saldoFinal())->glosa }}</th>
-                <th>{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</th>
+                <th class="text-center">{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</th>
                 <th></th>
                 <th class="text-right">
                     $&nbsp;{{ number_format(optional($inversion->saldoFinal())->monto, 0, ',', '.') }}
                 </th>
                 <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr class="bg-light">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-right">Utilidad</th>
                 <th class="text-right">
                     $&nbsp;{{ number_format($inversion->util($inversion->saldoFinal()), 0, ',', '.') }}
                 </th>
+                <th></th>
                 <th class="text-right">
                     {{ number_format(100*$inversion->rentabilidad($inversion->saldoFinal()), 2, ',', '.') }}%
                 </th>
@@ -125,7 +134,6 @@
     <td>
         <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
     </td>
-    <td></td>
     <td></td>
     <td></td>
     <td></td>
