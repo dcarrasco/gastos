@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Field
 {
+    protected $alignOnList = 'text-right';
+
+
     /**
      * Devuelve valor del campo formateado
      * 

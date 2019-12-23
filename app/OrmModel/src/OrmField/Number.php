@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Number extends Field
 {
+    protected $alignOnList = 'text-center';
+
+
     /**
      * Devuelve valor del campo formateado
      * 

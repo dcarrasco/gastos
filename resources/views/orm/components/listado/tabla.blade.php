@@ -4,7 +4,7 @@
             <thead class="thead-light">
                 <tr>
                     @each('orm.components.listado.tabla_header', $resource['fields'], 'field')
-                    <th class="text-center"></th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -13,7 +13,9 @@
 
         <tr>
             @foreach($resource['fields'] as $field)
-                <td class="align-middle text-black-70">{{ $field->value() }}</td>
+                <td class="align-middle text-black-70 {{ $field->alignOnList() }}">
+                    {{ $field->value() }}
+                </td>
             @endforeach
 
             <td class="text-right text-nowrap">

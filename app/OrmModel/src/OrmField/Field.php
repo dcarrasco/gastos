@@ -23,6 +23,7 @@ abstract class Field
     protected $showOnList = true;
     protected $showOnDetail = true;
     protected $showOnForm = true;
+    protected $alignOnList = 'text-left';
 
     protected $isSortable = false;
 
@@ -100,6 +101,16 @@ abstract class Field
         return $this->showOnList;
     }
 
+    /**
+     * Devuelve texto bootstrap para alinear campo en listado Index
+     *
+     * @return string
+     */
+    public function alignOnList(): string
+    {
+        return $this->alignOnList;
+    }
+    
     /**
      * Muestra campo en detalle
      * 
