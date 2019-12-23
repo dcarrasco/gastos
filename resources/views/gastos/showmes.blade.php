@@ -86,9 +86,11 @@
             <td class="text-right">
                 $&nbsp;{{ number_format($movimiento->monto, 0, ',', '.') }}
                 @if ($movimiento->tipoMovimiento->signo == -1)
-                    <small><span class="fa fa-minus-circle text-danger"></span></small>
+                    {{-- <small><span class="fa fa-minus-circle text-danger"></span></small> --}}
+                    <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" style="fill: #e3342f"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm4-8a1 1 0 0 1-1 1H9a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1z"/></svg>
                 @else
-                    <small><span class="fa fa-plus-circle text-success"></span></small>
+                    {{-- <small><span class="fa fa-plus-circle text-success"></span></small> --}}
+                    <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" class="align-middle" style="fill: #32c172"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-9h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2H9a1 1 0 0 1 0-2h2V9a1 1 0 0 1 2 0v2z"/></svg>
                 @endif
             </td>
             <td class="text-right">
@@ -99,7 +101,8 @@
                     {!! method_field('DELETE')!!}
                     {{ Form::hidden('id', $movimiento->getKey()) }}
                     <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
-                        <span class="fa fa-trash text-muted"></span>
+                        {{-- <span class="fa fa-trash text-muted"></span> --}}
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14"><path class="heroicon-ui" d="M8 6V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v2h5a1 1 0 0 1 0 2h-1v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8H3a1 1 0 1 1 0-2h5zM6 8v12h12V8H6zm8-2V4h-4v2h4zm-4 4a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1z"/></svg>
                     </button>
                 {{ Form::close() }}
             </td>
