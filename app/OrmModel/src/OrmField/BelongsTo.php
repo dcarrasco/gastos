@@ -96,10 +96,14 @@ class BelongsTo extends Relation
      */
     protected function getOptions(Request $request, Resource $resource = null): array
     {
-        return array_merge(
-            ['' => trans('orm.choose_option').(new $this->relatedResource)->getLabel()],
-            $this->getRelationOptions($request, $resource, $this->relationConditions)->all()
-        );
+        $optionsIni = ['' => trans('orm.choose_option').(new $this->relatedResource)->getLabel()];
+        $options = $this->getRelationOptions($request, $resource, $this->relationConditions);
+
+        foreach($options as $key => $value) {
+            $optionsIni[$key] = $value;
+        }
+
+        return $optionsIni;
     }
 
 }
