@@ -185,7 +185,7 @@
         title: {
             display: true,
             text: 'Desempeño Inversion'
-        }, 
+        },
         legend: {display: false},
         elements: {
             line: {
@@ -195,7 +195,6 @@
         tooltips: {
             callbacks: {
                 label: function(toolTipItem, data) {
-                    console.log(toolTipItem);
                     if (toolTipItem.datasetIndex == 0) {
                         return 'Rentabilidad ' + Math.round(toolTipItem.yLabel*10000) / 100 + '%';
                     } else {
