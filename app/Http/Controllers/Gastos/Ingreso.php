@@ -15,6 +15,8 @@ class Ingreso extends Controller
 {
     public function showMes(Request $request)
     {
+        $currentLocale = setlocale(LC_TIME, 'es-ES');
+
         $today = Carbon::now();
         $selectCuentas = Cuenta::selectCuentasGastos();
         $selectTiposGastos = TipoGasto::formArray();

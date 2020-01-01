@@ -18,8 +18,8 @@ class Reporte extends Controller
         $cuentas = Cuenta::selectCuentasGastos();
         $tiposMovimientos = TipoMovimiento::formArray();
         $reporte = new ReporteGastos(
-            $request->input('cuenta_id', $cuentas->keys()->first()), 
-            $request->input('anno', $today->year), 
+            $request->input('cuenta_id', $cuentas->keys()->first()),
+            $request->input('anno', $today->year),
             $request->input('tipo_movimiento_id', $tiposMovimientos->keys()->first())
         );
 
