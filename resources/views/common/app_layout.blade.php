@@ -20,8 +20,6 @@
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/fix_bootstrap.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.jqplot.min.css') }}" />
-    <script type="text/javascript" src="{{ asset('js/jquery.jqplot.min.js') }}"></script>
 
     <script type="text/javascript">
         var js_base_url = "{{ asset('') }}";
