@@ -238,7 +238,6 @@
                     display: false
                 },
                 ticks: {
-                    beginAtZero: true,
                     callback: function(value, index, values) {
                         return 'MM$ ' + Math.round(value/1000000);
                     }
