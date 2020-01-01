@@ -25,7 +25,7 @@ class Inversion
 
     public function saldoFinal(): Gasto
     {
-        return optional($this->saldos)->last();
+        return $this->saldos->isEmpty() ? new Gasto : $this->saldos->last();
     }
 
     protected function getSumMovimientos(Gasto $saldo): int
@@ -65,9 +65,11 @@ class Inversion
         $fechaFin = is_null($saldoFinal) ? optional($this->saldoFinal())->fecha : $saldoFinal->fecha;
         $diasInversion = $fechaIni->diffInDays($fechaFin);
 
-        if ($diasInversion != 0) {
-            return pow(pow(1 + $this->rentabilidad($saldoFinal), 1 / $diasInversion), 365) - 1;
+        if ($diasInversion == 0) {
+            return 0;
         }
+        
+        return pow(pow(1 + $this->rentabilidad($saldoFinal), 1 / $diasInversion), 365) - 1;
     }
 
     public function getJSONRentabilidadesAnual(): string
