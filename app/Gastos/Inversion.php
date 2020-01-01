@@ -50,22 +50,12 @@ class Inversion
         return $sumMovimientos == 0 ? 0 : $saldo->monto / $sumMovimientos - 1;
     }
 
-    public function rentabilidadAnual($saldoFinal = null): float
+    public function rentabilidadAnual(Gasto $saldoFinal): float
     {
-        if (empty($this->movimientos)) {
-            return 0;
-        }
-
-        $fechaIni = optional($this->movimientos->first())->fecha;
-
-        if (is_null($fechaIni)) {
-            return 0;
-        }
-
-        $fechaFin = is_null($saldoFinal) ? optional($this->saldoFinal())->fecha : $saldoFinal->fecha;
-        $diasInversion = $fechaIni->diffInDays($fechaFin);
-
-        if ($diasInversion == 0) {
+        if (empty($this->movimientos)
+            or is_null($fechaIni = optional($this->movimientos->first())->fecha) 
+            or ($diasInversion = $fechaIni->diffInDays($saldoFinal->fecha)) == 0
+        ) {
             return 0;
         }
         
@@ -75,10 +65,11 @@ class Inversion
     public function getJSONRentabilidadesAnual(): string
     {
         return $this->saldos->count() == 0
-            ? ""
-            : "['fecha', 'tasa'],"
-                .$this->saldos->map(function($saldo) {
-                    return "['".$saldo->fecha->format('Y-m-d')."',".$this->rentabilidadAnual($saldo)."]";
-                })->implode(',');
+            ? ''
+            : json_encode(collect([
+                    'label' => $this->saldos->pluck('fecha')->map->format('Y-m-d')->toArray(),
+                    'rentabilidad' => $this->saldos->map(function($saldo) {return $this->rentabilidadAnual($saldo);})->toArray(),
+                    'saldo' => $this->saldos->pluck('monto')->toArray(),
+                ]));
     }
 }

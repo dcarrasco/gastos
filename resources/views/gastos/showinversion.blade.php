@@ -144,37 +144,125 @@
 </tbody>
 </table>
 
-@if(! empty($inversion->getJSONRentabilidadesAnual()))
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+@if(! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()))
+    <div id="chartInversion" class="col-md-10 offset-md-1 my-5 bg-white border rounded" style="height: 400px">
+        <canvas id="canvas-chartInversion"></canvas>
+    </div>
+
+    <script type="text/javascript" src="{{ asset('js/Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/Chart.bundle.min.js') }}"></script>
+
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                {!! $inversion->getJSONRentabilidadesAnual() !!}
-            ]);
+    var chartInversion;
+    var datosInversion = {!! $datosInversion !!}
 
-            var options = {
-                title: 'Desempeño Inversion',
-                legend: { position: 'bottom' },
-                series: {
-                    0: {
-                        pointSize: 5
+    var chartDataInversion = {
+        labels: datosInversion.label,
+        datasets: [{
+            label: 'Rentabilidad',
+            fill: true,
+            backgroundColor: 'rgba(54,162,235,0.1)',
+            borderColor: 'rgb(54,162,235)',
+            pointBackgroundColor: 'rgb(54,162,235)',
+            yAxisID: 'y-axis-1',
+            data: datosInversion.rentabilidad
+        }, {
+            label: 'Saldo',
+            fill: true,
+            backgroundColor: 'rgba(249,143,54,0.0)',
+            borderColor: 'rgb(249,143,54)',
+            pointBackgroundColor: 'rgb(249,143,54)',
+            yAxisID: 'y-axis-2',
+            data: datosInversion.saldo
+        }]
+    };
+
+    var optionsInversion = {
+        backgroundColor: 'rgba(0,0,0,1)',
+        borderColor: 'rgba(0,0,0,1)',
+        title: {
+            display: true,
+            text: 'Desempeño Inversion'
+        }, 
+        legend: {display: false},
+        elements: {
+            line: {
+                tension: 0,
+            }
+        },
+        tooltips: {
+            callbacks: {
+                label: function(toolTipItem, data) {
+                    console.log(toolTipItem);
+                    if (toolTipItem.datasetIndex == 0) {
+                        return 'Rentabilidad ' + Math.round(toolTipItem.yLabel*10000) / 100 + '%';
+                    } else {
+                        return 'Saldo $ ' + toolTipItem.yLabel.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
                     }
-                },
-                vAxis: {
-                    format: '#,##%',
-                    minValue: 0
                 }
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-            chart.draw(data, options);
+            }
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                ticks: {
+                    fontSize: 10
+                },
+            }],
+            yAxes: [{
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left',
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Rentabilidad'
+                },
+                ticks: {
+                    beginAtZero: true,
+                    callback: function(value, index, values) {
+                        return Math.round(value*100) + '%';
+                    }
+                }
+            }, {
+                id: 'y-axis-2',
+                type: 'linear',
+                display: true,
+                position: 'right',
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Saldo'
+                },
+                gridLines: {
+                    display: false
+                },
+                ticks: {
+                    beginAtZero: true,
+                    callback: function(value, index, values) {
+                        return 'MM$ ' + Math.round(value/1000000);
+                    }
+                }
+            }]
         }
+    };
+
+    function drawCardChartInversion() {
+        var ctx = document.getElementById('canvas-chartInversion').getContext('2d');
+
+        chartInversion = new Chart(ctx, {
+            type: 'line',
+            data: chartDataInversion,
+            options: optionsInversion
+        });
+    }
+
+    $(document).ready(function() {
+        drawCardChartInversion();
+    });
+
     </script>
-    <div id="curve_chart" class="col-md-10 offset-md-1" style="height: 500px"></div>
 @endif
 
 
