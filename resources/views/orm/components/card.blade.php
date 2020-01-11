@@ -1,6 +1,6 @@
 <div class="{{ $cardWidth }} px-2">
 <div class="card px-0 rounded-lg shadow-sm">
-    <div class="card-body px-1 py-2">
+    <div class="card-body px-1 pt-2 pb-1">
         <div class="row px-3">
             <div class="{{ count($ranges) ? 'col-6' : 'col-12' }}">
                 <strong>{{ $title }}</strong>
@@ -21,7 +21,7 @@
             <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
         </div>
 
-        <div id="{{ $cardId }}" class="row mx-2" style="height: 100px">
+        <div id="{{ $cardId }}" class="row mx-2">
             {{ $content }}
         </div>
     </div>
