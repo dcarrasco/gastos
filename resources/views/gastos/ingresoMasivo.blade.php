@@ -77,16 +77,18 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="text-right">{{ number_format($datosMasivos->pluck('monto')->sum(),0, ",", ".") }}</th>
+        <th class="text-right">$&nbsp;{{ number_format($datosMasivos->pluck('monto')->sum(), 0, ",", ".") }}</th>
     </tr>
     </tbody>
 </table>
 
-<div class="form-row">
-    <div class="offset-md-1 col-md-10 text-right">
-        <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
+@if ($agregarDatosMasivos)
+    <div class="form-row">
+        <div class="offset-md-1 col-md-10 text-right">
+            <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
+        </div>
     </div>
-</div>
+@endif
 </form>
 @endif
 

@@ -29,10 +29,16 @@ class IngresoMasivo extends Controller
 
     public function ingresoMasivo(Request $request)
     {
+        $datosMasivos = $this->parser->procesaMasivo($request);
+        $agregarDatosMasivos = $datosMasivos->count() == $datosMasivos->filter(function($gasto) {
+                                                                return $gasto->tipo_gasto_id !== null;
+                                                            })->count();
+
         return view('gastos.ingresoMasivo', [
             'today' => Carbon::now(),
             'formCuenta' => Cuenta::selectCuentasGastos(),
-            'datosMasivos' => $this->parser->procesaMasivo($request),
+            'datosMasivos' => $datosMasivos,
+            'agregarDatosMasivos' => $agregarDatosMasivos,
         ])->withErrors($this->getParserError());
     }
 
