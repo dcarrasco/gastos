@@ -22,7 +22,7 @@ trait DisplayAsCard
      *
      * @param Request $request
      * @return void
-     */ 
+     */
     public function render(Request $request)
     {
         return view('orm.components.card', [

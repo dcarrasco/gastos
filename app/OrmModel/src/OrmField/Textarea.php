@@ -12,7 +12,7 @@ class Textarea extends Field
 {
     /**
      * Devuelve elemento de formulario para el campo
-     * 
+     *
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -30,7 +30,7 @@ class Textarea extends Field
 
     /**
      * Devuelve largo del campo, de acuerdo a regla de validacion
-     * 
+     *
      * @return string
      */
     protected function getFieldLength(): int

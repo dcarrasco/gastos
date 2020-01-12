@@ -17,7 +17,7 @@ class Date extends Field
 
     /**
      * Devuelve valor del campo formateado
-     * 
+     *
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
@@ -29,7 +29,7 @@ class Date extends Field
 
     /**
      * Devuelve elemento de formulario para el campo
-     * 
+     *
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam

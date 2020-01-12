@@ -16,7 +16,7 @@ class Select extends Field
 
     /**
      * Fija opciones para tipo de campo Select
-     * 
+     *
      * @param  array  $options
      * @return Field
      */
@@ -29,7 +29,7 @@ class Select extends Field
 
     /**
      * Devuelve valor del campo formateado
-     * 
+     *
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
@@ -47,7 +47,7 @@ class Select extends Field
 
     /**
      * Indica si el campo tiene opciones
-     * 
+     *
      * @return boolean
      */
     public function hasChoices(): bool
@@ -57,7 +57,7 @@ class Select extends Field
 
     /**
      * Devuelve elemento de formulario para el campo
-     * 
+     *
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam

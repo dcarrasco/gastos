@@ -9,7 +9,7 @@ trait UsesFilters
 {
     /**
      * Filtros del recurso
-     * 
+     *
      * @param  Request $request
      * @return array
      */
@@ -20,7 +20,7 @@ trait UsesFilters
 
     /**
      * Aplica filtros al modelo del recurso
-     * 
+     *
      * @param  Request $request
      * @return Resource
      */

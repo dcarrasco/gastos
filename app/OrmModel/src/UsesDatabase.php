@@ -29,7 +29,7 @@ trait UsesDatabase
 
     /**
      * Agrega condiciones de filtro a objecto modelo
-     * 
+     *
      * @param  Request $request
      * @return Resource
      */
@@ -49,7 +49,7 @@ trait UsesDatabase
 
     /**
      * Devuelve orden del modelo
-     * 
+     *
      * @return array Arreglo con campos de ordenamiento
      */
     public function getOrder(): array
@@ -63,7 +63,7 @@ trait UsesDatabase
 
     /**
      * Agrega limite de despliegue en listado
-     * 
+     *
      * @param  Request $request
      * @return Resource
      */
@@ -81,7 +81,7 @@ trait UsesDatabase
 
     /**
      * Agrega condiciones order-by a objeto del modelo
-     * 
+     *
      * @param  Request $request
      * @return Resource
      */
@@ -103,7 +103,7 @@ trait UsesDatabase
      *
      * @param string $modelId
      * @return Resource
-     */ 
+     */
     public function findOrFail(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrFail($modelId));
@@ -116,7 +116,7 @@ trait UsesDatabase
      *
      * @param string $modelId
      * @return Resource
-     */ 
+     */
     public function findOrNew(string $modelId): Resource
     {
         $this->injectModel($this->modelObject->findOrNew($modelId));

@@ -16,7 +16,7 @@ class Relation extends Field
 
     /**
      * Constructor de la clase
-     * 
+     *
      * @param string $name            Nombre o label de la clase
      * @param string $field           Campo
      * @param string $relatedResource Nombre del recurso relacionado
@@ -31,7 +31,7 @@ class Relation extends Field
 
     /**
      * Fija las condiciones de la relacion
-     * 
+     *
      * @param  array $relationConditions
      * @return Relation
      */
@@ -44,7 +44,7 @@ class Relation extends Field
 
     /**
      * Genera una nueva instancia de la clase
-     * 
+     *
      * @param  string $name            Nombre o label de la clase
      * @param  string $field           Campo
      * @param  string $relatedResource Nombre del recurso relacionado
@@ -68,7 +68,7 @@ class Relation extends Field
 
     /**
      * Recupera objetos del recurso relacionado
-     * 
+     *
      * @param  Request       $request
      * @param  Resource|null $resource
      * @param  string        $field
@@ -104,7 +104,7 @@ class Relation extends Field
 
     /**
      * Devuelve arreglo con las condiciones de la relacion
-     * 
+     *
      * @param  Resource $resource
      * @param  array    $conditions
      * @return array

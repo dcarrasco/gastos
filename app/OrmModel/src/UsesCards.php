@@ -9,7 +9,7 @@ trait UsesCards
 {
     /**
      * Cards del recurso
-     * 
+     *
      * @param  Request $request
      * @return array
      */

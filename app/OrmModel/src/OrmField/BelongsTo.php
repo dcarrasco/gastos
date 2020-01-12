@@ -39,7 +39,7 @@ class BelongsTo extends Relation
 
     /**
      * Devuelve elemento de formulario para el campo
-     * 
+     *
      * @param  Request  $request
      * @param  Resource $resource
      * @param  array    $extraParam
@@ -89,7 +89,7 @@ class BelongsTo extends Relation
 
     /**
      * Recupera opciones desde modelo relacionado
-     * 
+     *
      * @param  Request       $request
      * @param  Resource|null $resource
      * @return array

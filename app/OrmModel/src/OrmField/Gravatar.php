@@ -18,7 +18,7 @@ class Gravatar extends Field
 
     /**
      * Constructor de la clase
-     * 
+     *
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
@@ -47,7 +47,7 @@ class Gravatar extends Field
 
     /**
      * Devuelve valor del campo formateado
-     * 
+     *
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
