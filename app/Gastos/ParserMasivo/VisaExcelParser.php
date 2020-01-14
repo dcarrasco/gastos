@@ -116,12 +116,12 @@ class VisaExcelParser implements GastosParser
         return trim($linea[0]);
     }
 
-    protected function getGlosa($linea = []): string
+    protected function getGlosa(Collection $linea): string
     {
         return trim($linea[3]);
     }
 
-    protected function getMonto($linea = []): int
+    protected function getMonto(Collection $linea): int
     {
         return (int) str_replace('.', '', str_replace('$', '', trim($linea[4])));
     }
