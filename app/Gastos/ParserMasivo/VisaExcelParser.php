@@ -8,7 +8,6 @@ use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
 use App\Gastos\GlosaTipoGasto;
 use Illuminate\Support\Collection;
-use App\Http\Controllers\Gastos\TipoGastoModel;
 
 class VisaExcelParser implements GastosParser
 {
