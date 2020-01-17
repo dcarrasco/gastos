@@ -13,6 +13,6 @@ class NullParser implements GastosParser
 
     public function procesaMasivo(Request $request)
     {
-        return [];
+        return collect([]);
     }
 }
