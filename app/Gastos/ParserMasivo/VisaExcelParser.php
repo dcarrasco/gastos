@@ -105,9 +105,9 @@ class VisaExcelParser implements GastosParser
 
     protected function getFecha(Collection $linea): Carbon
     {
-        $fecha = trim($linea[2]);
+        $fecha = preg_split('/-/', trim($linea[2]));
 
-        return Carbon::create(substr($fecha, 6, 4), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
+        return Carbon::create($fecha[2], $fecha[1], $fecha[0], 0, 0, 0);
     }
 
     protected function getSerie(Collection $linea): string
