@@ -3,7 +3,16 @@
         @if ($loop->first)
             <thead class="thead-light">
                 <tr>
-                    @each('orm.components.listado.tabla_header', $resource['fields'], 'field')
+                    @foreach($resource['fields'] as $field)
+                        <th class="text-nowrap {{ $field->alignOnList() }}">
+                            <h6 class="my-0">
+                                <small class="text-muted text-uppercase font-weight-bold mr-1">
+                                    {!! $field->getName() !!}
+                                </small>
+                                {!! $field->sortingIcon() !!}
+                            </h6>
+                        </th>
+                    @endforeach
                     <th></th>
                 </tr>
             </thead>
