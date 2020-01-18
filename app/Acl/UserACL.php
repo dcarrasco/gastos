@@ -5,6 +5,8 @@ namespace App\Acl;
 use DB;
 use Route;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -25,7 +27,7 @@ class UserACL extends Model implements
         return $query->where('username', $username);
     }
 
-    public function getMenuApp()
+    public function getMenuApp(): Collection
     {
         if (!session()->has('menuapp')) {
             session(['menuapp' => $this->getMenuAppFromDB()]);
@@ -34,112 +36,65 @@ class UserACL extends Model implements
         return $this->setSelectedMenu(session('menuapp'));
     }
 
-    protected function getMenuAppFromDB()
+    protected function menuAppObject(Modulo $modulo): object
     {
-        $menuDB = $this->rol
-            ->flatMap(function ($rol) {
-                return $rol->modulo;
-            })
-            ->map(function ($modulo) {
-                $appObject = $modulo->app;
+        $appObject = $modulo->app;
 
-                return [
-                    'orden'            => $appObject->orden.'-'.$modulo->orden,
-                    'app_app'          => $appObject->app,
-                    'app_icono'        => $appObject->icono,
-                    'app_selected'     => false,
-                    'mod_modulo'       => $modulo->modulo,
-                    'mod_llave_modulo' => $modulo->llave_modulo,
-                    'mod_icono'        => $modulo->icono,
-                    'mod_url'          => $modulo->url,
-                    'mod_selected'     => false,
-                ];
+        return (object) [
+            'orden'        => $appObject->orden.'-'.$modulo->orden,
+            'app'          => $appObject->app,
+            'modulo'       => $modulo->modulo,
+            'llave_modulo' => $modulo->llave_modulo,
+            'icono'        => $modulo->icono,
+            'url'          => $modulo->url,
+            'selected'     => false,
+        ];
+    }
+
+    protected function getMenuAppFromDB(): Collection
+    {
+        return $this->rol
+            ->flatMap->modulo
+            ->map(function ($modulo) {
+                return $this->menuAppObject($modulo);
             })
             ->sort(function ($elem1, $elem2) {
-                return $elem1['orden'] < $elem2['orden'] ? -1 : 1;
-            });
-
-        return $menuDB->mapWithKeys(function ($elemMenu) use ($menuDB) {
-            return [
-                $elemMenu['app_app'] => [
-                    'app'      => $elemMenu['app_app'],
-                    'icono'    => $elemMenu['app_icono'],
-                    'selected' => false,
-                    'modulos'  => $menuDB
-                        ->filter(function ($menuItem) use ($elemMenu) {
-                            return $menuItem['app_app'] === $elemMenu['app_app'];
-                        })
-                        ->map(function ($menuItem) {
-                            return [
-                                'modulo'       => $menuItem['mod_modulo'],
-                                'llave_modulo' => $menuItem['mod_llave_modulo'],
-                                'icono'        => $menuItem['mod_icono'],
-                                'url'          => $menuItem['mod_url'],
-                                'selected'     => null,
-                            ];
-                        })
-                        ->all(),
-                ],
-            ];
-        })
-        ->all();
+                return $elem1->orden < $elem2->orden ? -1 : 1;
+            })
+            ->values();
     }
 
-    protected function setSelectedMenu($menuApp)
+    protected function setSelectedMenu(Collection $menuApp): Collection
     {
         $llaveModulo = $this->getLlaveModulo();
 
-        return collect($menuApp)
-            ->map(function ($appMenu) use ($llaveModulo) {
-                $appMenu['modulos'] = collect($appMenu['modulos'])
-                    ->map(function ($elemModulo) use ($llaveModulo) {
-                        $elemModulo['selected'] = ($elemModulo['llave_modulo'] === $llaveModulo);
+        return $menuApp->map(function ($modulo) use ($llaveModulo) {
+            $modulo->selected = ($modulo->llave_modulo === $llaveModulo);
 
-                        return $elemModulo;
-                    })
-                    ->all();
-
-                return $appMenu;
-            })
-            ->map(function ($elemMenu) {
-                $elemMenu['selected'] = collect($elemMenu['modulos'])
-                    ->reduce(function ($carry, $modulo) {
-                        return $carry or $modulo['selected'];
-                    }, false);
-
-                return $elemMenu;
-            })
-            ->all();
+            return $modulo;
+        });
     }
 
-    public function moduloAppName()
+    public function moduloAppName(): HtmlString
     {
-        $llaveModulo = $this->getLlaveModulo();
-
-        $elem = collect($this->getMenuApp())
-            ->flatMap(function ($appElem) {
-                return $appElem['modulos'];
-            })
-            ->first(function ($modulo) use ($llaveModulo) {
-                return $modulo['llave_modulo'] === $llaveModulo;
-            });
-
-        return '<i class="fa fa-'.Arr::get($elem, 'icono').' fa-fw"></i> '.Arr::get($elem, 'modulo');
+        return is_null($elem = $this->getMenuApp()->first->selected)
+            ? new HtmlString('')
+            : new HtmlString("<i class=\"fa fa-{$elem->icono} fa-fw\"></i>&nbsp;{$elem->modulo}");
     }
 
-    protected function getLlaveModulo()
+    protected function getLlaveModulo(): string
     {
-        return Arr::get(config('invfija.llavesApp'), Route::currentRouteName());
+        return Arr::get(config('invfija.llavesApp'), Route::currentRouteName() ?? '', '');
     }
 
-    public static function checkUserPassword($username = '', $password = '')
+    public static function checkUserPassword($username = '', $password = ''): bool
     {
         $hash = Usuario::usuario($username)->first()->password;
 
         return password_verify($password, $hash);
     }
 
-    public static function storeUserPassword($username = '', $password = '')
+    public static function storeUserPassword(string $username = '', string $password = '')
     {
         $usuario = Usuario::usuario($username)->first();
         $usuario->password = bcrypt($password);
@@ -147,13 +102,12 @@ class UserACL extends Model implements
         return $usuario->save();
     }
 
-    public static function checkUserHasPassword($username = '')
+    public static function checkUserHasPassword(string $username = ''): bool
     {
         if (Usuario::usuario($username)->count() === 0) {
             return false;
         }
 
         return ! empty(Usuario::usuario($username)->first()->password);
-
     }
 }

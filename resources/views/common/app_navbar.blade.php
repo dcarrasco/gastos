@@ -13,7 +13,7 @@
     <div class="collapse navbar-collapse col-10" id="navMenuCollapse">
 
         <span class="h5 my-0 mx-2">
-            {!! auth()->user()->moduloAppName() !!}
+            {{ auth()->user()->moduloAppName() }}
         </span>
 
         <ul class="navbar-nav ml-auto">
