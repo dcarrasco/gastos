@@ -80,6 +80,31 @@ abstract class Field
     }
 
     /**
+     * Oculta el campo del listado Detail
+     *
+     * @return Field
+     */
+    public function hideFromDetail(): Field
+    {
+        $this->showOnDetail = false;
+
+        return $this;
+    }
+
+    /**
+     * Oculta el campo del listado Form
+     *
+     * @return Field
+     */
+    public function hideFromForm(): Field
+    {
+        $this->showOnForm = false;
+
+        return $this;
+    }
+
+
+    /**
      * Indica que el campo es "ordenable"
      *
      * @return Field

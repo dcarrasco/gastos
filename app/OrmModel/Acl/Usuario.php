@@ -42,7 +42,9 @@ class Usuario extends Resource
 
             Text::make('password')
                 ->rules('max:100')
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->hideFromDetail()
+                ->hideFromForm(),
 
             Text::make('email')
                 ->sortable()
