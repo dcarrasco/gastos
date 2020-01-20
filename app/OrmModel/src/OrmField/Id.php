@@ -10,6 +10,8 @@ use App\OrmModel\src\OrmField\Field;
 
 class Id extends Field
 {
+    protected $esIncrementing = true;
+
     /**
      * Constructor de la clase
      *
@@ -19,7 +21,6 @@ class Id extends Field
     public function __construct(string $name = '', string $field = '')
     {
         $name = empty($name) ? 'id' : $name;
-        $this->esIncrementing = true;
         $this->showOnForm = false;
 
         parent::__construct($name, $field);
