@@ -21,7 +21,7 @@
 
 <!-- -----------------------------  FIELDS  ---------------------------- -->
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
-    @each('orm.components.item_show', $fields, 'field')
+    @each('orm.components.item_show', $resource->getFields(), 'field')
 </div>
 
 @include('orm.components.modal_delete')

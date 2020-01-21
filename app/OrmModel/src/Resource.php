@@ -30,6 +30,8 @@ abstract class Resource
 
     protected $perPage = 25;
 
+    protected $fields;
+
     /**
      * Constructor del recurso
      *
@@ -131,21 +133,25 @@ abstract class Resource
         return $this;
     }
 
+    public function getFields(): Collection
+    {
+        return $this->fields;
+    }
+
     /**
      * Devuelve campos a mostrar en listado
      *
      * @param  Request $request
      * @return array
      */
-    public function indexFields(Request $request): array
+    public function indexFields(Request $request): Resource
     {
-        return [
-            'resource' => $this,
-            'fields' => collect($this->fields($request))
-                ->filter->showOnIndex()
-                ->map->makeSortingIcon($request, $this)
-                ->map->resolveValue($this->modelObject, $request)
-        ];
+        $this->fields = collect($this->fields($request))
+            ->filter->showOnIndex()
+            ->map->makeSortingIcon($request, $this)
+            ->map->resolveValue($this->modelObject, $request);
+
+        return $this;
     }
 
     /**
@@ -154,11 +160,13 @@ abstract class Resource
      * @param  Request $request
      * @return array
      */
-    public function detailFields(Request $request): Collection
+    public function detailFields(Request $request): Resource
     {
-        return collect($this->fields($request))
+        $this->fields = collect($this->fields($request))
             ->filter->showOnDetail()
             ->map->resolveValue($this->modelObject, $request);
+
+        return $this;
     }
 
     /**
@@ -167,11 +175,13 @@ abstract class Resource
      * @param  Request $request
      * @return array
      */
-    public function formFields(Request $request): Collection
+    public function formFields(Request $request): Resource
     {
-        return collect($this->fields($request))
+        $this->fields = collect($this->fields($request))
             ->filter->showOnForm()
             ->map->resolveFormItem($request, $this, ['class' => 'form-control']);
+
+        return $this;
     }
 
     /**

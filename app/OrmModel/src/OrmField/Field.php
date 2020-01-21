@@ -34,7 +34,7 @@ abstract class Field
         'asc' => 'fa fa-caret-up text-muted',
         'desc' => 'fa fa-caret-down text-muted',
     ];
-    protected $sortingIcon = '';
+    protected $sortingIcon;
 
     protected $showValue = '';
 
@@ -161,9 +161,9 @@ abstract class Field
      *
      * @return string
      */
-    public function sortingIcon(): string
+    public function sortingIcon(): HtmlString
     {
-        return $this->sortingIcon;
+        return $this->sortingIcon ?? new HtmlString('');
     }
 
     /**

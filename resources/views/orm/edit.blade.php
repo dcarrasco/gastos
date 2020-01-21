@@ -18,7 +18,7 @@
     {{ method_field('PUT') }}
 
     <!-- -----------------------------  FIELDS  ---------------------------- -->
-    @each('orm.components.item_form', $fields, 'field')
+    @each('orm.components.item_form', $resource->getFields(), 'field')
 
     <!-- -----------------------------  BOTONES  --------------------------- -->
     <div class="row">
@@ -33,8 +33,8 @@
         </div>
     </div>
 
-    {!! Form::hidden('redirect_to', 'next') !!}
-    {!! Form::close()!!}
+    {{ Form::hidden('redirect_to', 'next') }}
+    {{ Form::close() }}
 </div>
 
 <script>

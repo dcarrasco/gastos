@@ -3,13 +3,13 @@
         @if ($loop->first)
             <thead class="thead-light">
                 <tr>
-                    @foreach($resource['fields'] as $field)
+                    @foreach($resource->getFields() as $field)
                         <th class="text-nowrap {{ $field->alignOnList() }}">
                             <h6 class="my-0">
                                 <small class="text-muted text-uppercase font-weight-bold mr-1">
-                                    {!! $field->getName() !!}
+                                    {{ $field->getName() }}
                                 </small>
-                                {!! $field->sortingIcon() !!}
+                                {{ $field->sortingIcon() }}
                             </h6>
                         </th>
                     @endforeach
@@ -21,7 +21,7 @@
         @endif
 
         <tr>
-            @foreach($resource['fields'] as $field)
+            @foreach($resource->getFields() as $field)
                 <td class="align-middle text-black-70 {{ $field->alignOnList() }}">
                     {{ $field->value() }}
                 </td>

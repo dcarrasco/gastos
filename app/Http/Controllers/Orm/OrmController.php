@@ -164,10 +164,10 @@ class OrmController extends Controller
      */
     public function show(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrNew($modelId);
-        $fields = $resource->detailFields($request);
+        $resource = $this->getResource($resourceClass)->findOrNew($modelId)
+            ->detailFields($request);
 
-        return view('orm.show', compact('resource', 'modelId', 'fields'));
+        return view('orm.show', compact('resource', 'modelId'));
     }
 
     /**
@@ -180,10 +180,10 @@ class OrmController extends Controller
      */
     public function edit(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrNew($modelId);
-        $fields = $resource->formFields($request);
+        $resource = $this->getResource($resourceClass)->findOrNew($modelId)
+            ->formFields($request);
 
-        return view('orm.edit', compact('resource', 'modelId', 'fields'));
+        return view('orm.edit', compact('resource', 'modelId'));
     }
 
     /**
