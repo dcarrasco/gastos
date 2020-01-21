@@ -123,10 +123,10 @@ class OrmController extends Controller
      */
     public function create(Request $request, string $resourceClass = '')
     {
-        $resource = $this->getResource($resourceClass);
-        $fields = $resource->formFields($request);
+        $resource = $this->getResource($resourceClass)
+            ->formFields($request);
 
-        return view('orm.create', compact('resource', 'fields'));
+        return view('orm.create', compact('resource'));
     }
 
     /**

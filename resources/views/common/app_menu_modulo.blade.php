@@ -7,7 +7,7 @@
     </a>
 
     @if (isset($menuModulo) and $modulo->selected)
-    @foreach ($menuModulo as $modulo )
+    @foreach ($menuModulo as $modulo)
     <div class="pl-4 py-1">
         <a href="{{ $modulo['url'] }}" class="text-white text-decoration-none">
             {{ $modulo['nombre'] }}
