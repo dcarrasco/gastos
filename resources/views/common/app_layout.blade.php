@@ -10,8 +10,8 @@
 
     <title>{{ config('invfija.app_nombre') }}</title>
 
-    {{-- <link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png" /> --}}
-    {{-- <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ asset('img/favicon-152.png') }}"> --}}
+    <link rel="icon" href="{{ asset('img/favicon-512.png') }}" type="image/png" />
+    <link rel="apple-touch-icon-precomposed" sizes="512x512" href="{{ asset('img/favicon-512.png') }}">
 
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
