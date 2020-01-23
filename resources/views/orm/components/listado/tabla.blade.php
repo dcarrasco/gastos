@@ -1,5 +1,5 @@
 <table class="table listado table-hover mb-0">
-    @foreach ($resource->getPaginatedResources() as $resource)
+    @foreach ($resource->resourceList() as $resource)
         @if ($loop->first)
             <thead class="thead-light">
                 <tr>

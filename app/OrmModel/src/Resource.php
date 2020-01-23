@@ -25,7 +25,7 @@ abstract class Resource
 
     protected $modelObject = null;
     protected $paginator = null;
-    protected $paginatedResources = null;
+    protected $resourceList = null;
     protected $paginationLinksDetail = false;
 
     protected $perPage = 25;
@@ -255,14 +255,12 @@ abstract class Resource
      */
     public function paginator(Request $request): LengthAwarePaginator
     {
-        return is_null($this->paginator)
-            ? $this->paginator = $this->resourceSetPerPage($request)
-                ->resourceOrderBy($request)
-                ->resourceFilter($request)
-                ->applyFilters($request)
-                ->getBelongsToRelations($request)
-                ->getPaginated($request)
-            : $this->paginator;
+        return $this->paginator = $this->resourceSetPerPage($request)
+            ->resourceOrderBy($request)
+            ->resourceFilter($request)
+            ->applyFilters($request)
+            ->getBelongsToRelations($request)
+            ->getPaginated($request);
     }
 
     /**
@@ -273,7 +271,7 @@ abstract class Resource
      */
     public function makePaginatedResources(Request $request): Resource
     {
-        $this->paginatedResources = $this->paginator($request)
+        $this->resourceList = $this->paginator($request)
             ->getCollection()
             ->mapInto($this)
             ->map->indexFields($request);
@@ -286,9 +284,9 @@ abstract class Resource
      *
      * @return Collection
      */
-    public function getPaginatedResources(): Collection
+    public function resourceList(): Collection
     {
-        return $this->paginatedResources;
+        return $this->resourceList;
     }
 
     /**
