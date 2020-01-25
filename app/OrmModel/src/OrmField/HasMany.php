@@ -31,12 +31,12 @@ class HasMany extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model = null, Request $request)
     {
         $relatedResources = $this->getRelation($model);
 
         if ($relatedResources->count() === 0) {
-            return '';
+            return new HtmlString('');
         }
 
         $list = "<ul><li>"

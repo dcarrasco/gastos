@@ -21,7 +21,7 @@ class Number extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model = null, Request $request)
     {
         return number_format(optional($model)->{$this->attribute}, 0, ',', '.');
     }

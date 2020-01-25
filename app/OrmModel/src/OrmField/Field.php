@@ -348,14 +348,14 @@ abstract class Field
     }
 
     /**
-     * Genera valor a mostrar a partir de modelo
+     * Formatea valor a mostrar a partir de modelo
      *
      * @param  Model  $model
      * @return Field
      */
     public function resolveValue(Model $model, Request $request): Field
     {
-        $this->value = $this->getValue($model, $request);
+        $this->value = $this->getFormattedValue($model, $request);
 
         return $this;
     }
@@ -394,7 +394,7 @@ abstract class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model = null, Request $request)
     {
         return optional($model)->{$this->attribute};
     }

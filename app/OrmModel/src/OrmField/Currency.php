@@ -13,6 +13,8 @@ class Currency extends Field
 {
     protected $alignOnList = 'text-right';
 
+    protected $currencySign = '$';
+
 
     /**
      * Devuelve valor del campo formateado
@@ -21,9 +23,9 @@ class Currency extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model = null, Request $request)
     {
-        return new HtmlString('$&nbsp;'
+        return new HtmlString($this->currencySign.'&nbsp;'
             .number_format(optional($model)->{$this->attribute}, 0, ',', '.')
         );
     }
