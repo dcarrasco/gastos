@@ -67,7 +67,6 @@ class Reporte
      */
     public function formatoReporte($valor = '', $arr_param_campo = [], $registro = [], $campo = '')
     {
-
         $arrFormatos = [
             'texto' => function ($valor) {
                 return $valor;
@@ -153,7 +152,7 @@ class Reporte
     public static function setOrderCampos(&$campos, $campoDefault = '')
     {
         $sort_by = empty(request('sort')) ? $campoDefault : request('sort');
-        $sort_by = ( ! preg_match('/^[+\-](.*)$/', $sort_by)) ? '+'.$sort_by : $sort_by;
+        $sort_by = (! preg_match('/^[+\-](.*)$/', $sort_by)) ? '+'.$sort_by : $sort_by;
 
         $sort_by_field  = substr($sort_by, 1, strlen($sort_by));
         $sort_by_order  = substr($sort_by, 0, 1);
@@ -192,7 +191,7 @@ class Reporte
     {
         return collect(explode(',', $sort_by))
             ->map(function ($value) {
-                $value = ( ! preg_match('/^[+\-](.*)$/', trim($value))) ? '+'.trim($value) : trim($value);
+                $value = (! preg_match('/^[+\-](.*)$/', trim($value))) ? '+'.trim($value) : trim($value);
                 return substr($value, 1, strlen($value)).((substr($value, 0, 1) === '+') ? ' ASC' : ' DESC');
             })
             ->implode(', ');

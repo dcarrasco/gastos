@@ -9,7 +9,6 @@ use App\Http\Requests\Acl\CambiaPasswordRequest;
 
 class LoginController extends Controller
 {
-
     public function showCambiaPassword()
     {
         return view('acl.cambio_password', [

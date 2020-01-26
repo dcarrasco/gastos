@@ -40,7 +40,7 @@ class ReporteTable
         $template = static::$template;
 
         $reporteHead = collect($campos)->reduce(function ($carry, $elem) use ($template) {
-                return $carry.$template['head_open'].$elem.$template['head_close'];
+            return $carry.$template['head_open'].$elem.$template['head_close'];
         }, '');
 
         $reporteBody = $reporteOrigen->reduce(function ($carry, $elem) use ($campos, $template) {

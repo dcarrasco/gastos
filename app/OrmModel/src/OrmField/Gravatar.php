@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gravatar extends Field
 {
-
     protected $avatarListSize = 24;
     protected $avatarShowSize = 240;
 

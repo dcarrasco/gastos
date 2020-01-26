@@ -209,7 +209,7 @@ if (!function_exists('fmtCantidad')) {
         if ($format_diff) {
             $format_start = ($valor > 0)
                 ? '<strong><span class="text-success">+'
-                : (($valor < 0 ) ? '<strong><span class="text-danger">' : '');
+                : (($valor < 0) ? '<strong><span class="text-danger">' : '');
 
             $format_end = ($valor === 0) ? '' : '</span></strong>';
         }
@@ -261,7 +261,7 @@ if (!function_exists('fmtMonto')) {
         if ($format_diff) {
             $format_start = ($monto > 0)
                 ? '<strong><span class="text-success">+'
-                : (($monto < 0 ) ? '<strong><span class="text-danger">' : '');
+                : (($monto < 0) ? '<strong><span class="text-danger">' : '');
 
             $format_end   = ($monto === 0) ? '' : '</span></strong>';
         }
@@ -427,7 +427,7 @@ if (!function_exists('cached_query')) {
         $ci->load->driver('cache', array('adapter' => 'file'));
         $cache_ttl = 300;
 
-        $params = ( ! is_array($params)) ? array($params) : $params;
+        $params = (! is_array($params)) ? array($params) : $params;
 
         log_message(
             'debug',

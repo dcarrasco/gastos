@@ -33,7 +33,7 @@ abstract class Metric
             'YTD' => [$todayIni->copy()->startOfYear(), $todayEnd],
         ];
 
-        $dateInterval = ( ! is_numeric($dateOption))
+        $dateInterval = (! is_numeric($dateOption))
             ? Arr::get($intervalOption, $dateOption, [$todayIni, $todayEnd])
             : [$todayIni->copy()->subDays($dateOption - 1), $todayEnd];
 
@@ -61,7 +61,7 @@ abstract class Metric
             'YTD' => [$dateIni->copy()->subYear(), $dateEnd->copy()->subYear()],
         ];
 
-        return ( ! is_numeric($dateOption))
+        return (! is_numeric($dateOption))
             ? Arr::get($intervalOption, $dateOption, [$dateIni, $dateEnd])
             : [$dateIni->copy()->subDays($dateOption), $dateEnd->copy()->subDays($dateOption)];
     }
