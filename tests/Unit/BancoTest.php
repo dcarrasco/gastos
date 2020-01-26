@@ -1,6 +1,6 @@
 <?php
 
-// namespace Tests\Unit;
+namespace Tests\Unit;
 
 // use Tests\TestCase;
 use App\Gastos\Cuenta;
@@ -34,7 +34,7 @@ class BancoTest extends TestCase
             'tipo_cuenta_id' => 2,
         ]);
 
-        $this->assertEquals($cuentasGastos->pluck('cuenta','id')->all(), Cuenta::selectCuentasGastos());
-        $this->assertEquals($cuentasInversion->pluck('cuenta','id')->all(), Cuenta::selectCuentasInversiones());
+        $this->assertEquals($cuentasGastos->pluck('cuenta', 'id')->all(), Cuenta::selectCuentasGastos());
+        $this->assertEquals($cuentasInversion->pluck('cuenta', 'id')->all(), Cuenta::selectCuentasInversiones());
     }
 }

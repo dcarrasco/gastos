@@ -1,7 +1,8 @@
 <?php
 
-use App\Helpers\Reporte;
+namespace Tests\Helpers;
 
+use App\Helpers\Reporte;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -126,25 +127,33 @@ class ReporteTest extends TestCase
 
     public function __testFormatoReporteLinkRegistros()
     {
-        $reporte = $this->getReporte()->formatoReporte(12345, ['tipo' => 'link_registro', 'href' => 'http://a/b/c', 'href_registros' => ['aa', 'bb', 'cc']], ['aa' => '11', 'bb' => '22', 'cc' => '33']);
+        $reporte = $this->getReporte()->formatoReporte(
+            12345,
+            [
+                'tipo' => 'link_registro',
+                'href' => 'http://a/b/c',
+                'href_registros' => ['aa', 'bb', 'cc']
+            ],
+            ['aa' => '11', 'bb' => '22', 'cc' => '33']
+        );
 
         $this->assertEquals('<a href="http://a/b/c/11/22/33">12345</a>', $reporte);
     }
 
-    public function xx_testFormatoReporteLinkDetalleSeries()
-    {
-        $reporte = $this->getReporte()->formatoReporte(
-            12345,
-            ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'],
-            ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'],
-            'aa'
-        );
+    // public function xx_testFormatoReporteLinkDetalleSeries()
+    // {
+    //     $reporte = $this->getReporte()->formatoReporte(
+    //         12345,
+    //         ['tipo'=>'link_detalle_series', 'href'=>'http://a/b/c/'],
+    //         ['centro'=>'CM11', 'almacen'=>'CH01', 'lote'=>'NUEVO', 'otro'=>'xx'],
+    //         'aa'
+    //     );
 
         // $this->assertEquals(
         //     '<a href="http://a/b/c/?centro=CM11&almacen=CH01&lote=NUEVO&permanencia=aa">12.345</a>',
         //     $reporte
         // );
-    }
+    // }
 
     public function testFormatoReporteOtro()
     {

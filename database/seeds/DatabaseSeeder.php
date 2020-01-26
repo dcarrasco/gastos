@@ -22,6 +22,5 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaACLRolSeeder::class);
         $this->call(TablaACLRolModuloSeeder::class);
         $this->call(TablaACLUsuarioRolSeeder::class);
-
     }
 }

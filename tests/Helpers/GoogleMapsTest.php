@@ -1,7 +1,8 @@
 <?php
 
-use App\Helpers\Googlemaps;
+namespace Tests\Helpers;
 
+use App\Helpers\Googlemaps;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

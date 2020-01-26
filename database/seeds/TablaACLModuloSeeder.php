@@ -73,6 +73,5 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 30,
             'created_at' => Carbon\Carbon::now(),
         ]);
-
     }
 }

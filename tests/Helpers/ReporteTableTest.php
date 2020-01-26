@@ -1,7 +1,8 @@
 <?php
 
-use App\Helpers\ReporteTable;
+namespace Tests\Helpers;
 
+use App\Helpers\ReporteTable;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

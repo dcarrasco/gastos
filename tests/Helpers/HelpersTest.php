@@ -1,7 +1,8 @@
 <?php
 
-use App\Helpers\Helpers;
+namespace Tests\Helpers;
 
+use App\Helpers\Helpers;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -98,12 +99,10 @@ class HelpersTest extends TestCase
         $this->assertEquals(diaSemana(6), 'Sa');
     }
 
-    public function test_clase_cumplimiento_consumos()
+    public function testClaseCumplimientoConsumos()
     {
         $this->assertEquals(clase_cumplimiento_consumos(.95), 'success');
         $this->assertEquals(clase_cumplimiento_consumos(.75), 'warning');
         $this->assertEquals(clase_cumplimiento_consumos(.45), 'danger');
     }
-
-
 }
