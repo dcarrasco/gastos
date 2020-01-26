@@ -11,12 +11,12 @@ class ReporteTableTest extends TestCase
 {
     public function testNew()
     {
-        $this->assertInternalType('object', new ReporteTable);
+        $this->assertInternalType('object', new ReporteTable());
     }
 
     public function __testTemplate()
     {
-        $reporteTable = new ReporteTable;
+        $reporteTable = new ReporteTable();
 
         $this->assertInternalType('array', $reporteTable->template);
     }

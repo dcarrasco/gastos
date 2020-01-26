@@ -59,7 +59,7 @@ class BelongsTo extends Relation
         $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
 
         return new HtmlString(
-            str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form)
+            str_replace('>' . trans('orm.choose_option'), 'disabled >' . trans('orm.choose_option'), $form)
         );
     }
 
@@ -82,11 +82,11 @@ class BelongsTo extends Relation
 
         $resourceDest = Arr::get($this->onChange, 'resource');
         $elemDest = Arr::get($this->onChange, 'elem');
-        $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
+        $url = route("{$routeName}.ajaxOnChange", ['modelName' => $resourceDest]);
 
         return new HtmlString("$('#{$elemDest}').html('');"
-            ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
-            ."function (data) { $('#{$elemDest}').html(data); });");
+            . "$.get('{$url}?{$field}='+$('#{$field}').val(), "
+            . "function (data) { $('#{$elemDest}').html(data); });");
     }
 
     /**
@@ -98,7 +98,7 @@ class BelongsTo extends Relation
      */
     protected function getOptions(Request $request, Resource $resource = null): array
     {
-        $optionsIni = ['' => trans('orm.choose_option').(new $this->relatedResource)->getLabel()];
+        $optionsIni = ['' => trans('orm.choose_option') . (new $this->relatedResource())->getLabel()];
         $options = $this->getRelationOptions($request, $resource, $this->relationConditions);
 
         foreach ($options as $key => $value) {

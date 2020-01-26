@@ -25,7 +25,7 @@ class Inversion
 
     public function saldoFinal(): Gasto
     {
-        return $this->saldos->isEmpty() ? new Gasto : $this->saldos->last();
+        return $this->saldos->isEmpty() ? new Gasto() : $this->saldos->last();
     }
 
     protected function getSumMovimientos(Gasto $saldo): int
@@ -52,7 +52,8 @@ class Inversion
 
     public function rentabilidadAnual(Gasto $saldoFinal): float
     {
-        if (empty($this->movimientos)
+        if (
+            empty($this->movimientos)
             or is_null($fechaIni = optional($this->movimientos->first())->fecha)
             or ($diasInversion = $fechaIni->diffInDays($saldoFinal->fecha)) == 0
         ) {

@@ -35,13 +35,9 @@ class HasMany extends Relation
     {
         $relatedResources = $this->getRelation($model);
 
-        if ($relatedResources->count() === 0) {
-            return new HtmlString('');
-        }
-
-        $list = "<ul><li>"
-            .$relatedResources->map->title()->implode('</li><li>')
-            ."</li></ul>";
+        $list = $relatedResources->count() === 0
+            ? ''
+            : "<ul><li>" . $relatedResources->map->title()->implode('</li><li>') . "</li></ul>";
 
         return new HtmlString($list);
     }
@@ -64,7 +60,7 @@ class HasMany extends Relation
         $elementosSelected = collect($value)->map->getKey()->all();
 
         return Form::select(
-            $this->name.'[]',
+            $this->name . '[]',
             $this->getRelationOptions($request, $resource, $this->relationConditions),
             $elementosSelected,
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)

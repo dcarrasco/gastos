@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use \Carbon\Carbon;
+use Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\Cuenta;
 use Illuminate\Http\Request;

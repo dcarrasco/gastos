@@ -23,8 +23,11 @@ class HelpersTest extends TestCase
             ['llave' => 'c', 'valor' => '3', 'otro' => 'otro'],
         ];
 
-        $this->assertEquals(formArrayFormat($test), ['a'=>'1', 'b'=>'2', 'c'=>'3']);
-        $this->assertEquals(formArrayFormat($test, 'mensaje ini'), [''=>'mensaje ini', 'a'=>'1','b' =>'2', 'c'=>'3']);
+        $this->assertEquals(formArrayFormat($test), ['a' => '1', 'b' => '2', 'c' => '3']);
+        $this->assertEquals(
+            formArrayFormat($test, 'mensaje ini'),
+            ['' => 'mensaje ini', 'a' => '1','b' => '2', 'c' => '3']
+        );
     }
 
     public function testFmtCantidad()
@@ -75,12 +78,12 @@ class HelpersTest extends TestCase
     public function testGetArrDiasMes()
     {
         $expected = [
-            '01'=>null, '02'=>null, '03'=>null, '04'=>null, '05'=>null,
-            '06'=>null, '07'=>null, '08'=>null, '09'=>null, 10=>null,
-            11=>null, 12=>null, 13=>null, 14=>null, 15=>null,
-            16=>null, 17=>null, 18=>null, 19=>null, 20=>null,
-            21=>null, 22=>null, 23=>null, 24=>null, 25=>null,
-            26=>null, 27=>null, 28=>null, 29=>null, 30=>null,
+            '01' => null, '02' => null, '03' => null, '04' => null, '05' => null,
+            '06' => null, '07' => null, '08' => null, '09' => null, 10 => null,
+            11 => null, 12 => null, 13 => null, 14 => null, 15 => null,
+            16 => null, 17 => null, 18 => null, 19 => null, 20 => null,
+            21 => null, 22 => null, 23 => null, 24 => null, 25 => null,
+            26 => null, 27 => null, 28 => null, 29 => null, 30 => null,
         ];
 
         $this->assertEquals(getArrDiasMes('201704'), $expected);

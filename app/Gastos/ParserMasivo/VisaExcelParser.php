@@ -79,9 +79,9 @@ class VisaExcelParser implements GastosParser
             ->first(function ($glosaTipoGasto) use ($glosa) {
                 return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
             })
-            ?? new GlosaTipoGasto;
+            ?? new GlosaTipoGasto();
 
-        return $glosaTipoGasto->tipoGasto ?? new TipoGasto;
+        return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
     }
 
     protected function procesaLineaMasivo(Request $request, $linea = ''): Gasto

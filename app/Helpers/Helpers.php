@@ -10,7 +10,7 @@ if (!function_exists('ajax_options')) {
                 return ['key' => $key, 'value' => $item];
             })
             ->reduce(function ($carry, $elem) {
-                return $carry.'<option value="'.$elem['key'].'">'.e($elem['value']).'</option>';
+                return "{$carry}<option value=\"{$elem['key']}\">" . e($elem['value']) . '</option>';
             }, '');
     }
 }
@@ -51,7 +51,7 @@ if (!function_exists('getFechaHasta')) {
         $mes = (int) substr($anomes, 4, 2);
         $ano = (int) substr($anomes, 0, 4);
 
-        return (string) (($mes === 12) ? ($ano+1)*10000+(1)*100+1 : $ano*10000+($mes+1)*100+1);
+        return (string) (($mes === 12) ? ($ano + 1) * 10000 + (1) * 100 + 1 : $ano * 10000 + ($mes + 1) * 100 + 1);
     }
 }
 
@@ -132,7 +132,7 @@ if (!function_exists('print_validation_errors')) {
         $ci->form_validation->set_error_delimiters('<li> ', '</li>');
 
         if (validation_errors()) {
-            return print_message('<ul>'.validation_errors().'</ul>', 'danger');
+            return print_message('<ul>' . validation_errors() . '</ul>', 'danger');
         }
 
         return null;
@@ -214,7 +214,7 @@ if (!function_exists('fmtCantidad')) {
             $format_end = ($valor === 0) ? '' : '</span></strong>';
         }
 
-        return $format_start.$valor_formateado.$format_end;
+        return $format_start . $valor_formateado . $format_end;
     }
 }
 
@@ -252,8 +252,8 @@ if (!function_exists('fmtMonto')) {
         if (strtoupper($unidad) === 'UN') {
             $valor_formateado = $signo_moneda . '&nbsp;' . number_format($monto, $decimales, ',', '.');
         } elseif (strtoupper($unidad) === 'MM') {
-            $valor_formateado = 'MM'.$signo_moneda.'&nbsp;'
-                .number_format($monto/1000000, ($monto > 10000000) ? 0 : 1, ',', '.');
+            $valor_formateado = 'MM' . $signo_moneda . '&nbsp;'
+                . number_format($monto / 1000000, ($monto > 10000000) ? 0 : 1, ',', '.');
         }
 
         $format_start = '';
@@ -266,7 +266,7 @@ if (!function_exists('fmtMonto')) {
             $format_end   = ($monto === 0) ? '' : '</span></strong>';
         }
 
-        return $format_start.$valor_formateado.$format_end;
+        return $format_start . $valor_formateado . $format_end;
     }
 }
 
@@ -283,16 +283,16 @@ if (!function_exists('fmtHora')) {
     {
         $separador = ':';
 
-        $hora = (int) ($segundos_totales/3600);
+        $hora = (int) ($segundos_totales / 3600);
         $hora = (strlen($hora) === 1) ? '0' . $hora : $hora;
 
-        $minutos = (int) (($segundos_totales - ((int) $hora) *3600)/60);
+        $minutos = (int) (($segundos_totales - ((int) $hora) * 3600) / 60);
         $minutos = (strlen($minutos) === 1) ? '0' . $minutos : $minutos;
 
-        $segundos = (int) ($segundos_totales - ($hora*3600 + $minutos*60));
+        $segundos = (int) ($segundos_totales - ($hora * 3600 + $minutos * 60));
         $segundos = (strlen($segundos) === 1) ? '0' . $segundos : $segundos;
 
-        return $hora.$separador.$minutos.$separador.$segundos;
+        return $hora . $separador . $minutos . $separador . $segundos;
     }
 }
 
@@ -351,7 +351,7 @@ if (!function_exists('fmtRut')) {
             list($numero_rut, $dv_rut) = explode('-', $numero_rut);
         }
 
-        return fmtCantidad($numero_rut).'-'.strtoupper($dv_rut);
+        return fmtCantidad($numero_rut) . '-' . strtoupper($dv_rut);
     }
 }
 
@@ -431,14 +431,15 @@ if (!function_exists('cached_query')) {
 
         log_message(
             'debug',
-            "cached_query: id({$cache_id}), object(".get_class($object)
-            ."), method({$method}), params(".json_encode($params).")"
+            "cached_query: id({$cache_id}), object(" . get_class($object)
+                . "), method({$method}), params(" . json_encode($params) . ")"
         );
 
         // limpia caches antiguos
         if (is_array($ci->cache->cache_info())) {
             foreach ($ci->cache->cache_info() as $cache_ant_id => $cache_ant_data) {
-                if ($cache_ant_data['date'] < now() - $cache_ttl and
+                if (
+                    $cache_ant_data['date'] < now() - $cache_ttl and
                     strtolower(substr($cache_ant_data['name'], -4)) !== 'html'
                 ) {
                     $ci->cache->delete($cache_ant_id);
@@ -447,7 +448,11 @@ if (!function_exists('cached_query')) {
         }
 
         if (!method_exists($object, $method)) {
-            log_message('error', 'cached_query: Metodo "'.$method.'"" no existe en objeto "'.get_class($object).'".');
+            log_message(
+                'error',
+                "cached_query: Metodo \"{$method}\" no existe en objeto \"" . get_class($object) . '".'
+            );
+
             return null;
         }
 

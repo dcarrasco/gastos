@@ -82,7 +82,7 @@ abstract class Metric
         string $timeColumn = '',
         array $dateInterval = []
     ): Collection {
-        $query = (new $resource)->model()->whereBetween($timeColumn, $dateInterval);
+        $query = (new $resource())->model()->whereBetween($timeColumn, $dateInterval);
 
         return $this->applyResourceFilters($request, $resource, $query)
             ->get();
@@ -101,7 +101,7 @@ abstract class Metric
         string $resource,
         Builder $query
     ): Builder {
-        collect((new $resource)->filters($request))
+        collect((new $resource())->filters($request))
             ->filter->isSet($request)
             ->each(function ($filter) use ($request, &$query) {
                 $query = $filter->apply($request, $query, $filter->getValue($request));

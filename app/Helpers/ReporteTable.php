@@ -8,7 +8,7 @@ class ReporteTable
 {
     protected static $template = [
         'table_open' => '<table class="table table-bordered table-striped table-hover table-condensed reporte" '
-            .'style="white-space:nowrap;">',
+            . 'style="white-space:nowrap;">',
         'table_close' => '</table>',
         'thead_open' => '<thead class="header">',
         'thead_close' => '</thead>',
@@ -40,29 +40,29 @@ class ReporteTable
         $template = static::$template;
 
         $reporteHead = collect($campos)->reduce(function ($carry, $elem) use ($template) {
-            return $carry.$template['head_open'].$elem.$template['head_close'];
+            return $carry . $template['head_open'] . $elem . $template['head_close'];
         }, '');
 
         $reporteBody = $reporteOrigen->reduce(function ($carry, $elem) use ($campos, $template) {
             return $carry
-                .$template['row_open']
-                .collect($campos)->map(function ($campo) use ($elem) {
+                . $template['row_open']
+                . collect($campos)->map(function ($campo) use ($elem) {
                     return Arr::get($elem, $campo);
                 })
                 ->reduce(function ($carry2, $elem) use ($template) {
-                    return $carry2.$template['data_open'].$elem.$template['data_close'];
+                    return $carry2 . $template['data_open'] . $elem . $template['data_close'];
                 }, '')
-                .$template['row_close'];
+                . $template['row_close'];
         }, '');
 
         return
             $template['table_open']
-                .$template['thead_open'].$template['row_open']
-                    .$reporteHead
-                .$template['row_close'].$template['thead_close']
-                .$template['tbody_open']
-                    .$reporteBody
-                .$template['tbody_close']
-            .$template['table_close'];
+                . $template['thead_open'] . $template['row_open']
+                    . $reporteHead
+                . $template['row_close'] . $template['thead_close']
+                . $template['tbody_open']
+                    . $reporteBody
+                . $template['tbody_close']
+            . $template['table_close'];
     }
 }

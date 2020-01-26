@@ -19,7 +19,8 @@ class LoginController extends Controller
 
     public function cambiaPassword(CambiaPasswordRequest $request)
     {
-        if (!UserAcl::checkUserHasPassword(request('username'))
+        if (
+            !UserAcl::checkUserHasPassword(request('username'))
             or UserACL::checkUserPassword(request('username'), request('clave_anterior'))
         ) {
             UserACL::storeUserPassword(request('username'), request('nueva_clave'));
@@ -28,6 +29,6 @@ class LoginController extends Controller
 
         return redirect()->back()
             ->withInput(request()->input())
-            ->withErrors(['clave'=>'Las credenciales son erroneas']);
+            ->withErrors(['clave' => 'Las credenciales son erroneas']);
     }
 }

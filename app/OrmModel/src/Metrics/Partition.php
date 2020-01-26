@@ -10,7 +10,7 @@ abstract class Partition extends Metric
 {
     public function count(Request $request, string $resource = '', string $column = ''): int
     {
-        return (new $resource)->model()
+        return (new $resource())->model()
             ->select(DB::raw($column . ' as grupo, count(*) as cant'))
             ->groupBy($column)
             ->get();
@@ -18,7 +18,7 @@ abstract class Partition extends Metric
 
     protected function countTotal(Request $request, string $resource = ''): int
     {
-        return (new $resource)->model()->count();
+        return (new $resource())->model()->count();
     }
 
     public function ranges(): array

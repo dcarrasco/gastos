@@ -26,7 +26,7 @@ class VisaParser implements GastosParser
                 return $this->procesaLineaMasivo($request, $linea);
             })
             ->filter(function ($gasto) use ($request) {
-                $gastoAnterior = (new Gasto)->where([
+                $gastoAnterior = (new Gasto())->where([
                     'cuenta_id' => $request->cuenta_id,
                     'anno' => $request->anno,
                     'fecha' => $gasto->fecha,
@@ -48,11 +48,11 @@ class VisaParser implements GastosParser
         }
 
         $linea = collect(explode(' ', $linea));
-        $tipoGasto = (new TipoGasto)->findOrNew(
-            (new GlosaTipoGasto)->getPorGlosa($request->cuenta_id, $this->getGlosa($linea))
+        $tipoGasto = (new TipoGasto())->findOrNew(
+            (new GlosaTipoGasto())->getPorGlosa($request->cuenta_id, $this->getGlosa($linea))
         );
 
-        return (new Gasto)->fill([
+        return (new Gasto())->fill([
             'cuenta_id' => $request->cuenta_id,
             'anno' => $request->anno,
             'mes' => $request->mes,
@@ -81,7 +81,7 @@ class VisaParser implements GastosParser
     {
         $fecha = $linea->get($this->getIndexFecha($linea));
 
-        return (new Carbon)->create(
+        return (new Carbon())->create(
             2000 + (int)substr($fecha, 6, 2),
             substr($fecha, 3, 2),
             substr($fecha, 0, 2),
@@ -99,7 +99,7 @@ class VisaParser implements GastosParser
     protected function getIndexSerie(Collection $linea)
     {
         $indexFecha = $this->getIndexFecha($linea);
-        $serie = $linea->get($indexFecha+1).$linea->get($indexFecha+2);
+        $serie = $linea->get($indexFecha + 1) . $linea->get($indexFecha + 2);
 
         if (preg_match('/^[0-9]{12}$/', $serie) === 1) {
             return range($indexFecha + 1, $indexFecha + 2);

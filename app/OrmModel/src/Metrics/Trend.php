@@ -30,7 +30,7 @@ abstract class Trend extends Metric
         string $timeColumn = ''
     ): Collection {
         $timeColumn = empty($timeColumn)
-            ? (new $resource)->model()->getCreatedAtColumn()
+            ? (new $resource())->model()->getCreatedAtColumn()
             : $timeColumn;
 
         $dateInterval = $this->dateInterval($request);
@@ -102,7 +102,7 @@ abstract class Trend extends Metric
         string $timeColumn = ''
     ): Collection {
         $timeColumn = empty($timeColumn)
-            ? (new $resource)->model()->getCreatedAtColumn()
+            ? (new $resource())->model()->getCreatedAtColumn()
             : $timeColumn;
 
         $dateInterval = $this->dateInterval($request);

@@ -68,17 +68,17 @@ class Gasto extends Resource
     public function cards(Request $request): array
     {
         return [
-            (new GastosPerDay),
-            (new RegistrosPorDia),
-            // (new NuevosRegistros),
-            (new MontoRegistros)->prefix('$'),
+            new GastosPerDay(),
+            new RegistrosPorDia(),
+            // new NuevosRegistros(),
+            (new MontoRegistros())->prefix('$'),
         ];
     }
 
     public function filters(Request $request): array
     {
         return [
-            new CuentasGastos,
+            new CuentasGastos()
         ];
     }
 }

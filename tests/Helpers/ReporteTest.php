@@ -43,12 +43,12 @@ class ReporteTest extends TestCase
     public function testResultToMonthTable()
     {
         $expected = ['llave' => [
-            '01'=>null, '02'=>null, '03'=>null, '04'=>10,  '05'=>null,
-            '06'=>20,   '07'=>null, '08'=>null, '09'=>null, 10=>null,
-            11=>null, 12=>null, 13=>null, 14=>null, 15=>null,
-            16=>30,   17=>null, 18=>null, 19=>null, 20=>null,
-            21=>null, 22=>null, 23=>null, 24=>null, 25=>null,
-            26=>null, 27=>null, 28=>null,
+            '01' => null, '02' => null, '03' => null, '04' => 10,  '05' => null,
+            '06' => 20,   '07' => null, '08' => null, '09' => null, 10 => null,
+            11 => null, 12 => null, 13 => null, 14 => null, 15 => null,
+            16 => 30,   17 => null, 18 => null, 19 => null, 20 => null,
+            21 => null, 22 => null, 23 => null, 24 => null, 25 => null,
+            26 => null, 27 => null, 28 => null,
         ]];
 
         $this->assertEquals(
@@ -61,12 +61,12 @@ class ReporteTest extends TestCase
         );
 
         $expected = ['' => [
-            '01'=>null, '02'=>null, '03'=>null, '04'=>null, '05'=>null,
-            '06'=>null, '07'=>null, '08'=>null, '09'=>null, 10=>null,
-            11=>null, 12=>null, 13=>null, 14=>null, 15=>null,
-            16=>null, 17=>null, 18=>null, 19=>null, 20=>null,
-            21=>null, 22=>null, 23=>null, 24=>null, 25=>null,
-            26=>null, 27=>null, 28=>null,
+            '01' => null, '02' => null, '03' => null, '04' => null, '05' => null,
+            '06' => null, '07' => null, '08' => null, '09' => null, 10 => null,
+            11 => null, 12 => null, 13 => null, 14 => null, 15 => null,
+            16 => null, 17 => null, 18 => null, 19 => null, 20 => null,
+            21 => null, 22 => null, 23 => null, 24 => null, 25 => null,
+            26 => null, 27 => null, 28 => null,
         ]];
 
     //     $this->assertEquals(
@@ -200,19 +200,19 @@ class ReporteTest extends TestCase
         $reporte = collect(explode(PHP_EOL, $repo->make()));
 
         $this->assertCount(3, $reporte->filter(function ($linea) {
-            return substr($linea, 0, 22)==='<td class="text-muted"';
+            return substr($linea, 0, 22) === '<td class="text-muted"';
         })->all());
 
         $this->assertCount(1, $reporte->filter(function ($linea) {
-            return substr($linea, 0, 6)==='<table';
+            return substr($linea, 0, 6) === '<table';
         })->all());
 
         $this->assertCount(1, $reporte->filter(function ($linea) {
-            return substr($linea, 0, 6)==='<thead';
+            return substr($linea, 0, 6) === '<thead';
         })->all());
 
-        $this->assertCount(3+2, $reporte->filter(function ($linea) {
-            return substr($linea, 0, 3)==='<tr';
+        $this->assertCount(3 + 2, $reporte->filter(function ($linea) {
+            return substr($linea, 0, 3) === '<tr';
         })->all());
 
         $this->assertNotEmpty(collect($repo->campos)->pluck('sort')->implode(''));

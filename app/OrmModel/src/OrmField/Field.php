@@ -325,7 +325,7 @@ abstract class Field
         return collect($this->rules)
             ->map(function ($rule) use ($resource) {
                 return ($rule === 'unique')
-                    ? 'unique:'.$this->getUniqueRuleParameters($resource)
+                    ? 'unique:' . $this->getUniqueRuleParameters($resource)
                     : $rule;
             })
             ->implode('|');
@@ -371,7 +371,7 @@ abstract class Field
     public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
     {
         $extraParam['class'] = Arr::get($extraParam, 'class', '')
-            .(optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
+            . (optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
 
         $this->formItem = $this->getForm($request, $resource, $extraParam);
 

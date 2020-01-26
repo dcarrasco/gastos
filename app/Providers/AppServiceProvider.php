@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
 
             $selectedParser = Arr::get($parsers, request()->input('cuenta_id', ''), NullParser::class);
 
-            return new $selectedParser;
+            return new $selectedParser();
         });
     }
 }

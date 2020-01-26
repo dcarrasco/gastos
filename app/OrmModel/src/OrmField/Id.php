@@ -41,8 +41,8 @@ class Id extends Field
         $value = $resource->model()->{$field};
 
         if ($this->esIncrementing) {
-            return '<p class="form-control-static">'.$value.'</p>'
-                .Form::hidden($this->name, null, $extraParam);
+            return "<p class=\"form-control-static\">{$value}</p>"
+                . Form::hidden($this->name, null, $extraParam);
         }
 
         return Form::text($this->attribute, $value, $extraParam);

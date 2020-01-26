@@ -18,8 +18,8 @@ class Modulo extends Resource
         'id', 'modulo', 'descripcion', 'url', 'icono'
     ];
     public $orderBy = [
-        'app_id' =>'asc',
-        'modulo' =>'asc'
+        'app_id' => 'asc',
+        'modulo' => 'asc'
     ];
 
     public function fields(Request $request): array

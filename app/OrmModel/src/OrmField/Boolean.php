@@ -13,7 +13,6 @@ class Boolean extends Field
 {
     protected $alignOnList = 'text-center';
 
-
     /**
      * Devuelve valor del campo formateado
      *
@@ -21,11 +20,11 @@ class Boolean extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model = null, Request $request): HtmlString
     {
-        return new HtmlString("<small><span class=\"fa fa-circle text-"
-            . ($model->{$this->attribute} ? "success" : "danger")
-            . "\"></span></small>");
+        $statusStyle = $model->{$this->attribute} ? "success" : "danger";
+
+        return new HtmlString("<small><span class=\"fa fa-circle text-{$statusStyle}\"></span></small>");
     }
 
     /**
@@ -42,22 +41,16 @@ class Boolean extends Field
         $value = $resource->model()->{$this->attribute};
 
         return new HtmlString('<div class="custom-control custom-radio">'
-            .Form::radio(
-                $this->name,
-                1,
-                ($value == '1'),
-                ['id' => 'id_'.$this->name.'_1', 'class' => 'custom-control-input']
-            )
-            .'<label class="custom-control-label" for="id_'.$this->name.'_1">'.trans('orm.radio_yes').'</label>'
-            .'</div>'
-            .'<div class="custom-control custom-radio">'
-            .Form::radio(
-                $this->name,
-                0,
-                ($value != '1'),
-                ['id' => 'id_'.$this->name.'_0', 'class' => 'custom-control-input']
-            )
-            .'<label class="custom-control-label" for="id_'.$this->name.'_0">'.trans('orm.radio_no').'</label>'
-            .'</div>');
+            . Form::radio($this->name, 1, ($value == '1'), [
+                'id' => "id_{$this->name}_1", 'class' => 'custom-control-input'
+            ])
+            . "<label class=\"custom-control-label\" for=\"id_{$this->name}_1\">" . trans('orm.radio_yes') . '</label>'
+            . '</div>'
+            . '<div class="custom-control custom-radio">'
+            . Form::radio($this->name, 0, ($value != '1'), [
+                'id' => "id_{$this->name}_0", 'class' => 'custom-control-input'
+            ])
+            . "<label class=\"custom-control-label\" for=\"id_{$this->name}_0\">" . trans('orm.radio_no') . '</label>'
+            . '</div>');
     }
 }

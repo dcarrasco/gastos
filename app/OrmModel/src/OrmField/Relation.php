@@ -77,7 +77,7 @@ class Relation extends Field
      */
     protected function getRelatedListModels(Request $request, Resource $resource = null, array $conditions = [])
     {
-        return (new $this->relatedResource)
+        return (new $this->relatedResource())
             ->resourceOrderBy($request)
             ->getModelQueryBuilder()
             ->where($this->getResourceFilter($resource, $conditions))

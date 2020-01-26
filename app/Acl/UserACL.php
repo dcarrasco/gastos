@@ -20,7 +20,9 @@ class UserACL extends Model implements
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
 
     public static function scopeUsuario($query, $username)
     {
@@ -41,7 +43,7 @@ class UserACL extends Model implements
         $appObject = $modulo->app;
 
         return (object) [
-            'orden'        => $appObject->orden.'-'.$modulo->orden,
+            'orden'        => "{$appObject->orden}-{$modulo->orden}",
             'app'          => $appObject->app,
             'modulo'       => $modulo->modulo,
             'llave_modulo' => $modulo->llave_modulo,

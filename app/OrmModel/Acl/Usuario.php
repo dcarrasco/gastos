@@ -69,7 +69,7 @@ class Usuario extends Resource
     public function filters(Request $request): array
     {
         return [
-            new UsuariosActivos,
+            new UsuariosActivos(),
         ];
     }
 }

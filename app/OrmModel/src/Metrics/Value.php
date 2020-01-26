@@ -30,7 +30,7 @@ abstract class Value extends Metric
     public function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
     {
         $timeColumn = empty($timeColumn)
-            ? (new $resource)->model()->getCreatedAtColumn()
+            ? (new $resource())->model()->getCreatedAtColumn()
             : $timeColumn;
 
         $currentDateInterval = $this->dateInterval($request);
@@ -53,7 +53,7 @@ abstract class Value extends Metric
     public function count(Request $request, $resource = '', $timeColumn = ''): array
     {
         $timeColumn = empty($timeColumn)
-            ? (new $resource)->model()->getCreatedAtColumn()
+            ? (new $resource())->model()->getCreatedAtColumn()
             : $timeColumn;
 
         $currentDateInterval = $this->dateInterval($request);
@@ -100,7 +100,7 @@ abstract class Value extends Metric
         string $resource = '',
         string $timeColumn = '',
         array $dateInterval = []
-    ):int {
+    ): int {
         return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->count();
     }
@@ -133,8 +133,9 @@ abstract class Value extends Metric
     protected function formattedData(array $data = []): array
     {
         return [
-            'currentValue' => $this->prefix.' '
-                .number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
+            'currentValue' => "{$this->prefix} "
+                . number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.')
+                . " {$this->suffix}",
             'previousValue' => $this->previousMessage(
                 Arr::get($data, 'currentValue', 0),
                 Arr::get($data, 'previousValue', 0)

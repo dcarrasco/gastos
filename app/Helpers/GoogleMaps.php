@@ -92,26 +92,26 @@ class Googlemaps
      */
     public function createMap()
     {
-        $functionName = 'initMap_'.$this->mapId;
+        $functionName = "initMap_{$this->mapId}";
 
         $urlParam = [
             'key'      => $this->apiKey,
             'callback' => $functionName,
         ];
-        $urlJs = $this->urlJs.'?'.http_build_query($urlParam);
+        $urlJs = $this->urlJs . '?' . http_build_query($urlParam);
 
 
         return "<div id=\"{$this->mapId}\" style=\"{$this->mapCss}\"></div>\n"
-            ."<script type=\"text/javascript\">\n"
-            ."function {$functionName}() {\n"
-            ."var map = new google.maps.Map(document.getElementById('{$this->mapId}'), "
-            ."{center: {lat:0, lng:0}, zoom: {$this->mapZoom}})\n"
-            ."var bounds = new google.maps.LatLngBounds()\n"
-            .$this->txtJs
-            .(count($this->markers) === 1 ? "map.setCenter(ubic_1)\n" : "map.fitBounds(bounds)\n")
-            ."}\n"
-            ."</script>\n"
-            ."<script type=\"text/javascript\" src=\"{$urlJs}\" defer async></script>\n";
+            . "<script type=\"text/javascript\">\n"
+            . "function {$functionName}() {\n"
+            . "var map = new google.maps.Map(document.getElementById('{$this->mapId}'), "
+            . "{center: {lat:0, lng:0}, zoom: {$this->mapZoom}})\n"
+            . "var bounds = new google.maps.LatLngBounds()\n"
+            . $this->txtJs
+            . (count($this->markers) === 1 ? "map.setCenter(ubic_1)\n" : "map.fitBounds(bounds)\n")
+            . "}\n"
+            . "</script>\n"
+            . "<script type=\"text/javascript\" src=\"{$urlJs}\" defer async></script>\n";
     }
 
     // --------------------------------------------------------------------
@@ -128,7 +128,7 @@ class Googlemaps
             $this->addMarker([
                 'lat'   => $peticion['acoord_y'],
                 'lng'   => $peticion['acoord_x'],
-                'title' => $peticion['empresa'].' - '.$peticion['tecnico'].' - '.$peticion['referencia'],
+                'title' => "{$peticion['empresa']} - {$peticion['tecnico']} - {$peticion['referencia']}",
             ]);
         });
 
@@ -159,17 +159,20 @@ class Googlemaps
             }
         }
 
-        if ($markerConfig['lat'] !== 0 and $markerConfig['lng'] !== 0
-            and $markerConfig['lat'] !== $markerConfig['lng']) {
+        if (
+            $markerConfig['lat'] !== 0
+            and $markerConfig['lng'] !== 0
+            and $markerConfig['lat'] !== $markerConfig['lng']
+        ) {
             array_push($this->markers, $markerConfig);
             $nMarker = count($this->markers);
 
             $this->txtJs .= "var ubic_{$nMarker} = "
-                ."new google.maps.LatLng({$markerConfig['lat']}, {$markerConfig['lng']});\n"
-                ."var marker_{$nMarker} = "
-                ."new google.maps.Marker({position: ubic_{$nMarker}, title: '{$markerConfig['title']}'});\n"
-                ."marker_{$nMarker}.setMap(map);\n"
-                ."bounds.extend(marker_{$nMarker}.position);\n\n";
+                . "new google.maps.LatLng({$markerConfig['lat']}, {$markerConfig['lng']});\n"
+                . "var marker_{$nMarker} = "
+                . "new google.maps.Marker({position: ubic_{$nMarker}, title: '{$markerConfig['title']}'});\n"
+                . "marker_{$nMarker}.setMap(map);\n"
+                . "bounds.extend(marker_{$nMarker}.position);\n\n";
         }
 
         return $this;

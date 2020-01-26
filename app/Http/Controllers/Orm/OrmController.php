@@ -30,12 +30,12 @@ class OrmController extends Controller
         $routeName = $this->routeName;
 
         return collect($this->menuModulo)->map(function ($resourceName) use ($routeName) {
-            $resource = new $resourceName;
+            $resource = new $resourceName();
 
             return [
                 'resource' => $resource->getName(),
                 'nombre' => $resource->getLabelPlural(),
-                'url'    => route($routeName.'.index', $resource->getName()),
+                'url'    => route("{$routeName}.index", $resource->getName()),
                 'icono'  => $resource->icono,
             ];
         });
@@ -44,7 +44,7 @@ class OrmController extends Controller
 
     public function makeView()
     {
-        view()->share('perPageFilter', new PerPage);
+        view()->share('perPageFilter', new PerPage());
         view()->share('menuModulo', $this->makeMenuModuloURL());
         view()->share('routeName', $this->routeName);
 
@@ -52,7 +52,7 @@ class OrmController extends Controller
 
         view()->share(
             'moduloSelected',
-            empty(Route::input('modelName')) ? (new $resource)->getName() : Route::input('modelName')
+            empty(Route::input('modelName')) ? (new $resource())->getName() : Route::input('modelName')
         );
     }
 
@@ -66,12 +66,12 @@ class OrmController extends Controller
     protected function getResource(string $resourceName = ''): Resource
     {
         $resource = collect($this->menuModulo)->first(function ($resource) use ($resourceName) {
-            return (new $resource)->getName() === $resourceName;
+            return (new $resource())->getName() === $resourceName;
         });
 
         $resource = $resource ?: collect($this->menuModulo)->first();
 
-        return new $resource;
+        return new $resource();
     }
 
     /**
@@ -82,9 +82,11 @@ class OrmController extends Controller
      */
     public static function routes(string $modulo = '')
     {
-        $prefix = strtolower($modulo).'-config';
-        $as = strtolower($modulo).'Config.';
-        $namespace = ucfirst(strtolower($modulo));
+        $modulo = strtolower($modulo);
+
+        $prefix = "{$modulo}-config";
+        $as = "{$modulo}Config.";
+        $namespace = ucfirst($modulo);
 
         Route::group(
             ['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'],
@@ -154,7 +156,7 @@ class OrmController extends Controller
         ]);
 
         return redirect()
-            ->route($this->routeName.$nextRoute, [$resource->getName()])
+            ->route($this->routeName . $nextRoute, [$resource->getName()])
             ->with('alert_message', $alertMessage);
     }
 
@@ -212,7 +214,7 @@ class OrmController extends Controller
         ]);
 
         return redirect()
-            ->route($this->routeName.$nextRoute, [$resource->getName(), $modelId])
+            ->route($this->routeName . $nextRoute, [$resource->getName(), $modelId])
             ->with('alert_message', $alertMessage);
     }
 
@@ -235,7 +237,7 @@ class OrmController extends Controller
         ]);
 
         return redirect()
-            ->route($this->routeName.'.index', [$resource->getName()])
+            ->route("{$this->routeName}.index", [$resource->getName()])
             ->with('alert_message', $alertMessage);
     }
 

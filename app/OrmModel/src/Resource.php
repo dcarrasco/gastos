@@ -117,7 +117,7 @@ abstract class Resource
      */
     public function makeModelObject(): Model
     {
-        return (new $this->model);
+        return new $this->model();
     }
 
     /**
@@ -128,7 +128,7 @@ abstract class Resource
      */
     public function injectModel(Model $model = null): Resource
     {
-        $this->modelObject = is_null($model) ? new $this->model : $model;
+        $this->modelObject = is_null($model) ? $this->makeModelObject() : $model;
 
         return $this;
     }

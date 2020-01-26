@@ -11,8 +11,8 @@ class TipoCuenta extends Model
 
     protected $fillable = ['tipo_movimiento_id', 'tipo_cuenta', 'tipo'];
 
-    const CUENTA_GASTO = 1;
-    const CUENTA_INVERSION = 2;
+    public const CUENTA_GASTO = 1;
+    public const CUENTA_INVERSION = 2;
 
     public function cuentas()
     {

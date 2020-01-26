@@ -90,7 +90,7 @@ class Reporte
                 return fmtMonto($valor, 'UN', '$', 0, true, true);
             },
             'link' => function ($valor, $param) {
-                return link_to(Arr::get($param, 'href').$valor, $valor);
+                return link_to(Arr::get($param, 'href') . $valor, $valor);
             },
             'link_registro' => function ($valor, $param, $registro) {
                 $routeParams = array_merge(
@@ -117,8 +117,8 @@ class Reporte
                 $valor_desplegar = fmtCantidad($valor);
 
                 return link_to(
-                    $arr_param_campo['href'].'?'
-                    .http_build_query(array_intersect_key($registro, array_flip($arr_indices))),
+                    $arr_param_campo['href'] . '?'
+                    . http_build_query(array_intersect_key($registro, array_flip($arr_indices))),
                     ($valor_desplegar === '' ? ' ' : $valor_desplegar)
                 );
             },
@@ -128,7 +128,7 @@ class Reporte
                     : ($valor <= 65 ? 'success' : ($valor <= 90 ? 'warning' : 'danger'));
 
                 return fmtCantidad($valor, $valor < 10 ? 1 : 0, true)
-                    ." <i class=\"fa fa-circle text-{$color}\"></i>";
+                    . " <i class=\"fa fa-circle text-{$color}\"></i>";
             },
         ];
 
@@ -152,7 +152,7 @@ class Reporte
     public static function setOrderCampos(&$campos, $campoDefault = '')
     {
         $sort_by = empty(request('sort')) ? $campoDefault : request('sort');
-        $sort_by = (! preg_match('/^[+\-](.*)$/', $sort_by)) ? '+'.$sort_by : $sort_by;
+        $sort_by = (! preg_match('/^[+\-](.*)$/', $sort_by)) ? '+' . $sort_by : $sort_by;
 
         $sort_by_field  = substr($sort_by, 1, strlen($sort_by));
         $sort_by_order  = substr($sort_by, 0, 1);
@@ -171,7 +171,7 @@ class Reporte
                 $campos[$campo]['tipo'] = 'texto';
             }
 
-            $campos[$campo]['sort'] = (($campo === $sort_by_field) ? $new_orden_tipo : '+').$campo;
+            $campos[$campo]['sort'] = (($campo === $sort_by_field) ? $new_orden_tipo : '+') . $campo;
             $order_icon = (substr($campos[$campo]['sort'], 0, 1) === '+') ? 'sort-amount-desc' : 'sort-amount-asc';
 
             $campos[$campo]['img_orden'] = ($campo === $sort_by_field)
@@ -191,8 +191,8 @@ class Reporte
     {
         return collect(explode(',', $sort_by))
             ->map(function ($value) {
-                $value = (! preg_match('/^[+\-](.*)$/', trim($value))) ? '+'.trim($value) : trim($value);
-                return substr($value, 1, strlen($value)).((substr($value, 0, 1) === '+') ? ' ASC' : ' DESC');
+                $value = (! preg_match('/^[+\-](.*)$/', trim($value))) ? '+' . trim($value) : trim($value);
+                return substr($value, 1, strlen($value)) . ((substr($value, 0, 1) === '+') ? ' ASC' : ' DESC');
             })
             ->implode(', ');
     }
@@ -239,26 +239,26 @@ class Reporte
         // --- CUERPO REPORTE ---
         $numLinea = 0;
         $this->tableBody = $this->template['tbody_open']
-            .PHP_EOL
-            .$datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
+            . PHP_EOL
+            . $datos->reduce(function ($carry, $elem) use ($campos, &$numLinea, $template) {
                 $numLinea += 1;
 
                 return $carry
-                    .$template['row_open'].PHP_EOL
-                    .$this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea)).PHP_EOL
-                    .$template['row_close'].PHP_EOL;
+                    . $template['row_open'] . PHP_EOL
+                    . $this->tableRow($this->reporteLineaDatos($elem, $campos, $numLinea)) . PHP_EOL
+                    . $template['row_close'] . PHP_EOL;
             }, '')
-            .$this->template['tbody_close'];
+            . $this->template['tbody_close'];
 
         // --- TOTALES ---
         $this->setFooter($this->reporteLineaTotales('total', $campos, $arrTotales));
 
-        return $template['table_open'].PHP_EOL
-            .$this->tableHeading.PHP_EOL
-            .$this->tableBody.PHP_EOL
-            .$this->tableFooter.PHP_EOL
-            .$template['table_close'].PHP_EOL
-            .'<script type="text/javascript" src="'.asset('js/reporte.js').'"></script>';
+        return $template['table_open'] . PHP_EOL
+            . $this->tableHeading . PHP_EOL
+            . $this->tableBody . PHP_EOL
+            . $this->tableFooter . PHP_EOL
+            . $template['table_close'] . PHP_EOL
+            . '<script type="text/javascript" src="' . asset('js/reporte.js') . '"></script>';
     }
 
     // --------------------------------------------------------------------
@@ -277,11 +277,11 @@ class Reporte
             collect($arr_campos)->map(function ($elem) {
                 return [
                     'data' => "<span data-sort=\"{$elem['sort']}\" "
-                        ."data-toggle=\"tooltip\" "
-                        ."title=\"Ordenar por campo {$elem['titulo']}\">"
-                        .$elem['titulo']
-                        ."</span>"
-                        .$elem['img_orden'],
+                        . "data-toggle=\"tooltip\" "
+                        . "title=\"Ordenar por campo {$elem['titulo']}\">"
+                        . $elem['titulo']
+                        . "</span>"
+                        . $elem['img_orden'],
                     'class' => isset($elem['class']) ? $elem['class'] : '',
                 ];
             })
@@ -406,7 +406,7 @@ class Reporte
 
         // agrega linea con titulo del subtotal
         $ci->table->add_row(array(
-            'data' => '<span class="fa fa-minus-circle"></span> <strong>'.$arr_linea[$campo_subtotal].'</strong>',
+            'data' => "<span class=\"fa fa-minus-circle\"></span> <strong>{$arr_linea[$campo_subtotal]}</strong>",
             'colspan' => count($arr_campos) + 1,
         ));
 
@@ -426,11 +426,9 @@ class Reporte
     {
         return collect($row)->reduce(function ($carry, $elem) use ($rowDataElem) {
             $elem = is_array($elem) ? $elem : ['data' => $elem];
+            $class = array_key_exists('class', $elem) ? " class=\"{$elem['class']}\"" : '';
 
-            return $carry
-                .'<'.$rowDataElem.(array_key_exists('class', $elem) ? ' class="'.$elem['class'].'"' : '').'>'
-                .$elem['data']
-                .'</'.$rowDataElem.'>';
+            return $carry . "<{$rowDataElem}{$class}>{$elem['data']}</{$rowDataElem}>";
         }, '');
     }
 
@@ -438,22 +436,22 @@ class Reporte
 
     public function setHeading($heading = [])
     {
-        $this->tableHeading = $this->template['thead_open'].PHP_EOL
-            .$this->template['row_open'].PHP_EOL
-            .$this->tableRow($heading, 'th').PHP_EOL
-            .$this->template['row_close'].PHP_EOL
-            .$this->template['thead_close'];
+        $this->tableHeading = $this->template['thead_open'] . PHP_EOL
+            . $this->template['row_open'] . PHP_EOL
+            . $this->tableRow($heading, 'th') . PHP_EOL
+            . $this->template['row_close'] . PHP_EOL
+            . $this->template['thead_close'];
     }
 
     // --------------------------------------------------------------------
 
     public function setFooter($footer = [])
     {
-        $this->tableFooter = $this->template['tfoot_open'].PHP_EOL
-            .$this->template['row_open'].PHP_EOL
-            .$this->tableRow($footer, 'th').PHP_EOL
-            .$this->template['row_close'].PHP_EOL
-            .$this->template['tfoot_close'];
+        $this->tableFooter = $this->template['tfoot_open'] . PHP_EOL
+            . $this->template['row_open'] . PHP_EOL
+            . $this->tableRow($footer, 'th') . PHP_EOL
+            . $this->template['row_close'] . PHP_EOL
+            . $this->template['tfoot_close'];
     }
 
     // --------------------------------------------------------------------

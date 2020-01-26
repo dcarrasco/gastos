@@ -81,7 +81,7 @@ class Filter
      */
     public function getUrlParameter(): string
     {
-        return $this->parameterPrefix.$this->getName();
+        return $this->parameterPrefix . $this->getName();
     }
 
     /**
