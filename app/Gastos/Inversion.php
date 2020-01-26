@@ -68,7 +68,9 @@ class Inversion
             ? ''
             : json_encode(collect([
                     'label' => $this->saldos->pluck('fecha')->map->format('Y-m-d')->toArray(),
-                    'rentabilidad' => $this->saldos->map(function($saldo) {return $this->rentabilidadAnual($saldo);})->toArray(),
+                    'rentabilidad' => $this->saldos->map(function ($saldo) {
+                        return $this->rentabilidadAnual($saldo);
+                    })->toArray(),
                     'saldo' => $this->saldos->pluck('monto')->toArray(),
                 ]));
     }

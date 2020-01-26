@@ -323,7 +323,7 @@ abstract class Field
     public function getValidation(Resource $resource): string
     {
         return collect($this->rules)
-            ->map(function($rule) use ($resource) {
+            ->map(function ($rule) use ($resource) {
                 return ($rule === 'unique')
                     ? 'unique:'.$this->getUniqueRuleParameters($resource)
                     : $rule;

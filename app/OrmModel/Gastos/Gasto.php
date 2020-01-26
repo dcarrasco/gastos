@@ -81,5 +81,4 @@ class Gasto extends Resource
             new CuentasGastos,
         ];
     }
-
 }

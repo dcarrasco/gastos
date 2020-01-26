@@ -75,8 +75,13 @@ abstract class Value extends Metric
      * @param  array   $dateInterval
      * @return int
      */
-    protected function fetchSumData(Request $request, string $resource = '', string $sumColumn = '', string $timeColumn = '', array $dateInterval = []): int
-    {
+    protected function fetchSumData(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = '',
+        array $dateInterval = []
+    ): int {
         return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->sum($sumColumn);
     }
@@ -90,8 +95,12 @@ abstract class Value extends Metric
      * @param  array   $dateInterval
      * @return int
      */
-    protected function fetchCountData(Request $request, string $resource = '', string $timeColumn = '', array $dateInterval = [])
-    {
+    protected function fetchCountData(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = '',
+        array $dateInterval = []
+    ):int {
         return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
             ->count();
     }
@@ -124,8 +133,12 @@ abstract class Value extends Metric
     protected function formattedData(array $data = []): array
     {
         return [
-            'currentValue' => $this->prefix.' '.number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
-            'previousValue' => $this->previousMessage(Arr::get($data, 'currentValue', 0), Arr::get($data, 'previousValue', 0)),
+            'currentValue' => $this->prefix.' '
+                .number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.').' '.$this->suffix,
+            'previousValue' => $this->previousMessage(
+                Arr::get($data, 'currentValue', 0),
+                Arr::get($data, 'previousValue', 0)
+            ),
             'trend' => Arr::get($data, 'currentValue', 0) >= Arr::get($data, 'previousValue', 0)
                 ? Arr::get($this->trendIconStyle, 'up')
                 : Arr::get($this->trendIconStyle, 'down'),
@@ -189,5 +202,4 @@ abstract class Value extends Metric
             'resourceParams' => new HtmlString(json_encode($request->query())),
         ])->render());
     }
-
 }

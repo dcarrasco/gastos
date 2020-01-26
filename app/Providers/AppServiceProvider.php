@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(GastosParser::class, function() {
+        $this->app->bind(GastosParser::class, function () {
             $parsers = [
                 '2' => VisaExcelParser::class,
             ];

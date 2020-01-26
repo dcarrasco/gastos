@@ -93,8 +93,7 @@ class Filter
      */
     public function getUrlMark(Request $request, string $value): string
     {
-        if (is_null($this->getValue($request)))
-        {
+        if (is_null($this->getValue($request))) {
             return '';
         }
 
@@ -130,5 +129,4 @@ class Filter
     {
         return $request->has($this->getUrlParameter()) and $this->getValue($request) != '';
     }
-
 }

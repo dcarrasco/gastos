@@ -39,7 +39,7 @@ trait UsesDatabase
             return $this;
         }
 
-        foreach($this->search as $field) {
+        foreach ($this->search as $field) {
             $this->modelQueryBuilder = $this->modelQueryBuilder
                 ->orWhere($field, 'like', '%'.$request->input($this->filterKey).'%');
         };
@@ -138,7 +138,7 @@ trait UsesDatabase
         // actualiza las tablas relacionadas
         collect($this->fields($request))
             // filtra los campos de TIPO_HAS_MANY
-            ->filter(function($elem) {
+            ->filter(function ($elem) {
                 return get_class($elem) === HasMany::class;
             })
             // Sincroniza la tabla relacionada

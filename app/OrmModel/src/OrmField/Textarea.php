@@ -36,7 +36,7 @@ class Textarea extends Field
     protected function getFieldLength(): int
     {
         $maxRule = collect($this->rules)
-            ->first(function($rule) {
+            ->first(function ($rule) {
                 return strpos($rule, 'max:') !== false;
             });
 

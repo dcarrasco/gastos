@@ -20,9 +20,13 @@ class TipoGasto extends Model
     public static function formArray(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()
-            ->mapWithKeys(function($elem, $key) {return [$elem->tipo_movimiento => $elem];})
+            ->mapWithKeys(function ($elem, $key) {
+                return [$elem->tipo_movimiento => $elem];
+            })
             ->map->tiposGastos
-            ->filter(function($elem) {return $elem->count() > 0;})
+            ->filter(function ($elem) {
+                return $elem->count() > 0;
+            })
             ->map->pluck('tipo_gasto', 'id')
             ->map->sort()
             ->map->all();

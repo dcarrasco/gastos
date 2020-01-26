@@ -76,9 +76,12 @@ abstract class Metric
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function getModelData(Request $request, string $resource = '',
-                                    string $timeColumn = '', array $dateInterval = []): Collection
-    {
+    protected function getModelData(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = '',
+        array $dateInterval = []
+    ): Collection {
         $query = (new $resource)->model()->whereBetween($timeColumn, $dateInterval);
 
         return $this->applyResourceFilters($request, $resource, $query)
@@ -93,12 +96,14 @@ abstract class Metric
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(Request $request, string $resource = '',
-                                            Builder $query): Builder
-    {
+    protected function applyResourceFilters(
+        Request $request,
+        string $resource,
+        Builder $query
+    ): Builder {
         collect((new $resource)->filters($request))
             ->filter->isSet($request)
-            ->each(function($filter) use ($request, &$query) {
+            ->each(function ($filter) use ($request, &$query) {
                 $query = $filter->apply($request, $query, $filter->getValue($request));
             });
 

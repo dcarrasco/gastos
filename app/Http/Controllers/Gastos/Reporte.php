@@ -29,9 +29,12 @@ class Reporte extends Controller
     public function detalle(Request $request)
     {
         return view('gastos.detalle', [
-            'movimientosMes' => Gasto::detalleMovimientosMes($request->cuenta_id, $request->anno, $request->mes, $request->tipo_gasto_id),
+            'movimientosMes' => Gasto::detalleMovimientosMes(
+                $request->cuenta_id,
+                $request->anno,
+                $request->mes,
+                $request->tipo_gasto_id
+            ),
         ]);
     }
-
-
 }

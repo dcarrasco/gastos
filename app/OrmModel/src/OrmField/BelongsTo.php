@@ -58,7 +58,9 @@ class BelongsTo extends Relation
         $value = $resource->model()->{$foreignKeyName};
         $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
 
-        return new HtmlString(str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form));
+        return new HtmlString(
+            str_replace('>'.trans('orm.choose_option'), 'disabled >'.trans('orm.choose_option'), $form)
+        );
     }
 
     /**
@@ -69,22 +71,22 @@ class BelongsTo extends Relation
      */
     protected function makeOnChange(string $field): HtmlString
     {
-            $route = \Route::currentRouteName();
-            list($routeName, $routeAction) = explode('.', $route);
-            if (!is_array($this->onChange)) {
-                $this->onChange = [
-                    'resource' => ucfirst($this->onChange),
-                    'elem' => strtolower($this->onChange),
-                ];
-            }
+        $route = \Route::currentRouteName();
+        list($routeName, $routeAction) = explode('.', $route);
+        if (!is_array($this->onChange)) {
+            $this->onChange = [
+                'resource' => ucfirst($this->onChange),
+                'elem' => strtolower($this->onChange),
+            ];
+        }
 
-            $resourceDest = Arr::get($this->onChange, 'resource');
-            $elemDest = Arr::get($this->onChange, 'elem');
-            $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
+        $resourceDest = Arr::get($this->onChange, 'resource');
+        $elemDest = Arr::get($this->onChange, 'elem');
+        $url = route($routeName.'.ajaxOnChange', ['modelName' => $resourceDest]);
 
-            return new HtmlString("$('#{$elemDest}').html('');"
-                ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
-                ."function (data) { $('#{$elemDest}').html(data); });");
+        return new HtmlString("$('#{$elemDest}').html('');"
+            ."$.get('{$url}?{$field}='+$('#{$field}').val(), "
+            ."function (data) { $('#{$elemDest}').html(data); });");
     }
 
     /**
@@ -99,11 +101,10 @@ class BelongsTo extends Relation
         $optionsIni = ['' => trans('orm.choose_option').(new $this->relatedResource)->getLabel()];
         $options = $this->getRelationOptions($request, $resource, $this->relationConditions);
 
-        foreach($options as $key => $value) {
+        foreach ($options as $key => $value) {
             $optionsIni[$key] = $value;
         }
 
         return $optionsIni;
     }
-
 }

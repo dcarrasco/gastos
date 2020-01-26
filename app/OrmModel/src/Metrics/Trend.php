@@ -23,9 +23,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function sum(Request $request, string $resource = '',
-                           string $sumColumn = '', string $timeColumn = ''): Collection
-    {
+    protected function sum(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = ''
+    ): Collection {
         $timeColumn = empty($timeColumn)
             ? (new $resource)->model()->getCreatedAtColumn()
             : $timeColumn;
@@ -44,9 +47,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByDays(Request $request, string $resource = '',
-                              string $sumColumn = '', string $timeColumn = ''): Collection
-    {
+    public function sumByDays(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = ''
+    ): Collection {
         return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
 
@@ -59,9 +65,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByWeeks(Request $request, string $resource = '',
-                               string $sumColumn = '', string $timeColumn = ''): Collection
-    {
+    public function sumByWeeks(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = ''
+    ): Collection {
         $this->dateFormat = 'W';
 
         return $this->sum($request, $resource, $sumColumn, $timeColumn);
@@ -76,17 +85,22 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByMonths(Request $request, string $resource = '',
-                                string $sumColumn = '', string $timeColumn = ''): Collection
-    {
+    public function sumByMonths(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = ''
+    ): Collection {
         $this->dateFormat = 'Y-m';
 
         return $this->sum($request, $resource, $sumColumn, $timeColumn);
     }
 
-    protected function count(Request $request, string $resource = '',
-                             string $timeColumn = ''): Collection
-    {
+    protected function count(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = ''
+    ): Collection {
         $timeColumn = empty($timeColumn)
             ? (new $resource)->model()->getCreatedAtColumn()
             : $timeColumn;
@@ -104,9 +118,11 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByDays(Request $request, string $resource = '',
-                                string $timeColumn = ''): Collection
-    {
+    public function countByDays(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = ''
+    ): Collection {
         return $this->count($request, $resource, $timeColumn);
     }
 
@@ -118,9 +134,11 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByWeeks(Request $request, string $resource = '',
-                                 string $timeColumn = ''): Collection
-    {
+    public function countByWeeks(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = ''
+    ): Collection {
         $this->dateFormat = 'W';
 
         return $this->count($request, $resource, $timeColumn);
@@ -134,9 +152,11 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function countByMonths(Request $request, string $resource = '',
-                                  string $timeColumn = ''): Collection
-    {
+    public function countByMonths(
+        Request $request,
+        string $resource = '',
+        string $timeColumn = ''
+    ): Collection {
         $this->dateFormat = 'Y-m';
 
         return $this->count($request, $resource, $timeColumn);
@@ -168,12 +188,15 @@ abstract class Trend extends Metric
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function fetchData(Request $request, string $resource = '',
-                                 string $sumColumn = '', string $timeColumn = '',
-                                 array $dateInterval = []): Collection
-    {
+    protected function fetchData(
+        Request $request,
+        string $resource = '',
+        string $sumColumn = '',
+        string $timeColumn = '',
+        array $dateInterval = []
+    ): Collection {
         $data = $this->getModelData($request, $resource, $timeColumn, $dateInterval)
-            ->map(function($data) use ($sumColumn, $timeColumn) {
+            ->map(function ($data) use ($sumColumn, $timeColumn) {
                 return [
                     'value' => $sumColumn === '__count__' ? 1 : $data->{$sumColumn},
                     'time' => $data->{$timeColumn}->format($this->dateFormat)
@@ -181,7 +204,7 @@ abstract class Trend extends Metric
             });
 
         return $this->initTotalizedData($dateInterval)
-            ->map(function($value, $date) use ($data) {
+            ->map(function ($value, $date) use ($data) {
                 return $data->where('time', $date)->sum('value');
             });
     }
@@ -205,5 +228,4 @@ abstract class Trend extends Metric
             'baseUrl' => asset(''),
         ])->render());
     }
-
 }

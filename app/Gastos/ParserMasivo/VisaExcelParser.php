@@ -42,7 +42,7 @@ class VisaExcelParser implements GastosParser
     protected function filtrarLineasValidas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
-            ->filter(function($linea) {
+            ->filter(function ($linea) {
                 return preg_match('/[0-9]{4}/', $linea) === 1;
             });
 
@@ -52,7 +52,7 @@ class VisaExcelParser implements GastosParser
     protected function procesaLineas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
-            ->map(function($linea) use ($request) {
+            ->map(function ($linea) use ($request) {
                 return $this->procesaLineaMasivo($request, $linea);
             });
 
@@ -76,7 +76,7 @@ class VisaExcelParser implements GastosParser
         $glosa = $this->getGlosa($linea);
 
         $glosaTipoGasto = $this->glosasTipoGasto
-            ->first(function($glosaTipoGasto) use ($glosa) {
+            ->first(function ($glosaTipoGasto) use ($glosa) {
                 return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
             })
             ?? new GlosaTipoGasto;

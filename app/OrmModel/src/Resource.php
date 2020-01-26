@@ -193,7 +193,7 @@ abstract class Resource
     public function getValidation(Request $request): array
     {
         return collect($this->fields($request))
-            ->mapWithKeys(function($field) {
+            ->mapWithKeys(function ($field) {
                 return [$field->getModelAttribute($this) => $field->getValidation($this)];
             })
             ->all();
@@ -210,11 +210,11 @@ abstract class Resource
         $query = $this->modelQueryBuilder;
 
         collect($this->fields($request))
-            ->filter(function($field) {
+            ->filter(function ($field) {
                 return get_class($field) === BelongsTo::class;
             })
             ->map->getAttribute()
-            ->each(function($relatedClass) use (&$query) {
+            ->each(function ($relatedClass) use (&$query) {
                 $query = $query->with($relatedClass);
             });
 

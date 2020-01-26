@@ -50,7 +50,8 @@ class OrmController extends Controller
 
         $resource = collect($this->menuModulo)->first();
 
-        view()->share('moduloSelected',
+        view()->share(
+            'moduloSelected',
             empty(Route::input('modelName')) ? (new $resource)->getName() : Route::input('modelName')
         );
     }
@@ -64,7 +65,7 @@ class OrmController extends Controller
      */
     protected function getResource(string $resourceName = ''): Resource
     {
-        $resource = collect($this->menuModulo)->first(function($resource) use ($resourceName) {
+        $resource = collect($this->menuModulo)->first(function ($resource) use ($resourceName) {
             return (new $resource)->getName() === $resourceName;
         });
 
@@ -85,18 +86,21 @@ class OrmController extends Controller
         $as = strtolower($modulo).'Config.';
         $namespace = ucfirst(strtolower($modulo));
 
-        Route::group(['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'], function () {
-            Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
-            Route::get('{modelName?}', 'ConfigController@index')->name('index');
-            Route::get('{modelName}/create', 'ConfigController@create')->name('create');
-            Route::post('{modelName}', 'ConfigController@store')->name('store');
-            Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
-            Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
-            Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
-            Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
-            Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
-        });
-   }
+        Route::group(
+            ['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'],
+            function () {
+                Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
+                Route::get('{modelName?}', 'ConfigController@index')->name('index');
+                Route::get('{modelName}/create', 'ConfigController@create')->name('create');
+                Route::post('{modelName}', 'ConfigController@store')->name('store');
+                Route::get('{modelName}/{modelID}/show', 'ConfigController@show')->name('show');
+                Route::get('{modelName}/{modelID}/edit', 'ConfigController@edit')->name('edit');
+                Route::put('{modelName}/{modelID}', 'ConfigController@update')->name('update');
+                Route::delete('{modelName}/{modelID}', 'ConfigController@destroy')->name('destroy');
+                Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
+            }
+        );
+    }
 
     /**
      * Display a listing of the resource.
@@ -258,7 +262,7 @@ class OrmController extends Controller
     public function ajaxCard(Request $request, string $resourceClass = '')
     {
         return collect($this->getResource($resourceClass)->cards($request))
-            ->first(function($card) use ($request) {
+            ->first(function ($card) use ($request) {
                 return $card->uriKey() === $request->input('uri-key');
             })->calculate($request);
     }

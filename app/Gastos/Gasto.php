@@ -16,7 +16,8 @@ class Gasto extends Model
     protected $table = 'cta_gastos';
 
     protected $fillable = [
-        'cuenta_id', 'anno', 'mes', 'fecha', 'glosa', 'serie', 'tipo_gasto_id', 'monto', 'tipo_movimiento_id', 'usuario_id',
+        'cuenta_id', 'anno', 'mes', 'fecha', 'glosa', 'serie', 'tipo_gasto_id',
+        'monto', 'tipo_movimiento_id', 'usuario_id',
     ];
 
     protected $dates = [
@@ -80,7 +81,7 @@ class Gasto extends Model
 
         $saldoMes = SaldoMes::getSaldoMesAnterior($cuentaId, $anno, $mes) + $movimientos->map->valor_monto->sum();
 
-        return $movimientos->map(function($gasto) use (&$saldoMes) {
+        return $movimientos->map(function ($gasto) use (&$saldoMes) {
             $saldoMes = $saldoMes - $gasto->valor_monto;
             $gasto->saldo_inicial = $saldoMes;
             $gasto->saldo_final = $saldoMes + $gasto->valor_monto;

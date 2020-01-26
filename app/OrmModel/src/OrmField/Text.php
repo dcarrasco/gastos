@@ -41,7 +41,7 @@ class Text extends Field
      */
     protected function getFieldLength(): int
     {
-        $maxRule = collect($this->rules)->first(function($rule) {
+        $maxRule = collect($this->rules)->first(function ($rule) {
             return strpos($rule, 'max:') !== false;
         });
 

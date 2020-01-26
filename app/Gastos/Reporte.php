@@ -81,11 +81,11 @@ abstract class Reporte
     {
         $reporte = [];
 
-        $this->data->each(function($dato) use (&$reporte) {
+        $this->data->each(function ($dato) use (&$reporte) {
             $reporte[$dato[$this->campoFila]][$dato[$this->campoColumna]] = $dato[$this->campoDato];
         });
 
-        return collect($reporte)->map(function($fila) {
+        return collect($reporte)->map(function ($fila) {
             return collect($fila);
         });
     }

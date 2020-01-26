@@ -58,6 +58,10 @@ class Gravatar extends Field
             ? $this->avatarShowSize : $this->avatarListSize;
 
         return app()->make(HtmlBuilder::class)
-            ->image($this->getGravatarUrl(optional($model)->{$this->attribute}, $size), null, ['class' => 'rounded-circle border']);
+            ->image(
+                $this->getGravatarUrl(optional($model)->{$this->attribute}, $size),
+                null,
+                ['class' => 'rounded-circle border']
+            );
     }
 }

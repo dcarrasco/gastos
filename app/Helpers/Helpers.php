@@ -267,7 +267,6 @@ if (!function_exists('fmtMonto')) {
         }
 
         return $format_start.$valor_formateado.$format_end;
-
     }
 }
 
@@ -395,8 +394,7 @@ if (!function_exists('daysInMonth')) {
     {
         if ($month < 1 or $month > 12) {
             return 0;
-        }
-        elseif (!is_numeric($year) or strlen($year) !== 4) {
+        } elseif (!is_numeric($year) or strlen($year) !== 4) {
             $year = date('Y');
         }
 
@@ -466,8 +464,7 @@ if (!function_exists('cached_query')) {
 
 // --------------------------------------------------------------------
 
-if ( ! function_exists('clase_cumplimiento_consumos'))
-{
+if (!function_exists('clase_cumplimiento_consumos')) {
     /**
      * Devuelve la clase pintar el cumplimiento diario
      *

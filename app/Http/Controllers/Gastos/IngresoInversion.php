@@ -36,5 +36,4 @@ class IngresoInversion extends Controller
 
         return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
     }
-
 }

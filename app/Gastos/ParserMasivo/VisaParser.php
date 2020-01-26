@@ -19,10 +19,10 @@ class VisaParser implements GastosParser
         }
 
         return collect(explode(PHP_EOL, $request->input('datos')))
-            ->filter(function($linea) {
+            ->filter(function ($linea) {
                 return $this->esLineaValida($linea);
             })
-            ->map(function($linea) use ($request) {
+            ->map(function ($linea) use ($request) {
                 return $this->procesaLineaMasivo($request, $linea);
             })
             ->filter(function ($gasto) use ($request) {
@@ -48,7 +48,9 @@ class VisaParser implements GastosParser
         }
 
         $linea = collect(explode(' ', $linea));
-        $tipoGasto = (new TipoGasto)->findOrNew((new GlosaTipoGasto)->getPorGlosa($request->cuenta_id, $this->getGlosa($linea)));
+        $tipoGasto = (new TipoGasto)->findOrNew(
+            (new GlosaTipoGasto)->getPorGlosa($request->cuenta_id, $this->getGlosa($linea))
+        );
 
         return (new Gasto)->fill([
             'cuenta_id' => $request->cuenta_id,
@@ -66,20 +68,27 @@ class VisaParser implements GastosParser
 
     protected function getIndexFecha(Collection $linea): int
     {
-        return $linea->filter(function($item) {
-                return preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}/', $item) === 1;
-            })
-            ->map(function($item, $key) {
-                return $key;
-            })
-            ->first();
+        return $linea->filter(function ($item) {
+            return preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}/', $item) === 1;
+        })
+        ->map(function ($item, $key) {
+            return $key;
+        })
+        ->first();
     }
 
     protected function getFecha(Collection $linea): Carbon
     {
         $fecha = $linea->get($this->getIndexFecha($linea));
 
-        return (new Carbon)->create(2000 + (int)substr($fecha, 6, 2), substr($fecha, 3, 2), substr($fecha, 0, 2), 0, 0, 0);
+        return (new Carbon)->create(
+            2000 + (int)substr($fecha, 6, 2),
+            substr($fecha, 3, 2),
+            substr($fecha, 0, 2),
+            0,
+            0,
+            0
+        );
     }
 
     protected function esLineaValida($linea = ''): boolean
@@ -117,6 +126,4 @@ class VisaParser implements GastosParser
     {
         return strpos($linea->last(), '$') !== false;
     }
-
-
 }

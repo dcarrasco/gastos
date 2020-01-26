@@ -26,9 +26,10 @@ trait UsesFilters
      */
     protected function applyFilters(Request $request): Resource
     {
-        foreach($this->filters($request) as $filter) {
+        foreach ($this->filters($request) as $filter) {
             if ($filter->isSet($request)) {
-                $this->modelQueryBuilder = $filter->apply($request, $this->modelQueryBuilder, $filter->getValue($request));
+                $this->modelQueryBuilder = $filter
+                    ->apply($request, $this->modelQueryBuilder, $filter->getValue($request));
             }
         }
 
