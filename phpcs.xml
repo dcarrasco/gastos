@@ -40,7 +40,10 @@
        The following tags are equivalent to the command line arguments:
        -p
     -->
-    <arg name="report" value="summary"/>
+    <!-- <arg name="report" value="summary"/> -->
+    <!-- <arg name="report" value="full"/> -->
+    <!-- <arg name="report" value="source"/> -->
+    <!-- <arg name="report" value="info"/> -->
     <arg name="colors"/>
     <arg value="p"/>
 
@@ -56,6 +59,9 @@
        PEAR standard exists inside the PHP_CodeSniffer install
        directory.
     -->
-    <rule ref="PSR2"/>
+    <!-- <rule ref="PSR2"/> -->
+    <rule ref="PSR12"/>
+    <!-- <rule ref="PEAR.Commenting.FunctionComment"/> -->
+
 
 </ruleset>
