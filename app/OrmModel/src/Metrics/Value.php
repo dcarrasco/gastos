@@ -121,7 +121,7 @@ abstract class Value extends Metric
         $percentChange = ($currentValue / $previousValue - 1) * 100;
         $textChange = $percentChange >= 0 ? 'aumento' : 'disminucion';
 
-        return number_format($percentChange, 0, '.', ',') . '% de ' . $textChange;
+        return number_format($percentChange, 0, '.', ',') . "% de {$textChange}";
     }
 
     /**
@@ -132,17 +132,14 @@ abstract class Value extends Metric
      */
     protected function formattedData(array $data = []): array
     {
+        $currentValue = Arr::get($data, 'currentValue', 0);
+        $previousValue = Arr::get($data, 'previousValue', 0);
+        $formattedCurrentValue = number_format($currentValue, 0, ',', '.');
+
         return [
-            'currentValue' => "{$this->prefix} "
-                . number_format(Arr::get($data, 'currentValue', 0), 0, ',', '.')
-                . " {$this->suffix}",
-            'previousValue' => $this->previousMessage(
-                Arr::get($data, 'currentValue', 0),
-                Arr::get($data, 'previousValue', 0)
-            ),
-            'trend' => Arr::get($data, 'currentValue', 0) >= Arr::get($data, 'previousValue', 0)
-                ? Arr::get($this->trendIconStyle, 'up')
-                : Arr::get($this->trendIconStyle, 'down'),
+            'currentValue' => "{$this->prefix} {$formattedCurrentValue} {$this->suffix}",
+            'previousValue' => $this->previousMessage($currentValue, $previousValue),
+            'trend' => Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
         ];
     }
 

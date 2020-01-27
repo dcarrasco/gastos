@@ -28,6 +28,28 @@ class Boolean extends Field
     }
 
     /**
+     * Item unitario para form
+     * @param  string $name  Nombre del elemento
+     * @param  int    $value Valor del elemento
+     * @param  string $type  Tipo del elemento
+     * @return string
+     */
+    protected function formRadioItem(string $name, $value, $type = 'yes'): string
+    {
+        $radioValue = $type == 'yes' ? 1 : 0;
+        $checked = $type == 'yes' ? ($value == '1') : ($value != '1');
+        $label = $type == 'yes' ? trans('orm.radio_yes') : trans('orm.radio_no');
+
+        $id = "id_{$name}_{$radioValue}";
+        $form = Form::radio($name, $radioValue, $checked, ['id' => $id, 'class' => 'custom-control-input' ]);
+
+        $classDiv = 'custom-control custom-radio';
+        $classLabel = 'custom-control-label';
+
+        return "<div class=\"{$classDiv}\">{$form}<label class=\"{$classLabel}\" for=\"{$id}\">{$label}</label></div>";
+    }
+
+    /**
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
@@ -37,20 +59,12 @@ class Boolean extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $extraParam['id'] = $this->attribute;
+        // $extraParam['id'] = $this->attribute;
         $value = $resource->model()->{$this->attribute};
 
-        return new HtmlString('<div class="custom-control custom-radio">'
-            . Form::radio($this->name, 1, ($value == '1'), [
-                'id' => "id_{$this->name}_1", 'class' => 'custom-control-input'
-            ])
-            . "<label class=\"custom-control-label\" for=\"id_{$this->name}_1\">" . trans('orm.radio_yes') . '</label>'
-            . '</div>'
-            . '<div class="custom-control custom-radio">'
-            . Form::radio($this->name, 0, ($value != '1'), [
-                'id' => "id_{$this->name}_0", 'class' => 'custom-control-input'
-            ])
-            . "<label class=\"custom-control-label\" for=\"id_{$this->name}_0\">" . trans('orm.radio_no') . '</label>'
-            . '</div>');
+        return new HtmlString(
+            $this->formRadioItem($this->name, $value, 'yes')
+            . $this->formRadioItem($this->name, $value, 'no')
+        );
     }
 }

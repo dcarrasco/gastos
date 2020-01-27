@@ -49,7 +49,7 @@ class BelongsTo extends Relation
     {
         $foreignKeyName = $this->getModelAttribute($resource);
         $extraParam['id'] = $foreignKeyName;
-        $extraParam['class'] = $extraParam['class'] . ' custom-select';
+        $extraParam['class'] = "{$extraParam['class']} custom-select";
 
         if ($this->hasOnChange()) {
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
@@ -57,9 +57,10 @@ class BelongsTo extends Relation
 
         $value = $resource->model()->{$foreignKeyName};
         $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
+        $chooseOptionLabel = trans('orm.choose_option');
 
         return new HtmlString(
-            str_replace('>' . trans('orm.choose_option'), 'disabled >' . trans('orm.choose_option'), $form)
+            str_replace(">{$chooseOptionLabel}", "disabled>{$chooseOptionLabel}", $form)
         );
     }
 
@@ -85,8 +86,7 @@ class BelongsTo extends Relation
         $url = route("{$routeName}.ajaxOnChange", ['modelName' => $resourceDest]);
 
         return new HtmlString("$('#{$elemDest}').html('');"
-            . "$.get('{$url}?{$field}='+$('#{$field}').val(), "
-            . "function (data) { $('#{$elemDest}').html(data); });");
+            . "$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });");
     }
 
     /**

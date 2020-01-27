@@ -276,12 +276,8 @@ class Reporte
             [''],
             collect($arr_campos)->map(function ($elem) {
                 return [
-                    'data' => "<span data-sort=\"{$elem['sort']}\" "
-                        . "data-toggle=\"tooltip\" "
-                        . "title=\"Ordenar por campo {$elem['titulo']}\">"
-                        . $elem['titulo']
-                        . "</span>"
-                        . $elem['img_orden'],
+                    'data' => "<span data-sort=\"{$elem['sort']}\" data-toggle=\"tooltip\" "
+                        . "title=\"Ordenar por campo {$elem['titulo']}\">{$elem['titulo']}</span>{$elem['img_orden']}",
                     'class' => isset($elem['class']) ? $elem['class'] : '',
                 ];
             })

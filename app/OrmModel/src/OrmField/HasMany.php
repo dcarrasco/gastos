@@ -3,6 +3,7 @@
 namespace App\OrmModel\src\OrmField;
 
 use Form;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -53,16 +54,12 @@ class HasMany extends Relation
     public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = $extraParam['class'] . ' custom-select';
-
-        $value = $resource->model()->{$this->attribute};
-
-        $elementosSelected = collect($value)->map->getKey()->all();
+        $extraParam['class'] = Arr::get($extraParam, 'class', '') . ' custom-select';
 
         return Form::select(
-            $this->name . '[]',
+            "{$this->name}[]",
             $this->getRelationOptions($request, $resource, $this->relationConditions),
-            $elementosSelected,
+            $resource->model()->{$this->attribute}->modelKeys(),
             array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
         );
     }
