@@ -26,12 +26,12 @@ trait UsesFilters
      */
     protected function applyFilters(Request $request): Resource
     {
-        foreach ($this->filters($request) as $filter) {
-            if ($filter->isSet($request)) {
+        collect($this->filters($request))
+            ->filter->isSet($request)
+            ->each(function ($filter) use ($request) {
                 $this->modelQueryBuilder = $filter
                     ->apply($request, $this->modelQueryBuilder, $filter->getValue($request));
-            }
-        }
+            });
 
         return $this;
     }
