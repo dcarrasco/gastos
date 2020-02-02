@@ -31,6 +31,7 @@ abstract class Metric
             'MTD' => [$todayIni->copy()->startOfMonth(), $todayEnd],
             'QTD' => [$todayIni->copy()->firstOfQuarter(), $todayEnd],
             'YTD' => [$todayIni->copy()->startOfYear(), $todayEnd],
+            'CURR_MONTH' => [$todayIni->copy()->startOfMonth(), $todayEnd->copy()->endOfMonth()],
         ];
 
         $dateInterval = (! is_numeric($dateOption))
@@ -56,6 +57,7 @@ abstract class Metric
         [$dateIni, $dateEnd] = $dateInterval;
 
         $intervalOption = [
+            'CURR_MONTH' => [$dateIni->copy()->subMonth(), $dateEnd->copy()->subMonth()->endOfMonth()],
             'MTD' => [$dateIni->copy()->subMonth(), $dateEnd->copy()->subMonth()],
             'QTD' => [$dateIni->copy()->subQuarter(), $dateEnd->copy()->subQuarter()],
             'YTD' => [$dateIni->copy()->subYear(), $dateEnd->copy()->subYear()],

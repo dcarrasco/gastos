@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\OrmModel\Metrics\ResumenVisa;
+use App\OrmModel\Metrics\ResumenGastos;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        return view('home', [
+            'cards' => collect($this->cards($request))->map->render($request),
+        ]);
+    }
+
+    protected function cards(Request $request)
+    {
+        return [
+            new ResumenGastos(),
+            new ResumenVisa(),
+        ];
     }
 }

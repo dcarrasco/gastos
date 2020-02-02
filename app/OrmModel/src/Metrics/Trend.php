@@ -223,7 +223,7 @@ abstract class Trend extends Metric
             'data' => new HtmlString(json_encode($dataSet->values())),
             'labels' => new HtmlString(json_encode($dataSet->keys())),
             'cardId' => $this->cardId(),
-            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2)]),
+            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2) ?? '']),
             'resourceParams' => new HtmlString(json_encode($request->query())),
             'baseUrl' => asset(''),
         ])->render());

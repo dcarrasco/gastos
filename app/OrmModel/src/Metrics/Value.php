@@ -195,7 +195,7 @@ abstract class Value extends Metric
     protected function contentScript(Request $request): HtmlString
     {
         return new HtmlString(view('orm.metrics.value_script', [
-            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2)]),
+            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2) ?? '']),
             'cardId' => $this->cardId(),
             'resourceParams' => new HtmlString(json_encode($request->query())),
         ])->render());
