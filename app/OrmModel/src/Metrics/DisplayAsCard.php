@@ -5,6 +5,7 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Metrics\Metric;
 
 trait DisplayAsCard
@@ -23,18 +24,20 @@ trait DisplayAsCard
      * @param Request $request
      * @return void
      */
-    public function render(Request $request)
+    public function render(Request $request): HtmlString
     {
-        return view('orm.components.card', [
-            'content' => $this->content($request),
-            'contentScript' => $this->contentScript($request),
-            'cardWidth' => $this->bootstrapCardWidth(),
-            'title' => $this->title(),
-            'cardId' => $this->cardId(),
-            'ranges' => $this->ranges(),
-            'uriKey' => $this->uriKey(),
-            'resource' => $request->segment(2),
-        ])->render();
+        return new HtmlString(
+            view('orm.components.card', [
+                'content' => $this->content($request),
+                'contentScript' => $this->contentScript($request),
+                'cardWidth' => $this->bootstrapCardWidth(),
+                'title' => $this->title(),
+                'cardId' => $this->cardId(),
+                'ranges' => $this->ranges(),
+                'uriKey' => $this->uriKey(),
+                'resource' => $request->segment(2),
+            ])->render()
+        );
     }
 
     /**
