@@ -15,8 +15,16 @@ class OrmController extends Controller
     protected $menuModulo = [];
 
 
-    public function __construct()
+    public function __construct(Route $router)
     {
+        if (empty($this->routeName)) {
+            throw new \Exception("El parametro routeName no esta definido");
+        }
+
+        $this->menuModulo = collect($this->menuModulo)->map(function ($resource) {
+            return new $resource();
+        });
+
         $this->makeView();
     }
 
@@ -27,16 +35,10 @@ class OrmController extends Controller
      */
     public function makeMenuModuloURL()
     {
-        $routeName = $this->routeName;
-
-        return collect($this->menuModulo)->map(function ($resourceName) use ($routeName) {
-            $resource = new $resourceName();
-
+        return $this->menuModulo->map(function ($resource) {
             return [
-                'resource' => $resource->getName(),
                 'nombre' => $resource->getLabelPlural(),
-                'url'    => route("{$routeName}.index", $resource->getName()),
-                'icono'  => $resource->icono,
+                'url' => route("{$this->routeName}.index", $resource->getName()),
             ];
         });
     }
@@ -44,16 +46,12 @@ class OrmController extends Controller
 
     public function makeView()
     {
+        $resource = $this->menuModulo->first();
+
         view()->share('perPageFilter', new PerPage());
         view()->share('menuModulo', $this->makeMenuModuloURL());
         view()->share('routeName', $this->routeName);
-
-        $resource = collect($this->menuModulo)->first();
-
-        view()->share(
-            'moduloSelected',
-            empty(Route::input('modelName')) ? (new $resource())->getName() : Route::input('modelName')
-        );
+        view()->share('moduloSelected', Route::input('modelName') ?? $resource->getName());
     }
 
     /**
@@ -65,13 +63,10 @@ class OrmController extends Controller
      */
     protected function getResource(string $resourceName = ''): Resource
     {
-        $resource = collect($this->menuModulo)->first(function ($resource) use ($resourceName) {
-            return (new $resource())->getName() === $resourceName;
-        });
-
-        $resource = $resource ?: collect($this->menuModulo)->first();
-
-        return new $resource();
+        return $this->menuModulo->first(function ($resource) use ($resourceName) {
+            return $resource->getName() === $resourceName;
+        })
+        ?? $this->menuModulo->first();
     }
 
     /**
@@ -145,9 +140,9 @@ class OrmController extends Controller
     public function store(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass);
-        $this->validate($request, $resource->getValidation($request));
+        $validated = $this->validate($request, $resource->getValidation($request));
 
-        $resource->model()->create($request->all());
+        $resource->model()->create($validated);
 
         $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
         $alertMessage = trans('orm.msg_save_ok', [
