@@ -1,1 +1,1 @@
-<canvas id="canvas-{{$cardId}}" height="100%"></canvas>
+<canvas id="canvas-{{$cardId}}" height="105px"></canvas>
