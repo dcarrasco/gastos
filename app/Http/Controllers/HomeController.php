@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\OrmModel\Metrics\ResumenVisa;
 use App\OrmModel\Metrics\ResumenGastos;
+use App\OrmModel\Metrics\SaldoGranValor;
 
 class HomeController extends Controller
 {
@@ -35,6 +36,7 @@ class HomeController extends Controller
         return [
             new ResumenGastos(),
             new ResumenVisa(),
+            new SaldoGranValor(),
         ];
     }
 }

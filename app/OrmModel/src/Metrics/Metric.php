@@ -91,6 +91,17 @@ abstract class Metric
     }
 
     /**
+     * Filtros adicionales para la query de la metrica
+     * @param  Request $request
+     * @param  Builder $query
+     * @return Builder
+     */
+    protected function extendFilter(Request $request, Builder $query): Builder
+    {
+        return $query;
+    }
+
+    /**
      * Aplica los filtros definidos para el recurso
      *
      * @param  Request $request
@@ -98,11 +109,10 @@ abstract class Metric
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(
-        Request $request,
-        string $resource,
-        Builder $query
-    ): Builder {
+    protected function applyResourceFilters(Request $request, string $resource, Builder $query): Builder
+    {
+        $query = $this->extendFilter($request, $query);
+
         collect((new $resource())->filters($request))
             ->filter->isSet($request)
             ->each(function ($filter) use ($request, &$query) {
