@@ -15,7 +15,7 @@ class SaldoGranValor extends Trend
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha');
     }
 
-    protected function extendFilter(Request $request, Builder $query)
+    protected function extendFilter(Request $request, Builder $query): Builder
     {
         return $query->where('cuenta_id', 3)->where('tipo_movimiento_id', 4);
     }
