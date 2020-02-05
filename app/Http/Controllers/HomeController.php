@@ -34,8 +34,8 @@ class HomeController extends Controller
     protected function cards(Request $request)
     {
         return [
-            new ResumenGastos(),
-            new ResumenVisa(),
+            (new ResumenGastos())->prefix('$'),
+            (new ResumenVisa())->prefix('$'),
             new SaldoGranValor(),
         ];
     }

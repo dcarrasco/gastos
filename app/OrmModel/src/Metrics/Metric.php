@@ -86,7 +86,7 @@ abstract class Metric
     ): Collection {
         $query = (new $resource())->model()->whereBetween($timeColumn, $dateInterval);
 
-        return $this->applyResourceFilters($request, $resource, $query)
+        return $this->applyFilters($request, $resource, $query)
             ->get();
     }
 
@@ -109,7 +109,7 @@ abstract class Metric
      * @param  Builder $query
      * @return Builder
      */
-    protected function applyResourceFilters(Request $request, string $resource, Builder $query): Builder
+    protected function applyFilters(Request $request, string $resource, Builder $query): Builder
     {
         $query = $this->extendFilter($request, $query);
 
