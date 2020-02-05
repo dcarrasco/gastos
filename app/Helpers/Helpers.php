@@ -438,10 +438,8 @@ if (!function_exists('cached_query')) {
         // limpia caches antiguos
         if (is_array($ci->cache->cache_info())) {
             foreach ($ci->cache->cache_info() as $cache_ant_id => $cache_ant_data) {
-                if (
-                    $cache_ant_data['date'] < now() - $cache_ttl and
-                    strtolower(substr($cache_ant_data['name'], -4)) !== 'html'
-                ) {
+                if ($cache_ant_data['date'] < now() - $cache_ttl and
+                        strtolower(substr($cache_ant_data['name'], -4)) !== 'html') {
                     $ci->cache->delete($cache_ant_id);
                 }
             }

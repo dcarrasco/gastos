@@ -159,11 +159,9 @@ class Googlemaps
             }
         }
 
-        if (
-            $markerConfig['lat'] !== 0
-            and $markerConfig['lng'] !== 0
-            and $markerConfig['lat'] !== $markerConfig['lng']
-        ) {
+        if ($markerConfig['lat'] !== 0
+                    and $markerConfig['lng'] !== 0
+                    and $markerConfig['lat'] !== $markerConfig['lng']) {
             array_push($this->markers, $markerConfig);
             $nMarker = count($this->markers);
 

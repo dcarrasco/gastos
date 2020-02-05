@@ -19,10 +19,8 @@ class LoginController extends Controller
 
     public function cambiaPassword(CambiaPasswordRequest $request)
     {
-        if (
-            !UserAcl::checkUserHasPassword(request('username'))
-            or UserACL::checkUserPassword(request('username'), request('clave_anterior'))
-        ) {
+        if (!UserAcl::checkUserHasPassword(request('username'))
+                    or UserACL::checkUserPassword(request('username'), request('clave_anterior'))) {
             UserACL::storeUserPassword(request('username'), request('nueva_clave'));
             return redirect()->route('login');
         }

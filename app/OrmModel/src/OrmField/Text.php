@@ -24,12 +24,11 @@ class Text extends Field
         $extraParam['maxlength'] = $this->getFieldLength();
         // $extraParam['placeholder'] = $this->name;
 
-        if (
-            $resource->model()->getKeyName() === $this->attribute
-            && !is_null($resource->model()->getKey())
-        ) {
+        if ($resource->model()->getKeyName() === $this->attribute
+                    && !is_null($resource->model()->getKey())) {
             $extraParam['readonly'] = 'readonly';
         }
+
         $value = $resource->model()->{$this->attribute};
 
         return Form::text($this->attribute, $value, $extraParam);

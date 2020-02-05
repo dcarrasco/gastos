@@ -59,8 +59,8 @@
        PEAR standard exists inside the PHP_CodeSniffer install
        directory.
     -->
-    <!-- <rule ref="PSR2"/> -->
-    <rule ref="PSR12"/>
+    <rule ref="PSR2"/>
+    <!-- <rule ref="PSR12"/> -->
     <!-- <rule ref="PEAR.Commenting.FunctionComment"/> -->
 
 
