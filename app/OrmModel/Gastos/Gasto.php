@@ -47,9 +47,9 @@ class Gasto extends Resource
 
             Date::make('Fecha')->sortable(),
 
-            Text::make('Glosa')->sortable()->hideFromIndex(),
+            Text::make('Glosa')->sortable()->rules('max:200')->hideFromIndex(),
 
-            Text::make('Serie')->sortable(),
+            Text::make('Serie')->rules('max:50')->sortable(),
 
             BelongsTo::make('Tipo de Gasto', 'tipoGasto', TipoGasto::class)
                 ->rules('required'),

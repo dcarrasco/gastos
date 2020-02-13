@@ -10,6 +10,8 @@ use App\OrmModel\src\OrmField\Field;
 
 class Text extends Field
 {
+    protected $defaultMaxLength = 250;
+
     /**
      * Devuelve elemento de formulario para el campo
      *
@@ -37,7 +39,7 @@ class Text extends Field
     /**
      * Devuelve largo del campo, de acuerdo a regla de validacion
      *
-     * @return string
+     * @return int
      */
     protected function getFieldLength(): int
     {
@@ -45,6 +47,8 @@ class Text extends Field
             return strpos($rule, 'max:') !== false;
         });
 
-        return substr($maxRule, strpos($maxRule, ':') + 1, strlen($maxRule));
+        return is_null($maxRule)
+            ? $this->defaultMaxLength
+            : (int) substr($maxRule, strpos($maxRule, ':') + 1, strlen($maxRule));
     }
 }
