@@ -47,8 +47,6 @@ class Text extends Field
             return strpos($rule, 'max:') !== false;
         });
 
-        return is_null($maxRule)
-            ? $this->defaultMaxLength
-            : (int) substr($maxRule, strpos($maxRule, ':') + 1, strlen($maxRule));
+        return is_null($maxRule) ? $this->defaultMaxLength : (int) explode(':', $maxRule)[1];
     }
 }
