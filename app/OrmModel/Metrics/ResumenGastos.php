@@ -18,8 +18,6 @@ class ResumenGastos extends Value
             'currentValue' => $this->fetchSumData($request, Gasto::class, 'monto', 'fecha', $currentDateInterval),
             'previousValue' => $this->fetchSumData($request, Gasto::class, 'monto', 'fecha', $previousDateInterval),
         ]);
-
-        return $this->sum($request, Gasto::class, 'monto');
     }
 
     protected function fetchSumData(

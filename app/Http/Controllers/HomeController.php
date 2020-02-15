@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Metrics\ResumenVisa;
+use App\OrmModel\Metrics\SaldoCtaCte;
 use App\OrmModel\Metrics\ResumenGastos;
 use App\OrmModel\Metrics\SaldoGranValor;
+use App\OrmModel\Metrics\SaldoPrefAhorro;
 
 class HomeController extends Controller
 {
@@ -34,9 +36,11 @@ class HomeController extends Controller
     protected function cards(Request $request)
     {
         return [
+            (new SaldoCtaCte())->prefix('$'),
             (new ResumenGastos())->prefix('$'),
             (new ResumenVisa())->prefix('$'),
             new SaldoGranValor(),
+            new SaldoPrefAhorro(),
         ];
     }
 }

@@ -1,4 +1,4 @@
-<div class="{{ $cardWidth }} px-2">
+<div class="{{ $cardWidth }} px-2 my-2">
 <div class="card px-0 rounded-lg shadow-sm" style="height: 160px;">
     <div class="card-body px-1 pt-2 pb-1">
         <div class="row px-3 pb-3">
