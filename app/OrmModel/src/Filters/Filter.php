@@ -41,9 +41,8 @@ class Filter
     public function getName(): string
     {
         $fullName = explode('\\', get_class($this));
-        $name = array_pop($fullName);
 
-        return $name;
+        return array_pop($fullName);
     }
 
     /**
@@ -93,10 +92,6 @@ class Filter
      */
     public function getUrlMark(Request $request, string $value): string
     {
-        if (is_null($this->getValue($request))) {
-            return '';
-        }
-
         return $this->getValue($request) == $value
             ? '<span class="fa fa-check"></span>'
             : '';
