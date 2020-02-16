@@ -6,36 +6,20 @@ use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Value;
+use Illuminate\Database\Eloquent\Builder;
 
 class ResumenVisa extends Value
 {
     public function calculate(Request $request): array
     {
-        $currentDateInterval = $this->currentDateInterval($request);
-        $previousDateInterval = $this->previousDateInterval($request);
-
-        return $this->formattedData([
-            'currentValue' => $this->fetchSumData($request, Gasto::class, 'monto', 'fecha', $currentDateInterval),
-            'previousValue' => $this->fetchSumData($request, Gasto::class, 'monto', 'fecha', $previousDateInterval),
-        ]);
-
-        return $this->sum($request, Gasto::class, 'monto');
+        return $this->sum($request, Gasto::class, 'monto', 'fecha');
     }
 
-    protected function fetchSumData(
-        Request $request,
-        string $resource = '',
-        string $sumColumn = '',
-        string $timeColumn = '',
-        array $dateInterval = []
-    ): int {
-        return (new Gasto())->model()
-            ->whereBetween($timeColumn, $dateInterval)
-            ->where('cuenta_id', 2)
-            ->where('tipo_movimiento_id', 1)
-            ->sum($sumColumn);
+    protected function extendFilter(Request $request, Builder $query): Builder
+    {
+        return $query = $query->where('cuenta_id', 2)
+            ->where('tipo_movimiento_id', 1);
     }
-
 
     public function ranges(): array
     {
