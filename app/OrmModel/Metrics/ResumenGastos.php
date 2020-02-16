@@ -11,8 +11,8 @@ class ResumenGastos extends Value
 {
     public function calculate(Request $request): array
     {
-        $currentDateInterval = $this->dateInterval($request);
-        $previousDateInterval = $this->dateInterval($request, 'previous');
+        $currentDateInterval = $this->currentDateInterval($request);
+        $previousDateInterval = $this->previousDateInterval($request);
 
         return $this->formattedData([
             'currentValue' => $this->fetchSumData($request, Gasto::class, 'monto', 'fecha', $currentDateInterval),

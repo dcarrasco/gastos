@@ -29,13 +29,9 @@ abstract class Trend extends Metric
         string $sumColumn = '',
         string $timeColumn = ''
     ): Collection {
-        $timeColumn = empty($timeColumn)
-            ? (new $resource())->model()->getCreatedAtColumn()
-            : $timeColumn;
+        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
-        $dateInterval = $this->dateInterval($request);
-
-        return $this->fetchData($request, $resource, $sumColumn, $timeColumn, $dateInterval);
+        return $this->fetchData($request, $resource, $sumColumn, $timeColumn, $this->currentDateInterval($request));
     }
 
     /**
@@ -98,13 +94,9 @@ abstract class Trend extends Metric
 
     protected function count(Request $request, string $resource = '', string $timeColumn = ''): Collection
     {
-        $timeColumn = empty($timeColumn)
-            ? (new $resource())->model()->getCreatedAtColumn()
-            : $timeColumn;
+        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
-        $dateInterval = $this->dateInterval($request);
-
-        return $this->fetchData($request, $resource, '__count__', $timeColumn, $dateInterval);
+        return $this->fetchData($request, $resource, '__count__', $timeColumn, $this->currentDateInterval($request));
     }
 
     /**

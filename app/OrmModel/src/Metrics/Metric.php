@@ -14,35 +14,55 @@ abstract class Metric
     use DisplayAsCard;
 
     /**
+     * Intervalos de fechas periodo actual
+     *
+     * @return array
+     */
+    public function currentIntervalOptions(): array
+    {
+        $today = Carbon::now()->startOfDay();
+
+        return [
+            'MTD' => [$today->copy()->startOfMonth(), $today->copy()->endOfDay()],
+            'QTD' => [$today->copy()->firstOfQuarter(), $today->copy()->endOfDay()],
+            'YTD' => [$today->copy()->startOfYear(), $today->copy()->endOfDay()],
+            'CURR_MONTH' => [$today->copy()->startOfMonth(), $today->copy()->endOfDay()->endOfMonth()],
+        ];
+    }
+
+    /**
+     * Intervalos de fechas periodo anterior
+     *
+     * @return array
+     */
+    public function previousIntervalOptions(): array
+    {
+        $today = Carbon::now()->startOfDay();
+
+        return [
+            'MTD' => [$today->copy()->subMonth()->startOfMonth(), $today->copy()->endOfDay()->subMonth()],
+            'QTD' => [$today->copy()->subQuarter()->firstOfQuarter(), $today->copy()->endOfDay()->subQuarter()],
+            'YTD' => [$today->copy()->subYear()->startOfYear(), $today->copy()->endOfDay()->subYear()],
+            'CURR_MONTH' => [$today->copy()->subMonth()->startOfMonth(), $today->copy()->endOfDay()->subMonth()->endOfMonth()],
+        ];
+    }
+
+
+    /**
      * Genera rango de fechas para realizar consultas
      *
      * @param  Request $request
      * @param  string  $period
      * @return Array
      */
-    protected function dateInterval(Request $request, string $period = 'current'): array
+    protected function currentDateInterval(Request $request): array
     {
         $dateOption = $request->input('range', collect($this->ranges())->keys()->first());
+        $today = Carbon::now()->startOfDay();
 
-        $todayIni = Carbon::now()->startOfDay();
-        $todayEnd = Carbon::now()->endOfDay();
-
-        $intervalOption = [
-            'MTD' => [$todayIni->copy()->startOfMonth(), $todayEnd],
-            'QTD' => [$todayIni->copy()->firstOfQuarter(), $todayEnd],
-            'YTD' => [$todayIni->copy()->startOfYear(), $todayEnd],
-            'CURR_MONTH' => [$todayIni->copy()->startOfMonth(), $todayEnd->copy()->endOfMonth()],
-        ];
-
-        $dateInterval = (! is_numeric($dateOption))
-            ? Arr::get($intervalOption, $dateOption, [$todayIni, $todayEnd])
-            : [$todayIni->copy()->subDays($dateOption - 1), $todayEnd];
-
-        if ($period === 'previous') {
-            $dateInterval = $this->previousDateInterval($dateInterval, $dateOption);
-        }
-
-        return $dateInterval;
+        return (! is_numeric($dateOption))
+            ? Arr::get($this->currentIntervalOptions(), $dateOption, [$today, $today->copy()->endOfDay()])
+            : [$today->copy()->subDays($dateOption - 1), $today->copy()->endOfDay()];
     }
 
     /**
@@ -52,20 +72,14 @@ abstract class Metric
      * @param  string/integer $dateOption
      * @return array
      */
-    protected function previousDateInterval(array $dateInterval, string $dateOption): array
+    protected function previousDateInterval(Request $request): array
     {
-        [$dateIni, $dateEnd] = $dateInterval;
-
-        $intervalOption = [
-            'CURR_MONTH' => [$dateIni->copy()->subMonth(), $dateEnd->copy()->subMonth()->endOfMonth()],
-            'MTD' => [$dateIni->copy()->subMonth(), $dateEnd->copy()->subMonth()],
-            'QTD' => [$dateIni->copy()->subQuarter(), $dateEnd->copy()->subQuarter()],
-            'YTD' => [$dateIni->copy()->subYear(), $dateEnd->copy()->subYear()],
-        ];
+        $dateOption = $request->input('range', collect($this->ranges())->keys()->first());
+        $today = Carbon::now()->startOfDay();
 
         return (! is_numeric($dateOption))
-            ? Arr::get($intervalOption, $dateOption, [$dateIni, $dateEnd])
-            : [$dateIni->copy()->subDays($dateOption), $dateEnd->copy()->subDays($dateOption)];
+            ? Arr::get($this->previousIntervalOptions(), $dateOption, [$today, $today->copy()->endOfDay()])
+            : [$today->copy()->subDays($dateOption * 2), $today->copy()->subDays($dateOption)];
     }
 
 
@@ -133,5 +147,15 @@ abstract class Metric
         return new HtmlString(view('orm.metrics.metric_content', [
             'cardId' => $this->cardId(),
         ]));
+    }
+
+    /**
+     * Devuelve arreglo con rangos a mostrar en card
+     *
+     * @return array
+     */
+    public function ranges(): array
+    {
+        return [];
     }
 }

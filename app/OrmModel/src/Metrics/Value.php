@@ -29,12 +29,10 @@ abstract class Value extends Metric
      */
     public function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
     {
-        $timeColumn = empty($timeColumn)
-            ? (new $resource())->model()->getCreatedAtColumn()
-            : $timeColumn;
+        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
-        $currentDateInterval = $this->dateInterval($request);
-        $previousDateInterval = $this->dateInterval($request, 'previous');
+        $currentDateInterval = $this->currentDateInterval($request);
+        $previousDateInterval = $this->previousDateInterval($request);
 
         return $this->formattedData([
             'currentValue' => $this->fetchSumData($request, $resource, $sumColumn, $timeColumn, $currentDateInterval),
@@ -52,12 +50,10 @@ abstract class Value extends Metric
      */
     public function count(Request $request, $resource = '', $timeColumn = ''): array
     {
-        $timeColumn = empty($timeColumn)
-            ? (new $resource())->model()->getCreatedAtColumn()
-            : $timeColumn;
+        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
-        $currentDateInterval = $this->dateInterval($request);
-        $previousDateInterval = $this->dateInterval($request, 'previous');
+        $currentDateInterval = $this->currentDateInterval($request);
+        $previousDateInterval = $this->previousDateInterval($request);
 
         return $this->formattedData([
             'currentValue' => $this->fetchCountData($request, $resource, $timeColumn, $currentDateInterval),

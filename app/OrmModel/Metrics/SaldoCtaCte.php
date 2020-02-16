@@ -16,13 +16,6 @@ class SaldoCtaCte extends Value
         ]);
     }
 
-    public function ranges(): array
-    {
-        return [
-            'CURR_MONTH' => 'Current Month',
-        ];
-    }
-
     public function uriKey(): string
     {
         return 'saldo-cta-cte';
