@@ -43,7 +43,10 @@ abstract class Metric
             'MTD' => [$today->copy()->subMonth()->startOfMonth(), $today->copy()->endOfDay()->subMonth()],
             'QTD' => [$today->copy()->subQuarter()->firstOfQuarter(), $today->copy()->endOfDay()->subQuarter()],
             'YTD' => [$today->copy()->subYear()->startOfYear(), $today->copy()->endOfDay()->subYear()],
-            'CURR_MONTH' => [$today->copy()->subMonth()->startOfMonth(), $today->copy()->endOfDay()->subMonth()->endOfMonth()],
+            'CURR_MONTH' => [
+                $today->copy()->subMonth()->startOfMonth(),
+                $today->copy()->endOfDay()->subMonth()->endOfMonth()
+            ],
         ];
     }
 
