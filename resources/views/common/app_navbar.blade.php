@@ -2,7 +2,9 @@
 <nav class="navbar navbar-expand-lg p-0 navbar-light shadow-sm" style="background-color: #fff;" role="navigation">
     <div class="h-100 col-2 d-inline-block bg-dark py-2 text-center">
         <span class="navbar-brand text-light">
-            {{ config('app.name') }}
+            <a href="/" class="text-decoration-none text-light">
+                {{ config('invfija.app_nombre') }}
+            </a>
         </span>
     </div>
 
