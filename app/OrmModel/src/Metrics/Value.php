@@ -118,10 +118,10 @@ abstract class Value extends Metric
             return "Sin datos anteriores";
         }
 
-        $percentChange = ($currentValue / $previousValue - 1) * 100;
+        $percentChange = number_format(($currentValue / $previousValue - 1) * 100, 0, '.', ',');
         $textChange = $percentChange >= 0 ? 'aumento' : 'disminucion';
 
-        return number_format($percentChange, 0, '.', ',') . "% de {$textChange}";
+        return "{$percentChange}% de {$textChange}";
     }
 
     /**
@@ -139,7 +139,7 @@ abstract class Value extends Metric
         return [
             'currentValue' => "{$this->prefix} {$formattedCurrentValue} {$this->suffix}",
             'previousValue' => $this->previousMessage($currentValue, $previousValue),
-            'trend' => Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
+            'trendIconStyle' => Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
         ];
     }
 
@@ -182,7 +182,7 @@ abstract class Value extends Metric
         return new HtmlString(view('orm.metrics.value_content', [
             'currentValue' => Arr::get($data, 'currentValue', 0),
             'previousValue' => Arr::get($data, 'previousValue', 0),
-            'trendIconStyle' => Arr::get($data, 'trend', ''),
+            'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
         ]));
     }
 
