@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\OrmModel\Metrics\GastoVisa;
 use App\OrmModel\Metrics\ResumenVisa;
 use App\OrmModel\Metrics\SaldoCtaCte;
 use App\OrmModel\Metrics\ResumenGastos;
@@ -39,6 +40,7 @@ class HomeController extends Controller
             (new SaldoCtaCte())->prefix('$'),
             (new ResumenGastos())->prefix('$'),
             (new ResumenVisa())->prefix('$'),
+            new GastoVisa(),
             new SaldoGranValor(),
             new SaldoPrefAhorro(),
         ];

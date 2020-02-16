@@ -11,6 +11,7 @@ var chartData_{{ $cardId }} = {
 var options_{{ $cardId }} = {
     cutoutPercentage: 60,
     legend: {
+        display: false,
         position: 'left',
         labels: {
            fontSize: 10,
