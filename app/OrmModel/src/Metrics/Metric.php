@@ -101,10 +101,21 @@ abstract class Metric
         string $timeColumn = '',
         array $dateInterval = []
     ): Collection {
-        $query = (new $resource())->model()->whereBetween($timeColumn, $dateInterval);
-
-        return $this->applyFilters($request, $resource, $query)
+        return $this->newQuery($request, $resource)
+            ->whereBetween($timeColumn, $dateInterval)
             ->get();
+    }
+
+    /**
+     * Devuelve una nueva query con todos los filtros iniciales aplicados
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @return Builder
+     */
+    protected function newQuery(Request $request, string $resource): Builder
+    {
+        return $this->applyFilters($request, $resource, (new $resource())->model()->query());
     }
 
     /**

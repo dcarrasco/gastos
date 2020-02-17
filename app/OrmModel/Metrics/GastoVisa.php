@@ -4,31 +4,22 @@ namespace App\OrmModel\Metrics;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\OrmModel\src\Metrics\Partition;
+use Illuminate\Database\Eloquent\Builder;
 
 class GastoVisa extends Partition
 {
-    public function calculate(Request $request): array
+    public function calculate(Request $request): Collection
     {
-        $datos = [];
+        return $this->sum($request, Gasto::class, 'tipo_gasto', 'monto', 'tipoGasto');
+    }
 
-        (new Gasto)->model()
-            ->whereBetween('fecha', $this->currentDateInterval($request))
-            ->where('cuenta_id', 2)
-            ->get()
-            ->each(function ($gasto) use (&$datos) {
-                if (!array_key_exists($gasto->tipoGasto->tipo_gasto, $datos)) {
-                    $datos[$gasto->tipoGasto->tipo_gasto] = 0;
-                }
-                $datos[$gasto->tipoGasto->tipo_gasto] += $gasto->monto;
-            });
-
-        return collect($datos)->map(function ($value, $key) {
-            return ['grupo' => $key, 'cant' => $value];
-        })
-        ->values()
-        ->all();
+    protected function extendFilter(Request $request, Builder $query): Builder
+    {
+        return $query->where('cuenta_id', 2)
+            ->whereBetween('fecha', $this->currentDateInterval($request));
     }
 
     public function ranges(): array
@@ -40,7 +31,6 @@ class GastoVisa extends Partition
             'YTD' => 'Year To Date',
         ];
     }
-
 
     public function uriKey(): string
     {

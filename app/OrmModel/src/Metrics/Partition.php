@@ -3,17 +3,48 @@
 namespace App\OrmModel\src\Metrics;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class Partition extends Metric
 {
-    public function count(Request $request, string $resource = '', string $column = '')
+    public function count(Request $request, string $resource = '', string $groupColumn = '', string $relation = '')
     {
-        return (new $resource())->model()
-            ->select(DB::raw("{$column} as grupo, count(*) as cant"))
-            ->groupBy($column)
+        $query = $this->newQuery($request, $resource);
+
+        if ($relation != '') {
+            $query = $this->addRelationQuery($request, $query, $resource, $relation);
+        }
+
+        return $query
+            ->select(DB::raw("{$groupColumn} as grupo, count(*) as cant"))
+            ->groupBy($groupColumn)
+            ->orderBy('cant', 'desc')
             ->get();
+    }
+
+    public function sum(Request $request, string $resource = '', string $groupColumn = '', string $sumColumn = '', string $relation = ''): Collection
+    {
+        $query = $this->newQuery($request, $resource);
+
+        if ($relation != '') {
+            $query = $this->addRelationQuery($request, $query, $resource, $relation);
+        }
+
+        return $query
+            ->select(DB::raw("{$groupColumn} as grupo, sum({$sumColumn}) as cant"))
+            ->groupBy($groupColumn)
+            ->orderBy('cant', 'desc')
+            ->get();
+    }
+
+    protected function addRelationQuery(Request $request, Builder $query, string $resource = '', string $relation = ''): Builder
+    {
+        $relation = (new $resource())->model()->{$relation}();
+
+        return $query->join($relation->getRelated()->getTable(), $relation->getQualifiedForeignKeyName(), '=', $relation->getQualifiedOwnerKeyName());
     }
 
     protected function countTotal(Request $request, string $resource = ''): int
@@ -21,14 +52,9 @@ abstract class Partition extends Metric
         return (new $resource())->model()->count();
     }
 
-    public function ranges(): array
-    {
-        return [];
-    }
-
     protected function contentScript(Request $request): HtmlString
     {
-        $dataSet = collect($this->calculate($request));
+        $dataSet = $this->calculate($request);
 
         return new HtmlString(view(
             'orm.metrics.partition_script',
