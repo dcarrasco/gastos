@@ -5,7 +5,19 @@
 var chartData_{{ $cardId }} = {
     labels: {{ $labels }},
     datasets: [{
-        data: {{ $data }}
+        data: {{ $data }},
+        backgroundColor: [
+            "rgba(245, 87, 59, 1)",
+            "rgba(249, 144, 55, 1)",
+            "rgba(242, 203, 34, 1)",
+            "rgba(143, 193, 93, 1)",
+            "rgba(9, 143, 86, 1)",
+            "rgba(71, 193, 191, 1)",
+            "rgba(22, 147, 235, 1)",
+            "rgba(110, 116, 215, 1)",
+            "rgba(156, 106, 222, 1)",
+            "rgba(228, 113, 222, 1)",
+        ]
     }]
 };
 var options_{{ $cardId }} = {
