@@ -10,62 +10,114 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Partition extends Metric
 {
-    public function count(Request $request, string $resource = '', string $groupColumn = '', string $relation = '')
+    /**
+     * Recupera datos de la particion, contando los registros
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $groupColumn
+     * @param  string  $relation
+     * @return Collection
+     */
+    public function count(Request $request, string $resource, string $groupColumn, string $relation = ''): Collection
+    {
+        return $this->aggregate($request, $resource, $groupColumn, 'count', '*', $relation);
+    }
+
+    /**
+     * Recupera datos de la particion, sumando una columna
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $groupColumn
+     * @param  string  $sumColumn
+     * @param  string  $relation
+     * @return Collection
+     */
+    public function sum(Request $request, string $resource, string $groupColumn, string $sumColumn, string $relation = ''): Collection
+    {
+        return $this->aggregate($request, $resource, $groupColumn, 'sum', $sumColumn, $relation);
+    }
+
+    /**
+     * Recupera datos de la particion
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $groupColumn
+     * @param  string  $function
+     * @param  string  $sumColumn
+     * @param  string  $relation
+     * @return Collection
+     */
+    protected function aggregate(Request $request, string $resource, string $groupColumn, string $function, string $sumColumn, string $relation): Collection
     {
         $query = $this->newQuery($request, $resource);
 
         if ($relation != '') {
-            $query = $this->addRelationQuery($request, $query, $resource, $relation);
+            $query = $this->addRelationQuery($query, $resource, $relation);
         }
 
         return $query
-            ->select(DB::raw("{$groupColumn} as grupo, count(*) as cant"))
+            ->select(DB::raw("{$groupColumn} as label, {$function}({$sumColumn}) as aggregate"))
             ->groupBy($groupColumn)
-            ->orderBy('cant', 'desc')
-            ->get();
+            ->orderBy('aggregate', 'desc')
+            ->get()
+            ->mapWithKeys(function ($data) {
+                return [$data->label => $data->aggregate];
+            });
     }
 
-    public function sum(Request $request, string $resource = '', string $groupColumn = '', string $sumColumn = '', string $relation = ''): Collection
-    {
-        $query = $this->newQuery($request, $resource);
-
-        if ($relation != '') {
-            $query = $this->addRelationQuery($request, $query, $resource, $relation);
-        }
-
-        return $query
-            ->select(DB::raw("{$groupColumn} as grupo, sum({$sumColumn}) as cant"))
-            ->groupBy($groupColumn)
-            ->orderBy('cant', 'desc')
-            ->get();
-    }
-
-    protected function addRelationQuery(Request $request, Builder $query, string $resource = '', string $relation = ''): Builder
+    /**
+     * Agrega la relacion a la consulta de datos de la particion
+     *
+     * @param Builder $query
+     * @param string  $resource
+     * @param string  $relation
+     * @return Builder
+     */
+    protected function addRelationQuery(Builder $query, string $resource, string $relation): Builder
     {
         $relation = (new $resource())->model()->{$relation}();
 
-        return $query->join($relation->getRelated()->getTable(), $relation->getQualifiedForeignKeyName(), '=', $relation->getQualifiedOwnerKeyName());
+        return $query->join(
+            $relation->getRelated()->getTable(),
+            $relation->getQualifiedForeignKeyName(),
+            '=',
+            $relation->getQualifiedOwnerKeyName()
+        );
     }
 
-    protected function countTotal(Request $request, string $resource = ''): int
+    /**
+     * Devuelve HTML con contenido de la metrica
+     *
+     * @param  Request $request
+     * @return HtmlString
+     */
+    protected function content(Request $request): HtmlString
     {
-        return (new $resource())->model()->count();
+        return new HtmlString(view('orm.metrics.partition_content', [
+            'cardId' => $this->cardId(),
+        ]));
     }
 
+    /**
+     * Devuelve script para dibujar grafico de tendencia
+     *
+     * @param  Request $request
+     * @return HtmlString
+     */
     protected function contentScript(Request $request): HtmlString
     {
         $dataSet = $this->calculate($request);
 
-        return new HtmlString(view(
-            'orm.metrics.partition_script',
-            [
-                'data' => new HtmlString(json_encode($dataSet->pluck('cant'))),
-                'labels' => new HtmlString(json_encode($dataSet->pluck('grupo'))),
-                'cardId' => $this->cardId(),
-                'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2) ?? '']),
-                'resourceParams' => json_encode($request->query()),
-                'baseUrl' => asset(''),
-            ]
-        ));
+        return new HtmlString(view('orm.metrics.partition_script', [
+            'data' => new HtmlString(json_encode($dataSet->values())),
+            'labels' => new HtmlString(json_encode($dataSet->keys())),
+            'cardId' => $this->cardId(),
+            'urlRoute' => $this->urlRoute($request),
+            'resourceParams' => json_encode($request->query()),
+            'baseUrl' => asset(''),
+        ])->render());
     }
 }

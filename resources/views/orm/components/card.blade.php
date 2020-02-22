@@ -21,9 +21,8 @@
             <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
         </div>
 
-        <div id="{{ $cardId }}" class="row mx-2">
-            {{ $content }}
-        </div>
+        {{ $content }}
+
     </div>
 
     {{ $contentScript }}
