@@ -102,10 +102,10 @@ abstract class Value extends Metric
         $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
         return $this->formattedData([
-            'currentValue' => $this->getModelData($request, $resource, $timeColumn, $this->currentRange($request))
-                ->{$function}($sumColumn),
-            'previousValue' => $this->getModelData($request, $resource, $timeColumn, $this->previousRange($request))
-                ->{$function}($sumColumn),
+            'currentValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->currentRange($request))
+                ->get()->{$function}($sumColumn),
+            'previousValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->previousRange($request))
+                ->get()->{$function}($sumColumn),
         ]);
     }
 

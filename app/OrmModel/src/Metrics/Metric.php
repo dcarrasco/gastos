@@ -77,15 +77,14 @@ abstract class Metric
      * @param  array   $dateInterval
      * @return Collection
      */
-    protected function getModelData(
+    protected function rangedQuery(
         Request $request,
         string $resource = '',
         string $timeColumn = '',
         array $dateInterval = []
-    ): Collection {
+    ): Builder {
         return $this->newQuery($request, $resource)
-            ->whereBetween($timeColumn, $dateInterval)
-            ->get();
+            ->whereBetween($timeColumn, $dateInterval);
     }
 
     /**
@@ -97,7 +96,16 @@ abstract class Metric
      */
     protected function newQuery(Request $request, string $resource): Builder
     {
-        return $this->applyFilters($request, $resource, (new $resource())->model()->query());
+        $query = (new $resource())->model()->newQuery();
+        $query = $this->extendFilter($request, $query);
+
+        collect((new $resource())->filters($request))
+            ->filter->isSet($request)
+            ->each(function ($filter) use ($request, &$query) {
+                $query = $filter->apply($request, $query, $filter->getValue($request));
+            });
+
+        return $query;
     }
 
     /**
@@ -108,27 +116,6 @@ abstract class Metric
      */
     protected function extendFilter(Request $request, Builder $query): Builder
     {
-        return $query;
-    }
-
-    /**
-     * Aplica los filtros definidos para el recurso
-     *
-     * @param  Request $request
-     * @param  string  $resource
-     * @param  Builder $query
-     * @return Builder
-     */
-    protected function applyFilters(Request $request, string $resource, Builder $query): Builder
-    {
-        $query = $this->extendFilter($request, $query);
-
-        collect((new $resource())->filters($request))
-            ->filter->isSet($request)
-            ->each(function ($filter) use ($request, &$query) {
-                $query = $filter->apply($request, $query, $filter->getValue($request));
-            });
-
         return $query;
     }
 
