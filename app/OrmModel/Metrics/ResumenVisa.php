@@ -24,10 +24,10 @@ class ResumenVisa extends Value
     public function ranges(): array
     {
         return [
-            'CURR_MONTH' => 'Current Month',
             'MTD' => 'Month To Date',
             'QTD' => 'Quarter To Date',
             'YTD' => 'Year To Date',
+            'CURR_MONTH' => 'Current Month',
         ];
     }
 }

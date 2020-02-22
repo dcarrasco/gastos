@@ -27,6 +27,8 @@ class SaldoGranValor extends Trend
     {
         return [
             'YTD' => 'Year To Date',
+            'MTD' => 'Month To Date',
+            'QTD' => 'Quarter To Date',
         ];
     }
 }
