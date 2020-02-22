@@ -208,9 +208,13 @@ abstract class Trend extends Metric
         $dateInterval = $this->currentRange($request);
 
         $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
+
+        $query = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval);
+        $sumColumn = empty($sumColumn) ? $query->getModel()->getKeyName() : $sumColumn;
+
         $selectDateExpression = $this->selectDateExpression($unit, $timeColumn);
 
-        $results = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval)
+        $results = $query
             ->select(DB::raw("{$selectDateExpression} as date_result, {$function}({$sumColumn}) as aggregate"))
             ->groupBy(DB::raw($selectDateExpression))
             ->get()
