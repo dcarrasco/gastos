@@ -19,7 +19,7 @@ class GastoVisa extends Partition
     protected function extendFilter(Request $request, Builder $query): Builder
     {
         return $query->where('cuenta_id', 2)
-            ->whereBetween('fecha', $this->currentDateInterval($request));
+            ->whereBetween('fecha', $this->currentRange($request));
     }
 
     public function ranges(): array
