@@ -15,9 +15,4 @@ class SaldoCtaCte extends Value
             'previousValue' => 0,
         ]);
     }
-
-    public function uriKey(): string
-    {
-        return 'saldo-cta-cte';
-    }
 }

@@ -29,9 +29,4 @@ class SaldoGranValor extends Trend
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'saldo-fm-gran-valor';
-    }
 }

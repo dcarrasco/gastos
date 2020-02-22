@@ -25,9 +25,4 @@ class NuevosRegistros extends Value
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'nuevos-registros';
-    }
 }

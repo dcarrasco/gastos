@@ -25,9 +25,4 @@ class RegistrosPorDia extends Trend
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'registros-por-dia';
-    }
 }

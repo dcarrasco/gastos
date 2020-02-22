@@ -31,9 +31,4 @@ class GastoVisa extends Partition
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'gasto-visa';
-    }
 }

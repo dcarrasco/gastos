@@ -29,9 +29,4 @@ class SaldoPrefAhorro extends Trend
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'saldo-fm-preferencial-ahorro';
-    }
 }

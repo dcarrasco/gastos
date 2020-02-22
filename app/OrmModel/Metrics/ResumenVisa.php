@@ -30,9 +30,4 @@ class ResumenVisa extends Value
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'resumen-gastos';
-    }
 }

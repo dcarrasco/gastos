@@ -25,9 +25,4 @@ class GastosPerDay extends Trend
             'YTD' => 'Year To Date',
         ];
     }
-
-    public function uriKey(): string
-    {
-        return 'gastos-per-day';
-    }
 }

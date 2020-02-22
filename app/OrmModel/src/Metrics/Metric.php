@@ -3,6 +3,7 @@
 namespace App\OrmModel\src\Metrics;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -140,5 +141,10 @@ abstract class Metric
     public function ranges(): array
     {
         return [];
+    }
+
+    public function uriKey(): string
+    {
+        return Str::slug($this->title());
     }
 }
