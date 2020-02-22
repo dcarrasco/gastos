@@ -5,6 +5,7 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Route;
 
 abstract class Value extends Metric
 {
@@ -184,6 +185,7 @@ abstract class Value extends Metric
         $data = $this->calculate($request);
 
         return new HtmlString(view('orm.metrics.value_content', [
+            'cardId' => $this->cardId(),
             'currentValue' => Arr::get($data, 'currentValue', 0),
             'previousValue' => Arr::get($data, 'previousValue', 0),
             'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
@@ -199,7 +201,7 @@ abstract class Value extends Metric
     protected function contentScript(Request $request): HtmlString
     {
         return new HtmlString(view('orm.metrics.value_script', [
-            'urlRoute' => route('gastosConfig.ajaxCard', [request()->segment(2) ?? '']),
+            'urlRoute' => $this->urlRoute($request),
             'cardId' => $this->cardId(),
             'resourceParams' => new HtmlString(json_encode($request->query())),
         ])->render());

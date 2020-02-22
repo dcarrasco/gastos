@@ -45,7 +45,10 @@ Route::group(['prefix' => 'acl', 'as' => 'acl.', 'namespace' => 'Acl'], function
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::group(['prefix' => 'home', 'as' => 'home.', 'middleware' => 'auth'], function () {
+    Route::get('', 'HomeController@index')->name('index');
+    Route::get('ajaxCard', 'HomeController@ajaxCard')->name('ajaxCard');
+});
 
 // DB::listen(function ($query) {
 //     dump($query->sql, $query->bindings);

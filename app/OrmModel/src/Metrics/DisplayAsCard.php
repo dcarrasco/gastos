@@ -82,4 +82,11 @@ trait DisplayAsCard
     {
         return spl_object_hash($this);
     }
+
+    public function urlRoute(Request $request): string
+    {
+        [$prefixRouteName, $routeName] = explode('.', $request->route()->getName());
+
+        return route("{$prefixRouteName}.ajaxCard");
+    }
 }

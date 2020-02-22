@@ -10,6 +10,8 @@ use App\OrmModel\src\Filters\PerPage;
 
 class OrmController extends Controller
 {
+    use OrmCard;
+
     protected $routeName = '';
 
     protected $menuModulo = [];
@@ -86,7 +88,7 @@ class OrmController extends Controller
         Route::group(
             ['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'],
             function () {
-                Route::get('ajaxCard/{modelName}', 'ConfigController@ajaxCard')->name('ajaxCard');
+                Route::get('ajaxCard', 'ConfigController@ajaxCard')->name('ajaxCard');
                 Route::get('{modelName?}', 'ConfigController@index')->name('index');
                 Route::get('{modelName}/create', 'ConfigController@create')->name('create');
                 Route::post('{modelName}', 'ConfigController@store')->name('store');
@@ -97,6 +99,20 @@ class OrmController extends Controller
                 Route::get('{modelName}/ajax-form', 'ConfigController@ajaxOnChange')->name('ajaxOnChange');
             }
         );
+    }
+
+    /**
+     * Recupera las cards de todos los modelos del controlador Orm
+     *
+     * @param  Request $request
+     * @return array
+     */
+    protected function cards(Request $request): array
+    {
+        return $this->menuModulo
+            ->map->cards($request)
+            ->flatten()
+            ->all();
     }
 
     /**
@@ -247,20 +263,5 @@ class OrmController extends Controller
     {
         return $this->getResource($resourceClass)
             ->getModelAjaxFormOptions($request);
-    }
-
-    /**
-     * Recupera el recurso para ser usado en llamadas ajax
-     *
-     * @param  Request  $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @return
-     */
-    public function ajaxCard(Request $request, string $resourceClass = '')
-    {
-        return collect($this->getResource($resourceClass)->cards($request))
-            ->first(function ($card) use ($request) {
-                return $card->uriKey() === $request->input('uri-key');
-            })->calculate($request);
     }
 }
