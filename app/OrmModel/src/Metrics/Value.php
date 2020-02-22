@@ -29,16 +29,51 @@ abstract class Value extends Metric
      */
     public function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
     {
-        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
-
-        $currentDateInterval = $this->currentDateInterval($request);
-        $previousDateInterval = $this->previousDateInterval($request);
-
-        return $this->formattedData([
-            'currentValue' => $this->fetchSumData($request, $resource, $sumColumn, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchSumData($request, $resource, $sumColumn, $timeColumn, $previousDateInterval),
-        ]);
+        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'sum');
     }
+
+    /**
+     * Recupera datos de valor, minimo de una columna
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $sumColumn
+     * @param  string  $timeColumn
+     * @return array
+     */
+    public function min(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    {
+        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'min');
+    }
+
+    /**
+     * Recupera datos de valor, maximo de una columna
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $sumColumn
+     * @param  string  $timeColumn
+     * @return array
+     */
+    public function max(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    {
+        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'max');
+    }
+
+    /**
+     * Recupera datos de valor, promedio de una columna
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $sumColumn
+     * @param  string  $timeColumn
+     * @return array
+     */
+    public function average(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    {
+        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'avg');
+    }
+
 
     /**
      * Recupera datos de valor, contando registros
@@ -50,55 +85,28 @@ abstract class Value extends Metric
      */
     public function count(Request $request, $resource = '', $timeColumn = ''): array
     {
-        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
-
-        $currentDateInterval = $this->currentDateInterval($request);
-        $previousDateInterval = $this->previousDateInterval($request);
-
-        return $this->formattedData([
-            'currentValue' => $this->fetchCountData($request, $resource, $timeColumn, $currentDateInterval),
-            'previousValue' => $this->fetchCountData($request, $resource, $timeColumn, $previousDateInterval),
-        ]);
+        return $this->aggregate($request, $resource, '', $timeColumn, 'count');
     }
 
     /**
-     * Recupera datos para valor, sumando una columna
+     * Recupera datos de valor, sumando una columna
      *
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @param  array   $dateInterval
-     * @return int
+     * @return array
      */
-    protected function fetchSumData(
-        Request $request,
-        string $resource = '',
-        string $sumColumn = '',
-        string $timeColumn = '',
-        array $dateInterval = []
-    ): int {
-        return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
-            ->sum($sumColumn);
-    }
+    public function aggregate(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $function = 'sum'): array
+    {
+        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
-    /**
-     * Recupera datos para valor, contando registros
-     *
-     * @param  Request $request
-     * @param  string  $resource
-     * @param  string  $timeColumn
-     * @param  array   $dateInterval
-     * @return int
-     */
-    protected function fetchCountData(
-        Request $request,
-        string $resource = '',
-        string $timeColumn = '',
-        array $dateInterval = []
-    ): int {
-        return $this->getModelData($request, $resource, $timeColumn, $dateInterval)
-            ->count();
+        return $this->formattedData([
+            'currentValue' => $this->getModelData($request, $resource, $timeColumn, $this->currentRange($request))
+                ->{$function}($sumColumn),
+            'previousValue' => $this->getModelData($request, $resource, $timeColumn, $this->previousRange($request))
+                ->{$function}($sumColumn),
+        ]);
     }
 
     /**
