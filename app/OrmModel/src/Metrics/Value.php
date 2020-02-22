@@ -23,13 +23,13 @@ abstract class Value extends Metric
      *
      * @param  Request $request
      * @param  string  $resource
-     * @param  string  $sumColumn
+     * @param  string  $column
      * @param  string  $timeColumn
      * @return array
      */
-    public function sum(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    public function sum(Request $request, string $resource, string $column, string $timeColumn = ''): array
     {
-        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'sum');
+        return $this->aggregate($request, $resource, $column, $timeColumn, 'sum');
     }
 
     /**
@@ -37,13 +37,13 @@ abstract class Value extends Metric
      *
      * @param  Request $request
      * @param  string  $resource
-     * @param  string  $sumColumn
+     * @param  string  $column
      * @param  string  $timeColumn
      * @return array
      */
-    public function min(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    public function min(Request $request, string $resource, string $column, string $timeColumn = ''): array
     {
-        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'min');
+        return $this->aggregate($request, $resource, $column, $timeColumn, 'min');
     }
 
     /**
@@ -51,13 +51,13 @@ abstract class Value extends Metric
      *
      * @param  Request $request
      * @param  string  $resource
-     * @param  string  $sumColumn
+     * @param  string  $column
      * @param  string  $timeColumn
      * @return array
      */
-    public function max(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    public function max(Request $request, string $resource, string $column, $timeColumn = ''): array
     {
-        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'max');
+        return $this->aggregate($request, $resource, $column, $timeColumn, 'max');
     }
 
     /**
@@ -65,13 +65,13 @@ abstract class Value extends Metric
      *
      * @param  Request $request
      * @param  string  $resource
-     * @param  string  $sumColumn
+     * @param  string  $column
      * @param  string  $timeColumn
      * @return array
      */
-    public function average(Request $request, $resource = '', $sumColumn = '', $timeColumn = ''): array
+    public function average(Request $request, string $resource, string $column, $timeColumn = ''): array
     {
-        return $this->aggregate($request, $resource, $sumColumn, $timeColumn, 'avg');
+        return $this->aggregate($request, $resource, $column, $timeColumn, 'avg');
     }
 
 
@@ -83,7 +83,7 @@ abstract class Value extends Metric
      * @param  string  $timeColumn
      * @return array
      */
-    public function count(Request $request, $resource = '', $timeColumn = ''): array
+    public function count(Request $request, string $resource, string $timeColumn = ''): array
     {
         return $this->aggregate($request, $resource, '', $timeColumn, 'count');
     }
@@ -97,7 +97,7 @@ abstract class Value extends Metric
      * @param  string  $timeColumn
      * @return array
      */
-    public function aggregate(Request $request, $resource = '', $sumColumn = '', $timeColumn = '', $function = 'sum'): array
+    public function aggregate(Request $request, string $resource, string $sumColumn, string $timeColumn, string $function): array
     {
         $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
 
@@ -134,7 +134,7 @@ abstract class Value extends Metric
      * @param  array  $data
      * @return array
      */
-    protected function formattedData(array $data = []): array
+    protected function formattedData(array $data): array
     {
         $currentValue = Arr::get($data, 'currentValue', 0);
         $previousValue = Arr::get($data, 'previousValue', 0);
