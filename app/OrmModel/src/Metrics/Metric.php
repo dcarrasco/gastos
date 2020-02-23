@@ -19,7 +19,6 @@ abstract class Metric
      * Genera rango de fechas para realizar consultas
      *
      * @param  Request $request
-     * @param  string  $period
      * @return Array
      */
     protected function currentRange(Request $request): array
@@ -46,7 +45,6 @@ abstract class Metric
      * Devuelve el intervalo de fechas del periodo anterior
      *
      * @param  array $dateInterval
-     * @param  string/integer $dateOption
      * @return array
      */
     protected function previousRange(Request $request): array
@@ -70,22 +68,17 @@ abstract class Metric
     }
 
     /**
-     * Ejecuta query y devuelve datos
+     * Inicializa query y agrega condiciones de rango fechas
      *
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @param  array   $dateInterval
-     * @return Collection
+     * @return Builder
      */
-    protected function rangedQuery(
-        Request $request,
-        string $resource = '',
-        string $timeColumn = '',
-        array $dateInterval = []
-    ): Builder {
-        return $this->newQuery($request, $resource)
-            ->whereBetween($timeColumn, $dateInterval);
+    protected function rangedQuery(Request $request, string $resource, string $timeColumn, array $dateInterval): Builder
+    {
+        return $this->newQuery($request, $resource)->whereBetween($timeColumn, $dateInterval);
     }
 
     /**
@@ -130,7 +123,7 @@ abstract class Metric
     {
         return new HtmlString(view('orm.metrics.metric_content', [
             'cardId' => $this->cardId(),
-        ]));
+        ])->render());
     }
 
     /**
@@ -143,6 +136,11 @@ abstract class Metric
         return [];
     }
 
+    /**
+     * Genera identificador URI de la metrica
+     *
+     * @return string
+     */
     public function uriKey(): string
     {
         return Str::slug($this->title());

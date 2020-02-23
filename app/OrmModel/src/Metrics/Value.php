@@ -75,7 +75,6 @@ abstract class Value extends Metric
         return $this->aggregate($request, $resource, $column, $timeColumn, 'avg');
     }
 
-
     /**
      * Recupera datos de valor, contando registros
      *
@@ -96,6 +95,7 @@ abstract class Value extends Metric
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
+     * @param  string  $function
      * @return array
      */
     public function aggregate(Request $request, string $resource, string $sumColumn, string $timeColumn, string $function): array
@@ -117,7 +117,7 @@ abstract class Value extends Metric
      * @param  int|integer $previousValue
      * @return string
      */
-    protected function previousMessage(int $currentValue = 0, int $previousValue = 0)
+    protected function previousMessage(int $currentValue, int $previousValue): string
     {
         if (empty($previousValue)) {
             return "Sin datos anteriores";

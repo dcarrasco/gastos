@@ -35,7 +35,7 @@ trait DisplayAsCard
                 'cardId' => $this->cardId(),
                 'ranges' => $this->ranges(),
                 'uriKey' => $this->uriKey(),
-                'resource' => $request->segment(2),
+                // 'resource' => $request->segment(2),
             ])->render()
         );
     }

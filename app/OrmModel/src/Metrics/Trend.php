@@ -90,7 +90,6 @@ abstract class Trend extends Metric
         return $this->sum($request, $resource, Trend::BY_YEARS, $sumColumn, $timeColumn);
     }
 
-
     /**
      * Recupera datos de tendencia, contando registros
      *
@@ -145,12 +144,26 @@ abstract class Trend extends Metric
     }
 
     /**
+     * Recupera datos de tendencia, contando registros por años
+     *
+     * @param  Request $request
+     * @param  string  $resource
+     * @param  string  $timeColumn
+     * @return Collection
+     */
+    public function countByYears(Request $request, string $resource, string $timeColumn = ''): Collection
+    {
+        return $this->count($request, $resource, Trend::BY_YEARS, $timeColumn);
+    }
+
+    /**
      * Inicializa arreglo de fechas con valores en cero
      *
      * @param  array  $dateInterval
-     * @return Collection
+     * @param  string $unit
+     * @return Array
      */
-    protected function initTotalizedData(array $dateInterval = [], $unit = ''): array
+    protected function initRangedData(array $dateInterval, string $unit): array
     {
         [$fechaInicio, $fechaFin] = $dateInterval;
 
@@ -161,30 +174,49 @@ abstract class Trend extends Metric
         return $period->combine(array_fill(0, $period->count(), 0))->all();
     }
 
+    /**
+     * Devuelve expresion para formatear fecha Carbon
+     *
+     * @param  string $unit
+     * @return string
+     */
     protected function dateFormatExpression(string $unit): string
     {
-        $expressions = [
+        $rangeFormats = [
             Trend::BY_DAYS => 'Y-m-d',
             Trend::BY_WEEKS => 'Y-W',
             Trend::BY_MONTHS => 'Y-m',
             Trend::BY_YEARS => 'Y',
         ];
 
-        return Arr::get($expressions, $unit, 'Y-m-d');
+        return Arr::get($rangeFormats, $unit, 'Y-m-d');
     }
 
+    /**
+     * Devuelve expresion para formatear fecha en una consulta
+     *
+     * @param  string $unit
+     * @return string
+     */
     protected function databaseFormatExpression(string $unit): string
     {
-        $expressions = [
+        $rangeFormats = [
             Trend::BY_DAYS => '%Y-%m-%d',
             Trend::BY_WEEKS => '%x-%v',
             Trend::BY_MONTHS => '%Y-%m',
             Trend::BY_YEARS => '%Y',
         ];
 
-        return Arr::get($expressions, $unit, '%Y-%m-%d');
+        return Arr::get($rangeFormats, $unit, '%Y-%m-%d');
     }
 
+    /**
+     * Genera expresion para formatear fecha en una consulta
+     *
+     * @param  string $unit
+     * @param  string $timeColumn
+     * @return string
+     */
     protected function selectDateExpression(string $unit, string $timeColumn): string
     {
         $format = $this->databaseFormatExpression($unit);
@@ -222,7 +254,7 @@ abstract class Trend extends Metric
                 return [$data->date_result => $data->aggregate];
             });
 
-        return collect(array_merge($this->initTotalizedData($dateInterval, $unit), $results->all()));
+        return collect(array_merge($this->initRangedData($dateInterval, $unit), $results->all()));
     }
 
     /**
