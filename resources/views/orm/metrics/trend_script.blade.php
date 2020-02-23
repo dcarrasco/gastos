@@ -18,6 +18,13 @@ var chartData_{{ $cardId }} = {
 
 var options_{{ $cardId }} = {
     legend: {display: false},
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                return  new Intl.NumberFormat('es-ES').format(tooltipItem.yLabel);
+            }
+        }
+    },
     elements: {
         line: {
             tension: 0,
