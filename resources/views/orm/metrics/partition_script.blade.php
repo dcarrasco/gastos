@@ -58,12 +58,12 @@ function displayLegend_{{ $cardId }}(cardId) {
     $('#legend-' + cardId).empty();
     $('#legend-' + cardId).append(chart_{{ $cardId }}.generateLegend());
     $('#legend-' + cardId + ' > ul').addClass('px-0');
-    $('#legend-' + cardId + ' > ul > li').css('font-size', '9px');
-    $('#legend-' + cardId + ' > ul > li > span').css('height', '9px');
-    $('#legend-' + cardId + ' > ul > li > span').css('width', '9px');
-    $('#legend-' + cardId + ' > ul > li > span').css('width', '9px');
+    $('#legend-' + cardId + ' > ul > li').css('font-size', '10px');
+    $('#legend-' + cardId + ' > ul > li > span').css('height', '10px');
+    $('#legend-' + cardId + ' > ul > li > span').css('width', '10px');
     $('#legend-' + cardId + ' > ul > li > span').addClass('mx-2');
     $('#legend-' + cardId + ' > ul > li > span').css('display', 'inline-block');
+    $('#legend-' + cardId + ' > ul > li > span').css('border-radius', '50%');
 }
 
 function loadCardData_{{ $cardId }}(uriKey, cardId) {
