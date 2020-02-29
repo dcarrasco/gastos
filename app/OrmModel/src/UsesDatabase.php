@@ -15,7 +15,17 @@ trait UsesDatabase
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
-    protected $filterKey = 'filtro';
+    protected $searchKey = 'search';
+
+    /**
+     * Devuelve nombre del parametro url
+     *
+     * @return string
+     */
+    public function urlSearchKey(): string
+    {
+        return $this->searchKey;
+    }
 
     /**
      * Recupera la query del modelo
@@ -33,16 +43,18 @@ trait UsesDatabase
      * @param  Request $request
      * @return Resource
      */
-    public function resourceFilter(Request $request): Resource
+    public function resourceSearch(Request $request): Resource
     {
-        if (empty($request->input($this->filterKey))) {
+        if (empty($request->input($this->searchKey))) {
             return $this;
         }
 
-        foreach ($this->search as $field) {
-            $this->modelQueryBuilder = $this->modelQueryBuilder
-                ->orWhere($field, 'like', '%' . $request->input($this->filterKey) . '%');
-        };
+        $this->modelQueryBuilder = $this->modelQueryBuilder
+            ->where(function ($query) use ($request) {
+                foreach ($this->search as $field) {
+                    $query = $query->orWhere($field, 'like', '%' . $request->input($this->searchKey) . '%');
+                }
+            });
 
         return $this;
     }
