@@ -49,7 +49,7 @@ abstract class Field
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
-    public function __construct(string $name = '', string $field = '')
+    public function __construct(string $name, string $field = '')
     {
         $this->name = $name;
         $this->attribute = empty($field) ? Str::snake($name) : $field;
@@ -394,7 +394,7 @@ abstract class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model, Request $request)
     {
         return optional($model)->{$this->attribute};
     }

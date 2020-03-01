@@ -51,7 +51,7 @@ class Gravatar extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model, Request $request)
     {
         $size = Str::contains($request->route()->action['as'], 'show')
             ? $this->avatarShowSize : $this->avatarListSize;

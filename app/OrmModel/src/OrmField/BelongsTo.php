@@ -19,7 +19,7 @@ class BelongsTo extends Relation
      * @param  Request    $request
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model, Request $request)
     {
         $relatedModel = $model->{$this->attribute};
 
@@ -96,7 +96,7 @@ class BelongsTo extends Relation
      * @param  Resource|null $resource
      * @return array
      */
-    protected function getOptions(Request $request, Resource $resource = null): array
+    protected function getOptions(Request $request, Resource $resource): array
     {
         $optionsIni = ['' => trans('orm.choose_option') . (new $this->relatedResource())->getLabel()];
         $options = $this->getRelationOptions($request, $resource, $this->relationConditions);

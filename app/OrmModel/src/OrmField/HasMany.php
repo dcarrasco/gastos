@@ -32,7 +32,7 @@ class HasMany extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model, Request $request)
     {
         $relatedResources = $this->getRelation($model);
 

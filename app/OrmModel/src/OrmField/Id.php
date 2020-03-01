@@ -21,9 +21,9 @@ class Id extends Field
     public function __construct(string $name = '', string $field = '')
     {
         $name = empty($name) ? 'id' : $name;
-        $this->showOnForm = false;
-
         parent::__construct($name, $field);
+
+        $this->showOnForm = false;
     }
 
     /**

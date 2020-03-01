@@ -20,7 +20,7 @@ class Boolean extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request): HtmlString
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
         $statusStyle = $model->{$this->attribute} ? "success" : "danger";
 

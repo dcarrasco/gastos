@@ -34,7 +34,7 @@ class Select extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model = null, Request $request)
+    public function getFormattedValue(Model $model, Request $request)
     {
         $value = $model->{$this->attribute};
 

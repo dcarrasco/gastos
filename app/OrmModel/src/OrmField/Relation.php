@@ -21,7 +21,7 @@ class Relation extends Field
      * @param string $field           Campo
      * @param string $relatedResource Nombre del recurso relacionado
      */
-    public function __construct(string $name = '', string $field = '', string $relatedResource = '')
+    public function __construct(string $name, string $field = '', string $relatedResource = '')
     {
         $field = empty($field) ? $name : $field;
         $this->relatedResource = empty($relatedResource) ? $field : $relatedResource;
