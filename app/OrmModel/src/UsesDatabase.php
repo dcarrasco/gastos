@@ -81,12 +81,7 @@ trait UsesDatabase
      */
     public function resourceSetPerPage(Request $request): Resource
     {
-        if (is_null($this->modelObject)) {
-            $this->modelObject = $this->makeModelObject();
-        }
-
-        $this->modelObject
-            ->setPerPage($request->PerPage ?: $this->perPage);
+        $this->modelInstance->setPerPage($request->PerPage ?: $this->perPage);
 
         return $this;
     }
@@ -118,9 +113,7 @@ trait UsesDatabase
      */
     public function findOrFail(string $modelId): Resource
     {
-        $this->injectModel($this->modelObject->findOrFail($modelId));
-
-        return $this;
+        return new static($this->modelInstance->findOrFail($modelId));
     }
 
     /**
@@ -131,9 +124,7 @@ trait UsesDatabase
      */
     public function findOrNew(string $modelId): Resource
     {
-        $this->injectModel($this->modelObject->findOrNew($modelId));
-
-        return $this;
+        return new static($this->modelInstance->findOrNew($modelId));
     }
 
     /**
@@ -145,7 +136,7 @@ trait UsesDatabase
     public function update(Request $request): Resource
     {
         // actualiza el objeto
-        $this->modelObject->update($request->all());
+        $this->modelInstance->update($request->all());
 
         // actualiza las tablas relacionadas
         collect($this->fields($request))
@@ -155,7 +146,7 @@ trait UsesDatabase
             })
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
-                $this->modelObject->{$field->getAttribute()}()
+                $this->modelInstance->{$field->getAttribute()}()
                     ->sync($request->input($field->getAttribute(), []));
             });
 

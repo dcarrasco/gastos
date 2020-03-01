@@ -17,11 +17,9 @@ trait PaginatesResources
      *
      * @return Paginator
      */
-    public function getPaginated(Request $request): LengthAwarePaginator
+    public function getPaginated(): LengthAwarePaginator
     {
         $paginate = $this->modelQueryBuilder->paginate();
-
-        $this->modelQueryBuilder = $this->makeModelObject($request)->newQuery();
 
         return $paginate;
     }
@@ -49,7 +47,7 @@ trait PaginatesResources
             ->resourceSearch($request)
             ->applyFilters($request)
             ->getBelongsToRelations($request)
-            ->getPaginated($request);
+            ->getPaginated();
     }
 
     /**

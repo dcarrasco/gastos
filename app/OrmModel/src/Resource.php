@@ -23,7 +23,7 @@ abstract class Resource
 
     public $search = ['id'];
 
-    protected $modelObject = null;
+    protected $modelInstance = null;
 
     protected $perPage = 25;
 
@@ -33,16 +33,16 @@ abstract class Resource
     /**
      * Constructor del recurso
      *
-     * @param Model $modelObject
+     * @param Model $modelInstance
      */
-    public function __construct(Model $modelObject = null)
+    public function __construct(Model $modelInstance = null)
     {
         if ($this->model === '') {
             throw new \Exception('Modelo no definido en recurso OrmModel!');
         }
 
-        $this->modelObject = $modelObject ?: $this->makeModelObject();
-        $this->modelQueryBuilder = $this->modelObject->newQuery();
+        $this->modelInstance = $modelInstance ?: $this->makeModelInstance();
+        $this->modelQueryBuilder = $this->modelInstance->newQuery();
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class Resource
      */
     public function title(): string
     {
-        return optional($this->modelObject)->{$this->title} ?? '';
+        return optional($this->modelInstance)->{$this->title} ?? '';
     }
 
     /**
@@ -106,7 +106,7 @@ abstract class Resource
      */
     public function model(): Model
     {
-        return $this->modelObject;
+        return $this->modelInstance;
     }
 
     /**
@@ -114,22 +114,9 @@ abstract class Resource
      *
      * @return Resource
      */
-    public function makeModelObject(): Model
+    public function makeModelInstance(): Model
     {
-        return new $this->model();
-    }
-
-    /**
-     * Agrega una instancia del modelo al recurso
-     *
-     * @param  Model|null $model
-     * @return Resource
-     */
-    public function injectModel(Model $model = null): Resource
-    {
-        $this->modelObject = is_null($model) ? $this->makeModelObject() : $model;
-
-        return $this;
+        return new $this->model;
     }
 
     /**
@@ -153,7 +140,7 @@ abstract class Resource
         $this->fields = collect($this->fields($request))
             ->filter->showOnIndex()
             ->map->makeSortingIcon($request, $this)
-            ->map->resolveValue($this->modelObject, $request);
+            ->map->resolveValue($this->modelInstance, $request);
 
         return $this;
     }
@@ -168,7 +155,7 @@ abstract class Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnDetail()
-            ->map->resolveValue($this->modelObject, $request);
+            ->map->resolveValue($this->modelInstance, $request);
 
         return $this;
     }
@@ -230,7 +217,6 @@ abstract class Resource
 
     public function getModelFormOptions(Request $request): Collection
     {
-        $this->modelObject = $this->makeModelObject();
         $this->resourceOrderBy($request);
 
         $whereIn = collect($request->all())->filter(function ($elem, $key) {
@@ -247,7 +233,7 @@ abstract class Resource
         });
 
         return $query->get()->mapWithKeys(function ($model) use ($request) {
-            return [$model->getKey() => $this->injectModel($model)->title()];
+            return [$model->getKey() => (new static($model))->title()];
         });
     }
 }
