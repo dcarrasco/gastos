@@ -3,7 +3,6 @@
 namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\OrmModel\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 
