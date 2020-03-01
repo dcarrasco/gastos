@@ -14,6 +14,7 @@ use App\OrmModel\Metrics\SaldoPrefAhorro;
 class HomeController extends Controller
 {
     use OrmCard;
+
     /**
      * Create a new controller instance.
      *

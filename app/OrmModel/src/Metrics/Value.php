@@ -16,6 +16,7 @@ abstract class Value extends Metric
     protected $trendIconStyle = [
         'up' => 'transform: rotate(180deg); fill: #38c172;',
         'down' => 'transform: scaleX(-1); fill: #e3342f;',
+        'none' => 'display: none;',
     ];
 
 
@@ -144,7 +145,9 @@ abstract class Value extends Metric
         return [
             'currentValue' => "{$this->prefix} {$formattedCurrentValue} {$this->suffix}",
             'previousValue' => $this->previousMessage($currentValue, $previousValue),
-            'trendIconStyle' => Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
+            'trendIconStyle' => empty($previousValue)
+                ? Arr::get($this->trendIconStyle, 'none')
+                : Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
         ];
     }
 
