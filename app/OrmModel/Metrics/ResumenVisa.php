@@ -27,7 +27,7 @@ class ResumenVisa extends Value
             'MTD' => 'Month To Date',
             'QTD' => 'Quarter To Date',
             'YTD' => 'Year To Date',
-            'CURR_MONTH' => 'Current Month',
+            'LAST_MONTH' => 'Last Month',
         ];
     }
 }

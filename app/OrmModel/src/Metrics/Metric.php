@@ -37,6 +37,9 @@ abstract class Metric
         if ($range == 'CURR_MONTH') {
             return [now()->startOfMonth(), now()->endOfMonth()];
         }
+        if ($range == 'LAST_MONTH') {
+            return [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()];
+        }
 
         return [now()->subDays($range - 1), now()];
     }
@@ -62,6 +65,9 @@ abstract class Metric
         }
         if ($range == 'CURR_MONTH') {
             return [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()];
+        }
+        if ($range == 'LAST_MONTH') {
+            return [now()->subMonth()->subMonth()->startOfMonth(), now()->subMonth()->subMonth()->endOfMonth()];
         }
 
         return [now()->subDays($range * 2), now()->subDays($range)];

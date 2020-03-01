@@ -21,13 +21,13 @@ class SaldoCtaCte extends Value
     protected function calculateSaldo(Request $request, array $range): int
     {
         $gastos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)->get();
-        $saldo = SaldoMes::where('cuenta_id', 1)
+
+        $saldoInicial = SaldoMes::where('cuenta_id', 1)
             ->where('anno', $gastos->max('anno'))
             ->where('mes', $gastos->max('mes'))
-            ->first()
-            ->saldo_inicial;
+            ->first();
 
-        return $saldo + $gastos->sum('valor_monto');
+        return (optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto');
     }
 
 
@@ -41,6 +41,9 @@ class SaldoCtaCte extends Value
     {
         return [
             'MTD' => 'Month To Date',
+            'QTD' => 'Quarter To Date',
+            'YTD' => 'Year To Date',
+            'LAST_MONTH' => 'Last Month',
         ];
     }
 }

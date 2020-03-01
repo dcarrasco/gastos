@@ -27,8 +27,8 @@ class SaldoPrefAhorro extends Trend
     {
         return [
             'YTD' => 'Year To Date',
-            'MTD' => 'Month To Date',
             'QTD' => 'Quarter To Date',
+            'MTD' => 'Month To Date',
         ];
     }
 }
