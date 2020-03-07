@@ -71,7 +71,7 @@ class VisaExcelParser implements GastosParser
         return $this;
     }
 
-    protected function getTipoGasto(Request $request, $linea = ''): TipoGasto
+    protected function getTipoGasto(Request $request, string $linea): TipoGasto
     {
         $glosa = $this->getGlosa($linea);
 
@@ -84,7 +84,7 @@ class VisaExcelParser implements GastosParser
         return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
     }
 
-    protected function procesaLineaMasivo(Request $request, $linea = ''): Gasto
+    protected function procesaLineaMasivo(Request $request, string $linea): Gasto
     {
         $linea = collect(explode("\t", $linea));
         $tipoGasto = $this->getTipoGasto($request, $linea);

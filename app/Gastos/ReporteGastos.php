@@ -11,7 +11,7 @@ class ReporteGastos extends Reporte
     protected $campoFila = 'tipo_gasto_id';
     protected $campoDato = 'sum_monto';
 
-    public function __construct($cuentaId, $anno, $tipoMovimientoId)
+    public function __construct(int $cuentaId, int $anno, int $tipoMovimientoId)
     {
         $this->data = Gasto::getDataReporte($cuentaId, $anno, $tipoMovimientoId);
 

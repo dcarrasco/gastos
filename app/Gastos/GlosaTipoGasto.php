@@ -24,7 +24,7 @@ class GlosaTipoGasto extends Model
         return $this->belongsTo(TipoGasto::class);
     }
 
-    public static function getCuenta($cuentaId = 0): Collection
+    public static function getCuenta(int $cuentaId): Collection
     {
         return static::with('tipoGasto', 'tipoGasto.tipoMovimiento')->whereCuentaId($cuentaId)->get();
     }

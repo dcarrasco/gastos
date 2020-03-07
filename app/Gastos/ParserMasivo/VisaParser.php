@@ -41,7 +41,7 @@ class VisaParser implements GastosParser
     }
 
 
-    protected function procesaLineaMasivo(Request $request, $linea = ''): Gasto
+    protected function procesaLineaMasivo(Request $request, string $linea): Gasto
     {
         if (empty($linea)) {
             return null;
@@ -91,7 +91,7 @@ class VisaParser implements GastosParser
         );
     }
 
-    protected function esLineaValida($linea = ''): boolean
+    protected function esLineaValida(string $linea): boolean
     {
         return preg_match('/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]/', $linea) === 1;
     }

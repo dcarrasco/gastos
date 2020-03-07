@@ -24,26 +24,26 @@ abstract class Reporte
         $this->titulosFilas = $this->makeTitulosFilas();
     }
 
-    public function getDato($fila = '', $columna = '', $default = ''): int
+    public function getDato(string $fila, string $columna, string $default = ''): int
     {
         return Arr::get($this->reporte, "{$fila}.{$columna}", $default);
     }
 
-    public function totalFila($fila = ''): int
+    public function totalFila(string $fila): int
     {
         return $this->reporte
             ->get($fila)
             ->sum();
     }
 
-    public function countFila($fila = ''): int
+    public function countFila(string $fila): int
     {
         return $this->reporte
             ->get($fila)
             ->count();
     }
 
-    public function totalColumna($columna): int
+    public function totalColumna(string $columna): int
     {
         return $this->reporte
             ->map->get($columna)

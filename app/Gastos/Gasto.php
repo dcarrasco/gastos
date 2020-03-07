@@ -9,6 +9,7 @@ use App\Gastos\TipoMovimiento;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Gasto extends Model
@@ -50,29 +51,28 @@ class Gasto extends Model
         return $this->monto * $this->tipoMovimiento->signo;
     }
 
-
-    public function scopeCuentaAnnoMes($query, $cuentaId, $anno, $mes)
+    public function scopeCuentaAnnoMes(Builder $query, int $cuentaId, int $anno, int $mes): Builder
     {
         return $query->where('cuenta_id', $cuentaId)
             ->where('anno', $anno)
             ->where('mes', $mes);
     }
 
-    public function scopeCuentaAnnoTipMov($query, $cuentaId, $anno, $tipoMovimientoId)
+    public function scopeCuentaAnnoTipMov(Builder $query, int $cuentaId, int $anno, int $tipoMovimientoId): Builder
     {
         return $query->where('cuenta_id', $cuentaId)
             ->where('anno', $anno)
             ->where('tipo_movimiento_id', $tipoMovimientoId);
     }
 
-    public function scopeNoSaldos($query)
+    public function scopeNoSaldos($query): Builder
     {
         $tipoMovimientoSaldo = 4;
 
         return $query->where('tipo_movimiento_id', '<>', $tipoMovimientoSaldo); // excluye movimientos de saldos
     }
 
-    public static function movimientosMes($cuentaId, $anno, $mes): Collection
+    public static function movimientosMes(int $cuentaId, int $anno, int $mes): Collection
     {
         $movimientos = static::with('tipoGasto', 'tipoMovimiento')
             ->cuentaAnnoMes($cuentaId, $anno, $mes)
@@ -90,7 +90,7 @@ class Gasto extends Model
         });
     }
 
-    public static function detalleMovimientosMes($cuentaId, $anno, $mes, $tipoGastoId): EloquentCollection
+    public static function detalleMovimientosMes(int $cuentaId, int $anno, int $mes, int $tipoGastoId): EloquentCollection
     {
         return static::with('tipoGasto', 'tipoMovimiento')
             ->cuentaAnnoMes($cuentaId, $anno, $mes)
@@ -99,7 +99,7 @@ class Gasto extends Model
             ->get();
     }
 
-    public static function movimientosAnno($cuentaId, $anno): EloquentCollection
+    public static function movimientosAnno(int $cuentaId, int $anno): EloquentCollection
     {
         return static::with('tipoMovimiento')
             ->where('cuenta_id', $cuentaId)
@@ -109,7 +109,7 @@ class Gasto extends Model
             ->get();
     }
 
-    public static function saldos($cuentaId, $anno): EloquentCollection
+    public static function saldos(int $cuentaId, int $anno): EloquentCollection
     {
         $tipoMovimientoSaldo = 4;
 
@@ -118,14 +118,14 @@ class Gasto extends Model
             ->get();
     }
 
-    public static function totalMes($cuentaId, $anno, $mes): int
+    public static function totalMes(int $cuentaId, int $anno, int $mes): int
     {
         return static::movimientosMes($cuentaId, $anno, $mes)
             ->map->valor_monto
             ->sum();
     }
 
-    protected function getDataReporte($cuentaId, $anno, $tipoMovimientoId): EloquentCollection
+    protected function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
