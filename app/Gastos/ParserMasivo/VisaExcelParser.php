@@ -71,7 +71,7 @@ class VisaExcelParser implements GastosParser
         return $this;
     }
 
-    protected function getTipoGasto(Request $request, string $linea): TipoGasto
+    protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
     {
         $glosa = $this->getGlosa($linea);
 
