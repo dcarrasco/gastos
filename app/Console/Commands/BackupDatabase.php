@@ -34,19 +34,19 @@ class BackupDatabase extends Command
     {
         parent::__construct();
 
-        $today = now()->format('Y-m-d-');
+        $today = now()->format('Y-m-d');
 
         if (!is_dir(storage_path($this->backupPath))) {
             mkdir(storage_path($this->backupPath));
         }
 
-        $this->process = new Process([sprintf(
+        $this->process = Process::fromShellCommandline(sprintf(
             'mysqldump --compact --skip-add-drop-table --skip-add-locks --no-create-info --ignore-table=gastos.acl_app --ignore-table=gastos.acl_modulo --ignore-table=gastos.acl_rol --ignore-table=gastos.acl_rol_modulo --ignore-table=gastos.acl_usuario_rol --ignore-table=gastos.acl_usuarios --ignore-table=gastos.migrations --user=%s --password=%s %s > %s',
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
             config('database.connections.mysql.database'),
             storage_path("{$this->backupPath}/{$today}.sql")
-        )]);
+        ));
     }
 
     /**
