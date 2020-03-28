@@ -23,7 +23,7 @@ class Number extends Field
      */
     public function getFormattedValue(Model $model, Request $request)
     {
-        return number_format(optional($model)->{$this->attribute}, 0, ',', '.');
+        return fmtCantidad(optional($model)->{$this->attribute});
     }
 
     /**

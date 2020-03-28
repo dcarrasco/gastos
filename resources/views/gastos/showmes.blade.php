@@ -84,7 +84,7 @@
             <td>{{ $movimiento->serie }}</td>
             <td>{{ $movimiento->tipoGasto->tipo_gasto }}</td>
             <td class="text-right">
-                $&nbsp;{{ number_format($movimiento->monto, 0, ',', '.') }}
+                {{ fmtMonto($movimiento->monto) }}
                 @if ($movimiento->tipoMovimiento->signo == -1)
                     {{-- <small><span class="fa fa-minus-circle text-danger"></span></small> --}}
                     <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" style="fill: #e3342f"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm4-8a1 1 0 0 1-1 1H9a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1z"/></svg>
@@ -94,7 +94,7 @@
                 @endif
             </td>
             <td class="text-right">
-                $&nbsp;{{ number_format($movimiento->saldo_final, 0, ',', '.') }}
+                {{ fmtMonto($movimiento->saldo_final) }}
             </td>
             <td>
                 {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
@@ -117,7 +117,7 @@
             <th></th>
             <th>Saldo Inicial</th>
             <th></th>
-            <th class="text-right">$&nbsp;{{ number_format(optional($movimientosMes->last())->saldo_inicial, 0, ',', '.') }}</th>
+            <th class="text-right">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</th>
             <th></th>
         </tr>
     </tbody>

@@ -63,7 +63,7 @@
             <td> {{ $gasto->serie }} </td>
             <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
             <td class="text-right">
-                $&nbsp;{{ number_format($gasto->monto, 0, ",", ".") }}
+                {{ fmtMonto($gasto->monto) }}
                 @if (optional($gasto->tipoMovimiento)->signo == -1)
                     <small><span class="fa fa-minus-circle text-danger"></span></small>
                 @else
@@ -77,7 +77,7 @@
         <th></th>
         <th></th>
         <th></th>
-        <th class="text-right">$&nbsp;{{ number_format($datosMasivos->pluck('monto')->sum(), 0, ",", ".") }}</th>
+        <th class="text-right">{{ fmtMonto($datosMasivos->pluck('monto')->sum()) }}</th>
     </tr>
     </tbody>
 </table>

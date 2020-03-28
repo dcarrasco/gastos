@@ -28,7 +28,7 @@
         <td>{{ $mov->serie }}</td>
         <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
         <td class="text-right">
-            $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
+            {{ fmtMonto($mov->monto) }}
             @if ($mov->tipoMovimiento->signo == -1)
                 <small><span class="fa fa-minus-circle text-danger"></span></small>
             @else
@@ -46,7 +46,7 @@
         <th></th>
         <th></th>
         <th class="text-right">
-            $&nbsp;{{ number_format($movimientosMes->sum('monto'), 0, ',', '.') }}
+            {{ fmtMonto($movimientosMes->sum('monto')) }}
         </th>
     </tr>
     </tbody>

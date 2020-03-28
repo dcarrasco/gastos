@@ -52,7 +52,7 @@
         <td>{{ $mov->glosa }}</td>
         <td class="text-center">{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
         <td class="text-right">
-            $&nbsp;{{ number_format($mov->monto, 0, ',', '.') }}
+            {{ fmtMonto($mov->monto) }}
             @if ($mov->tipoMovimiento->signo == -1)
                 {{-- <small><span class="fa fa-minus-circle text-danger"></span></small> --}}
                 <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" style="fill: #e3342f"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm4-8a1 1 0 0 1-1 1H9a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1z"/></svg>
@@ -62,7 +62,7 @@
             @endif
         </td>
         <td class="text-right">
-            $&nbsp;{{ number_format($saldo += $mov->valor_monto, 0, ',', '.') }}
+            {{ fmtMonto($saldo += $mov->valor_monto) }}
         </td>
         <td>
             {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
@@ -87,7 +87,7 @@
                 <th class="text-center">{{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}</th>
                 <th></th>
                 <th class="text-right">
-                    $&nbsp;{{ number_format(optional($inversion->saldoFinal())->monto, 0, ',', '.') }}
+                    {{ fmtMonto(optional($inversion->saldoFinal())->monto) }}
                 </th>
                 <th></th>
                 <th></th>
@@ -101,14 +101,14 @@
                 <th></th>
                 <th class="text-right">Utilidad</th>
                 <th class="text-right">
-                    $&nbsp;{{ number_format($inversion->util($inversion->saldoFinal()), 0, ',', '.') }}
+                    {{ fmtMonto($inversion->util($inversion->saldoFinal())) }}
                 </th>
                 <th></th>
                 <th class="text-right">
-                    {{ number_format(100*$inversion->rentabilidad($inversion->saldoFinal()), 2, ',', '.') }}%
+                    {{ fmtPorcentaje(100*$inversion->rentabilidad($inversion->saldoFinal())) }}
                 </th>
                 <th class="text-right">
-                    {{ number_format(100*$inversion->rentabilidadAnual($inversion->saldoFinal()), 2, ',', '.') }}%
+                    {{ fmtPorcentaje(100*$inversion->rentabilidadAnual($inversion->saldoFinal())) }}
                 </th>
             </tr>
         @endif

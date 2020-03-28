@@ -57,17 +57,17 @@
                 'mes' => $numMes,
                 'tipo_gasto_id' => $idTipoGasto
             ]) }}" class="text-reset">
-                $&nbsp;{{ number_format($reporte->getDato($idTipoGasto, $numMes), 0, ',', '.') }}
+                {{ fmtMonto($reporte->getDato($idTipoGasto, $numMes)) }}
             </a>
             @endif
         </td>
         @endforeach
 
         <th class="text-center table-secondary">
-            $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto), 0, ',', '.') }}
+            {{ fmtMonto($reporte->totalFila($idTipoGasto)) }}
         </th>
         <th class="text-center table-secondary">
-            $&nbsp;{{ number_format($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto), 0, ',', '.') }}
+            {{ fmtMonto($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto)) }}
         </th>
     </tr>
 
@@ -76,14 +76,14 @@
         <td></td>
         @foreach($reporte->titulosColumnas() as $numMes => $mes)
         <td class="text-center font-weight-bold">
-            $&nbsp;{{ number_format($reporte->totalColumna($numMes), 0, ',', '.') }}
+            {{ fmtMonto($reporte->totalColumna($numMes)) }}
         </td>
         @endforeach
         <td class="text-center font-weight-bold">
-            $&nbsp;{{ number_format($reporte->totalReporte(), 0, ',', '.') }}
+            {{ fmtMonto($reporte->totalReporte()) }}
         </td>
         <td class="text-center font-weight-bold">
-            $&nbsp;{{ number_format($reporte->promedioReporte(), 0, ',', '.') }}
+            {{ fmtMonto($reporte->promedioReporte()) }}
         </td>
     </tr>
     </tbody>

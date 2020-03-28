@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
+
+setlocale(LC_ALL, '');
 
 if (!function_exists('ajax_options')) {
     function ajax_options($opciones): string
@@ -195,26 +198,16 @@ if (!function_exists('fmtCantidad')) {
      * @param  boolean $format_diff  Indica si formatea valores positivos (verde) y negativos (rojo)
      * @return string                Valor formateado
      */
-    function fmtCantidad($valor = 0, $decimales = 0, $mostrar_cero = false, $format_diff = false)
+    function fmtCantidad($valor = 0, $decimales = null): string
     {
         if (!is_numeric($valor)) {
-            return null;
+            return '';
         }
 
-        $cero = $mostrar_cero ? '0' : '';
-        $valor_formateado = ($valor === 0) ? $cero : number_format($valor, $decimales, ',', '.');
+        $locale = localeconv();
+        $decimales = $decimales ?? $locale['frac_digits'];
 
-        $format_start = '';
-        $format_end   = '';
-        if ($format_diff) {
-            $format_start = ($valor > 0)
-                ? '<strong><span class="text-success">+'
-                : (($valor < 0) ? '<strong><span class="text-danger">' : '');
-
-            $format_end = ($valor === 0) ? '' : '</span></strong>';
-        }
-
-        return $format_start . $valor_formateado . $format_end;
+        return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']);
     }
 }
 
@@ -226,50 +219,38 @@ if (!function_exists('fmtMonto')) {
      * Formatea cantidades numéricas como un monto
      *
      * @param  integer $monto        Valor a formatear
-     * @param  string  $unidad       Unidad a desplegar
-     * @param  string  $signo_moneda Simbolo monetario
-     * @param  integer $decimales    Cantidad de decimales a mostrar
-     * @param  boolean $mostrar_cero Indica si muestra o no valores ceros
-     * @param  boolean $format_diff  Indica si formatea valores positivos (verde) y negativos (rojo)
-     * @return string                Monto formateado
+     * @return HtmlString
      */
-    function fmtMonto(
-        $monto = 0,
-        $unidad = 'UN',
-        $signo_moneda = '$',
-        $decimales = 0,
-        $mostrar_cero = false,
-        $format_diff = false
-    ) {
+    function fmtMonto($monto = 0): HtmlString
+    {
+        $locale = localeconv();
+
         if (!is_numeric($monto)) {
-            return null;
+            return new HtmlString('');
         }
 
-        if ($monto === 0 and ! $mostrar_cero) {
-            return '';
-        }
-
-        if (strtoupper($unidad) === 'UN') {
-            $valor_formateado = $signo_moneda . '&nbsp;' . number_format($monto, $decimales, ',', '.');
-        } elseif (strtoupper($unidad) === 'MM') {
-            $valor_formateado = 'MM' . $signo_moneda . '&nbsp;'
-                . number_format($monto / 1000000, ($monto > 10000000) ? 0 : 1, ',', '.');
-        }
-
-        $format_start = '';
-        $format_end   = '';
-        if ($format_diff) {
-            $format_start = ($monto > 0)
-                ? '<strong><span class="text-success">+'
-                : (($monto < 0) ? '<strong><span class="text-danger">' : '');
-
-            $format_end   = ($monto === 0) ? '' : '</span></strong>';
-        }
-
-        return $format_start . $valor_formateado . $format_end;
+        return new HtmlString($locale['currency_symbol'].'&nbsp;'.
+            number_format($monto, $locale['frac_digits'], $locale['decimal_point'], $locale['thousands_sep']));
     }
 }
 
+// --------------------------------------------------------------------
+
+if (!function_exists('fmtPorcentaje')) {
+
+    function fmtPorcentaje($valor = 0, $decimales = null): string
+    {
+        $locale = localeconv();
+
+        if (!is_numeric($valor)) {
+            return '';
+        }
+
+        $decimales = $decimales ?? 2;
+        return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']).'%';
+    }
+
+}
 // --------------------------------------------------------------------
 
 if (!function_exists('fmtHora')) {

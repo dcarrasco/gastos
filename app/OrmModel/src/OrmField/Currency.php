@@ -25,9 +25,7 @@ class Currency extends Field
      */
     public function getFormattedValue(Model $model, Request $request)
     {
-        return new HtmlString(
-            $this->currencySign . '&nbsp;' . number_format(optional($model)->{$this->attribute}, 0, ',', '.')
-        );
+        return fmtMonto(optional($model)->{$this->attribute});
     }
 
     /**

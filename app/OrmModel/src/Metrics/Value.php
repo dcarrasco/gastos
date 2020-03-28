@@ -124,10 +124,10 @@ abstract class Value extends Metric
             return "Sin datos anteriores";
         }
 
-        $percentChange = number_format(($currentValue / $previousValue - 1) * 100, 0, '.', ',');
+        $percentChange = fmtPorcentaje(($currentValue / $previousValue - 1) * 100, 0);
         $textChange = $percentChange >= 0 ? 'aumento' : 'disminucion';
 
-        return "{$percentChange}% de {$textChange}";
+        return "{$percentChange} de {$textChange}";
     }
 
     /**
@@ -140,7 +140,7 @@ abstract class Value extends Metric
     {
         $currentValue = Arr::get($data, 'currentValue', 0);
         $previousValue = Arr::get($data, 'previousValue', 0);
-        $formattedCurrentValue = number_format($currentValue, 0, ',', '.');
+        $formattedCurrentValue = fmtCantidad($currentValue);
 
         return [
             'currentValue' => "{$this->prefix} {$formattedCurrentValue} {$this->suffix}",
