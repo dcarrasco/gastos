@@ -161,7 +161,7 @@
     var chartDataInversion = {
         labels: datosInversion.label,
         datasets: [{
-            label: 'Rentabilidad',
+            label: 'Rentabilidad (%)',
             fill: true,
             backgroundColor: 'rgba(54,162,235,0.1)',
             borderColor: 'rgb(54,162,235)',
@@ -169,7 +169,7 @@
             yAxisID: 'y-axis-1',
             data: datosInversion.rentabilidad
         }, {
-            label: 'Saldo',
+            label: 'Saldo ($)',
             fill: true,
             backgroundColor: 'rgba(249,143,54,0.0)',
             borderColor: 'rgb(249,143,54)',
@@ -186,7 +186,14 @@
             display: true,
             text: 'Desempeño Inversion'
         },
-        legend: {display: false},
+        legend: {
+            display: true,
+            position: "bottom",
+            labels: {
+                boxWidth: 20,
+                padding: 40
+            }
+        },
         elements: {
             line: {
                 tension: 0,
@@ -239,7 +246,7 @@
                 },
                 ticks: {
                     callback: function(value, index, values) {
-                        return 'MM$ ' + Math.round(value/1000000);
+                        return 'MM$ ' + (Math.round(value/100000)/10).toString().replace(/\./, ',');
                     }
                 }
             }]
