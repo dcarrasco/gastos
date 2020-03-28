@@ -23,7 +23,7 @@ class IngresoInversion extends Controller
             $request->input('anno', $today->year)
         );
 
-        return view('gastos.showinversion', compact('today', 'cuentas', 'tiposMovimientos', 'inversion'));
+        return view('gastos.inversion.show', compact('today', 'cuentas', 'tiposMovimientos', 'inversion'));
     }
 
     public function addInversion(AddInversionRequest $request)
