@@ -34,7 +34,7 @@ class IngresoMasivo extends Controller
             return $gasto->tipo_gasto_id !== null;
         })->count();
 
-        return view('gastos.masivo.show', [
+        return view('gastos.masivo.index', [
             'today' => Carbon::now(),
             'formCuenta' => Cuenta::selectCuentasGastos(),
             'datosMasivos' => $datosMasivos,

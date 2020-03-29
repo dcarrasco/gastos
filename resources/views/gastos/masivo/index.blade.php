@@ -4,7 +4,7 @@
 <form method="POST" id="form-masivo">
     @csrf
 
-    @include('gastos.masivo.show_form')
+    @include('gastos.masivo.index_form')
 
     @if (count($datosMasivos))
         <table class="table table-hover table-sm offset-md-1 col-md-10">

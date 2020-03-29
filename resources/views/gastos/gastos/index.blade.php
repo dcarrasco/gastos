@@ -2,7 +2,7 @@
 
 @section('modulo')
 
-@include('gastos.gastos.show_form')
+@include('gastos.gastos.index_form')
 
 <table class="col-12 mt-md-3 table table-hover table-sm">
     <thead class="thead-light">

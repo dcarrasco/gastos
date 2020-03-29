@@ -2,7 +2,7 @@
 
 @section('modulo')
 
-@include('gastos.inversion.show_form')
+@include('gastos.inversion.index_form')
 
 <table class="col-md-12 mt-md-3 table table-hover table-sm">
 <thead class="thead-light">
@@ -117,6 +117,6 @@
 </tbody>
 </table>
 
-@includeWhen(! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()), 'gastos.inversion.chart')
+@includeWhen(! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()), 'gastos.inversion.index_chart')
 
 @endsection

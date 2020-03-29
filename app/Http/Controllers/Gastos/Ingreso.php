@@ -31,7 +31,7 @@ class Ingreso extends Controller
             SaldoMes::recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        return view('gastos.gastos.show', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
+        return view('gastos.gastos.index', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
     }
 
     public function store(AddGastoRequest $request)
