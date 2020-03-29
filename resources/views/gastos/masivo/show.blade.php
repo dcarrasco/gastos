@@ -3,90 +3,55 @@
 @section('modulo')
 <form method="POST" id="form-masivo">
     @csrf
-    <div class="form-row">
-        <div class="offset-md-3 col-md-2">
-            <label class="col-form-label">Cuenta</label>
-        </div>
-        <div class="col-md-2">
-            <label class="col-form-label">Año</label>
-        </div>
-        <div class="col-md-2">
-            <label class="col-form-label">Mes</label>
-        </div>
-    </div>
 
-    <div class="form-row">
-        <div class="offset-md-3 col-md-2">
-            {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
-        </div>
-        <div class="col-md-2">
-            {{ Form::selectYear('anno', $today->year, 2015, request('anno', $today->year), ['class' => 'form-control']) }}
-        </div>
-        <div class="col-md-2">
-            {{ Form::selectMonth('mes', request('mes', $today->month), ['class' => 'form-control']) }}
-        </div>
-    </div>
+    @include('gastos.masivo.show_form')
 
-    <div class="form-row">
-        <div class="offset-md-1 col-md-2">
-            <label class="col-form-label">Datos</label>
-        </div>
-    </div>
+    @if (count($datosMasivos))
+        <table class="table table-hover table-sm offset-md-1 col-md-10">
+            @foreach($datosMasivos as $gasto)
+                @if ($loop->first)
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Glosa</th>
+                            <th>Serie</th>
+                            <th>Tipo Gasto</th>
+                            <th class="text-right">Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                @endif
+                <tr>
+                    <td> {{ $gasto->fecha }} </td>
+                    <td> {{ $gasto->glosa }} </td>
+                    <td> {{ $gasto->serie }} </td>
+                    <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
+                    <td class="text-right">
+                        {{ fmtMonto($gasto->monto) }}
+                        @include('gastos.common.signoMovimiento', ['movimiento' => $gasto])
+                    </td>
+                </tr>
+            @endforeach
 
-    <div class="form-row">
-        <div class="offset-md-1 col-md-10">
-            {{ Form::textarea('datos', request('datos'), ['class' => 'form-control']) }}
-            <div class="text-right my-3">
-                <button type="submit" class="btn btn-primary text-right">Procesar</button>
-            </div>
-        </div>
-    </div>
-
-@if (count($datosMasivos))
-<table class="table table-hover table-sm offset-md-1 col-md-10">
-    @foreach($datosMasivos as $gasto)
-        @if ($loop->first)
-        <thead>
             <tr>
-                <th>Fecha</th>
-                <th>Glosa</th>
-                <th>Serie</th>
-                <th>Tipo Gasto</th>
-                <th class="text-right">Monto</th>
+                <th>Total {{ $datosMasivos->count() }}</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-right">{{ fmtMonto($datosMasivos->pluck('monto')->sum()) }}</th>
             </tr>
-        </thead>
-        <tbody>
-        @endif
-        <tr>
-            <td> {{ $gasto->fecha }} </td>
-            <td> {{ $gasto->glosa }} </td>
-            <td> {{ $gasto->serie }} </td>
-            <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
-            <td class="text-right">
-                {{ fmtMonto($gasto->monto) }}
-                @include('gastos.common.signoMovimiento', ['movimiento' => $gasto])
-            </td>
-        </tr>
-    @endforeach
-    <tr>
-        <th>Total {{ $datosMasivos->count() }}</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th class="text-right">{{ fmtMonto($datosMasivos->pluck('monto')->sum()) }}</th>
-    </tr>
-    </tbody>
-</table>
+            </tbody>
+        </table>
 
-@if ($agregarDatosMasivos)
-    <div class="form-row">
-        <div class="offset-md-1 col-md-10 text-right">
-            <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
-        </div>
-    </div>
-@endif
+        @if ($agregarDatosMasivos)
+            <div class="form-row">
+                <div class="offset-md-1 col-md-10 text-right">
+                    <button name="agregar" value="agregar" class="btn btn-secondary">Agregar</button>
+                </div>
+            </div>
+        @endif
+    @endif
 </form>
-@endif
 
 <script type="text/javascript">
     $('button[name="agregar"]').click(function(e) {
