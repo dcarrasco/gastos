@@ -13,7 +13,7 @@ use App\Http\Requests\Gasto\AddGastoRequest;
 
 class Ingreso extends Controller
 {
-    public function showMes(Request $request)
+    public function index(Request $request)
     {
         $currentLocale = setlocale(LC_TIME, 'es-ES');
 
@@ -31,10 +31,10 @@ class Ingreso extends Controller
             SaldoMes::recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        return view('gastos.showmes', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
+        return view('gastos.gastos.show', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
     }
 
-    public function addGasto(AddGastoRequest $request)
+    public function store(AddGastoRequest $request)
     {
         Gasto::create(array_merge($request->validated(), [
             'tipo_movimiento_id' => TipoGasto::find($request->tipo_gasto_id)->tipo_movimiento_id,

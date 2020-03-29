@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 
 class Reporte extends Controller
 {
-    protected function reporte(Request $request)
+    protected function index(Request $request)
     {
         $today = Carbon::now();
         $cuentas = Cuenta::selectCuentasGastos();
@@ -23,12 +23,12 @@ class Reporte extends Controller
             $request->input('tipo_movimiento_id', $tiposMovimientos->keys()->first())
         );
 
-        return view('gastos.reporte', compact('today', 'cuentas', 'tiposMovimientos', 'reporte'));
+        return view('gastos.reporte.show', compact('today', 'cuentas', 'tiposMovimientos', 'reporte'));
     }
 
-    public function detalle(Request $request)
+    public function show(Request $request)
     {
-        return view('gastos.detalle', [
+        return view('gastos.reporte.detalle', [
             'movimientosMes' => Gasto::detalleMovimientosMes(
                 $request->cuenta_id,
                 $request->anno,

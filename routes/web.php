@@ -26,15 +26,15 @@ OrmController::routes('gastos');
 // Gastos
 Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', 'Ingreso@showMes')->name('showMes');
-    Route::post('ingresar', 'Ingreso@addGasto')->name('addGasto');
+    Route::get('ingresar', 'Ingreso@index')->name('showMes');
+    Route::post('ingresar', 'Ingreso@store')->name('addGasto');
     Route::delete('borrar', 'Ingreso@borrarGasto')->name('borrarGasto');
-    Route::get('reporte', 'Reporte@reporte')->name('reporte');
-    Route::get('detalle', 'Reporte@detalle')->name('detalle');
+    Route::get('reporte', 'Reporte@index')->name('reporte');
+    Route::get('reporte/detalle', 'Reporte@show')->name('detalle');
     Route::any('ingreso-masivo', 'IngresoMasivo@ingresoMasivo')->name('ingresoMasivo');
     Route::post('ingreso-masivo-add', 'IngresoMasivo@addGastosMasivos')->name('ingresoMasivoAdd');
-    Route::get('ingreso-inversion', 'IngresoInversion@formularioIngreso')->name('ingresoInversion');
-    Route::post('ingreso-inversion', 'IngresoInversion@addInversion')->name('addInversion');
+    Route::get('inversion', 'IngresoInversion@index')->name('ingresoInversion');
+    Route::post('inversion', 'IngresoInversion@store')->name('addInversion');
 });
 
 // ACL

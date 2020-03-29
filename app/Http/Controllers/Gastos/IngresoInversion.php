@@ -13,7 +13,7 @@ use App\Http\Requests\Gasto\AddInversionRequest;
 
 class IngresoInversion extends Controller
 {
-    public function formularioIngreso(Request $request)
+    public function index(Request $request)
     {
         $today = Carbon::now();
         $cuentas = Cuenta::selectCuentasInversiones();
@@ -26,7 +26,7 @@ class IngresoInversion extends Controller
         return view('gastos.inversion.show', compact('today', 'cuentas', 'tiposMovimientos', 'inversion'));
     }
 
-    public function addInversion(AddInversionRequest $request)
+    public function store(AddInversionRequest $request)
     {
         Gasto::create(array_merge($request->validated(), [
             'mes' => Carbon::create($request->fecha)->month,
