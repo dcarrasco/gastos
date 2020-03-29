@@ -66,7 +66,7 @@
                 {{ Form::select('tipo_gasto_id', $selectTiposGastos, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
             </td>
             <td>
-                <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm {{ $errors->has('monto') ? 'is-invalid' : '' }}">
+                <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm @error('monto') 'is-invalid' @enderror">
             </td>
             <td>
                 <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
@@ -85,11 +85,7 @@
             <td>{{ $movimiento->tipoGasto->tipo_gasto }}</td>
             <td class="text-right">
                 {{ fmtMonto($movimiento->monto) }}
-                @if ($movimiento->tipoMovimiento->signo == -1)
-                    <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" class="align-middle mb-1" style="fill: #e3342f"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm4-8a1 1 0 0 1-1 1H9a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1z"/></svg>
-                @else
-                    <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" class="align-middle mb-1" style="fill: #32c172"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-9h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2H9a1 1 0 0 1 0-2h2V9a1 1 0 0 1 2 0v2z"/></svg>
-                @endif
+                @include('gastos.common.signoMovimiento', ['movimiento' => $movimiento])
             </td>
             <td class="text-right">
                 {{ fmtMonto($movimiento->saldo_final) }}

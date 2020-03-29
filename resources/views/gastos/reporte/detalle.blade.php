@@ -29,11 +29,7 @@
         <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
         <td class="text-right">
             {{ fmtMonto($mov->monto) }}
-            @if ($mov->tipoMovimiento->signo == -1)
-                <small><span class="fa fa-minus-circle text-danger"></span></small>
-            @else
-                <small><span class="fa fa-plus-circle text-success"></span></small>
-            @endif
+            @include('gastos.common.signoMovimiento', ['movimiento' => $mov])
         </td>
     </tr>
 

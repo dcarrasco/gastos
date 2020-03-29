@@ -53,13 +53,7 @@
         <td class="text-center">{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
         <td class="text-right">
             {{ fmtMonto($mov->monto) }}
-            @if ($mov->tipoMovimiento->signo == -1)
-                {{-- <small><span class="fa fa-minus-circle text-danger"></span></small> --}}
-                <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" style="fill: #e3342f"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm4-8a1 1 0 0 1-1 1H9a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1z"/></svg>
-            @else
-                {{-- <small><span class="fa fa-plus-circle text-success"></span></small> --}}
-                <svg height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg" class="align-middle" style="fill: #32c172"><path class="heroicon-ui" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-9h2a1 1 0 0 1 0 2h-2v2a1 1 0 0 1-2 0v-2H9a1 1 0 0 1 0-2h2V9a1 1 0 0 1 2 0v2z"/></svg>
-            @endif
+            @include('gastos.common.signoMovimiento', ['movimiento' => $mov])
         </td>
         <td class="text-right">
             {{ fmtMonto($saldo += $mov->valor_monto) }}
