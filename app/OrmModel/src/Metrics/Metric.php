@@ -125,11 +125,22 @@ abstract class Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function content(Request $request): HtmlString
+    public function content(Request $request): HtmlString
     {
         return new HtmlString(view('orm.metrics.metric_content', [
             'cardId' => $this->cardId(),
         ])->render());
+    }
+
+    /**
+     * Devuelve script para dibujar valores
+     *
+     * @param  Request $request
+     * @return HtmlString
+     */
+    public function contentScript(Request $request): HtmlString
+    {
+        return new HtmlString('');
     }
 
     /**

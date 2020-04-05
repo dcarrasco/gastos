@@ -263,7 +263,7 @@ abstract class Trend extends Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function contentScript(Request $request): HtmlString
+    public function contentScript(Request $request): HtmlString
     {
         $dataSet = $this->calculate($request);
 

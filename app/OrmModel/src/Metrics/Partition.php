@@ -94,7 +94,7 @@ abstract class Partition extends Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function content(Request $request): HtmlString
+    public function content(Request $request): HtmlString
     {
         return new HtmlString(view('orm.metrics.partition_content', [
             'cardId' => $this->cardId(),
@@ -107,7 +107,7 @@ abstract class Partition extends Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function contentScript(Request $request): HtmlString
+    public function contentScript(Request $request): HtmlString
     {
         $dataSet = $this->calculate($request);
 

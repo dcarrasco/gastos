@@ -27,15 +27,9 @@ trait DisplayAsCard
     public function render(Request $request): HtmlString
     {
         return new HtmlString(
-            view('orm.components.card', [
-                'content' => $this->content($request),
-                'contentScript' => $this->contentScript($request),
-                'cardWidth' => $this->bootstrapCardWidth(),
-                'title' => $this->title(),
-                'cardId' => $this->cardId(),
-                'ranges' => $this->ranges(),
-                'uriKey' => $this->uriKey(),
-                // 'resource' => $request->segment(2),
+            view('orm.card', [
+                'card' => $this,
+                'request' => $request,
             ])->render()
         );
     }
@@ -45,7 +39,7 @@ trait DisplayAsCard
      *
      * @return string
      */
-    protected function bootstrapCardWidth(): string
+    public function bootstrapCardWidth(): string
     {
         return Arr::get($this->bootstrapWidths, $this->width, '');
     }
@@ -78,7 +72,7 @@ trait DisplayAsCard
      *
      * @return string
      */
-    protected function cardId(): string
+    public function cardId(): string
     {
         return spl_object_hash($this);
     }

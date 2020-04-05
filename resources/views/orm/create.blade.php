@@ -14,7 +14,9 @@
     {{ Form::open(['url' => route("$routeName.store", [$resource->getName()]), 'id' => 'frm_editar']) }}
 
     <!-- -----------------------------  FIELDS  ---------------------------- -->
-    @each('orm.components.item_form', $resource->getFields(), 'field')
+    @foreach($resource->getFields() as $field)
+        <x-orm.item-form :field=$field />
+    @endforeach
 
     <!-- -----------------------------  BOTONES  --------------------------- -->
     <div class="row">

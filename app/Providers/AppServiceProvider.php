@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        LengthAwarePaginator::defaultView('orm.components.paginator');
+        LengthAwarePaginator::defaultView('orm.paginator');
     }
 
     /**

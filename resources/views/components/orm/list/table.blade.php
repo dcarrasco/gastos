@@ -28,7 +28,7 @@
             @endforeach
 
             <td class="text-right text-nowrap">
-                @include('orm.components.listado.tabla_item_buttons')
+                <x-orm.list.table-item-buttons :resource=$resource />
             </td>
         </tr>
     @endforeach

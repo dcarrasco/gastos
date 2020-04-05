@@ -7,7 +7,7 @@
     </div>
 
     <!-- ------------------------- CARDS ------------------------- -->
-    @include('orm.components.cards_container')
+    <x-orm.cards-container :cards="$cards" />
 
 </div>
 @endsection

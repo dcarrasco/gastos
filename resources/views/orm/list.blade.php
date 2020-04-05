@@ -3,7 +3,7 @@
 @section('modulo')
 
 <!-- ------------------------- CARDS ------------------------- -->
-@include('orm.components.cards_container')
+<x-orm.cards-container :cards="$cards" />
 
 <!-- ------------------------- LABEL ------------------------- -->
 <div class="row">
@@ -32,7 +32,7 @@
 
 <!-- ------------------------- LIST DATA ------------------------- -->
 <div class="container shadow-sm rounded-lg border">
-    @include('orm.components.listado.filters')
+    <x-orm.list.filters :resource="$resource" />
 
     @if ($resource->resourceList()->count() == 0)
         <div class="row">
@@ -50,19 +50,16 @@
     @else
         <div class="row">
             <div class="col-12 px-0">
-                @include('orm.components.listado.tabla')
+                <x-orm.list.table :resource=$resource />
             </div>
         </div>
 
-        @include($resource->paginationLinksDetail()
-            ? 'orm.components.listado.paginator_links_detail'
-            : 'orm.components.listado.paginator_links_short'
-        )
+        <x-orm.list.paginator-links :resource="$resource" />
 
     @endif
 </div> <!-- container -->
 
-@include('orm.components.modal_delete')
+<x-orm.list.modal-delete :resource="$resource" />
 
 <script type="text/javascript">
 $(document).ready(function() {

@@ -183,7 +183,7 @@ abstract class Value extends Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function content(Request $request): HtmlString
+    public function content(Request $request): HtmlString
     {
         $data = $this->calculate($request);
 
@@ -201,7 +201,7 @@ abstract class Value extends Metric
      * @param  Request $request
      * @return HtmlString
      */
-    protected function contentScript(Request $request): HtmlString
+    public function contentScript(Request $request): HtmlString
     {
         return new HtmlString(view('orm.metrics.value_script', [
             'urlRoute' => $this->urlRoute($request),

@@ -18,7 +18,9 @@
     {{ method_field('PUT') }}
 
     <!-- -----------------------------  FIELDS  ---------------------------- -->
-    @each('orm.components.item_form', $resource->getFields(), 'field')
+    @foreach($resource->getFields() as $field)
+        <x-orm.item-form :field=$field />
+    @endforeach
 
     <!-- -----------------------------  BOTONES  --------------------------- -->
     <div class="row">

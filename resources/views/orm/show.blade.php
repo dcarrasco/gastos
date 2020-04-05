@@ -21,7 +21,9 @@
 
 <!-- -----------------------------  FIELDS  ---------------------------- -->
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
-    @each('orm.components.item_show', $resource->getFields(), 'field')
+    @foreach($resource->getFields() as $field)
+        <x-orm.item-show :field=$field />
+    @endforeach
 </div>
 
 @include('orm.components.modal_delete')
