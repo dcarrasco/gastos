@@ -31,27 +31,26 @@
 </head>
 
 <body>
-    @includeWhen(auth()->check(), 'common.app_navbar')
+    <x-app-navbar />
 
     <div class="container-fluid" id="container">
         <div class="row mh-100" style="min-height: 100vh;">
 
         @guest
             <div class="col-12">
-                @include('common.alert')
                 @yield('modulo')
             </div>
         @else
             <!-- -----------------------------  MENU MODULO  --------------------------- -->
             <div class="col-2 bg-secondary px-0">
-                @include('common.app_menu_modulo')
+                <x-app-menu-modulo />
             </div>
 
             <!-- -----------------------------  PANEL MODULO  --------------------------- -->
             <div class="col-10 px-5 py-5">
-                @include('common.alert')
+                <x-alert :errors=$errors />
                 @yield('modulo')
-                @include('common.app_footer')
+                <x-app-footer />
             </div>
         @endguest
 

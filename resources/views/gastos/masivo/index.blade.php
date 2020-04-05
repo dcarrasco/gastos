@@ -1,4 +1,4 @@
-@extends('common.app_layout')
+@extends('layouts.app_layout')
 
 @section('modulo')
 <form method="POST" id="form-masivo">
