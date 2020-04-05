@@ -26,24 +26,12 @@
             {{ Form::hidden('mes', request('mes', $today->month)) }}
             <td></td>
             <td></td>
-            <td>
-                <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
-            </td>
-            <td>
-                <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
-            </td>
-            <td>
-                <input type="text" name="serie" value="{{ old('serie') }}" autocomplete="off" class="form-control form-control-sm @error('serie') is-invalid @enderror">
-            </td>
-            <td>
-                {{ Form::select('tipo_gasto_id', $selectTiposGastos, request('tipo_gasto_id'), ['class' => 'form-control form-control-sm']) }}
-            </td>
-            <td>
-                <input type="text" name="monto" autocomplete="off" class="form-control form-control-sm @error('monto') 'is-invalid' @enderror">
-            </td>
-            <td>
-                <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
-            </td>
+            <td><x-form-input name="fecha" type="date" class="form-control-sm"/></td>
+            <td><x-form-input name="glosa" class="form-control-sm" /></td>
+            <td><x-form-input name="serie" class="form-control-sm" /></td>
+            <td><x-form-input name="tipo_gasto_id" type="select" class="form-control-sm" :options=$selectTiposGastos /></td>
+            <td><x-form-input name="monto" class="form-control-sm" /></td>
+            <td><button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button></td>
             <td></td>
         </tr>
         {{ Form::close() }}

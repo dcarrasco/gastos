@@ -89,30 +89,22 @@
 @endforeach
 
 {{ Form::open([]) }}
-<tr>
-    {{ Form::hidden('cuenta_id', request('cuenta_id', $cuentas->keys()->first())) }}
-    {{ Form::hidden('anno', request('anno', $today->year)) }}
-    <td></td>
-    <td></td>
-    <td>
-        <input type="date" name="fecha" value="{{ old('fecha') }}" autocomplete="off" class="form-control form-control-sm @error('fecha') is-invalid @enderror">
-    </td>
-    <td>
-        <input type="text" name="glosa" value="{{ old('glosa') }}" autocomplete="off" class="form-control form-control-sm @error('glosa') is-invalid @enderror">
-    </td>
-    <td>
-        {{ Form::select('tipo_movimiento_id', $tiposMovimientos, request('tipo_movimiento_id'), ['class' => 'form-control form-control-sm']) }}
-    </td>
-    <td>
-        <input type="text" name="monto" value="{{ old('monto') }}" autocomplete="off" class="form-control form-control-sm @error('monto') is-invalid @enderror">
-    </td>
-    <td>
-        <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
-    </td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
+    <tr>
+        {{ Form::hidden('cuenta_id', request('cuenta_id', $cuentas->keys()->first())) }}
+        {{ Form::hidden('anno', request('anno', $today->year)) }}
+        <td></td>
+        <td></td>
+        <td><x-form-input name="fecha" type="date" class="form-control-sm" /></td>
+        <td><x-form-input name="glosa" class="form-control-sm" /></td>
+        <td><x-form-input name="tipo_movimiento_id" type="select" class="form-control-sm" :options=$tiposMovimientos /></td>
+        <td><x-form-input name="monto" class="form-control-sm" /></td>
+        <td>
+            <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
 {{ Form::close() }}
 </tbody>
 </table>

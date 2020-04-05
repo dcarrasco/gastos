@@ -12,13 +12,13 @@
 
 <div class="form-row">
     <div class="offset-md-3 col-md-2">
-        {{ Form::select('cuenta_id', $formCuenta, request('cuenta_id'), ['class' => 'form-control']) }}
+        <x-form-input name="cuenta_id" type="select" :options=$formCuenta />
     </div>
     <div class="col-md-2">
-        {{ Form::selectYear('anno', $today->year, 2015, request('anno', $today->year), ['class' => 'form-control']) }}
+        <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
     </div>
     <div class="col-md-2">
-        {{ Form::selectMonth('mes', request('mes', $today->month), ['class' => 'form-control']) }}
+        <x-form-input name="mes" type="selectMonth" :default="$today->month" />
     </div>
 </div>
 

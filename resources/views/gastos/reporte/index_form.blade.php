@@ -13,13 +13,13 @@
 
     <div class="form-row">
         <div class="offset-md-2 col-md-2">
-            {{ Form::select('cuenta_id', $cuentas, request('cuenta_id'), ['class' => 'form-control']) }}
+            <x-form-input name="cuenta_id" type="select" :options=$cuentas />
         </div>
         <div class="col-md-2">
-            {{ Form::selectYear('anno', $today->year, 2015, request('anno'), ['class' => 'form-control']) }}
+            <x-form-input name="anno" type="selectYear" :from-year="$today->year" to-year="2015" />
         </div>
         <div class="col-md-2">
-            {{ Form::select('tipo_movimiento_id', $tiposMovimientos, request('tipo_movimiento_id'), ['class' => 'form-control']) }}
+            <x-form-input name="tipo_movimiento_id" type="select" :options=$tiposMovimientos />
         </div>
         <div class="col-md-2">
             <button type="submit" class="btn btn-primary">Consultar</button>
