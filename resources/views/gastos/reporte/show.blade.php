@@ -29,7 +29,7 @@
         <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
         <td class="text-right">
             {{ fmtMonto($mov->monto) }}
-            @include('gastos.common.signoMovimiento', ['movimiento' => $mov])
+            <x-signo-movimiento :movimiento=$mov />
         </td>
     </tr>
 
