@@ -96,7 +96,7 @@
         <td></td>
         <td><x-form-input name="fecha" type="date" class="form-control-sm" /></td>
         <td><x-form-input name="glosa" class="form-control-sm" /></td>
-        <td><x-form-input name="tipo_movimiento_id" type="select" class="form-control-sm" :options=$tiposMovimientos /></td>
+        <td><x-form-input name="tipo_movimiento_id" type="select" class="custom-select-sm" :options=$tiposMovimientos /></td>
         <td><x-form-input name="monto" class="form-control-sm" /></td>
         <td>
             <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>

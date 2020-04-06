@@ -1,9 +1,9 @@
 @if (($type ?? 'text') == 'select')
-    {{ Form::select($name, $options ?? [], request($name, $default ?? null), ['class' => 'form-control ' . ($class ?? '')]) }}
+    {{ Form::select($name, $options ?? [], request($name, $default ?? null), ['class' => 'custom-select ' . ($class ?? '')]) }}
 @elseif (($type ?? 'text') == 'selectYear')
-    {{ Form::selectYear($name, $fromYear ?? 0, $toYear ?? 0, request($name, $default ?? null), ['class' => 'form-control ' . ($class ?? '')]) }}
+    {{ Form::selectYear($name, $fromYear ?? 0, $toYear ?? 0, request($name, $default ?? null), ['class' => 'custom-select ' . ($class ?? '')]) }}
 @elseif (($type ?? 'text') == 'selectMonth')
-    {{ Form::selectMonth($name, request($name, $default ?? null), ['class' => 'form-control ' . ($class ?? '')]) }}
+    {{ Form::selectMonth($name, request($name, $default ?? null), ['class' => 'custom-select ' . ($class ?? '')]) }}
 @else
     <input
         type="{{ $type ?? 'text' }}"
