@@ -32,7 +32,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('home', [
+        return view('gastos.home', [
             'cards' => collect($this->cards($request))->map->render($request),
         ]);
     }
