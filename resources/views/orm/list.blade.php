@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <x-orm.list.paginator-links :resource="$resource" />
+        <x-paginator.links :resource="$resource" />
 
     @endif
 </div> <!-- container -->
