@@ -26,6 +26,6 @@
     @endforeach
 </div>
 
-@include('orm.components.modal_delete')
+<x-orm.list.modal-delete :resource="$resource" />
 
 @endsection
