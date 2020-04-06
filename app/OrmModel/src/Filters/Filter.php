@@ -4,6 +4,7 @@ namespace App\OrmModel\src\Filters;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
 
 class Filter
@@ -90,11 +91,11 @@ class Filter
      * @param  string  $value
      * @return string
      */
-    public function getUrlMark(Request $request, string $value): string
+    public function getUrlMark(Request $request, string $value): HtmlString
     {
-        return $this->getValue($request) == $value
-            ? '<span class="fa fa-check"></span>'
-            : '';
+        return new HtmlString(
+            $this->getValue($request) == $value ? '<span class="fa fa-check"></span>' : ''
+        );
     }
 
     /**
