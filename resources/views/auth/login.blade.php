@@ -18,20 +18,20 @@
                 <x-alert :errors=$errors />
             </div>
 
-            {{ Form::open(['id' => 'form_login']) }}
-
+            <form method="POST" id="form_login">
+                @csrf
                 <div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
                     <label for="username">
                         {{ trans('login.input_user') }}
                     </label>
-                    {{ Form::text('username', old('username'), ['maxlength' => '45', 'class' => 'form-control form-control-lg', 'tabindex' => '1', 'autofocus' => 'autofocus']) }}
+                    <input type="text" name="username" value="{{ old('username') }}" maxlength="45" class="form-control form-control-lg" tabindex="1" autofocus="autofocus">
                 </div>
 
                 <div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
                     <label for="pwd">
                         {{ trans('login.input_password') }}
                     </label>
-                    {{ Form::password('password', ['maxlength' => '45', 'size' => '40', 'tabindex' => '2', 'class' => 'form-control form-control-lg', 'autocomplete' => 'off']) }}
+                    <input type="password" name="password" maxlength="45" size="40" tabindex="2" class="form-control form-control-lg" autocomplete="off">
                 </div>
 
                 <div class="control-group col-md-10 offset-md-1 col-xs-12">
@@ -44,7 +44,7 @@
                     <div class="control-group col-md-10 offset-md-1 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
                         <label class="control-label" for="pwd">{{ trans('login.input_captcha') }}</label>
                         <div class="controls">
-                            <?= form_input('captcha', '','maxlength="15" tabindex="3" class="form-control input-lg"'); ?>
+                            <?= form_input('captcha', '', 'maxlength="15" tabindex="3" class="form-control input-lg"'); ?>
                         </div>
                         <div class="controls">
                             {captcha_img}
@@ -53,7 +53,7 @@
                 @endif
 
                 <div class="custom-control custom-checkbox col-md-10 offset-md-2">
-                    {{ Form::checkbox('remember', 'remember', old('remember'), ['class' => 'custom-control-input', 'id' => 'remember-id']) }}
+                    <input type="checkbox" name="remember" value="{{ old('remember') }}" class="custom-control-input" id="remember-id">
                     <label class="custom-control-label" for="remember-id">
                         {{ trans('login.check_remember_me') }}
                     </label>
@@ -68,13 +68,14 @@
                         {{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
                     </button>
                 </div>
-            {{ Form::close() }}
+            </form>
         </div>
     </div>
 
-    {{ Form::open(['method' => 'get', 'id' => 'form_cambia_password', 'route' => 'acl.cambiaPassword']) }}
-    {{ Form::hidden('username') }}
-    {{ Form::close() }}
+    <form method="GET" action="{{ route('acl.cambiaPassword') }}" id="form_cambia_password">
+        <input type="hidden" name="username">
+    </form>
+
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#link_cambia_password').click(function(e) {

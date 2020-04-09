@@ -25,7 +25,9 @@
                         Logout {{ auth()->user()->getFirstName() }}
                         <img src="https://secure.gravatar.com/avatar/{{ md5(auth()->user()->email) }}?size=24" class="rounded-circle border mx-2" />
                     </a>
-                    {{ Form::open(['url' => route('logout'), 'id' => 'logout-form']) }}{{ Form::close() }}
+                    <form method="POST" action=" {{ route('logout') }}" id="logout-form">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </div> <!-- DIV class="collapse navbar-collapse navMenuCollapse" -->
