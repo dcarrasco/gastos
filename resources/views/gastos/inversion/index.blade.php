@@ -38,13 +38,14 @@
             {{ fmtMonto($saldo += $mov->valor_monto) }}
         </td>
         <td>
-            {{ Form::open(['url' => route('gastos.borrarGasto', http_build_query(request()->all()))]) }}
-                {!! method_field('DELETE')!!}
-                {{ Form::hidden('id', $mov->getKey()) }}
+            <form method="POST" action="{{ route('gastos.borrarGasto', http_build_query(request()->all())) }}">
+                @csrf
+                @method('DELETE')
+                <input type="hidden" name="id" value="{{ $mov->getKey() }}">
                 <button type="submit" class="btn btn-sm btn-link p-0 align-top">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14"><path class="heroicon-ui" d="M8 6V4c0-1.1.9-2 2-2h4a2 2 0 0 1 2 2v2h5a1 1 0 0 1 0 2h-1v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8H3a1 1 0 1 1 0-2h5zM6 8v12h12V8H6zm8-2V4h-4v2h4zm-4 4a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0v-6a1 1 0 0 1 1-1z"/></svg>
                 </button>
-            {{ Form::close() }}
+            </form>
         </td>
         <td></td>
         <td></td>
@@ -88,10 +89,11 @@
     @endif
 @endforeach
 
-{{ Form::open([]) }}
-    <tr>
-        {{ Form::hidden('cuenta_id', request('cuenta_id', $cuentas->keys()->first())) }}
-        {{ Form::hidden('anno', request('anno', $today->year)) }}
+<tr>
+    <form method="POST">
+        @csrf
+        <input type="hidden" name="cuenta_id" value="{{ request('cuenta_id', $cuentas->keys()->first()) }}">
+        <input type="hidden" name="anno" value="{{ request('anno', $today->year) }}">
         <td></td>
         <td></td>
         <td><x-form-input name="fecha" type="date" class="form-control-sm" /></td>
@@ -104,8 +106,8 @@
         <td></td>
         <td></td>
         <td></td>
-    </tr>
-{{ Form::close() }}
+    </form>
+</tr>
 </tbody>
 </table>
 

@@ -11,28 +11,29 @@
 </div>
 
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
-    {{ Form::open(['url' => route("$routeName.store", [$resource->getName()]), 'id' => 'frm_editar']) }}
+    <form method="POST" action='{{ route("$routeName.store", [$resource->getName()]) }}' id="frm_editar">
+        @csrf
 
-    <!-- -----------------------------  FIELDS  ---------------------------- -->
-    @foreach($resource->getFields() as $field)
-        <x-orm.item-form :field=$field />
-    @endforeach
+        <!-- -----------------------------  FIELDS  ---------------------------- -->
+        @foreach($resource->getFields() as $field)
+            <x-orm.item-form :field=$field />
+        @endforeach
 
-    <!-- -----------------------------  BOTONES  --------------------------- -->
-    <div class="row">
-        <div class="col-12 bg-light rounded-bottom-lg py-4 text-right text-shadow">
-            <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold" id="button_continue">
-                {{ trans('orm.button_create_continue') }}
-            </button>
+        <!-- -----------------------------  BOTONES  --------------------------- -->
+        <div class="row">
+            <div class="col-12 bg-light rounded-bottom-lg py-4 text-right text-shadow">
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold" id="button_continue">
+                    {{ trans('orm.button_create_continue') }}
+                </button>
 
-            <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow">
-                {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
-            </button>
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow">
+                    {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
+                </button>
+           </div>
        </div>
-   </div>
 
-    {!! Form::hidden('redirect_to', 'next') !!}
-    {!! Form::close()!!}
+        <input type="hidden" name="redirect_to" value="next">
+    </form>
 </div>
 
 <script>

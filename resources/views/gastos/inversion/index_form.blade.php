@@ -1,4 +1,4 @@
-<form>
+<form method="GET">
     <div class="form-row">
         <div class="offset-3 col-3">
             <label class="col-form-label">Cuenta</label>

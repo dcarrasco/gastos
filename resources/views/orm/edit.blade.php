@@ -11,32 +11,30 @@
 </div>
 
 <div class="container mt-2 border rounded-lg bg-white shadow-sm">
-    {{ Form::open([
-        'url' => route("$routeName.update", [$resource->getName(), $modelId]),
-        'id' => 'frm_editar',
-    ]) }}
-    {{ method_field('PUT') }}
+    <form method="POST" action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}' id="frm_editar">
+        @csrf
+        @method('PUT')
 
-    <!-- -----------------------------  FIELDS  ---------------------------- -->
-    @foreach($resource->getFields() as $field)
-        <x-orm.item-form :field=$field />
-    @endforeach
+        <!-- -----------------------------  FIELDS  ---------------------------- -->
+        @foreach($resource->getFields() as $field)
+            <x-orm.item-form :field=$field />
+        @endforeach
 
-    <!-- -----------------------------  BOTONES  --------------------------- -->
-    <div class="row">
-        <div class="col-12 bg-light rounded-bottom-lg py-4 text-right">
-            <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow" id="button_continue">
-                {{ trans('orm.button_update_continue') }}
-            </button>
+        <!-- -----------------------------  BOTONES  --------------------------- -->
+        <div class="row">
+            <div class="col-12 bg-light rounded-bottom-lg py-4 text-right">
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow" id="button_continue">
+                    {{ trans('orm.button_update_continue') }}
+                </button>
 
-            <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow">
-                {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
-            </button>
+                <button type="submit" class="btn btn-primary px-3 mx-2 font-weight-bold text-shadow">
+                    {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
+                </button>
+            </div>
         </div>
-    </div>
 
-    {{ Form::hidden('redirect_to', 'next') }}
-    {{ Form::close() }}
+        <input type="hidden" name="redirect_to" value="next">
+    </form>
 </div>
 
 <script>
