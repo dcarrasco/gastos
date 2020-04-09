@@ -7,9 +7,9 @@
             </div>
 
             @if(count($card->ranges()))
-            <div class="col-6">
-                {{ Form::select('range', $card->ranges(), request('range'), ['class' => 'custom-select custom-select-sm', 'onchange' => 'loadCardData_'.$card->cardId()."('".$card->uriKey()."', '".$card->cardId()."')", 'id' => 'select-'.$card->cardId()]) }}
-            </div>
+                <div class="col-6">
+                    {{ Form::select('range', $card->ranges(), request('range'), ['class' => 'custom-select custom-select-sm', 'onchange' => 'loadCardData_'.$card->cardId()."('".$card->uriKey()."', '".$card->cardId()."')", 'id' => 'select-'.$card->cardId()]) }}
+                </div>
             @endif
         </div>
 

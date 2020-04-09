@@ -8,7 +8,5 @@
 
     <!-- ------------------------- CARDS ------------------------- -->
     <x-orm.cards-container :cards="$cards" />
-
 </div>
 @endsection
-
