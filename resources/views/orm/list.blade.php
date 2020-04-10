@@ -17,7 +17,7 @@
     <div class="row pt-2 mb-3 hidden-print">
         <div class="col-4">
             <div id="{{ $resource->urlSearchKey() }}_group" class="input-group input-group-sm bg-white border rounded">
-                <svg class="m-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path class="heroicon-ui" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+                <x-heroicon.search />
                 <input type="text" name="{{ $resource->urlSearchKey() }}" value="{{ Request::input($resource->urlSearchKey()) }}" class="form-control border-0" id="{{ $resource->urlSearchKey() }}" maxlength="30" placeholder="{{ trans('orm.filter') }}">
             </div>
         </div>

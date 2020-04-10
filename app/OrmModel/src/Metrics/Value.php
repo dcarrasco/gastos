@@ -13,12 +13,6 @@ abstract class Value extends Metric
     protected $prefix = '';
     protected $suffix = '';
 
-    protected $trendIconStyle = [
-        'up' => 'transform: rotate(180deg); fill: #38c172;',
-        'down' => 'transform: scaleX(-1); fill: #e3342f;',
-        'none' => 'display: none;',
-    ];
-
 
     /**
      * Recupera datos de valor, sumando una columna
@@ -146,8 +140,8 @@ abstract class Value extends Metric
             'currentValue' => "{$this->prefix} {$formattedCurrentValue} {$this->suffix}",
             'previousValue' => $this->previousMessage($currentValue, $previousValue),
             'trendIconStyle' => empty($previousValue)
-                ? Arr::get($this->trendIconStyle, 'none')
-                : Arr::get($this->trendIconStyle, $currentValue >= $previousValue ? 'up' : 'down'),
+                ? 'none'
+                : ($currentValue >= $previousValue ? 'up' : 'down'),
         ];
     }
 
