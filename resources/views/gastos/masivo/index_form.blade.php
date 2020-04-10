@@ -30,7 +30,9 @@
 
 <div class="form-row">
     <div class="offset-1 col-10">
-        {{ Form::textarea('datos', request('datos'), ['class' => 'form-control']) }}
+        <textarea name="datos" class="form-control" cols="50" rows="10">
+            {{ request('datos') }}
+        </textarea>
         <div class="text-right my-3">
             <button type="submit" class="btn btn-primary text-right">Procesar</button>
         </div>
