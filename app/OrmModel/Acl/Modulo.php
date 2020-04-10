@@ -47,7 +47,7 @@ class Modulo extends Resource
                 ->rules('max:50'),
 
             Text::make('icono')
-                ->hideFromIndex()
+                ->sortable()
                 ->rules('max:50'),
 
             Text::make('llave modulo')

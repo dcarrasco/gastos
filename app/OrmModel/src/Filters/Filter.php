@@ -85,17 +85,15 @@ class Filter
     }
 
     /**
-     * Devuelve html para marcar la opcion de filtro activa
+     * Indica si la opcion de filtro esta activa
      *
      * @param  Request $request
      * @param  string  $value
-     * @return string
+     * @return bool
      */
-    public function getUrlMark(Request $request, string $value): HtmlString
+    public function active(Request $request, string $value): bool
     {
-        return new HtmlString(
-            $this->getValue($request) == $value ? '<span class="fa fa-check"></span>' : ''
-        );
+        return $this->getValue($request) == $value;
     }
 
     /**
