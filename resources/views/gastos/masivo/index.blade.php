@@ -22,10 +22,10 @@
                     <tbody>
                 @endif
                 <tr>
-                    <td> {{ $gasto->fecha }} </td>
-                    <td> {{ $gasto->glosa }} </td>
-                    <td> {{ $gasto->serie }} </td>
-                    <td> {{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
+                    <td>{{ $gasto->fecha }}</td>
+                    <td>{{ $gasto->glosa }}</td>
+                    <td>{{ $gasto->serie }}</td>
+                    <td>{{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
                     <td class="text-right">
                         {{ fmtMonto($gasto->monto) }}
                         <x-signo-movimiento :movimiento=$gasto />
