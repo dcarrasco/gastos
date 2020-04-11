@@ -21,8 +21,9 @@
                     </thead>
                     <tbody>
                 @endif
+
                 <tr>
-                    <td>{{ $gasto->fecha }}</td>
+                    <td>{{ $gasto->fecha->format('d-m-Y') }}</td>
                     <td>{{ $gasto->glosa }}</td>
                     <td>{{ $gasto->serie }}</td>
                     <td>{{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
