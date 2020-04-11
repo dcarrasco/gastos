@@ -19,35 +19,35 @@
             <tbody>
         @endif
 
-            <tr>
-                <td>{{ $mov->anno }}</td>
-                <td>{{ $mov->mes }}</td>
-                <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
-                <td>{{ $mov->glosa }}</td>
-                <td>{{ $mov->serie }}</td>
-                <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
-                <td class="text-right">
-                    {{ fmtMonto($mov->monto) }}
-                    <x-signo-movimiento :movimiento=$mov />
-                </td>
-            </tr>
+        <tr>
+            <td>{{ $mov->anno }}</td>
+            <td>{{ $mov->mes }}</td>
+            <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
+            <td>{{ $mov->glosa }}</td>
+            <td>{{ $mov->serie }}</td>
+            <td>{{ $mov->tipoGasto->tipo_gasto }}</td>
+            <td class="text-right">
+                {{ fmtMonto($mov->monto) }}
+                <x-signo-movimiento :movimiento=$mov />
+            </td>
+        </tr>
 
-            @if ($loop->last)
-                </tbody>
-                <tfoot>
-                    <tr class="thead-light">
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>TOTAL</th>
-                        <th></th>
-                        <th></th>
-                        <th class="text-right">
-                            {{ fmtMonto($movimientosMes->sum('monto')) }}
-                        </th>
-                    </tr>
-                </tfoot>
-            @endif
+        @if ($loop->last)
+            </tbody>
+            <tfoot>
+                <tr class="thead-light">
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>TOTAL</th>
+                    <th></th>
+                    <th></th>
+                    <th class="text-right">
+                        {{ fmtMonto($movimientosMes->sum('monto')) }}
+                    </th>
+                </tr>
+            </tfoot>
+        @endif
 
     @endforeach
 </table>
