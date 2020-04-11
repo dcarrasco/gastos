@@ -53,7 +53,7 @@
                 @endif
 
                 <div class="custom-control custom-checkbox col-md-10 offset-md-2">
-                    <input type="checkbox" name="remember" value="{{ old('remember') }}" class="custom-control-input" id="remember-id">
+                    <input type="checkbox" name="remember" value="1" class="custom-control-input" id="remember-id">
                     <label class="custom-control-label" for="remember-id">
                         {{ trans('login.check_remember_me') }}
                     </label>
