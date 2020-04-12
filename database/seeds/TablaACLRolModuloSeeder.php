@@ -19,5 +19,6 @@ class TablaACLRolModuloSeeder extends Seeder
         DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 3]);
         DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 4]);
         DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 5]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 6]);
     }
 }

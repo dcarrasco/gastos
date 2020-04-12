@@ -20,5 +20,15 @@ class TablaACLAppSeeder extends Seeder
             'icono' => 'credit-card',
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        // 2
+        DB::table('acl_app')->insert([
+            'app' => 'ACL',
+            'descripcion' => 'Access Control List',
+            'orden' => 90,
+            'url' => '',
+            'icono' => 'users',
+            'created_at' => Carbon\Carbon::now(),
+        ]);
     }
 }

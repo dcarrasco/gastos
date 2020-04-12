@@ -73,5 +73,17 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 30,
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        // 6
+        DB::table('acl_modulo')->insert([
+            'app_id' => 2,
+            'modulo' => 'Config ACL',
+            'descripcion' => 'Configuracion Access Control List',
+            'llave_modulo' => '4bd0769215f77e7',
+            'icono' => 'users',
+            'url' => 'aclConfig.index',
+            'orden' => 100,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
     }
 }

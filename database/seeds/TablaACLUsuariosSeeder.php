@@ -16,7 +16,7 @@ class TablaACLUsuariosSeeder extends Seeder
             'activo' => 1,
             'username' => 'laravel',
             'password' => bcrypt('laravel'),
-            'email' => 'laravel@laravel.com',
+            'email' => 'danielcarrasco17@gmail.com',
             'fecha_login' => \Carbon\Carbon::now(),
             'ip_login' => '',
             'agente_login' => '',
