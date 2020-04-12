@@ -14,8 +14,8 @@ class CreaTablaModulos extends Migration
     public function up()
     {
         Schema::create('acl_modulo', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('app_id')->nullable();
+            $table->id();
+            $table->foreignId('app_id');
             $table->string('modulo', 50)->unique();
             $table->string('descripcion', 100);
             $table->string('llave_modulo', 100);
@@ -23,6 +23,8 @@ class CreaTablaModulos extends Migration
             $table->string('url', 100);
             $table->integer('orden');
             $table->timestamps();
+
+            $table->foreign('app_id')->references('id')->on('acl_app');
         });
     }
 

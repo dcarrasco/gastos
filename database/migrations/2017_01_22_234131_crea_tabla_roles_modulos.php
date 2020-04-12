@@ -14,10 +14,13 @@ class CreaTablaRolesModulos extends Migration
     public function up()
     {
         Schema::create('acl_rol_modulo', function (Blueprint $table) {
-            $table->integer('rol_id');
-            $table->integer('modulo_id');
-            $table->timestamps();
             $table->primary(['rol_id', 'modulo_id']);
+            $table->foreignid('rol_id');
+            $table->foreignid('modulo_id');
+            $table->timestamps();
+
+            $table->foreign('rol_id')->references('id')->on('acl_rol');
+            $table->foreign('modulo_id')->references('id')->on('acl_modulo');
         });
     }
 

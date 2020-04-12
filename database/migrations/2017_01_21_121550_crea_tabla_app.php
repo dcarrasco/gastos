@@ -14,7 +14,7 @@ class CreaTablaApp extends Migration
     public function up()
     {
         Schema::create('acl_app', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('app', 50)->unique();
             $table->string('descripcion', 100);
             $table->string('url', 100);

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumnTiposMovimientos extends Migration
+class CreaTablaCtaTiposCuentas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddColumnTiposMovimientos extends Migration
      */
     public function up()
     {
-        Schema::table('cta_tipos_movimientos', function(Blueprint $table) {
-           $table->integer('orden')->nullable()->unsigned()->after('signo');
+        Schema::create('cta_tipos_cuentas', function (Blueprint $table) {
+            $table->id();
+            $table->string('tipo_cuenta', 50)->unique();
+            $table->integer('tipo')->nullable()->unsigned();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddColumnTiposMovimientos extends Migration
      */
     public function down()
     {
-        Schema::table('cta_tipos_movimientos', function(Blueprint $table) {
-           $table->dropColumn('orden');
-        });
+        Schema::dropIfExists('cta_tipos_cuentas');
     }
 }

@@ -14,18 +14,23 @@ class CreaTablaCtaGastos extends Migration
     public function up()
     {
         Schema::create('cta_gastos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('cuenta_id')->unsigned();
+            $table->id();
+            $table->foreignId('cuenta_id');
             $table->integer('anno')->nullable()->default(0);
             $table->integer('mes')->nullable()->default(0);
             $table->datetime('fecha')->nullable();
             $table->string('glosa', 200)->nullable();
             $table->string('serie', 50)->nullable();
-            $table->integer('tipo_gasto_id')->unsigned();
-            $table->integer('tipo_movimiento_id')->unsigned();
+            $table->foreignId('tipo_gasto_id');
+            $table->foreignId('tipo_movimiento_id');
             $table->biginteger('monto');
-            $table->integer('usuario_id')->unsigned();
+            $table->foreignId('usuario_id');
             $table->timestamps();
+
+            $table->foreign('cuenta_id')->references('id')->on('cta_cuentas');
+            // $table->foreign('tipo_gasto_id')->references('id')->on('cta_tipos_gastos');
+            $table->foreign('tipo_movimiento_id')->references('id')->on('cta_tipos_movimientos');
+            $table->foreign('usuario_id')->references('id')->on('acl_usuarios');
         });
     }
 

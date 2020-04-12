@@ -14,7 +14,7 @@ class CreaTablaUsuarios extends Migration
     public function up()
     {
         Schema::create('acl_usuarios', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nombre', 45);
             $table->tinyInteger('activo');
             $table->string('username', 30)->unique();

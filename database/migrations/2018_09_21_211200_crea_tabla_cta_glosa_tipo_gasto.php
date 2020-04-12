@@ -14,11 +14,14 @@ class CreaTablaCtaGlosaTipoGasto extends Migration
     public function up()
     {
         Schema::create('cta_glosa_tipo_gasto', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('cuenta_id')->unsigned();
+            $table->id();
+            $table->foreignId('cuenta_id');
             $table->string('glosa', 200)->nullable();
-            $table->integer('tipo_gasto_id')->unsigned();
+            $table->foreignId('tipo_gasto_id');
             $table->timestamps();
+
+            $table->foreign('cuenta_id')->references('id')->on('cta_cuentas');
+            $table->foreign('tipo_gasto_id')->references('id')->on('cta_tipos_gastos');
         });    }
 
     /**

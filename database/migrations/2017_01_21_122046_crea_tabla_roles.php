@@ -14,11 +14,13 @@ class CreaTablaRoles extends Migration
     public function up()
     {
         Schema::create('acl_rol', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('app_id')->nullable();
+            $table->id();
+            $table->foreignId('app_id');
             $table->string('rol', 50)->unique();
             $table->string('descripcion', 100);
             $table->timestamps();
+
+            $table->foreign('app_id')->references('id')->on('acl_app');
         });
     }
 

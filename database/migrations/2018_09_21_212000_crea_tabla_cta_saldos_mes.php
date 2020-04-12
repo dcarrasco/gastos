@@ -14,13 +14,15 @@ class CreaTablaCtaSaldosMes extends Migration
     public function up()
     {
         Schema::create('cta_saldos_mes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('cuenta_id')->unsigned();
+            $table->id();
+            $table->foreignId('cuenta_id');
             $table->integer('anno')->nullable()->default(0);
             $table->integer('mes')->nullable()->default(0);
             $table->biginteger('saldo_inicial')->default(0);
             $table->biginteger('saldo_final')->default(0);
             $table->timestamps();
+
+            $table->foreign('cuenta_id')->references('id')->on('cta_cuentas');
         });
     }
 
