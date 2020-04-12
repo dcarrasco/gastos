@@ -18,7 +18,7 @@ class CreaTablaCtaGastos extends Migration
             $table->foreignId('cuenta_id');
             $table->integer('anno')->nullable()->default(0);
             $table->integer('mes')->nullable()->default(0);
-            $table->datetime('fecha')->nullable();
+            $table->date('fecha')->nullable();
             $table->string('glosa', 200)->nullable();
             $table->string('serie', 50)->nullable();
             $table->foreignId('tipo_gasto_id');
