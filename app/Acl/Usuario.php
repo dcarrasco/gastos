@@ -13,7 +13,6 @@ class Usuario extends UserACL
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',
     ];
-    public $timestamps = true;
 
     public function __construct(array $attributes = [])
     {

@@ -3,7 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 
-setlocale(LC_ALL, '');
+// setlocale(LC_ALL, '');
 
 if (!function_exists('ajax_options')) {
     function ajax_options($opciones): string
@@ -207,7 +207,8 @@ if (!function_exists('fmtCantidad')) {
         $locale = localeconv();
         $decimales = $decimales ?? $locale['frac_digits'];
 
-        return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']);
+        // return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']);
+        return number_format($valor, 0, ',', '.');
     }
 }
 
@@ -230,7 +231,8 @@ if (!function_exists('fmtMonto')) {
         }
 
         return new HtmlString($locale['currency_symbol'].'&nbsp;'.
-            number_format($monto, $locale['frac_digits'], $locale['decimal_point'], $locale['thousands_sep']));
+            // number_format($monto, $locale['frac_digits'], $locale['decimal_point'], $locale['thousands_sep']));
+            number_format($monto, 0, ',', '.'));
     }
 }
 
@@ -247,7 +249,8 @@ if (!function_exists('fmtPorcentaje')) {
         }
 
         $decimales = $decimales ?? 2;
-        return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']).'%';
+        // return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']).'%';
+        return number_format($valor, $decimales, ',', '.').'%';
     }
 
 }
