@@ -39,8 +39,8 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
 
 // ACL
 Route::group(['prefix' => 'acl', 'as' => 'acl.', 'namespace' => 'Acl'], function () {
-    Route::get('cambia-password', 'LoginController@showCambiaPassword')->name('cambiaPassword');
-    Route::post('cambia-password', 'LoginController@cambiaPassword')->name('cambiaPassword');
+    Route::get('cambia-password/{usuario:username}', 'LoginController@showCambiaPassword')->name('cambiaPassword');
+    Route::post('cambia-password/{usuario:username}', 'LoginController@cambiaPassword')->name('cambiaPassword');
 });
 
 Auth::routes();

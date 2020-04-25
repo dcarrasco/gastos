@@ -40,18 +40,6 @@
                     </div>
                 </div>
 
-                @if (false) // $usar_captcha
-                    <div class="control-group col-md-10 offset-md-1 col-xs-12 <?= form_has_error_class('catpcha'); ?>">
-                        <label class="control-label" for="pwd">{{ trans('login.input_captcha') }}</label>
-                        <div class="controls">
-                            <?= form_input('captcha', '', 'maxlength="15" tabindex="3" class="form-control input-lg"'); ?>
-                        </div>
-                        <div class="controls">
-                            {captcha_img}
-                        </div>
-                    </div>
-                @endif
-
                 <div class="custom-control custom-checkbox col-md-10 offset-md-2">
                     <input type="checkbox" name="remember" value="1" class="custom-control-input" id="remember-id">
                     <label class="custom-control-label" for="remember-id">
@@ -72,17 +60,13 @@
         </div>
     </div>
 
-    <form method="GET" action="{{ route('acl.cambiaPassword') }}" id="form_cambia_password">
-        <input type="hidden" name="username">
-    </form>
-
     <script type="text/javascript">
         $( document ).ready(function() {
             $('#link_cambia_password').click(function(e) {
                 e.preventDefault();
-                if ($('#form_login input[name="username"]').val() !== '') {
-                    $('#form_cambia_password input[name="username"]').val($('#form_login input[name="username"]').val());
-                    $('#form_cambia_password').submit();
+                username = $('#form_login input[name="username"]').val();
+                if (username !== '') {
+                    window.location.href = '{{ route("acl.cambiaPassword", [""]) }}/'+username;
                 } else {
                     alert('Debe ingresa un nombre de usuario para cambiarle la clave');
                 }

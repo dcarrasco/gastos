@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Acl;
 
 use App\Acl\UserACL;
+use App\Acl\Usuario;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CambiaPasswordRequest extends FormRequest
@@ -25,8 +26,10 @@ class CambiaPasswordRequest extends FormRequest
      */
     public function rules()
     {
+        $usuario = Usuario::whereUsername(request('username'))->firstOrNew();
+
         return [
-            'clave_anterior' => UserAcl::checkUserHasPassword(request('username')) ? 'required' : '',
+            'clave_anterior' => $usuario ? 'required' : '',
             'nueva_clave' => 'required|min:8|confirmed',
         ];
     }

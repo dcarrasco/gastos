@@ -89,27 +89,20 @@ class UserACL extends Model implements
         return Arr::get(config('invfija.llavesApp'), Route::currentRouteName() ?? '', '');
     }
 
-    public static function checkUserPassword(string $username, string $password): bool
+    public function checkPassword(string $password): bool
     {
-        $hash = Usuario::usuario($username)->first()->password;
-
-        return password_verify($password, $hash);
+        return password_verify($password, $this->password);
     }
 
-    public static function storeUserPassword(string $username, string $password)
+    public function storePassword(string $password)
     {
-        $usuario = Usuario::usuario($username)->first();
-        $usuario->password = bcrypt($password);
+        $this->password = bcrypt($password);
 
-        return $usuario->save();
+        return $this->save();
     }
 
-    public static function checkUserHasPassword(string $username): bool
+    public function hasPassword(): bool
     {
-        if (Usuario::usuario($username)->count() === 0) {
-            return false;
-        }
-
-        return ! empty(Usuario::usuario($username)->first()->password);
+        return ! empty($this->password);
     }
 }
