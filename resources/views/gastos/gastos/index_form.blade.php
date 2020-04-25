@@ -1,29 +1,25 @@
-<form method="GET">
-    <div class="form-row">
-        <div class="col-3">
-            <label class="col-form-label">Cuenta</label>
-        </div>
-        <div class="col-2">
-            <label class="col-form-label">A&ntilde;o</label>
-        </div>
-        <div class="col-3">
-            <label class="col-form-label">Mes</label>
-        </div>
+<div class="row">
+    <div class="col-9">
+        <form id="filtroReporte" method="GET" class="form-inline">
+            <label class="mr-2">Cuenta</label>
+            <x-form-input name="cuenta_id" type="select" :options=$selectCuentas />
+
+            <label class="ml-5 mr-2">A&ntilde;o</label>
+            <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
+
+            <label class="ml-5 mr-2">Mes</label>
+            <x-form-input name="mes" type="selectMonth" :default="$today->month" />
+        </form>
     </div>
 
-    <div class="form-row">
-        <div class="col-3">
-            <x-form-input name="cuenta_id" type="select" :options=$selectCuentas />
-        </div>
-        <div class="col-2">
-            <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
-        </div>
-        <div class="col-3">
-            <x-form-input name="mes" type="selectMonth" :default="$today->month" />
-        </div>
-        <div class="col-4">
-            <button type="submit" class="btn btn-primary">Consultar</button>
-            <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
-        </div>
+    <div class="col-3">
+        <button name="recalcula" value="recalcula" class="btn btn-secondary pull-right">Recalcula saldos</button>
     </div>
-</form>
+</div>
+
+<script type="text/javascript">
+    $('form#filtroReporte select').on('change', function() {
+        $('form#filtroReporte').submit();
+    });
+</script>
+

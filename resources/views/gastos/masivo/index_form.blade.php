@@ -1,40 +1,24 @@
-<div class="form-row">
-    <div class="offset-3 col-2">
-        <label class="col-form-label">Cuenta</label>
-    </div>
-    <div class="col-2">
-        <label class="col-form-label">A&ntilde;o</label>
-    </div>
-    <div class="col-2">
-        <label class="col-form-label">Mes</label>
-    </div>
+<div class="form-inline justify-content-center">
+    <label class="mr-2">Cuenta</label>
+    <x-form-input name="cuenta_id" type="select" :options=$formCuenta />
+
+    <label class="ml-5 mr-2">A&ntilde;o</label>
+    <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
+
+    <label class="ml-5 mr-2">Mes</label>
+    <x-form-input name="mes" type="selectMonth" :default="$today->month" />
 </div>
 
 <div class="form-row">
-    <div class="offset-3 col-2">
-        <x-form-input name="cuenta_id" type="select" :options=$formCuenta />
-    </div>
-    <div class="col-2">
-        <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
-    </div>
-    <div class="col-2">
-        <x-form-input name="mes" type="selectMonth" :default="$today->month" />
-    </div>
+    <label class="offset-1 col-form-label">Datos</label>
 </div>
 
 <div class="form-row">
-    <div class="offset-1 col-2">
-        <label class="col-form-label">Datos</label>
-    </div>
+    <textarea name="datos" class="form-control offset-1 col-10" cols="50" rows="10">{{ request('datos') }}</textarea>
 </div>
 
 <div class="form-row">
-    <div class="offset-1 col-10">
-        <textarea name="datos" class="form-control" cols="50" rows="10">
-            {{ request('datos') }}
-        </textarea>
-        <div class="text-right my-3">
-            <button type="submit" class="btn btn-primary text-right">Procesar</button>
-        </div>
+    <div class="offset-1 col-10 text-right my-3">
+        <button type="submit" class="btn btn-primary text-right">Procesar</button>
     </div>
 </div>

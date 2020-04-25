@@ -1,22 +1,13 @@
-<form method="GET">
-    <div class="form-row">
-        <div class="offset-3 col-3">
-            <label class="col-form-label">Cuenta</label>
-        </div>
-        <div class="col-2">
-            <label class="col-form-label">A&ntilde;o</label>
-        </div>
-    </div>
+<form id="filtroReporte" method="GET" class="form-inline justify-content-center">
+    <label class="mr-2">Cuenta</label>
+    <x-form-input name="cuenta_id" type="select" :options=$cuentas />
 
-    <div class="form-row">
-        <div class="offset-3 col-3">
-            <x-form-input name="cuenta_id" type="select" :options=$cuentas />
-        </div>
-        <div class="col-2">
-            <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
-        </div>
-        <div class="col-4">
-            <button type="submit" class="btn btn-primary">Consultar</button>
-        </div>
-    </div>
+    <label class="ml-5 mr-2">A&ntilde;o</label>
+    <x-form-input name="anno" type="selectYear" :default="$today->year" :from-year="$today->year" to-year="2015" />
 </form>
+
+<script type="text/javascript">
+    $('form#filtroReporte select').on('change', function() {
+        $('form#filtroReporte').submit();
+    });
+</script>

@@ -1,28 +1,16 @@
-<form method="GET">
-    <div class="form-row">
-        <div class="offset-2 col-2">
-            <label class="col-form-label">Cuenta</label>
-        </div>
-        <div class="col-2">
-            <label class="col-form-label">A&ntilde;o</label>
-        </div>
-        <div class="col-2">
-            <label class="col-form-label">Tipo Movimiento</label>
-        </div>
-    </div>
+<form id="filtroReporte" method="GET" class="form-inline justify-content-center">
+    <label class="mr-2">Cuenta</label>
+    <x-form-input name="cuenta_id" type="select" :options=$cuentas class="" />
 
-    <div class="form-row">
-        <div class="offset-2 col-2">
-            <x-form-input name="cuenta_id" type="select" :options=$cuentas />
-        </div>
-        <div class="col-2">
-            <x-form-input name="anno" type="selectYear" :from-year="$today->year" to-year="2015" />
-        </div>
-        <div class="col-2">
-            <x-form-input name="tipo_movimiento_id" type="select" :options=$tiposMovimientos />
-        </div>
-        <div class="col-2">
-            <button type="submit" class="btn btn-primary">Consultar</button>
-        </div>
-    </div>
+    <label class="ml-5 mr-2">A&ntilde;o</label>
+    <x-form-input name="anno" type="selectYear" :from-year="$today->year" to-year="2015" />
+
+    <label class="ml-5 mr-2">Tipo Movimiento</label>
+    <x-form-input name="tipo_movimiento_id" type="select" :options=$tiposMovimientos />
 </form>
+
+<script type="text/javascript">
+    $('form#filtroReporte select').on('change', function() {
+        $('form#filtroReporte').submit();
+    });
+</script>
