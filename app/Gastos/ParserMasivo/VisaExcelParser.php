@@ -9,15 +9,16 @@ use Illuminate\Http\Request;
 use App\Gastos\GlosaTipoGasto;
 use Illuminate\Support\Collection;
 
-class VisaExcelParser implements GastosParser
+class VisaExcelParser extends GastosParser
 {
-    protected $glosasTipoGasto = null;
-
-    protected $datosMasivos = null;
-
+    protected $cuentaAsociada = 2;
 
     public function procesaMasivo(Request $request): Collection
     {
+        if (is_null($request->cuenta_id)) {
+            return collect([]);
+        }
+
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
         return $this->requestDatosMasivos($request)

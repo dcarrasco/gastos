@@ -4,27 +4,35 @@ namespace App\Http\Controllers\Gastos;
 
 use Carbon\Carbon;
 use App\Gastos\Cuenta;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Gastos\ParserMasivo\NullParser;
-use App\Gastos\ParserMasivo\GastosParser;
+use App\Gastos\ParserMasivo\VisaExcelParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 
 class IngresoMasivo extends Controller
 {
     protected $parser = null;
 
+    protected $cuentas = null;
 
-    public function __construct(GastosParser $parser)
-    {
-        $this->parser = $parser;
-    }
+    protected $parsers = [
+        VisaExcelParser::class,
+    ];
 
-    protected function getParserError()
+
+    public function __construct(Request $request)
     {
-        return get_class($this->parser) == NullParser::class
-            ? ['ParserError' => 'No se puede ingresar masivo esta cuenta']
-            : [];
+        $this->parsers = arrayToInstanceCollection($this->parsers);
+
+        $this->cuentas = $this->parsers
+            ->map->getCuenta()
+            ->pluck('cuenta', 'id');
+
+        $this->parser = $this->parsers
+            ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()));
     }
 
     public function ingresoMasivo(Request $request)
@@ -38,10 +46,10 @@ class IngresoMasivo extends Controller
 
         return view('gastos.masivo.index', [
             'today' => Carbon::now(),
-            'formCuenta' => Cuenta::selectCuentasGastos(),
+            'formCuenta' => $this->cuentas,
             'datosMasivos' => $datosMasivos,
             'agregarDatosMasivos' => $agregarDatosMasivos,
-        ])->withErrors($this->getParserError());
+        ])->withErrors($this->parser->getParserError());
     }
 
     protected function addGastosMasivos(IngresoMasivoRequest $request)

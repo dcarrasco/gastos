@@ -1,9 +1,20 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 
 // setlocale(LC_ALL, '');
+
+if (!function_exists('arrayToInstanceCollection')) {
+    function arrayToInstanceCollection(array $classArray): Collection
+    {
+        return collect($classArray)
+            ->map(function ($class) {
+                return new $class;
+            });
+    }
+}
 
 if (!function_exists('ajax_options')) {
     function ajax_options($opciones): string

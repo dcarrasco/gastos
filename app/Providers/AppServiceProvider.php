@@ -28,14 +28,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(GastosParser::class, function () {
-            $parsers = [
-                '2' => VisaExcelParser::class,
-            ];
-
-            $selectedParser = Arr::get($parsers, request()->input('cuenta_id', ''), NullParser::class);
-
-            return new $selectedParser();
-        });
     }
 }

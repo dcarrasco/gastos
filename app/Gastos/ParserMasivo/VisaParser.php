@@ -10,7 +10,7 @@ use App\Gastos\GlosaTipoGasto;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Gastos\TipoGastoModel;
 
-class VisaParser implements GastosParser
+class VisaParser extends GastosParser
 {
     public function procesaMasivo(Request $request): Collection
     {
