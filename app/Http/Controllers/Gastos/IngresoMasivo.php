@@ -35,7 +35,7 @@ class IngresoMasivo extends Controller
             ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()));
     }
 
-    public function ingresoMasivo(Request $request)
+    public function index(Request $request)
     {
         $currentLocale = setlocale(LC_TIME, 'es-ES');
 
@@ -52,7 +52,7 @@ class IngresoMasivo extends Controller
         ])->withErrors($this->parser->getParserError());
     }
 
-    protected function addGastosMasivos(IngresoMasivoRequest $request)
+    protected function store(IngresoMasivoRequest $request)
     {
         $this->parser->procesaMasivo($request)
             ->each->save();
