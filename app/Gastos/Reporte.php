@@ -24,6 +24,11 @@ abstract class Reporte
         $this->titulosFilas = $this->makeTitulosFilas();
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->reporte->isEmpty();
+    }
+
     public function getDato(string $fila, string $columna, string $default = ''): int
     {
         return Arr::get($this->reporte, "{$fila}.{$columna}", $default);
