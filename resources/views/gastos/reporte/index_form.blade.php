@@ -3,7 +3,7 @@
     <x-form-input name="cuenta_id" type="select" :options=$cuentas class="" />
 
     <label class="ml-5 mr-2">A&ntilde;o</label>
-    <x-form-input name="anno" type="selectYear" :from-year="$today->year" to-year="2015" />
+    <x-form-input name="anno" type="selectYear" :from-year="today()->year" to-year="2015" />
 
     <label class="ml-5 mr-2">Tipo Movimiento</label>
     <x-form-input name="tipo_movimiento_id" type="select" :options=$tiposMovimientos />

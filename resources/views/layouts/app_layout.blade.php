@@ -34,7 +34,7 @@
     <x-app-navbar />
 
     <div class="container-fluid" id="container">
-        <div class="row mh-100" style="min-height: 100vh;">
+        <div class="row" style="min-height: 95vh;">
 
         @guest
             <div class="col-12">
@@ -47,7 +47,7 @@
             </div>
 
             <!-- -----------------------------  PANEL MODULO  --------------------------- -->
-            <div class="col-10 px-5 py-5">
+            <div class="col-10 px-5 pt-5 pb-2">
                 <x-alert :errors=$errors />
                 @yield('modulo')
                 <x-app-footer />

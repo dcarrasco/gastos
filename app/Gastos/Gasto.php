@@ -6,6 +6,7 @@ use App\Acl\Usuario;
 use App\Gastos\Cuenta;
 use App\Gastos\TipoGasto;
 use App\Gastos\TipoMovimiento;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
@@ -132,5 +133,22 @@ class Gasto extends Model
             ->groupBy(['mes', 'tipo_gasto_id'])
             ->with('tipoGasto')
             ->get();
+    }
+
+    public static function createInversion(array $inversion)
+    {
+        return static::create(array_merge($inversion, [
+            'mes' => Carbon::create($inversion['fecha'])->month,
+            'usuario_id' => auth()->id(),
+            'tipo_gasto_id' => 0,
+        ]));
+    }
+
+    public static function createGasto(array $gasto)
+    {
+        return static::create(array_merge($gasto, [
+            'tipo_movimiento_id' => TipoGasto::find($gasto['tipo_gasto_id'])->tipo_movimiento_id,
+            'usuario_id' => auth()->id(),
+        ]));
     }
 }

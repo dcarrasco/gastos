@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Gastos\ParserMasivo\VisaExcelParser;
@@ -41,7 +40,6 @@ class IngresoMasivo extends Controller
         })->count();
 
         return view('gastos.masivo.index', [
-            'today' => Carbon::now(),
             'formCuenta' => $this->cuentas,
             'datosMasivos' => $datosMasivos,
             'agregarDatosMasivos' => $agregarDatosMasivos,

@@ -28,11 +28,7 @@ class IngresoInversion extends Controller
 
     public function store(AddInversionRequest $request)
     {
-        Gasto::create(array_merge($request->validated(), [
-            'mes' => Carbon::create($request->fecha)->month,
-            'usuario_id' => auth()->id(),
-            'tipo_gasto_id' => 0,
-        ]));
+        Gasto::createInversion($request->validated());
 
         return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
     }

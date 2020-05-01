@@ -24,8 +24,8 @@
             <form method="POST">
                 @csrf
                 <input type="hidden" name="cuenta_id" value="{{ request('cuenta_id', $selectCuentas->keys()->first()) }}">
-                <input type="hidden" name="anno" value="{{ request('anno', $today->year) }}">
-                <input type="hidden" name="mes" value="{{ request('mes', $today->month) }}">
+                <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
+                <input type="hidden" name="mes" value="{{ request('mes', today()->month) }}">
                 <td></td>
                 <td></td>
                 <td><x-form-input name="fecha" type="date" class="form-control-sm"/></td>

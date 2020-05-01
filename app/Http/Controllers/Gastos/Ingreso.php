@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\Cuenta;
 use App\Gastos\SaldoMes;
@@ -17,13 +16,12 @@ class Ingreso extends Controller
     {
         $currentLocale = setlocale(LC_TIME, 'es-ES');
 
-        $today = Carbon::now();
         $selectCuentas = Cuenta::selectCuentasGastos();
         $selectTiposGastos = TipoGasto::formArray();
 
         $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
-        $anno = $request->input('anno', $today->year);
-        $mes = $request->input('mes', $today->month);
+        $anno = $request->input('anno', today()->year);
+        $mes = $request->input('mes', today()->month);
 
         $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
 
@@ -31,16 +29,12 @@ class Ingreso extends Controller
             SaldoMes::recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
-        return view('gastos.gastos.index', compact('today', 'selectCuentas', 'selectTiposGastos', 'movimientosMes'));
+        return view('gastos.gastos.index', compact('selectCuentas', 'selectTiposGastos', 'movimientosMes'));
     }
 
     public function store(AddGastoRequest $request)
     {
-        Gasto::create(array_merge($request->validated(), [
-            'tipo_movimiento_id' => TipoGasto::find($request->tipo_gasto_id)->tipo_movimiento_id,
-            'usuario_id' => auth()->id(),
-        ]));
-
+        Gasto::createGasto($request->validated());
         SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 
         return redirect()->route('gastos.showMes', $request->only([

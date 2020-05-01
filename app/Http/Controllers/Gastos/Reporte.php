@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use Carbon\Carbon;
 use App\Gastos\Gasto;
 use App\Gastos\Cuenta;
 use Illuminate\Http\Request;
@@ -14,16 +13,15 @@ class Reporte extends Controller
 {
     protected function index(Request $request)
     {
-        $today = Carbon::now();
         $cuentas = Cuenta::selectCuentasGastos();
         $tiposMovimientos = TipoMovimiento::formArray();
         $reporte = new ReporteGastos(
             $request->input('cuenta_id', $cuentas->keys()->first()),
-            $request->input('anno', $today->year),
+            $request->input('anno', today()->year),
             $request->input('tipo_movimiento_id', $tiposMovimientos->keys()->first())
         );
 
-        return view('gastos.reporte.index', compact('today', 'cuentas', 'tiposMovimientos', 'reporte'));
+        return view('gastos.reporte.index', compact('cuentas', 'tiposMovimientos', 'reporte'));
     }
 
     public function show(Request $request)

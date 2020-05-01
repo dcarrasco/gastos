@@ -25,7 +25,7 @@
                             @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
                                 <a href="{{ route('gastos.detalle', [
                                     'cuenta_id' => request('cuenta_id', $cuentas->keys()->first()),
-                                    'anno' => request('anno', $today->year),
+                                    'anno' => request('anno', today()->year),
                                     'mes' => $numMes,
                                     'tipo_gasto_id' => $idTipoGasto
                                 ]) }}" class="text-reset">
