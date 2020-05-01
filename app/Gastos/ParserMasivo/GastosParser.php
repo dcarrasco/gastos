@@ -35,4 +35,13 @@ class GastosParser
     {
         return $this->cuentaAsociada == $cuenta;
     }
+
+    public function agregarDatosMasivos(Request $request): bool
+    {
+        $datosMasivos = $this->procesaMasivo($request);
+
+        return $datosMasivos->count() == $datosMasivos->filter(function ($gasto) {
+            return $gasto->tipo_gasto_id !== null;
+        })->count();
+    }
 }
