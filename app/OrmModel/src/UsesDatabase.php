@@ -51,7 +51,7 @@ trait UsesDatabase
         $this->modelQueryBuilder = $this->modelQueryBuilder
             ->where(function ($query) use ($request) {
                 foreach ($this->search as $field) {
-                    $query = $query->orWhere($field, 'like', '%' . $request->input($this->searchKey) . '%');
+                    $query = $query->orWhere($field, 'like', '%' . $request->{$this->searchKey} . '%');
                 }
             });
 
@@ -140,8 +140,8 @@ trait UsesDatabase
         // actualiza las tablas relacionadas
         collect($this->fields($request))
             // filtra los campos de TIPO_HAS_MANY
-            ->filter(function ($elem) {
-                return get_class($elem) === HasMany::class;
+            ->filter(function ($field) {
+                return get_class($field) === HasMany::class;
             })
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
