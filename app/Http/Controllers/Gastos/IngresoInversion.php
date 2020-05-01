@@ -7,7 +7,6 @@ use App\Gastos\Cuenta;
 use App\Gastos\Inversion;
 use Illuminate\Http\Request;
 use App\Gastos\TipoMovimiento;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\AddInversionRequest;
 
@@ -15,15 +14,14 @@ class IngresoInversion extends Controller
 {
     public function index(Request $request)
     {
-        $today = Carbon::now();
         $cuentas = Cuenta::selectCuentasInversiones();
         $tiposMovimientos = TipoMovimiento::formArray();
         $inversion = new Inversion(
             $request->input('cuenta_id', $cuentas->keys()->first()),
-            $request->input('anno', $today->year)
+            $request->input('anno', today()->year)
         );
 
-        return view('gastos.inversion.index', compact('today', 'cuentas', 'tiposMovimientos', 'inversion'));
+        return view('gastos.inversion.index', compact('cuentas', 'tiposMovimientos', 'inversion'));
     }
 
     public function store(AddInversionRequest $request)

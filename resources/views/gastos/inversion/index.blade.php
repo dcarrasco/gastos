@@ -90,7 +90,7 @@
             <form method="POST">
                 @csrf
                 <input type="hidden" name="cuenta_id" value="{{ request('cuenta_id', $cuentas->keys()->first()) }}">
-                <input type="hidden" name="anno" value="{{ request('anno', $today->year) }}">
+                <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
                 <td></td>
                 <td></td>
                 <td><x-form-input name="fecha" type="date" class="form-control-sm" /></td>
