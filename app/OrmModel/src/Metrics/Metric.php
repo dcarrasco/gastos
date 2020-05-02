@@ -96,16 +96,10 @@ abstract class Metric
      */
     protected function newQuery(Request $request, string $resource): Builder
     {
-        $query = (new $resource())->model()->newQuery();
-        $query = $this->extendFilter($request, $query);
+        $query = (new $resource())->applyFilters($request)
+            ->getModelQueryBuilder();
 
-        collect((new $resource())->filters($request))
-            ->filter->isSet($request)
-            ->each(function ($filter) use ($request, &$query) {
-                $query = $filter->apply($request, $query, $filter->getValue($request));
-            });
-
-        return $query;
+        return $this->extendFilter($request, $query);
     }
 
     /**

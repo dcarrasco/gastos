@@ -23,7 +23,7 @@ trait UsesFilters
      * @param  Request $request
      * @return Resource
      */
-    protected function applyFilters(Request $request): Resource
+    public function applyFilters(Request $request): Resource
     {
         collect($this->filters($request))
             ->filter->isSet($request)
