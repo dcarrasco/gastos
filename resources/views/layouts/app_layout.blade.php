@@ -34,7 +34,7 @@
     <x-app-navbar />
 
     <div class="container-fluid" id="container">
-        <div class="row" style="min-height: 95vh;">
+        <div class="row vh-100">
 
         @guest
             <div class="col-12">
