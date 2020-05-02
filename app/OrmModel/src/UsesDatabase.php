@@ -63,7 +63,7 @@ trait UsesDatabase
      *
      * @return array Arreglo con campos de ordenamiento
      */
-    public function getOrder(): array
+    public function getOrderBy(): array
     {
         if (!is_array($this->orderBy)) {
             $this->orderBy = [(string) $this->orderBy => 'asc'];
@@ -91,11 +91,11 @@ trait UsesDatabase
      * @param  Request $request
      * @return Resource
      */
-    public function resourceOrderBy(Request $request): Resource
+    public function applyOrderBy(Request $request): Resource
     {
         $orderBy = $request->has($this->sortByKey)
             ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
-            : $this->getOrder();
+            : $this->getOrderBy();
 
         foreach ($orderBy as $field => $order) {
             $this->modelQueryBuilder = $this->modelQueryBuilder->orderBy($field, $order);

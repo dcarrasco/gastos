@@ -192,8 +192,8 @@ abstract class Field
      */
     protected function getSortingIconClass(Request $request, Resource $resource): string
     {
-        $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
-        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
+        $sortingField = $request->input($this->sortByKey, collect($resource->getOrderBy())->keys()->first());
+        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrderBy())->first());
 
         return ($sortingField === $this->attribute)
             ? Arr::get($this->sortIcons, $sortDirection, $this->sortIconDefault)
@@ -208,8 +208,8 @@ abstract class Field
      */
     protected function getSortingOrder(Request $request, Resource $resource): string
     {
-        $sortingField = $request->input($this->sortByKey, collect($resource->getOrder())->keys()->first());
-        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrder())->first());
+        $sortingField = $request->input($this->sortByKey, collect($resource->getOrderBy())->keys()->first());
+        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrderBy())->first());
         $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
         return ($sortingField === $this->attribute)

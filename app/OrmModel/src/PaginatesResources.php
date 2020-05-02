@@ -43,7 +43,7 @@ trait PaginatesResources
     public function paginator(Request $request): LengthAwarePaginator
     {
         return $this->paginator = $this->resourceSetPerPage($request)
-            ->resourceOrderBy($request)
+            ->applyOrderBy($request)
             ->resourceSearch($request)
             ->applyFilters($request)
             ->getBelongsToRelations($request)

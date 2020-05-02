@@ -75,12 +75,12 @@ class Relation extends Field
      * @param  array         $conditions
      * @return array
      */
-    protected function getRelatedListModels(Request $request, Resource $resource = null, array $conditions = [])
+    protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = [])
     {
         return (new $this->relatedResource())
-            ->resourceOrderBy($request)
+            ->applyOrderBy($request)
             ->getModelQueryBuilder()
-            ->where($this->getResourceFilter($resource, $conditions))
+            ->where($this->getRelationFilter($resource, $conditions))
             ->get();
     }
 
@@ -111,7 +111,7 @@ class Relation extends Field
      * @param  array    $conditions
      * @return array
      */
-    protected function getResourceFilter(Resource $resource, array $conditions = []): array
+    protected function getRelationFilter(Resource $resource, array $conditions = []): array
     {
         return collect($conditions)
             ->filter(function ($condition) {

@@ -217,7 +217,7 @@ abstract class Resource
 
     public function getModelFormOptions(Request $request): Collection
     {
-        $this->resourceOrderBy($request);
+        $this->applyOrderBy($request);
 
         $whereIn = collect($request->all())->filter(function ($elem, $key) {
             return !is_integer($key) and is_array($elem);
