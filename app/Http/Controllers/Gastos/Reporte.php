@@ -14,7 +14,7 @@ class Reporte extends Controller
     protected function index(Request $request)
     {
         $cuentas = Cuenta::selectCuentasGastos();
-        $tiposMovimientos = TipoMovimiento::formArray();
+        $tiposMovimientos = TipoMovimiento::selectOptions();
         $reporte = new ReporteGastos(
             $request->input('cuenta_id', $cuentas->keys()->first()),
             $request->input('anno', today()->year),

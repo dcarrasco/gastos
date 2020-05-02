@@ -17,7 +17,7 @@ class TipoMovimiento extends Model
         return $this->hasMany(TipoGasto::class);
     }
 
-    public static function formArray(): Collection
+    public static function selectOptions(): Collection
     {
         return static::orderBy('orden')->get()
             ->pluck('tipo_movimiento', 'id');

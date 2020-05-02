@@ -17,7 +17,7 @@ class Ingreso extends Controller
         $currentLocale = setlocale(LC_TIME, 'es-ES');
 
         $selectCuentas = Cuenta::selectCuentasGastos();
-        $selectTiposGastos = TipoGasto::formArray();
+        $selectTiposGastos = TipoGasto::selectOptions();
 
         $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
         $anno = $request->input('anno', today()->year);

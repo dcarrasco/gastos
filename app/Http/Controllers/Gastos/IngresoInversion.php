@@ -15,7 +15,7 @@ class IngresoInversion extends Controller
     public function index(Request $request)
     {
         $cuentas = Cuenta::selectCuentasInversiones();
-        $tiposMovimientos = TipoMovimiento::formArray();
+        $tiposMovimientos = TipoMovimiento::selectOptions();
         $inversion = new Inversion(
             $request->input('cuenta_id', $cuentas->keys()->first()),
             $request->input('anno', today()->year)

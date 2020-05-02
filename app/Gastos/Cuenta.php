@@ -24,7 +24,7 @@ class Cuenta extends Model
         return $this->belongsTo(TipoCuenta::class);
     }
 
-    protected static function formArray($tipo = 0): Collection
+    protected static function selectOptions($tipo = 0): Collection
     {
         return TipoCuenta::where('tipo', $tipo)->with('cuentas')->get()
             ->map->cuentas
@@ -34,11 +34,11 @@ class Cuenta extends Model
 
     public static function selectCuentasGastos(): Collection
     {
-        return static::formArray(TipoCuenta::CUENTA_GASTO);
+        return static::selectOptions(TipoCuenta::CUENTA_GASTO);
     }
 
     public static function selectCuentasInversiones(): Collection
     {
-        return static::formArray(TipoCuenta::CUENTA_INVERSION);
+        return static::selectOptions(TipoCuenta::CUENTA_INVERSION);
     }
 }

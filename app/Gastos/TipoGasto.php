@@ -17,7 +17,7 @@ class TipoGasto extends Model
         return $this->belongsTo(TipoMovimiento::class);
     }
 
-    public static function formArray(): Collection
+    public static function selectOptions(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()
             ->mapWithKeys(function ($elem, $key) {
