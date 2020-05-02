@@ -196,7 +196,7 @@ abstract class Resource
      * @param Request $request
      * @return Resource
      */
-    public function getBelongsToRelations(Request $request): Resource
+    public function eagerLoadsBelongsToRelations(Request $request): Resource
     {
         collect($this->fields($request))
             ->filter(function ($field) {

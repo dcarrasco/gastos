@@ -44,9 +44,9 @@ trait PaginatesResources
     {
         return $this->paginator = $this->resourceSetPerPage($request)
             ->applyOrderBy($request)
-            ->resourceSearch($request)
+            ->applySearchFilter($request)
             ->applyFilters($request)
-            ->getBelongsToRelations($request)
+            ->eagerLoadsBelongsToRelations($request)
             ->getPaginated();
     }
 

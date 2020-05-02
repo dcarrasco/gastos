@@ -42,7 +42,7 @@ trait UsesDatabase
      * @param  Request $request
      * @return Resource
      */
-    public function resourceSearch(Request $request): Resource
+    public function applySearchFilter(Request $request): Resource
     {
         if (empty($request->input($this->searchKey))) {
             return $this;
