@@ -15,6 +15,7 @@ class Reporte extends Controller
     {
         $cuentas = Cuenta::selectCuentasGastos();
         $tiposMovimientos = TipoMovimiento::selectOptions();
+
         $reporte = new ReporteGastos(
             $request->input('cuenta_id', $cuentas->keys()->first()),
             $request->input('anno', today()->year),
