@@ -29,4 +29,9 @@ class Usuario extends UserACL
     {
         return head(explode(' ', $this->nombre));
     }
+
+    public function avatarLink()
+    {
+        return "https://secure.gravatar.com/avatar/".md5($this->email)."?size=24";
+    }
 }
