@@ -1,10 +1,15 @@
 /node_modules
 /public/storage
+/public/hot
 /storage/*.key
 /vendor
-/.idea
+.env
+.env.backup
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
-.env
+npm-debug.log
+yarn-error.log
+/.idea
 *.sublime-project
 *.sublime-workspace

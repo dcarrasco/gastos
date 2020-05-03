@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ $factory->define(App\User::class, function (Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });
 
@@ -38,7 +39,7 @@ $factory->define(App\Acl\Usuario::class, function (Generator $faker) {
         'ip_login' => $faker->localIpv4,
         'agente_login' => '',
         'login_errors' => 0,
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'created_at' => Carbon\Carbon::now(),
     ];
 });
