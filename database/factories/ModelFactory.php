@@ -40,7 +40,37 @@ $factory->define(App\Acl\Usuario::class, function (Generator $faker) {
         'agente_login' => '',
         'login_errors' => 0,
         'remember_token' => Str::random(10),
-        'created_at' => Carbon\Carbon::now(),
+    ];
+});
+
+$factory->define(App\Acl\App::class, function (Generator $faker) {
+    return [
+        'app' => $faker->words(3, true),
+        'descripcion' => $faker->sentence(),
+        'url' => $faker->url,
+        'icono' => $faker->word,
+        'orden' => $faker->randomDigit,
+    ];
+});
+
+$factory->define(App\Acl\Rol::class, function (Generator $faker) {
+    return [
+        'app_id' => 0,
+        'rol' => $faker->words(3, true),
+        'descripcion' => $faker->sentence(),
+    ];
+});
+
+$factory->define(App\Acl\Modulo::class, function (Generator $faker) {
+    return [
+        'app_id' => 0,
+        'modulo' => $faker->words(3, true),
+        'descripcion' => $faker->sentence(),
+        'llave_modulo' => Str::random(10),
+        'icono' => $faker->word,
+        'url' => $faker->url,
+        'orden' => $faker->randomDigit,
+        'created_at' => now(),
     ];
 });
 
@@ -52,13 +82,13 @@ $factory->define(App\Gastos\Banco::class, function (Generator $faker) {
 
 $factory->define(App\Gastos\Cuenta::class, function (Generator $faker) {
     return [
-        'cuenta' => $faker->company,
+        'cuenta' => $faker->words(3, true),
     ];
 });
 
 $factory->define(App\Gastos\TipoCuenta::class, function (Generator $faker) {
     return [
-        'tipo_cuenta' => $faker->company,
+        'tipo_cuenta' => $faker->words(3),
         'tipo' => App\Gastos\TipoCuenta::CUENTA_GASTO
     ];
 });
