@@ -1,5 +1,3 @@
-<!doctype html>
-<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,33 +27,3 @@
         <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>
     @endif
 </head>
-
-<body>
-    <x-app-navbar />
-
-    <div class="container-fluid" id="container">
-        <div class="row vh-100">
-
-        @guest
-            <div class="col-12">
-                @yield('modulo')
-            </div>
-        @else
-            <!-- -----------------------------  MENU MODULO  --------------------------- -->
-            <div class="col-2 bg-secondary px-0">
-                <x-app-menu-modulo />
-            </div>
-
-            <!-- -----------------------------  PANEL MODULO  --------------------------- -->
-            <div class="col-10 px-5 pt-5 pb-2">
-                <x-alert :errors=$errors />
-                @yield('modulo')
-                <x-app-footer />
-            </div>
-        @endguest
-
-        </div> <!-- DIV   class="row"    -->
-    </div> <!-- DIV principal de la aplicacion   class="container"-->
-
-</body>
-</html>
