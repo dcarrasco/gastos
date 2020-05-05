@@ -34,7 +34,7 @@ class IngresoMasivo extends Controller
     {
         $currentLocale = setlocale(LC_TIME, 'es-ES');
 
-        return view('gastos.masivo.index', [
+        return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
             'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),

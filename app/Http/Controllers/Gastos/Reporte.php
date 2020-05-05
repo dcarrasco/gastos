@@ -22,12 +22,12 @@ class Reporte extends Controller
             $request->input('tipo_movimiento_id', $tiposMovimientos->keys()->first())
         );
 
-        return view('gastos.reporte.index', compact('cuentas', 'tiposMovimientos', 'reporte'));
+        return view('gastos.reporte-index', compact('cuentas', 'tiposMovimientos', 'reporte'));
     }
 
     public function show(Request $request)
     {
-        return view('gastos.reporte.show', [
+        return view('gastos.reporte-show', [
             'movimientosMes' => Gasto::detalleMovimientosMes(
                 $request->cuenta_id,
                 $request->anno,
