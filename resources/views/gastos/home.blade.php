@@ -1,12 +1,7 @@
-@extends('layouts.app_layout')
+<x-layout.app>
 
-@section('modulo')
-<div class="container">
-    <div class="row">
-        <!-- <div class="h2">Dashboard</div> -->
+    <div class="container">
+        <x-orm.cards-container :cards="$cards" />
     </div>
 
-    <!-- ------------------------- CARDS ------------------------- -->
-    <x-orm.cards-container :cards="$cards" />
-</div>
-@endsection
+</x-layout.app>
