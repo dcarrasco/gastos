@@ -15,7 +15,7 @@ class TablaACLRolSeeder extends Seeder
             'app_id' => 1,
             'rol' => 'Rol Gastos',
             'descripcion' => 'Rol Gastos',
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
     }
 }

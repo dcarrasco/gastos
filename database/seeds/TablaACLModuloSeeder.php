@@ -23,7 +23,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'cogs',
             'url' => 'gastosConfig.index',
             'orden' => 90,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 2
@@ -35,7 +35,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'money',
             'url' => 'gastos.showMes',
             'orden' => 10,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 3
@@ -47,7 +47,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'table',
             'url' => 'gastos.reporte',
             'orden' => 20,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 4
@@ -59,7 +59,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'calculator',
             'url' => 'gastos.ingresoMasivo',
             'orden' => 40,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 5
@@ -71,7 +71,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'line-chart',
             'url' => 'gastos.ingresoInversion',
             'orden' => 30,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 6
@@ -83,7 +83,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'users',
             'url' => 'aclConfig.index',
             'orden' => 100,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 7
@@ -95,7 +95,7 @@ class TablaACLModuloSeeder extends Seeder
             'icono' => 'table',
             'url' => 'gastos.reporteTotalGastos',
             'orden' => 21,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
     }
 }

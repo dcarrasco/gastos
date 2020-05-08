@@ -17,13 +17,11 @@ class TablaACLUsuariosSeeder extends Seeder
             'username' => 'laravel',
             'password' => bcrypt('laravel'),
             'email' => 'danielcarrasco17@gmail.com',
-            'fecha_login' => \Carbon\Carbon::now(),
+            'fecha_login' => now(),
             'ip_login' => '',
             'agente_login' => '',
             'login_errors' => 0,
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
-
-        // factory(App\Acl\Usuario::class, 15)->create();
     }
 }

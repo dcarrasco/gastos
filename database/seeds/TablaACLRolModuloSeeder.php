@@ -14,12 +14,12 @@ class TablaACLRolModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // GASTOS
         // ---------------------------------------------------------------------
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 1]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 2]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 3]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 4]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 5]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 6]);
-        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 7]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 1, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 2, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 3, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 4, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 5, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 6, 'created_at' => now()]);
+        DB::table('acl_rol_modulo')->insert(['rol_id' => 1, 'modulo_id' => 7, 'created_at' => now()]);
     }
 }

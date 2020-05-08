@@ -18,7 +18,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 50,
             'url' => '',
             'icono' => 'credit-card',
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
 
         // 2
@@ -28,7 +28,7 @@ class TablaACLAppSeeder extends Seeder
             'orden' => 90,
             'url' => '',
             'icono' => 'users',
-            'created_at' => Carbon\Carbon::now(),
+            'created_at' => now(),
         ]);
     }
 }
