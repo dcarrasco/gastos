@@ -85,5 +85,17 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 100,
             'created_at' => Carbon\Carbon::now(),
         ]);
+
+        // 7
+        DB::table('acl_modulo')->insert([
+            'app_id' => 1,
+            'modulo' => 'Gastos totales',
+            'descripcion' => 'Reporte Gastos Totales',
+            'llave_modulo' => 'jinkns816tGF172',
+            'icono' => 'table',
+            'url' => 'gastos.reporteTotalGastos',
+            'orden' => 21,
+            'created_at' => Carbon\Carbon::now(),
+        ]);
     }
 }
