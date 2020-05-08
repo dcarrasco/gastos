@@ -3,7 +3,7 @@
 namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
-use App\OrmModel\OrmField\HasMany;
+use App\OrmModel\src\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 
 trait UsesDatabase
