@@ -152,36 +152,15 @@ class Gasto extends Model
         ]));
     }
 
-    public static function totalGastosMes(int $anno, int $mes): Collection
+    public static function getDataReporteGastosTotales(int $anno): Collection
     {
-        $gastos = Gasto::whereAnno($anno)->whereMes($mes)
+        return Gasto::whereAnno($anno)
             ->whereIn('cuenta_id', [1,2])
             ->where('tipo_gasto_id', '<>', 3)
             ->whereTipoMovimientoId(1)
-            ->with('TipoGasto')
+            ->with('tipoGasto')
+            ->selectRaw('tipo_gasto_id, mes, sum(monto) as monto')
+            ->groupBy('tipo_gasto_id', 'mes')
             ->get();
-
-        return $gastos->pluck('tipoGasto.tipo_gasto')
-                ->unique()
-                ->mapWithKeys(function ($tipoGasto) use ($gastos) {
-                    return [
-                        $tipoGasto => $gastos->filter(function ($gasto) use ($tipoGasto) {
-                                return $gasto->tipoGasto->tipo_gasto == $tipoGasto;
-                        })
-                        ->sum('monto')
-                    ];
-                })
-                ->sortKeys();
-    }
-
-    public static function getDataReporteGastosTotales(int $anno): Collection
-    {
-        return collect(range(1, 12))->map(function ($mes) use ($anno) {
-            return Gasto::totalGastosMes($anno, $mes)
-                ->map(function ($gasto, $tipo) use ($mes) {
-                    return ['tipo' => $tipo, 'monto' => $gasto, 'mes' => $mes];
-                })
-                ->values();
-        })->flatten(1);
     }
 }

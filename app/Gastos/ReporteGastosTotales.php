@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class ReporteGastosTotales extends Reporte
 {
     protected $campoColumna = 'mes';
-    protected $campoFila = 'tipo';
+    protected $campoFila = 'tipo_gasto_id';
     protected $campoDato = 'monto';
 
     public function __construct(int $anno)
@@ -30,11 +30,11 @@ class ReporteGastosTotales extends Reporte
     protected function makeTitulosFilas(): Collection
     {
         return $this->data
-            ->map->tipo
+            ->map->tipoGasto
             ->unique()
-            ->sort()
-            ->mapWithKeys(function ($tipo) {
-                return [$tipo => $tipo];
-            });
+            ->mapWithKeys(function ($tipoGasto) {
+                return [$tipoGasto->id => $tipoGasto->tipo_gasto];
+            })
+            ->sort();
     }
 }
