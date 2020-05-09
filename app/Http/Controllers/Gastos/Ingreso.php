@@ -19,7 +19,7 @@ class Ingreso extends Controller
         $selectCuentas = Cuenta::selectCuentasGastos();
         $selectTiposGastos = TipoGasto::selectOptions();
 
-        $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first());
+        $cuentaId = $request->input('cuenta_id', $selectCuentas->keys()->first() ?? 0);
         $anno = $request->input('anno', today()->year);
         $mes = $request->input('mes', today()->month);
 
