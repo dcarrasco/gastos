@@ -10,6 +10,7 @@ use App\OrmModel\Metrics\SaldoCtaCte;
 use App\OrmModel\Metrics\ResumenGastos;
 use App\OrmModel\Metrics\SaldoGranValor;
 use App\OrmModel\Metrics\SaldoPrefAhorro;
+use App\OrmModel\Metrics\SaldoTotalInversiones;
 
 class HomeController extends Controller
 {
@@ -46,6 +47,7 @@ class HomeController extends Controller
             new GastoVisa(),
             new SaldoGranValor(),
             new SaldoPrefAhorro(),
+            new SaldoTotalInversiones(),
         ];
     }
 }
