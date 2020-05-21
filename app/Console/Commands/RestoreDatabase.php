@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
 
@@ -48,22 +49,18 @@ class RestoreDatabase extends Command
     {
         $sqlFile = storage_path("{$this->backupPath}/{$this->argument('archivo')}.sql");
 
-        $this->process = Process::fromShellCommandline(sprintf(
-            'mysql --user=%s -p%s --database=%s --host=%s < %s',
-            config('database.connections.mysql.username'),
-            config('database.connections.mysql.password'),
-            config('database.connections.mysql.database'),
-            config('database.connections.mysql.host'),
-            $sqlFile
-        ));
-
         if (! file_exists($sqlFile)) {
             die("Archivo a restaurar no existe ($sqlFile)");
         }
 
         try {
-            $this->process->mustRun();
+            $file = collect(file($sqlFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES))
+                ->map(function ($linea) {
+                    return DB::unprepared($linea);
+                });
+
             Log::info('Database restore exitoso');
+            $this->info('Database restore exitoso ('.$file->count().' lineas procesadas).');
         } catch (ProcessFailedExeption $exception) {
             Log::error('Database restore con errores', $exception);
         }
