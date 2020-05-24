@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Trend;
 use Illuminate\Database\Eloquent\Builder;
 
-class SaldoTotalInversiones extends Trend
+class SaldoInversiones extends Trend
 {
     public function calculate(Request $request): Collection
     {
