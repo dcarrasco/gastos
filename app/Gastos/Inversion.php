@@ -3,7 +3,7 @@
 namespace App\Gastos;
 
 use App\Gastos\Gasto;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class Inversion
 {
@@ -16,6 +16,11 @@ class Inversion
     {
         $this->movimientos = Gasto::movimientosAnno($cuenta, $anno);
         $this->saldos = Gasto::saldos($cuenta, $anno);
+    }
+
+    public function saldos(): Collection
+    {
+        return $this->saldos;
     }
 
     public function getMovimientos(): Collection
@@ -41,6 +46,14 @@ class Inversion
     public function util(Gasto $saldo): int
     {
         return $saldo->monto - $this->getSumMovimientos($saldo);
+    }
+
+    public function evolUtil(): Collection
+    {
+        return $this->saldos
+            ->mapWithKeys(function ($saldo) {
+                return [$saldo->fecha->format('Y-m-d') => $this->util($saldo)];
+            });
     }
 
     public function rentabilidad(Gasto $saldo): float

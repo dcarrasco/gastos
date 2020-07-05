@@ -3,6 +3,7 @@
 namespace App\OrmModel\Metrics;
 
 use App\Gastos\SaldoMes;
+use App\Gastos\Inversion;
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Value;
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UtilInversiones extends Value
 {
+    protected $cuentasInversiones = [3, 6];
+
     public function calculate(Request $request): array
     {
         return $this->formattedData([
@@ -20,26 +23,19 @@ class UtilInversiones extends Value
 
     protected function calculateUtil(Request $request, array $range): int
     {
-        $abonos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)
-            ->where('tipo_movimiento_id', '<>', 4)
-            ->get()
-            ->pluck('valor_monto')
+        return collect($this->cuentasInversiones)
+            ->map(function ($cuenta) use ($range) {
+                $inversion = new Inversion($cuenta, $range[1]->year);
+
+                $ultimoSaldo = $inversion->saldos()
+                    ->filter(function ($saldo) use ($range) {
+                        return $saldo->fecha <= $range[1];
+                    })
+                    ->last();
+
+                return $inversion->util($ultimoSaldo);
+            })
             ->sum();
-
-        $ultimaFechaSaldo = $this->rangedQuery($request, Gasto::class, 'fecha', $range)
-            ->where('tipo_movimiento_id', 4)
-            ->latest('fecha')
-            ->first()
-            ->fecha;
-
-        $saldo = $this->rangedQuery($request, Gasto::class, 'fecha', $range)
-            ->where('tipo_movimiento_id', 4)
-            ->where('fecha', $ultimaFechaSaldo)
-            ->get()
-            ->pluck('valor_monto')
-            ->sum();
-
-        return $saldo - $abonos;
     }
 
     protected function extendFilter(Request $request, Builder $query): Builder
