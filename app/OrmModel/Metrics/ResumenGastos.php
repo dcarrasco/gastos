@@ -15,7 +15,7 @@ class ResumenGastos extends Value
         return $this->sum($request, Gasto::class, 'monto', 'fecha');
     }
 
-    protected function extendFilter(Request $request, Builder $query): Builder
+    protected function filter(Request $request, Builder $query): Builder
     {
         return $query = $query->where('cuenta_id', 1)
             ->where('tipo_movimiento_id', 1);

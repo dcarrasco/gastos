@@ -18,7 +18,7 @@ class SaldoPrefAhorro extends Trend
             });
     }
 
-    protected function extendFilter(Request $request, Builder $query): Builder
+    protected function filter(Request $request, Builder $query): Builder
     {
         return $query->where('cuenta_id', 6)->where('tipo_movimiento_id', 4);
     }

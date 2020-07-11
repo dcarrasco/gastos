@@ -99,7 +99,7 @@ abstract class Metric
         $query = (new $resource())->applyFilters($request)
             ->getModelQueryBuilder();
 
-        return $this->extendFilter($request, $query);
+        return $this->filter($request, $query);
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class Metric
      * @param  Builder $query
      * @return Builder
      */
-    protected function extendFilter(Request $request, Builder $query): Builder
+    protected function filter(Request $request, Builder $query): Builder
     {
         return $query;
     }

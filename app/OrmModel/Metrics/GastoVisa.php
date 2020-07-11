@@ -16,7 +16,7 @@ class GastoVisa extends Partition
         return $this->sum($request, Gasto::class, 'tipo_gasto', 'monto', 'tipoGasto');
     }
 
-    protected function extendFilter(Request $request, Builder $query): Builder
+    protected function filter(Request $request, Builder $query): Builder
     {
         return $query->where('cuenta_id', 2)
             ->whereBetween('fecha', $this->currentRange($request));

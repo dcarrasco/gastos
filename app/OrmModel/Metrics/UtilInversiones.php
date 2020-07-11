@@ -38,7 +38,7 @@ class UtilInversiones extends Value
             ->sum();
     }
 
-    protected function extendFilter(Request $request, Builder $query): Builder
+    protected function filter(Request $request, Builder $query): Builder
     {
         return $query->whereIn('cuenta_id', [3, 6]);
     }
