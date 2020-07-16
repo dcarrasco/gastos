@@ -17,7 +17,7 @@ class ResumenVisa extends Value
 
     protected function filter(Request $request, Builder $query): Builder
     {
-        return $query = $query->where('cuenta_id', 2)
+        return $query->where('cuenta_id', 2)
             ->where('tipo_movimiento_id', 1);
     }
 
