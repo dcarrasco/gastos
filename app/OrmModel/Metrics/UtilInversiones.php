@@ -23,13 +23,15 @@ class UtilInversiones extends Value
 
     protected function calculateUtil(Request $request, array $range): int
     {
+        $fechaHasta = $range[1];
+
         return collect($this->cuentasInversiones)
-            ->map(function ($cuenta) use ($range) {
-                $inversion = new Inversion($cuenta, $range[1]->year);
+            ->map(function ($cuenta) use ($fechaHasta) {
+                $inversion = new Inversion($cuenta, $fechaHasta->year);
 
                 $ultimoSaldo = $inversion->saldos()
-                    ->filter(function ($saldo) use ($range) {
-                        return $saldo->fecha <= $range[1];
+                    ->filter(function ($saldo) use ($fechaHasta) {
+                        return $saldo->fecha <= $fechaHasta;
                     })
                     ->last();
 
@@ -40,7 +42,7 @@ class UtilInversiones extends Value
 
     protected function filter(Request $request, Builder $query): Builder
     {
-        return $query->whereIn('cuenta_id', [3, 6]);
+        return $query->whereIn('cuenta_id', $this->cuentasInversiones);
     }
 
 
