@@ -103,7 +103,7 @@ abstract class Partition extends Metric
     }
 
     /**
-     * Devuelve script para dibujar grafico de tendencia
+     * Devuelve script para dibujar grafico de particion
      *
      * @param  Request $request
      * @return HtmlString

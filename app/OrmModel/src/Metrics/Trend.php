@@ -16,8 +16,6 @@ abstract class Trend extends Metric
     const BY_YEARS = 'by_years';
     const BY_WEEKS = 'by_weeks';
 
-    protected $trend = [];
-
 
     /**
      * Recupera datos de tendencia, sumando una columna

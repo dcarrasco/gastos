@@ -91,7 +91,7 @@ class Filter
      * @param  string  $value
      * @return bool
      */
-    public function active(Request $request, string $value): bool
+    public function isActive(Request $request, string $value): bool
     {
         return $this->getValue($request) == $value;
     }

@@ -8,14 +8,13 @@
 
             <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="button-filters" style="min-width: 20em;">
                 @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)
-                    <h6 class="dropdown-header text-uppercase bg-light font-weight-bold" href="#">{{ $filter->getLabel() }}</h6>
+                    <h6 class="dropdown-header text-uppercase bg-light font-weight-bold" href="#">
+                        {{ $filter->getLabel() }}
+                    </h6>
+
                     @foreach($filter->options() as $option => $value)
                         <a class="dropdown-item text-secondary" href="{{ $filter->getOptionUrl(request(), $value) }}">
-                            @if($filter->active(request(), $value))
-                                <span class="col-1 fa fa-check"></span>
-                            @else
-                                <span class="col-1"></span>
-                            @endif
+                            <span class="col-1 {{ $filter->isActive(request(), $value) ? 'fa fa-check' : '' }}"></span>
                             {{ $option }}
                         </a>
                     @endforeach
