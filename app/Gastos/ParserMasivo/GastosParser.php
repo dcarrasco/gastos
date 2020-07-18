@@ -40,8 +40,8 @@ class GastosParser
     {
         $datosMasivos = $this->procesaMasivo($request);
 
-        return $datosMasivos->count() == $datosMasivos->filter(function ($gasto) {
-            return $gasto->tipo_gasto_id !== null;
-        })->count();
+        return $datosMasivos->count() == $datosMasivos
+            ->filter->hasTipoGasto()
+            ->count();
     }
 }

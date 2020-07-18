@@ -47,6 +47,11 @@ class Gasto extends Model
         return $this->belongsTo(Usuario::class);
     }
 
+    public function hasTipoGasto(): bool
+    {
+        return ! empty($this->tipo_gasto_id);
+    }
+
     public function getValorMontoAttribute(): int
     {
         return $this->monto * $this->tipoMovimiento->signo;
