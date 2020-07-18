@@ -21,11 +21,33 @@
             <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
         </div>
 
-        {{ $card->content($request) }}
+        <div id="content-{{ $card->cardId() }}">
+            {{ $card->content($request) }}
+        </div>
 
     </div>
-
     {{ $card->contentScript($request) }}
 </div>
 </div>
+
+<script type="text/javascript">
+    function loadCardData_{{ $card->cardId() }}(uriKey, cardId) {
+        $('#content-' + cardId).addClass('d-none');
+        $('#spinner-' + cardId).removeClass('d-none');
+        $.ajax({
+            url: '{{ $urlRoute }}',
+            data: {
+                ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
+                ...{{ $resourceParams }}
+                },
+            async: true,
+            success: function(data) {
+                if (data) {
+                    $('#spinner-' + cardId).addClass('d-none');
+                    $('#content-' + cardId).html(data).removeClass('d-none');
+                }
+            },
+        });
+    }
+</script>
 

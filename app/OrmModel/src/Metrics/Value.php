@@ -182,25 +182,10 @@ abstract class Value extends Metric
         $data = $this->calculate($request);
 
         return new HtmlString(view('orm.metrics.value_content', [
-            'cardId' => $this->cardId(),
             'currentValue' => Arr::get($data, 'currentValue', 0),
             'previousValue' => Arr::get($data, 'previousValue', 0),
             'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
+            'script' => $this->contentScript($request),
         ]));
-    }
-
-    /**
-     * Devuelve script para dibujar valores
-     *
-     * @param  Request $request
-     * @return HtmlString
-     */
-    public function contentScript(Request $request): HtmlString
-    {
-        return new HtmlString(view('orm.metrics.value_script', [
-            'urlRoute' => $this->urlRoute($request),
-            'cardId' => $this->cardId(),
-            'resourceParams' => new HtmlString(json_encode($request->query())),
-        ])->render());
     }
 }

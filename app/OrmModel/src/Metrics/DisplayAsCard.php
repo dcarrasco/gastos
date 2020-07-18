@@ -29,6 +29,8 @@ trait DisplayAsCard
         return new HtmlString(
             view('orm.card', [
                 'card' => $this,
+                'urlRoute' => $this->urlRoute($request),
+                'resourceParams' => new HtmlString(json_encode($request->query())),
                 'request' => $request,
             ])->render()
         );
@@ -74,7 +76,7 @@ trait DisplayAsCard
      */
     public function cardId(): string
     {
-        return spl_object_hash($this);
+        return hash('md5', get_class($this));
     }
 
     public function urlRoute(Request $request): string

@@ -66,30 +66,6 @@ function displayLegend_{{ $cardId }}(cardId) {
     $('#legend-' + cardId + ' > ul > li > span').css('border-radius', '50%');
 }
 
-function loadCardData_{{ $cardId }}(uriKey, cardId) {
-    $('div#' + cardId).addClass('d-none');
-    $('#spinner-' + cardId).removeClass('d-none');
-    $.ajax({
-        url: '{{ $urlRoute }}',
-        data: {
-            ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
-            ...{{ $resourceParams }}
-            },
-        async: true,
-        success: function(data) {
-            if (data) {
-                chartData_{{ $cardId }}.labels = Object.keys(data);
-                chartData_{{ $cardId }}.datasets[0].data = Object.values(data);
-                chart_{{ $cardId }}.update();
-                displayLegend_{{ $cardId }}('{{ $cardId }}');
-                $('#spinner-' + cardId).addClass('d-none');
-                $('div#' + cardId).removeClass('d-none');
-            }
-        },
-    });
-
-}
-
 $(document).ready(function() {
     drawCardChart_{{ $cardId }}();
     displayLegend_{{ $cardId }}('{{ $cardId }}');

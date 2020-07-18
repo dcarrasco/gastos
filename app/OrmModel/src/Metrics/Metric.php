@@ -123,6 +123,7 @@ abstract class Metric
     {
         return new HtmlString(view('orm.metrics.metric_content', [
             'cardId' => $this->cardId(),
+            'script' => $this->contentScript($request),
         ])->render());
     }
 
@@ -155,5 +156,15 @@ abstract class Metric
     public function uriKey(): string
     {
         return Str::slug($this->title());
+    }
+
+    /**
+     * Compara identificador URI con string
+     *
+     * @return boolean
+     */
+    public function hasUriKey(string $uriKey): bool
+    {
+        return $this->uriKey() == $uriKey;
     }
 }

@@ -6,3 +6,5 @@
         <canvas id="canvas-{{$cardId}}"></canvas>
     </div>
 </div>
+
+{{ $script }}

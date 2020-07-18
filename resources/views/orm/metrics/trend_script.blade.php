@@ -50,28 +50,6 @@ function drawCardChart_{{ $cardId }}() {
     });
 }
 
-function loadCardData_{{ $cardId }}(uriKey, cardId) {
-    $('div#' + cardId).addClass('d-none');
-    $('#spinner-' + cardId).removeClass('d-none');
-    $.ajax({
-        url: '{{$urlRoute}}',
-        data: {
-            ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
-            ...{{$resourceParams}}
-            },
-        async: true,
-        success: function(data) {
-            if (data) {
-                chartData_{{ $cardId }}.labels = Object.keys(data);
-                chartData_{{ $cardId }}.datasets[0].data = Object.values(data);
-                chart_{{ $cardId }}.update();
-                $('#spinner-' + cardId).addClass('d-none');
-                $('div#' + cardId).removeClass('d-none');
-            }
-        },
-    });
-}
-
 $(document).ready(function() {
     drawCardChart_{{ $cardId }}();
 });

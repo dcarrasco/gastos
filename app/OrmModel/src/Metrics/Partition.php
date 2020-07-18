@@ -98,6 +98,7 @@ abstract class Partition extends Metric
     {
         return new HtmlString(view('orm.metrics.partition_content', [
             'cardId' => $this->cardId(),
+            'script' => $this->contentScript($request),
         ]));
     }
 

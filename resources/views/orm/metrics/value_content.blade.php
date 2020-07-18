@@ -1,4 +1,4 @@
-<div id="{{ $cardId }}" class="row mx-2">
+<div class="row mx-2">
     <div class="col-md-12 pt-3">
         <h1 class="">{{ $currentValue }}</h1>
     </div>
@@ -13,3 +13,5 @@
         </h5>
     </div>
 </div>
+
+{{ $script }}
