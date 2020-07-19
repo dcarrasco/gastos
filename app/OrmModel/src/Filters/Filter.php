@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
 
-class Filter
+abstract class Filter
 {
     protected $parameterPrefix = 'filter_';
 
