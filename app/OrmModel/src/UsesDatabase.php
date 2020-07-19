@@ -51,7 +51,7 @@ trait UsesDatabase
         $this->modelQueryBuilder = $this->modelQueryBuilder
             ->where(function ($query) use ($request) {
                 foreach ($this->search as $field) {
-                    $query = $query->orWhere($field, 'like', '%' . $request->{$this->searchKey} . '%');
+                    $query = $query->orWhere($field, 'like', '%' . $request->input($this->searchKey) . '%');
                 }
             });
 
