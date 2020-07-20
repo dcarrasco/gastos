@@ -12,10 +12,10 @@ class SaldoCtaCte extends Value
 {
     public function calculate(Request $request): array
     {
-        return $this->formattedData([
+        return [
             'currentValue' => $this->calculateSaldo($request, $this->currentRange($request)),
             'previousValue' => $this->calculateSaldo($request, $this->previousRange($request)),
-        ]);
+        ];
     }
 
     protected function calculateSaldo(Request $request, array $range): int

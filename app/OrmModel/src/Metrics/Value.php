@@ -95,14 +95,14 @@ abstract class Value extends Metric
      */
     public function aggregate(Request $request, string $resource, string $sumColumn, string $timeColumn, string $function): array
     {
-        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
+        $timeColumn = empty($timeColumn) ? $this->newResourceObject()->model()->getCreatedAtColumn() : $timeColumn;
 
-        return $this->formattedData([
+        return [
             'currentValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->currentRange($request))
                 ->get()->{$function}($sumColumn),
             'previousValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->previousRange($request))
                 ->get()->{$function}($sumColumn),
-        ]);
+        ];
     }
 
     /**
@@ -132,8 +132,8 @@ abstract class Value extends Metric
      */
     protected function formattedData(array $data): array
     {
-        $currentValue = Arr::get($data, 'currentValue', 0);
-        $previousValue = Arr::get($data, 'previousValue', 0);
+        $currentValue = (int) Arr::get($data, 'currentValue', 0);
+        $previousValue = (int) Arr::get($data, 'previousValue', 0);
         $formattedCurrentValue = fmtCantidad($currentValue);
 
         return [
@@ -179,7 +179,7 @@ abstract class Value extends Metric
      */
     public function content(Request $request): HtmlString
     {
-        $data = $this->calculate($request);
+        $data = $this->formattedData($this->calculate($request));
 
         return new HtmlString(view('orm.metrics.value_content', [
             'currentValue' => Arr::get($data, 'currentValue', 0),

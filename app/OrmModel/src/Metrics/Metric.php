@@ -5,6 +5,7 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\OrmModel\src\Resource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -96,10 +97,21 @@ abstract class Metric
      */
     protected function newQuery(Request $request, string $resource): Builder
     {
-        $query = (new $resource())->applyFilters($request)
+        $query = $this->newResourceObject($resource)->applyFilters($request)
             ->getModelQueryBuilder();
 
         return $this->filter($request, $query);
+    }
+
+    /**
+     * Crea nuevo objeto Resource
+     *
+     * @param  string $resource
+     * @return Resource
+     */
+    protected function newResourceObject(string $resource): Resource
+    {
+        return new $resource;
     }
 
     /**
