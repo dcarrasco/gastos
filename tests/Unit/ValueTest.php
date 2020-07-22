@@ -2,21 +2,24 @@
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
 use App\Acl\Usuario;
+use App\Gastos\Banco;
+use App\Gastos\Gasto;
+use App\Gastos\Cuenta;
+use App\Gastos\TipoGasto;
+use App\Gastos\TipoCuenta;
 use Illuminate\Http\Request;
+use App\Gastos\TipoMovimiento;
 use App\OrmModel\src\Resource;
-use PHPUnit\Framework\TestCase;
 use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-
-function config(string $configParameter)
-{
-    return '';
-}
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ValueTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected $value;
     protected $resource;
 
@@ -28,7 +31,6 @@ class ValueTest extends TestCase
         };
     }
 
-
     public function testAttributes()
     {
         $this->assertObjectHasAttribute('dateFormat', $this->value);
@@ -36,32 +38,65 @@ class ValueTest extends TestCase
         $this->assertObjectHasAttribute('suffix', $this->value);
     }
 
-    public function testSum()
+    public function testAggregators()
     {
+        $banco = factory(Banco::class)->create();
+        $tipoCuenta = factory(TipoCuenta::class)->create();
+
+        $cuenta = factory(Cuenta::class)->create([
+            'banco_id' => $banco->id,
+            'tipo_cuenta_id' => $tipoCuenta->id,
+        ]);
+
+        $tipoMovimiento = factory(TipoMovimiento::class)->create();
+        $tipoGasto = factory(TipoGasto::class)->create([
+            'tipo_movimiento_id' => $tipoMovimiento->id,
+        ]);
+
+        $usuario = factory(Usuario::class)->create();
+
+        $montos = [100, 200, 300, 400, 500];
+
+        collect($montos)->each(function ($monto) use ($cuenta, $tipoGasto, $tipoMovimiento, $usuario) {
+            $gasto = factory(Gasto::class)->create([
+                'monto' => $monto,
+                'cuenta_id' => $cuenta->id,
+                'tipo_gasto_id' => $tipoGasto->id,
+                'tipo_movimiento_id' => $tipoMovimiento->id,
+                'usuario_id' => $usuario->id,
+            ]);
+        });
+
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
-            ->setMethods(['get', 'input'])
+            ->setMethods(['get', 'input', 'has'])
             ->getMock();
         $request->expects($this->any())->method('get')->willReturn('valor');
         $request->expects($this->any())->method('input')->willReturn('MTD');
 
-        $resource = $this->getMockBuilder('resource')
-            ->setMethods(['model'])
-            ->getMock();
-        $resource->expects($this->any())->method('model')->willReturn('valor');
+        $this->assertEquals(
+            ['currentValue' => 1500, 'previousValue' => 0],
+            $this->value->sum($request, \App\OrmModel\Gastos\Gasto::class, 'monto', 'fecha')
+        );
 
-        $builder = $this->getMockBuilder(Builder::class)
-            ->setMethods(['get'])
-            ->getMock();
-        $value->method('get')->willReturn('');
+        $this->assertEquals(
+            ['currentValue' => 100, 'previousValue' => 0],
+            $this->value->min($request, \App\OrmModel\Gastos\Gasto::class, 'monto', 'fecha')
+        );
 
-        $value = $this->getMockBuilder(Value::class)
-            ->setMethods(['rangedQuery'])
-            ->getMock();
-        $value->method('rangedQuery')->willReturn(new Builder(new QueryBuilder));
+        $this->assertEquals(
+            ['currentValue' => 500, 'previousValue' => 0],
+            $this->value->max($request, \App\OrmModel\Gastos\Gasto::class, 'monto', 'fecha')
+        );
 
+        $this->assertEquals(
+            ['currentValue' => 300, 'previousValue' => 0],
+            $this->value->average($request, \App\OrmModel\Gastos\Gasto::class, 'monto', 'fecha')
+        );
 
-
-        $this->assertEquals([], $this->value->sum($request, 'resource', 'columna', 'timecolumn'));
+        $this->assertEquals(
+            ['currentValue' => 5, 'previousValue' => 0],
+            $this->value->count($request, \App\OrmModel\Gastos\Gasto::class, 'fecha')
+        );
     }
 }

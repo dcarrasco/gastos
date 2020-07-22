@@ -88,7 +88,32 @@ $factory->define(App\Gastos\Cuenta::class, function (Generator $faker) {
 
 $factory->define(App\Gastos\TipoCuenta::class, function (Generator $faker) {
     return [
-        'tipo_cuenta' => $faker->words(3),
+        'tipo_cuenta' => $faker->words(3, true),
         'tipo' => App\Gastos\TipoCuenta::CUENTA_GASTO
+    ];
+});
+
+$factory->define(App\Gastos\TipoMovimiento::class, function (Generator $faker) {
+    return [
+        'tipo_movimiento' => $faker->words(3, true),
+        'signo' => -1,
+        'orden' => 10,
+    ];
+});
+
+$factory->define(App\Gastos\TipoGasto::class, function (Generator $faker) {
+    return [
+        'tipo_gasto' => $faker->words(3, true),
+    ];
+});
+
+$factory->define(App\Gastos\Gasto::class, function (Generator $faker) {
+    return [
+        'anno' => now()->year,
+        'mes' => now()->month,
+        'fecha' => now(),
+        'glosa' => $faker->words(5, true),
+        'serie' => $faker->ean8(),
+        'monto' => $faker->numberBetween(0, 10000),
     ];
 });
