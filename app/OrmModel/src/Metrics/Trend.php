@@ -237,7 +237,7 @@ abstract class Trend extends Metric
     {
         $dateInterval = $this->currentRange($request);
 
-        $timeColumn = empty($timeColumn) ? (new $resource())->model()->getCreatedAtColumn() : $timeColumn;
+        $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
 
         $query = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval);
         $sumColumn = empty($sumColumn) ? $query->getModel()->getKeyName() : $sumColumn;

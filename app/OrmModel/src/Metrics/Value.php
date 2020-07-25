@@ -95,7 +95,7 @@ abstract class Value extends Metric
      */
     public function aggregate(Request $request, string $resource, string $sumColumn, string $timeColumn, string $function): array
     {
-        $timeColumn = empty($timeColumn) ? $this->newResourceObject()->model()->getCreatedAtColumn() : $timeColumn;
+        $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
 
         return [
             'currentValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->currentRange($request))

@@ -97,7 +97,8 @@ abstract class Metric
      */
     protected function newQuery(Request $request, string $resource): Builder
     {
-        $query = $this->newResourceObject($resource)->applyFilters($request)
+        $query = $this->newResource($resource)
+            ->applyFilters($request)
             ->getModelQueryBuilder();
 
         return $this->filter($request, $query);
@@ -109,7 +110,7 @@ abstract class Metric
      * @param  string $resource
      * @return Resource
      */
-    protected function newResourceObject(string $resource): Resource
+    protected function newResource(string $resource): Resource
     {
         return new $resource;
     }

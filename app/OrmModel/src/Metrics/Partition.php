@@ -78,7 +78,7 @@ abstract class Partition extends Metric
      */
     protected function addRelationQuery(Builder $query, string $resource, string $relation): Builder
     {
-        $relation = (new $resource())->model()->{$relation}();
+        $relation = $this->newResource($resource)->model()->{$relation}();
 
         return $query->join(
             $relation->getRelated()->getTable(),
