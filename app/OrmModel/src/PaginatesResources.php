@@ -46,7 +46,7 @@ trait PaginatesResources
             ->applyOrderBy($request)
             ->applySearchFilter($request)
             ->applyFilters($request)
-            ->eagerLoadsBelongsToRelations($request)
+            ->eagerLoadsRelations($request)
             ->getPaginated();
     }
 

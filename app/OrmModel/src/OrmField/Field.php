@@ -42,6 +42,7 @@ abstract class Field
     protected $parentModel = null;
     protected $relationModel = null;
     protected $relationConditions = [];
+    protected $eagerLoadsRelation = false;
 
     /**
      * Constructor de la clase
@@ -423,6 +424,16 @@ abstract class Field
         $value = $resource->{$this->attribute};
 
         return Form::text($this->name, $value, $extraParam);
+    }
+
+    /**
+     * Inidca si el campo es tipo relacion y eagerLoads su contenido
+
+     * @return bool
+     */
+    public function eagerLoadsRelation(): bool
+    {
+        return $this->eagerLoadsRelation;
     }
 
     /**

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BelongsTo extends Relation
 {
+    protected $eagerLoadsRelation = true;
+
     /**
      * Devuelve valor del campo formateado
      *

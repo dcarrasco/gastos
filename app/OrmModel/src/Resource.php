@@ -196,16 +196,14 @@ abstract class Resource
      * @param Request $request
      * @return Resource
      */
-    public function eagerLoadsBelongsToRelations(Request $request): Resource
+    public function eagerLoadsRelations(Request $request): Resource
     {
-        collect($this->fields($request))
-            ->filter(function ($field) {
-                return get_class($field) === BelongsTo::class;
-            })
-            ->map->getAttribute()
-            ->each(function ($relatedClass) {
-                $this->modelQueryBuilder = $this->modelQueryBuilder->with($relatedClass);
-            });
+        $this->modelQueryBuilder = $this->modelQueryBuilder->with(
+            collect($this->fields($request))
+                ->filter->eagerLoadsRelation()
+                ->map->getAttribute()
+                ->all()
+        );
 
         return $this;
     }
