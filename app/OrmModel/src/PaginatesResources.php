@@ -83,6 +83,6 @@ trait PaginatesResources
      */
     public function paginationLinksDetail(): bool
     {
-        return $this->psginationLinksDetail;
+        return $this->paginationLinksDetail;
     }
 }
