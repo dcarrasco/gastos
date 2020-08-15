@@ -61,7 +61,7 @@ trait UsesDatabase
     /**
      * Devuelve orden del modelo
      *
-     * @return array Arreglo con campos de ordenamiento
+     * @return array
      */
     public function getOrderBy(): array
     {

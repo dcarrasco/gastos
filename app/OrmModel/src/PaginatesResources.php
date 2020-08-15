@@ -27,7 +27,7 @@ trait PaginatesResources
     /**
      * Devuelve el paginador del recurso
      *
-     * @return paginador
+     * @return Paginador
      */
     public function getPaginator(): LengthAwarePaginator
     {
@@ -38,7 +38,7 @@ trait PaginatesResources
      * Genera listado de modelos ordenados y filtrados
      *
      * @param  Request $request
-     * @return Collection
+     * @return Paginator
      */
     public function paginator(Request $request): LengthAwarePaginator
     {
@@ -83,6 +83,6 @@ trait PaginatesResources
      */
     public function paginationLinksDetail(): bool
     {
-        return $this->paginationLinksDetail;
+        return $this->psginationLinksDetail;
     }
 }

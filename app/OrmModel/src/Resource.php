@@ -91,8 +91,7 @@ abstract class Resource
     /**
      * Devuelve la representación del recurso
      *
-     * @param  Request $request
-     * @return mixed
+     * @return string
      */
     public function title(): string
     {
@@ -112,7 +111,7 @@ abstract class Resource
     /**
      * Genera objecto del modelo del recurso
      *
-     * @return Resource
+     * @return Model
      */
     public function makeModelInstance(): Model
     {
@@ -133,7 +132,7 @@ abstract class Resource
      * Devuelve campos a mostrar en listado
      *
      * @param  Request $request
-     * @return array
+     * @return Resource
      */
     public function indexFields(Request $request): Resource
     {
@@ -149,7 +148,7 @@ abstract class Resource
      * Devuelve campos a mostrar en detalle
      *
      * @param  Request $request
-     * @return array
+     * @return Resource
      */
     public function detailFields(Request $request): Resource
     {
@@ -164,7 +163,7 @@ abstract class Resource
      * Devuelve campos a mostrar en formularios
      *
      * @param  Request $request
-     * @return array
+     * @return Resource
      */
     public function formFields(Request $request): Resource
     {
@@ -208,11 +207,23 @@ abstract class Resource
         return $this;
     }
 
+    /**
+     * Devuelve recurso como opciones de un formulario en llamadas ajax
+     *
+     * @param  Request $request
+     * @return string
+     */
     public function getModelAjaxFormOptions(Request $request): string
     {
         return ajax_options($this->getModelFormOptions($request));
     }
 
+    /**
+     * Devuelve recurso como Collection para formulario
+     *
+     * @param  Request $request
+     * @return Collection
+     */
     public function getModelFormOptions(Request $request): Collection
     {
         $this->applyOrderBy($request);
