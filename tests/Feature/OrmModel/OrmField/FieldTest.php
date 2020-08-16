@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\OrmModel\OrmField;
 
 use Tests\TestCase;
 use Illuminate\Http\Request;
@@ -22,6 +22,19 @@ class FieldTest extends TestCase
 
         $this->field = new class('nombreCampo') extends Field {
         };
+    }
+
+    protected function makeMock(string $class, array $methods)
+    {
+        return $this->getMockBuilder($class)
+            ->disableOriginalConstructor()
+            ->setMethods($methods)
+            ->getMock();
+    }
+
+    public function testMake()
+    {
+        $this->assertIsObject($this->field->make());
     }
 
     public function testHideFromIndex()
@@ -62,6 +75,13 @@ class FieldTest extends TestCase
         $this->assertEquals('nombre_campo', $this->field->getAttribute());
     }
 
+    public function testGetModelAttribute()
+    {
+        $resource = $this->makeMock(Resource::class, []);
+
+        $this->assertEquals('nombre_campo', $this->field->getModelAttribute($resource));
+    }
+
     public function testIsRequired()
     {
         $this->assertFalse($this->field->rules('rule1', 'rule2', 'rule3', 'rule4')->isRequired());
@@ -78,25 +98,50 @@ class FieldTest extends TestCase
         $this->assertEquals('test_string', $this->field->onChange('test_string')->getOnChange());
     }
 
+    public function testResolveValue()
+    {
+        $model = $this->makeMock(Model::class, ['__get']);
+        $model->expects($this->any())->method('__get')->willReturn('valor');
+
+        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+
+        $this->assertNull($this->field->resolveValue($model, $request)->value());
+    }
+
     public function testHasOnChange()
     {
         $this->assertFalse($this->field->hasOnChange());
         $this->assertTrue($this->field->onChange('test_string')->hasOnChange());
     }
 
+    public function testResolveFormItem()
+    {
+        $session = $this->makeMock(Request::class, ['get']);
+        $session->expects($this->any())->method('get')->willReturn([]);
+
+        $request = $this->makeMock(Request::class, ['input', 'all', 'session']);
+        $request->expects($this->any())->method('session')->willReturn($session);
+
+        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+        $resource->nombre_campo = 'valor';
+
+        $this->assertStringContainsString('input', $this->field->resolveFormItem($request, $resource)->formItem());
+        $this->assertStringContainsString('type="text"', $this->field->resolveFormItem($request, $resource)->formItem());
+        $this->assertStringContainsString('name="nombreCampo"', $this->field->resolveFormItem($request, $resource)->formItem());
+        $this->assertstringcontainsstring('value="valor"', $this->field->resolveformitem($request, $resource)->formitem());
+    }
+
+    public function testFormItem()
+    {
+        $this->assertEquals('', $this->field->formItem());
+    }
+
     public function testGetFormattedValue()
     {
-        $model = $this->getMockBuilder(Model::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__get'])
-            ->getMock();
-
+        $model = $this->makeMock(Model::class, ['__get']);
         $model->expects($this->any())->method('__get')->willReturn('valor');
 
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['input', 'all', 'fullUrlWithQuery'])
-            ->getMock();
+        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
 
         $this->assertNull($this->field->getFormattedValue($model, $request));
     }
@@ -122,18 +167,11 @@ class FieldTest extends TestCase
 
     public function testMakeSortingIcon()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['input', 'all', 'fullUrlWithQuery'])
-            ->getMock();
-
+        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
 
-        $resource = $this->getMockBuilder(Resource::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['input', 'get'])
-            ->getMock();
+        $resource = $this->makeMock(Resource::class, ['input', 'get']);
 
         $this->assertEquals('', $this->field->makeSortingIcon($request, $resource)->sortingIcon());
         $this->assertStringContainsString('url', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
