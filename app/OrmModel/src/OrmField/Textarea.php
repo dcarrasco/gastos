@@ -25,7 +25,7 @@ class Textarea extends Field
         $extraParam['maxlength'] = $this->getFieldLength();
         $value = $resource->model()->{$this->attribute};
 
-        return Form::textarea($this->field, $value, $extraParam);
+        return Form::textarea($this->attribute, $value, $extraParam);
     }
 
     /**
