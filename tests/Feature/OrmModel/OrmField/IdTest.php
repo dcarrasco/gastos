@@ -42,8 +42,25 @@ class IdTest extends TestCase
         $this->assertEquals('nombreCampo', $field2->getName());
     }
 
+    public function testGetFormEsIncrementing()
+    {
+        $request = $this->makeMock(Request::class, []);
 
-    public function testGetForm()
+        $model = $this->makeMock(Model::class, []);
+        $model->expects($this->any())->method('__get')->willReturn('valor1');
+
+        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource->expects($this->any())->method('model')->willReturn($model);
+
+        $this->assertStringContainsString('<p', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('name="id"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('value="valor1"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, [
+            'extra-param' => 'extra-param-value']));
+    }
+
+    public function testGetFormNoEsIncrementing()
     {
         $request = $this->makeMock(Request::class, []);
 

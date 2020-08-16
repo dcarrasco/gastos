@@ -175,5 +175,33 @@ class FieldTest extends TestCase
 
         $this->assertEquals('', $this->field->makeSortingIcon($request, $resource)->sortingIcon());
         $this->assertStringContainsString('url', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        // default icon class
+        $this->assertStringContainsString('fa fa-sort text-black-20', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+    }
+
+    public function testMakeSortingIconAsc()
+    {
+        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request->expects($this->any())->method('all')->willReturn([]);
+        $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
+        $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'asc', 'nombre_campo', 'asc'));
+
+        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+
+        // default icon class
+        $this->assertStringContainsString('fa-caret-up', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+    }
+
+    public function testMakeSortingIconDown()
+    {
+        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request->expects($this->any())->method('all')->willReturn([]);
+        $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
+        $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'desc'));
+
+        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+
+        // default icon class
+        $this->assertStringContainsString('fa-caret-down', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
     }
 }
