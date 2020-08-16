@@ -58,7 +58,7 @@ class Gravatar extends Field
 
         return app()->make(HtmlBuilder::class)
             ->image(
-                $this->getGravatarUrl(optional($model)->{$this->attribute}, $size),
+                $this->getGravatarUrl($model->{$this->attribute}, $size),
                 null,
                 ['class' => 'rounded-circle border']
             );

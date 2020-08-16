@@ -25,7 +25,7 @@ class Currency extends Field
      */
     public function getFormattedValue(Model $model, Request $request)
     {
-        return fmtMonto(optional($model)->{$this->attribute});
+        return fmtMonto($model->{$this->attribute});
     }
 
     /**

@@ -23,7 +23,7 @@ class Number extends Field
      */
     public function getFormattedValue(Model $model, Request $request)
     {
-        return fmtCantidad(optional($model)->{$this->attribute});
+        return fmtCantidad($model->{$this->attribute});
     }
 
     /**

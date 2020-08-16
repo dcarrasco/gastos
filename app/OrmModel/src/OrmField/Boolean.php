@@ -63,8 +63,8 @@ class Boolean extends Field
         $value = $resource->model()->{$this->attribute};
 
         return new HtmlString(
-            $this->formRadioItem($this->name, $value, 'yes')
-            . $this->formRadioItem($this->name, $value, 'no')
+            $this->formRadioItem($this->attribute, $value, 'yes')
+            . $this->formRadioItem($this->attribute, $value, 'no')
         );
     }
 }
