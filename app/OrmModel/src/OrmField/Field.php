@@ -255,7 +255,7 @@ abstract class Field
      */
     public function formItem(): HtmlString
     {
-        return $this->formItem;
+        return $this->formItem ?? new HtmlString();
     }
 
     /**
@@ -304,5 +304,4 @@ abstract class Field
     {
         return $this->eagerLoadsRelation;
     }
-
 }
