@@ -85,7 +85,9 @@ class FieldTest extends TestCase
     public function testIsRequired()
     {
         $this->assertFalse($this->field->rules('rule1', 'rule2', 'rule3', 'rule4')->isRequired());
+        $this->assertFalse($this->field->rules(['rule1', 'rule2', 'rule3', 'rule4'])->isRequired());
         $this->assertTrue($this->field->rules('rule1', 'rule2', 'rule3', 'required')->isRequired());
+        $this->assertTrue($this->field->rules(['rule1', 'rule2', 'rule3', 'required'])->isRequired());
     }
 
     public function testGetOnChange()
@@ -204,4 +206,21 @@ class FieldTest extends TestCase
         // default icon class
         $this->assertStringContainsString('fa-caret-down', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
     }
+
+    // -------------------------------------------------------------------------
+    // UsesValidation
+    // -------------------------------------------------------------------------
+
+    public function testGetValidation()
+    {
+        $model = $this->makeMock(Model::class, ['getTable', 'getKey']);
+        $model->expects($this->any())->method('getTable')->willReturn('table_name');
+        $model->expects($this->any())->method('getKey')->willReturn('value');
+
+        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource->expects($this->any())->method('model')->willReturn($model);
+
+        $this->assertEquals('required|unique:table_name,nombre_campo,value,id|max:10', $this->field->rules('required', 'unique', 'max:10')->getValidation($resource));
+    }
+
 }
