@@ -125,7 +125,7 @@ abstract class Resource
      */
     public function getFields(): Collection
     {
-        return $this->fields;
+        return $this->fields ?? collect([]);
     }
 
     /**

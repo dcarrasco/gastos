@@ -56,52 +56,36 @@ class Relation extends Field
     }
 
     /**
-     * Devuelve recursos relacionados con valores
+     * Recupera elementos del recurso relacionado
      *
-     * @param  Model  $model
+     * @param  Request   $request
+     * @param  Resource  $resource
+     * @param  array     $conditions
      * @return Collection
      */
-    public function getRelation(Model $model): Collection
+    public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
     {
-        return $model->{$this->attribute}->mapInto($this->relatedResource);
+        return $this->getRelatedListModels($request, $resource, $conditions)
+            ->mapWithKeys(function ($model) {
+                return [$model->getKey() => (new $this->relatedResource($model))->title()];
+            });
     }
 
     /**
      * Recupera objetos del recurso relacionado
      *
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @param  string        $field
-     * @param  array         $conditions
+     * @param  Request   $request
+     * @param  Resource  $resource
+     * @param  array     $conditions
      * @return array
      */
-    protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = [])
+    protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
     {
         return (new $this->relatedResource())
             ->applyOrderBy($request)
             ->getModelQueryBuilder()
             ->where($this->getRelationFilter($resource, $conditions))
             ->get();
-    }
-
-    /**
-     * Recupera elementos del recurso relacionado
-     *
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @param  string        $field
-     * @param  array         $conditions
-     * @return array
-     */
-    public function getRelationOptions(
-        Request $request,
-        Resource $resource = null,
-        array $conditions = []
-    ): Collection {
-        return $this->getRelatedListModels($request, $resource, $conditions)
-            ->mapWithKeys(function ($model) {
-                return [$model->getKey() => (new $this->relatedResource($model))->title()];
-            });
     }
 
     /**

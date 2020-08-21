@@ -2,6 +2,8 @@
 
 namespace App\OrmModel\src\OrmField;
 
+use App\OrmModel\src\Resource;
+
 trait UsesValidation
 {
     protected $rules = [];
@@ -14,7 +16,7 @@ trait UsesValidation
      */
     public function rules(...$rules): Field
     {
-        $this->rules = $rules;
+        $this->rules = is_array($rules[0]) ? $rules[0] : $rules;
 
         return $this;
     }
