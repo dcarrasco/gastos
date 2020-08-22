@@ -19,9 +19,7 @@ trait PaginatesResources
      */
     public function getPaginated(): LengthAwarePaginator
     {
-        $paginate = $this->modelQueryBuilder->paginate();
-
-        return $paginate;
+        return $this->modelQueryBuilder->paginate();
     }
 
     /**
