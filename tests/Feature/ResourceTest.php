@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Filters\Filter;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -156,6 +158,21 @@ class ResourceTest extends TestCase
         $this->assertEquals(['id' => '', 'nombre' => 'required', 'username' => 'required|max:100'], $this->resource->getValidation($request));
     }
 
+    public function testModelFormOptions()
+    {
+        $request = $this->makeMock(Request::class, ['all']);
+        $request->expects($this->any())->method('all')->willReturn(['elem' => ['a'=>1, 'b'=>2]]);
+
+        $user1 = factory(Usuario::class)->make();
+        $user2 = factory(Usuario::class)->make();
+
+        $builder = $this->makeMock(QueryBuilder::class, ['get']);
+        $builder->expects($this->any())->method('get')->willReturn(collect([$user1, $user2]));
+
+        $this->assertIsObject($this->resource->getModelFormOptions($request));
+        $this->assertEquals('', $this->resource->getModelAjaxFormOptions($request));
+    }
+
     // =========================================================================
     // Trait UsesDatabase
     // =========================================================================
@@ -172,21 +189,13 @@ class ResourceTest extends TestCase
 
     public function testApplySearchFilter()
     {
-        $request2 = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['input', 'get'])
-            ->getMock();
-
+        $request2 = $this->makeMock(Request::class, ['input', 'get']);
         $request2->expects($this->any())->method('input')->willReturn('');
 
         $this->assertStringNotContainsString('nombre', $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql());
         $this->assertStringNotContainsString('username', $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql());
 
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['input', 'get'])
-            ->getMock();
-
+        $request = $this->makeMock(Request::class, ['input', 'get']);
         $request->expects($this->any())->method('input')->willReturn('search');
 
         $this->assertStringContainsString('nombre', $this->resource->applySearchFilter($request)->getModelQueryBuilder()->toSql());
@@ -200,16 +209,10 @@ class ResourceTest extends TestCase
 
     public function testResourceSetPerPage()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
+        $request = $this->makeMock(Request::class, []);
         $this->assertEquals(25, $this->resource->resourceSetPerpage($request)->model()->paginate()->perPage());
 
-        $request2 = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['__get'])
-            ->getMock();
+        $request2 = $this->makeMock(Request::class, ['__get']);
         $request2->expects($this->any())->method('__get')->willReturn(100);
 
         $this->assertEquals(100, $this->resource->resourceSetPerpage($request2)->model()->paginate()->perPage());
@@ -217,17 +220,13 @@ class ResourceTest extends TestCase
 
     public function testApplyOrderBy()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['has', 'input'])
-            ->getMock();
+        $request = $this->makeMock(Request::class, ['has', 'input']);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'asc'));
 
         $this->assertStringContainsString('nombre_campo', $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql());
         $this->assertStringContainsString('desc', $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql());
     }
-
 
     public function testFindOrFail()
     {
@@ -249,11 +248,7 @@ class ResourceTest extends TestCase
         $nombreOriginal = $this->model->nombre;
         $nuevoNombre = 'nuevoNombre';
 
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['all'])
-            ->getMock();
-
+        $request = $this->makeMock(Request::class, ['all']);
         $request->expects($this->any())->method('all')->willReturn(['nombre' => 'nuevoNombre']);
 
         $this->assertEquals($nombreOriginal, Usuario::first()->nombre);
@@ -265,7 +260,6 @@ class ResourceTest extends TestCase
     // Trait UsesFilters
     // =========================================================================
 
-
     public function testFilters()
     {
         $request = $this->getMockBuilder(Request::class)
@@ -275,16 +269,35 @@ class ResourceTest extends TestCase
         $this->assertIsArray($this->resource->filters($request));
     }
 
+    public function testApplyFilters()
+    {
+        $this->model = factory(Usuario::class)->create();
+
+        $this->resource = new class($this->model) extends Resource {
+            public $model = 'App\Acl\Usuario';
+            public function filters(Request $request): array
+            {
+                return [
+                    new class() extends Filter {
+                    }
+                ];
+            }
+        };
+
+        $request = $this->makeMock(Request::class, ['has', 'get']);
+        $request->expects($this->any())->method('has')->willReturn(true);
+        $request->expects($this->any())->method('get')->willReturn('valor');
+
+        $this->assertIsObject($this->resource->applyFilters($request));
+    }
+
     public function testCountAppliedFilters()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->makeMock(Request::class, []);
 
         $this->assertIsInt($this->resource->countAppliedFilters($request));
         $this->assertEquals(0, $this->resource->countAppliedFilters($request));
     }
-
 
     // =========================================================================
     // Trait UsesCards
@@ -292,20 +305,41 @@ class ResourceTest extends TestCase
 
     public function testCards()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->makeMock(Request::class, []);
 
         $this->assertIsArray($this->resource->cards($request));
     }
 
     public function testRenderCards()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->makeMock(Request::class, []);
 
         $this->assertIsObject($this->resource->renderCards($request));
         $this->assertCount(0, $this->resource->renderCards($request));
+    }
+
+    // =========================================================================
+    // Trait PaginatesResources
+    // =========================================================================
+
+    public function testGetPaginator()
+    {
+        $request = $this->makeMock(Request::class, []);
+
+        $this->assertIsObject($this->resource->paginator($request));
+        $this->assertIsObject($this->resource->getPaginator($request));
+    }
+
+    public function testMakePaginatedResources()
+    {
+        $request = $this->makeMock(Request::class, []);
+
+        $this->assertIsObject($this->resource->makePaginatedResources($request));
+        $this->assertIsObject($this->resource->resourceList($request));
+    }
+
+    public function testPaginationLinksDetail()
+    {
+        $this->assertFalse($this->resource->paginationLinksDetail());
     }
 }
