@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\OrmModel\Filters;
 
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
