@@ -13,6 +13,10 @@ abstract class Value extends Metric
     protected $prefix = '';
     protected $suffix = '';
 
+    public function calculate(Request $request): array
+    {
+        return [];
+    }
 
     /**
      * Recupera datos de valor, sumando una columna
