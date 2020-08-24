@@ -9,7 +9,7 @@ use App\OrmModel\src\Metrics\Value;
 
 class NuevosRegistros extends Value
 {
-    public function calculate(Request $request): Collection
+    public function calculate(Request $request): array
     {
         return $this->count($request, Gasto::class);
     }
