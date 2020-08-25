@@ -17,6 +17,11 @@ abstract class Trend extends Metric
     const BY_WEEKS = 'by_weeks';
 
 
+    public function calculate(Request $request): Collection
+    {
+        return collect([]);
+    }
+
     /**
      * Recupera datos de tendencia, sumando una columna
      *
@@ -215,9 +220,14 @@ abstract class Trend extends Metric
      * @param  string $timeColumn
      * @return string
      */
-    protected function selectDateExpression(string $unit, string $timeColumn): string
+    protected function selectDateExpression(string $resource, string $unit, string $timeColumn): string
     {
         $format = $this->databaseFormatExpression($unit);
+        $dbDriver = $this->newResource($resource)->model()->getConnection()->getConfig('driver');
+
+        if ($dbDriver === 'sqlite') {
+            return "strftime('{$format}', {$timeColumn})";
+        }
 
         return "date_format({$timeColumn}, '{$format}')";
     }
@@ -242,7 +252,7 @@ abstract class Trend extends Metric
         $query = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval);
         $sumColumn = empty($sumColumn) ? $query->getModel()->getKeyName() : $sumColumn;
 
-        $selectDateExpression = $this->selectDateExpression($unit, $timeColumn);
+        $selectDateExpression = $this->selectDateExpression($resource, $unit, $timeColumn);
 
         $results = $query
             ->select(DB::raw("{$selectDateExpression} as date_result, {$function}({$sumColumn}) as aggregate"))
