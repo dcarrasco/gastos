@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Partition extends Metric
 {
+    public function calculate(Request $request): Collection
+    {
+        return collect([]);
+    }
+
     /**
      * Recupera datos de la particion, contando los registros
      *
