@@ -34,7 +34,7 @@ class HasMany extends Relation
      */
     public function getFormattedValue(Model $model, Request $request)
     {
-        $relatedResources = $this->getRelation($model);
+        $relatedResources = $model->{$this->attribute}->mapInto($this->relatedResource);
 
         $list = $relatedResources->count() === 0
             ? ''
