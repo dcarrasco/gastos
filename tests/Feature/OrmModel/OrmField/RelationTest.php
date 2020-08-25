@@ -20,7 +20,7 @@ class RelationTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class('nombreCampo', 'nombre_campo', 'modelClass') extends Relation {
+        $this->field = new class('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation {
         };
     }
 
@@ -46,6 +46,19 @@ class RelationTest extends TestCase
     public function testMake()
     {
         $this->assertIsObject($this->field->make('nombreCampo'));
+    }
+
+    public function testGetRelationOptions()
+    {
+        $request = $this->makeMock(Request::class, []);
+        $apps = factory(\App\Acl\App::class, 3)->create();
+
+        $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
+        $this->assertCount(3, $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
+        $this->assertEquals(
+            $apps->pluck('app', 'id')->sort()->all(),
+            $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo)->all()
+        );
     }
 
 }
