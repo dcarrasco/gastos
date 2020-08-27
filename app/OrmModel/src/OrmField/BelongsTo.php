@@ -17,8 +17,8 @@ class BelongsTo extends Relation
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Model|null $model
-     * @param  Request    $request
+     * @param  Model   $model
+     * @param  Request $request
      * @return mixed
      */
     public function getFormattedValue(Model $model, Request $request)
@@ -51,7 +51,7 @@ class BelongsTo extends Relation
     {
         $foreignKeyName = $this->getModelAttribute($resource);
         $extraParam['id'] = $foreignKeyName;
-        $extraParam['class'] = "{$extraParam['class']} custom-select";
+        $extraParam['class'] = ($extraParam['class'] ?? '') . " custom-select";
 
         if ($this->hasOnChange()) {
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
@@ -62,7 +62,7 @@ class BelongsTo extends Relation
         $chooseOptionLabel = trans('orm.choose_option');
 
         return new HtmlString(
-            str_replace(">{$chooseOptionLabel}", "disabled>{$chooseOptionLabel}", $form)
+            str_replace(">{$chooseOptionLabel}", " disabled>{$chooseOptionLabel}", $form)
         );
     }
 
