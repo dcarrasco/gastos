@@ -70,6 +70,7 @@ class ResourceTest extends TestCase
         };
 
         $this->assertIsArray($resource->fields($request));
+        $this->assertEmpty($resource->fields($request));
     }
 
 
@@ -84,8 +85,9 @@ class ResourceTest extends TestCase
     {
         $this->assertEquals('ResourceLabel', $this->resource->getLabel());
 
-        $this->resource->label = '';
+        $this->resource->label = 'AnotherLabel';
         $this->assertNotEquals('ResourceLabel', $this->resource->getLabel());
+        $this->assertEquals('AnotherLabel', $this->resource->getLabel());
     }
 
     public function testGetLabelPlural()
@@ -99,6 +101,9 @@ class ResourceTest extends TestCase
     public function testTitle()
     {
         $this->assertEquals($this->model->nombre, $this->resource->title());
+
+        $this->resource->title = 'id';
+        $this->assertEquals(1, $this->resource->title());
     }
 
     public function testModel()
@@ -109,6 +114,8 @@ class ResourceTest extends TestCase
     public function testMakeModelInstance()
     {
         $this->assertEquals('', $this->resource->makeModelInstance()->nombre);
+        $this->assertNotEquals($this->model, $this->resource->makeModelInstance());
+        $this->assertEquals('App\Acl\Usuario', get_class($this->resource->makeModelInstance()));
     }
 
     public function testGetFields()
