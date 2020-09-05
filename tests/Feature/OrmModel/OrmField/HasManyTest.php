@@ -40,8 +40,8 @@ class HasManyTest extends TestCase
     public function testGetFormattedValue()
     {
         $request = $this->makeMock(Request::class, []);
-        $roles = factory(\App\Acl\Rol::class, 5)->create();
-        $user = factory(\App\Acl\Usuario::class)->create();
+        $roles = factory(\App\Models\Acl\Rol::class, 5)->create();
+        $user = factory(\App\Models\Acl\Usuario::class)->create();
         $user->rol()->sync($roles);
 
         $this->assertStringContainsString('<ul><li>', $this->field->getFormattedValue($user, $request));
@@ -50,8 +50,8 @@ class HasManyTest extends TestCase
     public function testGetFormattedValueEmpty()
     {
         $request = $this->makeMock(Request::class, []);
-        $roles = factory(\App\Acl\Rol::class, 5)->create();
-        $user = factory(\App\Acl\Usuario::class)->create();
+        $roles = factory(\App\Models\Acl\Rol::class, 5)->create();
+        $user = factory(\App\Models\Acl\Usuario::class)->create();
 
         $this->assertEquals('', $this->field->getFormattedValue($user, $request));
     }
@@ -59,8 +59,8 @@ class HasManyTest extends TestCase
     public function testGetForm()
     {
         $request = $this->makeMock(Request::class, []);
-        $roles = factory(\App\Acl\Rol::class, 3)->create();
-        $user = factory(\App\Acl\Usuario::class)->create();
+        $roles = factory(\App\Models\Acl\Rol::class, 3)->create();
+        $user = factory(\App\Models\Acl\Usuario::class)->create();
         $user->rol()->sync($roles);
 
         $userResource = new \App\OrmModel\Acl\Usuario($user);

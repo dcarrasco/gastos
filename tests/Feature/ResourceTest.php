@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Acl\Usuario;
+use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
@@ -28,7 +28,7 @@ class ResourceTest extends TestCase
         $this->model = factory(Usuario::class)->create();
 
         $this->resource = new class($this->model) extends Resource {
-            public $model = 'App\Acl\Usuario';
+            public $model = 'App\Models\Acl\Usuario';
             public $label = 'ResourceLabel';
             public $title = 'nombre';
             public $search = ['nombre', 'username'];
@@ -66,7 +66,7 @@ class ResourceTest extends TestCase
         $request = $this->makeMock(Request::class, []);
 
         $resource = new class($this->model) extends Resource {
-            public $model = 'App\Acl\Usuario';
+            public $model = 'App\Models\Acl\Usuario';
         };
 
         $this->assertIsArray($resource->fields($request));
@@ -115,7 +115,7 @@ class ResourceTest extends TestCase
     {
         $this->assertEquals('', $this->resource->makeModelInstance()->nombre);
         $this->assertNotEquals($this->model, $this->resource->makeModelInstance());
-        $this->assertEquals('App\Acl\Usuario', get_class($this->resource->makeModelInstance()));
+        $this->assertEquals('App\Models\Acl\Usuario', get_class($this->resource->makeModelInstance()));
     }
 
     public function testGetFields()
@@ -281,7 +281,7 @@ class ResourceTest extends TestCase
         $this->model = factory(Usuario::class)->create();
 
         $this->resource = new class($this->model) extends Resource {
-            public $model = 'App\Acl\Usuario';
+            public $model = 'App\Models\Acl\Usuario';
             public function filters(Request $request): array
             {
                 return [

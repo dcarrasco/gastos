@@ -8,7 +8,7 @@ use App\OrmModel\Acl\App;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use App\Acl\App as AppModel;
+use App\Models\Acl\App as AppModel;
 use App\OrmModel\src\Metrics\Trend;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;

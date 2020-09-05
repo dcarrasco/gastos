@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Gastos\ParserMasivo;
+namespace App\Models\Gastos\ParserMasivo;
 
-use App\Gastos\Cuenta;
 use Illuminate\Http\Request;
+use App\Models\Gastos\Cuenta;
 use Illuminate\Support\Collection;
 
 class GastosParser

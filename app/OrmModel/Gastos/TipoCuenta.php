@@ -2,17 +2,17 @@
 
 namespace App\OrmModel\Gastos;
 
-use App\Gastos\TipoCuenta as ModelTipoCuenta;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\Select;
 use App\OrmModel\src\Gastos\TipoMovimiento;
+use App\Models\Gastos\TipoCuenta as ModelTipoCuenta;
 
 class TipoCuenta extends Resource
 {
-    public $model = 'App\Gastos\TipoCuenta';
+    public $model = 'App\Models\Gastos\TipoCuenta';
     public $label = 'Tipo de Cuenta';
     public $labelPlural = 'Tipos de Cuenta';
     public $icono = 'sitemap';

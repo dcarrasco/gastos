@@ -9,7 +9,7 @@ use App\OrmModel\src\OrmField\Text;
 
 class Banco extends Resource
 {
-    public $model = 'App\Gastos\Banco';
+    public $model = 'App\Models\Gastos\Banco';
     public $icono = 'university';
     public $title = 'nombre';
     public $search = [

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Acl;
+namespace App\Models\Acl;
 
-use App\Acl\Rol;
-use App\Acl\UserACL;
+use App\Models\Acl\Rol;
+use App\Models\Acl\UserACL;
 use Illuminate\Notifications\Notifiable;
 
 class Usuario extends UserACL

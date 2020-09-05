@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Models\Gastos;
 
-use App\Gastos\Cuenta;
+use App\Models\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoCuenta extends Model

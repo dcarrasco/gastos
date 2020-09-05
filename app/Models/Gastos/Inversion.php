@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Models\Gastos;
 
-use App\Gastos\Gasto;
+use App\Models\Gastos\Gasto;
 use Illuminate\Support\Collection;
 
 class Inversion

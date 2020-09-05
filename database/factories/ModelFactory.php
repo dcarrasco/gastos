@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Generator $faker) {
+$factory->define(App\Models\User::class, function (Generator $faker) {
     static $password;
 
     return [
@@ -26,7 +26,7 @@ $factory->define(App\User::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Acl\Usuario::class, function (Generator $faker) {
+$factory->define(App\Models\Acl\Usuario::class, function (Generator $faker) {
     static $password;
 
     return [
@@ -43,7 +43,7 @@ $factory->define(App\Acl\Usuario::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Acl\App::class, function (Generator $faker) {
+$factory->define(App\Models\Acl\App::class, function (Generator $faker) {
     return [
         'app' => $faker->words(3, true),
         'descripcion' => $faker->sentence(),
@@ -53,7 +53,7 @@ $factory->define(App\Acl\App::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Acl\Rol::class, function (Generator $faker) {
+$factory->define(App\Models\Acl\Rol::class, function (Generator $faker) {
     return [
         'app_id' => 0,
         'rol' => $faker->words(3, true),
@@ -61,7 +61,7 @@ $factory->define(App\Acl\Rol::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Acl\Modulo::class, function (Generator $faker) {
+$factory->define(App\Models\Acl\Modulo::class, function (Generator $faker) {
     return [
         'app_id' => 0,
         'modulo' => $faker->words(3, true),
@@ -74,26 +74,26 @@ $factory->define(App\Acl\Modulo::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Gastos\Banco::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\Banco::class, function (Generator $faker) {
     return [
         'nombre' => $faker->company,
     ];
 });
 
-$factory->define(App\Gastos\Cuenta::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\Cuenta::class, function (Generator $faker) {
     return [
         'cuenta' => $faker->words(3, true),
     ];
 });
 
-$factory->define(App\Gastos\TipoCuenta::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\TipoCuenta::class, function (Generator $faker) {
     return [
         'tipo_cuenta' => $faker->words(3, true),
-        'tipo' => App\Gastos\TipoCuenta::CUENTA_GASTO
+        'tipo' => App\Models\Gastos\TipoCuenta::CUENTA_GASTO
     ];
 });
 
-$factory->define(App\Gastos\TipoMovimiento::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\TipoMovimiento::class, function (Generator $faker) {
     return [
         'tipo_movimiento' => $faker->words(3, true),
         'signo' => -1,
@@ -101,13 +101,13 @@ $factory->define(App\Gastos\TipoMovimiento::class, function (Generator $faker) {
     ];
 });
 
-$factory->define(App\Gastos\TipoGasto::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\TipoGasto::class, function (Generator $faker) {
     return [
         'tipo_gasto' => $faker->words(3, true),
     ];
 });
 
-$factory->define(App\Gastos\Gasto::class, function (Generator $faker) {
+$factory->define(App\Models\Gastos\Gasto::class, function (Generator $faker) {
     return [
         'anno' => now()->year,
         'mes' => now()->month,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Acl;
+namespace App\Models\Acl;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use App\Gastos\Gasto;
+use App\Models\Gastos\Gasto;
 use Illuminate\Http\Request;
-use App\Gastos\ReporteGastosTotales;
 use App\Http\Controllers\Controller;
+use App\Models\Gastos\ReporteGastosTotales;
 
 class ReporteTotalGastos extends Controller
 {

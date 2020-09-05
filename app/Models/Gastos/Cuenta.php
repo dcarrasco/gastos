@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Models\Gastos;
 
-use App\Gastos\Banco;
-use App\Gastos\TipoCuenta;
+use App\Models\Gastos\Banco;
+use App\Models\Gastos\TipoCuenta;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 

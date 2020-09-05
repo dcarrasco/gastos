@@ -13,7 +13,7 @@ use App\OrmModel\Filters\UsuariosActivos;
 
 class Usuario extends Resource
 {
-    public $model = 'App\Acl\Usuario';
+    public $model = 'App\Models\Acl\Usuario';
     public $icono = 'user';
     public $title = 'nombre';
     public $search = [

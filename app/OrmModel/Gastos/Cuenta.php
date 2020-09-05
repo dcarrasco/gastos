@@ -10,11 +10,11 @@ use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\Gastos\TipoCuenta;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\BelongsTo;
-use App\Gastos\TipoCuenta as TipoCuentaModel;
+use App\Models\Gastos\TipoCuenta as TipoCuentaModel;
 
 class Cuenta extends Resource
 {
-    public $model = 'App\Gastos\Cuenta';
+    public $model = 'App\Models\Gastos\Cuenta';
     public $icono = 'credit-card';
     public $title = 'cuenta';
     public $search = [

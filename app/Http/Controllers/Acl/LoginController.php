@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Acl;
 
-use App\Acl\UserACL;
-use App\Acl\Usuario;
+use App\Models\Acl\UserACL;
+use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acl\CambiaPasswordRequest;

@@ -51,7 +51,7 @@ class RelationTest extends TestCase
     public function testGetRelationOptions()
     {
         $request = $this->makeMock(Request::class, []);
-        $apps = factory(\App\Acl\App::class, 3)->create();
+        $apps = factory(\App\Models\Acl\App::class, 3)->create();
 
         $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
         $this->assertCount(3, $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));

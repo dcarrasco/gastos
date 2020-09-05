@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Acl\App;
-use App\Acl\Rol;
-use App\Acl\Modulo;
 use Tests\TestCase;
-use App\Acl\Usuario;
+use App\Models\Acl\App;
+use App\Models\Acl\Rol;
+use App\Models\Acl\Modulo;
+use App\Models\Acl\Usuario;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

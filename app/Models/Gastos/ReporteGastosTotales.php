@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Models\Gastos;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;

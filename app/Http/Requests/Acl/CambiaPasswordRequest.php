@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Acl;
 
-use App\Acl\UserACL;
-use App\Acl\Usuario;
+use App\Models\Acl\UserACL;
+use App\Models\Acl\Usuario;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CambiaPasswordRequest extends FormRequest

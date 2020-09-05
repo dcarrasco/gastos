@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use App\Gastos\Gasto;
-use App\Gastos\Cuenta;
 use Illuminate\Http\Request;
-use App\Gastos\ReporteGastos;
-use App\Gastos\TipoMovimiento;
+use App\Models\Gastos\Gasto;
+use App\Models\Gastos\Cuenta;
 use App\Http\Controllers\Controller;
+use App\Models\Gastos\ReporteGastos;
+use App\Models\Gastos\TipoMovimiento;
 
 class Reporte extends Controller
 {

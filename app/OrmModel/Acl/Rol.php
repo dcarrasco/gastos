@@ -11,7 +11,7 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class Rol extends Resource
 {
-    public $model = 'App\Acl\Rol';
+    public $model = 'App\Models\Acl\Rol';
     public $labelPlural = 'Roles';
     public $icono = 'server';
     public $title = 'rol';

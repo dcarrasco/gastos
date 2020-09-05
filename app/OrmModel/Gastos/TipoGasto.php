@@ -10,7 +10,7 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class TipoGasto extends Resource
 {
-    public $model = 'App\Gastos\TipoGasto';
+    public $model = 'App\Models\Gastos\TipoGasto';
     public $label = 'Tipo de Gasto';
     public $labelPlural = 'Tipos de Gasto';
     public $icono = 'sitemap';

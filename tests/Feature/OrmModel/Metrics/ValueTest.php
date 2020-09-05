@@ -3,17 +3,17 @@
 namespace Tests\Unit\OrmModel\Metrics;
 
 use Tests\TestCase;
-use App\Acl\Usuario;
-use App\Gastos\Banco;
-use App\Gastos\Gasto;
-use App\Gastos\Cuenta;
-use App\Gastos\TipoGasto;
-use App\Gastos\TipoCuenta;
+use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
-use App\Gastos\TipoMovimiento;
+use App\Models\Gastos\Banco;
+use App\Models\Gastos\Gasto;
+use App\Models\Gastos\Cuenta;
 use App\OrmModel\src\Resource;
+use App\Models\Gastos\TipoGasto;
+use App\Models\Gastos\TipoCuenta;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Metrics\Value;
+use App\Models\Gastos\TipoMovimiento;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

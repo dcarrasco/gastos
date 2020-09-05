@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Gastos\ParserMasivo;
+namespace App\Models\Gastos\ParserMasivo;
 
 use Carbon\Carbon;
-use App\Gastos\Gasto;
-use App\Gastos\TipoGasto;
 use Illuminate\Http\Request;
-use App\Gastos\GlosaTipoGasto;
+use App\Models\Gastos\Gasto;
+use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
+use App\Models\Gastos\GlosaTipoGasto;
 
 class VisaExcelParser extends GastosParser
 {

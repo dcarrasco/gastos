@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\Arr;
-use App\Gastos\ParserMasivo\NullParser;
 use Illuminate\Support\ServiceProvider;
-use App\Gastos\ParserMasivo\GastosParser;
-use App\Gastos\ParserMasivo\VisaExcelParser;
+use App\Models\Gastos\ParserMasivo\NullParser;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Gastos\ParserMasivo\GastosParser;
+use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
 class AppServiceProvider extends ServiceProvider
 {

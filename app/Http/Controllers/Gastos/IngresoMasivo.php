@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Gastos;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Gastos\ParserMasivo\VisaExcelParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
+use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
 class IngresoMasivo extends Controller
 {

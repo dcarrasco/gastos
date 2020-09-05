@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use App\Gastos\Gasto;
-use App\Gastos\Cuenta;
-use App\Gastos\Inversion;
+use App\Models\Gastos\Gasto;
+use App\Models\Gastos\Cuenta;
+use App\Models\Gastos\Inversion;
 use Illuminate\Http\Request;
-use App\Gastos\TipoMovimiento;
+use App\Models\Gastos\TipoMovimiento;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\AddInversionRequest;
 

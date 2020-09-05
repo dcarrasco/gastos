@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Gastos;
+namespace App\Models\Gastos;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
