@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Gastos;
 
+use Illuminate\Http\Request;
 use App\Models\Gastos\Gasto;
 use App\Models\Gastos\Cuenta;
 use App\Models\Gastos\SaldoMes;
 use App\Models\Gastos\TipoGasto;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\AddGastoRequest;
 
