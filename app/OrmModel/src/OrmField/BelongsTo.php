@@ -59,11 +59,9 @@ class BelongsTo extends Relation
 
         $value = $resource->model()->{$foreignKeyName};
         $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
-        $chooseOptionLabel = trans('orm.choose_option');
+        $form = str_replace('>'.trans('orm.choose_option'), ' disabled>'.trans('orm.choose_option'), $form);
 
-        return new HtmlString(
-            str_replace(">{$chooseOptionLabel}", " disabled>{$chooseOptionLabel}", $form)
-        );
+        return new HtmlString($form);
     }
 
     /**
