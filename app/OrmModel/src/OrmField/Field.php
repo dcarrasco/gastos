@@ -241,7 +241,7 @@ abstract class Field
     public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
     {
         $extraParam['class'] = Arr::get($extraParam, 'class', '')
-            . (optional($request->session()->get('errors'))->has($this->attribute) ? ' is-invalid' : '');
+            . (optional($request->session()->get('errors'))->has($this->getModelAttribute($resource)) ? ' is-invalid' : '');
 
         $this->formItem = $this->getForm($request, $resource, $extraParam);
 

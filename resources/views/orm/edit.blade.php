@@ -16,7 +16,7 @@
 
             <!-- -----------------------------  FIELDS  ---------------------------- -->
             @foreach($resource->getFields() as $field)
-                <x-orm.item-form :field=$field />
+                <x-orm.item-form :field=$field :resource=$resource />
             @endforeach
 
             <!-- -----------------------------  BOTONES  --------------------------- -->
