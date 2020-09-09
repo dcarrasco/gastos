@@ -3,6 +3,7 @@
 namespace Tests\Feature\OrmModel\OrmField;
 
 use Tests\TestCase;
+use App\Models\Acl\App;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Relation;
@@ -51,7 +52,7 @@ class RelationTest extends TestCase
     public function testGetRelationOptions()
     {
         $request = $this->makeMock(Request::class, []);
-        $apps = factory(\App\Models\Acl\App::class, 3)->create();
+        $apps = App::factory(3)->create();
 
         $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
         $this->assertCount(3, $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
@@ -60,5 +61,4 @@ class RelationTest extends TestCase
             $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo)->all()
         );
     }
-
 }

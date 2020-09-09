@@ -3,6 +3,8 @@
 namespace Tests\Feature\OrmModel\OrmField;
 
 use Tests\TestCase;
+use App\Models\Acl\App;
+use App\Models\Acl\Modulo;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -42,15 +44,15 @@ class BelongsToTest extends TestCase
     public function testGetFormattedValue()
     {
         $request = $this->makeMock(Request::class, []);
-        $app = factory(\App\Models\Acl\App::class)->create();
-        $modulo = factory(\App\Models\Acl\Modulo::class)->create(['app_id' => $app->id]);
+        $app = App::factory()->create();
+        $modulo = Modulo::factory()->create(['app_id' => $app->id]);
 
         $this->assertEquals($app->app, $this->field->getFormattedValue($modulo, $request));
     }
 
     public function testModelAttribute()
     {
-        $modulo = factory(\App\Models\Acl\Modulo::class)->create();
+        $modulo = Modulo::factory()->create();
         $resource = new \App\OrmModel\Acl\Modulo($modulo);
 
         $this->assertEquals('app_id', $this->field->getModelAttribute($resource));
@@ -66,8 +68,8 @@ class BelongsToTest extends TestCase
         \URL::shouldReceive('route')
             ->andReturn('url1');
 
-        $apps = factory(\App\Models\Acl\App::class, 3)->create();
-        $modulo = factory(\App\Models\Acl\Modulo::class)->create(['app_id' => $apps->first()->id]);
+        $apps = App::factory(3)->create();
+        $modulo = Modulo::factory()->create(['app_id' => $apps->first()->id]);
         $resource = new \App\OrmModel\Acl\Modulo($modulo);
 
         $this->assertIsObject($this->field->getForm($request, $resource));

@@ -21,10 +21,10 @@ class AclTest extends TestCase
      */
     public function testMenuApp()
     {
-        $usuario = factory(Usuario::class)->create();
-        $app = factory(App::class)->create();
-        $rol = factory(Rol::class)->create(['app_id' => 1]);
-        $modulos = factory(Modulo::class, 5)->create(['app_id' => 1]);
+        $usuario = Usuario::factory()->create();
+        $app = App::factory()->create();
+        $rol = Rol::factory()->create(['app_id' => 1]);
+        $modulos = Modulo::factory(5)->create(['app_id' => 1]);
 
         $usuario->rol()->attach([1]);
         $rol->modulo()->attach([1,2,3,4,5]);
@@ -39,8 +39,8 @@ class AclTest extends TestCase
 
     public function testUsuarioHasPassword()
     {
-        $usuario1 = factory(Usuario::class)->create();
-        $usuario2 = factory(Usuario::class)->create(['password' => '']);
+        $usuario1 = Usuario::factory()->create();
+        $usuario2 = Usuario::factory()->create(['password' => '']);
 
         $this->assertTrue($usuario1->hasPassword());
         $this->assertFalse($usuario2->hasPassword());
@@ -48,7 +48,7 @@ class AclTest extends TestCase
 
     public function testUsuarioCheckPassword()
     {
-        $usuario = factory(Usuario::class)->create(['password' => bcrypt('secret')]);
+        $usuario = Usuario::factory()->create(['password' => bcrypt('secret')]);
 
         $this->assertTrue($usuario->checkPassword('secret'));
         $this->assertFalse($usuario->checkPassword('not-secret'));
@@ -56,7 +56,7 @@ class AclTest extends TestCase
 
     public function testUsuarioStorePassword()
     {
-        $usuario = factory(Usuario::class)->create(['password' => bcrypt('secret')]);
+        $usuario = Usuario::factory()->create(['password' => bcrypt('secret')]);
         $passwordOriginal = $usuario->password;
 
         $usuario->storePassword('new-secret');

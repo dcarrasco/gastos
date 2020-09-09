@@ -25,7 +25,7 @@ class ResourceTest extends TestCase
     {
         parent::setUp();
 
-        $this->model = factory(Usuario::class)->create();
+        $this->model = Usuario::factory()->create();
 
         $this->resource = new class($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
@@ -170,8 +170,8 @@ class ResourceTest extends TestCase
         $request = $this->makeMock(Request::class, ['all']);
         $request->expects($this->any())->method('all')->willReturn(['elem' => ['a'=>1, 'b'=>2]]);
 
-        $user1 = factory(Usuario::class)->make();
-        $user2 = factory(Usuario::class)->make();
+        $user1 = Usuario::factory()->make();
+        $user2 = Usuario::factory()->make();
 
         $builder = $this->makeMock(QueryBuilder::class, ['get']);
         $builder->expects($this->any())->method('get')->willReturn(collect([$user1, $user2]));
@@ -278,7 +278,7 @@ class ResourceTest extends TestCase
 
     public function testApplyFilters()
     {
-        $this->model = factory(Usuario::class)->create();
+        $this->model = Usuario::factory()->create();
 
         $this->resource = new class($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';

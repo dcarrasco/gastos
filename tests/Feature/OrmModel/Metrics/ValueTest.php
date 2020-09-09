@@ -57,25 +57,25 @@ class ValueTest extends TestCase
 
     public function testAggregators()
     {
-        $banco = factory(Banco::class)->create();
-        $tipoCuenta = factory(TipoCuenta::class)->create();
+        $banco = Banco::factory()->create();
+        $tipoCuenta = TipoCuenta::factory()->create();
 
-        $cuenta = factory(Cuenta::class)->create([
+        $cuenta = Cuenta::factory()->create([
             'banco_id' => $banco->id,
             'tipo_cuenta_id' => $tipoCuenta->id,
         ]);
 
-        $tipoMovimiento = factory(TipoMovimiento::class)->create();
-        $tipoGasto = factory(TipoGasto::class)->create([
+        $tipoMovimiento = TipoMovimiento::factory()->create();
+        $tipoGasto = TipoGasto::factory()->create([
             'tipo_movimiento_id' => $tipoMovimiento->id,
         ]);
 
-        $usuario = factory(Usuario::class)->create();
+        $usuario = Usuario::factory()->create();
 
         $montos = [100, 200, 300, 400, 500];
 
         collect($montos)->each(function ($monto) use ($cuenta, $tipoGasto, $tipoMovimiento, $usuario) {
-            $gasto = factory(Gasto::class)->create([
+            $gasto = Gasto::factory()->create([
                 'monto' => $monto,
                 'cuenta_id' => $cuenta->id,
                 'tipo_gasto_id' => $tipoGasto->id,

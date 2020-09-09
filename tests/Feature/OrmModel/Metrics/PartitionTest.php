@@ -3,6 +3,9 @@
 namespace Tests\Unit\OrmModel\Metrics;
 
 use Tests\TestCase;
+use App\Models\Acl\App;
+use App\Models\Acl\Modulo;
+use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Partition;
@@ -48,8 +51,8 @@ class PartitionTest extends TestCase
 
     public function testAggregators()
     {
-        $usuarios = factory(\App\Models\Acl\Usuario::class, 5)->create(['activo' => 1]);
-        $usuarios = factory(\App\Models\Acl\Usuario::class, 2)->create(['activo' => 0]);
+        $usuarios = Usuario::factory(5)->create(['activo' => 1]);
+        $usuarios = Usuario::factory(2)->create(['activo' => 0]);
 
         $this->assertEquals(['1' => '5', '0' => '2'], $this->partition->count($this->request, \App\OrmModel\Acl\Usuario::class, 'activo')->all());
 
@@ -58,11 +61,11 @@ class PartitionTest extends TestCase
 
     public function testAggregatorsWithRelations()
     {
-        $app1 = factory(\App\Models\Acl\App::class)->create();
-        $app2 = factory(\App\Models\Acl\App::class)->create();
+        $app1 = App::factory()->create();
+        $app2 = App::factory()->create();
 
-        $modulo1 = factory(\App\Models\Acl\Modulo::class, 5)->create(['app_id' => $app1->id]);
-        $modulo2 = factory(\App\Models\Acl\Modulo::class, 2)->create(['app_id' => $app2->id]);
+        $modulo1 = Modulo::factory(5)->create(['app_id' => $app1->id]);
+        $modulo2 = Modulo::factory(2)->create(['app_id' => $app2->id]);
 
         $this->assertEquals(
             [$app1->descripcion => '5', $app2->descripcion => '2'],

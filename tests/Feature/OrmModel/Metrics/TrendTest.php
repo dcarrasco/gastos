@@ -45,10 +45,10 @@ class TrendTest extends TestCase
 
     public function testAggregators()
     {
-        $app1 = factory(AppModel::class)->create(['orden' => 10]);
-        $app2 = factory(AppModel::class)->create(['orden' => 20]);
-        $app3 = factory(AppModel::class)->create(['orden' => 30]);
-        $app4 = factory(AppModel::class)->create(['orden' => 40]);
+        $app1 = AppModel::factory()->create(['orden' => 10]);
+        $app2 = AppModel::factory()->create(['orden' => 20]);
+        $app3 = AppModel::factory()->create(['orden' => 30]);
+        $app4 = AppModel::factory()->create(['orden' => 40]);
 
         $request = $this->makeMock(Request::class, ['input']);
         $request->expects($this->any())->method('input')->willReturn('MTD');
