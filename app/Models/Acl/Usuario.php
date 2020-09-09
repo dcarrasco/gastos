@@ -5,10 +5,12 @@ namespace App\Models\Acl;
 use App\Models\Acl\Rol;
 use App\Models\Acl\UserACL;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Usuario extends UserACL
 {
     use Notifiable;
+    use HasFactory;
 
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',

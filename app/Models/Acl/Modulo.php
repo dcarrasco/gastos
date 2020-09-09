@@ -3,9 +3,12 @@
 namespace App\Models\Acl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Modulo extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['app_id', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
     public function __construct(array $attributes = [])

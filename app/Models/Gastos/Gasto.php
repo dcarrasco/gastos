@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Gastos\TipoMovimiento;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class Gasto extends Model
 {
+    use HasFactory;
+
     protected $table = 'cta_gastos';
 
     protected $fillable = [

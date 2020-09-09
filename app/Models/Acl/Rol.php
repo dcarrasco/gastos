@@ -3,9 +3,12 @@
 namespace App\Models\Acl;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rol extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
     public function __construct(array $attributes = [])

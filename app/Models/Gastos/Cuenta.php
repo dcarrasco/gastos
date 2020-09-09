@@ -6,9 +6,12 @@ use App\Models\Gastos\Banco;
 use App\Models\Gastos\TipoCuenta;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cuenta extends Model
 {
+    use HasFactory;
+
     protected $table = 'cta_cuentas';
 
     protected $fillable = ['banco_id', 'tipo_cuenta_id', 'cuenta'];
