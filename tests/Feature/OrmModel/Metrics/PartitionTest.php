@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\OrmModel\Metrics;
+namespace Tests\Feature\OrmModel\Metrics;
 
 use Tests\TestCase;
 use App\Models\Acl\App;
