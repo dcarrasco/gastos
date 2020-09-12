@@ -6,12 +6,18 @@ use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Value;
+use Illuminate\Database\Eloquent\Builder;
 
 class MontoRegistros extends Value
 {
     public function calculate(Request $request): array
     {
         return $this->sum($request, Gasto::class, 'monto');
+    }
+
+    protected function filter(Request $request, Builder $query): Builder
+    {
+        return $query->whereIn('cuenta_id', [1, 2]);
     }
 
     public function ranges(): array
