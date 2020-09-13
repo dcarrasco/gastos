@@ -1,13 +1,13 @@
 <form method="GET" class="form-search">
-    <div class="row pt-2 mb-3 hidden-print">
-        <div class="col-4">
-            <div id="{{ $resource->urlSearchKey() }}_group" class="input-group input-group-sm bg-white border rounded">
+    <div class="flex justify-between py-2">
+        <div id="{{ $resource->urlSearchKey() }}_group" class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center">
                 <x-heroicon.search />
-                <input type="text" name="{{ $resource->urlSearchKey() }}" value="{{ Request::input($resource->urlSearchKey()) }}" class="form-control border-0" id="{{ $resource->urlSearchKey() }}" maxlength="30" placeholder="{{ trans('orm.filter') }}">
             </div>
+            <input type="text" name="{{ $resource->urlSearchKey() }}" value="{{ Request::input($resource->urlSearchKey()) }}" class="pl-10 py-2 rounded-md" id="{{ $resource->urlSearchKey() }}" maxlength="30" placeholder="{{ trans('orm.filter') }}">
         </div>
 
-        <div class="col-8 text-right">
+        <div class="bg-blue-500 text-white font-bold px-2 flex items-center rounded-md">
             <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="btn btn-primary text-right px-3 font-weight-bold text-shadow" id="btn_mostrar_agregar" role="button">
                 {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
             </a>

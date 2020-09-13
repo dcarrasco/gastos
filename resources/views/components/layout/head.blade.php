@@ -13,11 +13,12 @@
 
     <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+    <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}" /> -->
+    <link rel="stylesheet" href="{{ asset('css/tailwind.min.css') }}" />
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/fix_bootstrap.css') }}" />
+    <!-- <link rel="stylesheet" href="{{ asset('css/fix_bootstrap.css') }}" /> -->
 
     <script type="text/javascript">
         var js_base_url = "{{ asset('') }}";

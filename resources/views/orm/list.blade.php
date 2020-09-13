@@ -4,33 +4,27 @@
     <x-orm.cards-container :cards="$cards" />
 
     <!-- ------------------------- LABEL ------------------------- -->
-    <div class="row">
-        <div class="col-12">
-            <h4>{{ $resource->getLabelPlural() }}</h4>
-        </div>
+    <div class="text-2xl pt-2 pb-4">
+        {{ $resource->getLabelPlural() }}
     </div>
 
     <!-- ------------------------- SEARCH & NEW ------------------------- -->
     <x-orm.list.search-and-new :resource="$resource" />
 
     <!-- ------------------------- LIST DATA ------------------------- -->
-    <div class="row shadow-sm rounded-lg border mx-0">
-        <div class="col-12">
-            <x-orm.list.filters :resource="$resource" />
+    <div class="my-5 shadow-sm rounded-lg border divide-y divide-gray-400">
+        <x-orm.list.filters :resource="$resource" />
 
-            @if ($resource->resourceList()->count() == 0)
-                <x-orm.list.no-items />
-            @else
-                <div class="row">
-                    <div class="col-12 px-0">
-                        <x-orm.list.table :resource=$resource />
-                    </div>
-                </div>
+        @if ($resource->resourceList()->count() == 0)
+            <x-orm.list.no-items />
+        @else
+            <div class="">
+                <x-orm.list.table :resource=$resource />
+            </div>
 
-                <x-paginator.links :resource="$resource" />
+            <x-paginator.links :resource="$resource" />
 
-            @endif
-        </div>
+        @endif
     </div> <!-- container -->
 
     <x-orm.list.modal-delete :resource="$resource" />

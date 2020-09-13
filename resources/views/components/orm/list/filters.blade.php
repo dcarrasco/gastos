@@ -1,26 +1,24 @@
-<div class="row">
-    <div class="col-12 text-right bg-white py-1 px-2 border-bottom rounded-top-lg">
-        <div class="btn-group" role="group">
-            <button id="button-filters" type="button" class="btn btn-light btn-sm dropdown-toggle my-1 mx-2 border font-weight-bold text-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <x-heroicon.filter />
-                {{ $resource->countAppliedFilters(request()) ?: '' }}
-            </button>
+<div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
+    <div class="relative">
+        <button id="button-filters" type="button" class="flex p-2 border rounded-md bg-gray-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <x-heroicon.filter />
+            <span class="px-1 fa fa-icon fa-caret-down"></span>
+            {{ $resource->countAppliedFilters(request()) ?: '' }}
+        </button>
 
-            <div class="dropdown-menu dropdown-menu-right shadow-sm" aria-labelledby="button-filters" style="min-width: 20em;">
-                @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)
-                    <h6 class="dropdown-header text-uppercase bg-light font-weight-bold" href="#">
-                        {{ $filter->getLabel() }}
-                    </h6>
+         <div class="absolute right-0 bg-white border rounded-md shadow" aria-labelledby="button-filters" style="min-width: 20em;">
+            @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)
+                <div class="bg-gray-200 py-2 px-2 uppercase text-sm font-bold" href="#">
+                    {{ $filter->getLabel() }}
+                </div>
 
-                    @foreach($filter->options() as $option => $value)
-                        <a class="dropdown-item text-secondary" href="{{ $filter->getOptionUrl(request(), $value) }}">
-                            <span class="col-1 {{ $filter->isActive(request(), $value) ? 'fa fa-check' : '' }}"></span>
-                            {{ $option }}
-                        </a>
-                    @endforeach
+                @foreach($filter->options() as $option => $value)
+                    <a class="block py-2 px-5" href="{{ $filter->getOptionUrl(request(), $value) }}">
+                        <span class="{{ $filter->isActive(request(), $value) ? 'fa fa-check' : '' }}"></span>
+                        {{ $option }}
+                    </a>
                 @endforeach
-            </div>
-
+            @endforeach
         </div>
     </div>
 </div>
