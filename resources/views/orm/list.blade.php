@@ -14,21 +14,23 @@
     <x-orm.list.search-and-new :resource="$resource" />
 
     <!-- ------------------------- LIST DATA ------------------------- -->
-    <div class="container shadow-sm rounded-lg border">
-        <x-orm.list.filters :resource="$resource" />
+    <div class="row shadow-sm rounded-lg border mx-0">
+        <div class="col-12">
+            <x-orm.list.filters :resource="$resource" />
 
-        @if ($resource->resourceList()->count() == 0)
-            <x-orm.list.no-items />
-        @else
-            <div class="row">
-                <div class="col-12 px-0">
-                    <x-orm.list.table :resource=$resource />
+            @if ($resource->resourceList()->count() == 0)
+                <x-orm.list.no-items />
+            @else
+                <div class="row">
+                    <div class="col-12 px-0">
+                        <x-orm.list.table :resource=$resource />
+                    </div>
                 </div>
-            </div>
 
-            <x-paginator.links :resource="$resource" />
+                <x-paginator.links :resource="$resource" />
 
-        @endif
+            @endif
+        </div>
     </div> <!-- container -->
 
     <x-orm.list.modal-delete :resource="$resource" />
