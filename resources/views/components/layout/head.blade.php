@@ -15,7 +15,8 @@
 
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}" /> -->
     <link rel="stylesheet" href="{{ asset('css/tailwind.min.css') }}" />
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('js/app.js') }}"></script> -->
+    <script type="text/javascript" src="{{ asset('js/alpine.min.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
     <!-- <link rel="stylesheet" href="{{ asset('css/fix_bootstrap.css') }}" /> -->
