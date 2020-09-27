@@ -20,7 +20,9 @@ class SaldoCtaCte extends Value
 
     protected function calculateSaldo(Request $request, array $range): int
     {
-        $gastos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)->get();
+        $gastos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)
+            ->with('tipoMovimiento')
+            ->get();
 
         $saldoInicial = SaldoMes::where('cuenta_id', 1)
             ->where('anno', $gastos->max('anno'))
