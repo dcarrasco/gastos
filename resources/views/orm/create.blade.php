@@ -1,13 +1,9 @@
 <x-layout.app>
+    <x-orm.title>
+        {{ trans('orm.title_add') }}
+        {!! $resource->getLabel() !!}
+    </x-orm.title>
 
-    <div class="row">
-        <div class="col-12">
-            <h4>
-                {{ trans('orm.title_add') }}
-                {{ $resource->getLabel() }}
-            </h4>
-        </div>
-    </div>
 
     <div class="container mt-2 border rounded-lg bg-white shadow-sm">
         <form method="POST" action='{{ route("$routeName.store", [$resource->getName()]) }}' id="frm_editar">

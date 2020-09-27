@@ -5,11 +5,9 @@
     <x-heroicon.edit />
 </a>
 <a class="inline-block"
-    data-toggle="modal"
-    data-target="#modalBorrar"
+    @click="openDeleteModal=true"
+    x-on:click="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}'"
     data-url-form="{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}"
-    data-message="{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}"
-    id="delete-href"
     style="cursor: pointer;"
 >
     <x-heroicon.delete />

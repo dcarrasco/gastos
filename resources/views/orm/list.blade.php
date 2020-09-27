@@ -4,9 +4,9 @@
     <x-orm.cards-container :cards="$cards" />
 
     <!-- ------------------------- LABEL ------------------------- -->
-    <div class="text-2xl pt-2 pb-4">
+    <x-orm.title>
         {{ $resource->getLabelPlural() }}
-    </div>
+    </x-orm.title>
 
     <!-- ------------------------- SEARCH & NEW ------------------------- -->
     <x-orm.list.search-and-new :resource="$resource" />
@@ -18,16 +18,9 @@
         @if ($resource->resourceList()->count() == 0)
             <x-orm.list.no-items />
         @else
-            <div class="">
-                <x-orm.list.table :resource=$resource />
-            </div>
-
-            <x-paginator.links :resource="$resource" />
-
+            <x-orm.list.table :resource="$resource" />
         @endif
-    </div> <!-- container -->
-
-    <x-orm.list.modal-delete :resource="$resource" />
+    </div>
 
     <script type="text/javascript">
         $(document).ready(function() {

@@ -10,6 +10,6 @@
         name="{{ $name }}"
         value="{{ old($name, $default ?? null) }}"
         autocomplete="off"
-        class="form-control @error($name) is-invalid @enderror {{ $class ?? '' }}"
+        class="border @error($name) is-invalid @enderror {{ $class ?? '' }}"
     >
 @endif

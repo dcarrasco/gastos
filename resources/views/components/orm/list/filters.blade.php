@@ -1,12 +1,12 @@
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
-    <div class="relative">
-        <button id="button-filters" type="button" class="flex p-2 border rounded-md bg-gray-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div x-data="{openFilter: false}" class="relative">
+        <button @click="openFilter=true" id="button-filters" type="button" class="flex p-2 border rounded-md bg-gray-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}
         </button>
 
-         <div class="absolute right-0 bg-white border rounded-md shadow" aria-labelledby="button-filters" style="min-width: 20em;">
+         <div x-show="openFilter" @click.away="openFilter=false" class="absolute right-0 bg-white border rounded-md shadow" aria-labelledby="button-filters" style="min-width: 20em;">
             @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)
                 <div class="bg-gray-200 py-2 px-2 uppercase text-sm font-bold" href="#">
                     {{ $filter->getLabel() }}
