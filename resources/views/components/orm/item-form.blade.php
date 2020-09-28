@@ -1,8 +1,8 @@
 <div class="grid grid-cols-3">
-    <div class="col-span-1 px-5 py-4">
-        <h6 class="font-bold {{ $errors->has($field->getModelAttribute($resource)) ? 'text-danger' : 'text-muted' }}"> {{ $field->getName() }} </h6>
+    <div class="col-span-1 px-5 py-4 font-bold {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-500' : '' }}">
+        {{ $field->getName() }}
         @if ($field->isRequired())
-            <span class="text-danger">*</span>
+            <span class="text-red-500">*</span>
         @endif
     </div>
 
@@ -10,7 +10,7 @@
         {{ $field->formItem() }}
 
         @if ($errors->has($field->getModelAttribute($resource)))
-            <div class="invalid-feedback">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
+            <div class="text-red-500">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
         @endif
     </div>
 </div>

@@ -39,6 +39,7 @@ class Currency extends Field
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
         $value = $resource->model()->{$this->attribute};
 
         return Form::number($this->attribute, $value, $extraParam);

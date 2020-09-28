@@ -54,7 +54,7 @@ class HasMany extends Relation
     public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = Arr::get($extraParam, 'class', '') . ' custom-select';
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
 
         return Form::select(
             "{$this->name}[]",

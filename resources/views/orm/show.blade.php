@@ -5,10 +5,10 @@
     </x-orm.title>
 
     <div class="flex justify-end">
-        <a href="" class="bg-white mx-2 p-2 rounded-md border" data-toggle="modal" data-target="#modalBorrar">
+        <a href="" class="bg-white hover:bg-gray-200 mx-2 p-2 rounded-md border" data-toggle="modal" data-target="#modalBorrar">
             <x-heroicon.delete width="20" height="20"/>
         </a>
-        <a href="{{ route($routeName.'.edit', [$resource->getName(), $resource->model()->getKey()]) }}" class="bg-blue-500 p-2 rounded-md border">
+        <a href="{{ route($routeName.'.edit', [$resource->getName(), $resource->model()->getKey()]) }}" class="bg-blue-500 hover:bg-blue-700 p-2 rounded-md border">
             <x-heroicon.edit width="20" height="20" style="fill: #EEE"/>
         </a>
     </div>

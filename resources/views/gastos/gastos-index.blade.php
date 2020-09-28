@@ -2,8 +2,8 @@
 
     <x-gastos.gastos.form-filter :selectCuentas="$selectCuentas" />
 
-    <table class="col-12 mt-md-3 table table-hover table-sm">
-        <thead class="thead-light">
+    <table class="table-auto">
+        <thead class="">
             <tr>
                 <th>Año</th>
                 <th>Mes</th>
