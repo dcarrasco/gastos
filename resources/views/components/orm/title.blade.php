@@ -1,3 +1,3 @@
-<div class="text-2xl pt-2 pb-4">
+<div class="text-2xl py-2 flex justify-between">
     {{ $slot }}
 </div>

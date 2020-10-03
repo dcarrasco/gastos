@@ -1,9 +1,9 @@
-<div class="grid grid-cols-3">
-    <div class="col-span-1 px-5 py-4 font-bold">
+<div class="grid grid-cols-4 px-5 py-5">
+    <div class="col-span-1 text-gray-600">
         {{ $field->getName() }}
     </div>
 
-    <div class="col-span-2 px-5 py-4">
+    <div class="col-span-2">
         {{ $field->value() }}
     </div>
 </div>

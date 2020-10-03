@@ -4,25 +4,28 @@
         {!! $resource->getLabel() !!}
     </x-orm.title>
 
-    <form method="POST" action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}' id="frm_editar" class="container mt-2 border rounded-lg bg-white shadow-sm divide-y divide-gray-300">
+
+    <form method="POST" action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}' id="frm_editar">
         @csrf
         @method('PUT')
 
-        <!-- -----------------------------  FIELDS  ---------------------------- -->
-        @foreach($resource->getFields() as $field)
-            <x-orm.item-form :field=$field :resource=$resource />
-        @endforeach
+        <x-orm.field-panel>
+            <!-- -----------------------------  FIELDS  ---------------------------- -->
+            @foreach($resource->getFields() as $field)
+                <x-orm.item-form :field=$field :resource=$resource />
+            @endforeach
 
-        <!-- -----------------------------  BOTONES  --------------------------- -->
-        <div class="flex justify-end py-4">
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2" id="button_continue">
-                {{ trans('orm.button_update_continue') }}
-            </button>
+            <!-- -----------------------------  BOTONES  --------------------------- -->
+            <x-orm.panel-bottom-buttons>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2" id="button_continue">
+                    {{ trans('orm.button_update_continue') }}
+                </button>
 
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2">
-                {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
-            </button>
-        </div>
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2">
+                    {{ trans('orm.button_update') }} {{ $resource->getLabel() }}
+                </button>
+            </x-orm.panel-bottom-buttons>
+        </x-orm.field-panel>
 
         <input type="hidden" name="redirect_to" value="next">
     </form>
