@@ -1,4 +1,4 @@
-<div x-data="{openDeleteModal: false, deleteMessage: ''}">
+<div x-data="{openDeleteModal: false, deleteMessage: '', urlDelete: ''}">
     <table class="w-full">
         @foreach ($resource->resourceList() as $resourceItem)
             @if ($loop->first)

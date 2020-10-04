@@ -6,8 +6,7 @@
 </a>
 <a class="inline-block hover:text-blue-500"
     @click="openDeleteModal=true"
-    x-on:click="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}'"
-    data-url-form="{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}"
+    x-on:click="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}'"
     style="cursor: pointer;"
 >
     <x-heroicon.delete />
