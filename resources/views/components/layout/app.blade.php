@@ -5,13 +5,13 @@
     <body>
         <x-layout.navbar />
 
-        <div class="grid grid-cols-5">
+        <div class="grid grid-cols-5 h-screen">
             @guest
                 <div class="col-span-5">
                     {{ $slot }}
                 </div>
             @else
-                <div class="col-span-1 bg-gray-700">
+                <div class="col-span-1 bg-gray-700 h-full">
                     <x-layout.menu-modulo />
                 </div>
 
