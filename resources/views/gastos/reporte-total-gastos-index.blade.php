@@ -3,7 +3,7 @@
     <x-gastos.reporte.form-filter-gastos-totales />
 
     @if (!$reporte->isEmpty())
-        <table class="table-auto text-sm">
+        <table class="table-auto text-sm w-full">
             <thead class="bg-gray-300 border-b-2 border-gray-400">
                 <tr>
                     <th class="py-2">Item</th>

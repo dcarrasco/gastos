@@ -2,7 +2,7 @@
 
     <x-gastos.gastos.form-filter :selectCuentas="$selectCuentas" />
 
-    <table class="table-auto text-sm">
+    <table class="table-auto text-sm w-full">
         <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
                 <th class="py-2">Año</th>

@@ -3,7 +3,7 @@
     <x-gastos.reporte.form-filter :cuentas="$cuentas" :tiposMovimientos="$tiposMovimientos" />
 
     @if (!$reporte->isEmpty())
-        <table class="table-auto text-sm">
+        <table class="table-auto text-sm w-full">
             <thead class="bg-gray-300 border-b-2 border-gray-400">
                 <tr>
                     <th>Item</th>
