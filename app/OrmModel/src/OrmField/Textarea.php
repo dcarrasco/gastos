@@ -23,6 +23,7 @@ class Textarea extends Field
         $extraParam['id'] = $this->attribute;
         $extraParam['rows'] = 5;
         $extraParam['maxlength'] = $this->getFieldLength();
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
         $value = $resource->model()->{$this->attribute};
 
         return Form::textarea($this->attribute, $value, $extraParam);

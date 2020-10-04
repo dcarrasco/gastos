@@ -2,27 +2,25 @@
 <html lang="es">
     <x-layout.head />
 
-    <body>
+    <body class="text-">
         <x-layout.navbar />
 
-        <div class="container-fluid" id="container">
-            <div class="row vh-100">
-                @guest
-                    <div class="col-12">
-                        {{ $slot }}
-                    </div>
-                @else
-                    <div class="col-2 bg-secondary px-0">
-                        <x-layout.menu-modulo />
-                    </div>
+        <div class="grid grid-cols-5">
+            @guest
+                <div class="col-12">
+                    {{ $slot }}
+                </div>
+            @else
+                <div class="col-span-1 bg-gray-700">
+                    <x-layout.menu-modulo />
+                </div>
 
-                    <div class="col-10 px-5 pt-5 pb-2">
-                        <x-alert :errors=$errors />
-                        {{ $slot }}
-                        <x-layout.footer />
-                    </div>
-                @endguest
-            </div> <!-- DIV   class="row"    -->
+                <div class="col-span-4 bg-gray-200 px-12 py-10 text-gray-700">
+                    <x-alert :errors=$errors />
+                    {{ $slot }}
+                    <x-layout.footer />
+                </div>
+            @endguest
         </div> <!-- DIV principal de la aplicacion   class="container"-->
 
     </body>

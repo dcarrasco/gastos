@@ -1,9 +1,9 @@
-<div class="row py-4 border-bottom">
-    <div class="col-3 pl-5 text-muted">
-        <h6 class="font-weight-bold my-0"> {{ $field->getName() }} </h6>
+<div class="grid grid-cols-4 px-5 py-5">
+    <div class="col-span-1 text-gray-600">
+        {{ $field->getName() }}
     </div>
 
-    <div class="col-9">
-        <h6 class="my-0"> {{ $field->value() }} </h6>
+    <div class="col-span-2">
+        {{ $field->value() }}
     </div>
 </div>

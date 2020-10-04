@@ -1,8 +1,8 @@
 <x-layout.app>
     <x-gastos.inversion.form-filter :cuentas="$cuentas" />
 
-    <table class="col-md-12 mt-md-3 table table-hover table-sm">
-        <thead class="thead-light">
+    <table class="table-auto text-sm w-full">
+        <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
                 <th>Año</th>
                 <th>Mes</th>
@@ -17,13 +17,13 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
             <?php $saldo = 0; ?>
             @foreach ($inversion->getMovimientos() as $mov)
-                <tr>
-                    <td>{{ $mov->anno }}</td>
-                    <td>{{ $mov->mes }}</td>
-                    <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
+                <tr class="hover:bg-blue-100">
+                    <td class="text-center py-2">{{ $mov->anno }}</td>
+                    <td class="text-center">{{ $mov->mes }}</td>
+                    <td class="text-center">{{ optional($mov->fecha)->format('d-m-Y') }}</td>
                     <td>{{ $mov->glosa }}</td>
                     <td class="text-center">{{ $mov->tipoMovimiento->tipo_movimiento }}</td>
                     <td class="text-right">
@@ -47,37 +47,37 @@
 
                 @if ($loop->last)
                     @if($inversion->saldoFinal())
-                        <tr class="bg-light">
-                            <th>{{ optional($inversion->saldoFinal())->anno }}</th>
-                            <th>{{ optional($inversion->saldoFinal())->mes }}</th>
-                            <th>{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</th>
-                            <th>{{ optional($inversion->saldoFinal())->glosa }}</th>
-                            <th class="text-center">
+                        <tr class="bg-gray-300 font-bold border-t-2 border-gray-400">
+                            <td class="text-center">{{ optional($inversion->saldoFinal())->anno }}</td>
+                            <td class="text-center">{{ optional($inversion->saldoFinal())->mes }}</td>
+                            <td class="text-center">{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</td>
+                            <td>{{ optional($inversion->saldoFinal())->glosa }}</td>
+                            <td class="text-center">
                                 {{ optional(optional($inversion->saldoFinal())->tipoMovimiento)->tipo_movimiento }}
-                            </th>
-                            <th></th>
-                            <th class="text-right">{{ fmtMonto(optional($inversion->saldoFinal())->monto) }}</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
+                            </td>
+                            <td></td>
+                            <td class="text-right">{{ fmtMonto(optional($inversion->saldoFinal())->monto) }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
-                        <tr class="bg-light">
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th class="text-right">Utilidad</th>
-                            <th class="text-right">
+                        <tr class="bg-gray-300 font-bold border-t-2 border-gray-400">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right">Utilidad</td>
+                            <td class="text-right">
                                 {{ fmtMonto($inversion->util($inversion->saldoFinal())) }}
-                            </th>
-                            <th></th>
-                            <th class="text-right">
+                            </td>
+                            <td></td>
+                            <td class="text-right">
                                 {{ fmtPorcentaje(100*$inversion->rentabilidad($inversion->saldoFinal())) }}
-                            </th>
-                            <th class="text-right">
+                            </td>
+                            <td class="text-right">
                                 {{ fmtPorcentaje(100*$inversion->rentabilidadAnual($inversion->saldoFinal())) }}
-                            </th>
+                            </td>
                         </tr>
                     @endif
                 @endif
@@ -90,12 +90,12 @@
                     <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
                     <td></td>
                     <td></td>
-                    <td><x-form-input name="fecha" type="date" class="form-control-sm" /></td>
-                    <td><x-form-input name="glosa" class="form-control-sm" /></td>
-                    <td><x-form-input name="tipo_movimiento_id" type="select" class="custom-select-sm" :options=$tiposMovimientos /></td>
-                    <td><x-form-input name="monto" class="form-control-sm" /></td>
+                    <td><x-form-input name="fecha" type="date" class="" /></td>
+                    <td><x-form-input name="glosa" class="w-32" /></td>
+                    <td><x-form-input name="tipo_movimiento_id" type="select" class="" :options=$tiposMovimientos /></td>
+                    <td><x-form-input name="monto" class="w-32" /></td>
                     <td>
-                        <button type="submit" name="submit" class="btn btn-primary btn-sm">Ingresar</button>
+                        <button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md outline-none">Ingresar</button>
                     </td>
                     <td></td>
                     <td></td>

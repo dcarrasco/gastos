@@ -1,4 +1,4 @@
-<div class="form-inline justify-content-center">
+<div class="flex justify-center items-center pb-6">
     <label class="mr-2">Cuenta</label>
     <x-form-input name="cuenta_id" type="select" :options=$formCuenta />
 
@@ -9,16 +9,10 @@
     <x-form-input name="mes" type="selectMonth" :default="today()->month" />
 </div>
 
-<div class="form-row">
-    <label class="offset-1 col-form-label">Datos</label>
-</div>
-
-<div class="form-row">
-    <textarea name="datos" class="form-control offset-1 col-10" cols="50" rows="10">{{ request('datos') }}</textarea>
-</div>
-
-<div class="form-row">
-    <div class="offset-1 col-10 text-right my-3">
-        <button type="submit" class="btn btn-primary text-right">Procesar</button>
+<div class="grid grid-cols-10">
+    <div class="col-start-2">Datos</div>
+    <textarea name="datos" class="col-start-2 col-span-8 rounded-md px-4 py-2 outline-none focus:shadow-outline" cols="50" rows="10">{{ request('datos') }}</textarea>
+    <div class="col-start-2 col-span-8 flex justify-end py-4">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md outline-none">Procesar</button>
     </div>
 </div>

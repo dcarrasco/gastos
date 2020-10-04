@@ -1,5 +1,5 @@
-<div class="row mx-2">
-    <canvas id="canvas-{{ $cardId }}" height="105px"></canvas>
+<div class="px-2">
+    <canvas id="canvas-{{ $cardId }}" height="120px"></canvas>
 </div>
 
 {{ $script }}

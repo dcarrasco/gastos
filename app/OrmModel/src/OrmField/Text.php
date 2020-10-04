@@ -25,6 +25,7 @@ class Text extends Field
         $extraParam['id'] = $this->attribute;
         $extraParam['maxlength'] = $this->getFieldLength();
         // $extraParam['placeholder'] = $this->name;
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
 
         if ($resource->model()->getKeyName() === $this->attribute
                     && !is_null($resource->model()->getKey())) {

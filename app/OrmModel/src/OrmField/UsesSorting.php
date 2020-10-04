@@ -13,7 +13,7 @@ trait UsesSorting
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
-    protected $sortIconDefault = 'fa fa-sort text-black-20';
+    protected $sortIconDefault = 'fa fa-sort';
     protected $sortIcons = [
         'asc' => 'fa fa-caret-up text-muted',
         'desc' => 'fa fa-caret-down text-muted',

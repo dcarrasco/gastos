@@ -1,11 +1,11 @@
-<form id="filtroReporte" method="GET" class="form-inline justify-content-center">
-    <label class="mr-2">Cuenta</label>
+<form id="filtroReporte" method="GET" class="flex justify-center items-center pb-6">
+    <div class="px-4">Cuenta</div>
     <x-form-input name="cuenta_id" type="select" :options=$cuentas class="" />
 
-    <label class="ml-5 mr-2">A&ntilde;o</label>
+    <div class="ml-5 px-4">A&ntilde;o</div>
     <x-form-input name="anno" type="selectYear" :from-year="today()->year" to-year="2015" />
 
-    <label class="ml-5 mr-2">Tipo Movimiento</label>
+    <div class="ml-5 px-4">Tipo Movimiento</div>
     <x-form-input name="tipo_movimiento_id" type="select" :options=$tiposMovimientos />
 </form>
 

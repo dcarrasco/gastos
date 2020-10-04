@@ -1,36 +1,30 @@
 @if (auth()->check())
     <!-- ============================== NAVBAR ============================== -->
-    <nav class="navbar navbar-expand-lg p-0 navbar-light shadow-sm" style="background-color: #fff;" role="navigation">
-        <div class="h-100 col-2 d-inline-block bg-dark py-2 text-center">
-            <span class="navbar-brand text-light">
-                <a href="/" class="text-decoration-none text-light">
-                    {{ config('invfija.app_nombre') }}
-                </a>
-            </span>
+    <header class="bg-white grid grid-cols-5">
+        <div class="col-span-1 bg-gray-900 py-3 flex items-center justify-around">
+            <a href="/" class="text-white text-xl">
+                {{ config('invfija.app_nombre') }}
+            </a>
         </div>
 
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navMenuCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse col-10" id="navMenuCollapse">
-            <span class="h5 my-0 mx-2">
+        <div class="col-span-4 flex justify-between items-center shadow-lg">
+            <div class="px-3 text-lg">
                 {{ auth()->user()->moduloAppName() }}
-            </span>
+            </div>
 
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                        <span class="fa fa-power-off fa-fw"></span>
+            <div class="px-2">
+                <a class="flex items-center" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    <span class="fa fa-power-off fa-fw"></span>
+                    <div class="px-2">
                         Logout {{ auth()->user()->getFirstName() }}
-                        <img src="{{ auth()->user()->avatarLink() }}" class="rounded-circle border mx-2" />
-                    </a>
-                    <form method="POST" action=" {{ route('logout') }}" id="logout-form">
-                        @csrf
-                    </form>
-                </li>
-            </ul>
-        </div> <!-- DIV class="collapse navbar-collapse navMenuCollapse" -->
-    </nav>
+                    </div>
+                    <img src="{{ auth()->user()->avatarLink() }}" class="block rounded-full border" />
+                </a>
+                <form method="POST" action=" {{ route('logout') }}" id="logout-form">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </header>
     <!-- ============================== /NAVBAR ============================== -->
 @endif

@@ -1,19 +1,17 @@
-<div class="row border-bottom py-4">
-    <div class="col-3 mt-2 pl-5 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-danger' : 'text-muted' }}">
-        <h6 class="font-weight-bold">
-            {{ $field->getName() }}
+<div class="grid grid-cols-4 px-5 py-5 {{ $errors->has($field->getModelAttribute($resource)) ? '-mx-5 bg-red-100' : '' }}">
+    <div class="col-span-1 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-500' : 'text-gray-600' }}">
+        {{ $field->getName() }}
 
-            @if ($field->isRequired())
-                <span class="text-danger">*</span>
-            @endif
-        </h6>
+        @if ($field->isRequired())
+            <span class="text-red-500">*</span>
+        @endif
     </div>
 
-    <div class="col-6">
+    <div class="col-span-2">
         {{ $field->formItem() }}
 
         @if ($errors->has($field->getModelAttribute($resource)))
-            <div class="invalid-feedback">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
+            <div class="text-red-500">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
         @endif
     </div>
 </div>

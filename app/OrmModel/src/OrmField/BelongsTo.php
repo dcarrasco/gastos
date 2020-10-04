@@ -51,7 +51,7 @@ class BelongsTo extends Relation
     {
         $foreignKeyName = $this->getModelAttribute($resource);
         $extraParam['id'] = $foreignKeyName;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . " custom-select";
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
 
         if ($this->hasOnChange()) {
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);

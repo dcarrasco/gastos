@@ -26,6 +26,7 @@ abstract class Field
     protected $showOnDetail = true;
     protected $showOnForm = true;
     protected $alignOnList = 'text-left';
+    protected $defaultClass = ' border border-gray-400 shadow-sm py-1 px-3 rounded-md w-full outline-none focus:shadow-outline';
 
     protected $showValue = '';
 

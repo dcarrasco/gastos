@@ -1,5 +1,5 @@
-<tr>
-    <td>{{ $movimiento->anno }}</td>
+<tr class="hover:bg-blue-100">
+    <td class="py-2">{{ $movimiento->anno }}</td>
     <td>{{ $movimiento->mes }}</td>
     <td>{{ optional($movimiento->fecha)->format('d-m-Y') }}</td>
     <td>{{ $movimiento->glosa }}</td>

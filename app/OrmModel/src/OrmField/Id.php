@@ -37,6 +37,7 @@ class Id extends Field
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $extraParam['id'] = $this->attribute;
+        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
         $field = $this->attribute;
         $value = $resource->model()->{$field};
 
