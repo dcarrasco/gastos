@@ -25,7 +25,7 @@
             @endforeach
 
             <tr class="font-bold">
-                <td>{{ request('anno') }}</td>
+                <td class="py-2">{{ request('anno') }}</td>
                 <td>{{ request('mes') }}</td>
                 <td></td>
                 <td></td>

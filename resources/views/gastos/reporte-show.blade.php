@@ -1,11 +1,11 @@
 <x-layout.app>
 
-    <table class="offset-md-1 col-md-10 mt-md-3 table table-hover table-sm">
+    <table class="table-auto text-sm w-full">
         @foreach ($movimientosMes as $mov)
             @if ($loop->first)
-                <thead class="thead-light">
+                <thead class="bg-gray-300 border-b-2 border-gray-400">
                     <tr>
-                        <th>Año</th>
+                        <th class="py-2">Año</th>
                         <th>Mes</th>
                         <th>Fecha</th>
                         <th>Glosa</th>
@@ -14,11 +14,11 @@
                         <th class="text-right">Monto</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-200">
             @endif
 
-            <tr>
-                <td>{{ $mov->anno }}</td>
+            <tr class="hover:bg-blue-100">
+                <td class="py-2">{{ $mov->anno }}</td>
                 <td>{{ $mov->mes }}</td>
                 <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>
                 <td>{{ $mov->glosa }}</td>
@@ -32,17 +32,17 @@
 
             @if ($loop->last)
                 </tbody>
-                <tfoot>
-                    <tr class="thead-light">
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>TOTAL</th>
-                        <th></th>
-                        <th></th>
-                        <th class="text-right">
+                <tfoot class="bg-gray-300 font-bold border-t-2 border-gray-400">
+                    <tr class="">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="py-2">TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
                             {{ fmtMonto($movimientosMes->sum('monto')) }}
-                        </th>
+                        </td>
                     </tr>
                 </tfoot>
             @endif
