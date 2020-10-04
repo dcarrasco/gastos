@@ -44,11 +44,11 @@ class Modulo extends Resource
 
             Text::make('url')
                 ->sortable()
-                ->rules('max:50'),
+                ->rules('required', 'max:50'),
 
             Text::make('icono')
                 ->sortable()
-                ->rules('max:50'),
+                ->rules('required', 'max:50'),
 
             Text::make('llave modulo')
                 ->hideFromIndex()
