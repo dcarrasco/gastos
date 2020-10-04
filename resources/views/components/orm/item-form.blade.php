@@ -1,9 +1,9 @@
-<div class="grid grid-cols-4 px-5 py-5 {{ $errors->has($field->getModelAttribute($resource)) ? '-mx-5 bg-red-100' : '' }}">
-    <div class="col-span-1 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-500' : 'text-gray-600' }}">
+<div class="grid grid-cols-4 px-5 py-5">
+    <div class="col-span-1 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-700' : 'text-gray-600' }}">
         {{ $field->getName() }}
 
         @if ($field->isRequired())
-            <span class="text-red-500">*</span>
+            <span class="text-red-700">*</span>
         @endif
     </div>
 
@@ -11,7 +11,7 @@
         {{ $field->formItem() }}
 
         @if ($errors->has($field->getModelAttribute($resource)))
-            <div class="text-red-500">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
+            <div class="text-red-700 text-sm font-bold">{!! $errors->first($field->getModelAttribute($resource)) !!}</div>
         @endif
     </div>
 </div>
