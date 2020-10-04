@@ -1,59 +1,42 @@
 <x-layout.app>
 
-    <div class="row">
-
-        <div class="col-md-4 offset-md-4 card">
-            <div class="card-body">
-                <div class="control-group col-md-10 offset-md-1 col-xs-12">
-                    <h2 class="text-center">{{ trans('login.form_title') }}</h2>
-                </div>
-
-                <div class="control-group col-md-10 offset-md-1 col-xs-12">
-                    <hr>
-                </div>
-
+    <div class="grid grid-cols-3 text-gray-700">
+        <div class="col-start-2 bg-white rounded-lg py-1 grid grid-cols-5">
+            <div class="col-start-2 col-span-3">
+                <h2 class="text-center text-3xl p-2">{{ trans('login.form_title') }}</h2>
+                <hr>
                 <div class="col-md-12">
                     <x-alert :errors=$errors />
                 </div>
 
                 <form method="POST" id="form_login">
                     @csrf
-                    <div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('username') ? 'has-error' : '' }}">
-                        <label for="username">
-                            {{ trans('login.input_user') }}
-                        </label>
-                        <input type="text" name="username" value="{{ old('username') }}" maxlength="45" class="form-control form-control-lg" tabindex="1" autofocus="autofocus">
-                    </div>
+                    <label for="username" class="block py-2">
+                        {{ trans('login.input_user') }}
+                    </label>
+                    <input type="text" name="username" value="{{ old('username') }}" maxlength="45" class="p-2 border outline-none focus:shadow-outline rounded-md w-full shadow-xs" tabindex="1" autofocus="autofocus">
 
-                    <div class="form-group col-md-10 offset-md-1 col-xs-12 {{ $errors->has('password') ? 'has-error' : '' }}">
-                        <label for="pwd">
-                            {{ trans('login.input_password') }}
-                        </label>
-                        <input type="password" name="password" maxlength="45" size="40" tabindex="2" class="form-control form-control-lg" autocomplete="off">
-                    </div>
+                    <label for="pwd" class="block py-2">
+                        {{ trans('login.input_password') }}
+                    </label>
+                    <input type="password" name="password" maxlength="45" size="40" tabindex="2" class="p-2 border outline-none focus:shadow-outline rounded-md w-full shadow-xs" autocomplete="off">
 
-                    <div class="control-group col-md-10 offset-md-1 col-xs-12">
-                        <div class="pull-right">
-                            <a href="#" id="link_cambia_password">{{ trans('login.link_change_password') }}</a>
+                    <div class="flex justify-between py-4">
+                        <div class="">
+                            <input type="checkbox" name="remember" value="1" class="border" id="remember-id">
+                            <label class="custom-control-label" for="remember-id">
+                                {{ trans('login.check_remember_me') }}
+                            </label>
                         </div>
+
+                        <a href="#" id="link_cambia_password" class="hover:text-blue-500">{{ trans('login.link_change_password') }}</a>
                     </div>
 
-                    <div class="custom-control custom-checkbox col-md-10 offset-md-2">
-                        <input type="checkbox" name="remember" value="1" class="custom-control-input" id="remember-id">
-                        <label class="custom-control-label" for="remember-id">
-                            {{ trans('login.check_remember_me') }}
-                        </label>
-                    </div>
+                    <hr>
 
-                    <div class="control-group col-md-10 offset-md-1 col-xs-12">
-                        <hr>
-                    </div>
-
-                    <div class="control-group col-md-10 offset-md-1 col-xs-12">
-                        <button type="submit" name="btn_submit" class="btn btn-success btn-lg col-md-12">
-                            {{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
-                        </button>
-                    </div>
+                    <button type="submit" name="btn_submit" class="text-lg my-4 w-full bg-green-500 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-md outline-none">
+                        {{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
+                    </button>
                 </form>
             </div>
         </div>
