@@ -43,8 +43,8 @@ class Boolean extends Field
         $id = "id_{$name}_{$radioValue}";
         $form = Form::radio($name, $radioValue, $checked, ['id' => $id, 'class' => 'custom-control-input' ]);
 
-        $classDiv = 'custom-control custom-radio';
-        $classLabel = 'custom-control-label';
+        $classDiv = '';
+        $classLabel = 'px-2';
 
         return "<div class=\"{$classDiv}\">{$form}<label class=\"{$classLabel}\" for=\"{$id}\">{$label}</label></div>";
     }
