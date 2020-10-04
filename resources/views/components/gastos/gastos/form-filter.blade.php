@@ -1,4 +1,4 @@
-<div class="grid grid-cols-4 mb-4">
+<div class="flex justify-between pb-6">
     <form id="filtroReporte" method="GET" class="col-span-3 flex justify-center items-center">
         <label class="mr-2">Cuenta</label>
         <x-form-input name="cuenta_id" type="select" :options=$selectCuentas />
@@ -11,7 +11,7 @@
     </form>
 
     <div class="col-span-1">
-        <button name="recalcula" value="recalcula" class="bg-gray-200 hover:bg-gray-400 font-bold border rounded-md p-2">Recalcula saldos</button>
+        <button name="recalcula" value="recalcula" class="bg-gray-200 hover:bg-gray-400 font-bold border rounded-md p-2 outline-none focus:shadow-outline">Recalcula saldos</button>
     </div>
 </div>
 

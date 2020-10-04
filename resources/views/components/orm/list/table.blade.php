@@ -5,10 +5,8 @@
                 <thead class="bg-gray-300">
                     <tr>
                         @foreach($resourceItem->getFields() as $field)
-                            <th class="py-3 px-3 {{ $field->alignOnList() }}">
-                                <small class="text-xs text-gray-500 uppercase font-bold">
-                                    {{ $field->getName() }}
-                                </small>
+                            <th class="py-3 px-3 text-gray-600 text-xs uppercase font-bold {{ $field->alignOnList() }}">
+                                {{ $field->getName() }}
                                 {{ $field->sortingIcon() }}
                             </th>
                         @endforeach
@@ -16,17 +14,17 @@
                     </tr>
                 </thead>
 
-                <tbody class="bg-white divide-y divide-gray-300">
+                <tbody class="bg-white divide-y divide-gray-200">
             @endif
 
-            <tr class="">
+            <tr class="hover:bg-blue-100">
                 @foreach($resourceItem->getFields() as $field)
                     <td class="py-3 px-3 {{ $field->alignOnList() }}">
                         {{ $field->value() }}
                     </td>
                 @endforeach
 
-                <td class="py-3 px-3 text-gray-600 text-right">
+                <td class="py-3 px-3 text-gray-500 text-right">
                     <x-orm.list.table-item-buttons :resource="$resourceItem" />
                 </td>
             </tr>

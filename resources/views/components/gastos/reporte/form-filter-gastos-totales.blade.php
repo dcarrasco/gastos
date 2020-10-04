@@ -1,5 +1,5 @@
-<form id="filtroReporte" method="GET" class="form-inline justify-content-center">
-    <label class="ml-5 mr-2">A&ntilde;o</label>
+<form id="filtroReporte" method="GET" class="flex justify-center items-center pb-6">
+    <div class="px-4">A&ntilde;o</div>
     <x-form-input name="anno" type="selectYear" :from-year="today()->year" to-year="2015" />
 </form>
 

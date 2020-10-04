@@ -2,10 +2,10 @@
 
     <x-gastos.gastos.form-filter :selectCuentas="$selectCuentas" />
 
-    <table class="table-auto">
-        <thead class="">
+    <table class="table-auto text-sm">
+        <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
-                <th>Año</th>
+                <th class="py-2">Año</th>
                 <th>Mes</th>
                 <th>Fecha</th>
                 <th>Glosa</th>
@@ -17,23 +17,23 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
             <x-gastos.gastos.form-ingreso :selectCuentas="$selectCuentas" :selectTiposGastos="$selectTiposGastos" />
 
             @foreach ($movimientosMes as $movimiento)
                 <x-gastos.gastos.table-item-movimiento :movimiento="$movimiento" />
             @endforeach
 
-            <tr>
-                <th>{{ request('anno') }}</th>
-                <th>{{ request('mes') }}</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Saldo Inicial</th>
-                <th></th>
-                <th class="text-right">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</th>
-                <th></th>
+            <tr class="font-bold">
+                <td>{{ request('anno') }}</td>
+                <td>{{ request('mes') }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Saldo Inicial</td>
+                <td></td>
+                <td class="text-right">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</td>
+                <td></td>
             </tr>
         </tbody>
     </table>

@@ -1,5 +1,5 @@
-<form id="filtroReporte" method="GET" class="form-inline justify-content-center">
-    <label class="mr-2">Cuenta</label>
+<form id="filtroReporte" method="GET" class="flex justify-center items-center pb-6">
+    <div class="px-4">Cuenta</div>
     <x-form-input name="cuenta_id" type="select" :options=$cuentas />
 
     <label class="ml-5 mr-2">A&ntilde;o</label>
