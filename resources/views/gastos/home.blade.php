@@ -1,7 +1,5 @@
 <x-layout.app>
 
-    <div class="container">
-        <x-orm.cards-container :cards="$cards" />
-    </div>
+    <x-orm.cards-container :cards="$cards" />
 
 </x-layout.app>

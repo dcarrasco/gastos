@@ -1,15 +1,10 @@
-<div class="row mx-2">
-    <div class="col-md-12 pt-3">
-        <h1 class="">{{ $currentValue }}</h1>
-    </div>
-    <div class="col-md-12">
-        <h5 class="text-secondary">
-            <span id="icon">
+<div class="px-4">
+    <h1 class="text-4xl py-2">{{ $currentValue }}</h1>
+    <div class="flex items-center font-bold text-gray-600">
+            <div id="icon" class="inline-block">
                 <x-heroicon.trend :trend="$trendIconStyle"/>
-            </span>
-            <span id="text">
-                {{ $previousValue }}
-            </span>
+            </div>
+            {{ $previousValue }}
         </h5>
     </div>
 </div>

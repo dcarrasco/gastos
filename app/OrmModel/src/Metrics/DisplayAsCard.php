@@ -12,10 +12,10 @@ trait DisplayAsCard
 {
     public $width = '1/3';
     protected $bootstrapWidths = [
-        '1/2' => 'col-md-6',
-        '1/3' => 'col-md-4',
-        '2/3' => 'col-md-8',
-        'full' => 'col-md-12',
+        '1/2' => 'col-span-6',
+        '1/3' => 'col-span-4',
+        '2/3' => 'col-span-8',
+        'full' => 'col-span-12',
     ];
 
     /**
