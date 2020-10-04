@@ -30,7 +30,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Saldo Inicial</td>
+                <td class="py-2">Saldo Inicial</td>
                 <td></td>
                 <td class="text-right">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</td>
                 <td></td>

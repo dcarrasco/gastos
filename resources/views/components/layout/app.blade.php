@@ -2,12 +2,12 @@
 <html lang="es">
     <x-layout.head />
 
-    <body class="text-">
+    <body>
         <x-layout.navbar />
 
         <div class="grid grid-cols-5">
             @guest
-                <div class="col-12">
+                <div class="col-span-5">
                     {{ $slot }}
                 </div>
             @else
