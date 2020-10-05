@@ -2,7 +2,8 @@
 <html lang="es">
     <x-layout.head />
 
-    <body>
+    <body class="bg-gray-200" style="font-family: Nunito">
+
         <x-layout.navbar />
 
         <div class="grid grid-cols-5 h-screen">
@@ -15,7 +16,7 @@
                     <x-layout.menu-modulo />
                 </div>
 
-                <div class="col-span-4 bg-gray-200 px-12 py-10 text-gray-700">
+                <div class="col-span-4 px-12 py-10 text-gray-700">
                     <x-alert :errors=$errors />
                     {{ $slot }}
                     <x-layout.footer />
