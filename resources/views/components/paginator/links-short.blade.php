@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between px-3 py-3 text-gray-500">
+<div class="flex items-center justify-between border-t px-3 py-3 text-gray-500 bg-blue-100 rounded-b-lg">
     <div class="font-bold">
         @if($resource->getPaginator()->onFirstPage())
             <span class="" style="cursor: not-allowed !important;">Anterior</span>

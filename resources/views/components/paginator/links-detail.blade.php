@@ -1,4 +1,4 @@
-<div class="flex justify-between border-top rounded-bottom-lg">
+<div class="flex justify-between border-t rounded-b-lg bg-blue-100">
     <div class="">
         {{ $resource->getPaginator()->appends(request()->all())->links() }}
     </div>

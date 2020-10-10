@@ -12,7 +12,7 @@
     <x-orm.list.search-and-new :resource="$resource" />
 
     <!-- ------------------------- LIST DATA ------------------------- -->
-    <div class="my-5 shadow-sm rounded-lg border divide-y divide-gray-400">
+    <div class="my-5 shadow-sm rounded-lg border divide-y divide-gray-200">
         <x-orm.list.filters :resource="$resource" />
 
         @if ($resource->resourceList()->count() == 0)
