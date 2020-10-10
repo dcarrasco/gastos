@@ -3,7 +3,7 @@
         @if($resource->getPaginator()->onFirstPage())
             <span class="" style="cursor: not-allowed !important;">Anterior</span>
         @else
-            <a href="{{ $resource->getPaginator()->previousPageUrl() }}">Anterior</a>
+            <a href="{{ $resource->getPaginator()->previousPageUrl() }}" class="hover:text-blue-500">Anterior</a>
         @endif
     </div>
 
@@ -16,7 +16,7 @@
         @if($resource->getPaginator()->currentPage() == $resource->getPaginator()->lastPage())
             <span class="" style="cursor: not-allowed !important;">Siguiente</span>
         @else
-            <a href="{{ $resource->getPaginator()->nextPageUrl() }}">Siguiente</a>
+            <a href="{{ $resource->getPaginator()->nextPageUrl() }}" class="hover:text-blue-500">Siguiente</a>
         @endif
     </div>
 </div>
