@@ -11,7 +11,7 @@
     </form>
 
     <div class="col-span-1">
-        <button name="recalcula" value="recalcula" class="bg-gray-200 hover:bg-gray-400 font-bold border rounded-md p-2 outline-none focus:shadow-outline">Recalcula saldos</button>
+        <button name="recalcula" value="recalcula" class="bg-gray-300 hover:bg-gray-400 font-bold border rounded-md p-2 focus:outline-none focus:shadow-outline">Recalcula saldos</button>
     </div>
 </div>
 
