@@ -3,15 +3,12 @@
     <x-layout.head />
 
     <body class="bg-gray-200" style="font-family: Nunito">
+        @guest
+            {{ $slot }}
+        @else
+            <x-layout.navbar />
 
-        <x-layout.navbar />
-
-        <div class="grid grid-cols-5 h-screen">
-            @guest
-                <div class="col-span-5">
-                    {{ $slot }}
-                </div>
-            @else
+            <div class="grid grid-cols-5 h-screen">
                 <div class="col-span-1 bg-gray-700 h-full">
                     <x-layout.menu-modulo />
                 </div>
@@ -21,8 +18,7 @@
                     {{ $slot }}
                     <x-layout.footer />
                 </div>
-            @endguest
-        </div> <!-- DIV principal de la aplicacion   class="container"-->
-
+            </div>
+        @endguest
     </body>
 </html>
