@@ -25,8 +25,4 @@
     <script type="text/javascript">
         var js_base_url = "{{ asset('') }}";
     </script>
-
-    @if (auth()->guest())
-        <style type="text/css">body {margin-top: 40px; background-image: url("{{ asset('img/tch-background.jpg') }}"); background-size: cover;}</style>
-    @endif
 </head>
