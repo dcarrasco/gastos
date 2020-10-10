@@ -1,5 +1,5 @@
-<div class="grid grid-cols-4 px-5 py-5">
-    <div class="col-span-1 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-700' : 'text-gray-600' }}">
+<div class="grid grid-cols-4 px-5 py-5 text-gray-600">
+    <div class="col-span-1 {{ $errors->has($field->getModelAttribute($resource)) ? 'text-red-700' : '' }}">
         {{ $field->getName() }}
 
         @if ($field->isRequired())
