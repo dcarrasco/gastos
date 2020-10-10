@@ -42,6 +42,7 @@
                 </div>
             </div>
         </div>
+        <x-layout.footer />
 
         <script type="text/javascript">
             $( document ).ready(function() {
