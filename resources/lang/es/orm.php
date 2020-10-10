@@ -2,7 +2,7 @@
 
 return [
     'filter'        => 'Buscar',
-    'button_new'    => 'Agregar',
+    'button_new'    => 'Crear',
     'link_edit'     => 'editar',
     'link_delete'   => 'borrar',
     'button_save'   => 'Guardar',
