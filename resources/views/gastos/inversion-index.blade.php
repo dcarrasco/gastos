@@ -4,7 +4,7 @@
     <table class="table-auto text-sm w-full">
         <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
-                <th>Año</th>
+                <th class="py-2">Año</th>
                 <th>Mes</th>
                 <th>Fecha</th>
                 <th>Glosa</th>
@@ -36,7 +36,7 @@
                             @csrf
                             @method('DELETE')
                             <input type="hidden" name="id" value="{{ $mov->getKey() }}">
-                            <button type="submit" class="btn btn-sm btn-link p-0 align-top">
+                            <button type="submit" class="p-0 text-gray-600">
                                 <x-heroicon.delete width="14" height="14"/>
                             </button>
                         </form>
@@ -47,8 +47,8 @@
 
                 @if ($loop->last)
                     @if($inversion->saldoFinal())
-                        <tr class="bg-gray-300 font-bold border-t-2 border-gray-400">
-                            <td class="text-center">{{ optional($inversion->saldoFinal())->anno }}</td>
+                        <tr class="hover:bg-blue-100 border-t-2">
+                            <td class="text-center py-2">{{ optional($inversion->saldoFinal())->anno }}</td>
                             <td class="text-center">{{ optional($inversion->saldoFinal())->mes }}</td>
                             <td class="text-center">{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</td>
                             <td>{{ optional($inversion->saldoFinal())->glosa }}</td>
@@ -67,15 +67,15 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td class="text-right">Utilidad</td>
+                            <td class="text-right py-2">Utilidad</td>
                             <td class="text-right">
                                 {{ fmtMonto($inversion->util($inversion->saldoFinal())) }}
                             </td>
                             <td></td>
-                            <td class="text-right">
+                            <td class="text-center">
                                 {{ fmtPorcentaje(100*$inversion->rentabilidad($inversion->saldoFinal())) }}
                             </td>
-                            <td class="text-right">
+                            <td class="text-center">
                                 {{ fmtPorcentaje(100*$inversion->rentabilidadAnual($inversion->saldoFinal())) }}
                             </td>
                         </tr>
@@ -90,7 +90,7 @@
                     <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
                     <td></td>
                     <td></td>
-                    <td><x-form-input name="fecha" type="date" class="" /></td>
+                    <td class="py-2"><x-form-input name="fecha" type="date" class="" /></td>
                     <td><x-form-input name="glosa" class="w-32" /></td>
                     <td><x-form-input name="tipo_movimiento_id" type="select" class="" :options=$tiposMovimientos /></td>
                     <td><x-form-input name="monto" class="w-32" /></td>

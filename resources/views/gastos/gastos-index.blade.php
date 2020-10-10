@@ -24,7 +24,7 @@
                 <x-gastos.gastos.table-item-movimiento :movimiento="$movimiento" />
             @endforeach
 
-            <tr class="font-bold">
+            <tr class="font-bold hover:bg-blue-100">
                 <td class="py-2">{{ request('anno') }}</td>
                 <td>{{ request('mes') }}</td>
                 <td></td>

@@ -1,4 +1,4 @@
-<tr>
+<tr class="hover:bg-blue-100">
     <form method="POST">
         @csrf
         <input type="hidden" name="cuenta_id" value="{{ request('cuenta_id', $selectCuentas->keys()->first()) }}">

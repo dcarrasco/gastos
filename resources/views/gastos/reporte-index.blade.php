@@ -6,7 +6,7 @@
         <table class="table-auto text-sm w-full">
             <thead class="bg-gray-300 border-b-2 border-gray-400">
                 <tr>
-                    <th>Item</th>
+                    <th class="py-2">Item</th>
                     @foreach ($reporte->titulosColumnas() as $mes)
                         <th class="text-center">{{ $mes }}</th>
                     @endforeach
@@ -50,7 +50,7 @@
                     <td></td>
 
                     @foreach($reporte->titulosColumnas() as $numMes => $mes)
-                        <td class="text-center">
+                        <td class="text-center py-2">
                             {{ fmtMonto($reporte->totalColumna($numMes)) }}
                         </td>
                     @endforeach

@@ -15,7 +15,7 @@
             @csrf
             @method('DELETE')
             <input type="hidden" name="id" value="{{ $movimiento->getKey() }}">
-            <button type="submit" class="btn btn-sm btn-link py-md-0 by-md-0">
+            <button type="submit" class="py-0 align-text-top text-gray-600">
                 <x-heroicon.delete width="14" height="14" class="mb-1"/>
             </button>
         </form>
