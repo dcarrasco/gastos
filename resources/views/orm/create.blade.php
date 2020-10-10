@@ -16,11 +16,11 @@
 
             <!-- -----------------------------  BOTONES  --------------------------- -->
             <x-orm.panel-bottom-buttons>
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2" id="button_continue">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2 focus:outline-none focus:shadow-outline" id="button_continue">
                     {{ trans('orm.button_create_continue') }}
                 </button>
 
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mx-2 focus:outline-none focus:shadow-outline">
                     {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
                 </button>
             </x-orm.panel-bottom-buttons>

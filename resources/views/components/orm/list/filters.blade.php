@@ -1,6 +1,6 @@
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
-        <button @click="openFilter=true" id="button-filters" class="flex p-2 border rounded-md bg-gray-100 outline-none focus:shadow-outline">
+        <button @click="openFilter=true" id="button-filters" class="flex p-2 border rounded-md bg-gray-100 focus:outline-none focus:shadow-outline">
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}

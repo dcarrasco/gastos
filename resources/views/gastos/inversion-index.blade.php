@@ -95,7 +95,7 @@
                     <td><x-form-input name="tipo_movimiento_id" type="select" class="" :options=$tiposMovimientos /></td>
                     <td><x-form-input name="monto" class="w-32" /></td>
                     <td>
-                        <button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md outline-none">Ingresar</button>
+                        <button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md focus:outline-none focus:shadow-outline">Ingresar</button>
                     </td>
                     <td></td>
                     <td></td>

@@ -11,7 +11,7 @@
         <td class="px-1 py-2"><x-form-input name="serie" class="w-32" /></td>
         <td class="px-1 py-2"><x-form-input name="tipo_gasto_id" type="select" class="w-40" :options=$selectTiposGastos /></td>
         <td class="px-1 py-2"><x-form-input name="monto" class="w-24" /></td>
-        <td class="px-1 py-2"><button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Ingresar</button></td>
+        <td class="px-1 py-2"><button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline">Ingresar</button></td>
         <td></td>
     </form>
 </tr>
