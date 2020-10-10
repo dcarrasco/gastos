@@ -6,6 +6,7 @@ use Form;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Relation;
 use Illuminate\Database\Eloquent\Model;
@@ -50,18 +51,17 @@ class BelongsTo extends Relation
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $foreignKeyName = $this->getModelAttribute($resource);
+        $value = $resource->model()->{$foreignKeyName};
+
         $extraParam['id'] = $foreignKeyName;
         $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
+        $optionsAttributes = ['' => ['disabled']];
 
         if ($this->hasOnChange()) {
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
         }
 
-        $value = $resource->model()->{$foreignKeyName};
-        $form = Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam);
-        $form = str_replace('>'.trans('orm.choose_option'), ' disabled>'.trans('orm.choose_option'), $form);
-
-        return new HtmlString($form);
+        return Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam, $optionsAttributes);
     }
 
     /**
@@ -96,15 +96,12 @@ class BelongsTo extends Relation
      * @param  Resource|null $resource
      * @return array
      */
-    protected function getOptions(Request $request, Resource $resource): array
+    protected function getOptions(Request $request, Resource $resource): Collection
     {
-        $optionsIni = ['' => trans('orm.choose_option') . (new $this->relatedResource())->getLabel()];
-        $options = $this->getRelationOptions($request, $resource, $this->relationConditions);
+        // $optionsIni = ['' => trans('orm.choose_option') . (new $this->relatedResource())->getLabel()];
+        $optionsIni = collect(['' => new HtmlString('&mdash;')]);
 
-        foreach ($options as $key => $value) {
-            $optionsIni[$key] = $value;
-        }
-
-        return $optionsIni;
+        return collect($optionsIni)
+            ->concat($this->getRelationOptions($request, $resource, $this->relationConditions));
     }
 }
