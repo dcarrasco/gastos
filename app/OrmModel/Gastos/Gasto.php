@@ -41,9 +41,9 @@ class Gasto extends Resource
             BelongsTo::make('Cuenta', 'cuenta', Cuenta::class)
                 ->rules('required'),
 
-            Number::make('Año', 'anno')->sortable()->rules('required'),
+            Number::make('Año', 'anno')->sortable()->rules('required')->hideFromIndex(),
 
-            Number::make('Mes')->sortable()->rules('required'),
+            Number::make('Mes')->sortable()->rules('required')->hideFromIndex(),
 
             Date::make('Fecha')->sortable(),
 
@@ -55,7 +55,7 @@ class Gasto extends Resource
                 ->rules('required'),
 
             BelongsTo::make('Tipo de Movimiento', 'tipoMovimiento', TipoMovimiento::class)
-                ->rules('required'),
+                ->rules('required')->hideFromIndex(),
 
             Currency::make('Monto')->sortable()->rules('required'),
 
