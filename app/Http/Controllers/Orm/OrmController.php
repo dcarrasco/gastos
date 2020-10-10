@@ -35,12 +35,13 @@ class OrmController extends Controller
      *
      * @return array
      */
-    public function makeMenuModuloURL()
+    public function makeMenuModuloURL(string $selectedResource)
     {
-        return $this->menuModulo->map(function ($resource) {
-            return [
+        return $this->menuModulo->map(function ($resource) use ($selectedResource) {
+            return (object) [
                 'nombre' => $resource->getLabelPlural(),
                 'url' => route("{$this->routeName}.index", $resource->getName()),
+                'selected' => $selectedResource === $resource->getName(),
             ];
         });
     }
@@ -48,12 +49,12 @@ class OrmController extends Controller
 
     public function makeView()
     {
-        $resource = $this->menuModulo->first();
+        $selectedResource = Route::input('modelName') ?? $this->menuModulo->first()->getName();
 
         view()->share('perPageFilter', new PerPage());
-        view()->share('menuModulo', $this->makeMenuModuloURL());
+        view()->share('menuModulo', $this->makeMenuModuloURL($selectedResource));
         view()->share('routeName', $this->routeName);
-        view()->share('moduloSelected', Route::input('modelName') ?? $resource->getName());
+        view()->share('moduloSelected', $selectedResource);
     }
 
     /**

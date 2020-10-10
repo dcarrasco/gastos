@@ -1,20 +1,23 @@
 <!-- ============================== MENU MODULO ============================== -->
+<ul>
 @foreach(auth()->user()->getMenuApp() as $modulo)
-    <div class="px-6 py-3">
-        <a href="{{ route($modulo->url) }}" class="text-white text-decoration-none font-weight-bold">
+    <li class="px-6 py-3 text-white text-decoration-none">
+        <a href="{{ route($modulo->url) }}" class="hover:text-gray-500 {{$modulo->selected ? 'font-semibold' : ''}}">
             <span class="fa fa-{{ $modulo->icono }} fa-fw"></span>
             {{ $modulo->modulo }}
         </a>
-
         @if (isset($menuModulo) and $modulo->selected)
-            @foreach ($menuModulo as $modulo)
-                <div class="px-4 py-1 text-sm">
-                    <a href="{{ $modulo['url'] }}" class="text-white text-decoration-none">
-                        {{ $modulo['nombre'] }}
+            <ul class="pt-3 text-sm">
+            @foreach ($menuModulo as $subModulo)
+                <li class="px-4 py-1">
+                    <a href="{{ $subModulo->url }}" class="hover:text-gray-500 {{$subModulo->selected ? 'font-semibold' : ''}}">
+                        {{ $subModulo->nombre }}
                     </a>
-                </div>
+                </li>
             @endforeach
+            </ul>
         @endif
-    </div>
+    </li>
 @endforeach
+</ul>
 <!-- ============================== /MENU MODULO ============================== -->
