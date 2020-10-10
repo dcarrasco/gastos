@@ -2,12 +2,12 @@
     <ul class="flex h-full content-center" role="navigation">
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
-            <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                <span class="text-blue-500 font-bold" aria-hidden="true">&lsaquo;</span>
+            <li class="border py-2 w-8 text-center" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                <span class="text-gray-500 font-bold" aria-hidden="true">&lt;</span>
             </li>
         @else
             <li class="border py-2 w-8 text-center">
-                <a class="text-blue-500 font-bold" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                <a class="text-blue-500 font-bold" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lt;</a>
             </li>
         @endif
 
@@ -33,11 +33,11 @@
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li class="border py-2 w-8 text-center">
-                <a class="text-blue-500 font-bold" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                <a class="text-blue-500 font-bold" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&gt;</a>
             </li>
         @else
             <li class="border py-2 w-8 text-center" aria-disabled="true" aria-label="@lang('pagination.next')">
-                <span class="text-blue-500 font-bold" aria-hidden="true">&rsaquo;</span>
+                <span class="text-blue-500 font-bold" aria-hidden="true">&gt;</span>
             </li>
         @endif
     </ul>
