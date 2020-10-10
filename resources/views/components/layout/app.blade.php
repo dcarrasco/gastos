@@ -2,7 +2,7 @@
 <html lang="es">
     <x-layout.head />
 
-    <body class="bg-gray-200" style="font-family: Nunito">
+    <body class="bg-gray-200 text-gray-700" style="font-family: Nunito">
         @guest
             {{ $slot }}
         @else
@@ -13,7 +13,7 @@
                     <x-layout.menu-modulo />
                 </div>
 
-                <div class="col-span-4 px-12 py-10 text-gray-700">
+                <div class="col-span-4 px-12 py-10">
                     <x-alert :errors=$errors />
                     {{ $slot }}
                     <x-layout.footer />

@@ -1,6 +1,6 @@
 <x-layout.app>
 
-    <div class="flex flex-col justify-center text-gray-700 h-screen bg-cover" style="background-image: url('{{ asset('img/tch-background.jpg') }}')">
+    <div class="flex flex-col justify-center h-screen bg-cover" style="background-image: url('{{ asset('img/tch-background.jpg') }}')">
         <div class="grid grid-cols-3">
 
             <div class="col-start-2 bg-white rounded-lg py-1 grid grid-cols-5">
