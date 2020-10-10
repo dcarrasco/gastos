@@ -13,10 +13,10 @@ trait UsesSorting
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
-    protected $sortIconDefault = 'fa fa-sort';
+    protected $sortIconDefault = 'fa fa-sort text-gray-500';
     protected $sortIcons = [
-        'asc' => 'fa fa-caret-up text-muted',
-        'desc' => 'fa fa-caret-down text-muted',
+        'asc' => 'fa fa-caret-up',
+        'desc' => 'fa fa-caret-down',
     ];
 
     protected $sortingIcon;
