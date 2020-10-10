@@ -1,7 +1,7 @@
 <svg
+    class="fill-current"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    style="fill: #888"
     width="20"
     height="20"
 >
