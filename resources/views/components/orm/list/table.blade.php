@@ -24,7 +24,7 @@
                     </td>
                 @endforeach
 
-                <td class="py-3 px-3 text-gray-500 text-right">
+                <td class="py-3 px-3 text-gray-500 text-right whitespace-no-wrap">
                     <x-orm.list.table-item-buttons :resource="$resourceItem" />
                 </td>
             </tr>
