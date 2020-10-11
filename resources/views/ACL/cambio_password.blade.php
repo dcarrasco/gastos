@@ -30,9 +30,9 @@
 
                         <hr/>
 
-                        <button type="submit" name="btn_submit" class="my-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md outline-none">
+                        <x-button type="submit" name="btn_submit" class="my-4 w-full">
                             <span class="fa fa-lock"></span> {{ trans('login.button_change_password') }}
-                        </button>
+                        </x-button>
                     </form>
                 </div>
             </div>

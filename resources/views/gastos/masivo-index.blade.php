@@ -47,7 +47,9 @@
 
                     @if ($agregarDatosMasivos)
                         <div class="flex justify-end py-4">
-                            <button name="agregar" value="agregar" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md focus:outline-none focus:shadow-outline">Agregar</button>
+                            <x-button name="agregar" value="agregar">
+                                Agregar
+                            </x-button>
                         </div>
                     @endif
                 </div>

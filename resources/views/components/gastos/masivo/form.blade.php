@@ -13,6 +13,8 @@
     <div class="col-start-2">Datos</div>
     <textarea name="datos" class="col-start-2 col-span-8 rounded-md px-4 py-2 outline-none focus:shadow-outline" cols="50" rows="10">{{ request('datos') }}</textarea>
     <div class="col-start-2 col-span-8 flex justify-end py-4">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md focus:outline-none focus:shadow-outline">Procesar</button>
+        <x-button type="submit">
+            Procesar
+        </x-button>
     </div>
 </div>

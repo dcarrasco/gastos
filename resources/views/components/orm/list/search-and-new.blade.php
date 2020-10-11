@@ -6,7 +6,7 @@
         <input type="text" name="{{ $resource->urlSearchKey() }}" value="{{ Request::input($resource->urlSearchKey()) }}" class="pl-10 py-2 rounded-md outline-none focus:shadow-outline" id="{{ $resource->urlSearchKey() }}" maxlength="30" placeholder="{{ trans('orm.filter') }}">
     </div>
 
-    <a href="{{ route($routeName.'.create', [$resource->getName()]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-md focus:outline-none focus:shadow-outline" id="btn_mostrar_agregar" role="button">
+    <x-button type="link" link="{{ route($routeName.'.create', [$resource->getName()]) }}">
         {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
-    </a>
+    </x-button>
 </form>

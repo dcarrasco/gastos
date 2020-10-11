@@ -1,10 +1,10 @@
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
-        <button @click="openFilter=true" id="button-filters" class="flex p-2 border rounded-md bg-gray-100 focus:outline-none focus:shadow-outline hover:bg-gray-300 items-center">
+        <x-button color="light" @click="openFilter=true" id="button-filters" class="flex border items-center">
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}
-        </button>
+        </x-button>
 
          <div x-show="openFilter" @click.away="openFilter=false" class="absolute right-0 bg-white border rounded-md shadow" aria-labelledby="button-filters" style="min-width: 20em; display: none;">
             @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)

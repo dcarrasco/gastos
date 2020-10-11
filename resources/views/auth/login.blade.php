@@ -35,9 +35,9 @@
 
                         <hr>
 
-                        <button type="submit" name="btn_submit" class="text-lg my-4 w-full bg-green-500 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-md outline-none focus:shadow-outline">
+                        <x-button color="green" type="submit" name="btn_submit" class="text-lg w-full my-4">
                             {{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
-                        </button>
+                        </x-button>
                     </form>
                 </div>
             </div>
