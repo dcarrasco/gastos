@@ -5,12 +5,12 @@
         </a>
     </div>
 
-    <div class="col-span-4 flex justify-between items-center border-b">
-        <div class="px-3 text-lg">
+    <div class="col-span-4 flex justify-between items-center border-b px-8">
+        <div class="text-lg">
             {{ auth()->user()->moduloAppName() }}
         </div>
 
-        <div class="px-2">
+        <div class="">
             <a class="flex items-center" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 <span class="fa fa-power-off fa-fw"></span>
                 <div class="px-2">
