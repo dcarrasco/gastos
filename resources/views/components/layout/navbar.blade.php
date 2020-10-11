@@ -1,6 +1,6 @@
 <header class="bg-white grid grid-cols-5">
     <div class="col-span-1 bg-gray-900 py-3 flex items-center justify-around">
-        <a href="/" class="text-white text-xl">
+        <a href="/" class="text-white hover:text-gray-500 text-xl">
             {{ config('invfija.app_nombre') }}
         </a>
     </div>
