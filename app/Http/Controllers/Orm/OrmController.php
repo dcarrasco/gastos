@@ -159,6 +159,8 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass);
         $validated = $this->validate($request, $resource->getValidation($request));
 
+        $this->authorize('create', $resource->model());
+
         $resource->model()->create($validated);
 
         $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
@@ -217,6 +219,8 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass)->findOrFail($modelId);
         $this->validate($request, $resource->getValidation($request));
 
+        $this->authorize('update', $resource->model());
+
         $resource->update($request, $modelId);
 
         $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
@@ -241,6 +245,9 @@ class OrmController extends Controller
     public function destroy(Request $request, string $resourceClass = '', string $modelId = '')
     {
         $resource = $this->getResource($resourceClass)->findOrFail($modelId);
+
+        $this->authorize('delete', $resource->model());
+
         $resource->model()->destroy($modelId);
 
         $alertMessage = trans('orm.msg_delete_ok', [
