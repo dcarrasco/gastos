@@ -145,8 +145,20 @@ trait UsesDatabase
             })
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
+                $syncAttributes = $field->hasRelationFields()
+                    ? collect($request->input($field->getAttribute()))
+                        ->diff($request->input($field->getDeleteModelField()))
+                        ->mapWithKeys(function ($value) use ($request, $field) {
+                            $attribute = collect($field->getRelationFields())->keys()->first();
+                            $attributeInput = "attributes:{$attribute}:{$value}";
+                            $attributeRequest = json_encode($request->input($attributeInput, []));
+
+                            return [$value => [$attribute => $attributeRequest]];
+                        })
+                    : $request->input($field->getAttribute(), []);
+
                 $this->modelInstance->{$field->getAttribute()}()
-                    ->sync($request->input($field->getAttribute(), []));
+                    ->sync($syncAttributes);
             });
 
         return $this;

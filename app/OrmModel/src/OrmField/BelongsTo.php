@@ -102,6 +102,6 @@ class BelongsTo extends Relation
         $optionsIni = collect(['' => new HtmlString('&mdash;')]);
 
         return collect($optionsIni)
-            ->concat($this->getRelationOptions($request, $resource, $this->relationConditions));
+            ->union($this->getRelationOptions($request, $resource, $this->relationConditions));
     }
 }

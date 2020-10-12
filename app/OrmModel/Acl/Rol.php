@@ -40,7 +40,8 @@ class Rol extends Resource
                 ->rules('max:100', 'required'),
 
             HasMany::make('modulo', 'modulo', 'App\OrmModel\Acl\Modulo')
-                ->relationConditions(['app_id' => '@field_value:app_id:NULL']),
+                // ->relationConditions(['app_id' => '@field_value:app_id:NULL'])
+                ->relationField('abilities', '{"booleanOptions":["view", "create", "update", "delete"]}'),
         ];
     }
 }

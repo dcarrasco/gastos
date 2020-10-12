@@ -24,6 +24,16 @@ class Rol extends Model
 
     public function modulo()
     {
-        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'))->withTimestamps();
+        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'))
+            ->withPivot('abilities')
+            ->withTimestamps();
+    }
+
+    public function getModuloAbilities(int $idModulo)
+    {
+        return json_decode($this->modulo
+            ->where('id', $idModulo)
+            ->first()
+            ->pivot->abilities) ?? [];
     }
 }
