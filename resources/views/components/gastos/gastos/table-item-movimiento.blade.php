@@ -11,6 +11,7 @@
     </td>
     <td class="text-right">{{ fmtMonto($movimiento->saldo_final) }}</td>
     <td>
+        @can('delete', $movimiento)
         <form method="POST" action="{{ route('gastos.borrarGasto', http_build_query(request()->all())) }}">
             @csrf
             @method('DELETE')
@@ -19,5 +20,6 @@
                 <x-heroicon.delete width="14" height="14" class="mb-1"/>
             </button>
         </form>
+        @endcan
     </td>
 </tr>

@@ -1,3 +1,4 @@
+@can('create', Gasto::class)
 <tr class="hover:bg-blue-100">
     <form method="POST">
         @csrf
@@ -19,3 +20,4 @@
         <td></td>
     </form>
 </tr>
+@endcan

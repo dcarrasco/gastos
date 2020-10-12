@@ -32,6 +32,7 @@
                     </td>
                     <td class="text-right">{{ fmtMonto($saldo += $mov->valor_monto) }}</td>
                     <td>
+                        @can('delete', $mov)
                         <form method="POST" action="{{ route('gastos.borrarGasto', http_build_query(request()->all())) }}">
                             @csrf
                             @method('DELETE')
@@ -40,6 +41,7 @@
                                 <x-heroicon.delete width="14" height="14"/>
                             </button>
                         </form>
+                        @endcan
                     </td>
                     <td></td>
                     <td></td>
@@ -83,6 +85,7 @@
                 @endif
             @endforeach
 
+            @can('create', Gasto::class)
             <tr>
                 <form method="POST">
                     @csrf
@@ -104,6 +107,7 @@
                     <td></td>
                 </form>
             </tr>
+            @endcan
         </tbody>
     </table>
 
