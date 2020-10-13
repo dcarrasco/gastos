@@ -34,6 +34,8 @@ class Ingreso extends Controller
 
     public function store(AddGastoRequest $request)
     {
+        $this->authorize('create', Gasto::class);
+
         Gasto::createGasto($request->validated());
         SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 
@@ -44,6 +46,8 @@ class Ingreso extends Controller
 
     public function borrarGasto(Request $request)
     {
+        $this->authorize('delete', Gasto::class);
+
         Gasto::findOrFail($request->id)->delete();
 
         return redirect()->route('gastos.showMes', $request->only([

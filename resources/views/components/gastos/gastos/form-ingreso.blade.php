@@ -1,4 +1,4 @@
-@can('create', Gasto::class)
+@can('create', 'App\Models\Gastos\Gasto')
 <tr class="hover:bg-blue-100">
     <form method="POST">
         @csrf

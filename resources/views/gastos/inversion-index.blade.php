@@ -85,7 +85,7 @@
                 @endif
             @endforeach
 
-            @can('create', Gasto::class)
+            @can('create', 'App\Models\Gastos\Gasto')
             <tr>
                 <form method="POST">
                     @csrf
