@@ -79,7 +79,7 @@ class HasMany extends Relation
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
     {
-        $header = '<tr class="border bg-gray-100 px-2"><th class="text-left px-2">'.$this->name.'</th>'.
+        $header = '<tr class="border bg-gray-100 px-2"><th class="text-left px-2 py-1">'.$this->name.'</th>'.
             collect($this->relationFields)->map(function ($field) {
                 return '<th>'.collect($field['options'])->implode('</th><th>').'</th>';
             })->implode('')
@@ -88,7 +88,7 @@ class HasMany extends Relation
 
         $body = '<tbody>'.
             $relatedResources->map(function ($resource) use ($edit) {
-                return '<tr class="border"><td class="px-2">'.$resource->title().'</td>'
+                return '<tr class="border"><td class="px-2 py-1">'.$resource->title().'</td>'
                     .collect($this->relationFields)->map(function ($relationDef, $relationName) use ($resource, $edit) {
                         return collect($relationDef['options'])->map(function ($option) use ($resource, $relationName, $edit) {
                             $selected = collect(json_decode($resource->model()->pivot->{$relationName}))->contains($option)
@@ -105,7 +105,7 @@ class HasMany extends Relation
             })->implode('')
             .'</body>';
 
-        return '<table class="w-full border">'.$header.$body.'</table>';
+        return '<table class="w-full border text-sm">'.$header.$body.'</table>';
     }
 
     /**
