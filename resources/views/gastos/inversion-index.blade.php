@@ -1,6 +1,7 @@
 <x-layout.app>
     <x-gastos.inversion.form-filter :cuentas="$cuentas" />
 
+    @can('view-any', 'App\Models\Gastos\Gasto')
     <table class="table-auto text-sm w-full">
         <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
@@ -114,4 +115,5 @@
     @if (! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()))
         <x-gastos.inversion.chart :datosInversion="$datosInversion" />
     @endif
+    @endcan
 </x-layout.app>

@@ -18,7 +18,7 @@ class AclPolicy
      */
     public function viewAny(Usuario $usuario)
     {
-        //
+        return $this->hasAclAbility($usuario, 'view-any');
     }
 
     /**

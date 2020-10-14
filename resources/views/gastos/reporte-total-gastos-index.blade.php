@@ -2,6 +2,7 @@
 
     <x-gastos.reporte.form-filter-gastos-totales />
 
+    @can('view-any', 'App\Models\Gastos\Gasto')
     @if (!$reporte->isEmpty())
         <table class="table-auto text-sm w-full">
             <thead class="bg-gray-300 border-b-2 border-gray-400">
@@ -58,5 +59,6 @@
             </tfoot>
         </table>
     @endif
+    @endcan
 
 </x-layout.app>
