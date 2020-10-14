@@ -2,7 +2,7 @@
 <html lang="es">
     <x-layout.head />
 
-    <body class="bg-gray-200 text-gray-700" style="font-family: Nunito">
+    <body class="bg-gray-200 text-gray-700" style="font-family: Nunito, system-ui, 'Segoe UI', Roboto;">
         @guest
             {{ $slot }}
         @else
