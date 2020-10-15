@@ -2,8 +2,8 @@
 
 namespace App\OrmModel\Metrics;
 
+use App\Models\Gastos\Gasto;
 use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Gasto;
 use App\Models\Gastos\SaldoMes;
 use App\Models\Gastos\Inversion;
 use App\OrmModel\src\Metrics\Value;
@@ -33,7 +33,7 @@ class UtilInversiones extends Value
                     ->filter(function ($saldo) use ($fechaHasta) {
                         return $saldo->fecha <= $fechaHasta;
                     })
-                    ->last();
+                    ->last() ?? new Gasto;
 
                 return $inversion->util($ultimoSaldo);
             })
