@@ -102,7 +102,9 @@ if (!function_exists('fmtMonto')) {
             return new HtmlString('');
         }
 
-        return new HtmlString($locale['currency_symbol'].'&nbsp;'.
+        $currencySymbol = empty($locale['currency_symbol']) ? '$' : $locale['currency_symbol'];
+
+        return new HtmlString($currencySymbol.'&nbsp;'.
             // number_format($monto, $locale['frac_digits'], $locale['decimal_point'], $locale['thousands_sep']));
             number_format($monto, 0, ',', '.'));
     }
