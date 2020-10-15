@@ -44,11 +44,11 @@ class Ingreso extends Controller
         ]));
     }
 
-    public function borrarGasto(Request $request)
+    public function borrarGasto(Request $request, Gasto $gasto)
     {
-        $this->authorize('delete', Gasto::class);
+        $this->authorize('delete', $gasto);
 
-        Gasto::findOrFail($request->id)->delete();
+        $gasto->delete();
 
         return redirect()->route('gastos.showMes', $request->only([
             'cuenta_id', 'anno', 'mes'

@@ -3,6 +3,7 @@
     <x-gastos.gastos.form-filter :selectCuentas="$selectCuentas" />
 
     @can('view-any', 'App\Models\Gastos\Gasto')
+    <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
     <table class="table-auto text-sm w-full">
         <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
@@ -38,6 +39,8 @@
             </tr>
         </tbody>
     </table>
+    <x-orm.list.modal-delete />
+    </div>
     @endcan
 
 </x-layout.app>

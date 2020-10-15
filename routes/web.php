@@ -28,7 +28,7 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
     // Digitacion
     Route::get('ingresar', 'Ingreso@index')->name('showMes');
     Route::post('ingresar', 'Ingreso@store')->name('addGasto');
-    Route::delete('borrar', 'Ingreso@borrarGasto')->name('borrarGasto');
+    Route::delete('ingresar/{gasto}', 'Ingreso@borrarGasto')->name('borrarGasto');
     Route::get('reporte', 'Reporte@index')->name('reporte');
     Route::get('reporte/detalle', 'Reporte@show')->name('detalle');
     Route::get('reporte-total-gastos', 'ReporteTotalGastos@index')->name('reporteTotalGastos');

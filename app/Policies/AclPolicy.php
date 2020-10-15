@@ -107,6 +107,10 @@ class AclPolicy
     {
         $modulo = $this->getCurrentAclModulo($usuario);
 
+        if (is_null($modulo)) {
+            return [];
+        }
+
         return $usuario->rol->map->getModuloAbilities($modulo->id)->flatten()->all();
     }
 

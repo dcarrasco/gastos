@@ -12,14 +12,13 @@
     <td class="text-right">{{ fmtMonto($movimiento->saldo_final) }}</td>
     <td>
         @can('delete', $movimiento)
-        <form method="POST" action="{{ route('gastos.borrarGasto', http_build_query(request()->all())) }}">
-            @csrf
-            @method('DELETE')
-            <input type="hidden" name="id" value="{{ $movimiento->getKey() }}">
-            <button type="submit" class="py-0 align-text-top text-gray-600">
-                <x-heroicon.delete width="14" height="14" class="mb-1"/>
-            </button>
-        </form>
+        <a class="inline-block hover:text-blue-500 align-text-top py-0"
+            @click="openDeleteModal=true"
+            x-on:click="deleteMessage='<p>Eliminar movimiento:</p><p>{{ optional($movimiento->fecha)->format('d-m-Y') }} {{ $movimiento->glosa}} {{ fmtMonto($movimiento->monto) }}</p>', urlDelete='{!! route('gastos.borrarGasto', [$movimiento->getKey()]) !!}'"
+            style="cursor: pointer;"
+        >
+            <x-heroicon.delete width="14" height="14" class="mb-1 py-0"/>
+        </a>
         @endcan
     </td>
 </tr>
