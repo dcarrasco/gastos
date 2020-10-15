@@ -36,6 +36,7 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
     Route::post('ingreso-masivo-add', 'IngresoMasivo@store')->name('ingresoMasivoAdd');
     Route::get('inversion', 'IngresoInversion@index')->name('ingresoInversion');
     Route::post('inversion', 'IngresoInversion@store')->name('addInversion');
+    Route::delete('inversion/{gasto}', 'IngresoInversion@destroy')->name('borrarInversion');
 });
 
 // ACL

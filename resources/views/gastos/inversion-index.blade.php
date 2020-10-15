@@ -2,6 +2,7 @@
     <x-gastos.inversion.form-filter :cuentas="$cuentas" />
 
     @can('view-any', 'App\Models\Gastos\Gasto')
+    <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
     <table class="table-auto text-sm w-full">
         <thead class="bg-gray-300 border-b-2 border-gray-400">
             <tr>
@@ -34,14 +35,13 @@
                     <td class="text-right">{{ fmtMonto($saldo += $mov->valor_monto) }}</td>
                     <td>
                         @can('delete', $mov)
-                        <form method="POST" action="{{ route('gastos.borrarGasto', http_build_query(request()->all())) }}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="hidden" name="id" value="{{ $mov->getKey() }}">
-                            <button type="submit" class="p-0 text-gray-600">
-                                <x-heroicon.delete width="14" height="14"/>
-                            </button>
-                        </form>
+                        <a class="inline-block hover:text-blue-500 align-text-top py-0"
+                            @click="openDeleteModal=true"
+                            x-on:click="deleteMessage='<p>Eliminar movimiento:</p><p>{{ optional($mov->fecha)->format('d-m-Y') }} {{ $mov->glosa}} {{ fmtMonto($mov->monto) }}</p>', urlDelete='{!! route('gastos.borrarInversion', [$mov->getKey()]) !!}'"
+                            style="cursor: pointer;"
+                        >
+                            <x-heroicon.delete width="14" height="14" class="mb-1 py-0"/>
+                        </a>
                         @endcan
                     </td>
                     <td></td>
@@ -111,6 +111,8 @@
             @endcan
         </tbody>
     </table>
+    <x-orm.list.modal-delete />
+    </div>
 
     @if (! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()))
         <x-gastos.inversion.chart :datosInversion="$datosInversion" />

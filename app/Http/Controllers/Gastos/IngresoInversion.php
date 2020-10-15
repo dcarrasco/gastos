@@ -32,4 +32,13 @@ class IngresoInversion extends Controller
 
         return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
     }
+
+    public function destroy(Request $request, Gasto $gasto)
+    {
+        $this->authorize('delete', $gasto);
+
+        $gasto->delete();
+
+        return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
+    }
 }
