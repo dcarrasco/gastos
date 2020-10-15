@@ -44,7 +44,7 @@ class Ingreso extends Controller
         ]));
     }
 
-    public function borrarGasto(Request $request, Gasto $gasto)
+    public function destroy(Request $request, Gasto $gasto)
     {
         $this->authorize('delete', $gasto);
 
