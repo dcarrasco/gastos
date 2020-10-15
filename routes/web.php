@@ -29,11 +29,14 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 
     Route::get('ingresar', 'Ingreso@index')->name('showMes');
     Route::post('ingresar', 'Ingreso@store')->name('addGasto');
     Route::delete('ingresar/{gasto}', 'Ingreso@destroy')->name('borrarGasto');
+
     Route::get('reporte', 'Reporte@index')->name('reporte');
     Route::get('reporte/detalle', 'Reporte@show')->name('detalle');
     Route::get('reporte-total-gastos', 'ReporteTotalGastos@index')->name('reporteTotalGastos');
-    Route::any('ingreso-masivo', 'IngresoMasivo@index')->name('ingresoMasivo');
+
+    Route::get('ingreso-masivo', 'IngresoMasivo@index')->name('ingresoMasivo');
     Route::post('ingreso-masivo-add', 'IngresoMasivo@store')->name('ingresoMasivoAdd');
+
     Route::get('inversion', 'IngresoInversion@index')->name('ingresoInversion');
     Route::post('inversion', 'IngresoInversion@store')->name('addInversion');
     Route::delete('inversion/{gasto}', 'IngresoInversion@destroy')->name('borrarInversion');

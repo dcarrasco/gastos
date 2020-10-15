@@ -39,9 +39,7 @@ class Ingreso extends Controller
         Gasto::createGasto($request->validated());
         SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 
-        return redirect()->route('gastos.showMes', $request->only([
-            'cuenta_id', 'anno', 'mes'
-        ]));
+        return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));
     }
 
     public function destroy(Request $request, Gasto $gasto)
@@ -50,8 +48,6 @@ class Ingreso extends Controller
 
         $gasto->delete();
 
-        return redirect()->route('gastos.showMes', $request->only([
-            'cuenta_id', 'anno', 'mes'
-        ]));
+        return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));
     }
 }
