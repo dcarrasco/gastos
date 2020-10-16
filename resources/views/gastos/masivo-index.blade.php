@@ -46,7 +46,7 @@
                     </table>
 
                     @if ($agregarDatosMasivos)
-                        @can('create', Gastos::class)
+                        @can('create', 'App\Models\Gastos\Gasto')
                         <div class="flex justify-end py-4">
                             <x-button name="agregar" value="agregar">
                                 Agregar
