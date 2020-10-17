@@ -1,4 +1,4 @@
-<div class="py-5 rounded-lg text-gray-600">
+<div class="py-5 rounded-b-lg text-gray-600 bg-gray-100">
     <h1 class="text-6xl text-center">
         <span class="fa fa-table"></span>
     </h1>
