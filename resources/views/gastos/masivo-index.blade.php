@@ -1,6 +1,6 @@
 <x-layout.app>
 
-    <form method="POST" id="form-masivo">
+    <form method="POST" id="form-masivo" x-data="{ }" x-ref="form">
         @csrf
 
         <x-gastos.masivo.form :formCuenta="$formCuenta" />
@@ -32,8 +32,8 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
+
                         <tfoot class="bg-gray-300 font-bold border-t-2 border-gray-400">
                             <tr>
                                 <td class="py-2">Total {{ $datosMasivos->count() }}</td>
@@ -48,7 +48,7 @@
                     @if ($agregarDatosMasivos)
                         @can('create', 'App\Models\Gastos\Gasto')
                         <div class="flex justify-end py-4">
-                            <x-button name="agregar" value="agregar">
+                            <x-button type="submit" name="agregar" value="agregar" x-on:click.prevent="$refs.form.action='{{ route('gastos.ingresoMasivoAdd') }}'; $refs.form.submit();">
                                 Agregar
                             </x-button>
                         </div>
@@ -58,12 +58,4 @@
             </div>
         @endif
     </form>
-
-    <script type="text/javascript">
-        $('button[name="agregar"]').click(function(e) {
-            e.preventDefault();
-            $('#form-masivo').attr('action', '{{ route("gastos.ingresoMasivoAdd") }}');
-            $('#form-masivo').submit();
-        });
-    </script>
 </x-layout.app>
