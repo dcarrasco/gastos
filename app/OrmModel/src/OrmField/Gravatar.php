@@ -60,7 +60,7 @@ class Gravatar extends Field
             ->image(
                 $this->getGravatarUrl($model->{$this->attribute}, $size),
                 null,
-                ['class' => 'rounded-circle border']
+                ['class' => 'rounded-full border']
             );
     }
 }
