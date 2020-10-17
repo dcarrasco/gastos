@@ -24,20 +24,4 @@
         @endif
     </div>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('a#delete-href').click(function(e) {
-                e.preventDefault();
-                $('#formDelete').attr('action', $(this).data('url-form'));
-                $('#delete-message').html($(this).data('message'));
-            });
-
-            if ($('#{{ $resource->urlSearchKey() }}').val() != '') {
-                $('#{{ $resource->urlSearchKey() }}').addClass('search-found');
-                $('#{{ $resource->urlSearchKey() }}_group').addClass('search-found');
-                $('#{{ $resource->urlSearchKey() }}_group').removeClass('bg-white');
-            }
-        });
-    </script>
-
 </x-layout.app>

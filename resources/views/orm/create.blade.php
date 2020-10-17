@@ -5,7 +5,7 @@
     </x-orm.title>
 
 
-    <form method="POST" action='{{ route("$routeName.store", [$resource->getName()]) }}' id="frm_editar">
+    <form method="POST" action='{{ route("$routeName.store", [$resource->getName()]) }}' x-data="{}" x-ref="form">
         @csrf
 
         <x-orm.field-panel>
@@ -16,25 +16,17 @@
 
             <!-- -----------------------------  BOTONES  --------------------------- -->
             <x-orm.panel-bottom-buttons>
-                <x-button class="mx-2" id="button_continue" type="submit">
+                <x-button class="mx-2" x-on:click="$refs.redirect.value='same'; $refs.form.submit();">
                     {{ trans('orm.button_create_continue') }}
                 </x-button>
 
-                <x-button class="mx-2" id="button_continue" type="submit">
+                <x-button class="mx-2" type="submit">
                     {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
                 </x-button>
             </x-orm.panel-bottom-buttons>
         </x-orm.field-panel>
 
-        <input type="hidden" name="redirect_to" value="next">
+        <input type="hidden" name="redirect_to" value="next" x-ref="redirect">
     </form>
-
-    <script>
-        $("#button_continue").click(function(event) {
-            event.preventDefault;
-            $("#frm_editar input[name='redirect_to']").val('same');
-            $("#frm_editar").submit();
-        })
-    </script>
 
 </x-layout.app>
