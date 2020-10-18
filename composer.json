@@ -15,7 +15,6 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "laravelcollective/html": "^6.0",
         "doctrine/dbal": "^2.9"
     },
     "require-dev": {
