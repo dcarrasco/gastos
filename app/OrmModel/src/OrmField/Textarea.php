@@ -20,13 +20,14 @@ class Textarea extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $extraParam['id'] = $this->attribute;
-        $extraParam['rows'] = 5;
-        $extraParam['maxlength'] = $this->getFieldLength();
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-        $value = $resource->model()->{$this->attribute};
-
-        return Form::textarea($this->attribute, $value, $extraParam);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'textarea',
+            'name' => $this->attribute,
+            'rows' => 5,
+            'maxlength' => $this->getFieldLength(),
+            'value' => $resource->model()->{$this->attribute},
+            'id' => $this->attribute,
+        ])->render());
     }
 
     /**

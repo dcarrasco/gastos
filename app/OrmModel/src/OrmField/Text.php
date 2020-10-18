@@ -22,19 +22,18 @@ class Text extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $extraParam['id'] = $this->attribute;
-        $extraParam['maxlength'] = $this->getFieldLength();
-        // $extraParam['placeholder'] = $this->name;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-
         if ($resource->model()->getKeyName() === $this->attribute
                     && !is_null($resource->model()->getKey())) {
             $extraParam['readonly'] = 'readonly';
         }
 
-        $value = $resource->model()->{$this->attribute};
-
-        return Form::text($this->attribute, $value, $extraParam);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'text',
+            'name' => $this->attribute,
+            'value' => $resource->model()->{$this->attribute},
+            'id' => $this->attribute,
+            'maxlength' => $this->getFieldLength(),
+        ])->render());
     }
 
     /**

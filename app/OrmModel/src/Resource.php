@@ -169,7 +169,7 @@ abstract class Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnForm()
-            ->map->resolveFormItem($request, $this, ['class' => 'form-control']);
+            ->map->resolveFormItem($request, $this);
 
         return $this;
     }

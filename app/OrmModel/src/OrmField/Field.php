@@ -26,7 +26,6 @@ abstract class Field
     protected $showOnDetail = true;
     protected $showOnForm = true;
     protected $alignOnList = 'text-left';
-    protected $defaultClass = ' border border-gray-400 shadow-sm py-1 px-3 rounded-md w-full outline-none focus:shadow-outline';
 
     protected $showValue = '';
 
@@ -241,9 +240,6 @@ abstract class Field
      */
     public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
     {
-        $extraParam['class'] = Arr::get($extraParam, 'class', '')
-            . (optional($request->session()->get('errors'))->has($this->getModelAttribute($resource)) ? ' is-invalid' : '');
-
         $this->formItem = $this->getForm($request, $resource, $extraParam);
 
         return $this;
@@ -290,10 +286,12 @@ abstract class Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $extraParam['id'] = $this->name;
-        $value = $resource->{$this->attribute};
-
-        return Form::text($this->name, $value, $extraParam);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'text',
+            'name' => $this->attribute,
+            'value' => $resource->model()->{$this->attribute},
+            'id' => $this->attribute,
+        ])->render());
     }
 
     /**

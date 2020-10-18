@@ -42,10 +42,21 @@ class Id extends Field
         $value = $resource->model()->{$field};
 
         if ($this->esIncrementing) {
-            return new HtmlString("<p class=\"form-control-static\">{$value}</p>"
-                . Form::hidden($this->name, $value, $extraParam));
+            return new HtmlString(
+                "<p class=\"form-control-static\">{$value}</p>"
+                .view('orm.form-input', [
+                    'type' => 'hidden',
+                    'name' => $this->attribute,
+                    'value' => $resource->model()->{$this->attribute},
+                ])->render()
+            );
         }
 
-        return Form::text($this->attribute, $value, $extraParam);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'text',
+            'name' => $this->attribute,
+            'value' => $resource->model()->{$this->attribute},
+            'id' => $this->attribute,
+        ])->render());
     }
 }

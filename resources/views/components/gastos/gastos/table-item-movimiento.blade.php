@@ -1,7 +1,5 @@
 <tr class="hover:bg-blue-100">
-    <td class="py-2">{{ $movimiento->anno }}</td>
-    <td>{{ $movimiento->mes }}</td>
-    <td class="text-center">{{ optional($movimiento->fecha)->format('d-m-Y') }}</td>
+    <td class="py-2 text-center">{{ optional($movimiento->fecha)->format('d-m-Y') }}</td>
     <td>{{ $movimiento->glosa }}</td>
     <td>{{ $movimiento->serie }}</td>
     <td>{{ $movimiento->tipoGasto->tipo_gasto }}</td>

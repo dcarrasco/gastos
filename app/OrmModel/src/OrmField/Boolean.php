@@ -40,8 +40,10 @@ class Boolean extends Field
         $checked = $type == 'yes' ? ($value == '1') : ($value != '1');
         $label = $type == 'yes' ? trans('orm.radio_yes') : trans('orm.radio_no');
 
+        $checkedAttribute = $checked ? 'checked' : '';
+
         $id = "id_{$name}_{$radioValue}";
-        $form = Form::radio($name, $radioValue, $checked, ['id' => $id, 'class' => 'custom-control-input' ]);
+        $form = "<input type=\"radio\" name=\"{$name}\" value=\"{$radioValue}\" {$checkedAttribute} id=\"{$id}\">";
 
         $classDiv = '';
         $classLabel = 'px-2';
@@ -59,8 +61,6 @@ class Boolean extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        // $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
         $value = $resource->model()->{$this->attribute};
 
         return new HtmlString(

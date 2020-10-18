@@ -6,7 +6,15 @@
         </div>
 
         @if(count($card->ranges()))
-            {{ Form::select('range', $card->ranges(), request('range'), ['class' => 'text-sm bg-gray-200 border rounded-md outline-none focus:shadow-outline', 'onchange' => 'loadCardData_'.$card->cardId()."('".$card->uriKey()."', '".$card->cardId()."')", 'id' => 'select-'.$card->cardId()]) }}
+            <x-form-input
+                type="select"
+                name="range"
+                value=""
+                id="select-{{ $card->cardId() }}"
+                :options="$card->ranges()"
+                class="text-sm bg-gray-200 px-0 py-0"
+                onchange="loadCardData_{{ $card->cardId() }}('{{ $card->uriKey() }}', '{{ $card->cardId() }}')"
+            />
         @endif
     </div>
 

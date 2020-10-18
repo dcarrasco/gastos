@@ -65,10 +65,13 @@ class Select extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-        $value = $resource->model()->{$this->attribute};
-
-        return Form::select($this->attribute, $this->choices, $value, $extraParam);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'select',
+            'name' => $this->attribute,
+            'value' => $resource->model()->{$this->attribute},
+            'id' => $this->attribute,
+            'options' => $this->choices,
+            'placeholder' => '&mdash;'
+        ])->render());
     }
 }

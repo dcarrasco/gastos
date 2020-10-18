@@ -122,15 +122,15 @@ class HasMany extends Relation
             return $this->getAttributesForm($request, $resource, $extraParam);
         }
 
-        $extraParam['id'] = $this->attribute;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-
-        return Form::select(
-            "{$this->name}[]",
-            $this->getRelationOptions($request, $resource, $this->relationConditions),
-            $resource->model()->{$this->attribute}->modelKeys(),
-            array_merge(['multiple' => 'multiple', 'size' => 7], $extraParam)
-        );
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'select',
+            'name' => "{$this->name}[]",
+            'id' => $this->attribute,
+            'value' => $resource->model()->{$this->attribute}->modelKeys(),
+            'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
+            'multiple' => 'multiple',
+            'size' => '7'
+        ])->render());
     }
 
     /**
@@ -165,15 +165,16 @@ class HasMany extends Relation
             return '';
         }
 
-        $optionsAttributes = ['' => ['disabled']];
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-
-        $optionsIni = collect(['' => new HtmlString('&mdash;')]);
-        $availableResources = collect($optionsIni)->union($availableResources);
-
         return '<div class="py-2 flex flex-between">'
             .'<span class="mr-2 p-2">Agregar</span>'
-            .Form::select("{$this->name}[]", $availableResources, null, $extraParam, $optionsAttributes)
+            .view('orm.form-input', [
+                'type' => 'select',
+                'name' => "{$this->name}[]",
+                'value' => '',
+                'id' => '',
+                'options' => $availableResources,
+                'placeholder' => '&mdash;',
+            ])->render()
             .'</div>';
     }
 

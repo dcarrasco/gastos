@@ -51,17 +51,19 @@ class BelongsTo extends Relation
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $foreignKeyName = $this->getModelAttribute($resource);
-        $value = $resource->model()->{$foreignKeyName};
-
-        $extraParam['id'] = $foreignKeyName;
-        $extraParam['class'] = ($extraParam['class'] ?? '') . $this->defaultClass;
-        $optionsAttributes = ['' => ['disabled']];
 
         if ($this->hasOnChange()) {
             $extraParam['onchange'] = $this->makeOnChange($foreignKeyName);
         }
 
-        return Form::select($foreignKeyName, $this->getOptions($request, $resource), $value, $extraParam, $optionsAttributes);
+        return new HtmlString(view('orm.form-input', [
+            'type' => 'select',
+            'name' => $foreignKeyName,
+            'value' => $resource->model()->{$foreignKeyName},
+            'id' => $foreignKeyName,
+            'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
+            'placeholder' => '&mdash;'
+        ])->render());
     }
 
     /**
@@ -87,21 +89,5 @@ class BelongsTo extends Relation
 
         return new HtmlString("$('#{$elemDest}').html('');"
             . "$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });");
-    }
-
-    /**
-     * Recupera opciones desde modelo relacionado
-     *
-     * @param  Request       $request
-     * @param  Resource|null $resource
-     * @return array
-     */
-    protected function getOptions(Request $request, Resource $resource): Collection
-    {
-        // $optionsIni = ['' => trans('orm.choose_option') . (new $this->relatedResource())->getLabel()];
-        $optionsIni = collect(['' => new HtmlString('&mdash;')]);
-
-        return collect($optionsIni)
-            ->union($this->getRelationOptions($request, $resource, $this->relationConditions));
     }
 }

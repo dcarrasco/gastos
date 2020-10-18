@@ -5,11 +5,9 @@
     @can('view-any', 'App\Models\Gastos\Gasto')
     <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
     <table class="table-auto text-sm w-full">
-        <thead class="bg-gray-300 border-b-2 border-gray-400">
+        <thead class="bg-gray-100 border-b border-gray-400 uppercase text-xs font-normal">
             <tr>
-                <th class="py-2">Año</th>
-                <th>Mes</th>
-                <th>Fecha</th>
+                <th class="py-2">Fecha</th>
                 <th>Glosa</th>
                 <th>Serie</th>
                 <th>Tipo Gasto</th>
@@ -26,9 +24,7 @@
                 <x-gastos.gastos.table-item-movimiento :movimiento="$movimiento" />
             @endforeach
 
-            <tr class="font-bold hover:bg-blue-100">
-                <td class="py-2">{{ request('anno') }}</td>
-                <td>{{ request('mes') }}</td>
+            <tr class="hover:bg-blue-100">
                 <td></td>
                 <td></td>
                 <td></td>
