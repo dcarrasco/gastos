@@ -6,7 +6,7 @@ use Form;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Collective\Html\HtmlBuilder;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,16 +51,13 @@ class Gravatar extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
         $size = Str::contains($request->route()->action['as'], 'show')
             ? $this->avatarShowSize : $this->avatarListSize;
 
-        return app()->make(HtmlBuilder::class)
-            ->image(
-                $this->getGravatarUrl($model->{$this->attribute}, $size),
-                null,
-                ['class' => 'rounded-full border']
-            );
+        $url = $this->getGravatarUrl($model->{$this->attribute}, $size);
+
+        return new HtmlString("<img src=\"{$url}\" class=\"rounded-full border\">");
     }
 }
