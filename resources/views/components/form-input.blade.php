@@ -25,7 +25,7 @@
 @elseif ($type == 'selectMonth')
     @php
         $type = 'select';
-        $options = [1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril', 5 => 'mayo', 6 => 'junio', 7 => 'julio', 8 => 'agosto', 9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'];
+        $options = collect(range(1,12))->mapWithKeys(function($mes) { return [$mes => now()->create(2020, $mes, 01)->formatLocalized('%B')];});
     @endphp
 @endif
 @if($type == 'select')
@@ -34,7 +34,7 @@
     @endphp
     <select
         name="{{ $name }}"
-        class="{{ $defaultClass }} @error($name) border-red-400 @enderror {{ $class ?? '' }}"
+        class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
         {{ $multiple == 'multiple' ? 'multiple=multiple' : '' }}
         {{ empty($size) ? '' : "size={$size}" }}
         {{ $attributes }}
@@ -59,7 +59,7 @@
         name="{{ $name }}"
         cols="{{ $cols }}"
         rows="{{ $rows }}"
-        class="{{ $defaultClass }} @error($name) border-red-400 @enderror {{ $class ?? '' }}"
+        class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
         {{ $attributes }}
     >{{ $value }}</textarea>
 @else
@@ -67,7 +67,9 @@
         type="{{ $type }}"
         name="{{ $name }}"
         value="{{ $value }}"
-        class="{{ $defaultClass }} @error($name) border-red-400 @enderror {{ $class ?? '' }}"
+        class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
+        placeholder="{{ $placeholder }}"
+        {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
         {{ $attributes }}
     >
 @endif
