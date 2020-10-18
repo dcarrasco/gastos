@@ -12,7 +12,8 @@
                 value=""
                 id="select-{{ $card->cardId() }}"
                 :options="$card->ranges()"
-                class="text-xs bg-gray-200 px-0 py-0"
+                defaultClass="border border-gray-400 shadow-sm rounded-md px-1 outline-none focus:shadow-outline"
+                class="text-sm bg-gray-200"
                 onchange="loadCardData_{{ $card->cardId() }}('{{ $card->uriKey() }}', '{{ $card->cardId() }}')"
             />
         @endif
