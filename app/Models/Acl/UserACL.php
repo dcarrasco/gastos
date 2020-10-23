@@ -121,6 +121,9 @@ class UserACL extends Model implements
     {
         $modulo = $this->getCurrentAclModulo(request()->url());
 
-        return $this->rol->map->getModuloAbilities($modulo)->flatten()->all();
+        return $this->rol
+            ->map->getModuloAbilities($modulo)
+            ->flatten()
+            ->all();
     }
 }
