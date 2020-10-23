@@ -2,6 +2,7 @@
 
 namespace App\Models\Acl;
 
+use App\Models\Acl\Modulo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -29,10 +30,14 @@ class Rol extends Model
             ->withTimestamps();
     }
 
-    public function getModuloAbilities(int $idModulo)
+    public function getModuloAbilities($modulo): array
     {
+        if (is_null($modulo)) {
+            return [];
+        }
+
         return json_decode($this->modulo
-            ->where('id', $idModulo)
+            ->where('id', $modulo->id)
             ->first()
             ->pivot->abilities) ?? [];
     }

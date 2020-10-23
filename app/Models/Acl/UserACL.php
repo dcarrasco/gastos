@@ -2,9 +2,9 @@
 
 namespace App\Models\Acl;
 
-use DB;
 use Route;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Auth\Authenticatable;
@@ -104,5 +104,23 @@ class UserACL extends Model implements
     public function hasPassword(): bool
     {
         return ! empty($this->password);
+    }
+
+    protected function getCurrentAclModulo(string $url)
+    {
+        return $this->rol
+            ->map->modulo
+            ->flatten()
+            ->filter(function ($modulo) use ($url) {
+                return Str::contains($url, route($modulo->url));
+            })
+            ->first();
+    }
+
+    public function getAclAbilities(): array
+    {
+        $modulo = $this->getCurrentAclModulo(request()->url());
+
+        return $this->rol->map->getModuloAbilities($modulo)->flatten()->all();
     }
 }

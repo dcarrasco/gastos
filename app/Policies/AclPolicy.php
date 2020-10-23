@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Acl\Usuario;
-use Illuminate\Support\Str;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AclPolicy
@@ -92,31 +91,9 @@ class AclPolicy
         //
     }
 
-    protected function getCurrentAclModulo(Usuario $usuario)
-    {
-        return $usuario->rol
-            ->map->modulo
-            ->flatten()
-            ->filter(function ($modulo) {
-                return Str::contains(request()->url(), route($modulo->url));
-            })
-            ->first();
-    }
-
-    protected function getAclAbilities(Usuario $usuario): array
-    {
-        $modulo = $this->getCurrentAclModulo($usuario);
-
-        if (is_null($modulo)) {
-            return [];
-        }
-
-        return $usuario->rol->map->getModuloAbilities($modulo->id)->flatten()->all();
-    }
-
     protected function hasAclAbility(Usuario $usuario, string $ability): bool
     {
-        $abilities = $this->getAclAbilities($usuario);
+        $abilities = $usuario->getAclAbilities();
 
         return collect($abilities)->contains($ability);
     }
