@@ -14,8 +14,6 @@ class Ingreso extends Controller
 {
     public function index(Request $request)
     {
-        $currentLocale = setlocale(LC_TIME, 'es-ES');
-
         $selectCuentas = Cuenta::selectCuentasGastos();
         $selectTiposGastos = TipoGasto::selectOptions();
 

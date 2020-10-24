@@ -20,7 +20,8 @@ class IngresoMasivo extends Controller
 
     public function __construct(Request $request)
     {
-        $this->parsers = arrayToInstanceCollection($this->parsers);
+        $this->parsers = collect($this->parsers)
+            ->map(fn($parser) => new $parser);
 
         $this->cuentas = $this->parsers
             ->map->getCuenta()
@@ -32,8 +33,6 @@ class IngresoMasivo extends Controller
 
     public function index(Request $request)
     {
-        $currentLocale = setlocale(LC_TIME, 'es-ES');
-
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
             'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
