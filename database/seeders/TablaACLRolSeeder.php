@@ -20,5 +20,12 @@ class TablaACLRolSeeder extends Seeder
             'descripcion' => 'Rol Gastos',
             'created_at' => now(),
         ]);
+
+        DB::table('acl_rol')->insert([
+            'app_id' => 2,
+            'rol' => 'Rol ACL',
+            'descripcion' => 'Rol ACL',
+            'created_at' => now(),
+        ]);
     }
 }
