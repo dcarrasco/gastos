@@ -19,12 +19,8 @@
         @endif
     </div>
 
-    <div id="spinner-{{ $card->cardId() }}" class="row mx-4 hidden" style="height: 120px">
-        <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
-        <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
-        <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
-        <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
-        <div class="spinner-grow text-secondary mx-1 my-4" role="status"></div>
+    <div id="spinner-{{ $card->cardId() }}" class="row mx-4 flex justify-center hidden py-4" style="height: 120px">
+        <x-heroicon.loading width="48" height="48" />
     </div>
 
     <div id="content-{{ $card->cardId() }}">
@@ -37,19 +33,19 @@
 
 <script type="text/javascript">
     function loadCardData_{{ $card->cardId() }}(uriKey, cardId) {
-        $('#content-' + cardId).addClass('d-none');
-        $('#spinner-' + cardId).removeClass('d-none');
+        $('#content-' + cardId).addClass('hidden');
+        $('#spinner-' + cardId).removeClass('hidden');
         $.ajax({
             url: '{{ $urlRoute }}',
             data: {
                 ...{'range': $('#select-' + cardId + ' option:selected').val(), 'uri-key': uriKey},
                 ...{{ $resourceParams }}
-                },
+            },
             async: true,
             success: function(data) {
                 if (data) {
-                    $('#spinner-' + cardId).addClass('d-none');
-                    $('#content-' + cardId).html(data).removeClass('d-none');
+                    $('#spinner-' + cardId).addClass('hidden');
+                    $('#content-' + cardId).html(data).removeClass('hidden');
                 }
             },
         });
