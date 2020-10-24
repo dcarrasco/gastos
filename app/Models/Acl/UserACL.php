@@ -109,12 +109,10 @@ class UserACL extends Model implements
     protected function getCurrentModulo(string $url)
     {
         return $this->rol
-            ->map->modulo
-            ->flatten()
-            ->filter(function ($modulo) use ($url) {
+            ->flatMap->modulo
+            ->first(function ($modulo) use ($url) {
                 return Str::contains($url, route($modulo->url));
-            })
-            ->first();
+            });
     }
 
     public function getAclAbilities(): array
