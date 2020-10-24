@@ -11,4 +11,5 @@
     :size="$size ?? 0"
     :cols="$cols ?? 0"
     :rows="$rows ?? 0"
+    :onchange="$onchange ?? ''"
 />

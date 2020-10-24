@@ -9,11 +9,11 @@ if (!function_exists('ajax_options')) {
     {
         return collect($opciones)
             ->map(function ($item, $key) {
-                return ['key' => $key, 'value' => $item];
+                $item = e($item);
+
+                return "<option value=\"{$key}\">{$item}</option>";
             })
-            ->reduce(function ($carry, $elem) {
-                return "{$carry}<option value=\"{$elem['key']}\">" . e($elem['value']) . '</option>';
-            }, '');
+            ->implode('');
     }
 }
 

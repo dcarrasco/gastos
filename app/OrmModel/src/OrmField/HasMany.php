@@ -171,7 +171,7 @@ class HasMany extends Relation
                 'type' => 'select',
                 'name' => "{$this->name}[]",
                 'value' => '',
-                'id' => '',
+                'id' => $this->attribute,
                 'options' => $availableResources,
                 'placeholder' => '&mdash;',
             ])->render()
