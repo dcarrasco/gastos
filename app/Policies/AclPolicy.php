@@ -93,8 +93,6 @@ class AclPolicy
 
     protected function hasAclAbility(Usuario $usuario, string $ability): bool
     {
-        $abilities = $usuario->getAclAbilities();
-
-        return collect($abilities)->contains($ability);
+        return collect($usuario->getAclAbilities())->contains($ability);
     }
 }

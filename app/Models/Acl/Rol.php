@@ -29,16 +29,4 @@ class Rol extends Model
             ->withPivot('abilities')
             ->withTimestamps();
     }
-
-    public function getModuloAbilities($modulo): array
-    {
-        if (is_null($modulo)) {
-            return [];
-        }
-
-        return json_decode($this->modulo
-            ->where('id', $modulo->id)
-            ->first()
-            ->pivot->abilities) ?? [];
-    }
 }

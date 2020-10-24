@@ -106,7 +106,7 @@ class UserACL extends Model implements
         return ! empty($this->password);
     }
 
-    protected function getCurrentAclModulo(string $url)
+    protected function getCurrentModulo(string $url)
     {
         return $this->rol
             ->map->modulo
@@ -119,11 +119,12 @@ class UserACL extends Model implements
 
     public function getAclAbilities(): array
     {
-        $modulo = $this->getCurrentAclModulo(request()->url());
+        $modulo = $this->getCurrentModulo(request()->url());
 
-        return $this->rol
-            ->map->getModuloAbilities($modulo)
-            ->flatten()
-            ->all();
+        if (is_null($modulo)) {
+            return [];
+        }
+
+        return json_decode($modulo->pivot->abilities) ?? [];
     }
 }
