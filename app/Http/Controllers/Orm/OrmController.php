@@ -108,7 +108,7 @@ class OrmController extends Controller
      * @param  Request $request
      * @return array
      */
-    protected function cards(Request $request): array
+    protected function __cards(Request $request): array
     {
         return $this->menuModulo
             ->map->cards($request)
