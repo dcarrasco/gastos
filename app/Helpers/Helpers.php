@@ -27,14 +27,13 @@ if (!function_exists('fmtCantidad')) {
      * @param  integer $decimales    Cantidad de decimales a mostrar
      * @return string                Valor formateado
      */
-    function fmtCantidad($valor = 0, $decimales = null): string
+    function fmtCantidad($valor = 0, $decimales = 0): string
     {
         if (!is_numeric($valor)) {
             return '';
         }
 
         $locale = localeconv();
-        $decimales = $decimales ?? $locale['frac_digits'];
 
         // return number_format($valor, $decimales, $locale['decimal_point'], $locale['thousands_sep']);
         return number_format($valor, $decimales, ',', '.');
