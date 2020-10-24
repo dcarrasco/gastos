@@ -76,10 +76,10 @@
                             </td>
                             <td></td>
                             <td class="text-center">
-                                {{ fmtPorcentaje(100*$inversion->rentabilidad($inversion->saldoFinal())) }}
+                                {{ fmtCantidad($inversion->rentabilidad($inversion->saldoFinal()), 2) }}%
                             </td>
                             <td class="text-center">
-                                {{ fmtPorcentaje(100*$inversion->rentabilidadAnual($inversion->saldoFinal())) }}
+                                {{ fmtCantidad($inversion->rentabilidadAnual($inversion->saldoFinal()), 2) }}%
                             </td>
                         </tr>
                     @endif
@@ -117,5 +117,6 @@
     @if (! empty($datosInversion = $inversion->getJSONRentabilidadesAnual()))
         <x-gastos.inversion.chart :datosInversion="$datosInversion" />
     @endif
+
     @endcan
 </x-layout.app>

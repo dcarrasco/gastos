@@ -60,7 +60,7 @@ class Inversion
     {
         $sumMovimientos = $this->getSumMovimientos($saldo);
 
-        return $sumMovimientos == 0 ? 0 : $saldo->monto / $sumMovimientos - 1;
+        return $sumMovimientos == 0 ? 0 : 100 * ($saldo->monto / $sumMovimientos - 1);
     }
 
     public function rentabilidadAnual(Gasto $saldoFinal): float
@@ -71,7 +71,7 @@ class Inversion
             return 0;
         }
 
-        return pow(pow(1 + $this->rentabilidad($saldoFinal), 1 / $diasInversion), 365) - 1;
+        return 100 * (pow(pow(1 + $this->rentabilidad($saldoFinal)/100, 1 / $diasInversion), 365) - 1);
     }
 
     public function getJSONRentabilidadesAnual(): string

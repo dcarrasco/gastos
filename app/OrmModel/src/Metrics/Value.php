@@ -122,10 +122,10 @@ abstract class Value extends Metric
             return "Sin datos anteriores";
         }
 
-        $percentChange = fmtPorcentaje(($currentValue / $previousValue - 1) * 100, 0);
+        $percentChange = (int) (($currentValue / $previousValue - 1) * 100);
         $textChange = $percentChange >= 0 ? 'aumento' : 'disminucion';
 
-        return "{$percentChange} de {$textChange}";
+        return "{$percentChange}% de {$textChange}";
     }
 
     /**

@@ -35,7 +35,7 @@ class IngresoMasivo extends Controller
     {
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
-            'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
+            'datosMasivos' => $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
         ])->withErrors($this->parser->getParserError());
     }

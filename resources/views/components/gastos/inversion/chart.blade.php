@@ -56,7 +56,7 @@ var optionsInversion = {
         callbacks: {
             label: function(toolTipItem, data) {
                 if (toolTipItem.datasetIndex == 0) {
-                    return 'Rentabilidad ' + Math.round(toolTipItem.yLabel*10000) / 100 + '%';
+                    return 'Rentabilidad ' + Math.round(toolTipItem.yLabel*100) / 100 + '%';
                 } else {
                     return 'Saldo $ ' + toolTipItem.yLabel.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
                 }
@@ -82,7 +82,7 @@ var optionsInversion = {
             ticks: {
                 beginAtZero: true,
                 callback: function(value, index, values) {
-                    return Math.round(value*100) + '%';
+                    return value + '%';
                 }
             }
         }, {
