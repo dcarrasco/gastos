@@ -3,7 +3,10 @@
     <div class="flex flex-col justify-center h-screen bg-cover" style="background-image: url('{{ asset('img/tch-background.jpg') }}')">
         <div class="grid grid-cols-3">
             <div class="col-start-2 bg-white rounded-lg grid grid-cols-5 h-auto">
-                <div class="col-start-2 col-span-3">
+                <div
+                    class="col-start-2 col-span-3"
+                    x-data="{ username: '', usernameError: false, url: '{{ route("acl.cambiaPassword", [""]) }}' }"
+                >
                     <h2 class="text-center text-3xl p-2">{{ trans('login.form_title') }}</h2>
                     <hr>
                     <div class="col-md-12">
@@ -12,10 +15,24 @@
 
                     <form method="POST" id="form_login">
                         @csrf
-                        <label for="username" class="block py-2">
+                        <label
+                            for="username"
+                            class="block py-2"
+                            :class="{'text-red-400': usernameError}"
+                        >
                             {{ trans('login.input_user') }}
                         </label>
-                        <input type="text" name="username" value="{{ old('username') }}" maxlength="45" class="p-2 border outline-none focus:shadow-outline rounded-md w-full shadow-xs" tabindex="1" autofocus="autofocus">
+                        <input
+                            type="text"
+                            name="username"
+                            value="{{ old('username') }}"
+                            maxlength="45"
+                            class="p-2 outline-none focus:shadow-outline rounded-md w-full shadow-xs"
+                            tabindex="1"
+                            autofocus="autofocus"
+                            x-model="username"
+                            :class="{ 'border': ! usernameError, 'border-red-400 border-2': usernameError }"
+                        >
 
                         <label for="pwd" class="block py-2">
                             {{ trans('login.input_password') }}
@@ -30,7 +47,15 @@
                                 </label>
                             </div>
 
-                            <a href="#" id="link_cambia_password" class="hover:text-blue-500">{{ trans('login.link_change_password') }}</a>
+                            <a href="#"
+                                class="hover:text-blue-500"
+                                @click.prevent="if (username.trim() == '') {
+                                    usernameError = true;
+                                    alert('Debe ingresa un nombre de usuario para cambiarle la clave');
+                                } else {
+                                    window.location.href = url+'/'+username;
+                                }"
+                            >{{ trans('login.link_change_password') }}</a>
                         </div>
 
                         <hr>
@@ -43,20 +68,6 @@
             </div>
         </div>
         <x-layout.footer />
-
-        <script type="text/javascript">
-            $( document ).ready(function() {
-                $('#link_cambia_password').click(function(e) {
-                    e.preventDefault();
-                    username = $('#form_login input[name="username"]').val();
-                    if (username !== '') {
-                        window.location.href = '{{ route("acl.cambiaPassword", [""]) }}/'+username;
-                    } else {
-                        alert('Debe ingresa un nombre de usuario para cambiarle la clave');
-                    }
-                });
-            });
-        </script>
     </div>
 
 </x-layout.app>
