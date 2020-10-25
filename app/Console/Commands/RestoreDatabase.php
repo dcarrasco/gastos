@@ -14,7 +14,7 @@ class RestoreDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'app:restore-db {archivo : Archivo con datos a restaurar}';
+    protected $signature = 'app:restore-db {archivo? : Archivo con datos a restaurar}';
 
     /**
      * The console command description.
@@ -40,6 +40,19 @@ class RestoreDatabase extends Command
         }
     }
 
+    protected function getBackupFiles(): array
+    {
+        return collect(scandir(storage_path($this->backupPath)))
+            ->diff(['.', '..', '.gitignore'])
+            ->map(function ($file) {
+                [$fileName, $extension] = explode('.', $file);
+
+                return $fileName;
+            })
+            ->values()
+            ->all();
+    }
+
     /**
      * Execute the console command.
      *
@@ -47,7 +60,11 @@ class RestoreDatabase extends Command
      */
     public function handle()
     {
-        $sqlFile = storage_path("{$this->backupPath}/{$this->argument('archivo')}.sql");
+        if (is_null($archivo = $this->argument('archivo'))) {
+            $archivo = $this->choice('Elegir archivo', $this->getBackupFiles());
+        }
+
+        $sqlFile = storage_path("{$this->backupPath}/{$archivo}.sql");
 
         if (! file_exists($sqlFile)) {
             die("Archivo a restaurar no existe ($sqlFile)");
