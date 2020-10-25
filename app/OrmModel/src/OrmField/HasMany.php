@@ -161,12 +161,8 @@ class HasMany extends Relation
      */
     protected function availableResourcesForm(Collection $availableResources, array $extraParam = []): string
     {
-        if ($availableResources->count() == 0) {
-            return '';
-        }
-
         return '<div class="py-2 flex flex-between">'
-            .'<span class="mr-2 p-2">Agregar</span>'
+            .'<span class="mr-2 p-2 whitespace-no-wrap">'.trans('orm.add_attribute_has_many')." {$this->name}</span>"
             .view('orm.form-input', [
                 'type' => 'select',
                 'name' => "{$this->name}[]",
@@ -177,7 +173,6 @@ class HasMany extends Relation
             ])->render()
             .'</div>';
     }
-
 
     /**
      * Establece que el campo HasMany tiene atributos en la relacion

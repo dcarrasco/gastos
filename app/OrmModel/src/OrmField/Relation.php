@@ -100,9 +100,11 @@ class Relation extends Field
         return collect($conditions)
             ->filter(function ($condition) {
                 return strpos($condition, '@field_value:') !== false;
-            })->map(function ($condition) use ($resource) {
+            })
+            ->map(function ($condition) use ($resource) {
                 list($label, $field, $defaul) = explode(':', $condition);
                 return $resource->model()->{$field};
-            })->all();
+            })
+            ->all();
     }
 }

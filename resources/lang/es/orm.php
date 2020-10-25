@@ -17,6 +17,7 @@ return [
     'title_add'     => 'Nuevo',
     'title_edit'    => 'Editar',
     'title_show'    => 'Mostrar',
+    'add_attribute_has_many' => 'Agregar',
     'choose_option' => 'Seleccionar ',
     'no_records_found' => 'No se encontraron registros.',
 
