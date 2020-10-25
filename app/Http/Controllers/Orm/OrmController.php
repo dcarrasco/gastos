@@ -111,8 +111,7 @@ class OrmController extends Controller
     protected function cards(Request $request): array
     {
         return $this->menuModulo
-            ->map->cards($request)
-            ->flatten()
+            ->flatMap->cards($request)
             ->all();
     }
 
