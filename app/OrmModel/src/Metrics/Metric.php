@@ -136,8 +136,20 @@ abstract class Metric
     {
         return new HtmlString(view('orm.metrics.metric_content', [
             'cardId' => $this->cardId(),
+            'baseUrl' => asset(''),
             'script' => $this->contentScript($request),
         ])->render());
+    }
+
+    /**
+     * Devuelve arreglo para actualizar metrica
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function ajaxRequest(Request $request): array
+    {
+        return [];
     }
 
     /**

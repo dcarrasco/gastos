@@ -266,6 +266,40 @@ abstract class Trend extends Metric
     }
 
     /**
+     * Devuelve HTML con contenido de la metrica
+     *
+     * @param  Request $request
+     * @return HtmlString
+     */
+    public function content(Request $request): HtmlString
+    {
+        return new HtmlString(view('orm.metrics.trend_content', [
+            'cardId' => $this->cardId(),
+            'baseUrl' => asset(''),
+            'cardId' => $this->cardId(),
+            'script' => $this->contentScript($request),
+        ])->render());
+    }
+
+    /**
+     * Devuelve arreglo para actualizar metrica
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function contentAjaxRequest(Request $request): array
+    {
+        $cardId = $this->cardId();
+        $dataSet = $this->calculate($request);
+        $labels = $dataSet->keys();
+        $data = $dataSet->values();
+
+        return [
+            'eval' => "chart_{$cardId}.destroy(); drawTrendChart_{$cardId}('{$cardId}', {$labels}, {$data})",
+        ];
+    }
+
+    /**
      * Devuelve script para dibujar grafico de tendencia
      *
      * @param  Request $request
@@ -279,7 +313,6 @@ abstract class Trend extends Metric
             'data' => new HtmlString(json_encode($dataSet->values())),
             'labels' => new HtmlString(json_encode($dataSet->keys())),
             'cardId' => $this->cardId(),
-            'baseUrl' => asset(''),
         ])->render());
     }
 }

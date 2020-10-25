@@ -13,10 +13,10 @@ trait OrmCard
      * @param  string  $resourceClass Nombre del recurso
      * @return
      */
-    public function ajaxCard(Request $request): string
+    public function ajaxCard(Request $request): array
     {
         return collect($this->cards($request))
             ->first->hasUriKey($request->input('uri-key'))
-            ->content($request)->toHtml();
+            ->contentAjaxRequest($request);
     }
 }

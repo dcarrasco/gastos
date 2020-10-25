@@ -192,4 +192,19 @@ abstract class Value extends Metric
             'script' => $this->contentScript($request),
         ]));
     }
+
+    /**
+     * Devuelve arreglo para actualizar metrica
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function contentAjaxRequest(Request $request): array
+    {
+        return [
+            'html' => [
+                'content' => $this->content($request)->toHtml()->render(),
+            ],
+        ];
+    }
 }

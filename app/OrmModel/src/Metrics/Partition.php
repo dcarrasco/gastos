@@ -103,8 +103,27 @@ abstract class Partition extends Metric
     {
         return new HtmlString(view('orm.metrics.partition_content', [
             'cardId' => $this->cardId(),
+            'baseUrl' => asset(''),
             'script' => $this->contentScript($request),
         ]));
+    }
+
+    /**
+     * Devuelve arreglo para actualizar metrica
+     *
+     * @param  Request $request
+     * @return array
+     */
+    public function contentAjaxRequest(Request $request): array
+    {
+        $cardId = $this->cardId();
+        $dataSet = $this->calculate($request);
+        $labels = $dataSet->keys();
+        $data = $dataSet->values();
+
+        return [
+            'eval' => "chart_{$cardId}.destroy(); drawPartitionChart_{$cardId}('{$cardId}', {$labels}, {$data})",
+        ];
     }
 
     /**
