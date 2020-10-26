@@ -4,21 +4,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 
-if (!function_exists('ajax_options')) {
-    function ajax_options($opciones): string
-    {
-        return collect($opciones)
-            ->map(function ($item, $key) {
-                $item = e($item);
-
-                return "<option value=\"{$key}\">{$item}</option>";
-            })
-            ->implode('');
-    }
-}
-
-// --------------------------------------------------------------------
-
 if (!function_exists('fmtCantidad')) {
     /**
      * Formatea cantidades numéricas con separador decimal y de miles

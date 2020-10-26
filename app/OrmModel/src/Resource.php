@@ -215,7 +215,11 @@ abstract class Resource
      */
     public function getModelAjaxFormOptions(Request $request): string
     {
-        return ajax_options($this->getModelFormOptions($request));
+        return $this->getModelFormOptions($request)
+            ->map(function ($value, $key) {
+                return "<option value=\"{$key}\">".e($value)."</option>";
+            })
+            ->implode('');
     }
 
     /**
