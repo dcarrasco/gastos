@@ -295,7 +295,7 @@ abstract class Trend extends Metric
         $data = $dataSet->values();
 
         return [
-            'eval' => "chart_{$cardId}.destroy(); drawTrendChart_{$cardId}('{$cardId}', {$labels}, {$data})",
+            'eval' => "drawTrendChart_{$cardId}('{$cardId}', {$labels}, {$data})",
         ];
     }
 

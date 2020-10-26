@@ -42,6 +42,10 @@
     function drawTrendChart_{{ $cardId }}(cardId, labels, data) {
         var ctx = document.getElementById('canvas-' + cardId).getContext('2d');
 
+        if (chart_{{ $cardId }} !== undefined) {
+            chart_{{ $cardId }}.destroy();
+        }
+
         chart_{{ $cardId }} = new Chart(ctx, {
             type: 'line',
             data: trendChartData(labels, data),
@@ -49,7 +53,7 @@
         });
     };
 
-    var chart_{{ $cardId }};
+    let chart_{{ $cardId }};
 
     $(document).ready(function() {
         drawTrendChart_{{ $cardId }}(

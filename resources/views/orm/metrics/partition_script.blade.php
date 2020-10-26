@@ -50,6 +50,10 @@
     function drawPartitionChart_{{ $cardId }}(cardId, labels, data) {
         var ctx = document.getElementById('canvas-' + cardId).getContext('2d');
 
+        if (chart_{{ $cardId }} !== undefined) {
+            chart_{{ $cardId }}.destroy();
+        }
+
         chart_{{ $cardId }} = new Chart(ctx, {
             type: 'doughnut',
             data: partitionChartData(labels, data),
@@ -67,7 +71,7 @@
         $('#legend-' + cardId + ' > ul > li > span').css('border-radius', '50%');
     }
 
-    var chart_{{ $cardId }};
+    let chart_{{ $cardId }};
 
     $(document).ready(function() {
         drawPartitionChart_{{ $cardId }}(

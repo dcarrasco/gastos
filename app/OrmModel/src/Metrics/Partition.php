@@ -122,7 +122,7 @@ abstract class Partition extends Metric
         $data = $dataSet->values();
 
         return [
-            'eval' => "chart_{$cardId}.destroy(); drawPartitionChart_{$cardId}('{$cardId}', {$labels}, {$data})",
+            'eval' => "drawPartitionChart_{$cardId}('{$cardId}', {$labels}, {$data})",
         ];
     }
 
