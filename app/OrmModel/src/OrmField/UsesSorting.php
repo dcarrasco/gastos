@@ -13,11 +13,13 @@ trait UsesSorting
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
+
     protected $sortIconDefault = 'fa fa-sort text-gray-400';
     protected $sortIcons = [
         'asc' => 'fa fa-caret-up',
         'desc' => 'fa fa-caret-down',
     ];
+    protected $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
     protected $sortingIcon;
 
@@ -53,9 +55,12 @@ trait UsesSorting
     public function makeSortingIcon(Request $request, Resource $resource): Field
     {
         if ($this->isSortable) {
-            $iconClass = $this->getSortingIconClass($request, $resource);
-            $sortOrder = $this->getSortingOrder($request, $resource);
-            $sortUrl = $this->getSortUrl($request, $sortOrder);
+            $field = $request->input($this->sortByKey, collect($resource->getOrderBy())->keys()->first());
+            $order = $request->input($this->sortDirectionKey, collect($resource->getOrderBy())->first());
+
+            $iconClass = $this->getSortingIconClass($field, $order);
+            $iconOrder = $this->getSortingOrder($field, $order);
+            $sortUrl = $this->getSortUrl($request, $iconOrder);
 
             $this->sortingIcon = new HtmlString("<a href=\"{$sortUrl}\"><span class=\"{$iconClass}\"><span></a>");
         }
@@ -70,13 +75,10 @@ trait UsesSorting
      * @param  Resource $resource
      * @return string
      */
-    protected function getSortingIconClass(Request $request, Resource $resource): string
+    protected function getSortingIconClass(string $field, string $order): string
     {
-        $sortingField = $request->input($this->sortByKey, collect($resource->getOrderBy())->keys()->first());
-        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrderBy())->first());
-
-        return ($sortingField === $this->attribute)
-            ? Arr::get($this->sortIcons, $sortDirection, $this->sortIconDefault)
+        return ($field === $this->attribute)
+            ? Arr::get($this->sortIcons, $order, $this->sortIconDefault)
             : $this->sortIconDefault;
     }
 
@@ -87,14 +89,10 @@ trait UsesSorting
      * @param  Resource $resource
      * @return string
      */
-    protected function getSortingOrder(Request $request, Resource $resource): string
+    protected function getSortingOrder(string $field, string $order): string
     {
-        $sortingField = $request->input($this->sortByKey, collect($resource->getOrderBy())->keys()->first());
-        $sortDirection = $request->input($this->sortDirectionKey, collect($resource->getOrderBy())->first());
-        $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
-
-        return ($sortingField === $this->attribute)
-            ? Arr::get($newSortOrder, $sortDirection, 'asc')
+        return ($field === $this->attribute)
+            ? Arr::get($this->newSortOrder, $order, 'asc')
             : 'asc';
     }
 
