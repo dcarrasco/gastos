@@ -124,7 +124,7 @@ class FieldTest extends TestCase
         $request = $this->makeMock(Request::class, ['input', 'all', 'session']);
         $request->expects($this->any())->method('session')->willReturn($session);
 
-        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+        $resource = $this->makeMock(Resource::class, ['model', 'get']);
         $resource->nombre_campo = 'valor';
 
         $this->assertStringContainsString('input', $this->field->resolveFormItem($request, $resource)->formItem());
@@ -178,7 +178,7 @@ class FieldTest extends TestCase
         $this->assertEquals('', $this->field->makeSortingIcon($request, $resource)->sortingIcon());
         $this->assertStringContainsString('url', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
         // default icon class
-        $this->assertStringContainsString('fa fa-sort text-black-20', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        $this->assertStringContainsString('fa fa-sort text-gray-400', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
     }
 
     public function testMakeSortingIconAsc()

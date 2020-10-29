@@ -41,11 +41,11 @@ class BooleanTest extends TestCase
         $model->expects($this->any())->method('__get')->willReturn(1);
 
         $this->assertStringContainsString('span', $this->field->getFormattedValue($model, $request));
-        $this->assertStringContainsString('success', $this->field->getFormattedValue($model, $request));
+        $this->assertStringContainsString('green', $this->field->getFormattedValue($model, $request));
 
         $model2 = $this->makeMock(Model::class, ['__get']);
         $model2->expects($this->any())->method('__get')->willReturn(0);
-        $this->assertStringContainsString('danger', $this->field->getFormattedValue($model2, $request));
+        $this->assertStringContainsString('red', $this->field->getFormattedValue($model2, $request));
     }
 
     public function testGetForm()

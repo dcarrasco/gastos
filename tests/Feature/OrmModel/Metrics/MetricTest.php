@@ -161,7 +161,7 @@ class MetricTest extends TestCase
 
     public function testBootstrapCardWidth()
     {
-        $this->assertEquals('col-md-4', $this->metric->bootstrapCardWidth());
+        $this->assertEquals('col-span-4', $this->metric->bootstrapCardWidth());
     }
 
     public function testTitle()
@@ -171,7 +171,7 @@ class MetricTest extends TestCase
 
     public function testWidth()
     {
-        $this->assertEquals('col-md-6', $this->metric->width('1/2')->bootstrapCardWidth());
+        $this->assertEquals('col-span-6', $this->metric->width('1/2')->bootstrapCardWidth());
     }
 
     public function testCardId()
