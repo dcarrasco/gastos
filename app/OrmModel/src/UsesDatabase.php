@@ -14,6 +14,7 @@ trait UsesDatabase
 
     protected $sortByKey = 'sort-by';
     protected $sortDirectionKey = 'sort-direction';
+
     protected $searchKey = 'search';
 
     /**
@@ -97,9 +98,9 @@ trait UsesDatabase
             ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
             : $this->getOrderBy();
 
-        foreach ($orderBy as $field => $order) {
-            $this->modelQueryBuilder = $this->modelQueryBuilder->orderBy($field, $order);
-        }
+        collect($orderBy)->each(function ($order, $field) {
+            return $this->modelQueryBuilder = $this->modelQueryBuilder->orderBy($field, $order);
+        });
 
         return $this;
     }
