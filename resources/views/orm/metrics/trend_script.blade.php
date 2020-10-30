@@ -56,10 +56,6 @@
     let chart_{{ $cardId }};
 
     $(document).ready(function() {
-        drawTrendChart_{{ $cardId }}(
-            '{{ $cardId }}',
-            {{ $labels }},
-            {{ $data }},
-        );
+        drawTrendChart_{{ $cardId }}('{{ $cardId }}', {{ $labels }}, {{ $data }});
     });
 </script>

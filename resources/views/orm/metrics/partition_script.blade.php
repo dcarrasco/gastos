@@ -74,10 +74,6 @@
     let chart_{{ $cardId }};
 
     $(document).ready(function() {
-        drawPartitionChart_{{ $cardId }}(
-            '{{ $cardId }}',
-            {{ $labels }},
-            {{ $data }},
-        );
+        drawPartitionChart_{{ $cardId }}('{{ $cardId }}', {{ $labels }}, {{ $data }});
     });
 </script>

@@ -6,7 +6,6 @@
         select: '',
         url: '{{ $urlRoute }}',
         uriKey: '{{ $card->uriKey() }}',
-        cardId: '{{ $card->cardId() }}',
         submit() {
             this.isLoading=true;
             fetch(this.url+'?uri-key='+this.uriKey+'&range='+this.select)
@@ -36,11 +35,9 @@
                 type="select"
                 name="range"
                 value=""
-                id="select-{{ $card->cardId() }}"
                 :options="$card->ranges()"
                 defaultClass="border border-gray-400 shadow-sm rounded-md px-1 outline-none focus:shadow-outline"
                 class="text-sm bg-gray-200"
-                __onchange="loadCardData_{{ $card->cardId() }}('{{ $card->uriKey() }}', '{{ $card->cardId() }}')"
                 x-model="select"
                 @change="submit"
             />
