@@ -43,6 +43,13 @@
                    fontSize: 10,
                    boxWidth: 10
                 }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        return data.labels[tooltipItem.index] + ": $" + new Intl.NumberFormat('es-ES').format(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]);
+                    }
+                }
             }
         };
     }
