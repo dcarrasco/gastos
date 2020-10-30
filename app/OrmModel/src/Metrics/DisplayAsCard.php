@@ -76,7 +76,7 @@ trait DisplayAsCard
      */
     public function cardId(): string
     {
-        return hash('md5', get_class($this));
+        return Str::camel($this->title());
     }
 
     public function urlRoute(Request $request): string
