@@ -25,8 +25,8 @@ class SaldoCtaCte extends Value
             ->get();
 
         $saldoInicial = SaldoMes::where('cuenta_id', 1)
-            ->where('anno', $gastos->max('anno'))
-            ->where('mes', $gastos->max('mes'))
+            ->where('anno', $gastos->min('anno'))
+            ->where('mes', $gastos->min('mes'))
             ->first();
 
         return (optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto');

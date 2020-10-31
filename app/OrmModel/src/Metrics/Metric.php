@@ -58,7 +58,7 @@ abstract class Metric
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
         $ranges = collect([
-            Metric::MONTH_TO_DATE   => [now()->modify('first day of last month')->startOfMonth(), now()->subMonth()],
+            Metric::MONTH_TO_DATE   => [now()->modify('first day of last month')->startOfMonth(), now()->modify('first day of last month')->month == now()->subMonth()->month ? now()->subMonth() : now()->modify('first day of last month')->endOfMonth()],
             Metric::QUARTER_TO_DATE => [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()],
             Metric::YEAR_TO_DATE    => [now()->subYear()->startOfYear(), now()->subYear()],
             Metric::CURRENT_MONTH   => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
