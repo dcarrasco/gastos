@@ -27,7 +27,7 @@ class Rol extends Resource
         return [
             Id::make()->sortable(),
 
-            BelongsTo::make('aplicacion', 'app', 'App\OrmModel\Acl\App')
+            BelongsTo::make('aplicacion', 'app', App::class)
                 ->rules('required')
                 ->onChange('modulo'),
 
@@ -39,7 +39,7 @@ class Rol extends Resource
                 ->sortable()
                 ->rules('max:100', 'required'),
 
-            HasMany::make('modulo', 'modulo', 'App\OrmModel\Acl\Modulo')
+            HasMany::make('modulo', 'modulo', Modulo::class)
                 ->relationConditions(['app_id' => '@field_value:app_id:NULL'])
                 ->relationField('abilities', '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}'),
         ];

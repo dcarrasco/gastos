@@ -27,7 +27,7 @@ class Modulo extends Resource
         return [
             Id::make()->sortable(),
 
-            BelongsTo::make('aplicacion', 'app', 'App\OrmModel\Acl\App')
+            BelongsTo::make('aplicacion', 'app', App::class)
                 ->rules('required'),
 
             Text::make('modulo')

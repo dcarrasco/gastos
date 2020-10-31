@@ -62,7 +62,7 @@ class Usuario extends Resource
                 ->rules('max:200')
                 ->hideFromIndex(),
 
-            HasMany::make('rol', 'rol', 'App\OrmModel\Acl\Rol'),
+            HasMany::make('rol', 'rol', Rol::class),
         ];
     }
 
