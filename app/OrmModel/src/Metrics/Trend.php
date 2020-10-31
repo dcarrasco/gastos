@@ -166,15 +166,16 @@ abstract class Trend extends Metric
      * @param  string $unit
      * @return Array
      */
-    protected function initRangedData(array $dateInterval, string $unit): array
+    protected function initRangedData(array $dateInterval, string $unit): Collection
     {
         [$fechaInicio, $fechaFin] = $dateInterval;
 
-        $period = collect(CarbonPeriod::create($fechaInicio, $fechaFin))
+        return collect(CarbonPeriod::create($fechaInicio, $fechaFin))
             ->map->format($this->dateFormatExpression($unit))
-            ->unique();
-
-        return $period->combine(array_fill(0, $period->count(), 0))->all();
+            ->flip()
+            ->map(function ($value) {
+                return 0;
+            });
     }
 
     /**
@@ -198,8 +199,8 @@ abstract class Trend extends Metric
     /**
      * Devuelve expresion para formatear fecha en una consulta
      *
-     * @param  string $unit
      * @return string
+     * @param  string $unit
      */
     protected function databaseFormatExpression(string $unit): string
     {
@@ -243,26 +244,21 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function aggregate(Request $request, string $resource, string $unit, string $function, string $sumColumn, string $timeColumn): Collection
+    protected function aggregate(Request $request, string $resource, string $unit, string $function, string $aggregateColumn, string $timeColumn): Collection
     {
         $dateInterval = $this->currentRange($request);
-
         $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
-
-        $query = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval);
-        $sumColumn = empty($sumColumn) ? $query->getModel()->getKeyName() : $sumColumn;
-
+        $aggregateColumn = empty($aggregateColumn) ? $this->newResource($resource)->model()->getKeyName() : $aggregateColumn;
         $selectDateExpression = $this->selectDateExpression($resource, $unit, $timeColumn);
 
-        $results = $query
-            ->select(DB::raw("{$selectDateExpression} as date_result, {$function}({$sumColumn}) as aggregate"))
+        $results = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval)
+            ->select(DB::raw("{$selectDateExpression} as date_expression, {$function}({$aggregateColumn}) as aggregate"))
             ->groupBy(DB::raw($selectDateExpression))
             ->get()
-            ->mapWithKeys(function ($data) {
-                return [$data->date_result => $data->aggregate];
-            });
+            ->pluck('aggregate', 'date_expression');
 
-        return collect(array_merge($this->initRangedData($dateInterval, $unit), $results->all()));
+        return $this->initRangedData($dateInterval, $unit)
+            ->merge($results);
     }
 
     /**

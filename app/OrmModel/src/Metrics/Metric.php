@@ -15,6 +15,12 @@ abstract class Metric
 {
     use DisplayAsCard;
 
+    const MONTH_TO_DATE = 'MTD';
+    const QUARTER_TO_DATE = 'QTD';
+    const YEAR_TO_DATE = 'YTD';
+    const CURRENT_MONTH = 'CURR_MONTH';
+    const LAST_MONTH = 'LAST_MONTH';
+
 
     /**
      * Genera rango de fechas para realizar consultas
@@ -26,20 +32,16 @@ abstract class Metric
     {
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
-        if ($range == 'MTD') {
-            return [now()->startOfMonth(), now()];
-        }
-        if ($range == 'QTD') {
-            return [now()->firstOfQuarter(), now()];
-        }
-        if ($range == 'YTD') {
-            return [now()->startOfYear(), now()];
-        }
-        if ($range == 'CURR_MONTH') {
-            return [now()->startOfMonth(), now()->endOfMonth()];
-        }
-        if ($range == 'LAST_MONTH') {
-            return [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()];
+        $ranges = collect([
+            Metric::MONTH_TO_DATE   => [now()->startOfMonth(), now()],
+            Metric::QUARTER_TO_DATE => [now()->firstOfQuarter(), now()],
+            Metric::YEAR_TO_DATE    => [now()->startOfYear(), now()],
+            Metric::CURRENT_MONTH   => [now()->startOfMonth(), now()->endOfMonth()],
+            Metric::LAST_MONTH      => [now()->modify('first day of last month')->startOfMonth(), now()->modify('first day of last month')->endOfMonth()],
+        ]);
+
+        if ($ranges->has($range)) {
+            return $ranges->get($range);
         }
 
         return [now()->subDays($range - 1), now()];
@@ -55,20 +57,16 @@ abstract class Metric
     {
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
-        if ($range == 'MTD') {
-            return [now()->modify('first day of last month')->startOfMonth(), now()->subMonth()];
-        }
-        if ($range == 'QTD') {
-            return [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()];
-        }
-        if ($range == 'YTD') {
-            return [now()->subYear()->startOfYear(), now()->subYear()];
-        }
-        if ($range == 'CURR_MONTH') {
-            return [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()];
-        }
-        if ($range == 'LAST_MONTH') {
-            return [now()->subMonth()->subMonth()->startOfMonth(), now()->subMonth()->subMonth()->endOfMonth()];
+        $ranges = collect([
+            Metric::MONTH_TO_DATE   => [now()->modify('first day of last month')->startOfMonth(), now()->subMonth()],
+            Metric::QUARTER_TO_DATE => [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()],
+            Metric::YEAR_TO_DATE    => [now()->subYear()->startOfYear(), now()->subYear()],
+            Metric::CURRENT_MONTH   => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
+            Metric::LAST_MONTH      => [now()->modify('first day of last month')->subMonth()->startOfMonth(), now()->modify('first day of last month')->subMonth()->endOfMonth()],
+        ]);
+
+        if ($ranges->has($range)) {
+            return $ranges->get($range);
         }
 
         return [now()->subDays($range * 2), now()->subDays($range)];
