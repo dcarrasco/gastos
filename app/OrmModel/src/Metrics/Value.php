@@ -103,9 +103,9 @@ abstract class Value extends Metric
 
         return [
             'currentValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->currentRange($request))
-                ->get()->{$function}($sumColumn),
+                ->{$function}($sumColumn),
             'previousValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->previousRange($request))
-                ->get()->{$function}($sumColumn),
+                ->{$function}($sumColumn),
         ];
     }
 
