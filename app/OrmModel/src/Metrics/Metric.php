@@ -56,7 +56,7 @@ abstract class Metric
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
         if ($range == 'MTD') {
-            return [now()->subMonth()->startOfMonth(), now()->subMonth()];
+            return [now()->modify('first day of last month')->startOfMonth(), now()->subMonth()];
         }
         if ($range == 'QTD') {
             return [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()];

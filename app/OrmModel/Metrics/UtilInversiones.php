@@ -23,7 +23,7 @@ class UtilInversiones extends Value
 
     protected function calculateUtil(Request $request, array $range): int
     {
-        $fechaHasta = $range[1];
+        [$fechaDesde, $fechaHasta] = $range;
 
         return collect($this->cuentasInversiones)
             ->map(function ($cuenta) use ($fechaHasta) {
