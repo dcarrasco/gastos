@@ -177,7 +177,6 @@ class MetricTest extends TestCase
     public function testCardId()
     {
         $this->assertIsString($this->metric->cardId());
-        $this->assertEquals(32, strlen($this->metric->cardId()));
     }
 
     public function testUrlRoute()
