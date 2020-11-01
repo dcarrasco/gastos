@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Optional;
+use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Currency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,6 +21,8 @@ class CurrencyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo') extends Currency {
         };
@@ -62,8 +65,5 @@ class CurrencyTest extends TestCase
 
         // form value
         $this->assertStringContainsString('value="12345"', $this->field->getForm($request, $resource));
-
-        // form extra-param
-        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, ['extra-param' => 'extra-param-value']));
     }
 }

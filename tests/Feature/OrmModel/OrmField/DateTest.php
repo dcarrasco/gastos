@@ -8,6 +8,7 @@ use App\OrmModel\src\Resource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Optional;
 use App\OrmModel\src\OrmField\Date;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,6 +22,8 @@ class DateTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo') extends Date {
         };
@@ -63,8 +66,5 @@ class DateTest extends TestCase
 
         // form value
         $this->assertStringContainsString('value="2020-02-01"', $this->field->getForm($request, $resource));
-
-        // form extra-param
-        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, ['extra-param' => 'extra-param-value']));
     }
 }

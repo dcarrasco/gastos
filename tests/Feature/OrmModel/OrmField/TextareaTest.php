@@ -5,6 +5,7 @@ namespace Tests\Feature\OrmModel\OrmField;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Textarea;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +20,8 @@ class TextareaTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo') extends Textarea {
         };
@@ -44,10 +47,7 @@ class TextareaTest extends TestCase
 
         $this->assertStringContainsString('<textarea', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('name="nombre_campo"', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('maxlength="0"', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('maxlength="100"', $this->field->rules('max:100')->getForm($request, $resource));
+        $this->assertStringContainsString('maxlength=100', $this->field->rules('max:100')->getForm($request, $resource));
         $this->assertStringContainsString('valor1</textarea>', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, [
-            'extra-param' => 'extra-param-value']));
     }
 }

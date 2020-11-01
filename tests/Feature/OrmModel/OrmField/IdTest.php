@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,8 @@ class IdTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class() extends Id {
         };
@@ -56,8 +59,6 @@ class IdTest extends TestCase
         $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('name="id"', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('value="valor1"', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, [
-            'extra-param' => 'extra-param-value']));
     }
 
     public function testGetFormNoEsIncrementing()
@@ -74,7 +75,5 @@ class IdTest extends TestCase
         $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('name="id"', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('value="valor1"', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('extra-param="extra-param-value"', $this->field->getForm($request, $resource, [
-            'extra-param' => 'extra-param-value']));
     }
 }

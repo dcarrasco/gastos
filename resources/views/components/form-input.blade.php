@@ -60,6 +60,7 @@
         cols="{{ $cols }}"
         rows="{{ $rows }}"
         class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
+        {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
         {{ $attributes }}
     >{{ $value }}</textarea>
 @else

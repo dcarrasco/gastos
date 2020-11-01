@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Field;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,8 @@ class FieldTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo') extends Field {
         };
@@ -125,12 +128,10 @@ class FieldTest extends TestCase
         $request->expects($this->any())->method('session')->willReturn($session);
 
         $resource = $this->makeMock(Resource::class, ['model', 'get']);
-        $resource->nombre_campo = 'valor';
 
         $this->assertStringContainsString('input', $this->field->resolveFormItem($request, $resource)->formItem());
         $this->assertStringContainsString('type="text"', $this->field->resolveFormItem($request, $resource)->formItem());
-        $this->assertStringContainsString('name="nombreCampo"', $this->field->resolveFormItem($request, $resource)->formItem());
-        $this->assertstringcontainsstring('value="valor"', $this->field->resolveformitem($request, $resource)->formitem());
+        $this->assertStringContainsString('name="nombre_campo"', $this->field->resolveFormItem($request, $resource)->formItem());
     }
 
     public function testFormItem()
@@ -172,6 +173,7 @@ class FieldTest extends TestCase
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
+        $request->expects($this->any())->method('input')->willReturn('');
 
         $resource = $this->makeMock(Resource::class, ['input', 'get']);
 

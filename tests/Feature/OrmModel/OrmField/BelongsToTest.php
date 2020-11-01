@@ -8,6 +8,7 @@ use App\Models\Acl\Modulo;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
 use App\OrmModel\src\OrmField\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,6 +23,8 @@ class BelongsToTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo', 'app', \App\OrmModel\Acl\App::class) extends BelongsTo {
         };
@@ -77,7 +80,6 @@ class BelongsToTest extends TestCase
         $this->assertStringContainsString($apps[0]->app, $this->field->getForm($request, $resource));
         $this->assertStringContainsString($apps[1]->app, $this->field->getForm($request, $resource));
         $this->assertStringContainsString($apps[2]->app, $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('extra="param"', $this->field->getForm($request, $resource, ['extra' => 'param']));
         $this->assertStringContainsString('uno:dos', $this->field->onChange('uno:dos')->getForm($request, $resource));
         $this->assertStringContainsString('url1', $this->field->onChange('uno:dos')->getForm($request, $resource));
     }

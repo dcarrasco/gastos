@@ -5,6 +5,7 @@ namespace Tests\Feature\OrmModel\OrmField;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Select;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +20,8 @@ class SelectTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo') extends Select {
         };
@@ -80,7 +83,6 @@ class SelectTest extends TestCase
 
         $this->assertStringContainsString('select', $this->field->options($opciones)->getForm($request, $resource));
         $this->assertStringContainsString('name="nombre_campo"', $this->field->options($opciones)->getForm($request, $resource));
-        $this->assertStringContainsString('<option value="opc1" selected="selected">valor1</option>', $this->field->options($opciones)->getForm($request, $resource));
-        $this->assertStringContainsString('new-class', $this->field->options($opciones)->getForm($request, $resource, ['class' => 'new-class']));
+        $this->assertStringContainsString('<option value="opc1" selected>valor1</option>', $this->field->options($opciones)->getForm($request, $resource));
     }
 }

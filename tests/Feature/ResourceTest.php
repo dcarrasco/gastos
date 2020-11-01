@@ -9,10 +9,11 @@ use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\Filters\Filter;
-use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class ResourceTest extends TestCase
 {
@@ -24,6 +25,8 @@ class ResourceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->model = Usuario::factory()->create();
 

@@ -7,6 +7,7 @@ use App\Models\Acl\Rol;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -21,6 +22,8 @@ class HasManyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        view()->share('errors', new ViewErrorBag);
 
         $this->field = new class('nombreCampo', 'rol', \App\OrmModel\Acl\Rol::class) extends HasMany {
         };
