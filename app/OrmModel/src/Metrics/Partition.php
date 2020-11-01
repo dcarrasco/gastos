@@ -57,40 +57,36 @@ abstract class Partition extends Metric
      */
     protected function aggregate(Request $request, string $resource, string $groupColumn, string $function, string $sumColumn, string $relation): Collection
     {
-        $query = $this->newQuery($request, $resource);
-
-        if ($relation != '') {
-            $query = $this->addRelationQuery($query, $resource, $relation);
-        }
-
-        return $query
+        return $this->newPartitionQuery($request, $resource, $relation)
             ->select(DB::raw("{$groupColumn} as label, {$function}({$sumColumn}) as aggregate"))
             ->groupBy($groupColumn)
             ->orderBy('aggregate', 'desc')
-            ->get()
-            ->mapWithKeys(function ($data) {
-                return [$data->label => $data->aggregate];
-            });
+            ->pluck('aggregate', 'label');
     }
 
     /**
-     * Agrega la relacion a la consulta de datos de la particion
+     * Devuelve una nueva query para Partition
      *
      * @param Builder $query
      * @param string  $resource
      * @param string  $relation
      * @return Builder
      */
-    protected function addRelationQuery(Builder $query, string $resource, string $relation): Builder
+    protected function newPartitionQuery(Request $request, string $resource, string $relation): Builder
     {
+        if (empty($relation)) {
+            return $this->newQuery($request, $resource);
+        }
+
         $relation = $this->newResource($resource)->model()->{$relation}();
 
-        return $query->join(
-            $relation->getRelated()->getTable(),
-            $relation->getQualifiedForeignKeyName(),
-            '=',
-            $relation->getQualifiedOwnerKeyName()
-        );
+        return $this->newQuery($request, $resource)
+            ->join(
+                $relation->getRelated()->getTable(),
+                $relation->getQualifiedForeignKeyName(),
+                '=',
+                $relation->getQualifiedOwnerKeyName()
+            );
     }
 
     /**

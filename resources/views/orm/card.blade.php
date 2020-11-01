@@ -14,10 +14,8 @@
                     if (data.hasOwnProperty('eval')) {
                         eval(data.eval);
                     }
-                    if (data.hasOwnProperty('html')) {
-                        for (const ref in data.html) {
-                            this.$refs[ref].innerHTML = data.html[ref];
-                        }
+                    if (data.hasOwnProperty('content')) {
+                        this.$refs.content.innerHTML = data.content;
                     }
                     this.isLoading=false;
                 });

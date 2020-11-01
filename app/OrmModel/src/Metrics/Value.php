@@ -202,9 +202,7 @@ abstract class Value extends Metric
     public function contentAjaxRequest(Request $request): array
     {
         return [
-            'html' => [
-                'content' => $this->content($request)->toHtml()->render(),
-            ],
+            'content' => $this->content($request)->toHtml()->render(),
         ];
     }
 }

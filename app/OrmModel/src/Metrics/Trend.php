@@ -254,7 +254,6 @@ abstract class Trend extends Metric
         $results = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval)
             ->select(DB::raw("{$selectDateExpression} as date_expression, {$function}({$aggregateColumn}) as aggregate"))
             ->groupBy(DB::raw($selectDateExpression))
-            ->get()
             ->pluck('aggregate', 'date_expression');
 
         return $this->initRangedData($dateInterval, $unit)
