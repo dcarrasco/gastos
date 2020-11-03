@@ -45,7 +45,6 @@ class UtilInversiones extends Value
         return $query->whereIn('cuenta_id', $this->cuentasInversiones);
     }
 
-
     public function ranges(): array
     {
         return [

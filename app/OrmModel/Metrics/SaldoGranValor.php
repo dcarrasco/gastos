@@ -20,7 +20,8 @@ class SaldoGranValor extends Trend
 
     protected function filter(Request $request, Builder $query): Builder
     {
-        return $query->where('cuenta_id', 3)->where('tipo_movimiento_id', 4);
+        return $query->where('cuenta_id', 3)
+            ->where('tipo_movimiento_id', 4);
     }
 
     public function ranges(): array

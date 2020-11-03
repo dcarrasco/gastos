@@ -33,7 +33,8 @@ class EvolUtilInversiones extends Trend
 
     protected function filter(Request $request, Builder $query): Builder
     {
-        return $query->whereIn('cuenta_id', $this->cuentasInversiones)->where('tipo_movimiento_id', 4);
+        return $query->whereIn('cuenta_id', $this->cuentasInversiones)
+            ->where('tipo_movimiento_id', 4);
     }
 
     protected function filterMovimientos(Request $request, Builder $query): Builder
