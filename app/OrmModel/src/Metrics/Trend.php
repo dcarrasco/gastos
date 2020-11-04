@@ -16,6 +16,8 @@ abstract class Trend extends Metric
     const BY_YEARS = 'by_years';
     const BY_WEEKS = 'by_weeks';
 
+    protected $filtraValoresEnCero = false;
+
 
     public function calculate(Request $request): Collection
     {
@@ -257,7 +259,10 @@ abstract class Trend extends Metric
             ->pluck('aggregate', 'date_expression');
 
         return $this->initRangedData($dateInterval, $unit)
-            ->merge($results);
+            ->merge($results)
+            ->filter(function ($valor) {
+                return ! $this->filtraValoresEnCero or $valor != 0;
+            });
     }
 
     /**

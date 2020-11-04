@@ -10,12 +10,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SaldoPrefAhorro extends Trend
 {
+    protected $filtraValoresEnCero = true;
+
     public function calculate(Request $request): Collection
     {
-        return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->filter(function ($valor) {
-                return $valor != 0;
-            });
+        return $this->sumByDays($request, Gasto::class, 'monto', 'fecha');
     }
 
     protected function filter(Request $request, Builder $query): Builder

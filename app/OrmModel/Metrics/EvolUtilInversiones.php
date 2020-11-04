@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EvolUtilInversiones extends Trend
 {
+    protected $filtraValoresEnCero = true;
+
     protected $cuentasInversiones = [3, 6];
 
     public function calculate(Request $request): Collection
@@ -17,17 +19,12 @@ class EvolUtilInversiones extends Trend
         $movimientos = $this->resumenMovimientos($request, Gasto::class, 'monto', 'fecha');
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->filter(function ($valor) {
-                return $valor != 0;
-            })
-            ->map(function ($monto, $fecha) use ($movimientos) {
-                $fechaMov = $movimientos->keys()
-                    ->filter(function ($fechaMovimiento) use ($fecha) {
-                        return $fechaMovimiento <= $fecha;
-                    })
-                    ->last();
+            ->map(function ($saldo, $fechaSaldo) use ($movimientos) {
+                $montoMovimientos = $movimientos->last(function ($monto, $fechaMovimiento) use ($fechaSaldo) {
+                    return $fechaMovimiento <= $fechaSaldo;
+                });
 
-                return $monto - $movimientos->get($fechaMov);
+                return $saldo - $montoMovimientos;
             });
     }
 
@@ -37,32 +34,33 @@ class EvolUtilInversiones extends Trend
             ->where('tipo_movimiento_id', 4);
     }
 
-    protected function filterMovimientos(Request $request, Builder $query): Builder
+    protected function movimientosInversiones(Request $request, string $resource): Collection
     {
-        return $query->whereIn('cuenta_id', $this->cuentasInversiones)
+        return (new $resource)->getModelQueryBuilder()
             ->noSaldos()
-            ->whereBetween('fecha', $this->currentRange($request));
+            ->whereIn('cuenta_id', $this->cuentasInversiones)
+            ->whereBetween('fecha', $this->currentRange($request))
+            ->get();
     }
 
     protected function resumenMovimientos(Request $request, string $resource, string $sumColumn, string $timeColumn): Collection
     {
-        $movimientos = $this->filterMovimientos($request, (new $resource)->getModelQueryBuilder())
-            ->get();
+        $movimientos = $this->movimientosInversiones($request, $resource);
 
         return $movimientos->pluck($timeColumn)
             ->map->format('Y-m-d')
             ->sort()
             ->unique()
-            ->mapWithKeys(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
-                return [$fecha => $movimientos->filter(function ($movimiento) use ($fecha, $timeColumn) {
-                    return $movimiento->{$timeColumn}->format('Y-m-d') == $fecha;
-                })->sum($sumColumn)];
+            ->map(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
+                return [
+                    'fecha' => $fecha,
+                    'montoMovimientos' => $movimientos->filter(function ($movimiento) use ($fecha, $timeColumn) {
+                        return $movimiento->{$timeColumn}->format('Y-m-d') <= $fecha;
+                    })->sum($sumColumn)
+                ];
             })
-            ->map(function ($monto) use (&$montoAcum) {
-                return $montoAcum += $monto;
-            });
+            ->pluck('montoMovimientos', 'fecha');
     }
-
 
     public function ranges(): array
     {
