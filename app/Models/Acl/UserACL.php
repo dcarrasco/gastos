@@ -68,10 +68,8 @@ class UserACL extends Model implements
 
     protected function setSelectedMenu(Collection $menuApp): Collection
     {
-        $llaveModulo = $this->getLlaveModulo();
-
-        return $menuApp->map(function ($modulo) use ($llaveModulo) {
-            $modulo->selected = ($modulo->llave_modulo === $llaveModulo);
+        return $menuApp->map(function ($modulo) {
+            $modulo->selected = ($modulo->url === Route::currentRouteName());
 
             return $modulo;
         });
@@ -82,11 +80,6 @@ class UserACL extends Model implements
         return is_null($elem = $this->getMenuApp()->first->selected)
             ? new HtmlString('')
             : new HtmlString("<i class=\"fa fa-{$elem->icono} fa-fw\"></i>&nbsp;{$elem->modulo}");
-    }
-
-    protected function getLlaveModulo(): string
-    {
-        return Arr::get(config('invfija.llavesApp'), Route::currentRouteName() ?? '', '');
     }
 
     public function checkPassword(string $password): bool
