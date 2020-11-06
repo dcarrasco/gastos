@@ -38,27 +38,15 @@ class UserACL extends Model implements
         return $this->setSelectedMenu(session('menuapp'));
     }
 
-    protected function menuAppObject(Modulo $modulo): object
-    {
-        $appObject = $modulo->app;
-
-        return (object) [
-            'orden'        => "{$appObject->orden}-{$modulo->orden}",
-            'app'          => $appObject->app,
-            'modulo'       => $modulo->modulo,
-            'llave_modulo' => $modulo->llave_modulo,
-            'icono'        => $modulo->icono,
-            'url'          => $modulo->url,
-            'selected'     => false,
-        ];
-    }
-
     protected function getMenuAppFromDB(): Collection
     {
         return $this->rol
             ->flatMap->modulo
             ->map(function ($modulo) {
-                return $this->menuAppObject($modulo);
+                $modulo->orden = "{$modulo->app->orden}-{$modulo->orden}";
+                $modulo->selected = false;
+
+                return $modulo;
             })
             ->sort(function ($elem1, $elem2) {
                 return $elem1->orden < $elem2->orden ? -1 : 1;
