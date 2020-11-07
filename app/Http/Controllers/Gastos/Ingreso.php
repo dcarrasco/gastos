@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use Illuminate\Http\Request;
 use App\Models\Gastos\Gasto;
+use Illuminate\Http\Request;
 use App\Models\Gastos\Cuenta;
 use App\Models\Gastos\SaldoMes;
 use App\Models\Gastos\TipoGasto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Gasto\AddGastoRequest;
+use App\Http\Requests\Gasto\DeleteGastoRequest;
 
 class Ingreso extends Controller
 {
@@ -32,18 +33,14 @@ class Ingreso extends Controller
 
     public function store(AddGastoRequest $request)
     {
-        $this->authorize('create', Gasto::class);
-
         Gasto::createGasto($request->validated());
         SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
 
         return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));
     }
 
-    public function destroy(Request $request, Gasto $gasto)
+    public function destroy(DeleteGastoRequest $request, Gasto $gasto)
     {
-        $this->authorize('delete', $gasto);
-
         $gasto->delete();
 
         return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));

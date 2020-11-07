@@ -5,7 +5,7 @@ namespace App\Http\Requests\Gasto;
 use App\Models\Gastos\Gasto;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddGastoRequest extends FormRequest
+class DeleteGastoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class AddGastoRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create', Gasto::class);
+        return auth()->user()->can('delete', $this->route('gasto'));
     }
 
     /**
@@ -25,14 +25,7 @@ class AddGastoRequest extends FormRequest
     public function rules()
     {
         return [
-            'cuenta_id' => 'required',
-            'anno' => 'required|numeric',
-            'mes' => 'required|numeric',
-            'fecha' => 'required|date',
-            'glosa' => 'required',
-            'serie' => 'required',
-            'tipo_gasto_id' => 'required',
-            'monto' => 'required|numeric',
+            //
         ];
     }
 }
