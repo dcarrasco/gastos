@@ -3,7 +3,6 @@
 namespace App\Models\Acl;
 
 use Route;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -46,7 +45,7 @@ class UserACL extends Model implements
                 $modulo->orden = "{$modulo->app->orden}-{$modulo->orden}";
                 $modulo->selected = false;
 
-                return $modulo;
+                return (object) $modulo->toArray();
             })
             ->sort(function ($elem1, $elem2) {
                 return $elem1->orden < $elem2->orden ? -1 : 1;
