@@ -1,7 +1,7 @@
 <x-layout.app>
 
     <!-- ------------------------- CARDS ------------------------- -->
-    <x-orm.cards-container :cards="$cards" />
+    <x-orm.cards-container :cards="$resource->renderCards(request())" />
 
     <!-- ------------------------- LABEL ------------------------- -->
     <x-orm.title>

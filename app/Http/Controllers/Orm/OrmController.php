@@ -64,12 +64,18 @@ class OrmController extends Controller
      * @param  Request $request
      * @return Resource
      */
-    protected function getResource(string $resourceName = ''): Resource
+    protected function getResource(string $resourceName = '', $resourceId = null): Resource
     {
-        return $this->menuModulo->first(function ($resource) use ($resourceName) {
+        $resource = $this->menuModulo->first(function ($resource) use ($resourceName) {
             return $resource->getName() === $resourceName;
         })
         ?? $this->menuModulo->first();
+
+        if ($resourceId) {
+            return $resource->findOrFail($resourceId);
+        }
+
+        return $resource;
     }
 
     /**
@@ -124,10 +130,10 @@ class OrmController extends Controller
      */
     public function index(Request $request, string $resourceClass = '')
     {
-        $resource = $this->getResource($resourceClass)->makePaginatedResources($request);
-        $cards = $resource->renderCards($request);
+        $resource = $this->getResource($resourceClass)
+            ->makePaginatedResources($request);
 
-        return view('orm.list', compact('resource', 'cards'));
+        return view('orm.list', compact('resource'));
     }
 
 
@@ -141,7 +147,7 @@ class OrmController extends Controller
     public function create(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass)
-            ->formFields($request);
+            ->resolveFormFields($request);
 
         return view('orm.create', compact('resource'));
     }
@@ -156,21 +162,17 @@ class OrmController extends Controller
     public function store(Request $request, string $resourceClass = '')
     {
         $resource = $this->getResource($resourceClass);
-        $validated = $this->validate($request, $resource->getValidation($request));
 
         $this->authorize('create', $resource->model());
+        $validated = $this->validate($request, $resource->getValidation($request));
 
         $resource->model()->create($validated);
 
         $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
-        $alertMessage = trans('orm.msg_save_ok', [
-            'nombre_modelo' => $resource->getLabel(),
-            'valor_modelo' => $resource->title(),
-        ]);
 
         return redirect()
             ->route($this->routeName . $nextRoute, [$resource->getName()])
-            ->with('alert_message', $alertMessage);
+            ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
     /**
@@ -183,8 +185,8 @@ class OrmController extends Controller
      */
     public function show(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrNew($modelId)
-            ->detailFields($request);
+        $resource = $this->getResource($resourceClass, $modelId)
+            ->resolveDetailFields($request);
 
         return view('orm.show', compact('resource', 'modelId'));
     }
@@ -199,8 +201,8 @@ class OrmController extends Controller
      */
     public function edit(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrNew($modelId)
-            ->formFields($request);
+        $resource = $this->getResource($resourceClass, $modelId)
+            ->resolveFormFields($request);
 
         return view('orm.edit', compact('resource', 'modelId'));
     }
@@ -215,22 +217,18 @@ class OrmController extends Controller
      */
     public function update(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrFail($modelId);
-        $this->validate($request, $resource->getValidation($request));
+        $resource = $this->getResource($resourceClass, $modelId);
 
         $this->authorize('update', $resource->model());
+        $this->validate($request, $resource->getValidation($request));
 
         $resource->update($request, $modelId);
 
         $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
-        $alertMessage = trans('orm.msg_save_ok', [
-            'nombre_modelo' => $resource->getLabel(),
-            'valor_modelo' => $resource->title($request),
-        ]);
 
         return redirect()
             ->route($this->routeName . $nextRoute, [$resource->getName(), $modelId])
-            ->with('alert_message', $alertMessage);
+            ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
     /**
@@ -243,20 +241,15 @@ class OrmController extends Controller
      */
     public function destroy(Request $request, string $resourceClass = '', string $modelId = '')
     {
-        $resource = $this->getResource($resourceClass)->findOrFail($modelId);
+        $resource = $this->getResource($resourceClass, $modelId);
 
         $this->authorize('delete', $resource->model());
 
         $resource->model()->destroy($modelId);
 
-        $alertMessage = trans('orm.msg_delete_ok', [
-            'nombre_modelo' => $resource->getLabel(),
-            'valor_modelo' => $resource->title($request)
-        ]);
-
         return redirect()
             ->route("{$this->routeName}.index", [$resource->getName()])
-            ->with('alert_message', $alertMessage);
+            ->with('alert_message', $this->alertMessage('orm.msg_delete_ok', $resource, $request));
     }
 
     /**
@@ -270,5 +263,13 @@ class OrmController extends Controller
     {
         return $this->getResource($resourceClass)
             ->getModelAjaxFormOptions($request);
+    }
+
+    protected function alertMessage(string $message, Resource $resource, Request $request): string
+    {
+        return trans($message, [
+            'nombre_modelo' => $resource->getLabel(),
+            'valor_modelo' => $resource->title($request),
+        ]);
     }
 }

@@ -59,7 +59,7 @@ trait PaginatesResources
         $this->resourceList = $this->paginator($request)
             ->getCollection()
             ->mapInto($this)
-            ->map->indexFields($request);
+            ->map->resolveIndexFields($request);
 
         return $this;
     }

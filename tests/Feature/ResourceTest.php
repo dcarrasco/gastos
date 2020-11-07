@@ -132,7 +132,7 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(
             collect([$this->model->id, $this->model->nombre]),
-            $this->resource->indexFields($request)->getFields()->map(function ($field) {
+            $this->resource->resolveIndexFields($request)->getFields()->map(function ($field) {
                 return $field->value();
             })
         );
@@ -144,7 +144,7 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(
             collect([$this->model->id, $this->model->nombre, $this->model->username]),
-            $this->resource->detailFields($request)->getFields()->map(function ($field) {
+            $this->resource->resolveDetailFields($request)->getFields()->map(function ($field) {
                 return $field->value();
             })
         );
@@ -158,7 +158,7 @@ class ResourceTest extends TestCase
         $request = $this->makeMock(Request::class, ['session']);
         $request->expects($this->any())->method('session')->willReturn($session);
 
-        $this->assertEquals(2, $this->resource->formFields($request)->getFields()->count());
+        $this->assertEquals(2, $this->resource->resolveFormFields($request)->getFields()->count());
     }
 
     public function testGetValidation()

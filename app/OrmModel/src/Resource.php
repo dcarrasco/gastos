@@ -134,7 +134,7 @@ abstract class Resource
      * @param  Request $request
      * @return Resource
      */
-    public function indexFields(Request $request): Resource
+    public function resolveIndexFields(Request $request): Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnIndex()
@@ -150,7 +150,7 @@ abstract class Resource
      * @param  Request $request
      * @return Resource
      */
-    public function detailFields(Request $request): Resource
+    public function resolveDetailFields(Request $request): Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnDetail()
@@ -165,7 +165,7 @@ abstract class Resource
      * @param  Request $request
      * @return Resource
      */
-    public function formFields(Request $request): Resource
+    public function resolveFormFields(Request $request): Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnForm()
