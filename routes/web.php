@@ -1,6 +1,15 @@
 <?php
 
+use App\Http\Controllers\Gastos\Ingreso;
+use App\Http\Controllers\Gastos\Reporte;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Orm\OrmController;
+use App\Http\Controllers\Acl\LoginController;
+use App\Http\Controllers\Gastos\IngresoMasivo;
+use App\Http\Controllers\Gastos\IngresoInversion;
+use App\Http\Controllers\Gastos\ReporteTotalGastos;
+use App\Http\Controllers\Acl\ConfigController as AclConfigController;
+use App\Http\Controllers\Gastos\ConfigController as GastosConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,42 +26,43 @@ Route::get('/', function () {
     return redirect(route('login'));
 });
 
+Auth::routes();
+
 // ACL Config
-OrmController::routes('acl');
+OrmController::routes('acl', AclConfigController::class);
 
 // Gastos Config
-OrmController::routes('gastos');
+OrmController::routes('gastos', GastosConfigController::class);
 
 // Gastos
-Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'namespace' => 'Gastos', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', 'Ingreso@index')->name('showMes');
-    Route::post('ingresar', 'Ingreso@store')->name('addGasto');
-    Route::delete('ingresar/{gasto}', 'Ingreso@destroy')->name('borrarGasto');
+    Route::get('ingresar', [Ingreso::class, 'index'])->name('showMes');
+    Route::post('ingresar', [Ingreso::class, 'store'])->name('addGasto');
+    Route::delete('ingresar/{gasto}', [Ingreso::class, 'destroy'])->name('borrarGasto');
 
-    Route::get('reporte', 'Reporte@index')->name('reporte');
-    Route::get('reporte/detalle', 'Reporte@show')->name('detalle');
-    Route::get('reporte-total-gastos', 'ReporteTotalGastos@index')->name('reporteTotalGastos');
+    Route::get('reporte', [Reporte::class, 'index'])->name('reporte');
+    Route::get('reporte/detalle', [Reporte::class, 'show'])->name('detalle');
+    Route::get('reporte-total-gastos', [ReporteTotalGastos::class, 'index'])->name('reporteTotalGastos');
 
-    Route::any('ingreso-masivo', 'IngresoMasivo@index')->name('ingresoMasivo');
-    Route::post('ingreso-masivo-add', 'IngresoMasivo@store')->name('ingresoMasivoAdd');
+    Route::any('ingreso-masivo', [IngresoMasivo::class, 'index'])->name('ingresoMasivo');
+    Route::post('ingreso-masivo-add', [IngresoMasivo::class, 'store'])->name('ingresoMasivoAdd');
 
-    Route::get('inversion', 'IngresoInversion@index')->name('ingresoInversion');
-    Route::post('inversion', 'IngresoInversion@store')->name('addInversion');
-    Route::delete('inversion/{gasto}', 'IngresoInversion@destroy')->name('borrarInversion');
+    Route::get('inversion', [IngresoInversion::class, 'index'])->name('ingresoInversion');
+    Route::post('inversion', [IngresoInversion::class, 'store'])->name('addInversion');
+    Route::delete('inversion/{gasto}', [IngresoInversion::class, 'destroy'])->name('borrarInversion');
 });
 
 // ACL
-Route::group(['prefix' => 'acl', 'as' => 'acl.', 'namespace' => 'Acl'], function () {
-    Route::get('cambia-password/{usuario:username}', 'LoginController@showCambiaPassword')->name('cambiaPassword');
-    Route::post('cambia-password/{usuario:username}', 'LoginController@cambiaPassword')->name('cambiaPassword');
+Route::group(['prefix' => 'acl', 'as' => 'acl.'], function () {
+    Route::get('cambia-password/{usuario:username}', [LoginController::class, 'showCambiaPassword'])->name('cambiaPassword');
+    Route::post('cambia-password/{usuario:username}', [LoginController::class, 'cambiaPassword'])->name('cambiaPassword');
 });
 
-Auth::routes();
 
 Route::group(['prefix' => 'home', 'as' => 'home.', 'middleware' => 'auth'], function () {
-    Route::get('', 'HomeController@index')->name('index');
-    Route::get('ajaxCard', 'HomeController@ajaxCard')->name('ajaxCard');
+    Route::get('', [HomeController::class, 'index'])->name('index');
+    Route::get('ajaxCard', [HomeController::class, 'ajaxCard'])->name('ajaxCard');
 });
 
 // DB::listen(function ($query) {
