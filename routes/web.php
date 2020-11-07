@@ -59,7 +59,6 @@ Route::group(['prefix' => 'acl', 'as' => 'acl.'], function () {
     Route::post('cambia-password/{usuario:username}', [LoginController::class, 'cambiaPassword'])->name('cambiaPassword');
 });
 
-
 Route::group(['prefix' => 'home', 'as' => 'home.', 'middleware' => 'auth'], function () {
     Route::get('', [HomeController::class, 'index'])->name('index');
     Route::get('ajaxCard', [HomeController::class, 'ajaxCard'])->name('ajaxCard');

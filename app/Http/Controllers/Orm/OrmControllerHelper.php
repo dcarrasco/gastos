@@ -44,10 +44,9 @@ trait OrmControllerHelper
 
         $prefix = "{$modulo}-config";
         $as = "{$modulo}Config.";
-        $namespace = ucfirst($modulo);
 
         Route::group(
-            ['prefix' => $prefix, 'as' => $as, 'namespace' => $namespace, 'middleware' => 'auth'],
+            ['prefix' => $prefix, 'as' => $as, 'middleware' => 'auth'],
             function () use ($controllerClass) {
                 Route::get('ajaxCard', [$controllerClass, 'ajaxCard'])->name('ajaxCard');
                 Route::get('{modelName?}', [$controllerClass, 'index'])->name('index');
