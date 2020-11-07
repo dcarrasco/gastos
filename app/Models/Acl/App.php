@@ -14,6 +14,6 @@ class App extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_app');
+        $this->table = 'acl_app';
     }
 }

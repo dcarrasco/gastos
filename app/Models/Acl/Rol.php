@@ -15,7 +15,7 @@ class Rol extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_rol');
+        $this->table = 'acl_rol';
     }
 
     public function app()
@@ -25,7 +25,7 @@ class Rol extends Model
 
     public function modulo()
     {
-        return $this->belongsToMany(Modulo::class, config('invfija.bd_rol_modulo'))
+        return $this->belongsToMany(Modulo::class, 'acl_rol_modulo')
             ->withPivot('abilities')
             ->withTimestamps();
     }

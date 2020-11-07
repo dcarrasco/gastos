@@ -14,7 +14,7 @@ class Modulo extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_modulos');
+        $this->table = 'acl_modulo';
     }
 
     public function app()

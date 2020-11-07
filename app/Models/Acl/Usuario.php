@@ -19,12 +19,12 @@ class Usuario extends UserACL
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->table = config('invfija.bd_usuarios');
+        $this->table = 'acl_usuarios';
     }
 
     public function rol()
     {
-        return $this->belongsToMany(Rol::class, config('invfija.bd_usuario_rol'))->withTimestamps();
+        return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
     }
 
     public function getFirstName()
