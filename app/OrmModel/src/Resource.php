@@ -63,9 +63,7 @@ abstract class Resource
      */
     public function getName(): string
     {
-        $fullName = explode("\\", get_class($this));
-
-        return array_pop($fullName);
+        return class_basename($this);
     }
 
     /**
