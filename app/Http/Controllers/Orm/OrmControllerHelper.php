@@ -41,7 +41,6 @@ trait OrmControllerHelper
     public static function routes(string $modulo, string $controllerClass)
     {
         $modulo = strtolower($modulo);
-
         $prefix = "{$modulo}-config";
         $as = "{$modulo}Config.";
 
