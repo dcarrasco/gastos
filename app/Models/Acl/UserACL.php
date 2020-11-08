@@ -53,7 +53,7 @@ class UserACL extends Model implements
 
     protected function setSelectedMenu(Collection $menuApp): Collection
     {
-        $currentRoute = config('invfija.'.str_replace('.', '_', Route::currentRouteName()));
+        $currentRoute = config('invfija.'.str_replace('.', '_', Route::currentRouteName()), Route::currentRouteName());
 
         return $menuApp->map(function ($modulo) use ($currentRoute) {
             $modulo->selected = ($modulo->url === $currentRoute);
