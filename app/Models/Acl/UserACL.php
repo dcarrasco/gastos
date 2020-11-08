@@ -42,14 +42,12 @@ class UserACL extends Model implements
         return $this->rol
             ->flatMap->modulo
             ->map(function ($modulo) {
-                $modulo->orden = "{$modulo->app->orden}-{$modulo->orden}";
-                $modulo->selected = false;
-
-                return (object) $modulo->toArray();
+                return (object) $modulo
+                    ->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
+                    ->setAttribute('selected', false)
+                    ->toArray();
             })
-            ->sort(function ($elem1, $elem2) {
-                return $elem1->orden < $elem2->orden ? -1 : 1;
-            })
+            ->sortBy('orden')
             ->values();
     }
 
