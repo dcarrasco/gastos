@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Orm;
 
-use Route;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\Filters\PerPage;
+use Illuminate\Support\Facades\Route;
 
 trait OrmControllerHelper
 {
@@ -81,9 +81,11 @@ trait OrmControllerHelper
      * Agrega variables a desplegar en vistas
      * @return
      */
-    protected function makeView()
+    protected function makeView(Request $request)
     {
-        $selectedResource = Route::input('modelName') ?? $this->menuModulo->first()->getName();
+        $selectedResource = $request->route()
+            ? ($request->route('modelName') ?? $this->menuModulo->first()->getName())
+            : '';
 
         view()->share('perPageFilter', new PerPage());
         view()->share('menuModulo', $this->makeMenuModuloURL($selectedResource));

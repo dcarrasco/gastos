@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Orm;
 
-use Route;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\Http\Controllers\Controller;
 
 class OrmController extends Controller
@@ -17,7 +15,7 @@ class OrmController extends Controller
     protected $menuModulo = [];
 
 
-    public function __construct(Route $router)
+    public function __construct(Request $request)
     {
         if (empty($this->routeName)) {
             throw new \Exception("El parametro routeName no esta definido");
@@ -28,7 +26,7 @@ class OrmController extends Controller
                 return new $resource();
             });
 
-        $this->makeView();
+        $this->makeView($request);
     }
 
     /**
