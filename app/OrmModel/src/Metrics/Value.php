@@ -5,7 +5,6 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use Illuminate\Support\Facades\Route;
 
 abstract class Value extends Metric
 {

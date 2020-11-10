@@ -2,8 +2,8 @@
 
 namespace App\Models\Acl;
 
-use Route;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Auth\Authenticatable;
@@ -28,13 +28,13 @@ class UserACL extends Model implements
         return $query->where('username', $username);
     }
 
-    public function getMenuApp(): Collection
+    public function getMenuApp(Request $request): Collection
     {
         if (!session()->has('menuapp')) {
             session(['menuapp' => $this->getMenuAppFromDB()]);
         }
 
-        return $this->setSelectedMenu(session('menuapp'));
+        return $this->setSelectedMenu($request, session('menuapp'));
     }
 
     protected function getMenuAppFromDB(): Collection
@@ -51,9 +51,12 @@ class UserACL extends Model implements
             ->values();
     }
 
-    protected function setSelectedMenu(Collection $menuApp): Collection
+    protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
-        $currentRoute = config('invfija.'.str_replace('.', '_', Route::currentRouteName()), Route::currentRouteName());
+        $currentRoute = config(
+            'invfija.'.str_replace('.', '_', $request->route()->getName()),
+            $request->route()->getName()
+        );
 
         return $menuApp->map(function ($modulo) use ($currentRoute) {
             $modulo->selected = ($modulo->url === $currentRoute);
@@ -62,9 +65,9 @@ class UserACL extends Model implements
         });
     }
 
-    public function moduloAppName(): HtmlString
+    public function moduloAppName(Request $request): HtmlString
     {
-        return is_null($elem = $this->getMenuApp()->first->selected)
+        return is_null($elem = $this->getMenuApp($request)->first->selected)
             ? new HtmlString('')
             : new HtmlString("<i class=\"fa fa-{$elem->icono} fa-fw\"></i>&nbsp;{$elem->modulo}");
     }

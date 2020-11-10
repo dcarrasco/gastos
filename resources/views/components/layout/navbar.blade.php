@@ -7,7 +7,7 @@
 
     <div class="col-span-4 flex justify-between items-center border-b px-8">
         <div class="text-lg">
-            {{ auth()->user()->moduloAppName() }}
+            {{ auth()->user()->moduloAppName(request()) }}
         </div>
 
         <div class="">

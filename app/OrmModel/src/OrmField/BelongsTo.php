@@ -59,7 +59,7 @@ class BelongsTo extends Relation
             'id' => $foreignKeyName,
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'placeholder' => '&mdash;',
-            'onchange' => $this->hasOnChange() ? $this->makeOnChange($foreignKeyName) : '',
+            'onchange' => $this->hasOnChange() ? $this->makeOnChange($request, $foreignKeyName) : '',
         ])->render());
     }
 
@@ -69,10 +69,10 @@ class BelongsTo extends Relation
      * @param string $field
      * @return HtmlString
      */
-    protected function makeOnChange(string $field): HtmlString
+    protected function makeOnChange(Request $request, string $field): HtmlString
     {
-        $route = \Route::currentRouteName();
-        list($routeName, $routeAction) = explode('.', $route);
+        list($routeName, $routeAction) = explode('.', $request->route()->getName());
+
         if (!is_array($this->onChange)) {
             $this->onChange = [
                 'resource' => ucfirst($this->onChange),

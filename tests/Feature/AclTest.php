@@ -7,12 +7,21 @@ use App\Models\Acl\App;
 use App\Models\Acl\Rol;
 use App\Models\Acl\Modulo;
 use App\Models\Acl\Usuario;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AclTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function makeMock(string $class, array $methods)
+    {
+        return $this->getMockBuilder($class)
+            ->disableOriginalConstructor()
+            ->setMethods($methods)
+            ->getMock();
+    }
 
     /**
      * A basic feature test example.
@@ -29,7 +38,11 @@ class AclTest extends TestCase
         $usuario->rol()->attach([1]);
         $rol->modulo()->attach([1,2,3,4,5]);
 
-        $menuApp = $usuario->getMenuApp();
+        $request = $this->makeMock(Request::class, ['route', 'getName']);
+        $request->expects($this->any())->method('route')->willReturn($request);
+        $request->expects($this->any())->method('getName')->willReturn('name');
+
+        $menuApp = $usuario->getMenuApp($request);
 
         $this->assertEquals(
             $menuApp->pluck('llave_modulo')->sort()->values(),

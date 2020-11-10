@@ -63,10 +63,10 @@ class BelongsToTest extends TestCase
 
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, []);
-
-        \Route::shouldReceive('currentRouteName')
-            ->andReturn('url1.url2');
+        $request = $this->makeMock(Request::class, ['route', 'getName', 'has']);
+        $request->expects($this->any())->method('route')->willReturn($request);
+        $request->expects($this->any())->method('getName')->willReturn('name.action');
+        $request->expects($this->any())->method('has')->willReturn(false);
 
         \URL::shouldReceive('route')
             ->andReturn('url1');
