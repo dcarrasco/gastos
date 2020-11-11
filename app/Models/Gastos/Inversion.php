@@ -3,6 +3,7 @@
 namespace App\Models\Gastos;
 
 use App\Models\Gastos\Gasto;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class Inversion
@@ -44,6 +45,13 @@ class Inversion
     public function util(Gasto $saldo): int
     {
         return $saldo->monto - $this->getSumMovimientos($saldo);
+    }
+
+    public function ultimoSaldo(Carbon $fecha): Gasto
+    {
+        return $this->saldos()
+            ->filter->isBeforeDate($fecha)
+            ->last() ?? new Gasto;
     }
 
     public function evolUtil(): Collection
