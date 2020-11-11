@@ -20,11 +20,7 @@ class EvolUtilInversiones extends Trend
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
             ->map(function ($saldo, $fechaSaldo) use ($movimientos) {
-                $montoMovimientos = $movimientos->last(function ($monto, $fechaMovimiento) use ($fechaSaldo) {
-                    return $fechaMovimiento <= $fechaSaldo;
-                });
-
-                return $saldo - $montoMovimientos;
+                return $saldo - $movimientos->filter->isBeforeDate(now()->create($fechaSaldo))->last()->monto;
             });
     }
 
@@ -51,15 +47,12 @@ class EvolUtilInversiones extends Trend
             ->map->format('Y-m-d')
             ->sort()
             ->unique()
-            ->map(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
-                return [
-                    'fecha' => $fecha,
-                    'montoMovimientos' => $movimientos->filter(function ($movimiento) use ($fecha, $timeColumn) {
-                        return $movimiento->{$timeColumn}->format('Y-m-d') <= $fecha;
-                    })->sum($sumColumn)
+            ->mapWithKeys(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
+                return [$fecha => (new Gasto)->model()
+                    ->setAttribute('fecha', $fecha)
+                    ->setAttribute('monto', $movimientos->filter->isBeforeDate(now()->create($fecha), $timeColumn)->sum($sumColumn))
                 ];
-            })
-            ->pluck('montoMovimientos', 'fecha');
+            });
     }
 
     public function ranges(): array

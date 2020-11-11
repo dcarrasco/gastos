@@ -30,9 +30,7 @@ class UtilInversiones extends Value
                 $inversion = new Inversion($cuenta, $fechaHasta->year);
 
                 $ultimoSaldo = $inversion->saldos()
-                    ->filter(function ($saldo) use ($fechaHasta) {
-                        return $saldo->fecha <= $fechaHasta;
-                    })
+                    ->filter->isBeforeDate($fechaHasta)
                     ->last() ?? new Gasto;
 
                 return $inversion->util($ultimoSaldo);

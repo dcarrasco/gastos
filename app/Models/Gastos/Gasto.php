@@ -99,6 +99,11 @@ class Gasto extends Model
         });
     }
 
+    public function isBeforeDate(Carbon $date, $dateField = 'fecha'): bool
+    {
+        return $this->{$dateField} <= $date;
+    }
+
     public static function detalleMovimientosMes(int $cuentaId, int $anno, int $mes, int $tipoGastoId): EloquentCollection
     {
         return static::with('tipoGasto', 'tipoMovimiento')

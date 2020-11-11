@@ -36,9 +36,7 @@ class Inversion
     protected function getSumMovimientos(Gasto $saldo): int
     {
         return $this->movimientos
-            ->filter(function ($movimiento) use ($saldo) {
-                return $movimiento->fecha <= $saldo->fecha;
-            })
+            ->filter->isBeforeDate($saldo->fecha)
             ->map->valor_monto
             ->sum();
     }
