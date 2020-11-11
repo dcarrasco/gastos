@@ -29,7 +29,9 @@ class GlosaTipoGasto extends Resource
             BelongsTo::make('Cuenta', 'cuenta', Cuenta::class)
                 ->rules('required'),
 
-            Text::make('Glosa')->sortable()->rules('max:200', 'required', 'unique'),
+            Text::make('Glosa')
+                ->sortable()
+                ->rules('max:200', 'required', 'unique'),
 
             BelongsTo::make('Tipo de Gasto', 'tipoGasto', TipoGasto::class)
                 ->rules('required'),

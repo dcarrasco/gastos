@@ -31,12 +31,14 @@ class TipoMovimiento extends Resource
                 ->sortable()
                 ->rules('max:50', 'required', 'unique'),
 
-            Select::make('Signo')->options([
-                '1' => 'Positivo',
-                '-1' => 'Negativo',
-            ]),
+            Select::make('Signo')
+                ->options([
+                    '1' => 'Positivo',
+                    '-1' => 'Negativo',
+                ]),
 
-            Number::make('Orden')->rules('required'),
+            Number::make('Orden')
+                ->rules('required'),
         ];
     }
 }

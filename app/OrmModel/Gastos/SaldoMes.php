@@ -35,14 +35,21 @@ class SaldoMes extends Resource
             BelongsTo::make('Cuenta', 'cuenta', Cuenta::class)
                 ->rules('required'),
 
-            Number::make('Año', 'anno')->sortable()->rules('required'),
+            Number::make('Año', 'anno')
+                ->sortable()
+                ->rules('required'),
 
-            Number::make('Mes')->sortable()->rules('required'),
+            Number::make('Mes')
+                ->sortable()
+                ->rules('required'),
 
-            Currency::make('Saldo inicial')->sortable()->rules('required'),
+            Currency::make('Saldo inicial')
+                ->sortable()
+                ->rules('required'),
 
-            Currency::make('Saldo final')->sortable()->rules('required'),
-
+            Currency::make('Saldo final')
+                ->sortable()
+                ->rules('required'),
         ];
     }
 }

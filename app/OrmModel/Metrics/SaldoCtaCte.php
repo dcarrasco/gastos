@@ -32,12 +32,10 @@ class SaldoCtaCte extends Value
         return (optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto');
     }
 
-
     protected function filter(Request $request, Builder $query): Builder
     {
         return $query->where('cuenta_id', 1);
     }
-
 
     public function ranges(): array
     {
