@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Gasto;
 
+use App\Models\Gastos\Gasto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddInversionRequest extends FormRequest
@@ -13,7 +14,7 @@ class AddInversionRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return auth()->user()->can('create', Gasto::class);
     }
 
     /**

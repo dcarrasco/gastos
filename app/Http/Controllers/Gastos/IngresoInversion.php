@@ -26,8 +26,6 @@ class IngresoInversion extends Controller
 
     public function store(AddInversionRequest $request)
     {
-        $this->authorize('create', Gasto::class);
-
         Gasto::createInversion($request->validated());
 
         return redirect()->route('gastos.ingresoInversion', $request->only('cuenta_id', 'anno'));
