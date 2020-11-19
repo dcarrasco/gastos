@@ -192,6 +192,6 @@ class MetricTest extends TestCase
             Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
-        $this->assertEquals('http://gastos.test/prefix/ajaxCard', $this->metric->urlRoute($request));
+        $this->assertEquals(config('app.url').'/prefix/ajaxCard', $this->metric->urlRoute($request));
     }
 }
