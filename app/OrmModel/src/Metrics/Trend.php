@@ -36,7 +36,7 @@ abstract class Trend extends Metric
      */
     protected function sum(Request $request, string $resource, string $unit, string $sumColumn, string $timeColumn): Collection
     {
-        return $this->aggregate($request, $resource, $unit, 'sum', $sumColumn, $timeColumn, $this->currentRange($request));
+        return $this->aggregate($request, $resource, $unit, 'sum', $sumColumn, $timeColumn);
     }
 
     /**
@@ -106,7 +106,7 @@ abstract class Trend extends Metric
      */
     protected function count(Request $request, string $resource, string $unit, string $timeColumn): Collection
     {
-        return $this->aggregate($request, $resource, $unit, 'count', '', $timeColumn, $this->currentRange($request));
+        return $this->aggregate($request, $resource, $unit, 'count', '', $timeColumn);
     }
 
     /**
