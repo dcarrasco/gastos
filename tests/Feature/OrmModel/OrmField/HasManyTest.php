@@ -52,6 +52,18 @@ class HasManyTest extends TestCase
         $this->assertStringContainsString('<ul><li>', $this->field->getFormattedValue($user, $request));
     }
 
+    public function testGetFormattedValueWithAttributes()
+    {
+        $request = $this->makeMock(Request::class, []);
+        $roles = Rol::factory(5)->create();
+        $user = Usuario::factory()->create();
+        $user->rol()->sync($roles);
+
+        $this->field->relationField('abilities', '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}');
+
+        $this->assertStringContainsString('<table', $this->field->getFormattedValue($user, $request));
+    }
+
     public function testGetFormattedValueEmpty()
     {
         $request = $this->makeMock(Request::class, []);
@@ -70,6 +82,24 @@ class HasManyTest extends TestCase
 
         $userResource = new \App\OrmModel\Acl\Usuario($user);
 
+        $this->assertStringContainsString('<select', $this->field->getForm($request, $userResource));
+        $this->assertStringContainsString($roles[0]->rol, $this->field->getForm($request, $userResource));
+        $this->assertStringContainsString($roles[1]->rol, $this->field->getForm($request, $userResource));
+        $this->assertStringContainsString($roles[2]->rol, $this->field->getForm($request, $userResource));
+    }
+
+    public function testGetFormWithAttributes()
+    {
+        $request = $this->makeMock(Request::class, []);
+        $roles = Rol::factory(3)->create();
+        $user = Usuario::factory()->create();
+        $user->rol()->sync($roles);
+
+        $userResource = new \App\OrmModel\Acl\Usuario($user);
+
+        $this->field->relationField('abilities', '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}');
+
+        $this->assertStringContainsString('<table', $this->field->getForm($request, $userResource));
         $this->assertStringContainsString('<select', $this->field->getForm($request, $userResource));
         $this->assertStringContainsString($roles[0]->rol, $this->field->getForm($request, $userResource));
         $this->assertStringContainsString($roles[1]->rol, $this->field->getForm($request, $userResource));

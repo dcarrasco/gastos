@@ -26,6 +26,14 @@ class Id extends Field
         $this->showOnForm = false;
     }
 
+    public function esIncrementing(bool $esIncrementing = true): Id
+    {
+        $this->esIncrementing = $esIncrementing;
+
+        return $this;
+    }
+
+
     /**
      * Devuelve elemento de formulario para el campo
      *

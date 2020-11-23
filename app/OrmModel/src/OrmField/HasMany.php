@@ -56,7 +56,7 @@ class HasMany extends Relation
      * @param  Collection $relatedResources
      * @return HtmlString
      */
-    public function getSimpleFormattedValue(Collection $relatedResources): HtmlString
+    protected function getSimpleFormattedValue(Collection $relatedResources): HtmlString
     {
         return new HtmlString("<ul><li>" . $relatedResources->map->title()->implode('</li><li>') . "</li></ul>");
     }
@@ -66,7 +66,7 @@ class HasMany extends Relation
      * @param  Collection $relatedResources
      * @return HtmlString
      */
-    public function getFormattedValueWithAttributes(Collection $relatedResources): HtmlString
+    protected function getFormattedValueWithAttributes(Collection $relatedResources): HtmlString
     {
         return new HtmlString($this->getAttributesTable($relatedResources));
     }

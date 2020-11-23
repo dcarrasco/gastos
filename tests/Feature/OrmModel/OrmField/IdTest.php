@@ -71,7 +71,8 @@ class IdTest extends TestCase
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
-        $this->assertStringContainsString('<p', $this->field->getForm($request, $resource));
+        $this->field->esIncrementing(false);
+
         $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('name="id"', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('value="valor1"', $this->field->getForm($request, $resource));
