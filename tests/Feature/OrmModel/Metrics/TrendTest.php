@@ -64,6 +64,16 @@ class TrendTest extends TestCase
         $this->assertEquals(4, $this->trend->countByYears($request, App::class)->last());
     }
 
+    public function testContent()
+    {
+        $this->assertIsString($this->trend->content($this->request)->toHtml());
+    }
+
+    public function testContentAjaxRequest()
+    {
+        $this->assertIsArray($this->trend->contentAjaxRequest($this->request));
+    }
+
     public function testContentScript()
     {
         $this->assertIsString($this->trend->contentScript($this->request)->toHtml());

@@ -85,6 +85,11 @@ class PartitionTest extends TestCase
         $this->assertArrayHasKey('script', $this->partition->content($this->request)->toHtml()->getData());
     }
 
+    public function testContentAjaxRequest()
+    {
+        $this->assertIsArray($this->partition->contentAjaxRequest($this->request));
+    }
+
     public function testContentScript()
     {
         $this->assertIsString($this->partition->contentScript($this->request)->toHtml());

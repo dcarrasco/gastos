@@ -197,4 +197,10 @@ class ValueTest extends TestCase
             'script' => new HtmlString(''),
         ], $value4->content($request)->toHtml()->getData());
     }
+
+    public function testContentAjaxRequest()
+    {
+        $request = $this->makeMock(Request::class, []);
+        $this->assertIsArray($this->value->contentAjaxRequest($request));
+    }
 }
