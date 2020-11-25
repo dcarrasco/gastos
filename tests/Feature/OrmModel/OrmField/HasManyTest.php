@@ -105,4 +105,9 @@ class HasManyTest extends TestCase
         $this->assertStringContainsString($roles[1]->rol, $this->field->getForm($request, $userResource));
         $this->assertStringContainsString($roles[2]->rol, $this->field->getForm($request, $userResource));
     }
+
+    public function testGetRelationFields()
+    {
+        $this->assertIsArray($this->field->getRelationFields());
+    }
 }

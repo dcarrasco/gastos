@@ -22,11 +22,6 @@ class Text extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        if ($resource->model()->getKeyName() === $this->attribute
-                    && !is_null($resource->model()->getKey())) {
-            $extraParam['readonly'] = 'readonly';
-        }
-
         return new HtmlString(view('orm.form-input', [
             'type' => 'text',
             'name' => $this->attribute,

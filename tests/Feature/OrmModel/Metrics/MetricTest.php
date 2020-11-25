@@ -134,6 +134,14 @@ class MetricTest extends TestCase
         $this->assertFalse($this->metric->hasUriKey('xxxxxxx'));
     }
 
+    public function testAjaxRequest()
+    {
+        $request = $this->makeMock(Request::class, []);
+
+        $this->assertIsArray($this->metric->ajaxRequest($request));
+    }
+
+
     // -------------------------------------------------------------------------
     // trait DisplayAsCard
     // -------------------------------------------------------------------------
