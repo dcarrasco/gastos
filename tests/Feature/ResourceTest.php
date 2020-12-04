@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Acl\Rol;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
@@ -10,6 +11,7 @@ use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\Filters\Filter;
 use Illuminate\Support\ViewErrorBag;
+use App\OrmModel\src\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -171,16 +173,19 @@ class ResourceTest extends TestCase
     public function testModelFormOptions()
     {
         $request = $this->makeMock(Request::class, ['all']);
-        $request->expects($this->any())->method('all')->willReturn(['elem' => ['a'=>1, 'b'=>2]]);
+        $request->expects($this->any())->method('all')->willReturn(['id' => [1, 2]]);
 
-        $user1 = Usuario::factory()->make();
-        $user2 = Usuario::factory()->make();
+        $user2 = Usuario::factory()->create();
+        $user3 = Usuario::factory()->create();
+        $usuarioResource = new \App\OrmModel\Acl\Usuario();
 
-        $builder = $this->makeMock(QueryBuilder::class, ['get']);
-        $builder->expects($this->any())->method('get')->willReturn(collect([$user1, $user2]));
+        $this->assertTrue($usuarioResource->getModelFormOptions($request)->has(1));
+        $this->assertTrue($usuarioResource->getModelFormOptions($request)->has(2));
+        $this->assertFalse($usuarioResource->getModelFormOptions($request)->has(3));
 
-        $this->assertIsObject($this->resource->getModelFormOptions($request));
-        $this->assertEquals('', $this->resource->getModelAjaxFormOptions($request));
+        $this->assertStringContainsString($this->model->nombre, $this->resource->getModelAjaxFormOptions($request));
+        $this->assertStringContainsString($user2->nombre, $this->resource->getModelAjaxFormOptions($request));
+        $this->assertStringNotContainsString($user3->nombre, $this->resource->getModelAjaxFormOptions($request));
     }
 
     // =========================================================================
@@ -264,6 +269,67 @@ class ResourceTest extends TestCase
         $this->assertEquals($nombreOriginal, Usuario::first()->nombre);
         $this->assertEquals($nuevoNombre, $this->resource->update($request)->model()->nombre);
         $this->assertEquals($nuevoNombre, Usuario::first()->nombre);
+    }
+
+    public function testUpdateHasMany()
+    {
+        $roles = Rol::factory(4)->create();
+
+        $resource = new class($this->model) extends Resource {
+            public $model = 'App\Models\Acl\Usuario';
+            public $label = 'ResourceLabel';
+            public $title = 'nombre';
+            public $search = ['nombre', 'username'];
+            public $orderBy = 'campo';
+
+            public function fields(Request $request): array
+            {
+                return [
+                    Id::make(),
+                    Text::make('nombre')->rules('required'),
+                    Text::make('username')->hideFromIndex()->rules('required', 'max:100'),
+                    HasMany::make('rol', 'rol', Rol::class),
+                ];
+            }
+        };
+
+        $request = $this->makeMock(Request::class, ['all', 'input']);
+        $request->expects($this->any())->method('all')->willReturn(['nombre' => 'nuevoNombre']);
+        $request->expects($this->any())->method('input')
+            ->with($this->equalTo('rol'))
+            ->willReturn($this->onConsecutiveCalls([1, 2], [3, 4]));
+
+        $this->assertEquals(0, Usuario::first()->rol->count());
+
+        $resource->update($request);
+        $this->assertEquals([1, 2], Usuario::first()->rol->modelKeys());
+
+        $resource->update($request);
+        $this->assertEquals([3, 4], Usuario::first()->rol->modelKeys());
+    }
+
+    public function testUpdateHasManyWithAttributes()
+    {
+        $rol = \App\Models\Acl\Rol::factory()->create();
+        $modulos = \App\Models\Acl\Modulo::factory(2)->create();
+
+        $rolResource = new \App\OrmModel\Acl\Rol($rol);
+
+        $this->assertEquals(0, Rol::first()->modulo->count());
+
+        $request = $this->makeMock(Request::class, ['all', 'input']);
+        $request->expects($this->any())->method('all')->willReturn(['rol' => 'nuevoNombre']);
+        $request->expects($this->any())->method('input')->will($this->returnValueMap([
+            ['modulo', null, [1, 2]],
+            ['__delete-model__', null, null],
+            ['attributes:abilities:1', [], ['m1a', 'm1b']],
+            ['attributes:abilities:2', [], ['m2a']],
+        ]));
+
+        $rolResource->update($request);
+        $this->assertEquals(2, Rol::first()->modulo->count());
+        $this->assertEquals('["m1a","m1b"]', Rol::first()->modulo->first()->pivot->abilities);
+        $this->assertEquals('["m2a"]', Rol::first()->modulo->last()->pivot->abilities);
     }
 
     // =========================================================================
