@@ -69,7 +69,7 @@ class FilterTest extends TestCase
 
     public function testGetUrlParameter()
     {
-        $this->assertStringContainsString('filter_FilterTest', $this->filter->getUrlParameter());
+        $this->assertStringContainsString('filter_', $this->filter->getUrlParameter());
     }
 
     public function testIsActive()
