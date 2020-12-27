@@ -10,6 +10,8 @@ use App\OrmModel\src\OrmField\Field;
 
 class Textarea extends Field
 {
+    protected $defaultMaxLength = 500;
+
     /**
      * Devuelve elemento de formulario para el campo
      *
@@ -37,11 +39,10 @@ class Textarea extends Field
      */
     protected function getFieldLength(): int
     {
-        $maxRule = collect($this->rules)
-            ->first(function ($rule) {
-                return strpos($rule, 'max:') !== false;
-            });
+        $maxRule = collect($this->rules)->first(function ($rule) {
+            return strpos($rule, 'max:') !== false;
+        });
 
-        return substr($maxRule, strpos($maxRule, ':') + 1, strlen($maxRule));
+        return is_null($maxRule) ? $this->defaultMaxLength : (int) explode(':', $maxRule)[1];
     }
 }
