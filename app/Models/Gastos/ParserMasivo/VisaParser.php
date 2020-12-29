@@ -91,7 +91,7 @@ class VisaParser extends GastosParser
         );
     }
 
-    protected function esLineaValida(string $linea): boolean
+    protected function esLineaValida(string $linea): bool
     {
         return preg_match('/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]/', $linea) === 1;
     }
@@ -122,7 +122,7 @@ class VisaParser extends GastosParser
         return collect($linea)->only(range($indexIni, $indexFin))->implode(' ');
     }
 
-    protected function montosConSigno(Collection $linea): boolean
+    protected function montosConSigno(Collection $linea): bool
     {
         return strpos($linea->last(), '$') !== false;
     }
