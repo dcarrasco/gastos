@@ -139,7 +139,7 @@ class Gasto extends Model
             ->sum();
     }
 
-    protected function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
+    protected static function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
             ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
