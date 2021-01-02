@@ -99,7 +99,7 @@ class Gasto extends Model
         });
     }
 
-    public function isBeforeDate(Carbon $date, $dateField = 'fecha'): bool
+    public function isBeforeDate($date, $dateField = 'fecha'): bool
     {
         return $this->{$dateField} <= $date;
     }
