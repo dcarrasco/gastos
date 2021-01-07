@@ -110,7 +110,7 @@ abstract class Metric
      */
     protected function newResource(string $resource): Resource
     {
-        return new $resource;
+        return new $resource();
     }
 
     /**

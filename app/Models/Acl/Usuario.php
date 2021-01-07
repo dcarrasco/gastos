@@ -34,6 +34,6 @@ class Usuario extends UserACL
 
     public function avatarLink()
     {
-        return "https://secure.gravatar.com/avatar/".md5($this->email)."?size=24";
+        return "https://secure.gravatar.com/avatar/" . md5($this->email) . "?size=24";
     }
 }

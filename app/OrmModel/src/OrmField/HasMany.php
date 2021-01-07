@@ -79,17 +79,17 @@ class HasMany extends Relation
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
     {
-        $header = '<tr class="border bg-gray-100 px-2"><th class="text-left px-2 py-1">'.$this->name.'</th>'.
+        $header = '<tr class="border bg-gray-100 px-2"><th class="text-left px-2 py-1">' . $this->name . '</th>' .
             collect($this->relationFields)->map(function ($field) {
-                return '<th>'.collect($field['options'])->implode('</th><th>').'</th>';
+                return '<th>' . collect($field['options'])->implode('</th><th>') . '</th>';
             })->implode('')
-            .($edit ? '<th>Desasociar</th>' : '')
-            .'</tr>';
+            . ($edit ? '<th>Desasociar</th>' : '')
+            . '</tr>';
 
-        $body = '<tbody>'.
+        $body = '<tbody>' .
             $relatedResources->map(function ($resource) use ($edit) {
-                return '<tr class="border"><td class="px-2 py-1">'.$resource->title().'</td>'
-                    .collect($this->relationFields)->map(function ($relationDef, $relationName) use ($resource, $edit) {
+                return '<tr class="border"><td class="px-2 py-1">' . $resource->title() . '</td>'
+                    . collect($this->relationFields)->map(function ($relationDef, $relationName) use ($resource, $edit) {
                         return collect($relationDef['options'])->map(function ($option) use ($resource, $relationName, $edit) {
                             $selected = collect(json_decode($resource->model()->pivot->{$relationName}))->contains($option)
                                 ? 'checked'
@@ -100,12 +100,12 @@ class HasMany extends Relation
                             return "<td class=\"text-center\"><input type=\"checkbox\" name=\"attributes:{$relationName}:{$id}[]\" value=\"{$option}\" {$selected} {$editable}></td>";
                         })->implode('');
                     })->implode('')
-                    .($edit ? "<td class=\"text-center\"><input type=\"checkbox\" name=\"{$this->getDeleteModelField()}[]\" value=\"{$resource->model()->getKey()}\"><input type=\"hidden\" name=\"{$this->name}[]\" value=\"{$resource->model()->getKey()}\"></td>" : '')
-                    .'</tr>';
+                    . ($edit ? "<td class=\"text-center\"><input type=\"checkbox\" name=\"{$this->getDeleteModelField()}[]\" value=\"{$resource->model()->getKey()}\"><input type=\"hidden\" name=\"{$this->name}[]\" value=\"{$resource->model()->getKey()}\"></td>" : '')
+                    . '</tr>';
             })->implode('')
-            .'</body>';
+            . '</body>';
 
-        return '<table class="w-full border text-sm">'.$header.$body.'</table>';
+        return '<table class="w-full border text-sm">' . $header . $body . '</table>';
     }
 
     /**
@@ -149,7 +149,7 @@ class HasMany extends Relation
 
         return new HtmlString(
             $this->getAttributesTable($relatedResources, true)
-            .$this->availableResourcesForm($availableResources, $extraParam)
+            . $this->availableResourcesForm($availableResources, $extraParam)
         );
     }
 
@@ -162,8 +162,8 @@ class HasMany extends Relation
     protected function availableResourcesForm(Collection $availableResources, array $extraParam = []): string
     {
         return '<div class="py-2 flex flex-between">'
-            .'<span class="mr-2 p-2 whitespace-no-wrap">'.trans('orm.add_attribute_has_many')." {$this->name}</span>"
-            .view('orm.form-input', [
+            . '<span class="mr-2 p-2 whitespace-no-wrap">' . trans('orm.add_attribute_has_many') . " {$this->name}</span>"
+            . view('orm.form-input', [
                 'type' => 'select',
                 'name' => "{$this->name}[]",
                 'value' => '',
@@ -171,7 +171,7 @@ class HasMany extends Relation
                 'options' => $availableResources,
                 'placeholder' => '&mdash;',
             ])->render()
-            .'</div>';
+            . '</div>';
     }
 
     /**

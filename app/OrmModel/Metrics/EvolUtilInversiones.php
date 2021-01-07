@@ -32,7 +32,7 @@ class EvolUtilInversiones extends Trend
 
     protected function movimientosInversiones(Request $request, string $resource): Collection
     {
-        return (new $resource)->getModelQueryBuilder()
+        return (new $resource())->getModelQueryBuilder()
             ->noSaldos()
             ->whereIn('cuenta_id', $this->cuentasInversiones)
             ->whereBetween('fecha', $this->currentRange($request))
@@ -48,7 +48,7 @@ class EvolUtilInversiones extends Trend
             ->sort()
             ->unique()
             ->mapWithKeys(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
-                return [$fecha => (new Gasto)->model()
+                return [$fecha => (new Gasto())->model()
                     ->setAttribute('fecha', $fecha)
                     ->setAttribute('monto', $movimientos->filter->isBeforeDate(now()->create($fecha), $timeColumn)->sum($sumColumn))
                 ];

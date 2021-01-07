@@ -21,7 +21,7 @@ class IngresoMasivo extends Controller
     public function __construct(Request $request)
     {
         $this->parsers = collect($this->parsers)
-            ->map(fn($parser) => new $parser);
+            ->map(fn($parser) => new $parser());
 
         $this->cuentas = $this->parsers
             ->map->getCuenta()

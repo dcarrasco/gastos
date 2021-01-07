@@ -113,7 +113,7 @@ abstract class Resource
      */
     public function makeModelInstance(): Model
     {
-        return new $this->model;
+        return new $this->model();
     }
 
     /**
@@ -215,7 +215,7 @@ abstract class Resource
     {
         return $this->getModelFormOptions($request)
             ->map(function ($value, $key) {
-                return "<option value=\"{$key}\">".e($value)."</option>";
+                return "<option value=\"{$key}\">" . e($value) . "</option>";
             })
             ->implode('');
     }

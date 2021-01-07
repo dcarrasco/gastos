@@ -45,6 +45,6 @@ if (!function_exists('fmtMonto')) {
 
         $currencySymbol = empty($locale['currency_symbol']) ? '$' : $locale['currency_symbol'];
 
-        return new HtmlString($currencySymbol.'&nbsp;'.fmtCantidad($monto, 0));
+        return new HtmlString($currencySymbol . '&nbsp;' . fmtCantidad($monto, 0));
     }
 }

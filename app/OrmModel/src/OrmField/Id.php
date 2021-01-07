@@ -50,7 +50,7 @@ class Id extends Field
         if ($this->esIncrementing) {
             return new HtmlString(
                 "<p class=\"form-control-static\">{$value}</p>"
-                .view('orm.form-input', [
+                . view('orm.form-input', [
                     'type' => 'hidden',
                     'name' => $this->attribute,
                     'value' => $resource->model()->{$this->attribute},

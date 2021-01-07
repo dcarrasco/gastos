@@ -51,7 +51,7 @@ class Inversion
     {
         return $this->saldos()
             ->filter->isBeforeDate($fecha)
-            ->last() ?? new Gasto;
+            ->last() ?? new Gasto();
     }
 
     public function evolUtil(): Collection
@@ -71,13 +71,15 @@ class Inversion
 
     public function rentabilidadAnual(Gasto $saldoFinal): float
     {
-        if (empty($this->movimientos)
-                    or is_null($fechaIni = optional($this->movimientos->first())->fecha)
-                    or ($diasInversion = $fechaIni->diffInDays($saldoFinal->fecha)) == 0) {
+        if (
+            empty($this->movimientos)
+            or is_null($fechaIni = optional($this->movimientos->first())->fecha)
+            or ($diasInversion = $fechaIni->diffInDays($saldoFinal->fecha)) == 0
+        ) {
             return 0;
         }
 
-        return 100 * (pow(pow(1 + $this->rentabilidad($saldoFinal)/100, 1 / $diasInversion), 365) - 1);
+        return 100 * (pow(pow(1 + $this->rentabilidad($saldoFinal) / 100, 1 / $diasInversion), 365) - 1);
     }
 
     public function getJSONRentabilidadesAnual(): string
