@@ -34,20 +34,30 @@ class BackupDatabase extends Command
     {
         parent::__construct();
 
-        $today = now()->format('Y-m-d');
-
         if (!is_dir(storage_path($this->backupPath))) {
             mkdir(storage_path($this->backupPath));
         }
 
-        $this->process = Process::fromShellCommandline(sprintf(
-            'mysqldump --skip-add-drop-table --skip-add-locks --no-create-info --ignore-table=gastos.acl_app --ignore-table=gastos.acl_modulo --ignore-table=gastos.acl_rol --ignore-table=gastos.acl_rol_modulo --ignore-table=gastos.acl_usuario_rol --ignore-table=gastos.acl_usuarios --ignore-table=gastos.migrations --user=%s --password=%s %s > %s',
+        $this->process = Process::fromShellCommandline($this->processCommand());
+    }
+
+    protected function processCommand(): string
+    {
+        $today = now()->format('Y-m-d');
+
+        $processCommand = sprintf(
+            'mysqldump --skip-add-drop-table --skip-add-locks --no-create-info --ignore-table=gastos.acl_app --ignore-table=gastos.acl_modulo --ignore-table=gastos.acl_rol --ignore-table=gastos.acl_rol_modulo --ignore-table=gastos.acl_usuario_rol --ignore-table=gastos.acl_usuarios --ignore-table=gastos.migrations --user=%s --password=%s --host=%s --port=%s %s > %s',
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
+            config('database.connections.mysql.host'),
+            config('database.connections.mysql.port'),
             config('database.connections.mysql.database'),
             storage_path("{$this->backupPath}/{$today}.sql")
-        ));
+        );
+
+        return $processCommand;
     }
+
 
     /**
      * Execute the console command.
