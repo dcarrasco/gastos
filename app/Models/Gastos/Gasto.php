@@ -104,8 +104,12 @@ class Gasto extends Model
         return $this->{$dateField} <= $date;
     }
 
-    public static function detalleMovimientosMes(int $cuentaId, int $anno, int $mes, int $tipoGastoId): EloquentCollection
-    {
+    public static function detalleMovimientosMes(
+        int $cuentaId,
+        int $anno,
+        int $mes,
+        int $tipoGastoId
+    ): EloquentCollection {
         return static::with('tipoGasto', 'tipoMovimiento')
             ->cuentaAnnoMes($cuentaId, $anno, $mes)
             ->whereTipoGastoId($tipoGastoId)

@@ -96,8 +96,13 @@ abstract class Value extends Metric
      * @param  string  $function
      * @return array
      */
-    public function aggregate(Request $request, string $resource, string $sumColumn, string $timeColumn, string $function): array
-    {
+    public function aggregate(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn,
+        string $function
+    ): array {
         $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
 
         return [

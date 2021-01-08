@@ -11,10 +11,10 @@ use Illuminate\Support\HtmlString;
 
 abstract class Trend extends Metric
 {
-    const BY_DAYS = 'by_days';
-    const BY_MONTHS = 'by_months';
-    const BY_YEARS = 'by_years';
-    const BY_WEEKS = 'by_weeks';
+    protected const BY_DAYS = 'by_days';
+    protected const BY_MONTHS = 'by_months';
+    protected const BY_YEARS = 'by_years';
+    protected const BY_WEEKS = 'by_weeks';
 
     protected $filtraValoresEnCero = false;
 
@@ -34,8 +34,13 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function sum(Request $request, string $resource, string $unit, string $sumColumn, string $timeColumn): Collection
-    {
+    protected function sum(
+        Request $request,
+        string $resource,
+        string $unit,
+        string $sumColumn,
+        string $timeColumn
+    ): Collection {
         return $this->aggregate($request, $resource, $unit, 'sum', $sumColumn, $timeColumn);
     }
 
@@ -48,8 +53,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByDays(Request $request, string $resource, string $sumColumn, string $timeColumn = ''): Collection
-    {
+    public function sumByDays(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn = ''
+    ): Collection {
         return $this->sum($request, $resource, Trend::BY_DAYS, $sumColumn, $timeColumn);
     }
 
@@ -62,8 +71,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByWeeks(Request $request, string $resource, string $sumColumn, string $timeColumn = ''): Collection
-    {
+    public function sumByWeeks(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn = ''
+    ): Collection {
         return $this->sum($request, $resource, Trend::BY_WEEKS, $sumColumn, $timeColumn);
     }
 
@@ -76,8 +89,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByMonths(Request $request, string $resource, string $sumColumn, string $timeColumn = ''): Collection
-    {
+    public function sumByMonths(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn = ''
+    ): Collection {
         return $this->sum($request, $resource, Trend::BY_MONTHS, $sumColumn, $timeColumn);
     }
 
@@ -90,8 +107,12 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    public function sumByYears(Request $request, string $resource, string $sumColumn, string $timeColumn = ''): Collection
-    {
+    public function sumByYears(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn = ''
+    ): Collection {
         return $this->sum($request, $resource, Trend::BY_YEARS, $sumColumn, $timeColumn);
     }
 
@@ -246,15 +267,25 @@ abstract class Trend extends Metric
      * @param  string  $timeColumn
      * @return Collection
      */
-    protected function aggregate(Request $request, string $resource, string $unit, string $function, string $aggregateColumn, string $timeColumn): Collection
-    {
+    protected function aggregate(
+        Request $request,
+        string $resource,
+        string $unit,
+        string $function,
+        string $aggregateColumn,
+        string $timeColumn
+    ): Collection {
         $dateInterval = $this->currentRange($request);
         $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
-        $aggregateColumn = empty($aggregateColumn) ? $this->newResource($resource)->model()->getKeyName() : $aggregateColumn;
+        $aggregateColumn = empty($aggregateColumn)
+            ? $this->newResource($resource)->model()->getKeyName()
+            : $aggregateColumn;
         $selectDateExpression = $this->selectDateExpression($resource, $unit, $timeColumn);
 
         $results = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval)
-            ->select(DB::raw("{$selectDateExpression} as date_expression, {$function}({$aggregateColumn}) as aggregate"))
+            ->select(DB::raw(
+                "{$selectDateExpression} as date_expression, {$function}({$aggregateColumn}) as aggregate"
+            ))
             ->groupBy(DB::raw($selectDateExpression))
             ->pluck('aggregate', 'date_expression');
 

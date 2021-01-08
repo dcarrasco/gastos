@@ -39,8 +39,12 @@ class EvolUtilInversiones extends Trend
             ->get();
     }
 
-    protected function resumenMovimientos(Request $request, string $resource, string $sumColumn, string $timeColumn): Collection
-    {
+    protected function resumenMovimientos(
+        Request $request,
+        string $resource,
+        string $sumColumn,
+        string $timeColumn
+    ): Collection {
         $movimientos = $this->movimientosInversiones($request, $resource);
 
         return $movimientos->pluck($timeColumn)
@@ -50,7 +54,9 @@ class EvolUtilInversiones extends Trend
             ->mapWithKeys(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
                 return [$fecha => (new Gasto())->model()
                     ->setAttribute('fecha', $fecha)
-                    ->setAttribute('monto', $movimientos->filter->isBeforeDate(now()->create($fecha), $timeColumn)->sum($sumColumn))
+                    ->setAttribute('monto', $movimientos
+                        ->filter->isBeforeDate(now()->create($fecha), $timeColumn)
+                        ->sum($sumColumn))
                 ];
             });
     }

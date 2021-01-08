@@ -39,8 +39,13 @@ abstract class Partition extends Metric
      * @param  string  $relation
      * @return Collection
      */
-    public function sum(Request $request, string $resource, string $groupColumn, string $sumColumn, string $relation = ''): Collection
-    {
+    public function sum(
+        Request $request,
+        string $resource,
+        string $groupColumn,
+        string $sumColumn,
+        string $relation = ''
+    ): Collection {
         return $this->aggregate($request, $resource, $groupColumn, 'sum', $sumColumn, $relation);
     }
 
@@ -55,8 +60,14 @@ abstract class Partition extends Metric
      * @param  string  $relation
      * @return Collection
      */
-    protected function aggregate(Request $request, string $resource, string $groupColumn, string $function, string $sumColumn, string $relation): Collection
-    {
+    protected function aggregate(
+        Request $request,
+        string $resource,
+        string $groupColumn,
+        string $function,
+        string $sumColumn,
+        string $relation
+    ): Collection {
         return $this->newPartitionQuery($request, $resource, $relation)
             ->select(DB::raw("{$groupColumn} as label, {$function}({$sumColumn}) as aggregate"))
             ->groupBy($groupColumn)

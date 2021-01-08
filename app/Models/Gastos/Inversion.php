@@ -86,11 +86,16 @@ class Inversion
         return $this->saldos->count() == 0
             ? ''
             : json_encode([
-                    'label' => $this->saldos->pluck('fecha')->map->format('Y-m-d')->toArray(),
-                    'rentabilidad' => $this->saldos->map(function ($saldo) {
-                        return $this->rentabilidadAnual($saldo);
-                    })->toArray(),
-                    'saldo' => $this->saldos->pluck('monto')->toArray(),
+                    'label' => $this->saldos
+                        ->pluck('fecha')
+                        ->map->format('Y-m-d')
+                        ->toArray(),
+                    'rentabilidad' => $this->saldos
+                        ->map(fn($saldo) => $this->rentabilidadAnual($saldo))
+                        ->toArray(),
+                    'saldo' => $this->saldos
+                        ->pluck('monto')
+                        ->toArray(),
                 ]);
     }
 }

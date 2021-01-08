@@ -15,11 +15,11 @@ abstract class Metric
 {
     use DisplayAsCard;
 
-    const MONTH_TO_DATE = 'MTD';
-    const QUARTER_TO_DATE = 'QTD';
-    const YEAR_TO_DATE = 'YTD';
-    const CURRENT_MONTH = 'CURR_MONTH';
-    const LAST_MONTH = 'LAST_MONTH';
+    protected const MONTH_TO_DATE = 'MTD';
+    protected const QUARTER_TO_DATE = 'QTD';
+    protected const YEAR_TO_DATE = 'YTD';
+    protected const CURRENT_MONTH = 'CURR_MONTH';
+    protected const LAST_MONTH = 'LAST_MONTH';
 
 
     /**
@@ -37,7 +37,10 @@ abstract class Metric
             Metric::QUARTER_TO_DATE => [now()->firstOfQuarter(), now()],
             Metric::YEAR_TO_DATE    => [now()->startOfYear(), now()],
             Metric::CURRENT_MONTH   => [now()->startOfMonth(), now()->endOfMonth()],
-            Metric::LAST_MONTH      => [now()->modify('first day of last month')->startOfMonth(), now()->modify('first day of last month')->endOfMonth()],
+            Metric::LAST_MONTH      => [
+                now()->modify('first day of last month')->startOfMonth(),
+                now()->modify('first day of last month')->endOfMonth()
+            ],
         ]);
 
         if ($ranges->has($range)) {
@@ -58,11 +61,19 @@ abstract class Metric
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
         $ranges = collect([
-            Metric::MONTH_TO_DATE   => [now()->modify('first day of last month')->startOfMonth(), now()->modify('first day of last month')->month == now()->subMonth()->month ? now()->subMonth() : now()->modify('first day of last month')->endOfMonth()],
+            Metric::MONTH_TO_DATE   => [
+                now()->modify('first day of last month')->startOfMonth(),
+                now()->modify('first day of last month')->month == now()->subMonth()->month
+                    ? now()->subMonth()
+                    : now()->modify('first day of last month')->endOfMonth()
+            ],
             Metric::QUARTER_TO_DATE => [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()],
             Metric::YEAR_TO_DATE    => [now()->subYear()->startOfYear(), now()->subYear()],
             Metric::CURRENT_MONTH   => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
-            Metric::LAST_MONTH      => [now()->modify('first day of last month')->subMonth()->startOfMonth(), now()->modify('first day of last month')->subMonth()->endOfMonth()],
+            Metric::LAST_MONTH      => [
+                now()->modify('first day of last month')->subMonth()->startOfMonth(),
+                now()->modify('first day of last month')->subMonth()->endOfMonth()
+            ],
         ]);
 
         if ($ranges->has($range)) {

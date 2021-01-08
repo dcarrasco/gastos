@@ -45,8 +45,27 @@ class BackupDatabase extends Command
     {
         $today = now()->format('Y-m-d');
 
+        $ignoreTables = [
+            'gastos.acl_app',
+            'gastos.acl_modulo',
+            'gastos.acl_rol',
+            'gastos.acl_rol_modulo',
+            'gastos.acl_usuario_rol',
+            'gastos.acl_usuarios',
+            'gastos.migrations',
+            'gastos.sessions',
+        ];
+
+        $ignoreTablesCommand = collect($ignoreTables)
+            ->map(fn($table) => "--ignore-table={$table}")
+            ->implode(' ');
+
         $processCommand = sprintf(
-            'mysqldump --skip-add-drop-table --skip-add-locks --no-create-info --ignore-table=gastos.acl_app --ignore-table=gastos.acl_modulo --ignore-table=gastos.acl_rol --ignore-table=gastos.acl_rol_modulo --ignore-table=gastos.acl_usuario_rol --ignore-table=gastos.acl_usuarios --ignore-table=gastos.migrations --user=%s --password=%s --host=%s --port=%s %s > %s',
+            'mysqldump'
+                . ' --skip-add-drop-table --skip-add-locks --no-create-info %s'
+                . ' --user=%s --password=%s --host=%s --port=%s %s'
+                . ' > %s',
+            $ignoreTablesCommand,
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
             config('database.connections.mysql.host'),
