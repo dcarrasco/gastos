@@ -215,7 +215,8 @@ class HasMany extends Relation
     public function getAttributesForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
         $relatedResources = $this->getRelatedResources($resource->model());
-        $availableResources = collect($this->getRelationOptions($request, $resource, $this->relationConditions)->all())
+
+        $availableResources = $this->getRelationOptions($request, $resource, $this->relationConditions)
             ->except($relatedResources->map->model()->map->id);
 
         return new HtmlString(
@@ -234,7 +235,7 @@ class HasMany extends Relation
     {
         return '<div class="py-2 flex flex-between">'
             . '<span class="mr-2 p-2 whitespace-no-wrap">'
-            . trans('orm.add_attribute_has_many') . $this->name
+            . trans('orm.add_attribute_has_many') . ' ' . $this->name
             . "</span>"
             . view('orm.form-input', [
                 'type' => 'select',
@@ -257,6 +258,7 @@ class HasMany extends Relation
     {
         $type = json_decode($type, true);
         $fieldType = array_key_first($type);
+
         $this->relationFields[$field] = [
             'type' => $fieldType,
             'options' => $type[$fieldType]
