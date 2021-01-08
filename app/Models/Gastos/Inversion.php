@@ -71,8 +71,7 @@ class Inversion
 
     public function rentabilidadAnual(Gasto $saldoFinal): float
     {
-        if (
-            empty($this->movimientos)
+        if (empty($this->movimientos)
             or is_null($fechaIni = optional($this->movimientos->first())->fecha)
             or ($diasInversion = $fechaIni->diffInDays($saldoFinal->fecha)) == 0
         ) {

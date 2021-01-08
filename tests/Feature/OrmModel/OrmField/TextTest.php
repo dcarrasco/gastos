@@ -68,6 +68,5 @@ class TextTest extends TestCase
 
         $resource2 = $this->makeMock(Resource::class, ['model']);
         // $resource2->expects($this->any())->method('model')->willReturn($model2);
-
     }
 }

@@ -224,5 +224,4 @@ class FieldTest extends TestCase
 
         $this->assertEquals('required|unique:table_name,nombre_campo,value,id|max:10', $this->field->rules('required', 'unique', 'max:10')->getValidation($resource));
     }
-
 }
