@@ -27,7 +27,7 @@ class Textarea extends Field
             'name' => $this->attribute,
             'rows' => 5,
             'maxlength' => $this->getFieldLength(),
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
         ])->render());
     }

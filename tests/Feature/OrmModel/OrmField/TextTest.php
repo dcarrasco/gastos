@@ -40,8 +40,8 @@ class TextTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn('text value');
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn('text value');
 
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);
@@ -61,9 +61,9 @@ class TextTest extends TestCase
         $this->assertStringContainsString('value="text value"', $this->field->getForm($request, $resource));
 
         //form readonly
-        $model2 = $this->makeMock(Model::class, ['__get', 'getKey']);
+        $model2 = $this->makeMock(Model::class, ['getAttribute', 'getKey']);
         $model2->expects($this->any())->method('getKey')->willReturn('text value');
-        $model2->expects($this->any())->method('__get')->willReturn('text value');
+        $model2->expects($this->any())->method('getAttribute')->willReturn('text value');
         $model2 = $model2->setKeyName('nombre_campo');
 
         $resource2 = $this->makeMock(Resource::class, ['model']);

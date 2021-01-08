@@ -32,15 +32,27 @@ class HasMany extends Relation
     }
 
     /**
+     * Devuelve colletion con los recursos asociados a la relacion
+     *
+     * @param Model $model
+     * @return Collection
+     */
+    public function getRelatedResources(Model $model): Collection
+    {
+        return $model->getAttribute($this->attribute)
+            ->mapInto($this->relatedResource);
+    }
+
+    /**
      * Devuelve valor del campo formateado
      *
      * @param  Request    $request
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        $relatedResources = $model->{$this->attribute}->mapInto($this->relatedResource);
+        $relatedResources = $this->getRelatedResources($model);
 
         if ($relatedResources->count() === 0) {
             return new HtmlString('');
@@ -185,7 +197,7 @@ class HasMany extends Relation
             'type' => 'select',
             'name' => "{$this->name}[]",
             'id' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute}->modelKeys(),
+            'value' => $resource->model()->getAttribute($this->attribute)->modelKeys(),
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'multiple' => 'multiple',
             'size' => '7'
@@ -202,7 +214,7 @@ class HasMany extends Relation
      */
     public function getAttributesForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
-        $relatedResources = $resource->model()->{$this->attribute}->mapInto($this->relatedResource);
+        $relatedResources = $this->getRelatedResources($resource->model());
         $availableResources = collect($this->getRelationOptions($request, $resource, $this->relationConditions)->all())
             ->except($relatedResources->map->model()->map->id);
 

@@ -40,8 +40,8 @@ class NumberTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn(12345);
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
         $this->assertEquals('12.345', $this->field->getFormattedValue($model, $request));
     }
@@ -50,8 +50,8 @@ class NumberTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn(12345);
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);

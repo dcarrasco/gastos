@@ -56,7 +56,7 @@ class Gravatar extends Field
         $size = Str::contains($request->route()->action['as'], 'show')
             ? $this->avatarShowSize : $this->avatarListSize;
 
-        $url = $this->getGravatarUrl($model->{$this->attribute}, $size);
+        $url = $this->getGravatarUrl($model->getAttribute($this->attribute), $size);
 
         return new HtmlString("<img src=\"{$url}\" class=\"rounded-full border\">");
     }

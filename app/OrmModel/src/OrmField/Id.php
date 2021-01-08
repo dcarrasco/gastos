@@ -44,8 +44,7 @@ class Id extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $field = $this->attribute;
-        $value = $resource->model()->{$field};
+        $value = $resource->model()->getAttribute($this->attribute);
 
         if ($this->esIncrementing) {
             return new HtmlString(
@@ -53,7 +52,7 @@ class Id extends Field
                 . view('orm.form-input', [
                     'type' => 'hidden',
                     'name' => $this->attribute,
-                    'value' => $resource->model()->{$this->attribute},
+                    'value' => $value,
                     'id' => $this->attribute,
                 ])->render()
             );
@@ -62,7 +61,7 @@ class Id extends Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'text',
             'name' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $value,
             'id' => $this->attribute,
         ])->render());
     }

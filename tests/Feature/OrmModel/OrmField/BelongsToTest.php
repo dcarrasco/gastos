@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Acl\App;
 use App\Models\Acl\Modulo;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
@@ -50,7 +49,7 @@ class BelongsToTest extends TestCase
         $app = App::factory()->create();
         $modulo = Modulo::factory()->create(['app_id' => $app->id]);
 
-        $this->assertEquals($app->app, $this->field->getFormattedValue($modulo, $request));
+        $this->assertEquals(new HtmlString($app->app), $this->field->getFormattedValue($modulo, $request));
     }
 
     public function testModelAttribute()

@@ -261,9 +261,9 @@ abstract class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        return optional($model)->{$this->attribute};
+        return new HtmlString(optional($model)->getAttribute($this->attribute));
     }
 
     /**
@@ -289,7 +289,7 @@ abstract class Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'text',
             'name' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
         ])->render());
     }

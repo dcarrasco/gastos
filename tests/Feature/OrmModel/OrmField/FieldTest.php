@@ -5,6 +5,7 @@ namespace Tests\Feature\OrmModel\OrmField;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
@@ -105,12 +106,12 @@ class FieldTest extends TestCase
 
     public function testResolveValue()
     {
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn('valor');
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn('valor');
 
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
 
-        $this->assertNull($this->field->resolveValue($model, $request)->value());
+        $this->assertEquals(new HtmlString('valor'), $this->field->resolveValue($model, $request)->value());
     }
 
     public function testHasOnChange()
@@ -141,12 +142,12 @@ class FieldTest extends TestCase
 
     public function testGetFormattedValue()
     {
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn('valor');
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn('valor');
 
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
 
-        $this->assertNull($this->field->getFormattedValue($model, $request));
+        $this->assertEquals(new HtmlString('valor'), $this->field->getFormattedValue($model, $request));
     }
 
     public function testValue()

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Optional;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Date;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
@@ -41,18 +42,18 @@ class DateTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn(new Carbon('01-02-2020'));
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn(new Carbon('01-02-2020'));
 
-        $this->assertEquals('2020-02-01', $this->field->getFormattedValue($model, $request));
+        $this->assertEquals(new HtmlString('2020-02-01'), $this->field->getFormattedValue($model, $request));
     }
 
     public function testGetForm()
     {
         $request = $this->makeMock(Request::class, []);
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn(new Carbon('01-02-2020'));
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn(new Carbon('01-02-2020'));
 
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);

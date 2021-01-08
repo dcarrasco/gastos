@@ -25,7 +25,7 @@ class Text extends Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'text',
             'name' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'maxlength' => $this->getFieldLength(),
         ])->render());

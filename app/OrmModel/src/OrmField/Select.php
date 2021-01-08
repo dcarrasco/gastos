@@ -34,15 +34,15 @@ class Select extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        $value = $model->{$this->attribute};
+        $value = $model->getAttribute($this->attribute);
 
         if ($this->hasChoices()) {
-            return Arr::get($this->choices, $value, '');
+            return new HtmlString(Arr::get($this->choices, $value, ''));
         }
 
-        return $value;
+        return new HtmlString($value);
     }
 
     /**
@@ -68,7 +68,7 @@ class Select extends Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'select',
             'name' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'options' => $this->choices,
             'placeholder' => '&mdash;'

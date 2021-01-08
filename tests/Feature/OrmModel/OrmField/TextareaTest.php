@@ -40,7 +40,7 @@ class TextareaTest extends TestCase
         $request = $this->makeMock(Request::class, []);
 
         $model = $this->makeMock(Model::class, []);
-        $model->expects($this->any())->method('__get')->willReturn('valor1');
+        $model->expects($this->any())->method('getAttribute')->willReturn('valor1');
 
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);

@@ -21,9 +21,9 @@ class Number extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        return fmtCantidad($model->{$this->attribute});
+        return new HtmlString(fmtCantidad($model->getAttribute($this->attribute)));
     }
 
     /**
@@ -39,7 +39,7 @@ class Number extends Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'number',
             'name' => $this->attribute,
-            'value' => $resource->model()->{$this->attribute},
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
         ])->render());
     }

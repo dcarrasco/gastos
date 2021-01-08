@@ -22,7 +22,9 @@ class Boolean extends Field
      */
     public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        $statusStyle = $model->{$this->attribute} ? "text-green-500" : "text-red-500";
+        $statusStyle = $model->getAttribute($this->attribute)
+            ? "text-green-500"
+            : "text-red-500";
 
         return new HtmlString("<small><span class=\"fa fa-circle {$statusStyle}\"></span></small>");
     }
@@ -61,7 +63,7 @@ class Boolean extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $value = $resource->model()->{$this->attribute};
+        $value = $resource->model()->getAttribute($this->attribute);
 
         return new HtmlString(
             $this->formRadioItem($this->attribute, $value, 'yes')

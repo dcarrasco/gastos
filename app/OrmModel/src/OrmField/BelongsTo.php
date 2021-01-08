@@ -22,11 +22,13 @@ class BelongsTo extends Relation
      * @param  Request $request
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request)
+    public function getFormattedValue(Model $model, Request $request): HtmlString
     {
-        $relatedModel = $model->{$this->attribute};
+        $relatedModel = $model->getAttribute($this->attribute);
 
-        return (new $this->relatedResource($relatedModel))->title();
+        return new HtmlString(
+            (new $this->relatedResource($relatedModel))->title()
+        );
     }
 
     /**
@@ -37,7 +39,9 @@ class BelongsTo extends Relation
      */
     public function getModelAttribute(Resource $resource): string
     {
-        return $resource->model()->{$this->attribute}()->getForeignKeyName();
+        return $resource->model()
+            ->{$this->attribute}()
+            ->getForeignKeyName();
     }
 
     /**
@@ -55,7 +59,7 @@ class BelongsTo extends Relation
         return new HtmlString(view('orm.form-input', [
             'type' => 'select',
             'name' => $foreignKeyName,
-            'value' => $resource->model()->{$foreignKeyName},
+            'value' => $resource->model()->getAttribute($foreignKeyName),
             'id' => $foreignKeyName,
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'placeholder' => '&mdash;',

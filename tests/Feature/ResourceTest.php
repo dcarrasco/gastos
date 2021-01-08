@@ -8,6 +8,7 @@ use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
+use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\Filters\Filter;
 use Illuminate\Support\ViewErrorBag;
@@ -131,9 +132,13 @@ class ResourceTest extends TestCase
     public function testIndexFields()
     {
         $request = $this->makeMock(Request::class, []);
+        $expected = collect([
+            new HtmlString($this->model->id),
+            new HtmlString($this->model->nombre),
+        ]);
 
         $this->assertEquals(
-            collect([$this->model->id, $this->model->nombre]),
+            $expected,
             $this->resource->resolveIndexFields($request)->getFields()->map(function ($field) {
                 return $field->value();
             })
@@ -143,9 +148,14 @@ class ResourceTest extends TestCase
     public function testDetailFields()
     {
         $request = $this->makeMock(Request::class, []);
+        $expected = collect([
+            new HtmlString($this->model->id),
+            new HtmlString($this->model->nombre),
+            new HtmlString($this->model->username),
+        ]);
 
         $this->assertEquals(
-            collect([$this->model->id, $this->model->nombre, $this->model->username]),
+            $expected,
             $this->resource->resolveDetailFields($request)->getFields()->map(function ($field) {
                 return $field->value();
             })

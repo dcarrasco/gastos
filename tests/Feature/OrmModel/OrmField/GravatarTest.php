@@ -40,8 +40,8 @@ class GravatarTest extends TestCase
             (object) ['action' => ['as' => 'route.show']]
         );
 
-        $model = $this->makeMock(Model::class, ['__get']);
-        $model->expects($this->any())->method('__get')->willReturn(1);
+        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model->expects($this->any())->method('getAttribute')->willReturn(1);
 
         $this->assertStringContainsString('<img src', $this->field->getFormattedValue($model, $request));
         $this->assertStringContainsString('?size=240"', $this->field->getFormattedValue($model, $request));
