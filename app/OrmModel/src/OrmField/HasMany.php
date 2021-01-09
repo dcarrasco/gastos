@@ -2,12 +2,11 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
+use App\OrmModel\src\OrmField\Field;
 use App\OrmModel\src\OrmField\Relation;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,14 +31,57 @@ class HasMany extends Relation
     }
 
     /**
+     * Resuelve el valor del campo a partir del modelo y del request
+     *
+     * @param  Model  $model
+     * @return Field
+     */
+    public function resolveValue(Model $model, Request $request): Field
+    {
+        $this->value = $this->getValue($model, $request);
+
+        if ($this->hasRelationFields()) {
+            $this->relationFields = $this->value
+                ->mapWithKeys(function ($model) {
+                    return [
+                        $model->getKey() => collect($this->relationFields)
+                            ->map(function ($relation, $relationName) use ($model) {
+                                return $this->makeAttributeField($relationName, $relation, $model);
+                            })
+                    ];
+                });
+        }
+
+        return $this;
+    }
+
+    /**
+     * Genera un elemento Field para almacenar el atributo de la relacion
+     * @param  string $nombre
+     * @param  array  $relacion
+     * @param  Model  $model
+     * @return Field
+     */
+    protected function makeAttributeField(string $nombre, array $relacion, Model $model): Field
+    {
+        if ($relacion['type'] == 'booleanOptions') {
+            return BooleanOptions::make('attribute')
+                ->options($relacion['options'])
+                ->setRelationName($nombre)
+                ->setModelId($model->getKey())
+                ->setValue($model->pivot->getAttribute($nombre));
+        }
+    }
+
+    /**
      * Devuelve colletion con los recursos asociados a la relacion
      *
      * @param Model $model
      * @return Collection
      */
-    public function getRelatedResources(Model $model): Collection
+    public function getRelatedResources(): Collection
     {
-        return $model->getAttribute($this->attribute)
+        return $this->value
             ->mapInto($this->relatedResource);
     }
 
@@ -50,9 +92,9 @@ class HasMany extends Relation
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        $relatedResources = $this->getRelatedResources($model);
+        $relatedResources = $this->getRelatedResources();
 
         if ($relatedResources->count() === 0) {
             return new HtmlString('');
@@ -86,57 +128,32 @@ class HasMany extends Relation
     }
 
     /**
-     * Indica si la relacion contiene el atributo indicado
-     *
-     * @param  resource $resource
-     * @param  string   $pivotRelation
-     * @param  string   $option
-     * @return bool
-     */
-    protected function relationOptionHasAttribute(resource $resource, string $pivotRelation, string $option): bool
-    {
-        return collect(json_decode($resource->model()->pivot->{$pivotRelation}))
-            ->contains($option);
-    }
-
-    /**
      * Genera linea de opciones para un elemento HasMany con attributos
      *
-     * @param  resource $resource
-     * @param  string   $pivotRelation
-     * @param  string   $option
+     * @param  Resource $resource
      * @param  bool     $edit
      * @return string
      */
-    protected function relationOptionTableRow(
-        resource $resource,
-        string $pivotRelation,
-        string $option,
-        bool $edit
-    ): string {
-        $selected = $this->relationOptionHasAttribute($resource, $pivotRelation, $option)
-            ? 'checked'
-            : '';
-        $editable = $edit ? '' : 'disabled';
-        $id = $resource->model()->getKey();
-
-        $input = "<input type=\"checkbox\" "
-            . "name=\"attributes:{$pivotRelation}:{$id}[]\" "
-            . "value=\"{$option}\" "
-            . "{$selected} {$editable}"
-            . ">";
-
-        return "<td class=\"text-center\">{$input}</td>";
+    protected function getAttributesTableRow(Resource $resource, bool $edit): string
+    {
+        return $this->relationFields
+            ->get($resource->model()->getKey())
+            ->map(function ($field) use ($edit, $resource) {
+                return $edit
+                    ? $field->getForm(request(), $resource)->toHtml()
+                    : $field->getFormattedValue()->toHtml();
+            })
+            ->implode('');
     }
 
     /**
      * Genera columna de edición del atributo
      *
-     * @param  resource $resource
+     * @param  Resource $resource
      * @param  bool     $edit
      * @return string
      */
-    protected function relationOptionTableEditColumn(resource $resource, bool $edit): string
+    protected function getAttributsTableEditColumn(Resource $resource, bool $edit): string
     {
         return $edit
             ? "<td class=\"text-center\">"
@@ -149,6 +166,25 @@ class HasMany extends Relation
     }
 
     /**
+     * Genera encabezado de tabla de atributos
+     * @param  bool   $edit
+     * @return string
+     */
+    protected function getAttributesTableHeader(bool $edit): string
+    {
+        return '<tr class="border bg-gray-100 px-2">'
+            . "<th class=\"text-left px-2 py-1\">{$this->name}</th>"
+            . $this->relationFields
+                ->first()
+                ->map(function ($field) {
+                    return '<th>' . collect($field->getOptions())->implode('</th><th>') . '</th>';
+                })
+                ->implode('')
+            . ($edit ? '<th>Desasociar</th>' : '')
+            . '</tr>';
+    }
+
+    /**
      * Devuelve tabla para desplegar asociacion HasMany con atributos adicionales
      *
      * @param  Collection   $relatedResources
@@ -157,32 +193,20 @@ class HasMany extends Relation
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
     {
-        $header = '<tr class="border bg-gray-100 px-2"><th class="text-left px-2 py-1">' . $this->name . '</th>' .
-            collect($this->relationFields)->map(function ($field) {
-                return '<th>' . collect($field['options'])->implode('</th><th>') . '</th>';
-            })->implode('')
-            . ($edit ? '<th>Desasociar</th>' : '')
-            . '</tr>';
+        $header = $this->getAttributesTableHeader($edit);
 
-        $body = '<tbody>' .
-            $relatedResources->map(function ($resource) use ($edit) {
-                return '<tr class="border"><td class="px-2 py-1">' . $resource->title() . '</td>'
-                    . collect($this->relationFields)
-                        ->map(function ($relationDef, $relationName) use ($resource, $edit) {
-                            return collect($relationDef['options'])
-                                ->map(function ($option) use ($resource, $relationName, $edit) {
-                                    return $this->relationOptionTableRow($resource, $relationName, $option, $edit);
-                                })
-                                ->implode('');
-                        })
-                        ->implode('')
-                    . $this->relationOptionTableEditColumn($resource, $edit)
+        $body = '<tbody>'
+            . $relatedResources->map(function ($resource) use ($edit) {
+                return '<tr class="border">'
+                    . "<td class=\"px-2 py-1\">{$resource->title()}</td>"
+                    . $this->getAttributesTableRow($resource, $edit)
+                    . $this->getAttributsTableEditColumn($resource, $edit)
                     . '</tr>';
             })
             ->implode('')
             . '</body>';
 
-        return '<table class="w-full border text-sm">' . $header . $body . '</table>';
+        return "<table class=\"w-full border text-sm\">{$header}{$body}</table>";
     }
 
     /**
@@ -220,7 +244,7 @@ class HasMany extends Relation
      */
     public function getAttributesForm(Request $request, Resource $resource, $extraParam = []): HtmlString
     {
-        $relatedResources = $this->getRelatedResources($resource->model());
+        $relatedResources = $this->getRelatedResources();
 
         $availableResources = $this->getRelationOptions($request, $resource, $this->relationConditions)
             ->except($relatedResources->map->model()->map->id);

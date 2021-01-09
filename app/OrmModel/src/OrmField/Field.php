@@ -242,6 +242,13 @@ abstract class Field
         return optional($model)->getAttribute($this->attribute);
     }
 
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
     /**
      * Formatea valor a mostrar a partir de modelo
      *

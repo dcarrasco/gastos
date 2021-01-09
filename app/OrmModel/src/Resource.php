@@ -183,6 +183,7 @@ abstract class Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnForm()
+            ->map->resolveValue($this->modelInstance, $request)
             ->map->resolveFormItem($request, $this);
 
         return $this;
