@@ -26,7 +26,7 @@ class TrendTest extends TestCase
 
         $this->request = $this->makeMock(Request::class, []);
 
-        $this->trend = new class() extends Trend {
+        $this->trend = new class () extends Trend {
         };
     }
 

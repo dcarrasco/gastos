@@ -22,12 +22,9 @@ class Date extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        return new HtmlString(
-            optional($model->getAttribute($this->attribute))
-                ->format($this->outputDateFormat)
-        );
+        return new HtmlString(optional($this->value)->format($this->outputDateFormat));
     }
 
     /**

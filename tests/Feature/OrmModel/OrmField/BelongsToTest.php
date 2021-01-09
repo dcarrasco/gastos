@@ -23,9 +23,9 @@ class BelongsToTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo', 'app', \App\OrmModel\Acl\App::class) extends BelongsTo {
+        $this->field = new class ('nombreCampo', 'app', \App\OrmModel\Acl\App::class) extends BelongsTo {
         };
     }
 
@@ -49,7 +49,10 @@ class BelongsToTest extends TestCase
         $app = App::factory()->create();
         $modulo = Modulo::factory()->create(['app_id' => $app->id]);
 
-        $this->assertEquals(new HtmlString($app->app), $this->field->getFormattedValue($modulo, $request));
+        $this->assertEquals(
+            new HtmlString($app->app),
+            $this->field->resolveValue($modulo, $request)->getFormattedValue()
+        );
     }
 
     public function testModelAttribute()

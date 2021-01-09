@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
@@ -34,15 +33,13 @@ class Select extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        $value = $model->getAttribute($this->attribute);
-
         if ($this->hasChoices()) {
-            return new HtmlString(Arr::get($this->choices, $value, ''));
+            return new HtmlString(Arr::get($this->choices, $this->value, ''));
         }
 
-        return new HtmlString($value);
+        return new HtmlString($this->value);
     }
 
     /**

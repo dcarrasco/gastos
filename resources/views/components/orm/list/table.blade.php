@@ -20,7 +20,7 @@
             <tr class="hover:bg-blue-100">
                 @foreach($resourceItem->getFields() as $field)
                     <td class="py-3 px-3 {{ $field->alignOnList() }}">
-                        {{ $field->value() }}
+                        {{ $field->getFormattedValue() }}
                     </td>
                 @endforeach
 

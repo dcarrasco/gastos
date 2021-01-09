@@ -4,6 +4,6 @@
     </div>
 
     <div class="col-span-2">
-        {{ $field->value() }}
+        {{ $field->getFormattedValue() }}
     </div>
 </div>

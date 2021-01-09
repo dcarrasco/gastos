@@ -24,7 +24,7 @@ class MetricTest extends TestCase
     {
         parent::setUp();
 
-        $this->metric = new class() extends Metric {
+        $this->metric = new class () extends Metric {
             public function getCurrentRange(Request $request): array
             {
                 return $this->currentRange($request);
@@ -80,7 +80,10 @@ class MetricTest extends TestCase
         $request->expects($this->any())->method('input')->willReturn('MTD');
         $this->assertIsArray($this->metric->getPreviousRange($request));
         $this->assertEquals(now()->startOfMonth()->day, $this->metric->getPreviousRange($request)[0]->day);
-        $this->assertEquals(now()->subMonth()->startOfMonth()->month, $this->metric->getPreviousRange($request)[0]->month);
+        $this->assertEquals(
+            now()->subMonth()->startOfMonth()->month,
+            $this->metric->getPreviousRange($request)[0]->month
+        );
 
         $request = $this->makeMock(Request::class, ['input']);
         $request->expects($this->any())->method('input')->willReturn('QTD');
@@ -160,8 +163,13 @@ class MetricTest extends TestCase
         $request->expects($this->any())->method('route')->willReturn($route);
         $request->expects($this->any())->method('query')->willReturn('');
 
-        Route::group(['prefix' => 'prefix', 'as' => 'prefix.ajaxCard', 'namespace' => 'Test', 'middleware' => 'auth'], function () {
-            Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
+        Route::group([
+            'prefix' => 'prefix',
+            'as' => 'prefix.ajaxCard',
+            'namespace' => 'Test',
+            'middleware' => 'auth'
+        ], function () {
+                Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
         $this->assertEquals(HtmlString::class, get_class($this->metric->render($request)));
@@ -196,10 +204,15 @@ class MetricTest extends TestCase
         $request->expects($this->any())->method('route')->willReturn($route);
         $request->expects($this->any())->method('query')->willReturn('');
 
-        Route::group(['prefix' => 'prefix', 'as' => 'prefix.ajaxCard', 'namespace' => 'Test', 'middleware' => 'auth'], function () {
+        Route::group([
+            'prefix' => 'prefix',
+            'as' => 'prefix.ajaxCard',
+            'namespace' => 'Test',
+            'middleware' => 'auth'
+        ], function () {
             Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
-        $this->assertEquals(config('app.url').'/prefix/ajaxCard', $this->metric->urlRoute($request));
+        $this->assertEquals(config('app.url') . '/prefix/ajaxCard', $this->metric->urlRoute($request));
     }
 }

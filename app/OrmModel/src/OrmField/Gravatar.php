@@ -51,13 +51,23 @@ class Gravatar extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getValue(Model $model, Request $request)
     {
         $size = Str::contains($request->route()->action['as'], 'show')
             ? $this->avatarShowSize : $this->avatarListSize;
 
-        $url = $this->getGravatarUrl($model->getAttribute($this->attribute), $size);
+        return $this->getGravatarUrl($model->getAttribute($this->attribute), $size);
+    }
 
-        return new HtmlString("<img src=\"{$url}\" class=\"rounded-full border\">");
+    /**
+     * Devuelve valor del campo formateado
+     *
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getFormattedValue(): HtmlString
+    {
+        return new HtmlString("<img src=\"{$this->value}\" class=\"rounded-full border\">");
     }
 }

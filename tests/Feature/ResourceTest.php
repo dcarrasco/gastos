@@ -29,11 +29,11 @@ class ResourceTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
         $this->model = Usuario::factory()->create();
 
-        $this->resource = new class($this->model) extends Resource {
+        $this->resource = new class ($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
             public $label = 'ResourceLabel';
             public $title = 'nombre';
@@ -71,7 +71,7 @@ class ResourceTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $resource = new class($this->model) extends Resource {
+        $resource = new class ($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
         };
 
@@ -82,7 +82,7 @@ class ResourceTest extends TestCase
 
     public function testGetName()
     {
-        $this->resource = new \App\OrmModel\Acl\Usuario;
+        $this->resource = new \App\OrmModel\Acl\Usuario();
 
         $this->assertEquals('Usuario', $this->resource->getName());
     }
@@ -139,9 +139,12 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->resource->resolveIndexFields($request)->getFields()->map(function ($field) {
-                return $field->value();
-            })
+            $this->resource
+                ->resolveIndexFields($request)
+                ->getFields()
+                ->map(function ($field) {
+                    return $field->getFormattedValue();
+                })
         );
     }
 
@@ -156,9 +159,12 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(
             $expected,
-            $this->resource->resolveDetailFields($request)->getFields()->map(function ($field) {
-                return $field->value();
-            })
+            $this->resource
+                ->resolveDetailFields($request)
+                ->getFields()
+                ->map(function ($field) {
+                    return $field->getFormattedValue();
+                })
         );
     }
 
@@ -177,7 +183,14 @@ class ResourceTest extends TestCase
     {
         $request = $this->makeMock(Request::class, ['session']);
 
-        $this->assertEquals(['id' => '', 'nombre' => 'required', 'username' => 'required|max:100'], $this->resource->getValidation($request));
+        $this->assertEquals(
+            [
+                'id' => '',
+                'nombre' => 'required',
+                'username' => 'required|max:100'
+            ],
+            $this->resource->getValidation($request)
+        );
     }
 
     public function testModelFormOptions()
@@ -217,14 +230,26 @@ class ResourceTest extends TestCase
         $request2 = $this->makeMock(Request::class, ['input', 'get']);
         $request2->expects($this->any())->method('input')->willReturn('');
 
-        $this->assertStringNotContainsString('nombre', $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql());
-        $this->assertStringNotContainsString('username', $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql());
+        $this->assertStringNotContainsString(
+            'nombre',
+            $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql()
+        );
+        $this->assertStringNotContainsString(
+            'username',
+            $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql()
+        );
 
         $request = $this->makeMock(Request::class, ['input', 'get']);
         $request->expects($this->any())->method('input')->willReturn('search');
 
-        $this->assertStringContainsString('nombre', $this->resource->applySearchFilter($request)->getModelQueryBuilder()->toSql());
-        $this->assertStringContainsString('username', $this->resource->applySearchFilter($request)->getModelQueryBuilder()->toSql());
+        $this->assertStringContainsString(
+            'nombre',
+            $this->resource->applySearchFilter($request)->getModelQueryBuilder()->toSql()
+        );
+        $this->assertStringContainsString(
+            'username',
+            $this->resource->applySearchFilter($request)->getModelQueryBuilder()->toSql()
+        );
     }
 
     public function testGetOrderBy()
@@ -247,10 +272,18 @@ class ResourceTest extends TestCase
     {
         $request = $this->makeMock(Request::class, ['has', 'input']);
         $request->expects($this->any())->method('has')->willReturn(true);
-        $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'asc'));
+        $request->expects($this->any())
+            ->method('input')
+            ->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'asc'));
 
-        $this->assertStringContainsString('nombre_campo', $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql());
-        $this->assertStringContainsString('desc', $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql());
+        $this->assertStringContainsString(
+            'nombre_campo',
+            $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql()
+        );
+        $this->assertStringContainsString(
+            'desc',
+            $this->resource->applyOrderBy($request)->getModelQueryBuilder()->toSql()
+        );
     }
 
     public function testFindOrFail()
@@ -285,7 +318,7 @@ class ResourceTest extends TestCase
     {
         $roles = Rol::factory(4)->create();
 
-        $resource = new class($this->model) extends Resource {
+        $resource = new class ($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
             public $label = 'ResourceLabel';
             public $title = 'nombre';
@@ -359,12 +392,12 @@ class ResourceTest extends TestCase
     {
         $this->model = Usuario::factory()->create();
 
-        $this->resource = new class($this->model) extends Resource {
+        $this->resource = new class ($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
             public function filters(Request $request): array
             {
                 return [
-                    new class() extends Filter {
+                    new class () extends Filter {
                     }
                 ];
             }

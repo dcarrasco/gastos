@@ -22,9 +22,9 @@ class FieldTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Field {
+        $this->field = new class ('nombreCampo') extends Field {
         };
     }
 
@@ -131,8 +131,14 @@ class FieldTest extends TestCase
         $resource = $this->makeMock(Resource::class, ['model', 'get']);
 
         $this->assertStringContainsString('input', $this->field->resolveFormItem($request, $resource)->formItem());
-        $this->assertStringContainsString('type="text"', $this->field->resolveFormItem($request, $resource)->formItem());
-        $this->assertStringContainsString('name="nombre_campo"', $this->field->resolveFormItem($request, $resource)->formItem());
+        $this->assertStringContainsString(
+            'type="text"',
+            $this->field->resolveFormItem($request, $resource)->formItem()
+        );
+        $this->assertStringContainsString(
+            'name="nombre_campo"',
+            $this->field->resolveFormItem($request, $resource)->formItem()
+        );
     }
 
     public function testFormItem()
@@ -147,7 +153,7 @@ class FieldTest extends TestCase
 
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
 
-        $this->assertEquals(new HtmlString('valor'), $this->field->getFormattedValue($model, $request));
+        $this->assertEquals(new HtmlString('valor'), $this->field->resolveValue($model, $request)->getFormattedValue());
     }
 
     public function testValue()
@@ -179,9 +185,15 @@ class FieldTest extends TestCase
         $resource = $this->makeMock(Resource::class, ['input', 'get']);
 
         $this->assertEquals('', $this->field->makeSortingIcon($request, $resource)->sortingIcon());
-        $this->assertStringContainsString('url', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        $this->assertStringContainsString(
+            'url',
+            $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon()
+        );
         // default icon class
-        $this->assertStringContainsString('fa fa-sort text-gray-400', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        $this->assertStringContainsString(
+            'fa fa-sort text-gray-400',
+            $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon()
+        );
     }
 
     public function testMakeSortingIconAsc()
@@ -189,12 +201,17 @@ class FieldTest extends TestCase
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
-        $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'asc', 'nombre_campo', 'asc'));
+        $request->expects($this->any())
+            ->method('input')
+            ->will($this->onConsecutiveCalls('nombre_campo', 'asc', 'nombre_campo', 'asc'));
 
         $resource = $this->makeMock(Resource::class, ['input', 'get']);
 
         // default icon class
-        $this->assertStringContainsString('fa-caret-up', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        $this->assertStringContainsString(
+            'fa-caret-up',
+            $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon()
+        );
     }
 
     public function testMakeSortingIconDown()
@@ -202,12 +219,17 @@ class FieldTest extends TestCase
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
-        $request->expects($this->any())->method('input')->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'desc'));
+        $request->expects($this->any())
+            ->method('input')
+            ->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'desc'));
 
         $resource = $this->makeMock(Resource::class, ['input', 'get']);
 
         // default icon class
-        $this->assertStringContainsString('fa-caret-down', $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon());
+        $this->assertStringContainsString(
+            'fa-caret-down',
+            $this->field->sortable()->makeSortingIcon($request, $resource)->sortingIcon()
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -223,6 +245,9 @@ class FieldTest extends TestCase
         $resource = $this->makeMock(Resource::class, ['model']);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
-        $this->assertEquals('required|unique:table_name,nombre_campo,value,id|max:10', $this->field->rules('required', 'unique', 'max:10')->getValidation($resource));
+        $this->assertEquals(
+            'required|unique:table_name,nombre_campo,value,id|max:10',
+            $this->field->rules('required', 'unique', 'max:10')->getValidation($resource)
+        );
     }
 }

@@ -24,7 +24,7 @@ class RelationTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation {
+        $this->field = new class ('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation {
         };
     }
 
@@ -44,7 +44,7 @@ class RelationTest extends TestCase
 
     public function testRelationConditions()
     {
-        $this->assertIsObject($this->field->relationConditions(['a'=>'b']));
+        $this->assertIsObject($this->field->relationConditions(['a' => 'b']));
     }
 
     public function testMake()
@@ -57,11 +57,11 @@ class RelationTest extends TestCase
         $request = $this->makeMock(Request::class, []);
         $apps = App::factory(3)->create();
 
-        $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
-        $this->assertCount(3, $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo));
+        $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo()));
+        $this->assertCount(3, $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo()));
         $this->assertEquals(
             $apps->pluck('app', 'id')->sort()->all(),
-            $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo)->all()
+            $this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo())->all()
         );
     }
 
@@ -69,7 +69,7 @@ class RelationTest extends TestCase
     {
         $request = $this->makeMock(Request::class, []);
 
-        $rol = new class(Rol::factory()->create()) extends Resource {
+        $rol = new class (Rol::factory()->create()) extends Resource {
             public $model = 'App\Models\Acl\Rol';
             public $labelPlural = 'Roles';
             public $icono = 'server';
@@ -90,7 +90,7 @@ class RelationTest extends TestCase
             }
         };
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
         $this->assertIsObject($rol->resolveFormFields($request));
     }

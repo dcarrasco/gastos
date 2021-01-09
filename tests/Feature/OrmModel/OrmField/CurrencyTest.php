@@ -22,9 +22,9 @@ class CurrencyTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Currency {
+        $this->field = new class ('nombreCampo') extends Currency {
         };
     }
 
@@ -43,7 +43,10 @@ class CurrencyTest extends TestCase
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
-        $this->assertStringContainsString('12.345', $this->field->getFormattedValue($model, $request)->toHtml());
+        $this->assertStringContainsString(
+            '12.345',
+            $this->field->resolveValue($model, $request)->getFormattedValue()->toHtml()
+        );
     }
 
     public function testGetForm()

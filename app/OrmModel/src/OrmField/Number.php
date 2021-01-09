@@ -21,9 +21,9 @@ class Number extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        return new HtmlString(fmtCantidad($model->getAttribute($this->attribute)));
+        return new HtmlString(fmtCantidad($this->value));
     }
 
     /**

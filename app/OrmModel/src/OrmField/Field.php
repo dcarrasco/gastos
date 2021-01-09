@@ -20,6 +20,7 @@ abstract class Field
     protected $helpText = '';
 
     protected $value;
+    protected $formattedValue;
     protected $formItem;
 
     protected $showOnList = true;
@@ -218,14 +219,38 @@ abstract class Field
     }
 
     /**
-     * Formatea valor a mostrar a partir de modelo
+     * Resuelve el valor del campo a partir del modelo y del request
      *
      * @param  Model  $model
      * @return Field
      */
     public function resolveValue(Model $model, Request $request): Field
     {
-        $this->value = $this->getFormattedValue($model, $request);
+        $this->value = $this->getValue($model, $request);
+
+        return $this;
+    }
+
+    /**
+     * Devuelve valor del campo
+     * @param  Request    $request
+     * @param  Model|null $model
+     * @return mixed
+     */
+    public function getValue(Model $model, Request $request)
+    {
+        return optional($model)->getAttribute($this->attribute);
+    }
+
+    /**
+     * Formatea valor a mostrar a partir de modelo
+     *
+     * @param  Model  $model
+     * @return Field
+     */
+    public function resolveFormattedValue(): Field
+    {
+        $this->formattedValue = $this->getFormattedValue();
 
         return $this;
     }
@@ -261,9 +286,9 @@ abstract class Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        return new HtmlString(optional($model)->getAttribute($this->attribute));
+        return new HtmlString($this->value);
     }
 
     /**

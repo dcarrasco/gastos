@@ -23,9 +23,9 @@ class Currency extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        return fmtMonto($model->getAttribute($this->attribute));
+        return fmtMonto($this->value);
     }
 
     /**

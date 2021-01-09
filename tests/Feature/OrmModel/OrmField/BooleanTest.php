@@ -21,7 +21,7 @@ class BooleanTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class('nombreCampo') extends Boolean {
+        $this->field = new class ('nombreCampo') extends Boolean {
         };
     }
 
@@ -40,12 +40,12 @@ class BooleanTest extends TestCase
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn(1);
 
-        $this->assertStringContainsString('span', $this->field->getFormattedValue($model, $request));
-        $this->assertStringContainsString('green', $this->field->getFormattedValue($model, $request));
+        $this->assertStringContainsString('span', $this->field->resolveValue($model, $request)->getFormattedValue());
+        $this->assertStringContainsString('green', $this->field->resolveValue($model, $request)->getFormattedValue());
 
         $model2 = $this->makeMock(Model::class, ['getAttribute']);
         $model2->expects($this->any())->method('getAttribute')->willReturn(0);
-        $this->assertStringContainsString('red', $this->field->getFormattedValue($model2, $request));
+        $this->assertStringContainsString('red', $this->field->resolveValue($model2, $request)->getFormattedValue());
     }
 
     public function testGetForm()
@@ -69,6 +69,9 @@ class BooleanTest extends TestCase
         $this->assertStringContainsString('value="1"', $this->field->getForm($request, $resource));
 
         // form extra-param
-        // $this->assertStringContainsString('extra-parm="extra-param-value"', $this->field->getForm($request, $resource, [ 'extra-param' => 'extra-param-value']));
+        // $this->assertStringContainsString(
+        //     'extra-parm="extra-param-value"',
+        //     $this->field->getForm($request, $resource, [ 'extra-param' => 'extra-param-value'])
+        // );
     }
 }

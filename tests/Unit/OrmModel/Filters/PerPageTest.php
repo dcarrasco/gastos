@@ -16,7 +16,7 @@ class PerPageTest extends TestCase
     {
         parent::setUp();
 
-        $this->perPage = new class() extends PerPage {
+        $this->perPage = new class () extends PerPage {
         };
     }
 

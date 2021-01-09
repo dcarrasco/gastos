@@ -22,9 +22,9 @@ class SelectTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Select {
+        $this->field = new class ('nombreCampo') extends Select {
         };
     }
 
@@ -38,18 +38,18 @@ class SelectTest extends TestCase
 
     public function testOptions()
     {
-        $this->assertIsObject($this->field->options(['a'=>'b', 'c'=>'d']));
+        $this->assertIsObject($this->field->options(['a' => 'b', 'c' => 'd']));
     }
 
     public function testHasChoices()
     {
         $this->assertFalse($this->field->hasChoices());
-        $this->assertTrue($this->field->options(['a'=>'b', 'c'=>'d'])->hasChoices());
+        $this->assertTrue($this->field->options(['a' => 'b', 'c' => 'd'])->hasChoices());
     }
 
     public function testGetFormattedValue()
     {
-        $opciones = ['opc1'=>'valor1', 'opc2'=>'valor2'];
+        $opciones = ['opc1' => 'valor1', 'opc2' => 'valor2'];
 
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn('opc1');
@@ -57,18 +57,24 @@ class SelectTest extends TestCase
         $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
 
         // sin opciones
-        $this->assertEquals(new HtmlString('opc1'), $this->field->getFormattedValue($model, $request));
+        $this->assertEquals(new HtmlString('opc1'), $this->field->resolveValue($model, $request)->getFormattedValue());
 
-        $this->assertEquals(new HtmlString('valor1'), $this->field->options($opciones)->getFormattedValue($model, $request));
+        $this->assertEquals(
+            new HtmlString('valor1'),
+            $this->field->options($opciones)->resolveValue($model, $request)->getFormattedValue()
+        );
 
         $model2 = $this->makeMock(Model::class, ['getAttribute']);
         $model2->expects($this->any())->method('getAttribute')->willReturn('opc_nueva');
-        $this->assertEquals(new HtmlString(''), $this->field->options($opciones)->getFormattedValue($model2, $request));
+        $this->assertEquals(
+            new HtmlString(''),
+            $this->field->options($opciones)->resolveValue($model2, $request)->getFormattedValue()
+        );
     }
 
     public function testGetForm()
     {
-        $opciones = ['opc1'=>'valor1', 'opc2'=>'valor2'];
+        $opciones = ['opc1' => 'valor1', 'opc2' => 'valor2'];
 
         $session = $this->makeMock(Request::class, ['get']);
         $session->expects($this->any())->method('get')->willReturn([]);
@@ -83,7 +89,13 @@ class SelectTest extends TestCase
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->assertStringContainsString('select', $this->field->options($opciones)->getForm($request, $resource));
-        $this->assertStringContainsString('name="nombre_campo"', $this->field->options($opciones)->getForm($request, $resource));
-        $this->assertStringContainsString('<option value="opc1" selected>valor1</option>', $this->field->options($opciones)->getForm($request, $resource));
+        $this->assertStringContainsString(
+            'name="nombre_campo"',
+            $this->field->options($opciones)->getForm($request, $resource)
+        );
+        $this->assertStringContainsString(
+            '<option value="opc1" selected>valor1</option>',
+            $this->field->options($opciones)->getForm($request, $resource)
+        );
     }
 }

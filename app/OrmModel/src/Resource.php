@@ -127,6 +127,20 @@ abstract class Resource
     }
 
     /**
+     * Resuelve los valores de los campos del modelo
+     * @param  Model   $model
+     * @param  Request $request
+     * @return Resource
+     */
+    protected function resolveFieldValues(Model $model, Request $request): Resource
+    {
+        $this->fields = collect($this->fields($request))
+            ->map->resolveValue($this->modelInstance, $request);
+
+        return $this;
+    }
+
+    /**
      * Devuelve campos a mostrar en listado
      *
      * @param  Request $request
@@ -137,7 +151,8 @@ abstract class Resource
         $this->fields = collect($this->fields($request))
             ->filter->showOnIndex()
             ->map->makeSortingIcon($request, $this)
-            ->map->resolveValue($this->modelInstance, $request);
+            ->map->resolveValue($this->modelInstance, $request)
+            ->map->resolveFormattedValue();
 
         return $this;
     }
@@ -152,7 +167,8 @@ abstract class Resource
     {
         $this->fields = collect($this->fields($request))
             ->filter->showOnDetail()
-            ->map->resolveValue($this->modelInstance, $request);
+            ->map->resolveValue($this->modelInstance, $request)
+            ->map->resolveFormattedValue();
 
         return $this;
     }

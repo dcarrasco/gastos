@@ -22,9 +22,9 @@ class TextTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Text {
+        $this->field = new class ('nombreCampo') extends Text {
         };
     }
 
@@ -52,7 +52,10 @@ class TextTest extends TestCase
 
         //max length
         $this->assertStringContainsString('maxlength=250', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('maxlength=100', $this->field->rules('max:100')->getForm($request, $resource));
+        $this->assertStringContainsString(
+            'maxlength=100',
+            $this->field->rules('max:100')->getForm($request, $resource)
+        );
 
         // form name
         $this->assertStringContainsString('name="nombre_campo"', $this->field->getForm($request, $resource));

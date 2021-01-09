@@ -22,9 +22,9 @@ class NumberTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Number {
+        $this->field = new class ('nombreCampo') extends Number {
         };
     }
 
@@ -43,7 +43,7 @@ class NumberTest extends TestCase
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
-        $this->assertEquals('12.345', $this->field->getFormattedValue($model, $request));
+        $this->assertEquals('12.345', $this->field->resolveValue($model, $request)->getFormattedValue());
     }
 
     public function testGetForm()

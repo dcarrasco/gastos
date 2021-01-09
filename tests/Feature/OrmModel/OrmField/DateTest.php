@@ -24,9 +24,9 @@ class DateTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Date {
+        $this->field = new class ('nombreCampo') extends Date {
         };
     }
 
@@ -45,7 +45,10 @@ class DateTest extends TestCase
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn(new Carbon('01-02-2020'));
 
-        $this->assertEquals(new HtmlString('2020-02-01'), $this->field->getFormattedValue($model, $request));
+        $this->assertEquals(
+            new HtmlString('2020-02-01'),
+            $this->field->resolveValue($model, $request)->getFormattedValue()
+        );
     }
 
     public function testGetForm()

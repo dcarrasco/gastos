@@ -21,9 +21,9 @@ class IdTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class() extends Id {
+        $this->field = new class () extends Id {
         };
     }
 
@@ -39,7 +39,7 @@ class IdTest extends TestCase
     {
         $this->assertEquals('id', $this->field->getName());
 
-        $field2 = new class('nombreCampo') extends Id {
+        $field2 = new class ('nombreCampo') extends Id {
         };
 
         $this->assertEquals('nombreCampo', $field2->getName());

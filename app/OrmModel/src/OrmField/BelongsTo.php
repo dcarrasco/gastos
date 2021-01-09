@@ -22,9 +22,9 @@ class BelongsTo extends Relation
      * @param  Request $request
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        $relatedModel = $model->getAttribute($this->attribute);
+        $relatedModel = $this->value;
 
         return new HtmlString(
             (new $this->relatedResource($relatedModel))->title()

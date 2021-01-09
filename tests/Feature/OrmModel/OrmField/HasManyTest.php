@@ -23,9 +23,9 @@ class HasManyTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo', 'rol', \App\OrmModel\Acl\Rol::class) extends HasMany {
+        $this->field = new class ('nombreCampo', 'rol', \App\OrmModel\Acl\Rol::class) extends HasMany {
         };
     }
 
@@ -49,7 +49,7 @@ class HasManyTest extends TestCase
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);
 
-        $this->assertStringContainsString('<ul><li>', $this->field->getFormattedValue($user, $request));
+        $this->assertStringContainsString('<ul><li>', $this->field->resolveValue($user, $request)->getFormattedValue());
     }
 
     public function testGetFormattedValueWithAttributes()
@@ -59,9 +59,12 @@ class HasManyTest extends TestCase
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);
 
-        $this->field->relationField('abilities', '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}');
+        $this->field->relationField(
+            'abilities',
+            '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}'
+        );
 
-        $this->assertStringContainsString('<table', $this->field->getFormattedValue($user, $request));
+        $this->assertStringContainsString('<table', $this->field->resolveValue($user, $request)->getFormattedValue());
     }
 
     public function testGetFormattedValueEmpty()
@@ -70,7 +73,7 @@ class HasManyTest extends TestCase
         $roles = Rol::factory(5)->create();
         $user = Usuario::factory()->create();
 
-        $this->assertEquals('', $this->field->getFormattedValue($user, $request));
+        $this->assertEquals('', $this->field->resolveValue($user, $request)->getFormattedValue());
     }
 
     public function testGetForm()
@@ -97,9 +100,15 @@ class HasManyTest extends TestCase
 
         $userResource = new \App\OrmModel\Acl\Usuario($user);
 
-        $this->field->relationField('abilities', '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}');
+        $this->field->relationField(
+            'abilities',
+            '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}'
+        );
 
-        $this->assertStringContainsString('<table', $this->field->getForm($request, $userResource));
+        $this->assertStringContainsString(
+            '<table',
+            $this->field->resolveValue($user, $request)->getForm($request, $userResource)
+        );
         $this->assertStringContainsString('<select', $this->field->getForm($request, $userResource));
         $this->assertStringContainsString($roles[0]->rol, $this->field->getForm($request, $userResource));
         $this->assertStringContainsString($roles[1]->rol, $this->field->getForm($request, $userResource));

@@ -28,7 +28,7 @@ class ValueTest extends TestCase
     {
         parent::setUp();
 
-        $this->value = new class() extends Value {
+        $this->value = new class () extends Value {
         };
     }
 
@@ -128,7 +128,7 @@ class ValueTest extends TestCase
     {
         $request = $this->makeMock(Request::class, ['get', 'input', 'has']);
 
-        $this->value = new class() extends Value {
+        $this->value = new class () extends Value {
             public function calculate(Request $request): array
             {
                 return [
@@ -136,7 +136,6 @@ class ValueTest extends TestCase
                     'previousValue' => 50,
                 ];
             }
-
         };
 
         $this->assertEquals([
@@ -146,7 +145,7 @@ class ValueTest extends TestCase
             'script' => new HtmlString(''),
         ], $this->value->content($request)->toHtml()->getData());
 
-        $value2 = new class() extends Value {
+        $value2 = new class () extends Value {
             public function calculate(Request $request): array
             {
                 return [
@@ -163,7 +162,7 @@ class ValueTest extends TestCase
             'script' => new HtmlString(''),
         ], $value2->content($request)->toHtml()->getData());
 
-        $value3 = new class() extends Value {
+        $value3 = new class () extends Value {
             public function calculate(Request $request): array
             {
                 return [
@@ -180,7 +179,7 @@ class ValueTest extends TestCase
             'script' => new HtmlString(''),
         ], $value3->prefix('p')->suffix('s')->content($request)->toHtml()->getData());
 
-        $value4 = new class() extends Value {
+        $value4 = new class () extends Value {
             public function calculate(Request $request): array
             {
                 return [

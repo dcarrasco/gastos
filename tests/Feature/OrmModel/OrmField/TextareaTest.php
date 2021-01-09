@@ -21,9 +21,9 @@ class TextareaTest extends TestCase
     {
         parent::setUp();
 
-        view()->share('errors', new ViewErrorBag);
+        view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class('nombreCampo') extends Textarea {
+        $this->field = new class ('nombreCampo') extends Textarea {
         };
     }
 
@@ -47,7 +47,10 @@ class TextareaTest extends TestCase
 
         $this->assertStringContainsString('<textarea', $this->field->getForm($request, $resource));
         $this->assertStringContainsString('name="nombre_campo"', $this->field->getForm($request, $resource));
-        $this->assertStringContainsString('maxlength=100', $this->field->rules('max:100')->getForm($request, $resource));
+        $this->assertStringContainsString(
+            'maxlength=100',
+            $this->field->rules('max:100')->getForm($request, $resource)
+        );
         $this->assertStringContainsString('valor1</textarea>', $this->field->getForm($request, $resource));
     }
 }

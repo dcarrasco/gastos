@@ -20,9 +20,9 @@ class Boolean extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getFormattedValue(Model $model, Request $request): HtmlString
+    public function getFormattedValue(): HtmlString
     {
-        $statusStyle = $model->getAttribute($this->attribute)
+        $statusStyle = $this->value
             ? "text-green-500"
             : "text-red-500";
 

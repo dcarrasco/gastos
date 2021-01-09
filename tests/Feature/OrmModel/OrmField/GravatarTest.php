@@ -21,7 +21,7 @@ class GravatarTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class('nombreCampo') extends Gravatar {
+        $this->field = new class ('nombreCampo') extends Gravatar {
         };
     }
 
@@ -43,14 +43,23 @@ class GravatarTest extends TestCase
         $model = $this->makeMock(Model::class, ['getAttribute']);
         $model->expects($this->any())->method('getAttribute')->willReturn(1);
 
-        $this->assertStringContainsString('<img src', $this->field->getFormattedValue($model, $request));
-        $this->assertStringContainsString('?size=240"', $this->field->getFormattedValue($model, $request));
+        $this->assertStringContainsString(
+            '<img src',
+            $this->field->resolveValue($model, $request)->getFormattedValue()
+        );
+        $this->assertStringContainsString(
+            '?size=240"',
+            $this->field->resolveValue($model, $request)->getFormattedValue()
+        );
 
         $request2 = $this->makeMock(Request::class, ['route']);
         $request2->expects($this->any())->method('route')->willReturn(
             (object) ['action' => ['as' => 'route.list']]
         );
 
-        $this->assertStringContainsString('?size=24"', $this->field->getFormattedValue($model, $request2));
+        $this->assertStringContainsString(
+            '?size=24"',
+            $this->field->resolveValue($model, $request2)->getFormattedValue()
+        );
     }
 }
