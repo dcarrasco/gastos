@@ -65,6 +65,7 @@ class HasMany extends Relation
 
     /**
      * Devuelve valor del campo formateado cuando las asociacion HasMany no tiene atributos adicionales
+     *
      * @param  Collection $relatedResources
      * @return HtmlString
      */
@@ -75,6 +76,7 @@ class HasMany extends Relation
 
     /**
      * Devuelve valor del campo formateado cuando la asociacion HasMany tiene atributos adicionales
+     *
      * @param  Collection $relatedResources
      * @return HtmlString
      */
@@ -85,6 +87,7 @@ class HasMany extends Relation
 
     /**
      * Indica si la relacion contiene el atributo indicado
+     *
      * @param  resource $resource
      * @param  string   $pivotRelation
      * @param  string   $option
@@ -98,6 +101,7 @@ class HasMany extends Relation
 
     /**
      * Genera linea de opciones para un elemento HasMany con attributos
+     *
      * @param  resource $resource
      * @param  string   $pivotRelation
      * @param  string   $option
@@ -127,6 +131,7 @@ class HasMany extends Relation
 
     /**
      * Genera columna de edición del atributo
+     *
      * @param  resource $resource
      * @param  bool     $edit
      * @return string
@@ -145,6 +150,7 @@ class HasMany extends Relation
 
     /**
      * Devuelve tabla para desplegar asociacion HasMany con atributos adicionales
+     *
      * @param  Collection   $relatedResources
      * @param  bool|boolean $edit
      * @return string
@@ -227,6 +233,7 @@ class HasMany extends Relation
 
     /**
      * Genera select para agregar nuevos elementos a la relacion HasMany cuando tiene atributos
+     *
      * @param  Collection $availableResources
      * @param  array      $extraParam
      * @return string
@@ -250,6 +257,7 @@ class HasMany extends Relation
 
     /**
      * Establece que el campo HasMany tiene atributos en la relacion
+     *
      * @param  string $field
      * @param  string $type
      * @return $this
@@ -271,6 +279,7 @@ class HasMany extends Relation
 
     /**
      * Indica si el campo relacion HasMany tiene atributos adicionales
+     *
      * @return boolean
      */
     public function hasRelationFields(): bool
@@ -280,6 +289,7 @@ class HasMany extends Relation
 
     /**
      * Recupera el nombre del campo a utilizar en el formulario para eliminar relaciones
+     *
      * @return [type]
      */
     public function getDeleteModelField(): string
@@ -289,6 +299,7 @@ class HasMany extends Relation
 
     /**
      * Recupera las caracteristicas de la relacion cuando tiene atributos
+     *
      * @return array
      */
     public function getRelationFields(): array
