@@ -200,7 +200,7 @@ class ValueTest extends TestCase
     public function testContentAjaxRequest()
     {
         $request = $this->makeMock(Request::class, []);
-        dump($this->value, $this->value->contentAjaxRequest($request));
+
         $this->assertIsArray($this->value->contentAjaxRequest($request));
     }
 }
