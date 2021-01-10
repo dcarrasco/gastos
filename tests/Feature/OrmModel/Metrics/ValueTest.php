@@ -165,10 +165,11 @@ class ValueTest extends TestCase
                 ];
             }
         };
+        $value3 = $value3->prefix('p')->suffix('s');
 
-        $this->assertStringContainsString('p 100 s', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
-        $this->assertStringContainsString('0% de aumento', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
-        $this->assertStringContainsString('fill: #38c172', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
+        $this->assertStringContainsString('p 100 s', $value3->content($request)->toHtml());
+        $this->assertStringContainsString('0% de aumento', $value3->content($request)->toHtml());
+        $this->assertStringContainsString('fill: #38c172', $value3->content($request)->toHtml());
 
         $value4 = new class () extends Value {
             public function calculate(Request $request): array
