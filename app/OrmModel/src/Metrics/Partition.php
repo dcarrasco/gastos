@@ -143,11 +143,14 @@ abstract class Partition extends Metric
     {
         $dataSet = $this->calculate($request);
 
-        return new HtmlString(view('orm.metrics.partition_script', [
-            'data' => new HtmlString(json_encode($dataSet->values())),
-            'labels' => new HtmlString(json_encode($dataSet->keys())),
-            'cardId' => $this->cardId(),
-            'baseUrl' => asset(''),
-        ])->render());
+        return new HtmlString(
+            view('orm.metrics.partition_script', [
+                'data' => new HtmlString(json_encode($dataSet->values())),
+                'labels' => new HtmlString(json_encode($dataSet->keys())),
+                'cardId' => $this->cardId(),
+                'baseUrl' => asset(''),
+            ])
+            ->render()
+        );
     }
 }

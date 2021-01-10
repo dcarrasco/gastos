@@ -189,12 +189,15 @@ abstract class Value extends Metric
     {
         $data = $this->formattedData($this->calculate($request));
 
-        return new HtmlString(view('orm.metrics.value_content', [
-            'currentValue' => Arr::get($data, 'currentValue', 0),
-            'previousValue' => Arr::get($data, 'previousValue', 0),
-            'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
-            'script' => $this->contentScript($request),
-        ]));
+        return new HtmlString(
+            view('orm.metrics.value_content', [
+                'currentValue' => Arr::get($data, 'currentValue', 0),
+                'previousValue' => Arr::get($data, 'previousValue', 0),
+                'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
+                'script' => $this->contentScript($request),
+            ])
+            ->render()
+        );
     }
 
     /**
@@ -206,7 +209,7 @@ abstract class Value extends Metric
     public function contentAjaxRequest(Request $request): array
     {
         return [
-            'content' => $this->content($request)->toHtml()->render(),
+            'content' => $this->content($request)->toHtml(),
         ];
     }
 }

@@ -138,12 +138,9 @@ class ValueTest extends TestCase
             }
         };
 
-        $this->assertEquals([
-            'currentValue' => ' 100 ',
-            'previousValue' => '100% de aumento',
-            'trendIconStyle' => 'up',
-            'script' => new HtmlString(''),
-        ], $this->value->content($request)->toHtml()->getData());
+        $this->assertStringContainsString('100', $this->value->content($request)->toHtml());
+        $this->assertStringContainsString('100% de aumento', $this->value->content($request)->toHtml());
+        $this->assertStringContainsString('fill: #38c172', $this->value->content($request)->toHtml());
 
         $value2 = new class () extends Value {
             public function calculate(Request $request): array
@@ -155,12 +152,9 @@ class ValueTest extends TestCase
             }
         };
 
-        $this->assertEquals([
-            'currentValue' => ' 50 ',
-            'previousValue' => '-50% de disminucion',
-            'trendIconStyle' => 'down',
-            'script' => new HtmlString(''),
-        ], $value2->content($request)->toHtml()->getData());
+        $this->assertStringContainsString('50', $value2->content($request)->toHtml());
+        $this->assertStringContainsString('-50% de disminucion', $value2->content($request)->toHtml());
+        $this->assertStringContainsString('fill: #e3342f', $value2->content($request)->toHtml());
 
         $value3 = new class () extends Value {
             public function calculate(Request $request): array
@@ -172,12 +166,9 @@ class ValueTest extends TestCase
             }
         };
 
-        $this->assertEquals([
-            'currentValue' => 'p 100 s',
-            'previousValue' => '0% de aumento',
-            'trendIconStyle' => 'up',
-            'script' => new HtmlString(''),
-        ], $value3->prefix('p')->suffix('s')->content($request)->toHtml()->getData());
+        $this->assertStringContainsString('p 100 s', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
+        $this->assertStringContainsString('0% de aumento', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
+        $this->assertStringContainsString('fill: #38c172', $value3->prefix('p')->suffix('s')->content($request)->toHtml());
 
         $value4 = new class () extends Value {
             public function calculate(Request $request): array
@@ -188,13 +179,9 @@ class ValueTest extends TestCase
                 ];
             }
         };
-
-        $this->assertEquals([
-            'currentValue' => ' 100 ',
-            'previousValue' => 'Sin datos anteriores',
-            'trendIconStyle' => 'none',
-            'script' => new HtmlString(''),
-        ], $value4->content($request)->toHtml()->getData());
+        $this->assertStringContainsString('100', $value4->content($request)->toHtml());
+        $this->assertStringContainsString('Sin datos anteriores', $value4->content($request)->toHtml());
+        $this->assertStringContainsString('display: none', $value4->content($request)->toHtml());
     }
 
     public function testContentAjaxRequest()

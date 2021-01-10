@@ -340,10 +340,13 @@ abstract class Trend extends Metric
     {
         $dataSet = $this->calculate($request);
 
-        return new HtmlString(view('orm.metrics.trend_script', [
-            'data' => new HtmlString(json_encode($dataSet->values())),
-            'labels' => new HtmlString(json_encode($dataSet->keys())),
-            'cardId' => $this->cardId(),
-        ])->render());
+        return new HtmlString(
+            view('orm.metrics.trend_script', [
+                'data' => new HtmlString(json_encode($dataSet->values())),
+                'labels' => new HtmlString(json_encode($dataSet->keys())),
+                'cardId' => $this->cardId(),
+            ])
+            ->render()
+        );
     }
 }

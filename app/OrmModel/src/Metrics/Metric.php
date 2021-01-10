@@ -141,11 +141,14 @@ abstract class Metric
      */
     public function content(Request $request): HtmlString
     {
-        return new HtmlString(view('orm.metrics.metric_content', [
-            'cardId' => $this->cardId(),
-            'baseUrl' => asset(''),
-            'script' => $this->contentScript($request),
-        ])->render());
+        return new HtmlString(
+            view('orm.metrics.metric_content', [
+                'cardId' => $this->cardId(),
+                'baseUrl' => asset(''),
+                'script' => $this->contentScript($request),
+            ])
+            ->render()
+        );
     }
 
     /**
