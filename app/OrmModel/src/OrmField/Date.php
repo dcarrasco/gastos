@@ -2,13 +2,10 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
-use Illuminate\Database\Eloquent\Model;
 
 class Date extends Field
 {
@@ -18,9 +15,7 @@ class Date extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

@@ -71,8 +71,8 @@ trait UsesSorting
     /**
      * Devuelve la clase o icono a aplicar en un campo
      *
-     * @param  Request  $request
-     * @param  Resource $resource
+     * @param  string  $field
+     * @param  string  $order
      * @return string
      */
     protected function getSortingIconClass(string $field, string $order): string
@@ -85,8 +85,8 @@ trait UsesSorting
     /**
      * Devuelve el orden (asc/desc) de ordenamiento de un campo
      *
-     * @param  Request  $request
-     * @param  Resource $resource
+     * @param  string  $field
+     * @param  string  $order
      * @return string
      */
     protected function getSortingOrder(string $field, string $order): string

@@ -33,7 +33,8 @@ class HasMany extends Relation
     /**
      * Resuelve el valor del campo a partir del modelo y del request
      *
-     * @param  Model  $model
+     * @param  Model    $model
+     * @param  Request  $request
      * @return Field
      */
     public function resolveValue(Model $model, Request $request): Field
@@ -76,7 +77,6 @@ class HasMany extends Relation
     /**
      * Devuelve colletion con los recursos asociados a la relacion
      *
-     * @param Model $model
      * @return Collection
      */
     public function getRelatedResources(): Collection
@@ -88,9 +88,7 @@ class HasMany extends Relation
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {
@@ -217,7 +215,7 @@ class HasMany extends Relation
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         if ($this->hasRelationFields) {
             return $this->getAttributesForm($request, $resource, $extraParam);
@@ -242,7 +240,7 @@ class HasMany extends Relation
      * @param  array    $extraParam
      * @return HtmlString
      */
-    public function getAttributesForm(Request $request, Resource $resource, $extraParam = []): HtmlString
+    public function getAttributesForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $relatedResources = $this->getRelatedResources();
 
@@ -284,9 +282,9 @@ class HasMany extends Relation
      *
      * @param  string $field
      * @param  string $type
-     * @return $this
+     * @return Field
      */
-    public function relationField(string $field, string $type)
+    public function relationField(string $field, string $type): Field
     {
         $type = json_decode($type, true);
         $fieldType = array_key_first($type);
@@ -314,7 +312,7 @@ class HasMany extends Relation
     /**
      * Recupera el nombre del campo a utilizar en el formulario para eliminar relaciones
      *
-     * @return [type]
+     * @return string
      */
     public function getDeleteModelField(): string
     {

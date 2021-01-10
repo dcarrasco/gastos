@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use App\OrmModel\src\OrmField\BelongsTo;
 
 abstract class Resource
 {

@@ -2,14 +2,11 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Relation;
-use Illuminate\Database\Eloquent\Model;
 
 class BelongsTo extends Relation
 {
@@ -18,9 +15,7 @@ class BelongsTo extends Relation
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Model   $model
-     * @param  Request $request
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {
@@ -70,7 +65,8 @@ class BelongsTo extends Relation
     /**
      * Genera HTML para script onchange
      *
-     * @param string $field
+     * @param Request $request
+     * @param string  $field
      * @return HtmlString
      */
     protected function makeOnChange(Request $request, string $field): HtmlString

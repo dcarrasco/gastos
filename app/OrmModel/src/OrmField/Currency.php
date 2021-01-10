@@ -19,9 +19,7 @@ class Currency extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

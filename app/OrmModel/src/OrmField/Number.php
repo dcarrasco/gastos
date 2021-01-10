@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -17,9 +16,7 @@ class Number extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

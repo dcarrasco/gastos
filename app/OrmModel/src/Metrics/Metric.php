@@ -2,11 +2,9 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
@@ -195,6 +193,7 @@ abstract class Metric
     /**
      * Compara identificador URI con string
      *
+     * @param  string $uriKey
      * @return boolean
      */
     public function hasUriKey(string $uriKey): bool

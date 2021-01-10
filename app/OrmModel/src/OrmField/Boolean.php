@@ -2,12 +2,10 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use App\OrmModel\src\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
-use Illuminate\Database\Eloquent\Model;
 
 class Boolean extends Field
 {
@@ -16,9 +14,7 @@ class Boolean extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {
@@ -36,7 +32,7 @@ class Boolean extends Field
      * @param  string $type  Tipo del elemento
      * @return string
      */
-    protected function formRadioItem(string $name, $value, $type = 'yes'): string
+    protected function formRadioItem(string $name, string $value, string $type = 'yes'): string
     {
         $radioValue = $type == 'yes' ? 1 : 0;
         $checked = $type == 'yes' ? ($value == '1') : ($value != '1');
@@ -63,7 +59,7 @@ class Boolean extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $value = $resource->model()->getAttribute($this->attribute);
+        $value = (string) $resource->model()->getAttribute($this->attribute);
 
         return new HtmlString(
             $this->formRadioItem($this->attribute, $value, 'yes')

@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -26,6 +25,12 @@ class Id extends Field
         $this->showOnForm = false;
     }
 
+    /**
+     * Fija si el campo id es autoincrement
+     *
+     * @param boolean $esIncrementing
+     * @return Id
+     */
     public function esIncrementing(bool $esIncrementing = true): Id
     {
         $this->esIncrementing = $esIncrementing;

@@ -5,7 +5,6 @@ namespace App\OrmModel\Metrics;
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use App\OrmModel\src\Metrics\Partition;
 use Illuminate\Database\Eloquent\Builder;
 

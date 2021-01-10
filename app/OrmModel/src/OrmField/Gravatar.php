@@ -2,10 +2,8 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
@@ -62,9 +60,7 @@ class Gravatar extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

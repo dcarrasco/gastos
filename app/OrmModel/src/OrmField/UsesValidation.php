@@ -24,7 +24,7 @@ trait UsesValidation
      * Devuelve validación del campo
      *
      * @param  Resource $resource
-     * @return String
+     * @return string
      */
     public function getValidation(Resource $resource): string
     {

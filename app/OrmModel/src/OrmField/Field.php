@@ -2,8 +2,6 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
@@ -99,7 +97,7 @@ abstract class Field
     /**
      * Muestra campo en listado Index
      *
-     * @return Field
+     * @return bool
      */
     public function showOnIndex(): bool
     {
@@ -119,7 +117,7 @@ abstract class Field
     /**
      * Muestra campo en detalle
      *
-     * @return Field
+     * @return bool
      */
     public function showOnDetail(): bool
     {
@@ -129,7 +127,7 @@ abstract class Field
     /**
      * Muestra campo en formulario
      *
-     * @return Field
+     * @return bool
      */
     public function showOnForm(): bool
     {
@@ -162,7 +160,6 @@ abstract class Field
     /**
      * Devuelve nombre del campo de la BD
      *
-     * @param  Resource|null $resource
      * @return string
      */
     public function getAttribute(): string
@@ -170,6 +167,12 @@ abstract class Field
         return $this->attribute;
     }
 
+    /**
+     * Devuelve el atributo del modelo
+     *
+     * @param Resource $resource
+     * @return string
+     */
     public function getModelAttribute(Resource $resource): string
     {
         return $this->attribute;
@@ -188,7 +191,7 @@ abstract class Field
     /**
      * Recupera la glosa onchange
      *
-     * @return mixed
+     * @return string
      */
     public function getOnChange(): string
     {
@@ -198,8 +201,8 @@ abstract class Field
     /**
      * Fija la glosa onchange
      *
-     * @param mixed $onChange
-     * @return self
+     * @param string $onChange
+     * @return Field
      */
     public function onChange(string $onChange): Field
     {
@@ -221,7 +224,8 @@ abstract class Field
     /**
      * Resuelve el valor del campo a partir del modelo y del request
      *
-     * @param  Model  $model
+     * @param  Model    $model
+     * @param  Request  $request
      * @return Field
      */
     public function resolveValue(Model $model, Request $request): Field
@@ -233,8 +237,8 @@ abstract class Field
 
     /**
      * Devuelve valor del campo
-     * @param  Request    $request
-     * @param  Model|null $model
+     * @param  Model    $model
+     * @param  Request  $request
      * @return mixed
      */
     public function getValue(Model $model, Request $request)
@@ -242,7 +246,13 @@ abstract class Field
         return optional($model)->getAttribute($this->attribute);
     }
 
-    public function setValue($value)
+    /**
+     * Setea el valor del campo
+     *
+     * @param mixed $value
+     * @return Field
+     */
+    public function setValue($value): Field
     {
         $this->value = $value;
 
@@ -252,7 +262,6 @@ abstract class Field
     /**
      * Formatea valor a mostrar a partir de modelo
      *
-     * @param  Model  $model
      * @return Field
      */
     public function resolveFormattedValue(): Field
@@ -289,8 +298,7 @@ abstract class Field
 
     /**
      * Devuelve valor del campo formateado
-     * @param  Request    $request
-     * @param  Model|null $model
+     *
      * @return mixed
      */
     public function getFormattedValue(): HtmlString

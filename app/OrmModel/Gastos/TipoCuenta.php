@@ -7,8 +7,6 @@ use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\Select;
-use App\OrmModel\src\Gastos\TipoMovimiento;
-use App\Models\Gastos\TipoCuenta as ModelTipoCuenta;
 
 class TipoCuenta extends Resource
 {

@@ -2,9 +2,7 @@
 
 namespace App\OrmModel\Metrics;
 
-use App\Models\Gastos\Gasto;
 use Illuminate\Http\Request;
-use App\Models\Gastos\SaldoMes;
 use App\Models\Gastos\Inversion;
 use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;

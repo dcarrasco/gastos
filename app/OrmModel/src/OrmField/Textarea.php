@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Form;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -35,7 +34,7 @@ class Textarea extends Field
     /**
      * Devuelve largo del campo, de acuerdo a regla de validacion
      *
-     * @return string
+     * @return int
      */
     protected function getFieldLength(): int
     {
