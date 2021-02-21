@@ -1,4 +1,5 @@
-@can('create', 'App\Models\Gastos\Gasto')
+@props(['selectCuentas', 'selectTiposGastos'])
+
 <tr class="hover:bg-blue-100">
     <form method="POST">
         @csrf
@@ -28,4 +29,3 @@
         <td></td>
     </form>
 </tr>
-@endcan

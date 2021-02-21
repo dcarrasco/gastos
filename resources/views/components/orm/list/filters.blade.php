@@ -1,3 +1,5 @@
+@props(['resource'])
+
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
         <x-button color="light" @click="openFilter=true" id="button-filters" class="flex border items-center">

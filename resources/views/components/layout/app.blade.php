@@ -10,7 +10,7 @@
                 <x-layout.navbar />
                 <div class="grid grid-cols-5 h-full">
                     <div class="col-span-1 bg-gray-700">
-                        <x-layout.menu-modulo />
+                        <x-layout.menu-modulo :modulos="auth()->user()->getMenuApp(request())" :menuModulo="$menuModulo ?? []" />
                     </div>
                     <div class="col-span-4 px-12 py-10">
                         <x-alert :errors=$errors />

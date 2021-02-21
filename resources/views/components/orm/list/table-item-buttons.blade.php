@@ -1,3 +1,5 @@
+@props(['resource'])
+
 @can('view', $resource->model())
 <a class="inline-block hover:text-blue-500" href="{{ route($routeName.'.show', [$resource->getName(), $resource->model()->getKey()]) }}">
     <x-heroicon.show />

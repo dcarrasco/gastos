@@ -16,22 +16,25 @@
 ])
 @php
     $value = old($name, request($name, $value));
-@endphp
-@if ($type == 'selectYear')
-    @php
+
+    if ($type == 'selectYear') {
         $type = 'select';
         $options = array_combine(range($fromYear, $toYear), range($fromYear, $toYear));
-    @endphp
-@elseif ($type == 'selectMonth')
-    @php
+    }
+    else if ($type == 'selectMonth') {
         $type = 'select';
-        $options = collect(range(1,12))->mapWithKeys(function($mes) { return [$mes => now()->create(2020, $mes, 01)->formatLocalized('%B')];});
-    @endphp
-@endif
-@if($type == 'select')
-    @php
+        $options = collect(range(1,12))
+            ->mapWithKeys(function($mes) {
+                return [$mes => trans('fechas.' . now()->create(2020, $mes, 01)->formatLocalized('%B'))];
+            });
+    }
+
+    if ($type == 'select') {
         $value = is_array($value) ? $value : (empty($value) ? [] : [$value]);
-    @endphp
+    }
+@endphp
+
+@if($type == 'select')
     <select
         name="{{ $name }}"
         class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
@@ -42,6 +45,7 @@
     @if(!empty($placeholder))
         <option value="" disabled="disabled" {{ empty($value) ? 'selected' : '' }}>{!! $placeholder !!}</option>
     @endif
+
     @foreach ($options as $optionValue => $optionText)
         @if(is_array($optionText))
             <optgroup label="{{ $optionValue }}">
@@ -54,6 +58,7 @@
         @endif
     @endforeach
     </select>
+
 @elseif($type == 'textarea')
     <textarea
         name="{{ $name }}"
@@ -63,6 +68,7 @@
         {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
         {{ $attributes }}
     >{{ $value }}</textarea>
+
 @else
     <input
         type="{{ $type }}"

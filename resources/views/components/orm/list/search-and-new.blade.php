@@ -1,3 +1,5 @@
+@props(['resource'])
+
 <form method="GET" class="flex justify-between py-2">
     <div id="{{ $resource->urlSearchKey() }}_group" class="relative">
         <div class="absolute inset-y-0 left-0 flex items-center">

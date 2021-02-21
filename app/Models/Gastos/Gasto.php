@@ -180,4 +180,14 @@ class Gasto extends Model
             ->groupBy('tipo_gasto_id', 'mes')
             ->get();
     }
+
+    public function deleteMessage(): string
+    {
+        return trans('gastos.delete', [
+            'gasto' => optional($this->fecha)->format('d-m-Y')
+                . ' ' . $this->glosa
+                . " " . fmtMonto($this->monto)
+            ]);
+    }
+
 }
