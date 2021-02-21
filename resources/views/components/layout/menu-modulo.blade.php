@@ -8,7 +8,7 @@
             <span class="fa fa-{{ $modulo->icono }} fa-fw"></span>
             {{ $modulo->modulo }}
         </a>
-        @if (isset($menuModulo) and $modulo->selected)
+        @if (count($menuModulo) and $modulo->selected)
             <ul class="pt-3 text-sm">
             @foreach ($menuModulo as $subModulo)
                 <li class="px-4 py-1">

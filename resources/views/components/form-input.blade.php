@@ -19,7 +19,7 @@
 
     if ($type == 'selectYear') {
         $type = 'select';
-        $options = array_combine(range($fromYear, $toYear), range($fromYear, $toYear));
+        $options = collect(range($fromYear, $toYear))->combine(range($fromYear, $toYear));
     }
     else if ($type == 'selectMonth') {
         $type = 'select';
@@ -31,10 +31,14 @@
 
     if ($type == 'select') {
         $value = is_array($value) ? $value : (empty($value) ? [] : [$value]);
+
+        if (! is_array(collect($options)->first())) {
+            $options = collect(['' => collect($options)->all()]);
+        }
     }
 @endphp
 
-@if($type == 'select')
+@if ($type == 'select')
     <select
         name="{{ $name }}"
         class="{{ $defaultClass }} {{ $class }} @error($name) border-red-400 @enderror"
@@ -42,19 +46,26 @@
         {{ empty($size) ? '' : "size={$size}" }}
         {{ $attributes }}
     >
-    @if(!empty($placeholder))
-        <option value="" disabled="disabled" {{ empty($value) ? 'selected' : '' }}>{!! $placeholder !!}</option>
+
+    @if (!empty($placeholder))
+        <option value="" disabled="disabled" {{ empty($value) ? 'selected' : '' }}>
+            {!! $placeholder !!}
+        </option>
     @endif
 
-    @foreach ($options as $optionValue => $optionText)
-        @if(is_array($optionText))
-            <optgroup label="{{ $optionValue }}">
-            @foreach ($optionText as $displayValue => $displayText)
-                <option value="{{ $displayValue }}" {{ in_array($displayValue, $value) ? 'selected' : '' }}>{{ $displayText }}</option>
-            @endforeach
+    @foreach ($options as $groupName => $groupOptions)
+        @if (!empty($groupName))
+            <optgroup label="{{ $groupName }}">
+        @endif
+
+        @foreach ($groupOptions as $optionValue => $optionText)
+            <option value="{{ $optionValue }}" {{ in_array($optionValue, $value) ? 'selected' : '' }}>
+                {{ $optionText }}
+            </option>
+        @endforeach
+
+        @if (!empty($groupName))
             </optgroup>
-        @else
-            <option value="{{ $optionValue }}" {{ in_array($optionValue, $value) ? 'selected' : '' }}>{{ $optionText }}</option>
         @endif
     @endforeach
     </select>

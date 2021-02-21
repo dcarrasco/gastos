@@ -7,7 +7,7 @@
         <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
         <input type="hidden" name="mes" value="{{ request('mes', today()->month) }}">
         <td class="px-1 py-2">
-            <x-form-input name="fecha" type="date" class="w-40"/>
+            <x-form-input type="date" name="fecha" class="w-40"/>
         </td>
         <td class="px-1 py-2">
             <x-form-input name="glosa" class="w-full" />
@@ -16,7 +16,7 @@
             <x-form-input name="serie" class="w-32" />
         </td>
         <td class="px-1 py-2">
-            <x-form-input name="tipo_gasto_id" type="select" class="w-56" :options=$selectTiposGastos placeholder="&mdash;" />
+            <x-form-input type="select" name="tipo_gasto_id" class="w-56" :options=$selectTiposGastos placeholder="&mdash;" />
         </td>
         <td class="px-1 py-2">
             <x-form-input name="monto" class="w-24" />
