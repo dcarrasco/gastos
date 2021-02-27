@@ -1,12 +1,12 @@
 <div class="flex justify-center items-center pb-6">
     <label class="mr-2">Cuenta</label>
-    <x-form-input type="select" name="cuenta_id" :options=$formCuenta />
+    <x-form-input type="select" name="cuenta_id" :options="$formCuenta" />
 
     <label class="ml-5 mr-2">A&ntilde;o</label>
-    <x-form-input type="selectYear" name="anno" :value="today()->year" />
+    <x-form-input type="selectYear" name="anno" />
 
     <label class="ml-5 mr-2">Mes</label>
-    <x-form-input type="selectMonth" name="mes" :value="today()->month" />
+    <x-form-input type="selectMonth" name="mes" />
 </div>
 
 <div class="grid grid-cols-10">

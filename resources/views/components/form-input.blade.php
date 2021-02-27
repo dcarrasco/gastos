@@ -20,6 +20,7 @@
     if ($type == 'selectYear') {
         $type = 'select';
         $options = collect(range($fromYear, $toYear))->combine(range($fromYear, $toYear));
+        $value = empty($value) ? today()->year : $value;
     }
     else if ($type == 'selectMonth') {
         $type = 'select';
@@ -27,6 +28,7 @@
             ->mapWithKeys(function($mes) {
                 return [$mes => trans('fechas.' . now()->create(2020, $mes, 01)->formatLocalized('%B'))];
             });
+        $value = empty($value) ? today()->month : $value;
     }
 
     if ($type == 'select') {

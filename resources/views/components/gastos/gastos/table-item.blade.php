@@ -7,13 +7,13 @@
     <td>{{ $movimiento->tipoGasto->tipo_gasto }}</td>
     <td class="text-right">
         {{ fmtMonto($movimiento->monto) }}
-        <x-signo-movimiento :movimiento=$movimiento />
+        <x-signo-movimiento :movimiento="$movimiento" />
     </td>
     <td class="text-right">{{ fmtMonto($movimiento->saldo_final) }}</td>
     <td>
         @can('delete', $movimiento)
             <a class="inline-block hover:text-blue-500 align-text-top py-0"
-                @click="openDeleteModal = true;
+                x-on:click="openDeleteModal = true;
                     deleteMessage = '{!! $movimiento->deleteMessage() !!}';
                     urlDelete = '{!! route('gastos.borrarGasto', [$movimiento->getKey()]) !!}'"
                 style="cursor: pointer;"
