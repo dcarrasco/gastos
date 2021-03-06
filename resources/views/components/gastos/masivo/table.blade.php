@@ -36,7 +36,7 @@
                 </td>
                 <td class="text-right">
                     {{ fmtMonto($gasto->monto) }}
-                    <x-signo-movimiento :movimiento=$gasto />
+                    <x-signo-movimiento :movimiento="$gasto" />
                 </td>
             </tr>
         @endforeach
