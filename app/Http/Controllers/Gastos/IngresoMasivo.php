@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Gastos;
 
 use Illuminate\Http\Request;
+use App\Models\Gastos\TipoGasto;
 use App\Http\Controllers\Controller;
+use App\Models\Gastos\GlosaTipoGasto;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
@@ -37,6 +39,7 @@ class IngresoMasivo extends Controller
             'formCuenta' => $this->cuentas,
             'datosMasivos' => $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
+            'selectTiposGastos' => TipoGasto::selectOptions(),
         ])->withErrors($this->parser->getParserError());
     }
 
@@ -46,5 +49,17 @@ class IngresoMasivo extends Controller
             ->each->save();
 
         return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes'));
+    }
+
+    protected function storeTipoGasto(Request $request)
+    {
+        GlosaTipoGasto::create([
+            'cuenta_id' => $request->input('cuenta_id'),
+            'glosa' => trim(str_replace('COMPRAS', '', $request->input('glosa_tipo_gasto'))),
+            'tipo_gasto_id' => $request->input('tipo_gasto_id'),
+        ]);
+        dump('');
+
+        return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes', 'datos'));
     }
 }

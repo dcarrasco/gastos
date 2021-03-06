@@ -47,6 +47,7 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], 
 
     Route::match(['get', 'post'], 'ingreso-masivo', [IngresoMasivo::class, 'index'])->name('ingresoMasivo');
     Route::post('ingreso-masivo-add', [IngresoMasivo::class, 'store'])->name('ingresoMasivoAdd');
+    Route::post('ingreso-masivo-add-tipo-gasto', [IngresoMasivo::class, 'storeTipoGasto'])->name('ingresoMasivoAddTipoGasto');
 
     Route::get('inversion', [IngresoInversion::class, 'index'])->name('ingresoInversion');
     Route::post('inversion', [IngresoInversion::class, 'store'])->name('addInversion');

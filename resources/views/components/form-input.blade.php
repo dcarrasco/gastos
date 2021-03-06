@@ -15,7 +15,7 @@
     'toYear' => 2015,
 ])
 @php
-    $value = old($name, request($name, $value));
+    $value = old($name, request(str_replace(' ', '_', $name), $value));
 
     if ($type == 'selectYear') {
         $type = 'select';

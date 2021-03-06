@@ -1,6 +1,6 @@
 <x-layout.app>
 
-    <form method="POST" id="form-masivo" x-data="{ }" x-ref="form">
+    <form method="POST" id="form-masivo" x-data x-ref="form">
         @csrf
 
         <x-gastos.masivo.form :formCuenta="$formCuenta" />
@@ -8,42 +8,8 @@
         @if (count($datosMasivos))
             <div class="grid grid-cols-10">
                 <div class="col-start-2 col-span-8">
-                    <table class="w-full table-auto text-sm">
-                        <thead class="bg-gray-300 border-b-2 border-gray-400">
-                            <tr>
-                                <th class="py-2">Fecha</th>
-                                <th>Glosa</th>
-                                <th>Serie</th>
-                                <th>Tipo Gasto</th>
-                                <th class="text-right">Monto</th>
-                            </tr>
-                        </thead>
 
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($datosMasivos as $gasto)
-                                <tr class="hover:bg-blue-100">
-                                    <td class="py-2">{{ $gasto->fecha->format('d-m-Y') }}</td>
-                                    <td>{{ $gasto->glosa }}</td>
-                                    <td>{{ $gasto->serie }}</td>
-                                    <td>{{ optional($gasto->tipoGasto)->tipo_gasto }} </td>
-                                    <td class="text-right">
-                                        {{ fmtMonto($gasto->monto) }}
-                                        <x-signo-movimiento :movimiento=$gasto />
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-
-                        <tfoot class="bg-gray-300 font-bold border-t-2 border-gray-400">
-                            <tr>
-                                <td class="py-2">Total {{ $datosMasivos->count() }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-right">{{ fmtMonto($datosMasivos->pluck('monto')->sum()) }}</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <x-gastos.masivo.table :datosMasivos="$datosMasivos" :selectTiposGastos="$selectTiposGastos" />
 
                     @if ($agregarDatosMasivos)
                         @can('create', 'App\Models\Gastos\Gasto')
