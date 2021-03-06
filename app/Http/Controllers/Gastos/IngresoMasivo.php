@@ -58,8 +58,8 @@ class IngresoMasivo extends Controller
             'glosa' => trim(str_replace('COMPRAS', '', $request->input('glosa_tipo_gasto'))),
             'tipo_gasto_id' => $request->input('tipo_gasto_id'),
         ]);
-        dump('');
 
-        return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes', 'datos'));
+        return redirect()->route('gastos.ingresoMasivo')
+            ->withInput($request->only('cuenta_id', 'anno', 'mes', 'datos'));
     }
 }
