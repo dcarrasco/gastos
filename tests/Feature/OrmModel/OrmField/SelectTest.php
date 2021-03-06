@@ -94,7 +94,7 @@ class SelectTest extends TestCase
             $this->field->options($opciones)->getForm($request, $resource)
         );
         $this->assertStringContainsString(
-            '<option value="opc1" selected>valor1</option>',
+            '<option value="opc1" selected>',
             $this->field->options($opciones)->getForm($request, $resource)
         );
     }
