@@ -38,9 +38,7 @@ class GastosParser
 
     public function agregarDatosMasivos(Request $request): bool
     {
-        $datosMasivos = $this->procesaMasivo($request);
-
-        return $datosMasivos->count() == $datosMasivos
+        return $this->datosMasivos->count() == $this->datosMasivos
             ->filter->hasTipoGasto()
             ->count();
     }

@@ -21,11 +21,13 @@ class VisaExcelParser extends GastosParser
 
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
-        return $this->requestDatosMasivos($request)
+        $this->datosMasivos = $this->requestDatosMasivos($request)
             ->filtrarLineasValidas($request)
             ->procesaLineas($request)
             ->filtraLineasExistentes($request)
             ->getDatosMasivos();
+
+        return $this->datosMasivos;
     }
 
     protected function getDatosMasivos()
