@@ -47,6 +47,11 @@ class Inversion
         return $saldo->monto - $this->getSumMovimientos($saldo);
     }
 
+    public function utilHasta(Carbon $fecha): int
+    {
+        return $this->util($this->ultimoSaldo($fecha));
+    }
+
     public function ultimoSaldo(Carbon $fecha): Gasto
     {
         return $this->saldos()

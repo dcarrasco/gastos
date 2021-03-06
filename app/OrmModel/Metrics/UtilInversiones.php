@@ -25,10 +25,8 @@ class UtilInversiones extends Value
 
         return collect($this->cuentasInversiones)
             ->map(function ($cuenta) use ($fechaHasta) {
-                $inversion = new Inversion($cuenta, $fechaHasta->year);
-                $ultimoSaldo = $inversion->ultimoSaldo($fechaHasta);
-
-                return $inversion->util($ultimoSaldo);
+                return (new Inversion($cuenta, $fechaHasta->year))
+                    ->utilHasta($fechaHasta);
             })
             ->sum();
     }
