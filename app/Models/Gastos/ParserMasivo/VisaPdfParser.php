@@ -9,7 +9,7 @@ use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
 use App\Models\Gastos\GlosaTipoGasto;
 
-class VisaParser extends GastosParser
+class VisaPdfParser extends GastosParser
 {
     protected $descripcion = 'PDF';
 
@@ -23,39 +23,54 @@ class VisaParser extends GastosParser
 
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
-        return collect(explode(PHP_EOL, $request->input('datos')))
-            ->filter(function ($linea) {
-                return $this->esLineaValida($linea);
-            })
-            ->map(function ($linea) use ($request) {
-                return $this->procesaLineaMasivo($request, $linea);
-            })
-            ->filter(function ($gasto) use ($request) {
-                $gastoAnterior = (new Gasto())->where([
-                    'cuenta_id' => $request->cuenta_id,
-                    'anno' => $request->anno,
-                    'fecha' => $gasto->fecha,
-                    'serie' => $gasto->serie,
-                    'monto' => $gasto->monto,
-                ])
-                ->get()
-                ->first();
+        $this->datosMasivos = $this->requestDatosMasivos($request)
+            ->filtrarLineasValidas($request)
+            ->procesaLineas($request)
+            ->filtraLineasExistentes($request)
+            ->getDatosMasivos();
 
-                return is_null($gastoAnterior);
-            });
+        return $this->getDatosMasivos();
     }
 
+    protected function requestDatosMasivos(Request $request): VisaPdfParser
+    {
+        $this->datosMasivos = collect(explode(PHP_EOL, $request->datos));
+
+        return $this;
+    }
+
+    protected function filtrarLineasValidas(Request $request): VisaPdfParser
+    {
+        $this->datosMasivos = $this->datosMasivos
+            ->filter(function ($linea) {
+                return preg_match('/\t/', $linea) == 0;
+            })
+            ->filter(function ($linea) {
+                return collect(explode(" ", $linea))->count() >= 11;
+            })
+            ->filter(function ($linea) {
+                return preg_match('/[0-9]{4}/', $linea) === 1;
+            });
+
+        return $this;
+    }
+
+    protected function procesaLineas(Request $request): VisaPdfParser
+    {
+        $this->datosMasivos = $this->datosMasivos
+            ->map(function ($linea) use ($request) {
+                return $this->procesaLineaMasivo($request, $linea);
+            });
+
+        return $this;
+    }
 
     protected function procesaLineaMasivo(Request $request, string $linea): Gasto
     {
-        if (empty($linea)) {
-            return null;
-        }
-
         $linea = collect(explode(' ', $linea));
         $tipoGasto = $this->getTipoGasto($request, $linea);
 
-        return (new Gasto())->fill([
+        return new Gasto([
             'cuenta_id' => $request->cuenta_id,
             'anno' => $request->anno,
             'mes' => $request->mes,
@@ -64,9 +79,21 @@ class VisaParser extends GastosParser
             'glosa' => $this->getGlosa($linea),
             'tipo_gasto_id' => $tipoGasto->id,
             'tipo_movimiento_id' => optional($tipoGasto->tipoMovimiento)->id,
-            'monto' => (int) str_replace('.', '', str_replace('$', '', $linea->last())),
+            'monto' => $this->getMonto($linea),
             'usuario_id' => auth()->id(),
         ]);
+    }
+
+    protected function filtraLineasExistentes(Request $request): VisaPdfParser
+    {
+        $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
+
+        $this->datosMasivos = $this->datosMasivos
+            ->filter(function ($gasto) use ($request, $camposFiltro) {
+                return Gasto::where($gasto->only($camposFiltro))->get()->count() == 0;
+            });
+
+        return $this;
     }
 
     protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
@@ -82,8 +109,6 @@ class VisaParser extends GastosParser
         return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
     }
 
-
-
     protected function getIndexFecha(Collection $linea): int
     {
         return 1;
@@ -91,21 +116,9 @@ class VisaParser extends GastosParser
 
     protected function getFecha(Collection $linea): Carbon
     {
-        $fecha = $linea->get($this->getIndexFecha($linea));
+        $fecha = explode('/', $linea->get($this->getIndexFecha($linea)));
 
-        return (new Carbon())->create(
-            2000 + (int)substr($fecha, 6, 2),
-            substr($fecha, 3, 2),
-            substr($fecha, 0, 2),
-            0,
-            0,
-            0
-        );
-    }
-
-    protected function esLineaValida(string $linea): bool
-    {
-        return preg_match('/[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9]/', $linea) === 1;
+        return (new Carbon())->create(2000 + (int)$fecha[2], $fecha[1], $fecha[0], 0, 0, 0);
     }
 
     protected function getIndexSerie(Collection $linea)
@@ -136,6 +149,11 @@ class VisaParser extends GastosParser
         }
 
         return trim($glosa);
+    }
+
+    protected function getMonto(Collection $linea): int
+    {
+        return (int) str_replace('.', '', str_replace('$', '', $linea->last()));
     }
 
     protected function montosConSigno(Collection $linea): bool

@@ -49,6 +49,11 @@ class GastosParser
             ->count();
     }
 
+    public function getDatosMasivos()
+    {
+        return $this->datosMasivos;
+    }
+
     public function __toString(): string
     {
         return $this->descripcion;

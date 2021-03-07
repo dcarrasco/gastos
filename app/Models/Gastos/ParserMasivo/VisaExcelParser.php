@@ -29,12 +29,7 @@ class VisaExcelParser extends GastosParser
             ->filtraLineasExistentes($request)
             ->getDatosMasivos();
 
-        return $this->datosMasivos;
-    }
-
-    protected function getDatosMasivos()
-    {
-        return $this->datosMasivos;
+        return $this->getDatosMasivos();
     }
 
     protected function requestDatosMasivos(Request $request): VisaExcelParser
@@ -47,6 +42,9 @@ class VisaExcelParser extends GastosParser
     protected function filtrarLineasValidas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
+            ->filter(function ($linea) {
+                return collect(explode("\t", $linea))->count() == 6;
+            })
             ->filter(function ($linea) {
                 return preg_match('/[0-9]{4}/', $linea) === 1;
             });
