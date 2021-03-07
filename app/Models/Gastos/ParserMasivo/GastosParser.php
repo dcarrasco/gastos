@@ -8,6 +8,8 @@ use Illuminate\Support\Collection;
 
 class GastosParser
 {
+    protected $descripcion = '';
+
     protected $glosasTipoGasto = null;
 
     protected $datosMasivos = null;
@@ -38,8 +40,18 @@ class GastosParser
 
     public function agregarDatosMasivos(Request $request): bool
     {
+        if (is_null($this->datosMasivos)) {
+            return false;
+        }
+
         return $this->datosMasivos->count() == $this->datosMasivos
             ->filter->hasTipoGasto()
             ->count();
     }
+
+    public function __toString(): string
+    {
+        return $this->descripcion;
+    }
+
 }

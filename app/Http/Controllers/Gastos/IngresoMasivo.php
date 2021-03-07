@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Gastos\TipoGasto;
 use App\Http\Controllers\Controller;
 use App\Models\Gastos\GlosaTipoGasto;
+use App\Models\Gastos\ParserMasivo\VisaParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
@@ -17,6 +18,7 @@ class IngresoMasivo extends Controller
 
     protected $parsers = [
         VisaExcelParser::class,
+        VisaParser::class,
     ];
 
 
@@ -25,18 +27,28 @@ class IngresoMasivo extends Controller
         $this->parsers = collect($this->parsers)
             ->map(fn($parser) => new $parser());
 
+        $this->parsers = $this->parsers->combine($this->parsers);
+
         $this->cuentas = $this->parsers
             ->map->getCuenta()
             ->pluck('cuenta', 'id');
 
         $this->parser = $this->parsers
-            ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()));
+            ->first(function($parser) use ($request) {
+                return $parser->__toString() == $request->input(
+                    'parser',
+                    $this->parsers
+                        ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()))
+                        ->__toString()
+                );
+            });
     }
 
     public function index(Request $request)
     {
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
+            'formParser' => $this->parsers,
             'datosMasivos' => $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
             'selectTiposGastos' => TipoGasto::selectOptions(),

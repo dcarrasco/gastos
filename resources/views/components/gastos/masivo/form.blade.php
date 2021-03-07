@@ -7,6 +7,9 @@
 
     <label class="ml-5 mr-2">Mes</label>
     <x-form-input type="selectMonth" name="mes" />
+
+    <label class="ml-5 mr-2">Parser</label>
+    <x-form-input type="select" name="parser" :options="$formParser" />
 </div>
 
 <div class="grid grid-cols-10">

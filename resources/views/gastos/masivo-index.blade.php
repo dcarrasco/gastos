@@ -3,7 +3,7 @@
     <form method="POST" id="form-masivo" x-data x-ref="form">
         @csrf
 
-        <x-gastos.masivo.form :formCuenta="$formCuenta" />
+        <x-gastos.masivo.form :formCuenta="$formCuenta" :formParser="$formParser" />
 
         @if (count($datosMasivos))
             <div class="grid grid-cols-10">

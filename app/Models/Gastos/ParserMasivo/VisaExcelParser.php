@@ -11,6 +11,8 @@ use App\Models\Gastos\GlosaTipoGasto;
 
 class VisaExcelParser extends GastosParser
 {
+    protected $descripcion = 'Excel Web';
+
     protected $cuentaAsociada = 2;
 
     public function procesaMasivo(Request $request): Collection

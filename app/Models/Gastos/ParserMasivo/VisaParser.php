@@ -8,15 +8,20 @@ use App\Models\Gastos\Gasto;
 use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
 use App\Models\Gastos\GlosaTipoGasto;
-use App\Http\Controllers\Gastos\TipoGastoModel;
 
 class VisaParser extends GastosParser
 {
+    protected $descripcion = 'PDF';
+
+    protected $cuentaAsociada = 2;
+
     public function procesaMasivo(Request $request): Collection
     {
         if (! $request->has('datos')) {
             return [];
         }
+
+        $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
 
         return collect(explode(PHP_EOL, $request->input('datos')))
             ->filter(function ($linea) {
@@ -48,9 +53,7 @@ class VisaParser extends GastosParser
         }
 
         $linea = collect(explode(' ', $linea));
-        $tipoGasto = (new TipoGasto())->findOrNew(
-            (new GlosaTipoGasto())->getPorGlosa($request->cuenta_id, $this->getGlosa($linea))
-        );
+        $tipoGasto = $this->getTipoGasto($request, $linea);
 
         return (new Gasto())->fill([
             'cuenta_id' => $request->cuenta_id,
@@ -66,15 +69,24 @@ class VisaParser extends GastosParser
         ]);
     }
 
+    protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
+    {
+        $glosa = $this->getGlosa($linea);
+
+        $glosaTipoGasto = $this->glosasTipoGasto
+            ->first(function ($glosaTipoGasto) use ($glosa) {
+                return strpos(strtoupper($glosa), strtoupper($glosaTipoGasto->glosa)) !== false;
+            })
+            ?? new GlosaTipoGasto();
+
+        return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
+    }
+
+
+
     protected function getIndexFecha(Collection $linea): int
     {
-        return $linea->filter(function ($item) {
-            return preg_match('/^[0-9]{2}\/[0-9]{2}\/[0-9]{2}/', $item) === 1;
-        })
-        ->map(function ($item, $key) {
-            return $key;
-        })
-        ->first();
+        return 1;
     }
 
     protected function getFecha(Collection $linea): Carbon
@@ -115,11 +127,15 @@ class VisaParser extends GastosParser
 
     protected function getGlosa($linea = []): string
     {
-        $indexFecha = $this->getIndexFecha($linea);
-        $indexIni = count($this->getIndexSerie($linea)) === 1 ? $indexFecha + 2 : $indexFecha + 3;
-        $indexFin = $this->montosConSigno($linea) ? $linea->count() - 5 : $linea->count() - 8;
+        $glosa = '';
+        $indexMonto = 3;
 
-        return collect($linea)->only(range($indexIni, $indexFin))->implode(' ');
+        while ($linea[$indexMonto] != '$') {
+            $glosa .= $linea[$indexMonto] . ' ';
+            $indexMonto++;
+        }
+
+        return trim($glosa);
     }
 
     protected function montosConSigno(Collection $linea): bool
