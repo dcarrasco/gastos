@@ -20,14 +20,6 @@ class FilterTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testFilterHasParameterPrefix()
     {
         $this->assertClassHasAttribute('parameterPrefix', get_class($this->filter));
@@ -35,8 +27,8 @@ class FilterTest extends TestCase
 
     public function testApply()
     {
-        $request = $this->makeMock(Request::class, []);
-        $query = $this->makeMock(Builder::class, []);
+        $request = $this->createMock(Request::class);
+        $query = $this->createMock(Builder::class);
 
         $this->assertInstanceOf(Builder::class, $this->filter->apply($request, $query, 'valor'));
     }
@@ -58,7 +50,7 @@ class FilterTest extends TestCase
 
     public function testGetOptionUrl()
     {
-        $request = $this->makeMock(Request::class, ['has', 'get', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())->method('get')->willReturn('valor');
         $request->expects($this->any())->method('all')->willReturn([]);
@@ -66,7 +58,7 @@ class FilterTest extends TestCase
 
         $this->assertEquals('', $this->filter->getOptionUrl($request, 'valor'));
 
-        $request2 = $this->makeMock(Request::class, ['has', 'get', 'all', 'fullUrlWithQuery']);
+        $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('has')->willReturn(false);
         $request2->expects($this->any())->method('get')->willReturn('valor');
         $request2->expects($this->any())->method('all')->willReturn([]);
@@ -82,7 +74,7 @@ class FilterTest extends TestCase
 
     public function testIsActive()
     {
-        $request = $this->makeMock(Request::class, ['get']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('get')->willReturn('valor');
 
         $this->assertTrue($this->filter->isActive($request, 'valor'));
@@ -91,12 +83,12 @@ class FilterTest extends TestCase
 
     public function testGetValue()
     {
-        $request = $this->makeMock(Request::class, ['get']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('get')->willReturn('valor');
 
         $this->assertEquals('valor', $this->filter->getValue($request));
 
-        $request2 = $this->makeMock(Request::class, ['get']);
+        $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('get')->willReturn(null);
 
         $this->assertEquals('', $this->filter->getValue($request2));
@@ -105,28 +97,28 @@ class FilterTest extends TestCase
     public function testIsSet()
     {
         // $request: OK has parameter; OK has value
-        $request = $this->makeMock(Request::class, ['get', 'has']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())->method('get')->willReturn('valor');
 
         $this->assertTrue($this->filter->IsSet($request));
 
         // $request: OK has parameter; NOK has value
-        $request = $this->makeMock(Request::class, ['get', 'has']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())->method('get')->willReturn(null);
 
         $this->assertFalse($this->filter->IsSet($request));
 
         // $request: NOK has parameter; OK has value
-        $request = $this->makeMock(Request::class, ['get', 'has']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(false);
         $request->expects($this->any())->method('get')->willReturn('valor');
 
         $this->assertFalse($this->filter->IsSet($request));
 
         // $request: NOK has parameter; OK has value
-        $request = $this->makeMock(Request::class, ['get', 'has']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(false);
         $request->expects($this->any())->method('get')->willReturn(null);
 

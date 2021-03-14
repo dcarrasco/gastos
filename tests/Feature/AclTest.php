@@ -15,14 +15,6 @@ class AclTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     /**
      * A basic feature test example.
      *
@@ -38,9 +30,11 @@ class AclTest extends TestCase
         $usuario->rol()->attach([1]);
         $rol->modulo()->attach([1,2,3,4,5]);
 
-        $request = $this->makeMock(Request::class, ['route', 'getName']);
-        $request->expects($this->any())->method('route')->willReturn($request);
-        $request->expects($this->any())->method('getName')->willReturn('name');
+        $route = $this->createMock(\Illuminate\Routing\Route::class);
+        $route->expects($this->any())->method('getName')->willReturn('name');
+
+        $request = $this->createMock(Request::class);
+        $request->expects($this->any())->method('route')->willReturn($route);
 
         $menuApp = $usuario->getMenuApp($request);
 

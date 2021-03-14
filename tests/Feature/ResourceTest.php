@@ -16,7 +16,6 @@ use App\OrmModel\src\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class ResourceTest extends TestCase
 {
@@ -51,14 +50,6 @@ class ResourceTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testResourceSinModelo()
     {
         $this->expectException(\Exception::class);
@@ -69,7 +60,7 @@ class ResourceTest extends TestCase
 
     public function testFields()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $resource = new class ($this->model) extends Resource {
             public $model = 'App\Models\Acl\Usuario';
@@ -131,7 +122,7 @@ class ResourceTest extends TestCase
 
     public function testIndexFields()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $expected = collect([
             new HtmlString($this->model->id),
             new HtmlString($this->model->nombre),
@@ -150,7 +141,7 @@ class ResourceTest extends TestCase
 
     public function testDetailFields()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $expected = collect([
             new HtmlString($this->model->id),
             new HtmlString($this->model->nombre),
@@ -170,18 +161,14 @@ class ResourceTest extends TestCase
 
     public function testFormFields()
     {
-        $session = $this->makeMock(Request::class, ['get']);
-        $session->expects($this->any())->method('get')->willReturn(null);
-
-        $request = $this->makeMock(Request::class, ['session']);
-        $request->expects($this->any())->method('session')->willReturn($session);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(2, $this->resource->resolveFormFields($request)->getFields()->count());
     }
 
     public function testGetValidation()
     {
-        $request = $this->makeMock(Request::class, ['session']);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(
             [
@@ -195,7 +182,7 @@ class ResourceTest extends TestCase
 
     public function testModelFormOptions()
     {
-        $request = $this->makeMock(Request::class, ['all']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn(['id' => [1, 2]]);
 
         $user2 = Usuario::factory()->create();
@@ -227,7 +214,7 @@ class ResourceTest extends TestCase
 
     public function testApplySearchFilter()
     {
-        $request2 = $this->makeMock(Request::class, ['input', 'get']);
+        $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('input')->willReturn('');
 
         $this->assertStringNotContainsString(
@@ -239,7 +226,7 @@ class ResourceTest extends TestCase
             $this->resource->applySearchFilter($request2)->getModelQueryBuilder()->toSql()
         );
 
-        $request = $this->makeMock(Request::class, ['input', 'get']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('search');
 
         $this->assertStringContainsString(
@@ -259,10 +246,10 @@ class ResourceTest extends TestCase
 
     public function testResourceSetPerPage()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $this->assertEquals(25, $this->resource->resourceSetPerpage($request)->model()->paginate()->perPage());
 
-        $request2 = $this->makeMock(Request::class, ['__get']);
+        $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('__get')->willReturn(100);
 
         $this->assertEquals(100, $this->resource->resourceSetPerpage($request2)->model()->paginate()->perPage());
@@ -270,7 +257,7 @@ class ResourceTest extends TestCase
 
     public function testApplyOrderBy()
     {
-        $request = $this->makeMock(Request::class, ['has', 'input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())
             ->method('input')
@@ -306,7 +293,7 @@ class ResourceTest extends TestCase
         $nombreOriginal = $this->model->nombre;
         $nuevoNombre = 'nuevoNombre';
 
-        $request = $this->makeMock(Request::class, ['all']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn(['nombre' => 'nuevoNombre']);
 
         $this->assertEquals($nombreOriginal, Usuario::first()->nombre);
@@ -336,7 +323,7 @@ class ResourceTest extends TestCase
             }
         };
 
-        $request = $this->makeMock(Request::class, ['all', 'input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn(['nombre' => 'nuevoNombre']);
         $request->expects($this->any())->method('input')
             ->with($this->equalTo('rol'))
@@ -360,7 +347,7 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(0, Rol::first()->modulo->count());
 
-        $request = $this->makeMock(Request::class, ['all', 'input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn(['rol' => 'nuevoNombre']);
         $request->expects($this->any())->method('input')->will($this->returnValueMap([
             ['modulo', null, [1, 2]],
@@ -381,9 +368,7 @@ class ResourceTest extends TestCase
 
     public function testFilters()
     {
-        $request = $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->createMock(Request::class);
 
         $this->assertIsArray($this->resource->filters($request));
     }
@@ -403,7 +388,7 @@ class ResourceTest extends TestCase
             }
         };
 
-        $request = $this->makeMock(Request::class, ['has', 'get']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
         $request->expects($this->any())->method('get')->willReturn('valor');
 
@@ -412,7 +397,7 @@ class ResourceTest extends TestCase
 
     public function testCountAppliedFilters()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsInt($this->resource->countAppliedFilters($request));
         $this->assertEquals(0, $this->resource->countAppliedFilters($request));
@@ -424,14 +409,14 @@ class ResourceTest extends TestCase
 
     public function testCards()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsArray($this->resource->cards($request));
     }
 
     public function testRenderCards()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsObject($this->resource->renderCards($request));
         $this->assertCount(0, $this->resource->renderCards($request));
@@ -443,7 +428,7 @@ class ResourceTest extends TestCase
 
     public function testGetPaginator()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsObject($this->resource->paginator($request));
         $this->assertIsObject($this->resource->getPaginator($request));
@@ -451,7 +436,7 @@ class ResourceTest extends TestCase
 
     public function testMakePaginatedResources()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsObject($this->resource->makePaginatedResources($request));
         $this->assertIsObject($this->resource->resourceList($request));

@@ -20,18 +20,10 @@ class PerPageTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testApply()
     {
-        $request = $this->makeMock(Request::class, []);
-        $query = $this->makeMock(Builder::class, []);
+        $request = $this->createMock(Request::class);
+        $query = $this->createMock(Builder::class);
 
         $this->assertInstanceOf(Builder::class, $this->perPage->apply($request, $query, 'valor'));
     }

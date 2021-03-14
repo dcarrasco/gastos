@@ -6,10 +6,7 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Metrics\Metric;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Routing\RouteCollection;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class MetricTest extends TestCase
@@ -34,14 +31,6 @@ class MetricTest extends TestCase
                 return $this->previousRange($request);
             }
         };
-    }
-
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->addMethods($methods)
-            ->getMock();
     }
 
     public function testCurrentRange()
@@ -155,7 +144,7 @@ class MetricTest extends TestCase
 
     public function testRender()
     {
-        $route = $this->makeMock(Request::class, ['getName']);
+        $route = $this->createMock(\Illuminate\Routing\Route::class);
         $route->expects($this->any())->method('getName')->willReturn('prefix.prefix');
 
         $request = $this->createMock(Request::class);
@@ -196,7 +185,7 @@ class MetricTest extends TestCase
 
     public function testUrlRoute()
     {
-        $route = $this->makeMock(Request::class, ['getName']);
+        $route = $this->createMock(\Illuminate\Routing\Route::class);
         $route->expects($this->any())->method('getName')->willReturn('prefix.prefix');
 
         $request = $this->createMock(Request::class);

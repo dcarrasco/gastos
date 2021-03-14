@@ -159,7 +159,7 @@ abstract class Value extends Metric
      * @param  string $prefix
      * @return Metric
      */
-    public function prefix(string $prefix = ''): Metric
+    public function prefix(string $prefix = ''): Value
     {
         $this->prefix = $prefix;
 
@@ -172,7 +172,7 @@ abstract class Value extends Metric
      * @param  string $prefix
      * @return Metric
      */
-    public function suffix(string $suffix = ''): Metric
+    public function suffix(string $suffix = ''): Value
     {
         $this->suffix = $suffix;
 
