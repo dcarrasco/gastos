@@ -17,12 +17,11 @@ use App\OrmModel\src\OrmField\Currency;
 use App\OrmModel\Gastos\TipoMovimiento;
 use App\OrmModel\src\OrmField\BelongsTo;
 use App\OrmModel\Metrics\MontoRegistros;
-use App\OrmModel\Metrics\NuevosRegistros;
 use App\OrmModel\Metrics\RegistrosPorDia;
 
 class Gasto extends Resource
 {
-    public $model = 'App\Models\Gastos\Gasto';
+    public $model = \App\Models\Gastos\Gasto::class;
     public $icono = 'dollar';
     public $title = 'id';
     public $search = [

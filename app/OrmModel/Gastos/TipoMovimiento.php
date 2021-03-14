@@ -11,7 +11,7 @@ use App\OrmModel\src\OrmField\Select;
 
 class TipoMovimiento extends Resource
 {
-    public $model = 'App\Models\Gastos\TipoMovimiento';
+    public $model = \App\Models\Gastos\TipoMovimiento::class;
     public $label = 'Tipo de Movimiento';
     public $labelPlural = 'Tipos de Movimiento';
     public $icono = 'sitemap';

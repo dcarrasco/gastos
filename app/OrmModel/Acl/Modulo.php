@@ -11,7 +11,7 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class Modulo extends Resource
 {
-    public $model = 'App\Models\Acl\Modulo';
+    public $model = \App\Models\Acl\Modulo::class;
     public $title = 'modulo';
     public $icono = 'list-alt';
     public $search = [

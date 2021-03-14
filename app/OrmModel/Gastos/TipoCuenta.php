@@ -11,7 +11,7 @@ use App\Models\Gastos\TipoCuenta as ModelTipoCuenta;
 
 class TipoCuenta extends Resource
 {
-    public $model = 'App\Models\Gastos\TipoCuenta';
+    public $model = \App\Models\Gastos\TipoCuenta::class;
     public $label = 'Tipo de Cuenta';
     public $labelPlural = 'Tipos de Cuenta';
     public $icono = 'sitemap';

@@ -12,7 +12,7 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class SaldoMes extends Resource
 {
-    public $model = 'App\Models\Gastos\SaldoMes';
+    public $model = \App\Models\Gastos\SaldoMes::class;
     public $label = 'Saldo Mes';
     public $labelPlural = 'Saldos Mes';
     public $icono = 'calculator';

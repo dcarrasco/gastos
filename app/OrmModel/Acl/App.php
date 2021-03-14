@@ -10,7 +10,7 @@ use App\OrmModel\src\OrmField\Number;
 
 class App extends Resource
 {
-    public $model = 'App\Models\Acl\App';
+    public $model = \App\Models\Acl\App::class;
     public $label = 'Aplicacion';
     public $labelPlural = 'Aplicaciones';
     public $icono = 'folder-o';

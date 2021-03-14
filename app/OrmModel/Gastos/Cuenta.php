@@ -12,7 +12,7 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class Cuenta extends Resource
 {
-    public $model = 'App\Models\Gastos\Cuenta';
+    public $model = \App\Models\Gastos\Cuenta::class;
     public $icono = 'credit-card';
     public $title = 'cuenta';
     public $search = [
