@@ -27,19 +27,10 @@ class BelongsToTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testAttributes()
     {
         $this->assertTrue($this->field->eagerLoadsRelation());
     }
-
 
     public function testGetFormattedValue()
     {

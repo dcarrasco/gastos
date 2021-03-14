@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HasMany extends Relation
 {
-    protected $relationFields = [];
+    protected $relationFields;
     protected $hasRelationFields = false;
     protected $deleteModelField = '__delete-model__';
 

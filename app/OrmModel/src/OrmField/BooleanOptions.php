@@ -20,7 +20,7 @@ class BooleanOptions extends Field
      * @param  array  $options
      * @return Field
      */
-    public function options(array $options = []): Field
+    public function options(array $options = []): BooleanOptions
     {
         $this->options = $options;
 
