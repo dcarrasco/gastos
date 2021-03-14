@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Relation;
-use Illuminate\Database\Eloquent\Model;
-use App\OrmModel\src\OrmField\BelongsTo;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -26,14 +24,6 @@ class RelationTest extends TestCase
 
         $this->field = new class ('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation {
         };
-    }
-
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
     }
 
     public function testConstructor()
@@ -54,7 +44,7 @@ class RelationTest extends TestCase
 
     public function testGetRelationOptions()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $apps = App::factory(3)->create();
 
         $this->assertIsObject($this->field->getRelationOptions($request, new \App\OrmModel\Acl\Modulo()));
@@ -67,7 +57,7 @@ class RelationTest extends TestCase
 
     public function testGetRelationOptionsWithRelationFilter()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $rol = new class (Rol::factory()->create()) extends Resource {
             public $model = 'App\Models\Acl\Rol';

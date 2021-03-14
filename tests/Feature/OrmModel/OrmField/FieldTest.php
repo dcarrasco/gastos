@@ -28,14 +28,6 @@ class FieldTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testMake()
     {
         $this->assertIsObject($this->field->make());
@@ -81,7 +73,7 @@ class FieldTest extends TestCase
 
     public function testGetModelAttribute()
     {
-        $resource = $this->makeMock(Resource::class, []);
+        $resource = $this->createMock(Resource::class);
 
         $this->assertEquals('nombre_campo', $this->field->getModelAttribute($resource));
     }
@@ -106,10 +98,10 @@ class FieldTest extends TestCase
 
     public function testResolveValue()
     {
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('valor');
 
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(new HtmlString('valor'), $this->field->resolveValue($model, $request)->value());
     }
@@ -122,13 +114,13 @@ class FieldTest extends TestCase
 
     public function testResolveFormItem()
     {
-        $session = $this->makeMock(Request::class, ['get']);
+        $session = $this->createMock(Request::class);
         $session->expects($this->any())->method('get')->willReturn([]);
 
-        $request = $this->makeMock(Request::class, ['input', 'all', 'session']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('session')->willReturn($session);
 
-        $resource = $this->makeMock(Resource::class, ['model', 'get']);
+        $resource = $this->createMock(Resource::class);
 
         $this->assertStringContainsString('input', $this->field->resolveFormItem($request, $resource)->formItem());
         $this->assertStringContainsString(
@@ -148,10 +140,10 @@ class FieldTest extends TestCase
 
     public function testGetFormattedValue()
     {
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('valor');
 
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(new HtmlString('valor'), $this->field->resolveValue($model, $request)->getFormattedValue());
     }
@@ -177,12 +169,12 @@ class FieldTest extends TestCase
 
     public function testMakeSortingIcon()
     {
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
         $request->expects($this->any())->method('input')->willReturn('');
 
-        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+        $resource = $this->createMock(Resource::class);
 
         $this->assertEquals('', $this->field->makeSortingIcon($request, $resource)->sortingIcon());
         $this->assertStringContainsString(
@@ -198,14 +190,14 @@ class FieldTest extends TestCase
 
     public function testMakeSortingIconAsc()
     {
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
         $request->expects($this->any())
             ->method('input')
             ->will($this->onConsecutiveCalls('nombre_campo', 'asc', 'nombre_campo', 'asc'));
 
-        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+        $resource = $this->createMock(Resource::class, ['input', 'get']);
 
         // default icon class
         $this->assertStringContainsString(
@@ -216,14 +208,14 @@ class FieldTest extends TestCase
 
     public function testMakeSortingIconDown()
     {
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('url');
         $request->expects($this->any())
             ->method('input')
             ->will($this->onConsecutiveCalls('nombre_campo', 'desc', 'nombre_campo', 'desc'));
 
-        $resource = $this->makeMock(Resource::class, ['input', 'get']);
+        $resource = $this->createMock(Resource::class);
 
         // default icon class
         $this->assertStringContainsString(
@@ -238,11 +230,12 @@ class FieldTest extends TestCase
 
     public function testGetValidation()
     {
-        $model = $this->makeMock(Model::class, ['getTable', 'getKey']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getTable')->willReturn('table_name');
         $model->expects($this->any())->method('getKey')->willReturn('value');
+        $model->expects($this->any())->method('getKeyName')->willReturn('id');
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->assertEquals(

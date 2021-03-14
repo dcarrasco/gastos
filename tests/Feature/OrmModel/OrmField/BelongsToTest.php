@@ -8,9 +8,7 @@ use App\Models\Acl\Modulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\Database\Eloquent\Model;
 use App\OrmModel\src\OrmField\BelongsTo;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BelongsToTest extends TestCase
@@ -45,7 +43,7 @@ class BelongsToTest extends TestCase
 
     public function testGetFormattedValue()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $app = App::factory()->create();
         $modulo = Modulo::factory()->create(['app_id' => $app->id]);
 
@@ -65,9 +63,11 @@ class BelongsToTest extends TestCase
 
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, ['route', 'getName', 'has']);
-        $request->expects($this->any())->method('route')->willReturn($request);
-        $request->expects($this->any())->method('getName')->willReturn('name.action');
+        $request = $this->createMock(Request::class);
+        $route = $this->createMock(\Illuminate\Routing\Route::class);
+
+        $request->expects($this->any())->method('route')->willReturn($route);
+        $route->expects($this->any())->method('getName')->willReturn('name.action');
         $request->expects($this->any())->method('has')->willReturn(false);
 
         \URL::shouldReceive('route')

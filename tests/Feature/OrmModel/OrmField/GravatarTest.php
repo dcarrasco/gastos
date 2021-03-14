@@ -4,8 +4,6 @@ namespace Tests\Feature\OrmModel\OrmField;
 
 use Tests\TestCase;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\Optional;
 use App\OrmModel\src\OrmField\Gravatar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -25,22 +23,14 @@ class GravatarTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testGetFormattedValue()
     {
-        $request = $this->makeMock(Request::class, ['route']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('route')->willReturn(
             (object) ['action' => ['as' => 'route.show']]
         );
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn(1);
 
         $this->assertStringContainsString(
@@ -52,7 +42,7 @@ class GravatarTest extends TestCase
             $this->field->resolveValue($model, $request)->getFormattedValue()
         );
 
-        $request2 = $this->makeMock(Request::class, ['route']);
+        $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('route')->willReturn(
             (object) ['action' => ['as' => 'route.list']]
         );

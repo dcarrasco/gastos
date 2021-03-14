@@ -29,14 +29,6 @@ class HasManyTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testConstructor()
     {
         $this->assertFalse($this->field->showOnIndex());
@@ -44,7 +36,7 @@ class HasManyTest extends TestCase
 
     public function testGetFormattedValue()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $roles = Rol::factory(5)->create();
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);
@@ -54,7 +46,7 @@ class HasManyTest extends TestCase
 
     public function testGetFormattedValueWithAttributes()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $roles = Rol::factory(5)->create();
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);
@@ -69,7 +61,7 @@ class HasManyTest extends TestCase
 
     public function testGetFormattedValueEmpty()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $roles = Rol::factory(5)->create();
         $user = Usuario::factory()->create();
 
@@ -78,7 +70,7 @@ class HasManyTest extends TestCase
 
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $roles = Rol::factory(3)->create();
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);
@@ -93,7 +85,7 @@ class HasManyTest extends TestCase
 
     public function testGetFormWithAttributes()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
         $roles = Rol::factory(3)->create();
         $user = Usuario::factory()->create();
         $user->rol()->sync($roles);

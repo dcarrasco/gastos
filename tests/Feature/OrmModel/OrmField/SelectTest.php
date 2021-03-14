@@ -28,14 +28,6 @@ class SelectTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testOptions()
     {
         $this->assertIsObject($this->field->options(['a' => 'b', 'c' => 'd']));
@@ -51,10 +43,10 @@ class SelectTest extends TestCase
     {
         $opciones = ['opc1' => 'valor1', 'opc2' => 'valor2'];
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('opc1');
 
-        $request = $this->makeMock(Request::class, ['input', 'all', 'fullUrlWithQuery']);
+        $request = $this->createMock(Request::class);
 
         // sin opciones
         $this->assertEquals(new HtmlString('opc1'), $this->field->resolveValue($model, $request)->getFormattedValue());
@@ -64,7 +56,7 @@ class SelectTest extends TestCase
             $this->field->options($opciones)->resolveValue($model, $request)->getFormattedValue()
         );
 
-        $model2 = $this->makeMock(Model::class, ['getAttribute']);
+        $model2 = $this->createMock(Model::class);
         $model2->expects($this->any())->method('getAttribute')->willReturn('opc_nueva');
         $this->assertEquals(
             new HtmlString(''),
@@ -76,16 +68,16 @@ class SelectTest extends TestCase
     {
         $opciones = ['opc1' => 'valor1', 'opc2' => 'valor2'];
 
-        $session = $this->makeMock(Request::class, ['get']);
+        $session = $this->createMock(Request::class);
         $session->expects($this->any())->method('get')->willReturn([]);
 
-        $request = $this->makeMock(Request::class, ['input', 'all', 'session']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('session')->willReturn($session);
 
-        $model = $this->makeMock(Model::class, []);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('opc1');
 
-        $resource = $this->makeMock(Resource::class, ['model', 'get']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->assertStringContainsString('select', $this->field->options($opciones)->getForm($request, $resource));

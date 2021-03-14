@@ -27,14 +27,6 @@ class IdTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testConstructor()
     {
         $this->assertEquals('id', $this->field->getName());
@@ -47,12 +39,12 @@ class IdTest extends TestCase
 
     public function testGetFormEsIncrementing()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, []);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('valor1');
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->assertStringContainsString('<p', $this->field->getForm($request, $resource));
@@ -63,12 +55,12 @@ class IdTest extends TestCase
 
     public function testGetFormNoEsIncrementing()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, []);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('valor1');
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->field->esIncrementing(false);

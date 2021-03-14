@@ -5,7 +5,6 @@ namespace Tests\Feature\OrmModel\OrmField;
 use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\Optional;
 use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Currency;
 use Illuminate\Database\Eloquent\Model;
@@ -28,19 +27,11 @@ class CurrencyTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testGetFormattedValue()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
         $this->assertStringContainsString(
@@ -51,12 +42,12 @@ class CurrencyTest extends TestCase
 
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         // form type

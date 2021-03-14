@@ -28,22 +28,14 @@ class TextTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn('text value');
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         // form type
@@ -64,12 +56,9 @@ class TextTest extends TestCase
         $this->assertStringContainsString('value="text value"', $this->field->getForm($request, $resource));
 
         //form readonly
-        $model2 = $this->makeMock(Model::class, ['getAttribute', 'getKey']);
+        $model2 = $this->createMock(Model::class);
         $model2->expects($this->any())->method('getKey')->willReturn('text value');
         $model2->expects($this->any())->method('getAttribute')->willReturn('text value');
         $model2 = $model2->setKeyName('nombre_campo');
-
-        $resource2 = $this->makeMock(Resource::class, ['model']);
-        // $resource2->expects($this->any())->method('model')->willReturn($model2);
     }
 }

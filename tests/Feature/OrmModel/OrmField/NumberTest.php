@@ -28,19 +28,11 @@ class NumberTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testGetFormattedValue()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
         $this->assertEquals('12.345', $this->field->resolveValue($model, $request)->getFormattedValue());
@@ -48,12 +40,12 @@ class NumberTest extends TestCase
 
     public function testGetForm()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
-        $model = $this->makeMock(Model::class, ['getAttribute']);
+        $model = $this->createMock(Model::class);
         $model->expects($this->any())->method('getAttribute')->willReturn(12345);
 
-        $resource = $this->makeMock(Resource::class, ['model']);
+        $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         // form type
