@@ -5,7 +5,6 @@ namespace App\OrmModel\src\Metrics;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
 

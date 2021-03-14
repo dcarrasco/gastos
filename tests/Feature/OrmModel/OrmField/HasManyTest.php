@@ -6,10 +6,8 @@ use Tests\TestCase;
 use App\Models\Acl\Rol;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\HasMany;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

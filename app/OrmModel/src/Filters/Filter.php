@@ -4,7 +4,6 @@ namespace App\OrmModel\src\Filters;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
@@ -41,9 +40,7 @@ abstract class Filter
      */
     public function getName(): string
     {
-        $fullName = explode('\\', get_class($this));
-
-        return array_pop($fullName);
+        return class_basename($this);
     }
 
     /**

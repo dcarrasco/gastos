@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class HasMany extends Relation
 {
-    protected $relationFields;
+    protected $relationFields = [];
     protected $hasRelationFields = false;
     protected $deleteModelField = '__delete-model__';
 
@@ -134,7 +134,7 @@ class HasMany extends Relation
      */
     protected function getAttributesTableRow(Resource $resource, bool $edit): string
     {
-        return $this->relationFields
+        return collect($this->relationFields)
             ->get($resource->model()->getKey())
             ->map(function ($field) use ($edit, $resource) {
                 return $edit
@@ -172,7 +172,7 @@ class HasMany extends Relation
     {
         return '<tr class="border bg-gray-100 px-2">'
             . "<th class=\"text-left px-2 py-1\">{$this->name}</th>"
-            . $this->relationFields
+            . collect($this->relationFields)
                 ->first()
                 ->map(function ($field) {
                     return '<th>' . collect($field->getOptions())->implode('</th><th>') . '</th>';
