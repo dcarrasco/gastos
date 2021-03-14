@@ -37,7 +37,7 @@ class HasMany extends Relation
      * @param  Request  $request
      * @return Field
      */
-    public function resolveValue(Model $model, Request $request): Field
+    public function resolveValue(Model $model, Request $request): HasMany
     {
         $this->value = $this->getValue($model, $request);
 
@@ -284,7 +284,7 @@ class HasMany extends Relation
      * @param  string $type
      * @return Field
      */
-    public function relationField(string $field, string $type): Field
+    public function relationField(string $field, string $type): HasMany
     {
         $type = json_decode($type, true);
         $fieldType = array_key_first($type);

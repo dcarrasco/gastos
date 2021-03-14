@@ -46,14 +46,14 @@ class BooleanOptions extends Field
             ->contains($option);
     }
 
-    public function setRelationName(string $relationName): Field
+    public function setRelationName(string $relationName): BooleanOptions
     {
         $this->relationName = $relationName;
 
         return $this;
     }
 
-    public function setModelId(string $modelId): Field
+    public function setModelId(string $modelId): BooleanOptions
     {
         $this->modelId = $modelId;
 

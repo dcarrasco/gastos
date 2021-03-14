@@ -49,7 +49,7 @@ class Gravatar extends Field
      * @param  Model|null $model
      * @return mixed
      */
-    public function getValue(Model $model, Request $request)
+    public function getValue(Model $model, Request $request): string
     {
         $size = Str::contains($request->route()->action['as'], 'show')
             ? $this->avatarShowSize : $this->avatarListSize;

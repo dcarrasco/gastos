@@ -33,7 +33,7 @@ class Relation extends Field
      * @param  array $relationConditions
      * @return Relation
      */
-    public function relationConditions(array $relationConditions = []): Field
+    public function relationConditions(array $relationConditions = []): Relation
     {
         $this->relationConditions = $relationConditions;
 
