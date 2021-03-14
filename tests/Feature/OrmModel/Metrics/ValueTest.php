@@ -32,14 +32,6 @@ class ValueTest extends TestCase
         };
     }
 
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-    }
-
     public function testAttributes()
     {
         $this->assertObjectHasAttribute('dateFormat', $this->value);
@@ -49,7 +41,7 @@ class ValueTest extends TestCase
 
     public function testCalculate()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsArray($this->value->calculate($request));
     }
@@ -84,7 +76,7 @@ class ValueTest extends TestCase
             ]);
         });
 
-        $request = $this->makeMock(Request::class, ['get', 'input', 'has']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('get')->willReturn('valor');
         $request->expects($this->any())->method('input')->willReturn('MTD');
 
@@ -126,7 +118,7 @@ class ValueTest extends TestCase
 
     public function testContent()
     {
-        $request = $this->makeMock(Request::class, ['get', 'input', 'has']);
+        $request = $this->createMock(Request::class);
 
         $this->value = new class () extends Value {
             public function calculate(Request $request): array
@@ -187,7 +179,7 @@ class ValueTest extends TestCase
 
     public function testContentAjaxRequest()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsArray($this->value->contentAjaxRequest($request));
     }

@@ -22,7 +22,7 @@ class PartitionTest extends TestCase
     {
         parent::setUp();
 
-        $this->request = $this->makeMock(Request::class, []);
+        $this->request = $this->createMock(Request::class);
 
         $this->partition = new class () extends Partition {
             public function calculate(Request $request): Collection
@@ -30,14 +30,6 @@ class PartitionTest extends TestCase
                 return collect([1 => 100, 2 => 50, 3 => 20]);
             }
         };
-    }
-
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
     }
 
     public function testCalculate()

@@ -24,18 +24,10 @@ class TrendTest extends TestCase
     {
         parent::setUp();
 
-        $this->request = $this->makeMock(Request::class, []);
+        $this->request = $this->createMock(Request::class);
 
         $this->trend = new class () extends Trend {
         };
-    }
-
-    protected function makeMock(string $class, array $methods)
-    {
-        return $this->getMockBuilder($class)
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
     }
 
     public function testCalculate()
@@ -50,7 +42,7 @@ class TrendTest extends TestCase
         $app3 = AppModel::factory()->create(['orden' => 30]);
         $app4 = AppModel::factory()->create(['orden' => 40]);
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('MTD');
 
         $this->assertEquals(100, $this->trend->sumByDays($request, App::class, 'orden')->last());

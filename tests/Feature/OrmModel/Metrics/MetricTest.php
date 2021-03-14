@@ -4,7 +4,6 @@ namespace Tests\Feature\OrmModel\Metrics;
 
 use Tests\TestCase;
 use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Metrics\Metric;
 use Illuminate\Routing\UrlGenerator;
@@ -41,42 +40,42 @@ class MetricTest extends TestCase
     {
         return $this->getMockBuilder($class)
             ->disableOriginalConstructor()
-            ->setMethods($methods)
+            ->addMethods($methods)
             ->getMock();
     }
 
     public function testCurrentRange()
     {
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('MTD');
         $this->assertIsArray($this->metric->getCurrentRange($request));
         $this->assertEquals(now()->startOfMonth()->day, $this->metric->getCurrentRange($request)[0]->day);
         $this->assertEquals(now()->startOfMonth()->month, $this->metric->getCurrentRange($request)[0]->month);
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('QTD');
         $this->assertIsArray($this->metric->getCurrentRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('YTD');
         $this->assertIsArray($this->metric->getCurrentRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('CURR_MONTH');
         $this->assertIsArray($this->metric->getCurrentRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('LAST_MONTH');
         $this->assertIsArray($this->metric->getCurrentRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn(10);
         $this->assertIsArray($this->metric->getCurrentRange($request));
     }
 
     public function testPreviousRange()
     {
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('MTD');
         $this->assertIsArray($this->metric->getPreviousRange($request));
         $this->assertEquals(now()->startOfMonth()->day, $this->metric->getPreviousRange($request)[0]->day);
@@ -85,36 +84,36 @@ class MetricTest extends TestCase
             $this->metric->getPreviousRange($request)[0]->month
         );
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('QTD');
         $this->assertIsArray($this->metric->getPreviousRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('YTD');
         $this->assertIsArray($this->metric->getPreviousRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('CURR_MONTH');
         $this->assertIsArray($this->metric->getPreviousRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn('LAST_MONTH');
         $this->assertIsArray($this->metric->getPreviousRange($request));
 
-        $request = $this->makeMock(Request::class, ['input']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('input')->willReturn(10);
         $this->assertIsArray($this->metric->getPreviousRange($request));
     }
     public function testContent()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(HtmlString::class, get_class($this->metric->content($request)));
     }
 
     public function testContentScript()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertEquals(HtmlString::class, get_class($this->metric->contentScript($request)));
     }
@@ -139,7 +138,7 @@ class MetricTest extends TestCase
 
     public function testAjaxRequest()
     {
-        $request = $this->makeMock(Request::class, []);
+        $request = $this->createMock(Request::class);
 
         $this->assertIsArray($this->metric->ajaxRequest($request));
     }
@@ -159,7 +158,7 @@ class MetricTest extends TestCase
         $route = $this->makeMock(Request::class, ['getName']);
         $route->expects($this->any())->method('getName')->willReturn('prefix.prefix');
 
-        $request = $this->makeMock(Request::class, ['route', 'query']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('route')->willReturn($route);
         $request->expects($this->any())->method('query')->willReturn('');
 
@@ -200,7 +199,7 @@ class MetricTest extends TestCase
         $route = $this->makeMock(Request::class, ['getName']);
         $route->expects($this->any())->method('getName')->willReturn('prefix.prefix');
 
-        $request = $this->makeMock(Request::class, ['route', 'query']);
+        $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('route')->willReturn($route);
         $request->expects($this->any())->method('query')->willReturn('');
 
