@@ -189,5 +189,4 @@ class Gasto extends Model
                 . " " . fmtMonto($this->monto)
             ]);
     }
-
 }

@@ -47,7 +47,8 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], 
 
     Route::match(['get', 'post'], 'ingreso-masivo', [IngresoMasivo::class, 'index'])->name('ingresoMasivo');
     Route::post('ingreso-masivo-add', [IngresoMasivo::class, 'store'])->name('ingresoMasivoAdd');
-    Route::post('ingreso-masivo-add-tipo-gasto', [IngresoMasivo::class, 'storeTipoGasto'])->name('ingresoMasivoAddTipoGasto');
+    Route::post('ingreso-masivo-add-tipo-gasto', [IngresoMasivo::class, 'storeTipoGasto'])
+        ->name('ingresoMasivoAddTipoGasto');
 
     Route::get('inversion', [IngresoInversion::class, 'index'])->name('ingresoInversion');
     Route::post('inversion', [IngresoInversion::class, 'store'])->name('addInversion');
@@ -56,8 +57,10 @@ Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], 
 
 // ACL
 Route::group(['prefix' => 'acl', 'as' => 'acl.'], function () {
-    Route::get('cambia-password/{usuario:username}', [LoginController::class, 'showCambiaPassword'])->name('showCambiaPassword');
-    Route::post('cambia-password/{usuario:username}', [LoginController::class, 'cambiaPassword'])->name('cambiaPassword');
+    Route::get('cambia-password/{usuario:username}', [LoginController::class, 'showCambiaPassword'])
+        ->name('showCambiaPassword');
+    Route::post('cambia-password/{usuario:username}', [LoginController::class, 'cambiaPassword'])
+        ->name('cambiaPassword');
 });
 
 Route::group(['prefix' => 'home', 'as' => 'home.', 'middleware' => 'auth'], function () {

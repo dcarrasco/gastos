@@ -58,5 +58,4 @@ class GastosParser
     {
         return $this->descripcion;
     }
-
 }
