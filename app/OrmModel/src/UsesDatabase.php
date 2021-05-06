@@ -45,14 +45,14 @@ trait UsesDatabase
      */
     public function applySearchFilter(Request $request): Resource
     {
-        if (empty($request->input($this->searchKey))) {
+        if (empty($searchText = $request->input($this->searchKey))) {
             return $this;
         }
 
         $this->modelQueryBuilder = $this->modelQueryBuilder
-            ->where(function ($query) use ($request) {
+            ->where(function ($query) use ($searchText) {
                 foreach ($this->search as $field) {
-                    $query = $query->orWhere($field, 'like', '%' . $request->input($this->searchKey) . '%');
+                    $query = $query->orWhere($field, 'like', "%{$searchText}%");
                 }
             });
 
