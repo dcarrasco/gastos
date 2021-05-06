@@ -19,7 +19,7 @@ class SaldoInversiones extends Trend
 
     protected function filter(Request $request, Builder $query): Builder
     {
-        return $query->whereIn('cuenta_id', [3, 6])
+        return $query->whereIn('cuenta_id', [3, 6, 7])
             ->where('tipo_movimiento_id', 4);
     }
 

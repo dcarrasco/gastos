@@ -12,7 +12,7 @@ class EvolUtilInversiones extends Trend
 {
     protected $filtraValoresEnCero = true;
 
-    protected $cuentasInversiones = [3, 6];
+    protected $cuentasInversiones = [3, 6, 7];
 
     public function calculate(Request $request): Collection
     {
