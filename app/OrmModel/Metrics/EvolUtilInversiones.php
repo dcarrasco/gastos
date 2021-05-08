@@ -21,11 +21,8 @@ class EvolUtilInversiones extends Trend
         $inversiones = $this->inversiones($this->cuentasInversiones, now()->year);
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->map(function ($saldo, $fechaSaldo) {
-                return (new Gasto)->model()->setAttribute('fecha', $fechaSaldo)->setAttribute('monto', $saldo);
-            })
-            ->map(function ($saldo) use ($inversiones) {
-                return $saldo->monto - $inversiones->map->getSumMovimientos($saldo)->sum();
+            ->map(function ($saldo, $fechaSaldo) use ($inversiones) {
+                return $inversiones->map->utilHasta(now()->create($fechaSaldo))->sum();
             });
     }
 
