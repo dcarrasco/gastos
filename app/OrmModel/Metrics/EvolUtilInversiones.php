@@ -18,7 +18,9 @@ class EvolUtilInversiones extends Trend
 
     public function calculate(Request $request): Collection
     {
-        $inversiones = $this->inversiones($this->cuentasInversiones, now()->year);
+        $inversiones = collect($this->cuentasInversiones)->map(function ($cuenta) {
+            return new Inversion($cuenta, now()->year);
+        });
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
             ->map(function ($saldo, $fechaSaldo) use ($inversiones) {
@@ -30,14 +32,6 @@ class EvolUtilInversiones extends Trend
     {
         return $query->whereIn('cuenta_id', $this->cuentasInversiones)
             ->where('tipo_movimiento_id', $this->movimientoSaldo);
-    }
-
-    protected function inversiones(array $cuentasInversiones, int $anno): Collection
-    {
-        return collect($cuentasInversiones)
-            ->map(function ($cuenta) use ($anno) {
-                return new Inversion($cuenta, $anno);
-            });
     }
 
     public function ranges(): array
