@@ -34,7 +34,7 @@ class Inversion
         return $this->saldos->isEmpty() ? new Gasto() : $this->saldos->last();
     }
 
-    protected function getSumMovimientos(Gasto $saldo): int
+    public function getSumMovimientos(Gasto $saldo): int
     {
         return $this->movimientos
             ->filter->isBeforeDate($saldo->fecha)

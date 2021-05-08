@@ -4,6 +4,7 @@ namespace App\OrmModel\Metrics;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
+use App\Models\Gastos\Inversion;
 use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Trend;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,51 +14,32 @@ class EvolUtilInversiones extends Trend
     protected $filtraValoresEnCero = true;
 
     protected $cuentasInversiones = [3, 6, 7];
+    protected $movimientoSaldo = 4;
 
     public function calculate(Request $request): Collection
     {
-        $movimientos = $this->resumenMovimientos($request, Gasto::class, 'monto', 'fecha');
+        $inversiones = $this->inversiones($this->cuentasInversiones, now()->year);
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->map(function ($saldo, $fechaSaldo) use ($movimientos) {
-                return $saldo - $movimientos->filter->isBeforeDate(now()->create($fechaSaldo))->last()->monto;
+            ->map(function ($saldo, $fechaSaldo) {
+                return (new Gasto)->model()->setAttribute('fecha', $fechaSaldo)->setAttribute('monto', $saldo);
+            })
+            ->map(function ($saldo) use ($inversiones) {
+                return $saldo->monto - $inversiones->map->getSumMovimientos($saldo)->sum();
             });
     }
 
     protected function filter(Request $request, Builder $query): Builder
     {
         return $query->whereIn('cuenta_id', $this->cuentasInversiones)
-            ->where('tipo_movimiento_id', 4);
+            ->where('tipo_movimiento_id', $this->movimientoSaldo);
     }
 
-    protected function movimientosInversiones(Request $request, string $resource): Collection
+    protected function inversiones(array $cuentasInversiones, int $anno): Collection
     {
-        return (new $resource())->getModelQueryBuilder()
-            ->noSaldos()
-            ->whereIn('cuenta_id', $this->cuentasInversiones)
-            ->whereBetween('fecha', $this->currentRange($request))
-            ->get();
-    }
-
-    protected function resumenMovimientos(
-        Request $request,
-        string $resource,
-        string $sumColumn,
-        string $timeColumn
-    ): Collection {
-        $movimientos = $this->movimientosInversiones($request, $resource);
-
-        return $movimientos->pluck($timeColumn)
-            ->map->format('Y-m-d')
-            ->sort()
-            ->unique()
-            ->mapWithKeys(function ($fecha) use ($movimientos, $sumColumn, $timeColumn) {
-                return [$fecha => (new Gasto())->model()
-                    ->setAttribute('fecha', $fecha)
-                    ->setAttribute('monto', $movimientos
-                        ->filter->isBeforeDate(now()->create($fecha), $timeColumn)
-                        ->sum($sumColumn))
-                ];
+        return collect($cuentasInversiones)
+            ->map(function ($cuenta) use ($anno) {
+                return new Inversion($cuenta, $anno);
             });
     }
 
