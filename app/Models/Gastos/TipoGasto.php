@@ -23,7 +23,7 @@ class TipoGasto extends Model
     public static function selectOptions(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()
-            ->mapWithKeys(function ($elem, $key) {
+            ->mapWithKeys(function ($elem) {
                 return [$elem->tipo_movimiento => $elem];
             })
             ->map->tiposGastos
