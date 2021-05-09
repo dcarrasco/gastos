@@ -24,10 +24,7 @@ class UtilInversiones extends Value
         [$fechaDesde, $fechaHasta] = $range;
 
         return collect($this->cuentasInversiones)
-            ->map(function ($cuenta) use ($fechaHasta) {
-                return (new Inversion($cuenta, $fechaHasta->year))
-                    ->utilHasta($fechaHasta);
-            })
+            ->map(fn($cuenta) => (new Inversion($cuenta, $fechaHasta->year))->utilHasta($fechaHasta))
             ->sum();
     }
 

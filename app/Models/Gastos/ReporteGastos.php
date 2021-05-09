@@ -22,9 +22,7 @@ class ReporteGastos extends Reporte
     {
         return collect(range(1, 12))
             ->combine(range(1, 12))
-            ->map(function ($mes) {
-                return trans('fechas.' . Carbon::create(2000, $mes, 1)->format('F'));
-            });
+            ->map(fn($mes) => trans('fechas.' . Carbon::create(2000, $mes, 1)->format('F')));
     }
 
     protected function makeTitulosFilas(): Collection

@@ -18,14 +18,11 @@ class EvolUtilInversiones extends Trend
 
     public function calculate(Request $request): Collection
     {
-        $inversiones = collect($this->cuentasInversiones)->map(function ($cuenta) {
-            return new Inversion($cuenta, now()->year);
-        });
+        $inversiones = collect($this->cuentasInversiones)
+            ->map(fn($cuenta) => new Inversion($cuenta, now()->year));
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->map(function ($saldo, $fechaSaldo) use ($inversiones) {
-                return $inversiones->map->utilHasta(now()->create($fechaSaldo))->sum();
-            });
+            ->map(fn($saldo, $fechaSaldo) => $inversiones->map->utilHasta(now()->create($fechaSaldo))->sum());
     }
 
     protected function filter(Request $request, Builder $query): Builder

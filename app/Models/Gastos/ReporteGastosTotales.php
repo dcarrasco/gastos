@@ -22,9 +22,7 @@ class ReporteGastosTotales extends Reporte
     {
         return collect(range(1, 12))
             ->combine(range(1, 12))
-            ->map(function ($mes) {
-                return trans('fechas.' . Carbon::create(2000, $mes, 1)->format('F'));
-            });
+            ->map(fn($mes) => trans('fechas.' . Carbon::create(2000, $mes, 1)->format('F')));
     }
 
     protected function makeTitulosFilas(): Collection
@@ -32,9 +30,7 @@ class ReporteGastosTotales extends Reporte
         return $this->data
             ->map->tipoGasto
             ->unique()
-            ->mapWithKeys(function ($tipoGasto) {
-                return [$tipoGasto->id => $tipoGasto->tipo_gasto];
-            })
+            ->mapWithKeys(fn($tipoGasto) => [$tipoGasto->id => $tipoGasto->tipo_gasto])
             ->sort();
     }
 }
