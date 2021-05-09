@@ -172,9 +172,9 @@ class ResourceTest extends TestCase
 
         $this->assertEquals(
             [
-                'id' => '',
-                'nombre' => 'required',
-                'username' => 'required|max:100'
+                'id' => [],
+                'nombre' => ['required'],
+                'username' => ['required', 'max:100'],
             ],
             $this->resource->getValidation($request)
         );

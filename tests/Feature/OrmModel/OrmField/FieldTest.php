@@ -239,7 +239,7 @@ class FieldTest extends TestCase
         $resource->expects($this->any())->method('model')->willReturn($model);
 
         $this->assertEquals(
-            'required|unique:table_name,nombre_campo,value,id|max:10',
+            ['required', 'unique:table_name,nombre_campo,value,id', 'max:10'],
             $this->field->rules('required', 'unique', 'max:10')->getValidation($resource)
         );
     }

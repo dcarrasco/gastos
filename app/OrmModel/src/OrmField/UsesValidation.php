@@ -26,7 +26,7 @@ trait UsesValidation
      * @param  Resource $resource
      * @return string
      */
-    public function getValidation(Resource $resource): string
+    public function getValidation(Resource $resource): array
     {
         return collect($this->rules)
             ->map(function ($rule) use ($resource) {
@@ -34,7 +34,7 @@ trait UsesValidation
                     ? 'unique:' . $this->getUniqueRuleParameters($resource)
                     : $rule;
             })
-            ->implode('|');
+            ->all();
     }
 
     /**
