@@ -13,7 +13,7 @@ class Inversion
     protected $saldos;
 
 
-    public function __construct($cuenta, $anno)
+    public function __construct(int $cuenta, int $anno)
     {
         $this->movimientos = Gasto::movimientosAnno($cuenta, $anno);
         $this->saldos = Gasto::saldos($cuenta, $anno);
