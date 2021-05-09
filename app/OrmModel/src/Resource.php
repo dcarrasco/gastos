@@ -197,9 +197,7 @@ abstract class Resource
     public function getValidation(Request $request): array
     {
         return collect($this->fields($request))
-            ->mapWithKeys(function ($field) {
-                return [$field->getModelAttribute($this) => $field->getValidation($this)];
-            })
+            ->mapWithKeys(fn($field) => [$field->getModelAttribute($this) => $field->getValidation($this)])
             ->all();
     }
 
@@ -230,9 +228,7 @@ abstract class Resource
     public function getModelAjaxFormOptions(Request $request): string
     {
         return $this->getModelFormOptions($request)
-            ->map(function ($value, $key) {
-                return "<option value=\"{$key}\">" . e($value) . "</option>";
-            })
+            ->map(fn($value, $key) => "<option value=\"{$key}\">" . e($value) . "</option>")
             ->implode('');
     }
 
@@ -246,21 +242,19 @@ abstract class Resource
     {
         $this->applyOrderBy($request);
 
-        $whereIn = collect($request->all())->filter(function ($elem, $key) {
-            return !is_integer($key) and is_array($elem);
-        });
+        $whereIn = collect($request->all())
+            ->filter(fn($elem, $key) => !is_integer($key) and is_array($elem));
 
-        $whereValue = collect($request->all())->filter(function ($elem, $key) {
-            return is_integer($key) or !is_array($elem);
-        })->all();
+        $whereValue = collect($request->all())
+            ->filter(fn($elem, $key) => is_integer($key) or !is_array($elem))
+            ->all();
 
         $query = $this->modelQueryBuilder->where($whereValue);
         $whereIn->each(function ($elem, $key) use (&$query) {
             return $query->whereIn($key, $elem);
         });
 
-        return $query->get()->mapWithKeys(function ($model) use ($request) {
-            return [$model->getKey() => (new static($model))->title()];
-        });
+        return $query->get()
+            ->mapWithKeys(fn($model) => [$model->getKey() => (new static($model))->title()]);
     }
 }

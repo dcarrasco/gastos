@@ -70,9 +70,7 @@ class BooleanOptions extends Field
     public function getFormattedValue(): HtmlString
     {
         $formattedValue = collect($this->options)
-            ->map(function ($option) {
-                return $this->getFormattedOptionValue($option);
-            })
+            ->map(fn($option) => $this->getFormattedOptionValue($option))
             ->implode('');
 
         return new HtmlString($formattedValue);
@@ -81,9 +79,7 @@ class BooleanOptions extends Field
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $formValue = collect($this->options)
-            ->map(function ($option) {
-                return $this->getFormattedOptionValue($option, true);
-            })
+            ->map(fn($option) => $this->getFormattedOptionValue($option, true))
             ->implode('');
 
         return new HtmlString($formValue);

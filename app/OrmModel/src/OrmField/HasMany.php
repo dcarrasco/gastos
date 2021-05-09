@@ -174,9 +174,7 @@ class HasMany extends Relation
             . "<th class=\"text-left px-2 py-1\">{$this->name}</th>"
             . collect($this->relationFields)
                 ->first()
-                ->map(function ($field) {
-                    return '<th>' . collect($field->getOptions())->implode('</th><th>') . '</th>';
-                })
+                ->map(fn($field) => '<th>' . collect($field->getOptions())->implode('</th><th>') . '</th>')
                 ->implode('')
             . ($edit ? '<th>Desasociar</th>' : '')
             . '</tr>';

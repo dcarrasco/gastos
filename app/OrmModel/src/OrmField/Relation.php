@@ -64,9 +64,7 @@ class Relation extends Field
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
     {
         return $this->getRelatedListModels($request, $resource, $conditions)
-            ->mapWithKeys(function ($model) {
-                return [$model->getKey() => (new $this->relatedResource($model))->title()];
-            });
+            ->mapWithKeys(fn($model) => [$model->getKey() => (new $this->relatedResource($model))->title()]);
     }
 
     /**
@@ -96,9 +94,7 @@ class Relation extends Field
     protected function getRelationFilter(Resource $resource, array $conditions = []): array
     {
         return collect($conditions)
-            ->filter(function ($condition) {
-                return strpos($condition, '@field_value:') !== false;
-            })
+            ->filter(fn($condition) => strpos($condition, '@field_value:') !== false)
             ->map(function ($condition) use ($resource) {
                 list($label, $field, $defaul) = explode(':', $condition);
                 return $resource->model()->{$field};

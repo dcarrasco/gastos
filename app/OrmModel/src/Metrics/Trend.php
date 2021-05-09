@@ -196,9 +196,7 @@ abstract class Trend extends Metric
         return collect(CarbonPeriod::create($fechaInicio, $fechaFin))
             ->map->format($this->dateFormatExpression($unit))
             ->flip()
-            ->map(function ($value) {
-                return 0;
-            });
+            ->map(fn($value) => 0);
     }
 
     /**
@@ -291,9 +289,7 @@ abstract class Trend extends Metric
 
         return $this->initRangedData($dateInterval, $unit)
             ->merge($results)
-            ->filter(function ($valor) {
-                return ! $this->filtraValoresEnCero or $valor != 0;
-            });
+            ->filter(fn($valor) => ! $this->filtraValoresEnCero or $valor != 0);
     }
 
     /**

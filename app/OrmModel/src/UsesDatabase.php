@@ -141,9 +141,7 @@ trait UsesDatabase
         // actualiza las tablas relacionadas
         collect($this->fields($request))
             // filtra los campos de TIPO_HAS_MANY
-            ->filter(function ($field) {
-                return get_class($field) === HasMany::class;
-            })
+            ->filter(fn($field) => get_class($field) === HasMany::class)
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
                 $syncAttributes = $field->hasRelationFields()
