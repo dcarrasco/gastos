@@ -19,9 +19,7 @@ trait OrmControllerHelper
     protected function getResource(string $resourceName = '', $resourceId = null): Resource
     {
         $resource = $this->menuModulo
-            ->first(function ($resource) use ($resourceName) {
-                return $resource->getName() === $resourceName;
-            })
+            ->first(fn($resource) => $resource->getName() === $resourceName)
             ?? $this->menuModulo->first();
 
         if ($resourceId) {
