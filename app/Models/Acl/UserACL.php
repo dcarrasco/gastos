@@ -93,9 +93,7 @@ class UserACL extends Model implements
     {
         return $this->rol
             ->flatMap->modulo
-            ->first(function ($modulo) use ($url) {
-                return Str::contains($url, route($modulo->url));
-            });
+            ->first(fn($modulo) => Str::contains($url, route($modulo->url)));
     }
 
     public function getAclAbilities(): array
