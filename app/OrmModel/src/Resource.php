@@ -72,7 +72,7 @@ abstract class Resource
      */
     public function getLabel(): string
     {
-        return empty($this->label) ? class_basename($this) : $this->label;
+        return empty($this->label) ? $this->getName() : $this->label;
     }
 
     /**

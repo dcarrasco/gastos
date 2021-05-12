@@ -85,6 +85,10 @@ class ResourceTest extends TestCase
         $this->resource->label = 'AnotherLabel';
         $this->assertNotEquals('ResourceLabel', $this->resource->getLabel());
         $this->assertEquals('AnotherLabel', $this->resource->getLabel());
+
+        $this->resource->label = '';
+        $this->assertEquals($this->resource->getName(), $this->resource->getLabel());
+        $this->assertStringContainsString('ResourceTest.php:', $this->resource->getLabel());
     }
 
     public function testGetLabelPlural()
