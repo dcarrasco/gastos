@@ -101,7 +101,7 @@ class Gasto extends Model
 
     public function isBeforeDate($date, $dateField = 'fecha'): bool
     {
-        return $this->{$dateField} <= $date;
+        return $this->getAttribute($dateField) <= $date;
     }
 
     public static function detalleMovimientosMes(

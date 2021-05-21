@@ -92,7 +92,7 @@ abstract class Resource
      */
     public function title(): string
     {
-        return optional($this->modelInstance)->{$this->title} ?? '';
+        return optional($this->modelInstance)->getAttribute($this->title) ?? '';
     }
 
     /**
