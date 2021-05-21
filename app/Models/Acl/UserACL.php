@@ -41,12 +41,8 @@ class UserACL extends Model implements
     {
         return $this->rol
             ->flatMap->modulo
-            ->map(function ($modulo) {
-                return (object) $modulo
-                    ->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
-                    ->setAttribute('selected', false)
-                    ->toArray();
-            })
+            ->map(fn($modulo) => $modulo->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
+                    ->setAttribute('selected', false))
             ->sortBy('orden')
             ->values();
     }
@@ -58,11 +54,7 @@ class UserACL extends Model implements
             $request->route()->getName()
         );
 
-        return $menuApp->map(function ($modulo) use ($currentRoute) {
-            $modulo->selected = ($modulo->url === $currentRoute);
-
-            return $modulo;
-        });
+        return $menuApp->map(fn($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentRoute));
     }
 
     public function moduloAppName(Request $request): HtmlString
@@ -98,9 +90,7 @@ class UserACL extends Model implements
 
     public function getAclAbilities(): array
     {
-        $modulo = $this->getCurrentModulo(request()->url());
-
-        if (is_null($modulo)) {
+        if (is_null($modulo = $this->getCurrentModulo(request()->url()))) {
             return [];
         }
 
