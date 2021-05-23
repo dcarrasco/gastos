@@ -54,6 +54,17 @@ class Relation extends Field
     }
 
     /**
+     * Genera una instancia nueva de un recurso relacionado
+     *
+     * @param  [type] $model
+     * @return Resource
+     */
+    public function makeRelatedResource($model = null): Resource
+    {
+        return new $this->relatedResource($model);
+    }
+
+    /**
      * Recupera elementos del recurso relacionado
      *
      * @param  Request   $request
@@ -64,7 +75,7 @@ class Relation extends Field
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
     {
         return $this->getRelatedListModels($request, $resource, $conditions)
-            ->mapWithKeys(fn($model) => [$model->getKey() => (new $this->relatedResource($model))->title()]);
+            ->mapWithKeys(fn($model) => [$model->getKey() => $this->makeRelatedResource($model)->title()]);
     }
 
     /**
@@ -77,7 +88,7 @@ class Relation extends Field
      */
     protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
     {
-        return (new $this->relatedResource())
+        return $this->makeRelatedResource()
             ->applyOrderBy($request)
             ->getModelQueryBuilder()
             ->where($this->getRelationFilter($resource, $conditions))

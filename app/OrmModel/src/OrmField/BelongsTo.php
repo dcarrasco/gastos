@@ -21,9 +21,7 @@ class BelongsTo extends Relation
     {
         $relatedModel = $this->value;
 
-        return new HtmlString(
-            (new $this->relatedResource($relatedModel))->title()
-        );
+        return new HtmlString($this->makeRelatedResource($relatedModel)->title());
     }
 
     /**
