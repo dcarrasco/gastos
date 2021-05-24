@@ -49,9 +49,9 @@ class IngresoMasivo extends Controller
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
             'formParser' => $this->parsers,
-            'datosMasivos' => $this->parser->procesaMasivo($request),
+            'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
-            'selectTiposGastos' => TipoGasto::selectOptions(),
+            'selectTiposGastos' => count($datosMasivos) ? TipoGasto::selectOptions() : [],
         ])->withErrors($this->parser->getParserError());
     }
 
