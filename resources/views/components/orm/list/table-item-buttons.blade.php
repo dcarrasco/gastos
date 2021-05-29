@@ -13,7 +13,8 @@
 @endcan
 
 @can('delete', $resource->model())
-<a class="inline-block hover:text-blue-500"
+<a
+    class="inline-block hover:text-blue-500"
     @click="openDeleteModal=true"
     x-on:click="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}'"
     style="cursor: pointer;"

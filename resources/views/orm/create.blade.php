@@ -5,7 +5,12 @@
     </x-orm.title>
 
 
-    <form method="POST" action='{{ route("$routeName.store", [$resource->getName()]) }}' x-data="{}" x-ref="form">
+    <form
+        method="POST"
+        action='{{ route("$routeName.store", [$resource->getName()]) }}'
+        x-data="{}"
+        x-ref="form"
+    >
         @csrf
 
         <x-orm.field-panel>

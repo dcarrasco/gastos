@@ -5,7 +5,12 @@
     </x-orm.title>
 
 
-    <form method="POST" action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}' x-data="{}" x-ref="form">
+    <form
+        method="POST"
+        action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}'
+        x-data="{}"
+        x-ref="form"
+    >
         @csrf
         @method('PUT')
 

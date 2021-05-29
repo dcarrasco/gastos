@@ -7,8 +7,14 @@
 
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
 
-            <div x-show.transition.opacity.duration.300ms="openDeleteModal" class="p-4 inline-block align-bottom bg-white rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline" style="display: none;">
-
+            <div
+                x-show.transition.opacity.duration.300ms="openDeleteModal"
+                class="p-4 inline-block align-bottom bg-white rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-headline"
+                style="display: none;"
+            >
                 <div class="flex justify-between pt-2 pb-5">
                     {{ $title }}
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" x-on:click="openDeleteModal=false">

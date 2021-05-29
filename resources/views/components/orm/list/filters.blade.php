@@ -8,11 +8,18 @@
             {{ $resource->countAppliedFilters(request()) ?: '' }}
         </x-button>
 
-         <div x-show="openFilter" @click.away="openFilter=false" class="absolute right-0 bg-white border rounded-md shadow" aria-labelledby="button-filters" style="min-width: 20em; display: none;">
+         <div
+            x-show="openFilter"
+            @click.away="openFilter=false"
+            class="absolute right-0 bg-white border rounded-md shadow"
+            aria-labelledby="button-filters"
+            style="min-width: 20em; display: none;"
+        >
             @foreach(array_merge([$perPageFilter], $resource->filters(request())) as $filter)
                 <div class="bg-gray-200 py-2 px-4 uppercase text-sm font-bold" href="#">
                     {{ $filter->getLabel() }}
                 </div>
+
                 <div class="grid grid-cols-7">
                 @foreach($filter->options() as $option => $value)
                     <div class="text-right py-2">
@@ -23,6 +30,7 @@
                     </a>
                 @endforeach
                 </div>
+
             @endforeach
         </div>
     </div>
