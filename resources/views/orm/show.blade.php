@@ -19,7 +19,7 @@
                 href="{{ route($routeName.'.edit', [$resource->getName(), $resource->model()->getKey()]) }}"
                 class="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md border focus:outline-none focus:shadow-outline"
             >
-                <x-heroicon.edit width="20" height="20" style="fill: #EEE"/>
+                <x-heroicon.edit width="20" height="20" class="text-gray-100"/>
             </a>
             @endcan
             <x-orm.list.modal-delete :resource="$resource" />

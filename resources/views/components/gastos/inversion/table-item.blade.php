@@ -8,16 +8,15 @@
     <td class="text-center">{{ $inversion->tipoMovimiento->tipo_movimiento }}</td>
     <td class="text-right">
         {{ fmtMonto($inversion->monto) }}
-        <x-signo-movimiento :movimiento="$inversion" />
+        <x-signo-movimiento :signo="optional($inversion->tipoMovimiento)->signo" />
     </td>
     <td class="text-right">{{ fmtMonto($saldo) }}</td>
     <td>
         @can('delete', $inversion)
-            <a class="inline-block hover:text-blue-500 align-text-top py-0"
+            <a class="inline-block hover:text-blue-500 align-text-top py-0 cursor-pointer"
                 x-on:click="openDeleteModal = true;
                     deleteMessage = '{!! $inversion->deleteMessage() !!}';
                     urlDelete='{!! route('gastos.borrarInversion', [$inversion->getKey()]) !!}'"
-                style="cursor: pointer;"
             >
                 <x-heroicon.delete width="14" height="14" class="mb-1 py-0"/>
             </a>

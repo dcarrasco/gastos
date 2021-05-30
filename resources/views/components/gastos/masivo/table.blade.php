@@ -22,8 +22,7 @@
                         {{ optional($gasto->tipoGasto)->tipo_gasto }}
                     @else
                         <x-form-input type="select" name="tipo_gasto_id" class="w-48" :options="$selectTiposGastos" placeholder="&mdash;" />
-                        <div class="inline-block"
-                            style="cursor: pointer"
+                        <div class="inline-block cursor-pointer"
                             x-on:click.prevent="
                                 $refs.glosa_tipo_gasto.value='{{ $gasto->glosa }}';
                                 $refs.form.action='{{ route('gastos.ingresoMasivoAddTipoGasto') }}';
