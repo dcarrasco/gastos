@@ -8,7 +8,10 @@
             <a href="#"
                 class="bg-white hover:bg-gray-200 mx-2 px-4 py-2 rounded-md border focus:outline-none focus:shadow-outline"
                 @click="openDeleteModal=true"
-                x-on:click.prevent="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', $resource->getRouteControllerId()) !!}'"
+                x-on:click.prevent="
+                    deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}',
+                    urlDelete='{!! route($routeName.'.destroy', $resource->getRouteControllerId()) !!}'
+                "
             >
                 <x-heroicon.delete width="20" height="20"/>
             </a>
@@ -29,7 +32,7 @@
     <!-- -----------------------------  FIELDS  ---------------------------- -->
     <x-orm.field-panel>
         @foreach($resource->getFields() as $field)
-            <x-orm.item-show :field=$field />
+            <x-orm.item-show :field="$field" />
         @endforeach
     </x-orm.field-panel>
 

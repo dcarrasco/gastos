@@ -13,7 +13,7 @@ trait OrmControllerHelper
      * Devuelve un recurso
      *
      * @param  string  $resourceName Nombre del recurso a recuperar
-     * @param  Request $request
+     * @param  string  $resourceId   Id del recurso a recuperar
      * @return Resource
      */
     protected function getResource(string $resourceName = '', $resourceId = null): Resource
