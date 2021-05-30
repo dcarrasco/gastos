@@ -132,7 +132,7 @@ class OrmController extends Controller
         $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
 
         return redirect()
-            ->route($this->routeName . $nextRoute, [$resource->getName(), $modelId])
+            ->route($this->routeName . $nextRoute, $resource->getRouteControllerId())
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
