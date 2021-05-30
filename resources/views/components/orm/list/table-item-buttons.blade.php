@@ -14,10 +14,9 @@
 
 @can('delete', $resource->model())
 <a
-    class="inline-block hover:text-blue-500"
+    class="inline-block hover:text-blue-500 cursor-pointer"
     @click="openDeleteModal=true"
     x-on:click="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}'"
-    style="cursor: pointer;"
 >
     <x-heroicon.delete />
 </a>

@@ -1,7 +1,7 @@
 <div class="flex items-center justify-between border-t px-3 py-3 text-gray-500 bg-blue-100 rounded-b-lg">
     <div class="font-bold">
         @if($resource->getPaginator()->onFirstPage())
-            <span class="" style="cursor: not-allowed !important;">Anterior</span>
+            <span class="cursor-not-allowed">Anterior</span>
         @else
             <a href="{{ $resource->getPaginator()->previousPageUrl() }}" class="hover:text-blue-500">Anterior</a>
         @endif
@@ -14,7 +14,7 @@
 
     <div class="font-bold">
         @if($resource->getPaginator()->currentPage() == $resource->getPaginator()->lastPage())
-            <span class="" style="cursor: not-allowed !important;">Siguiente</span>
+            <span class="cursor-not-allowed">Siguiente</span>
         @else
             <a href="{{ $resource->getPaginator()->nextPageUrl() }}" class="hover:text-blue-500">Siguiente</a>
         @endif
