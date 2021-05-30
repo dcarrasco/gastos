@@ -9,7 +9,7 @@
                 class="bg-white hover:bg-gray-200 mx-2 px-4 py-2 rounded-md border focus:outline-none focus:shadow-outline"
                 @click="openDeleteModal=true"
                 x-on:click.prevent="
-                    deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}',
+                    deleteMessage='{!! $resource->deleteMessage() !!}',
                     urlDelete='{!! route($routeName.'.destroy', $resource->getRouteControllerId()) !!}'
                 "
             >

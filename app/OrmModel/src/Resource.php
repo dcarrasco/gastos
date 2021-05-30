@@ -267,4 +267,14 @@ abstract class Resource
     {
         return [$this->getName(), $this->model()->getKey()];
     }
+
+    /**
+     * Devuelve mensaje a desplegar para borrar recurso
+     *
+     * @return string
+     */
+    public function deleteMessage(): string
+    {
+        return trans('orm.delete_confirm', ['model' => $this->getLabel(), 'item' => $this->title() ]);
+    }
 }
