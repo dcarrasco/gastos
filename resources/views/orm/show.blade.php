@@ -8,7 +8,7 @@
             <a href="#"
                 class="bg-white hover:bg-gray-200 mx-2 px-4 py-2 rounded-md border focus:outline-none focus:shadow-outline"
                 @click="openDeleteModal=true"
-                x-on:click.prevent="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', [$resource->getName(), $resource->model()->getKey()]) !!}'"
+                x-on:click.prevent="deleteMessage='{!! trans('orm.delete_confirm', ['model' => $resource->getLabel(), 'item' => $resource->title() ]) !!}', urlDelete='{!! route($routeName.'.destroy', $resource->getRouteControllerId()) !!}'"
             >
                 <x-heroicon.delete width="20" height="20"/>
             </a>
@@ -16,7 +16,7 @@
 
             @can('update', $resource->model())
             <a
-                href="{{ route($routeName.'.edit', [$resource->getName(), $resource->model()->getKey()]) }}"
+                href="{{ route($routeName.'.edit', $resource->getRouteControllerId()) }}"
                 class="bg-blue-500 text-gray-100 hover:bg-blue-700 px-4 py-2 rounded-md border focus:outline-none focus:shadow-outline"
             >
                 <x-heroicon.edit width="20" height="20" />

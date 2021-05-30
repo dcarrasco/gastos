@@ -7,7 +7,7 @@
 
     <form
         method="POST"
-        action='{{ route("$routeName.update", [$resource->getName(), $modelId]) }}'
+        action='{{ route("$routeName.update", $resource->getRouteControllerId()) }}'
         x-data="{}"
         x-ref="form"
     >

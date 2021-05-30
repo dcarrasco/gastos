@@ -22,9 +22,7 @@ class OrmController extends Controller
         }
 
         $this->menuModulo = collect($this->menuModulo)
-            ->map(function ($resource) {
-                return new $resource();
-            });
+            ->map(fn($resource) => new $resource());
 
         $this->makeView($request);
     }
@@ -95,7 +93,7 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass, $modelId)
             ->resolveDetailFields($request);
 
-        return view('orm.show', compact('resource', 'modelId'));
+        return view('orm.show', compact('resource'));
     }
 
     /**
@@ -111,7 +109,7 @@ class OrmController extends Controller
         $resource = $this->getResource($resourceClass, $modelId)
             ->resolveFormFields($request);
 
-        return view('orm.edit', compact('resource', 'modelId'));
+        return view('orm.edit', compact('resource'));
     }
 
     /**

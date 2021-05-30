@@ -257,4 +257,14 @@ abstract class Resource
         return $query->get()
             ->mapWithKeys(fn($model) => [$model->getKey() => (new static($model))->title()]);
     }
+
+    /**
+     * Devuelve arreglo con nombre del modelo e id del modelo
+     *
+     * @return array
+     */
+    public function getRouteControllerId(): array
+    {
+        return [$this->getName(), $this->model()->getKey()];
+    }
 }
