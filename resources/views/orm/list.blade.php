@@ -15,7 +15,7 @@
     <div class="my-5 shadow-sm rounded-lg border divide-y divide-gray-200">
         <x-orm.list.filters :resource="$resource" />
 
-        @if ($resource->resourceList()->count() == 0)
+        @if ($resource->resourceList()->isEmpty())
             <x-orm.list.no-items />
         @else
             @can('view-any', $resource->model())
