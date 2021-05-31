@@ -1,9 +1,9 @@
 <x-layout.app>
+
     <x-orm.title>
         {{ trans('orm.title_edit') }}
         {!! $resource->getLabel() !!}
     </x-orm.title>
-
 
     <form
         method="POST"
@@ -17,7 +17,7 @@
         <x-orm.field-panel>
             <!-- -----------------------------  FIELDS  ---------------------------- -->
             @foreach($resource->getFields() as $field)
-                <x-orm.item-form :field=$field :resource=$resource />
+                <x-orm.item-form :field="$field" :resource="$resource" />
             @endforeach
 
             <!-- -----------------------------  BOTONES  --------------------------- -->
