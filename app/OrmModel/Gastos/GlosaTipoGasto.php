@@ -19,6 +19,8 @@ class GlosaTipoGasto extends Resource
         'id', 'glosa',
     ];
 
+    protected $paginationLinksDetail = true;
+
     public $orderBy = 'glosa';
 
     public function fields(Request $request): array
