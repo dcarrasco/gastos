@@ -27,12 +27,11 @@ class Cuenta extends Model
         return $this->belongsTo(TipoCuenta::class);
     }
 
-    protected static function selectOptions($tipo = 0): Collection
+    protected static function selectOptions(int $tipo = 0): Collection
     {
         return TipoCuenta::where('tipo', $tipo)->with('cuentas')
             ->get()
-            ->map->cuentas
-            ->collapse()
+            ->flatMap->cuentas
             ->sortBy('cuenta')
             ->pluck('cuenta', 'id');
     }
