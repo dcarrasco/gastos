@@ -50,10 +50,7 @@
         <x-heroicon.loading width="48" height="48" />
     </div>
 
-    <div
-        x-ref="content"
-        :class="{ 'hidden': isLoading }"
-    >
+    <div x-ref="content" :class="{ 'hidden': isLoading }">
         {{ $card->content($request) }}
     </div>
 </div>

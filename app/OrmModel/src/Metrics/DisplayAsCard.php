@@ -30,7 +30,6 @@ trait DisplayAsCard
             view('orm.card', [
                 'card' => $this,
                 'urlRoute' => $this->urlRoute($request),
-                'resourceParams' => new HtmlString(json_encode($request->query())),
                 'request' => $request,
             ])->render()
         );
