@@ -30,7 +30,7 @@ class ReporteGastosTotales extends Reporte
         return $this->data
             ->map->tipoGasto
             ->unique()
-            ->mapWithKeys(fn($tipoGasto) => [$tipoGasto->id => $tipoGasto->tipo_gasto])
+            ->pluck('tipo_gasto', 'id')
             ->sort();
     }
 }
