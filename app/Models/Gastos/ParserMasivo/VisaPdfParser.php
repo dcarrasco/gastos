@@ -2,7 +2,6 @@
 
 namespace App\Models\Gastos\ParserMasivo;
 
-use App\Models\Gastos\Gasto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -28,16 +27,6 @@ class VisaPdfParser extends GastosParser
             ->filter(fn($linea) => preg_match('/\t/', $linea) == 0)
             ->filter(fn($linea) => collect(explode(" ", $linea))->count() >= 11)
             ->filter(fn($linea) => preg_match('/[0-9]{4}/', $linea) === 1);
-
-        return $this;
-    }
-
-    protected function filtraLineasExistentes(Request $request): VisaPdfParser
-    {
-        $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
-
-        $this->datosMasivos = $this->datosMasivos
-            ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->get()->count() == 0);
 
         return $this;
     }
