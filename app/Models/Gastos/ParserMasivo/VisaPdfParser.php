@@ -33,14 +33,14 @@ class VisaPdfParser extends GastosParser
 
     protected function getFecha(Collection $linea): Carbon
     {
-        $fecha = explode('/', $this->getCampo('fecha', $linea));
+        [$dia, $mes, $anno] = explode('/', $this->getCampo('fecha', $linea));
 
-        return (new Carbon())->create(2000 + (int)$fecha[2], $fecha[1], $fecha[0], 0, 0, 0);
+        return Carbon::create(2000 + (int) $anno, $mes, $dia, 0, 0, 0);
     }
 
     protected function getSerie(Collection $linea): string
     {
-        return str_replace(' ', '', $this->getCampo('serie', $linea));
+        return $this->getCampo('serie', $linea);
     }
 
     protected function getGlosa(Collection $linea): string
@@ -57,19 +57,18 @@ class VisaPdfParser extends GastosParser
 
     protected function getCampo(string $campo, Collection $linea): string
     {
-        return $this->getRangeCamposLinea($linea, collect($this->campos)->get($campo, []))
-            ->map(fn($campo) => trim($linea->get($campo, '')))
+        return $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))
             ->implode(' ');
     }
 
-    protected function getRangeCamposLinea(Collection $linea, array $limites): Collection
+    protected function getRangeCamposLinea(Collection $linea, array $limites): array
     {
-        return collect(
-            range($this->getCampoLinea($linea, $limites[0]), $this->getCampoLinea($linea, $limites[1]))
-        );
+        [$desde, $hasta] = $limites;
+
+        return range($this->posicionLinea($desde, $linea), $this->posicionLinea($hasta, $linea));
     }
 
-    protected function getCampoLinea(Collection $linea, int $posicion): string
+    protected function posicionLinea(int $posicion, Collection $linea): string
     {
         return ($posicion < 0) ? $linea->count() + $posicion : $posicion - 1;
     }
