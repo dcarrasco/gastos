@@ -17,7 +17,7 @@ class VisaExcelParser extends GastosParser
     protected function filtrarLineasValidas(Request $request): VisaExcelParser
     {
         $this->datosMasivos = $this->datosMasivos
-            ->filter(fn($linea) => collect(explode("\t", $linea))->count() == 6)
+            ->filter(fn($linea) => collect(explode($this->separadorCampos, $linea))->count() == 6)
             ->filter(fn($linea) => preg_match('/[0-9]{4}/', $linea) === 1);
 
         return $this;
