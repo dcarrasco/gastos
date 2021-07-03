@@ -15,8 +15,8 @@ class CreaTablaRolesModulos extends Migration
     {
         Schema::create('acl_rol_modulo', function (Blueprint $table) {
             $table->primary(['rol_id', 'modulo_id']);
-            $table->foreignid('rol_id');
-            $table->foreignid('modulo_id');
+            $table->foreignId('rol_id');
+            $table->foreignId('modulo_id');
             $table->timestamps();
 
             $table->foreign('rol_id')->references('id')->on('acl_rol');
