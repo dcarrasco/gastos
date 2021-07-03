@@ -2,12 +2,10 @@
 
 namespace App\Models\Gastos\ParserMasivo;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\Gastos\Gasto;
-use App\Models\Gastos\TipoGasto;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use App\Models\Gastos\GlosaTipoGasto;
 
 class VisaPdfParser extends GastosParser
 {
@@ -15,36 +13,14 @@ class VisaPdfParser extends GastosParser
 
     protected $cuentaAsociada = 2;
 
+    protected $separadorCampos = ' ';
+
     protected $campos = [
         'fecha' => [2, 2],
         'serie' => [3, 4],
         'descripcion' => [5, -5],
         'monto' => [-1, -1],
     ];
-
-    public function procesaMasivo(Request $request): Collection
-    {
-        if (! $request->has('datos')) {
-            return [];
-        }
-
-        $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
-
-        $this->datosMasivos = $this->requestDatosMasivos($request)
-            ->filtrarLineasValidas($request)
-            ->procesaLineas($request)
-            ->filtraLineasExistentes($request)
-            ->getDatosMasivos();
-
-        return $this->getDatosMasivos();
-    }
-
-    protected function requestDatosMasivos(Request $request): VisaPdfParser
-    {
-        $this->datosMasivos = collect(explode(PHP_EOL, $request->datos));
-
-        return $this;
-    }
 
     protected function filtrarLineasValidas(Request $request): VisaPdfParser
     {
@@ -56,33 +32,6 @@ class VisaPdfParser extends GastosParser
         return $this;
     }
 
-    protected function procesaLineas(Request $request): VisaPdfParser
-    {
-        $this->datosMasivos = $this->datosMasivos
-            ->map(fn($linea) => $this->procesaLineaMasivo($request, $linea));
-
-        return $this;
-    }
-
-    protected function procesaLineaMasivo(Request $request, string $linea): Gasto
-    {
-        $linea = collect(explode(' ', $linea));
-        $tipoGasto = $this->getTipoGasto($request, $linea);
-
-        return new Gasto([
-            'cuenta_id' => $request->cuenta_id,
-            'anno' => $request->anno,
-            'mes' => $request->mes,
-            'fecha' => $this->getFecha($linea),
-            'serie' => $this->getSerie($linea),
-            'glosa' => $this->getGlosa($linea),
-            'tipo_gasto_id' => $tipoGasto->id,
-            'tipo_movimiento_id' => optional($tipoGasto->tipoMovimiento)->id,
-            'monto' => $this->getMonto($linea),
-            'usuario_id' => auth()->id(),
-        ]);
-    }
-
     protected function filtraLineasExistentes(Request $request): VisaPdfParser
     {
         $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
@@ -91,17 +40,6 @@ class VisaPdfParser extends GastosParser
             ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->get()->count() == 0);
 
         return $this;
-    }
-
-    protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
-    {
-        $glosa = strtoupper($this->getGlosa($linea));
-
-        $glosaTipoGasto = $this->glosasTipoGasto
-            ->first(fn($glosaTipoGasto) => strpos($glosa, strtoupper($glosaTipoGasto->glosa)) !== false)
-            ?? new GlosaTipoGasto();
-
-        return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
     }
 
     protected function getFecha(Collection $linea): Carbon
@@ -133,7 +71,6 @@ class VisaPdfParser extends GastosParser
         return $this->getRangeCamposLinea($linea, collect($this->campos)->get($campo, []))
             ->map(fn($campo) => trim($linea->get($campo, '')))
             ->implode(' ');
-
     }
 
     protected function getRangeCamposLinea(Collection $linea, array $limites): Collection
