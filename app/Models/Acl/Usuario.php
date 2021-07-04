@@ -27,13 +27,13 @@ class Usuario extends UserACL
         return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
     }
 
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return head(explode(' ', $this->nombre));
     }
 
-    public function avatarLink()
+    public function avatarLink(): string
     {
-        return "https://secure.gravatar.com/avatar/" . md5($this->email) . "?size=24";
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
     }
 }
