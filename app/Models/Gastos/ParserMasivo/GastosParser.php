@@ -24,11 +24,11 @@ class GastosParser
 
     public function procesaMasivo(Request $request): Collection
     {
-        if (is_null($request->cuenta_id)) {
+        if (is_null($request->input('cuenta_id'))) {
             return collect([]);
         }
 
-        $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->cuenta_id);
+        $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->input('cuenta_id'));
 
         $this->datosMasivos = $this->requestDatosMasivos($request)
             ->filtrarLineasValidas($request)
@@ -41,7 +41,7 @@ class GastosParser
 
     protected function requestDatosMasivos(Request $request): GastosParser
     {
-        $this->datosMasivos = collect(explode(PHP_EOL, $request->datos));
+        $this->datosMasivos = collect(explode(PHP_EOL, $request->input('datos')));
 
         return $this;
     }
@@ -61,7 +61,7 @@ class GastosParser
         return $this;
     }
 
-    public function getParserError()
+    public function getParserError(): array
     {
         return get_class($this) == NullParser::class
             ? ['ParserError' => 'No se puede ingresar masivo esta cuenta']
@@ -89,7 +89,7 @@ class GastosParser
             ->count();
     }
 
-    public function getDatosMasivos()
+    public function getDatosMasivos(): Collection
     {
         return $this->datosMasivos;
     }
@@ -113,9 +113,9 @@ class GastosParser
         $tipoGasto = $this->getTipoGasto($request, $linea);
 
         return new Gasto([
-            'cuenta_id' => $request->cuenta_id,
-            'anno' => $request->anno,
-            'mes' => $request->mes,
+            'cuenta_id' => $request->input('cuenta_id'),
+            'anno' => $request->input('anno'),
+            'mes' => $request->input('mes'),
             'fecha' => $this->getFecha($linea),
             'serie' => $this->getSerie($linea),
             'glosa' => $this->getGlosa($linea),
