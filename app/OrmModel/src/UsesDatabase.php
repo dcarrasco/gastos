@@ -45,16 +45,11 @@ trait UsesDatabase
      */
     public function applySearchFilter(Request $request): Resource
     {
-        if (empty($searchText = $request->input($this->searchKey))) {
-            return $this;
-        }
-
         $this->modelQueryBuilder = $this->modelQueryBuilder
-            ->where(function ($query) use ($searchText) {
-                foreach ($this->search as $field) {
-                    $query = $query->orWhere($field, 'like', "%{$searchText}%");
-                }
-            });
+            ->when($request->input($this->searchKey) ?? false, fn($query, $search) =>
+                $query->where(fn($query) =>
+                    collect($this->search)->each(fn($field) =>
+                        $query->orWhere($field, 'like', "%{$search}%"))));
 
         return $this;
     }
@@ -81,7 +76,7 @@ trait UsesDatabase
      */
     public function resourceSetPerPage(Request $request): Resource
     {
-        $this->modelInstance->setPerPage($request->PerPage ?: $this->perPage);
+        $this->modelInstance->setPerPage($request->input('PerPage') ?: $this->perPage);
 
         return $this;
     }
