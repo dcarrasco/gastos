@@ -128,13 +128,10 @@ class GastosParser
 
     protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
     {
-        $glosa = strtoupper($this->getGlosa($linea));
-
-        $glosaTipoGasto = $this->glosasTipoGasto
-            ->first(fn($glosaTipoGasto) => strpos($glosa, strtoupper($glosaTipoGasto->glosa)) !== false)
-            ?? new GlosaTipoGasto();
-
-        return $glosaTipoGasto->tipoGasto ?? new TipoGasto();
+        return $this->glosasTipoGasto
+            ->first->hasGlosa($this->getGlosa($linea))
+            ->tipoGasto
+            ?? new TipoGasto();
     }
 
     protected function getFecha(Collection $linea): Carbon

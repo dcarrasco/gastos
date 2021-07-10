@@ -2,6 +2,7 @@
 
 namespace App\Models\Gastos;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -29,4 +30,10 @@ class GlosaTipoGasto extends Model
         return static::with('tipoGasto', 'tipoGasto.tipoMovimiento')
             ->whereCuentaId($cuentaId)->get();
     }
+
+    public function hasGlosa(string $glosa): bool
+    {
+        return Str::contains(strtoupper($glosa), strtoupper($this->glosa));
+    }
+
 }
