@@ -42,6 +42,6 @@ class VisaExcelParser extends GastosParser
 
     protected function getMonto(Collection $linea): int
     {
-        return (int) str_replace('.', '', str_replace('$', '', trim($linea[4])));
+        return (int) str_replace(['.', '$'], '', trim($linea[4]));
     }
 }

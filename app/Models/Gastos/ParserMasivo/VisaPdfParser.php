@@ -50,15 +50,14 @@ class VisaPdfParser extends GastosParser
 
     protected function getMonto(Collection $linea): int
     {
-        $monto = $this->getCampo('monto', $linea);
-
-        return (int) str_replace('.', '', str_replace('$', '', $monto));
+        return (int) str_replace(['.', '$'], '', $this->getCampo('monto', $linea));
     }
 
     protected function getCampo(string $campo, Collection $linea): string
     {
-        return $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))
-            ->implode(' ');
+        return trim(
+            $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))->implode(' ')
+        );
     }
 
     protected function getRangeCamposLinea(Collection $linea, array $limites): array
