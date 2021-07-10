@@ -33,9 +33,7 @@ class VisaPdfParser extends GastosParser
 
     protected function getFecha(Collection $linea): Carbon
     {
-        [$dia, $mes, $anno] = explode('/', $this->getCampo('fecha', $linea));
-
-        return Carbon::create(2000 + (int) $anno, $mes, $dia, 0, 0, 0);
+        return Carbon::createFromFormat("d/m/y H:i:s", $this->getCampo('fecha', $linea).' 00:00:00');
     }
 
     protected function getSerie(Collection $linea): string
@@ -55,9 +53,8 @@ class VisaPdfParser extends GastosParser
 
     protected function getCampo(string $campo, Collection $linea): string
     {
-        return trim(
-            $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))->implode(' ')
-        );
+        return $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))
+            ->implode(' ');
     }
 
     protected function getRangeCamposLinea(Collection $linea, array $limites): array

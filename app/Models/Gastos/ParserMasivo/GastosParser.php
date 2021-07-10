@@ -109,7 +109,9 @@ class GastosParser
 
     protected function procesaLineaMasivo(Request $request, string $linea): Gasto
     {
-        $linea = collect(explode($this->separadorCampos, $linea));
+        $linea = collect(explode($this->separadorCampos, $linea))
+            ->map(fn($linea) => trim($linea));
+
         $tipoGasto = $this->getTipoGasto($request, $linea);
 
         return new Gasto([
