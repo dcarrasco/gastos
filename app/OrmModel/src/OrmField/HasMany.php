@@ -43,14 +43,9 @@ class HasMany extends Relation
 
         if ($this->hasRelationFields()) {
             $this->relationFields = $this->value
-                ->mapWithKeys(function ($model) {
-                    return [
-                        $model->getKey() => collect($this->relationFields)
-                            ->map(function ($relation, $relationName) use ($model) {
-                                return $this->makeAttributeField($relationName, $relation, $model);
-                            })
-                    ];
-                });
+                ->mapWithKeys(fn($model) => [$model->getKey() => collect($this->relationFields)
+                    ->map(fn($relation, $relationName) => $this->makeAttributeField($relationName, $relation, $model))
+                ]);
         }
 
         return $this;
@@ -136,11 +131,9 @@ class HasMany extends Relation
     {
         return collect($this->relationFields)
             ->get($resource->model()->getKey())
-            ->map(function ($field) use ($edit, $resource) {
-                return $edit
-                    ? $field->getForm(request(), $resource)->toHtml()
-                    : $field->getFormattedValue()->toHtml();
-            })
+            ->map(fn($field) => $edit
+                ? $field->getForm(request(), $resource)->toHtml()
+                : $field->getFormattedValue()->toHtml())
             ->implode('');
     }
 
@@ -191,14 +184,12 @@ class HasMany extends Relation
     {
         $header = $this->getAttributesTableHeader($edit);
 
-        $body = '<tbody>'
-            . $relatedResources->map(function ($resource) use ($edit) {
-                return '<tr class="border">'
-                    . "<td class=\"px-2 py-1\">{$resource->title()}</td>"
-                    . $this->getAttributesTableRow($resource, $edit)
-                    . $this->getAttributsTableEditColumn($resource, $edit)
-                    . '</tr>';
-            })
+        $body = '<tbody>' . $relatedResources
+            ->map(fn($resource) => '<tr class="border">'
+                . "<td class=\"px-2 py-1\">{$resource->title()}</td>"
+                . $this->getAttributesTableRow($resource, $edit)
+                . $this->getAttributsTableEditColumn($resource, $edit)
+                . '</tr>')
             ->implode('')
             . '</body>';
 

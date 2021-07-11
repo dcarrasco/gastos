@@ -66,13 +66,11 @@ trait OrmControllerHelper
     public function makeMenuModuloURL(string $selectedResource)
     {
         return $this->menuModulo
-            ->map(function ($resource) use ($selectedResource) {
-                return (object) [
-                    'nombre' => $resource->getLabelPlural(),
-                    'url' => route("{$this->routeName}.index", $resource->getName()),
-                    'selected' => $resource->getName() === $selectedResource ,
-                ];
-            });
+            ->map(fn($resource) => (object) [
+                'nombre' => $resource->getLabelPlural(),
+                'url' => route("{$this->routeName}.index", $resource->getName()),
+                'selected' => $resource->getName() === $selectedResource ,
+            ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -44,11 +45,7 @@ class RestoreDatabase extends Command
     {
         return collect(scandir(storage_path($this->backupPath)))
             ->diff(['.', '..', '.gitignore'])
-            ->map(function ($file) {
-                [$fileName, $extension] = explode('.', $file);
-
-                return $fileName;
-            })
+            ->map(fn($file) => Str::before($file, '.'))
             ->values()
             ->all();
     }
@@ -72,11 +69,10 @@ class RestoreDatabase extends Command
 
         try {
             $file = collect(file($sqlFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES))
-                ->map(function ($linea) {
-                    return DB::unprepared($linea);
-                });
+                ->map(fn($linea) => DB::unprepared($linea));
 
             Log::info('Database restore exitoso');
+
             $this->info('Database restore exitoso (' . $file->count() . ' lineas procesadas).');
         } catch (ProcessFailedExeption $exception) {
             Log::error('Database restore con errores', $exception);

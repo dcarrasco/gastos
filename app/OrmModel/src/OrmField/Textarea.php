@@ -2,6 +2,7 @@
 
 namespace App\OrmModel\src\OrmField;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
@@ -38,10 +39,9 @@ class Textarea extends Field
      */
     protected function getFieldLength(): int
     {
-        $maxRule = collect($this->rules)->first(function ($rule) {
-            return strpos($rule, 'max:') !== false;
-        });
+        $maxRule = collect($this->rules)
+            ->first(fn($rule) => strpos($rule, 'max:') !== false);
 
-        return is_null($maxRule) ? $this->defaultMaxLength : (int) explode(':', $maxRule)[1];
+        return is_null($maxRule) ? $this->defaultMaxLength : (int) Str::after($maxRule, ':');
     }
 }

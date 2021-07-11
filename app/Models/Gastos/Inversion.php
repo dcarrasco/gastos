@@ -62,9 +62,7 @@ class Inversion
     public function evolUtil(): Collection
     {
         return $this->saldos
-            ->mapWithKeys(function ($saldo) {
-                return [$saldo->fecha->format('Y-m-d') => $this->util($saldo)];
-            });
+            ->mapWithKeys(fn($saldo) => [$saldo->fecha->format('Y-m-d') => $this->util($saldo)]);
     }
 
     public function rentabilidad(Gasto $saldo): float

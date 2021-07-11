@@ -29,11 +29,9 @@ trait UsesValidation
     public function getValidation(Resource $resource): array
     {
         return collect($this->rules)
-            ->map(function ($rule) use ($resource) {
-                return ($rule === 'unique')
-                    ? 'unique:' . $this->getUniqueRuleParameters($resource)
-                    : $rule;
-            })
+            ->map(fn($rule) => ($rule === 'unique')
+                ? 'unique:' . $this->getUniqueRuleParameters($resource)
+                : $rule)
             ->all();
     }
 

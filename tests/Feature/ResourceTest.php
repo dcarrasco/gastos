@@ -137,9 +137,7 @@ class ResourceTest extends TestCase
             $this->resource
                 ->resolveIndexFields($request)
                 ->getFields()
-                ->map(function ($field) {
-                    return $field->getFormattedValue();
-                })
+                ->map(fn($field) => $field->getFormattedValue())
         );
     }
 
@@ -157,9 +155,7 @@ class ResourceTest extends TestCase
             $this->resource
                 ->resolveDetailFields($request)
                 ->getFields()
-                ->map(function ($field) {
-                    return $field->getFormattedValue();
-                })
+                ->map(fn($field) => $field->getFormattedValue())
         );
     }
 
@@ -251,12 +247,12 @@ class ResourceTest extends TestCase
     public function testResourceSetPerPage()
     {
         $request = $this->createMock(Request::class);
-        $this->assertEquals(25, $this->resource->resourceSetPerpage($request)->model()->paginate()->perPage());
+        $this->assertEquals(25, $this->resource->resourceSetPerPage($request)->model()->paginate()->perPage());
 
         $request2 = $this->createMock(Request::class);
-        $request2->expects($this->any())->method('__get')->willReturn(100);
+        $request2->expects($this->any())->method('input')->willReturn(100);
 
-        $this->assertEquals(100, $this->resource->resourceSetPerpage($request2)->model()->paginate()->perPage());
+        $this->assertEquals(100, $this->resource->resourceSetPerPage($request2)->model()->paginate()->perPage());
     }
 
     public function testApplyOrderBy()

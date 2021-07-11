@@ -2,6 +2,7 @@
 
 namespace App\OrmModel\src\OrmField;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
@@ -106,10 +107,8 @@ class Relation extends Field
     {
         return collect($conditions)
             ->filter(fn($condition) => strpos($condition, '@field_value:') !== false)
-            ->map(function ($condition) use ($resource) {
-                list($label, $field, $defaul) = explode(':', $condition);
-                return $resource->model()->{$field};
-            })
+            ->map(fn($condition) => $resource->model()
+                ->getAttribute(Str::between($condition, ':', ':')))
             ->all();
     }
 }

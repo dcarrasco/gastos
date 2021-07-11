@@ -24,10 +24,9 @@
     }
     else if ($type == 'selectMonth') {
         $type = 'select';
-        $options = collect(range(1,12))
-            ->mapWithKeys(function($mes) {
-                return [$mes => trans('fechas.' . now()->create(2020, $mes, 01)->formatLocalized('%B'))];
-            });
+        $options = collect(range(1,12))->mapWithKeys(fn($mes) => [
+            $mes => trans('fechas.' . now()->create(2020, $mes, 01)->formatLocalized('%B'))
+        ]);
         $value = empty($value) ? today()->month : $value;
     }
 
