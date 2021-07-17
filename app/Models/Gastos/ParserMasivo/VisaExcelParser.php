@@ -25,7 +25,7 @@ class VisaExcelParser extends GastosParser
 
     protected function getFecha(Collection $linea): Carbon
     {
-        return Carbon::createFromFormat("d-m-Y H:i:s", $trim($linea[2]).' 00:00:00');
+        return Carbon::createFromFormat("d-m-Y H:i:s", trim($linea[2]).' 00:00:00');
     }
 
     protected function getSerie(Collection $linea): string
