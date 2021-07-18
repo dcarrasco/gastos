@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 
@@ -140,8 +139,8 @@ abstract class Value extends Metric
      */
     protected function formattedData(array $data): array
     {
-        $currentValue = (int) Arr::get($data, 'currentValue', 0);
-        $previousValue = (int) Arr::get($data, 'previousValue', 0);
+        $currentValue = (int) $data['currentValue'] ?? 0;
+        $previousValue = (int) $data['previousValue'] ?? 0;
         $formattedCurrentValue = fmtCantidad($currentValue);
 
         return [
@@ -191,9 +190,9 @@ abstract class Value extends Metric
 
         return new HtmlString(
             view('orm.metrics.value_content', [
-                'currentValue' => Arr::get($data, 'currentValue', 0),
-                'previousValue' => Arr::get($data, 'previousValue', 0),
-                'trendIconStyle' => Arr::get($data, 'trendIconStyle', ''),
+                'currentValue' => $data['currentValue'] ?? 0,
+                'previousValue' => $data['previousValue'] ?? 0,
+                'trendIconStyle' => $data['trendIconStyle'] ?? '',
                 'script' => $this->contentScript($request),
             ])
             ->render()

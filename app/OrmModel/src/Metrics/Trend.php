@@ -3,7 +3,6 @@
 namespace App\OrmModel\src\Metrics;
 
 use Carbon\CarbonPeriod;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -214,7 +213,7 @@ abstract class Trend extends Metric
             Trend::BY_YEARS => 'Y',
         ];
 
-        return Arr::get($rangeFormats, $unit, 'Y-m-d');
+        return $rangeFormats[$unit] ?? 'Y-m-d';
     }
 
     /**
@@ -232,7 +231,7 @@ abstract class Trend extends Metric
             Trend::BY_YEARS => '%Y',
         ];
 
-        return Arr::get($rangeFormats, $unit, '%Y-%m-%d');
+        return $rangeFormats[$unit] ?? '%Y-%m-%d';
     }
 
     /**

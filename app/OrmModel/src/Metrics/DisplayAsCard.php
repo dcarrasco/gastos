@@ -2,7 +2,6 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
@@ -42,7 +41,7 @@ trait DisplayAsCard
      */
     public function bootstrapCardWidth(): string
     {
-        return Arr::get($this->bootstrapWidths, $this->width, '');
+        return $this->bootstrapWidths[$this->width] ?? '';
     }
 
     /**
