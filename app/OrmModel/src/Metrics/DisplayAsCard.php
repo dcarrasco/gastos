@@ -10,6 +10,7 @@ use App\OrmModel\src\Metrics\Metric;
 trait DisplayAsCard
 {
     public $width = '1/3';
+
     protected $bootstrapWidths = [
         '1/2' => 'col-span-6',
         '1/3' => 'col-span-4',
@@ -51,7 +52,7 @@ trait DisplayAsCard
      */
     public function title(): string
     {
-        return Str::title(str_replace('_', ' ', Str::snake(class_basename($this))));
+        return Str::of(class_basename($this))->snake()->replace('_', ' ')->title();
     }
 
     /**

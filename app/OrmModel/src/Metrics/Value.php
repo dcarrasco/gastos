@@ -139,8 +139,8 @@ abstract class Value extends Metric
      */
     protected function formattedData(array $data): array
     {
-        $currentValue = (int) $data['currentValue'] ?? 0;
-        $previousValue = (int) $data['previousValue'] ?? 0;
+        $currentValue = (int) ($data['currentValue'] ?? 0);
+        $previousValue = (int) ($data['previousValue'] ?? 0);
         $formattedCurrentValue = fmtCantidad($currentValue);
 
         return [
