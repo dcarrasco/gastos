@@ -1,5 +1,6 @@
 <?php
 
+namespace App\OrmModel\src\OrmField;
 
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
@@ -34,6 +35,7 @@ class Number extends Field
         return new HtmlString(view('orm.form-input', [
             'type' => 'number',
             'name' => $this->attribute,
+            'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
         ])->render());
     }
