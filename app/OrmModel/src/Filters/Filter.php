@@ -50,7 +50,7 @@ abstract class Filter
      */
     public function getLabel(): string
     {
-        return str_replace('_', ' ', Str::snake($this->getName()));
+        return Str::of($this->getName())->snake()->replace('_', ' ');
     }
 
     /**
