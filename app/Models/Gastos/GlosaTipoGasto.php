@@ -35,5 +35,4 @@ class GlosaTipoGasto extends Model
     {
         return Str::contains(strtoupper($glosa), strtoupper($this->glosa));
     }
-
 }
