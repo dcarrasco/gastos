@@ -112,7 +112,7 @@ abstract class Resource
      */
     public function makeModelInstance(): Model
     {
-        return new $this->model();
+        return new ($this->model)();
     }
 
     /**
