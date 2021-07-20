@@ -19,7 +19,7 @@
             <x-orm.list.no-items />
         @else
             @can('view-any', $resource->model())
-            <x-orm.list.table :resource="$resource" />
+                <x-orm.list.table :resource="$resource" />
             @endcan
         @endif
     </div>

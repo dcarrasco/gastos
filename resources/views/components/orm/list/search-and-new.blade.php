@@ -20,8 +20,8 @@
     </div>
 
     @can('create', $resource->model())
-    <x-button type="link" link="{{ route($routeName.'.create', [$resource->getName()]) }}">
-        {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
-    </x-button>
+        <x-button type="link" link="{{ route($routeName.'.create', [$resource->getName()]) }}">
+            {{ trans('orm.button_new') }} {{ $resource->getLabel() }}
+        </x-button>
     @endcan
 </form>
