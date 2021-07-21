@@ -23,7 +23,20 @@ class BackupDatabase extends Command
     protected $description = 'Backup Database';
 
     protected $process;
+
     protected $backupPath = 'database_backup';
+
+    protected $ignoreTables = [
+        'gastos.acl_app',
+        'gastos.acl_modulo',
+        'gastos.acl_rol',
+        'gastos.acl_rol_modulo',
+        'gastos.acl_usuario_rol',
+        'gastos.acl_usuarios',
+        'gastos.migrations',
+        'gastos.sessions',
+    ];
+
 
     /**
      * Create a new command instance.
@@ -45,18 +58,7 @@ class BackupDatabase extends Command
     {
         $today = now()->format('Y-m-d');
 
-        $ignoreTables = [
-            'gastos.acl_app',
-            'gastos.acl_modulo',
-            'gastos.acl_rol',
-            'gastos.acl_rol_modulo',
-            'gastos.acl_usuario_rol',
-            'gastos.acl_usuarios',
-            'gastos.migrations',
-            'gastos.sessions',
-        ];
-
-        $ignoreTablesCommand = collect($ignoreTables)
+        $ignoreTablesCommand = collect($this->ignoreTables)
             ->map(fn($table) => "--ignore-table={$table}")
             ->implode(' ');
 
