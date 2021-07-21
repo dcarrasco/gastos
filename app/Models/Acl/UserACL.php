@@ -88,12 +88,12 @@ class UserACL extends Model implements
             ->first(fn($modulo) => Str::contains($url, route($modulo->url)));
     }
 
-    public function getAclAbilities(): array
+    public function getAclAbilities(): Collection
     {
         if (is_null($modulo = $this->getCurrentModulo(request()->url()))) {
             return [];
         }
 
-        return json_decode($modulo->pivot->abilities) ?? [];
+        return collect(json_decode($modulo->pivot->abilities) ?? []);
     }
 }
