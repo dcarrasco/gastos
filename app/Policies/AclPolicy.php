@@ -17,7 +17,7 @@ class AclPolicy
      */
     public function viewAny(Usuario $usuario)
     {
-        return $this->hasAclAbility($usuario, 'view-any');
+        return $usuario->hasAbility('view-any');
     }
 
     /**
@@ -29,7 +29,7 @@ class AclPolicy
      */
     public function view(Usuario $usuario, $model)
     {
-        return $this->hasAclAbility($usuario, 'view');
+        return $usuario->hasAbility('view');
     }
 
     /**
@@ -40,7 +40,7 @@ class AclPolicy
      */
     public function create(Usuario $usuario)
     {
-        return $this->hasAclAbility($usuario, 'create');
+        return $usuario->hasAbility('create');
     }
 
     /**
@@ -52,7 +52,7 @@ class AclPolicy
      */
     public function update(Usuario $usuario, $model)
     {
-        return $this->hasAclAbility($usuario, 'update');
+        return $usuario->hasAbility('update');
     }
 
     /**
@@ -64,7 +64,7 @@ class AclPolicy
      */
     public function delete(Usuario $usuario, $model)
     {
-        return $this->hasAclAbility($usuario, 'delete');
+        return $usuario->hasAbility('delete');
     }
 
     /**
@@ -89,10 +89,5 @@ class AclPolicy
     public function forceDelete(Usuario $usuario, $model)
     {
         //
-    }
-
-    protected function hasAclAbility(Usuario $usuario, string $ability): bool
-    {
-        return $usuario->getAclAbilities()->contains($ability);
     }
 }
