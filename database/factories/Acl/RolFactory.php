@@ -2,9 +2,10 @@
 
 namespace Database\Factories\Acl;
 
+use App\Models\Acl\App;
 use App\Models\Acl\Rol;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RolFactory extends Factory
 {
@@ -23,7 +24,7 @@ class RolFactory extends Factory
     public function definition()
     {
         return [
-            'app_id' => 0,
+            'app_id' => App::factory(),
             'rol' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(),
         ];

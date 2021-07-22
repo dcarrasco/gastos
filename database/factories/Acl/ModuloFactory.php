@@ -2,9 +2,10 @@
 
 namespace Database\Factories\Acl;
 
+use App\Models\Acl\App;
 use App\Models\Acl\Modulo;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ModuloFactory extends Factory
 {
@@ -23,7 +24,7 @@ class ModuloFactory extends Factory
     public function definition()
     {
         return [
-            'app_id' => 0,
+            'app_id' => App::factory(),
             'modulo' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(),
             'llave_modulo' => Str::random(10),

@@ -25,7 +25,7 @@ class UsuarioFactory extends Factory
         return [
             'nombre' => $this->faker->name,
             'activo' => $this->faker->boolean(80) ? 1 : 0,
-            'username' => $this->faker->firstNameMale,
+            'username' => $this->faker->unique()->firstNameMale,
             'password' => bcrypt('secret'),
             'email' => $this->faker->unique()->safeEmail,
             'fecha_login' => $this->faker->dateTime,
