@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Gastos\Ingreso;
 use App\Http\Controllers\Gastos\Reporte;
 use App\Http\Controllers\HomeController;
