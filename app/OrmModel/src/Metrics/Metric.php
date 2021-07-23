@@ -20,6 +20,16 @@ abstract class Metric
 
 
     /**
+     * Devuelve instancia
+     *
+     * @return Metric
+     */
+    public static function make(): Metric
+    {
+        return new static();
+    }
+
+    /**
      * Genera rango de fechas para realizar consultas
      *
      * @param  Request $request

@@ -33,15 +33,15 @@ class HomeController extends Controller
     protected function cards(Request $request)
     {
         return [
-            (new SaldoCtaCte())->prefix('$'),
-            (new ResumenGastos())->prefix('$'),
-            (new ResumenVisa())->prefix('$'),
-            new GastoVisa(),
-            new SaldoInversiones(),
-            (new UtilInversiones())->prefix('$'),
-            new EvolUtilInversiones(),
-            new SaldoGranValor(),
-            new SaldoPrefAhorro(),
+            SaldoCtaCte::make()->prefix('$'),
+            ResumenGastos::make()->prefix('$'),
+            ResumenVisa::make()->prefix('$'),
+            GastoVisa::make(),
+            SaldoInversiones::make(),
+            UtilInversiones::make()->prefix('$'),
+            EvolUtilInversiones::make(),
+            SaldoGranValor::make(),
+            SaldoPrefAhorro::make(),
         ];
     }
 }
