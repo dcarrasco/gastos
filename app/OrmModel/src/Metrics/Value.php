@@ -8,8 +8,11 @@ use Illuminate\Support\HtmlString;
 abstract class Value extends Metric
 {
     protected $dateFormat = 'Y-m-d';
+
     protected $prefix = '';
+
     protected $suffix = '';
+
 
     public function calculate(Request $request): array
     {
@@ -156,7 +159,7 @@ abstract class Value extends Metric
      * Fija el prefijo del valor a desplegar
      *
      * @param  string $prefix
-     * @return Metric
+     * @return Value
      */
     public function prefix(string $prefix = ''): Value
     {
@@ -168,8 +171,8 @@ abstract class Value extends Metric
     /**
      * Fija el prefijo del valor a desplegar
      *
-     * @param  string $prefix
-     * @return Metric
+     * @param  string $suffix
+     * @return Value
      */
     public function suffix(string $suffix = ''): Value
     {
