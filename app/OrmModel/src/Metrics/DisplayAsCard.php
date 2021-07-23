@@ -29,7 +29,6 @@ trait DisplayAsCard
         return new HtmlString(
             view('orm.card', [
                 'card' => $this,
-                'urlRoute' => $this->urlRoute($request),
                 'request' => $request,
             ])->render()
         );

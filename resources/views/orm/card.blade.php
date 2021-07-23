@@ -4,7 +4,7 @@
     x-data="{
         isLoading: false,
         select: '',
-        url: '{{ $urlRoute }}',
+        url: '{{ $card->urlRoute($request) }}',
         uriKey: '{{ $card->uriKey() }}',
         submit() {
             this.isLoading=true;
