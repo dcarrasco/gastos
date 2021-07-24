@@ -28,6 +28,7 @@ class Text extends Field
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'maxlength' => $this->getFieldLength(),
+            'placeholder' => $this->placeholder,
         ])->render());
     }
 

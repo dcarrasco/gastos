@@ -34,6 +34,8 @@ abstract class Field
     protected $relationConditions = [];
     protected $eagerLoadsRelation = false;
 
+    protected $placeholder = '';
+
     /**
      * Constructor de la clase
      *
@@ -316,6 +318,14 @@ abstract class Field
         return $this->value;
     }
 
+    public function placeholder(string $placeholder): Field
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+
     /**
      * Devuelve elemento de formulario para el campo
      *
@@ -331,6 +341,7 @@ abstract class Field
             'name' => $this->attribute,
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
+            'placeholder' => $this->placeholder,
         ])->render());
     }
 
