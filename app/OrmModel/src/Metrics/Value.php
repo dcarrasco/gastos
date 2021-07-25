@@ -105,7 +105,7 @@ abstract class Value extends Metric
         string $timeColumn,
         string $function
     ): array {
-        $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
+        $timeColumn = empty($timeColumn) ? $this->getModel($resource)->getCreatedAtColumn() : $timeColumn;
 
         return [
             'currentValue' => $this->rangedQuery($request, $resource, $timeColumn, $this->currentRange($request))

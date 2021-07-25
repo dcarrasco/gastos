@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Metric
@@ -129,6 +130,17 @@ abstract class Metric
     protected function newResource(string $resource): Resource
     {
         return new $resource();
+    }
+
+    /**
+     * Crea objeto Model
+     *
+     * @param string $resource
+     * @return Model
+     */
+    protected function getModel(string $resource): Model
+    {
+        return $this->newResource($resource)->model();
     }
 
     /**

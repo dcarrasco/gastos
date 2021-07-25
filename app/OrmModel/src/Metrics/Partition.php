@@ -89,7 +89,7 @@ abstract class Partition extends Metric
             return $this->newQuery($request, $resource);
         }
 
-        $relation = $this->newResource($resource)->model()->{$relation}();
+        $relation = $this->getModel($resource)->{$relation}();
 
         return $this->newQuery($request, $resource)
             ->join(

@@ -244,7 +244,7 @@ abstract class Trend extends Metric
     protected function selectDateExpression(string $resource, string $unit, string $timeColumn): string
     {
         $format = $this->databaseFormatExpression($unit);
-        $dbDriver = $this->newResource($resource)->model()->getConnection()->getConfig('driver');
+        $dbDriver = $this->getModel($resource)->getConnection()->getConfig('driver');
 
         if ($dbDriver === 'sqlite') {
             return "strftime('{$format}', {$timeColumn})";
@@ -273,9 +273,9 @@ abstract class Trend extends Metric
         string $timeColumn
     ): Collection {
         $dateInterval = $this->currentRange($request);
-        $timeColumn = empty($timeColumn) ? $this->newResource($resource)->model()->getCreatedAtColumn() : $timeColumn;
+        $timeColumn = empty($timeColumn) ? $this->getModel($resource)->getCreatedAtColumn() : $timeColumn;
         $aggregateColumn = empty($aggregateColumn)
-            ? $this->newResource($resource)->model()->getKeyName()
+            ? $this->getModel($resource)->getKeyName()
             : $aggregateColumn;
         $selectDateExpression = $this->selectDateExpression($resource, $unit, $timeColumn);
 
