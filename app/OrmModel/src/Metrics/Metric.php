@@ -21,7 +21,7 @@ abstract class Metric
 
 
     /**
-     * Devuelve instancia
+     * Devuelve nueva instancia
      *
      * @return Metric
      */
