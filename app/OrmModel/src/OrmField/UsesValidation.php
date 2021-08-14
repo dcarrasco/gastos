@@ -50,4 +50,28 @@ trait UsesValidation
             $resource->model()->getKeyName()
         ]);
     }
+
+    /**
+     * Indica si el campo tiene error en bolsa de errores
+     *
+     * @param [type] $errors
+     * @param Resource $resource
+     * @return boolean
+     */
+    public function hasErrors($errors, Resource $resource): bool
+    {
+        return $errors->has($this->getModelAttribute($resource));
+    }
+
+    /**
+     * Recupera el texto de error del campo desde la bolsa de errores
+     *
+     * @param [type] $errors
+     * @param Resource $resource
+     * @return string
+     */
+    public function getErrors($errors, Resource $resource): string
+    {
+        return $errors->first($this->getModelAttribute($resource));
+    }
 }
