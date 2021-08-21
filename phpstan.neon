@@ -1,0 +1,11 @@
+parameters:
+    level: 5
+    checkMissingIterableValueType: false
+    paths:
+        - app
+    ignoreErrors:
+        - '#Unsafe usage of new static#'
+
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
