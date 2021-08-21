@@ -34,7 +34,7 @@ abstract class Resource
      *
      * @param Model $modelInstance
      */
-    public function __construct(Model $modelInstance = null)
+    final public function __construct(Model $modelInstance = null)
     {
         if ($this->model === '') {
             throw new \Exception('Modelo no definido en recurso OrmModel!');

@@ -19,13 +19,17 @@ abstract class Metric
     protected const CURRENT_MONTH = 'CURR_MONTH';
     protected const LAST_MONTH = 'LAST_MONTH';
 
+    final public function __construct()
+    {
+    }
+
 
     /**
      * Devuelve nueva instancia
      *
      * @return Metric
      */
-    public static function make(): Metric
+    public static function make(): static
     {
         return new static();
     }
