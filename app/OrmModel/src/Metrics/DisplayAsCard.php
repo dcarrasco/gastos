@@ -9,9 +9,9 @@ use App\OrmModel\src\Metrics\Metric;
 
 trait DisplayAsCard
 {
-    public $width = '1/3';
+    public string $width = '1/3';
 
-    protected $bootstrapWidths = [
+    protected array $bootstrapWidths = [
         '1/2' => 'col-span-6',
         '1/3' => 'col-span-4',
         '2/3' => 'col-span-8',
@@ -22,7 +22,7 @@ trait DisplayAsCard
      * Genera la vista de la tarjeta
      *
      * @param Request $request
-     * @return void
+     * @return HtmlString
      */
     public function render(Request $request): HtmlString
     {

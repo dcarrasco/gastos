@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PerPage extends Filter
 {
-    protected $parameterPrefix = '';
+    protected string $parameterPrefix = '';
 
     /**
      * Aplica filtro en la query
@@ -26,7 +26,7 @@ class PerPage extends Filter
     /**
      * Opciones a mostrar para el filtro
      *
-     * @return array
+     * @return array<mixed>
      */
     public function options(): array
     {

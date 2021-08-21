@@ -7,11 +7,11 @@ use Illuminate\Support\HtmlString;
 
 abstract class Value extends Metric
 {
-    protected $dateFormat = 'Y-m-d';
+    protected string $dateFormat = 'Y-m-d';
 
-    protected $prefix = '';
+    protected string $prefix = '';
 
-    protected $suffix = '';
+    protected string $suffix = '';
 
 
     public function calculate(Request $request): array

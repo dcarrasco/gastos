@@ -15,7 +15,7 @@ abstract class Trend extends Metric
     protected const BY_YEARS = 'by_years';
     protected const BY_WEEKS = 'by_weeks';
 
-    protected $filtraValoresEnCero = false;
+    protected bool $filtraValoresEnCero = false;
 
 
     public function calculate(Request $request): Collection
@@ -186,7 +186,7 @@ abstract class Trend extends Metric
      *
      * @param  array  $dateInterval
      * @param  string $unit
-     * @return Array
+     * @return Collection
      */
     protected function initRangedData(array $dateInterval, string $unit): Collection
     {
@@ -260,7 +260,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $unit
      * @param  string  $function
-     * @param  string  $sumColumn
+     * @param  string  $aggregateColumn
      * @param  string  $timeColumn
      * @return Collection
      */

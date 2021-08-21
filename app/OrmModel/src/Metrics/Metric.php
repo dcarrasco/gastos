@@ -19,15 +19,15 @@ abstract class Metric
     protected const CURRENT_MONTH = 'CURR_MONTH';
     protected const LAST_MONTH = 'LAST_MONTH';
 
+
     final public function __construct()
     {
     }
 
-
     /**
      * Devuelve nueva instancia
      *
-     * @return Metric
+     * @return static
      */
     public static function make(): static
     {
@@ -65,7 +65,7 @@ abstract class Metric
     /**
      * Devuelve el intervalo de fechas del periodo anterior
      *
-     * @param  array $dateInterval
+     * @param  Request $request
      * @return array
      */
     protected function previousRange(Request $request): array

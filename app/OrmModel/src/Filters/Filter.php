@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
 {
-    protected $parameterPrefix = 'filter_';
+    protected string $parameterPrefix = 'filter_';
 
     /**
      * Aplica filtro en la query
@@ -26,7 +26,7 @@ abstract class Filter
     /**
      * Opciones a mostrar para el filtro
      *
-     * @return array
+     * @return array<mixed>
      */
     public function options(): array
     {
@@ -97,7 +97,7 @@ abstract class Filter
      * Devuelve el valor del filtro en el stringquery
      *
      * @param  Request $request
-     * @return mixed
+     * @return string
      */
     public function getValue(Request $request): string
     {

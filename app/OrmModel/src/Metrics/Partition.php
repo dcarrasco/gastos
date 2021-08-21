@@ -78,7 +78,7 @@ abstract class Partition extends Metric
     /**
      * Devuelve una nueva query para Partition
      *
-     * @param Builder $query
+     * @param Request $request
      * @param string  $resource
      * @param string  $relation
      * @return Builder
