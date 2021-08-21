@@ -5,7 +5,10 @@ namespace App\Models\Gastos;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-
+/**
+ * App\Models\Gastos\GlosaTipoGasto
+ * @property string $glosa
+ */
 class GlosaTipoGasto extends Model
 {
     protected $table = 'cta_glosa_tipo_gasto';

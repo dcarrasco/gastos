@@ -14,7 +14,15 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class UserACL extends Model implements
+/**
+ * App\Model\UserACL
+ * @property string $nombre
+ * @property string $username
+ * @property string $password
+ * @property string $email
+ * @property Collection $rol
+ */
+abstract class UserACL extends Model implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
@@ -22,6 +30,21 @@ class UserACL extends Model implements
     use Authenticatable;
     use Authorizable;
     use CanResetPassword;
+
+    public function rol()
+    {
+        return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
+    }
+
+    public function getFirstName(): string
+    {
+        return head(explode(' ', $this->nombre));
+    }
+
+    public function avatarLink(): string
+    {
+        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
+    }
 
     public static function scopeUsuario($query, $username)
     {
@@ -91,7 +114,7 @@ class UserACL extends Model implements
     protected function getAclAbilities(): Collection
     {
         if (is_null($modulo = $this->getCurrentModulo(request()->url()))) {
-            return [];
+            return collect([]);
         }
 
         return collect(json_decode($modulo->pivot->abilities) ?? []);

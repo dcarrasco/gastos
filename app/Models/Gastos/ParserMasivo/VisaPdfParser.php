@@ -64,7 +64,7 @@ class VisaPdfParser extends GastosParser
         return range($this->posicionLinea($desde, $linea), $this->posicionLinea($hasta, $linea));
     }
 
-    protected function posicionLinea(int $posicion, Collection $linea): string
+    protected function posicionLinea(int $posicion, Collection $linea): int
     {
         return ($posicion < 0) ? $linea->count() + $posicion : $posicion - 1;
     }

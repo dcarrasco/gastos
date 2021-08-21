@@ -75,9 +75,9 @@ trait OrmControllerHelper
 
     /**
      * Agrega variables a desplegar en vistas
-     * @return
+     * @return void
      */
-    protected function makeView(Request $request)
+    protected function makeView(Request $request): void
     {
         $selectedResource = $request->route()
             ? ($request->route('modelName') ?? $this->menuModulo->first()->getName())
@@ -100,7 +100,7 @@ trait OrmControllerHelper
     {
         return trans($message, [
             'nombre_modelo' => $resource->getLabel(),
-            'valor_modelo' => $resource->title($request),
+            'valor_modelo' => $resource->title(),
         ]);
     }
 

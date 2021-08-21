@@ -90,8 +90,8 @@ class BackupDatabase extends Command
         try {
             $this->process->mustRun();
             Log::info('Database backup exitoso');
-        } catch (ProcessFailedExeption $exception) {
-            Log::error('Database backup con errores', $exception);
+        } catch (\Exception $exception) {
+            Log::error('Database backup con errores: '. $exception);
         }
     }
 }

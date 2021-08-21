@@ -74,8 +74,8 @@ class RestoreDatabase extends Command
             Log::info('Database restore exitoso');
 
             $this->info('Database restore exitoso (' . $file->count() . ' lineas procesadas).');
-        } catch (ProcessFailedExeption $exception) {
-            Log::error('Database restore con errores', $exception);
+        } catch (\Exception $exception) {
+            Log::error('Database restore con errores: ' . $exception);
         }
     }
 }

@@ -10,8 +10,7 @@ trait OrmCard
      * Recupera el recurso para ser usado en llamadas ajax
      *
      * @param  Request  $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @return
+     * @return array
      */
     public function ajaxCard(Request $request): array
     {

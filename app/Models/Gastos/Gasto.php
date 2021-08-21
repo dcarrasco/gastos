@@ -14,6 +14,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
+/**
+ * App\Models\Gasto
+ * @property int $anno
+ * @property int $mes
+ * @property string $glosa
+ * @property string $serie
+ * @property int $monto
+ * @property Carbon $fecha
+ * @property TipoMovimiento $tipoMovimiento
+ */
 class Gasto extends Model
 {
     use HasFactory;

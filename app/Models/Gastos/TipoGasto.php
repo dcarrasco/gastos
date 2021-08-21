@@ -6,6 +6,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Models\Gastos\TipoGasto
+ * @property int $id
+ * @property string $tipoGasto
+ * @property tipoMovimiento $tipoMovimiento
+ */
 class TipoGasto extends Model
 {
     use HasFactory;

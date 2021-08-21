@@ -12,28 +12,9 @@ class Usuario extends UserACL
     use Notifiable;
     use HasFactory;
 
+    protected $table = 'acl_usuarios';
+
     protected $fillable = [
         'nombre', 'activo', 'username', 'email',
     ];
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'acl_usuarios';
-    }
-
-    public function rol()
-    {
-        return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
-    }
-
-    public function getFirstName(): string
-    {
-        return head(explode(' ', $this->nombre));
-    }
-
-    public function avatarLink(): string
-    {
-        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
-    }
 }
