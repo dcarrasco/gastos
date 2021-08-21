@@ -8,14 +8,18 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 trait PaginatesResources
 {
+    /** @var LengthAwarePaginator */
     protected $paginator = null;
+
+    /** @var Collection */
     protected $resourceList = null;
-    protected $paginationLinksDetail = false;
+
+    protected bool $paginationLinksDetail = false;
 
     /**
      * Devuelve paginador del modelo
      *
-     * @return Paginator
+     * @return LengthAwarePaginator
      */
     public function getPaginated(): LengthAwarePaginator
     {
@@ -25,7 +29,7 @@ trait PaginatesResources
     /**
      * Devuelve el paginador del recurso
      *
-     * @return Paginador
+     * @return LengthAwarePaginator
      */
     public function getPaginator(): LengthAwarePaginator
     {
@@ -36,7 +40,7 @@ trait PaginatesResources
      * Genera listado de modelos ordenados y filtrados
      *
      * @param  Request $request
-     * @return Paginator
+     * @return LengthAwarePaginator
      */
     public function paginator(Request $request): LengthAwarePaginator
     {
@@ -77,7 +81,7 @@ trait PaginatesResources
     /**
      * Devuelve propiedad de detalle de links del paginador del recurso
      *
-     * @return boolean
+     * @return bool
      */
     public function paginationLinksDetail(): bool
     {

@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait UsesDatabase
 {
-    public $orderBy = [];
+    public array $orderBy = [];
 
+    /** @var Builder */
     protected $modelQueryBuilder;
 
-    protected $sortByKey = 'sort-by';
-    protected $sortDirectionKey = 'sort-direction';
+    protected string $sortByKey = 'sort-by';
+    protected string $sortDirectionKey = 'sort-direction';
 
-    protected $searchKey = 'search';
+    protected string $searchKey = 'search';
 
     /**
      * Devuelve nombre del parametro url
