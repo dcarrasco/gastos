@@ -31,6 +31,7 @@ abstract class UserACL extends Model implements
     use Authorizable;
     use CanResetPassword;
 
+    /** @return \Illuminate\Database\Eloquent\Relations\BelongsToMany */
     public function rol()
     {
         return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
@@ -46,7 +47,7 @@ abstract class UserACL extends Model implements
         return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
     }
 
-    public static function scopeUsuario($query, $username)
+    public static function scopeUsuario($query, string $username)
     {
         return $query->where('username', $username);
     }
@@ -92,7 +93,7 @@ abstract class UserACL extends Model implements
         return password_verify($password, $this->password);
     }
 
-    public function storePassword(string $password)
+    public function storePassword(string $password): bool
     {
         $this->password = bcrypt($password);
 
@@ -104,7 +105,7 @@ abstract class UserACL extends Model implements
         return ! empty($this->password);
     }
 
-    protected function getCurrentModulo(string $url)
+    protected function getCurrentModulo(string $url): Modulo
     {
         return $this->rol
             ->flatMap->modulo

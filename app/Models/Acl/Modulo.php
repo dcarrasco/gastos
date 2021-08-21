@@ -5,18 +5,25 @@ namespace App\Models\Acl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Models\Acl\Modulo
+ * @property string $modulo
+ * @property string $descripcion
+ * @property string $llaveModulo
+ * @property string $icono
+ * @property string $url
+ * @property int $orden
+ */
 class Modulo extends Model
 {
     use HasFactory;
 
+    protected $table = 'acl_modulo';
+
     protected $fillable = ['app_id', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'acl_modulo';
-    }
 
+    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo */
     public function app()
     {
         return $this->belongsTo(App::class);

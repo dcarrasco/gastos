@@ -10,19 +10,17 @@ class Rol extends Model
 {
     use HasFactory;
 
+    protected $table = 'acl_rol';
+
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'acl_rol';
-    }
-
+    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo */
     public function app()
     {
         return $this->belongsTo(App::class);
     }
 
+    /** @return \Illuminate\Database\Eloquent\Relations\BelongsToMany */
     public function modulo()
     {
         return $this->belongsToMany(Modulo::class, 'acl_rol_modulo')

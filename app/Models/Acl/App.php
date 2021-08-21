@@ -5,15 +5,19 @@ namespace App\Models\Acl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Models\Acl\App
+ * @property string $app
+ * @property string $descripcion
+ * @property string $url
+ * @property string $icono
+ * @property int $orden
+ */
 class App extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
+    protected $table = 'acl_app';
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->table = 'acl_app';
-    }
+    protected $fillable = ['app', 'descripcion', 'orden', 'url', 'icono'];
 }
