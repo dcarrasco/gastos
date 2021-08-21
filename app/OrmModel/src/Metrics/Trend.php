@@ -302,7 +302,6 @@ abstract class Trend extends Metric
         return new HtmlString(view('orm.metrics.trend_content', [
             'cardId' => $this->cardId(),
             'baseUrl' => asset(''),
-            'cardId' => $this->cardId(),
             'script' => $this->contentScript($request),
         ])->render());
     }
