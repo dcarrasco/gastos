@@ -18,11 +18,7 @@ class HomeController extends Controller
 {
     use OrmCard;
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
         return view('gastos.home', [
@@ -30,7 +26,7 @@ class HomeController extends Controller
         ]);
     }
 
-    protected function cards(Request $request)
+    protected function cards(Request $request): array
     {
         return [
             SaldoCtaCte::make()->prefix('$'),

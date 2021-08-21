@@ -24,7 +24,7 @@ class Ingreso extends Controller
 
         $movimientosMes = Gasto::movimientosMes($cuentaId, $anno, $mes);
 
-        if ($request->recalcula === 'recalcula') {
+        if ($request->input('recalcula') === 'recalcula') {
             SaldoMes::recalculaSaldoMes($cuentaId, $anno, $mes);
         }
 
@@ -34,7 +34,7 @@ class Ingreso extends Controller
     public function store(AddGastoRequest $request)
     {
         Gasto::createGasto($request->validated());
-        SaldoMes::recalculaSaldoMes($request->cuenta_id, $request->anno, $request->mes);
+        SaldoMes::recalculaSaldoMes($request->input('cuenta_id'), $request->input('anno'), $request->input('mes'));
 
         return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));
     }

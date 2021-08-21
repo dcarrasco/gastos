@@ -10,7 +10,7 @@ class OrmController extends Controller
     use OrmCard;
     use OrmControllerHelper;
 
-    protected $routeName = '';
+    protected string $routeName = '';
 
     protected $menuModulo = [];
 

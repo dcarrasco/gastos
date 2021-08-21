@@ -10,7 +10,7 @@ use App\Http\Controllers\Orm\OrmController;
 
 class ConfigController extends OrmController
 {
-    protected $routeName  = 'aclConfig';
+    protected string $routeName = 'aclConfig';
 
     protected $menuModulo = [
         Usuario::class,

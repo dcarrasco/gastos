@@ -34,9 +34,9 @@ trait OrmControllerHelper
      *
      * @param  string $modulo
      * @param  string $controllerClass
-     * @return none
+     * @return void
      */
-    public static function routes(string $modulo, string $controllerClass)
+    public static function routes(string $modulo, string $controllerClass): void
     {
         $modulo = strtolower($modulo);
         $prefix = "{$modulo}-config";

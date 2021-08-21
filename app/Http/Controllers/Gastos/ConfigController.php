@@ -14,7 +14,7 @@ use App\Http\Controllers\Orm\OrmController;
 
 class ConfigController extends OrmController
 {
-    protected $routeName = 'gastosConfig';
+    protected string $routeName = 'gastosConfig';
 
     protected $menuModulo = [
         Banco::class,
