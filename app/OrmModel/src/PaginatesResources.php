@@ -14,7 +14,8 @@ trait PaginatesResources
     /** @var Collection */
     protected $resourceList = null;
 
-    protected bool $paginationLinksDetail = false;
+    /** @var bool */
+    protected $paginationLinksDetail = false;
 
     /**
      * Devuelve paginador del modelo

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SaldoPrefAhorro extends Trend
 {
-    protected $filtraValoresEnCero = true;
+    protected bool $filtraValoresEnCero = true;
 
     public function calculate(Request $request): Collection
     {

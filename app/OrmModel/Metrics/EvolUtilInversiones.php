@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EvolUtilInversiones extends Trend
 {
-    protected $filtraValoresEnCero = true;
+    protected bool $filtraValoresEnCero = true;
 
-    protected $cuentasInversiones = [3, 6, 7];
-    protected $movimientoSaldo = 4;
+    protected array $cuentasInversiones = [3, 6, 7];
+    protected int $movimientoSaldo = 4;
 
     public function calculate(Request $request): Collection
     {

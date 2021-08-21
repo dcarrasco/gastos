@@ -5,6 +5,7 @@ namespace App\OrmModel\src;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class Resource
@@ -14,13 +15,23 @@ abstract class Resource
     use UsesDatabase;
     use PaginatesResources;
 
-    public string $model = '';
-    public string $label = '';
-    public string $labelPlural = '';
-    public string $icono = 'table';
-    public string $title = 'id';
+    /** @var string */
+    public $model = '';
 
-    public array $search = ['id'];
+    /** @var string */
+    public $label = '';
+
+    /** @var string */
+    public $labelPlural = '';
+
+    /** @var string */
+    public $icono = 'table';
+
+    /** @var string */
+    public $title = 'id';
+
+    /** @var array */
+    public $search = ['id'];
 
     /** @var Model */
     protected $modelInstance = null;
@@ -50,7 +61,7 @@ abstract class Resource
      * Campos del recurso
      *
      * @param  Request $request
-     * @return array
+     * @return array<Field>
      */
     public function fields(Request $request): array
     {
@@ -135,7 +146,10 @@ abstract class Resource
      */
     protected function resolveFieldValues(Model $model, Request $request): Resource
     {
-        $this->fields = collect($this->fields($request))
+        /** @var Collection<Field> */
+        $fields = collect($this->fields($request));
+
+        $this->fields = $fields
             ->map->resolveValue($this->modelInstance, $request);
 
         return $this;

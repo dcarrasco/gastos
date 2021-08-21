@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait UsesDatabase
 {
-    public array $orderBy = [];
+    /** @var string|array */
+    public $orderBy = [];
 
     /** @var Builder */
     protected $modelQueryBuilder;

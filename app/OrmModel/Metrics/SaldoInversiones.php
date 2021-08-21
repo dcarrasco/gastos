@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class SaldoInversiones extends Trend
 {
-    protected $filtraValoresEnCero = true;
+    protected bool $filtraValoresEnCero = true;
 
     public function calculate(Request $request): Collection
     {
