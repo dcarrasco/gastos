@@ -9,7 +9,7 @@ use App\OrmModel\src\OrmField\Field;
 
 class Number extends Field
 {
-    protected $alignOnList = 'text-center';
+    protected string $alignOnList = 'text-center';
 
 
     /**

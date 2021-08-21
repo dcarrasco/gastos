@@ -9,8 +9,8 @@ use App\OrmModel\src\OrmField\Field;
 
 class Date extends Field
 {
-    public $inputDateFormat = 'Y-m-d';
-    public $outputDateFormat = 'Y-m-d';
+    public string $inputDateFormat = 'Y-m-d';
+    public string $outputDateFormat = 'Y-m-d';
 
     /**
      * Devuelve valor del campo formateado

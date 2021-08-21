@@ -9,7 +9,7 @@ use App\OrmModel\src\OrmField\Field;
 
 class Id extends Field
 {
-    protected $esIncrementing = true;
+    protected bool $esIncrementing = true;
 
     /**
      * Constructor de la clase
@@ -28,7 +28,7 @@ class Id extends Field
     /**
      * Fija si el campo id es autoincrement
      *
-     * @param boolean $esIncrementing
+     * @param bool  $esIncrementing
      * @return Id
      */
     public function esIncrementing(bool $esIncrementing = true): Id

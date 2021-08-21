@@ -6,7 +6,7 @@ use App\OrmModel\src\Resource;
 
 trait UsesValidation
 {
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * Fija las reglas de validacion del campo
@@ -24,7 +24,7 @@ trait UsesValidation
      * Devuelve validación del campo
      *
      * @param  Resource $resource
-     * @return string
+     * @return array
      */
     public function getValidation(Resource $resource): array
     {
@@ -54,9 +54,9 @@ trait UsesValidation
     /**
      * Indica si el campo tiene error en bolsa de errores
      *
-     * @param [type] $errors
+     * @param mixed    $errors
      * @param Resource $resource
-     * @return boolean
+     * @return bool
      */
     public function hasErrors($errors, Resource $resource): bool
     {
@@ -66,7 +66,7 @@ trait UsesValidation
     /**
      * Recupera el texto de error del campo desde la bolsa de errores
      *
-     * @param [type] $errors
+     * @param mixed    $errors
      * @param Resource $resource
      * @return string
      */

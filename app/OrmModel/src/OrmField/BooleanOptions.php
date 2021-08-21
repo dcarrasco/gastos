@@ -10,15 +10,15 @@ use App\OrmModel\src\OrmField\Field;
 class BooleanOptions extends Field
 {
 
-    protected $options = [];
-    protected $relationName = '';
-    protected $modelId = '';
+    protected array $options = [];
+    protected string $relationName = '';
+    protected string $modelId = '';
 
     /**
      * Fija opciones para tipo de campo Select
      *
      * @param  array  $options
-     * @return Field
+     * @return BooleanOptions
      */
     public function options(array $options = []): BooleanOptions
     {
@@ -35,8 +35,6 @@ class BooleanOptions extends Field
     /**
      * Indica si la relacion contiene el atributo indicado
      *
-     * @param  Resource $resource
-     * @param  string   $pivotRelation
      * @param  string   $option
      * @return bool
      */
@@ -63,9 +61,7 @@ class BooleanOptions extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

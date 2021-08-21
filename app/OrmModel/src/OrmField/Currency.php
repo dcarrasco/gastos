@@ -11,9 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Currency extends Field
 {
-    protected $alignOnList = 'text-right';
+    protected string $alignOnList = 'text-right';
 
-    protected $currencySign = '$';
+    protected string $currencySign = '$';
 
 
     /**

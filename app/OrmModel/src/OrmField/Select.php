@@ -10,13 +10,13 @@ use App\OrmModel\src\OrmField\Field;
 
 class Select extends Field
 {
-    protected $choices = [];
+    protected array $choices = [];
 
     /**
      * Fija opciones para tipo de campo Select
      *
      * @param  array  $options
-     * @return Field
+     * @return Select
      */
     public function options(array $options = []): Select
     {
@@ -42,7 +42,7 @@ class Select extends Field
     /**
      * Indica si el campo tiene opciones
      *
-     * @return boolean
+     * @return bool
      */
     public function hasChoices(): bool
     {

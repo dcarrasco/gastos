@@ -7,11 +7,12 @@ use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
 use App\OrmModel\src\OrmField\Field;
+use Illuminate\Database\Eloquent\Model;
 
 class Relation extends Field
 {
-    protected $relatedResource = '';
-    protected $relationConditions = [];
+    protected string $relatedResource = '';
+    protected array $relationConditions = [];
 
     /**
      * Constructor de la clase
@@ -47,9 +48,9 @@ class Relation extends Field
      * @param  string $name            Nombre o label de la clase
      * @param  string $field           Campo
      * @param  string $relatedResource Nombre del recurso relacionado
-     * @return Field
+     * @return static
      */
-    public static function make(string $name = '', string $field = '', string $relatedResource = ''): Field
+    public static function make(string $name = '', string $field = '', string $relatedResource = ''): static
     {
         return new static($name, $field, $relatedResource);
     }
@@ -57,7 +58,7 @@ class Relation extends Field
     /**
      * Genera una instancia nueva de un recurso relacionado
      *
-     * @param  [type] $model
+     * @param  Model|null $model
      * @return Resource
      */
     public function makeRelatedResource($model = null): Resource
@@ -85,7 +86,7 @@ class Relation extends Field
      * @param  Request   $request
      * @param  Resource  $resource
      * @param  array     $conditions
-     * @return array
+     * @return Collection
      */
     protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
     {

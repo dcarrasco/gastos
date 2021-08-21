@@ -12,17 +12,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class HasMany extends Relation
 {
-    protected $relationFields = [];
-    protected $hasRelationFields = false;
-    protected $deleteModelField = '__delete-model__';
+    protected array $relationFields = [];
+    protected bool $hasRelationFields = false;
+    protected string $deleteModelField = '__delete-model__';
 
 
     /**
      * Constructor de la clase
      *
-     * @param string $name            Nombre o label de la clase
-     * @param string $field           Campo
-     * @param string $relatedResource Nombre del recurso relacionado
+     * @param string $name        Nombre o label de la clase
+     * @param string $field       Campo
+     * @param string $relatedOrm  Nombre del recurso relacionado
      */
     public function __construct(string $name = '', string $field = '', string $relatedOrm = '')
     {
@@ -35,7 +35,7 @@ class HasMany extends Relation
      *
      * @param  Model    $model
      * @param  Request  $request
-     * @return Field
+     * @return HasMany
      */
     public function resolveValue(Model $model, Request $request): HasMany
     {
@@ -45,7 +45,8 @@ class HasMany extends Relation
             $this->relationFields = $this->value
                 ->mapWithKeys(fn($model) => [$model->getKey() => collect($this->relationFields)
                     ->map(fn($relation, $relationName) => $this->makeAttributeField($relationName, $relation, $model))
-                ]);
+                ])
+                ->all();
         }
 
         return $this;
@@ -60,13 +61,11 @@ class HasMany extends Relation
      */
     protected function makeAttributeField(string $nombre, array $relacion, Model $model): Field
     {
-        if ($relacion['type'] == 'booleanOptions') {
-            return BooleanOptions::make('attribute')
-                ->options($relacion['options'])
-                ->setRelationName($nombre)
-                ->setModelId($model->getKey())
-                ->setValue($model->pivot->getAttribute($nombre));
-        }
+        return BooleanOptions::make('attribute')
+            ->options($relacion['options'])
+            ->setRelationName($nombre)
+            ->setModelId($model->getKey())
+            ->setValue($model->pivot->getAttribute($nombre));
     }
 
     /**
@@ -177,7 +176,7 @@ class HasMany extends Relation
      * Devuelve tabla para desplegar asociacion HasMany con atributos adicionales
      *
      * @param  Collection   $relatedResources
-     * @param  bool|boolean $edit
+     * @param  bool         $edit
      * @return string
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
@@ -271,7 +270,7 @@ class HasMany extends Relation
      *
      * @param  string $field
      * @param  string $type
-     * @return Field
+     * @return HasMany
      */
     public function relationField(string $field, string $type): HasMany
     {
@@ -291,7 +290,7 @@ class HasMany extends Relation
     /**
      * Indica si el campo relacion HasMany tiene atributos adicionales
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRelationFields(): bool
     {

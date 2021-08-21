@@ -9,7 +9,7 @@ use App\OrmModel\src\OrmField\Field;
 
 class Boolean extends Field
 {
-    protected $alignOnList = 'text-center';
+    protected string $alignOnList = 'text-center';
 
     /**
      * Devuelve valor del campo formateado
@@ -28,7 +28,7 @@ class Boolean extends Field
     /**
      * Item unitario para form
      * @param  string $name  Nombre del elemento
-     * @param  int    $value Valor del elemento
+     * @param  string $value Valor del elemento
      * @param  string $type  Tipo del elemento
      * @return string
      */

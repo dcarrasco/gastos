@@ -13,28 +13,29 @@ abstract class Field
     use UsesSorting;
     use UsesValidation;
 
-    protected $name = '';
-    protected $attribute = '';
-    protected $helpText = '';
+    protected string $name = '';
+    protected string $attribute = '';
+    protected string $helpText = '';
 
     protected $value;
-    protected $formattedValue;
+    protected string $formattedValue;
+    /** @var HtmlString */
     protected $formItem;
 
-    protected $showOnList = true;
-    protected $showOnDetail = true;
-    protected $showOnForm = true;
-    protected $alignOnList = 'text-left';
+    protected bool $showOnList = true;
+    protected bool $showOnDetail = true;
+    protected bool $showOnForm = true;
+    protected string $alignOnList = 'text-left';
 
-    protected $showValue = '';
+    protected string $showValue = '';
 
-    protected $onChange = '';
-    protected $parentModel = null;
-    protected $relationModel = null;
-    protected $relationConditions = [];
-    protected $eagerLoadsRelation = false;
+    protected string $onChange = '';
+    protected Model $parentModel;
+    protected Model $relationModel;
+    protected array $relationConditions = [];
+    protected bool $eagerLoadsRelation = false;
 
-    protected $placeholder = '';
+    protected string $placeholder = '';
 
     /**
      * Constructor de la clase
@@ -53,9 +54,9 @@ abstract class Field
      *
      * @param  string $name  Nombre o label de la clase
      * @param  string $field Campo
-     * @return Field
+     * @return static
      */
-    public static function make(string $name = '', string $field = ''): Field
+    public static function make(string $name = '', string $field = ''): static
     {
         return new static($name, $field);
     }
@@ -183,7 +184,7 @@ abstract class Field
     /**
      * Indica si el campo es obligatorio
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequired(): bool
     {
@@ -216,7 +217,7 @@ abstract class Field
     /**
      * Indica si el campo tiene glosa onchange
      *
-     * @return boolean
+     * @return bool
      */
     public function hasOnChange(): bool
     {
@@ -291,7 +292,7 @@ abstract class Field
     /**
      * Devuelve elemento de formulario calculado
      *
-     * @return string
+     * @return HtmlString
      */
     public function formItem(): HtmlString
     {
@@ -301,7 +302,7 @@ abstract class Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @return mixed
+     * @return HtmlString
      */
     public function getFormattedValue(): HtmlString
     {

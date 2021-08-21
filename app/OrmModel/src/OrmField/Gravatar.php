@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gravatar extends Field
 {
-    protected $avatarListSize = 24;
-    protected $avatarShowSize = 240;
+    protected int $avatarListSize = 24;
+    protected int $avatarShowSize = 240;
 
     /**
      * Constructor de la clase
@@ -45,9 +45,9 @@ class Gravatar extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Request    $request
-     * @param  Model|null $model
-     * @return mixed
+     * @param  Model    $model
+     * @param  Request  $request
+     * @return string
      */
     public function getValue(Model $model, Request $request): string
     {

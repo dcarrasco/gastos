@@ -10,7 +10,7 @@ use App\OrmModel\src\OrmField\Field;
 
 class Text extends Field
 {
-    protected $defaultMaxLength = 250;
+    protected int $defaultMaxLength = 250;
 
     /**
      * Devuelve elemento de formulario para el campo

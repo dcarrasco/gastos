@@ -9,18 +9,19 @@ use Illuminate\Support\HtmlString;
 
 trait UsesSorting
 {
-    protected $isSortable = false;
+    protected bool $isSortable = false;
 
-    protected $sortByKey = 'sort-by';
-    protected $sortDirectionKey = 'sort-direction';
+    protected string $sortByKey = 'sort-by';
+    protected string $sortDirectionKey = 'sort-direction';
 
-    protected $sortIconDefault = 'fa fa-sort text-gray-400';
-    protected $sortIcons = [
+    protected string $sortIconDefault = 'fa fa-sort text-gray-400';
+    protected array $sortIcons = [
         'asc' => 'fa fa-caret-up',
         'desc' => 'fa fa-caret-down',
     ];
-    protected $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
+    protected array $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
+    /** @var HtmlString */
     protected $sortingIcon;
 
     /**

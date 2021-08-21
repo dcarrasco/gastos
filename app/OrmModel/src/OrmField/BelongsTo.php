@@ -10,7 +10,7 @@ use App\OrmModel\src\OrmField\Relation;
 
 class BelongsTo extends Relation
 {
-    protected $eagerLoadsRelation = true;
+    protected bool $eagerLoadsRelation = true;
 
     /**
      * Devuelve valor del campo formateado
@@ -71,15 +71,15 @@ class BelongsTo extends Relation
     {
         list($routeName, $routeAction) = explode('.', $request->route()->getName());
 
-        if (!is_array($this->onChange)) {
-            $this->onChange = [
-                'resource' => ucfirst($this->onChange),
-                'elem' => strtolower($this->onChange),
-            ];
-        }
+        // if (!is_array($this->onChange)) {
+        //     $this->onChange = [
+        //         'resource' => ucfirst($this->onChange),
+        //         'elem' => strtolower($this->onChange),
+        //     ];
+        // }
 
-        $resourceDest = Arr::get($this->onChange, 'resource');
-        $elemDest = Arr::get($this->onChange, 'elem');
+        $resourceDest = ucfirst($this->onChange);
+        $elemDest = strtolower($this->onChange);
         $url = route("{$routeName}.ajaxOnChange", ['modelName' => $resourceDest]);
 
         return new HtmlString("$('#{$elemDest}').html('');"
