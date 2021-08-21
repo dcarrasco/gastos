@@ -10,7 +10,7 @@ use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
 use App\Models\Gastos\GlosaTipoGasto;
 
-class GastosParser
+abstract class GastosParser
 {
     protected $descripcion = '';
 
@@ -56,7 +56,7 @@ class GastosParser
         $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
 
         $this->datosMasivos = $this->datosMasivos
-            ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->get()->count() == 0);
+            ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->count() == 0);
 
         return $this;
     }

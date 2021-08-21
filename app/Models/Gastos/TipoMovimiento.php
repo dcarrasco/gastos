@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $tipoMovimiento
  * @property int $signo
  * @property int $orden
+ * @property Collection $tiposGastos
  */
 class TipoMovimiento extends Model
 {
@@ -28,7 +29,7 @@ class TipoMovimiento extends Model
 
     public static function selectOptions(): Collection
     {
-        return static::orderBy('orden')->get()
+        return static::orderBy('orden')
             ->pluck('tipo_movimiento', 'id');
     }
 }

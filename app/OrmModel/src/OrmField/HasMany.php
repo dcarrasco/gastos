@@ -10,6 +10,7 @@ use App\OrmModel\src\OrmField\Field;
 use App\OrmModel\src\OrmField\Relation;
 use Illuminate\Database\Eloquent\Model;
 
+/** @method self relationConditions(array $relationConditions = []) */
 class HasMany extends Relation
 {
     protected array $relationFields = [];

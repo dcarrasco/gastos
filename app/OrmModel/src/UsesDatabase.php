@@ -95,8 +95,9 @@ trait UsesDatabase
             ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
             : $this->getOrderBy();
 
-        collect($orderBy)
-            ->each(fn($order, $field) => $this->modelQueryBuilder->orderBy($field, $order));
+        collect($orderBy)->each(function($order, $field) {
+            $this->modelQueryBuilder->orderBy($field, $order);
+        });
 
         return $this;
     }

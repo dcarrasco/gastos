@@ -29,7 +29,7 @@ class CambiaPasswordRequest extends FormRequest
         $usuario = Usuario::whereUsername(request('username'))->firstOrNew();
 
         return [
-            'clave_anterior' => $usuario ? 'required' : '',
+            'clave_anterior' => $usuario->id ? 'required' : '',
             'nueva_clave' => 'required|min:8|confirmed',
         ];
     }

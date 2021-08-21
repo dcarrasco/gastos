@@ -3,9 +3,16 @@
 namespace App\Models\Gastos;
 
 use App\Models\Gastos\Cuenta;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+/**
+ * App\Model\Gastos\TipoCuenta
+ * @property int $id
+ * @property string $tipoCuenta
+ * @property int $tipo
+ * @property Collection $cuentas
+ */
 class TipoCuenta extends Model
 {
     use HasFactory;

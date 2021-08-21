@@ -33,9 +33,9 @@ class Relation extends Field
      * Fija las condiciones de la relacion
      *
      * @param  array $relationConditions
-     * @return Relation
+     * @return self
      */
-    public function relationConditions(array $relationConditions = []): Relation
+    public function relationConditions(array $relationConditions = []): self
     {
         $this->relationConditions = $relationConditions;
 

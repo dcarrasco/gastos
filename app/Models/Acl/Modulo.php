@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $icono
  * @property string $url
  * @property int $orden
+ * @property object $pivot
  */
 class Modulo extends Model
 {

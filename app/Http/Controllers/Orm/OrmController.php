@@ -127,7 +127,7 @@ class OrmController extends Controller
         $this->authorize('update', $resource->model());
         $this->validate($request, $resource->getValidation($request));
 
-        $resource->update($request, $modelId);
+        $resource->update($request);
 
         $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
 

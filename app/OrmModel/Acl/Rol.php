@@ -19,7 +19,8 @@ class Rol extends Resource
         'id', 'rol', 'descripcion'
     ];
     public $orderBy = [
-        'app_id' => 'asc', 'rol' => 'asc'
+        'app_id' => 'asc',
+        'rol' => 'asc'
     ];
 
     public function fields(Request $request): array

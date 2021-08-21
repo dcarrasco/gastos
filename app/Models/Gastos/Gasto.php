@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
  * @property int $monto
  * @property Carbon $fecha
  * @property TipoMovimiento $tipoMovimiento
+ * @property int $saldo_inicial
+ * @property int $saldo_final
  */
 class Gasto extends Model
 {
