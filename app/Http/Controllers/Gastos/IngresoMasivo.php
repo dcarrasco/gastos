@@ -49,7 +49,7 @@ class IngresoMasivo extends Controller
             'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
             'selectTiposGastos' => count($datosMasivos) ? TipoGasto::selectOptions() : [],
-        ])->withErrors($this->parser->getParserError());
+        ]);
     }
 
     protected function store(IngresoMasivoRequest $request)

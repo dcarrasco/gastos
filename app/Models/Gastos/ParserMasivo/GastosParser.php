@@ -61,13 +61,6 @@ class GastosParser
         return $this;
     }
 
-    public function getParserError(): array
-    {
-        return get_class($this) == NullParser::class
-            ? ['ParserError' => 'No se puede ingresar masivo esta cuenta']
-            : [];
-    }
-
     public function getCuenta(): Cuenta
     {
         return Cuenta::findOrNew($this->cuentaAsociada);
