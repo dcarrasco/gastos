@@ -4,18 +4,22 @@ namespace App\Http\Controllers\Gastos;
 
 use Illuminate\Http\Request;
 use App\Models\Gastos\TipoGasto;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Models\Gastos\GlosaTipoGasto;
-use App\Models\Gastos\ParserMasivo\VisaPdfParser;
+use App\Models\Gastos\ParserMasivo\GastosParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
+use App\Models\Gastos\ParserMasivo\VisaPdfParser;
 use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
 class IngresoMasivo extends Controller
 {
-    protected $parser = null;
+    protected GastosParser $parser;
 
-    protected $cuentas = null;
+    /** @var Collection */
+    protected $cuentas;
 
+    /** @var array|Collection */
     protected $parsers = [
         VisaExcelParser::class,
         VisaPdfParser::class,

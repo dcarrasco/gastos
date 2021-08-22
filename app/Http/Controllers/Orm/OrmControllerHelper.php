@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Orm;
 
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Support\Collection;
 use App\OrmModel\src\Filters\PerPage;
 use Illuminate\Support\Facades\Route;
 
@@ -61,9 +62,9 @@ trait OrmControllerHelper
     /**
      * Genera menu
      *
-     * @return array
+     * @return Collection
      */
-    public function makeMenuModuloURL(string $selectedResource)
+    public function makeMenuModuloURL(string $selectedResource): Collection
     {
         return $this->menuModulo
             ->map(fn($resource) => (object) [

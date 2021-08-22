@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Orm;
 
 use Illuminate\Http\Request;
+use App\OrmModel\src\Resource;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 
 class OrmController extends Controller
@@ -12,6 +14,7 @@ class OrmController extends Controller
 
     protected string $routeName = '';
 
+    /** @var array<Resource>|Collection<Resource> */
     protected $menuModulo = [];
 
 

@@ -22,11 +22,11 @@ class BackupDatabase extends Command
      */
     protected $description = 'Backup Database';
 
-    protected $process;
+    protected Process $process;
 
-    protected $backupPath = 'database_backup';
+    protected string $backupPath = 'database_backup';
 
-    protected $ignoreTables = [
+    protected array $ignoreTables = [
         'gastos.acl_app',
         'gastos.acl_modulo',
         'gastos.acl_rol',

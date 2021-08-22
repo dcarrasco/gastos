@@ -24,8 +24,9 @@ class RestoreDatabase extends Command
      */
     protected $description = 'Restore Database';
 
-    protected $process;
-    protected $backupPath = 'database_backup';
+    protected Process $process;
+
+    protected string $backupPath = 'database_backup';
 
     /**
      * Create a new command instance.

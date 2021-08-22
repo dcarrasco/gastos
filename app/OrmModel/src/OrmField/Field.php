@@ -17,8 +17,10 @@ abstract class Field
     protected string $attribute = '';
     protected string $helpText = '';
 
+    /** @var mixed */
     protected $value;
     protected string $formattedValue;
+
     /** @var HtmlString */
     protected $formItem;
 
