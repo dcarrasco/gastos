@@ -5,6 +5,7 @@ namespace App\Models\Gastos;
 use Carbon\Carbon;
 use App\Models\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SaldoMes extends Model
 {
@@ -14,7 +15,7 @@ class SaldoMes extends Model
         'cuenta_id', 'anno', 'mes', 'saldo_inicial', 'saldo_final',
     ];
 
-    public function cuenta()
+    public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
     }
@@ -30,7 +31,7 @@ class SaldoMes extends Model
         ])->saldo_final ?: 0;
     }
 
-    public static function recalculaSaldoMes(int $cuentaId, int $anno, int $mes)
+    public static function recalculaSaldoMes(int $cuentaId, int $anno, int $mes): bool
     {
         $saldoMes = static::firstOrNew([
             'cuenta_id' => $cuentaId,

@@ -8,8 +8,10 @@ use Illuminate\Support\Collection;
 
 class Inversion
 {
+    /** @var Collection */
     protected $movimientos;
 
+    /** @var Collection */
     protected $saldos;
 
 
@@ -36,6 +38,10 @@ class Inversion
 
     protected function getSumMovimientos(Gasto $saldo): int
     {
+        if (is_null($saldo->fecha)) {
+            return 0;
+        }
+
         return $this->movimientos
             ->filter->isBeforeDate($saldo->fecha)
             ->map->valor_monto

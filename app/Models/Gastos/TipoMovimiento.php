@@ -4,6 +4,7 @@ namespace App\Models\Gastos;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -22,7 +23,7 @@ class TipoMovimiento extends Model
     protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
 
 
-    public function tiposGastos()
+    public function tiposGastos(): HasMany
     {
         return $this->hasMany(TipoGasto::class);
     }

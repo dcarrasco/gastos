@@ -8,11 +8,12 @@ use Illuminate\Support\Collection;
 
 class VisaExcelParser extends GastosParser
 {
-    protected $descripcion = 'Excel Web';
+    protected string $descripcion = 'Excel Web';
 
-    protected $cuentaAsociada = 2;
+    protected int $cuentaAsociada = 2;
 
-    protected $separadorCampos = "\t";
+    /** @var non-empty-string */
+    protected string $separadorCampos = "\t";
 
     protected function filtrarLineasValidas(Request $request): VisaExcelParser
     {

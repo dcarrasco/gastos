@@ -8,13 +8,13 @@ use Illuminate\Support\Collection;
 
 class VisaPdfParser extends GastosParser
 {
-    protected $descripcion = 'PDF Cartola';
+    protected string $descripcion = 'PDF Cartola';
 
-    protected $cuentaAsociada = 2;
+    protected int $cuentaAsociada = 2;
 
-    protected $separadorCampos = ' ';
+    protected string $separadorCampos = ' ';
 
-    protected $campos = [
+    protected array $campos = [
         'fecha' => [2, 2],
         'serie' => [3, 4],
         'descripcion' => [5, -5],

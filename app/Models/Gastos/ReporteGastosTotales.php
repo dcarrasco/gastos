@@ -7,9 +7,9 @@ use Illuminate\Support\Collection;
 
 class ReporteGastosTotales extends Reporte
 {
-    protected $campoColumna = 'mes';
-    protected $campoFila = 'tipo_gasto_id';
-    protected $campoDato = 'monto';
+    protected string $campoColumna = 'mes';
+    protected string $campoFila = 'tipo_gasto_id';
+    protected string $campoDato = 'monto';
 
     public function __construct(int $anno)
     {

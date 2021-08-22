@@ -8,8 +8,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
@@ -31,8 +33,7 @@ abstract class UserACL extends Model implements
     use Authorizable;
     use CanResetPassword;
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsToMany */
-    public function rol()
+    public function rol(): BelongsToMany
     {
         return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
     }
@@ -47,7 +48,7 @@ abstract class UserACL extends Model implements
         return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
     }
 
-    public static function scopeUsuario($query, string $username)
+    public static function scopeUsuario(Builder $query, string $username): Builder
     {
         return $query->where('username', $username);
     }

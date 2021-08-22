@@ -5,6 +5,7 @@ namespace App\Models\Gastos;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * App\Models\Gastos\GlosaTipoGasto
  * @property string $glosa
@@ -18,12 +19,12 @@ class GlosaTipoGasto extends Model
     ];
 
 
-    public function cuenta()
+    public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
     }
 
-    public function tipoGasto()
+    public function tipoGasto(): BelongsTo
     {
         return $this->belongsTo(TipoGasto::class);
     }

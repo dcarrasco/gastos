@@ -6,6 +6,7 @@ use App\Models\Gastos\Banco;
 use App\Models\Gastos\TipoCuenta;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cuenta extends Model
@@ -17,12 +18,12 @@ class Cuenta extends Model
     protected $fillable = ['banco_id', 'tipo_cuenta_id', 'cuenta'];
 
 
-    public function banco()
+    public function banco(): BelongsTo
     {
         return $this->belongsTo(Banco::class);
     }
 
-    public function tipoCuenta()
+    public function tipoCuenta(): BelongsTo
     {
         return $this->belongsTo(TipoCuenta::class);
     }

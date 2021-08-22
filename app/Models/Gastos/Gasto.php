@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gasto
@@ -42,22 +43,22 @@ class Gasto extends Model
     ];
 
 
-    public function cuenta()
+    public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
     }
 
-    public function tipoGasto()
+    public function tipoGasto(): BelongsTo
     {
         return $this->belongsTo(TipoGasto::class);
     }
 
-    public function tipoMovimiento()
+    public function tipoMovimiento(): BelongsTo
     {
         return $this->belongsTo(TipoMovimiento::class);
     }
 
-    public function usuario()
+    public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
     }
@@ -86,7 +87,7 @@ class Gasto extends Model
             ->where('tipo_movimiento_id', $tipoMovimientoId);
     }
 
-    public function scopeNoSaldos($query): Builder
+    public function scopeNoSaldos(Builder $query): Builder
     {
         $tipoMovimientoSaldo = 4;
 
@@ -111,7 +112,7 @@ class Gasto extends Model
         });
     }
 
-    public function isBeforeDate($date, $dateField = 'fecha'): bool
+    public function isBeforeDate(Carbon $date, string $dateField = 'fecha'): bool
     {
         return $this->getAttribute($dateField) <= $date;
     }
@@ -164,7 +165,7 @@ class Gasto extends Model
             ->get();
     }
 
-    public static function createInversion(array $inversion)
+    public static function createInversion(array $inversion): Gasto
     {
         return static::create(array_merge($inversion, [
             'mes' => Carbon::create($inversion['fecha'])->month,
@@ -173,7 +174,7 @@ class Gasto extends Model
         ]));
     }
 
-    public static function createGasto(array $gasto)
+    public static function createGasto(array $gasto): Gasto
     {
         return static::create(array_merge($gasto, [
             'tipo_movimiento_id' => TipoGasto::find($gasto['tipo_gasto_id'])->tipo_movimiento_id,

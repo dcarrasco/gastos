@@ -5,6 +5,7 @@ namespace App\Models\Gastos;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gastos\TipoGasto
@@ -21,7 +22,7 @@ class TipoGasto extends Model
     protected $fillable = ['tipo_movimiento_id', 'tipo_gasto'];
 
 
-    public function tipoMovimiento()
+    public function tipoMovimiento(): BelongsTo
     {
         return $this->belongsTo(TipoMovimiento::class);
     }

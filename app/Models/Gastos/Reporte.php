@@ -7,14 +7,21 @@ use Illuminate\Support\Collection;
 
 abstract class Reporte
 {
+    /** @var Collection */
     protected $data;
-    protected $reporte = [];
-    protected $titulosColumnas = [];
-    protected $titulosFilas = [];
 
-    protected $campoColumna = '';
-    protected $campoFila = '';
-    protected $campoDato = '';
+    /** @var Collection */
+    protected $reporte;
+
+    /** @var Collection */
+    protected $titulosColumnas;
+
+    /** @var Collection */
+    protected $titulosFilas;
+
+    protected string $campoColumna = '';
+    protected string $campoFila = '';
+    protected string $campoDato = '';
 
 
     public function __construct()

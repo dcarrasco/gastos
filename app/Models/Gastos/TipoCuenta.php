@@ -5,7 +5,9 @@ namespace App\Models\Gastos;
 use App\Models\Gastos\Cuenta;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * App\Model\Gastos\TipoCuenta
  * @property int $id
@@ -24,7 +26,7 @@ class TipoCuenta extends Model
     public const CUENTA_GASTO = 1;
     public const CUENTA_INVERSION = 2;
 
-    public function cuentas()
+    public function cuentas(): HasMany
     {
         return $this->hasMany(Cuenta::class);
     }

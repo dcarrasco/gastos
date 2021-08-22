@@ -4,7 +4,9 @@ namespace App\Models\Acl;
 
 use App\Models\Acl\Modulo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Rol extends Model
 {
@@ -14,14 +16,12 @@ class Rol extends Model
 
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo */
-    public function app()
+    public function app(): BelongsTo
     {
         return $this->belongsTo(App::class);
     }
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsToMany */
-    public function modulo()
+    public function modulo(): BelongsToMany
     {
         return $this->belongsToMany(Modulo::class, 'acl_rol_modulo')
             ->withPivot('abilities')

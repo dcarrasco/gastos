@@ -12,15 +12,18 @@ use App\Models\Gastos\GlosaTipoGasto;
 
 abstract class GastosParser
 {
-    protected $descripcion = '';
+    protected string $descripcion = '';
 
-    protected $glosasTipoGasto = null;
+    /** @var Collection */
+    protected $glosasTipoGasto;
 
+    /** @var Collection|null */
     protected $datosMasivos = null;
 
-    protected $cuentaAsociada = 0;
+    protected int $cuentaAsociada = 0;
 
-    protected $separadorCampos = ' ';
+    /** @var non-empty-string */
+    protected string $separadorCampos = ' ';
 
     public function procesaMasivo(Request $request): Collection
     {
