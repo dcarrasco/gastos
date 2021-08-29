@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\Gastos\Cuenta;
 use App\Models\Gastos\SaldoMes;
 use App\Models\Gastos\TipoGasto;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Gasto\AddGastoRequest;
 use App\Http\Requests\Gasto\DeleteGastoRequest;
 
 class Ingreso extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $selectCuentas = Cuenta::selectCuentasGastos();
         $selectTiposGastos = TipoGasto::selectOptions();
@@ -31,7 +33,7 @@ class Ingreso extends Controller
         return view('gastos.gastos-index', compact('selectCuentas', 'selectTiposGastos', 'movimientosMes'));
     }
 
-    public function store(AddGastoRequest $request)
+    public function store(AddGastoRequest $request): RedirectResponse
     {
         Gasto::createGasto($request->validated());
         SaldoMes::recalculaSaldoMes($request->input('cuenta_id'), $request->input('anno'), $request->input('mes'));
@@ -39,7 +41,7 @@ class Ingreso extends Controller
         return redirect()->route('gastos.showMes', $request->only(['cuenta_id', 'anno', 'mes']));
     }
 
-    public function destroy(DeleteGastoRequest $request, Gasto $gasto)
+    public function destroy(DeleteGastoRequest $request, Gasto $gasto): RedirectResponse
     {
         $gasto->delete();
 

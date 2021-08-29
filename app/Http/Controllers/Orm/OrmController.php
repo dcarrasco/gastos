@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Orm;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class OrmController extends Controller
 {
@@ -30,14 +32,7 @@ class OrmController extends Controller
         $this->makeView($request);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  Request $request
-     * @param  string  $resourceClass Nombre del recurso a recuperar
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request, string $resourceClass = '')
+    public function index(Request $request, string $resourceClass = ''): View
     {
         $resource = $this->getResource($resourceClass)
             ->makePaginatedResources($request);
@@ -45,14 +40,7 @@ class OrmController extends Controller
         return view('orm.list', compact('resource'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param  Request $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request, string $resourceClass = '')
+    public function create(Request $request, string $resourceClass = ''): View
     {
         $resource = $this->getResource($resourceClass)
             ->resolveFormFields($request);
@@ -60,14 +48,7 @@ class OrmController extends Controller
         return view('orm.create', compact('resource'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, string $resourceClass = '')
+    public function store(Request $request, string $resourceClass = ''): RedirectResponse
     {
         $resource = $this->getResource($resourceClass);
 
@@ -83,15 +64,7 @@ class OrmController extends Controller
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Request $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @param  string  $modelId       ID del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, string $resourceClass = '', string $modelId = '')
+    public function show(Request $request, string $resourceClass = '', string $modelId = ''): View
     {
         $resource = $this->getResource($resourceClass, $modelId)
             ->resolveDetailFields($request);
@@ -99,15 +72,7 @@ class OrmController extends Controller
         return view('orm.show', compact('resource'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Request $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @param  string  $modelId       ID del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, string $resourceClass = '', string $modelId = '')
+    public function edit(Request $request, string $resourceClass = '', string $modelId = ''): View
     {
         $resource = $this->getResource($resourceClass, $modelId)
             ->resolveFormFields($request);
@@ -115,15 +80,7 @@ class OrmController extends Controller
         return view('orm.edit', compact('resource'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @param  string  $modelId       ID del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, string $resourceClass = '', string $modelId = '')
+    public function update(Request $request, string $resourceClass = '', string $modelId = ''): RedirectResponse
     {
         $resource = $this->getResource($resourceClass, $modelId);
 
@@ -139,15 +96,7 @@ class OrmController extends Controller
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Request  $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @param  string  $modelId       ID del recurso
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, string $resourceClass = '', string $modelId = '')
+    public function destroy(Request $request, string $resourceClass = '', string $modelId = ''): RedirectResponse
     {
         $resource = $this->getResource($resourceClass, $modelId);
 
@@ -160,14 +109,7 @@ class OrmController extends Controller
             ->with('alert_message', $this->alertMessage('orm.msg_delete_ok', $resource, $request));
     }
 
-    /**
-     * Recupera el recurso para ser usado en llamadas ajax
-     *
-     * @param  Request  $request
-     * @param  string  $resourceClass Nombre del recurso
-     * @return string
-     */
-    public function ajaxOnChange(Request $request, string $resourceClass = '')
+    public function ajaxOnChange(Request $request, string $resourceClass = ''): string
     {
         return $this->getResource($resourceClass)
             ->getModelAjaxFormOptions($request);

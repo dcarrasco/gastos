@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Metrics\GastoVisa;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Orm\OrmCard;
 use App\OrmModel\Metrics\ResumenVisa;
 use App\OrmModel\Metrics\SaldoCtaCte;
@@ -19,7 +20,7 @@ class HomeController extends Controller
     use OrmCard;
 
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         return view('gastos.home', [
             'cards' => collect($this->cards($request))->map->render($request),

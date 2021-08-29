@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Gastos;
 use Illuminate\Http\Request;
 use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Gastos\GlosaTipoGasto;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Gastos\ParserMasivo\GastosParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
 use App\Models\Gastos\ParserMasivo\VisaPdfParser;
@@ -45,7 +47,7 @@ class IngresoMasivo extends Controller
             ));
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
@@ -56,7 +58,7 @@ class IngresoMasivo extends Controller
         ]);
     }
 
-    protected function store(IngresoMasivoRequest $request)
+    protected function store(IngresoMasivoRequest $request): RedirectResponse
     {
         $this->parser->procesaMasivo($request)
             ->each->save();
@@ -64,7 +66,7 @@ class IngresoMasivo extends Controller
         return redirect()->route('gastos.ingresoMasivo', $request->only('cuenta_id', 'anno', 'mes'));
     }
 
-    protected function storeTipoGasto(Request $request)
+    protected function storeTipoGasto(Request $request): RedirectResponse
     {
         GlosaTipoGasto::create([
             'cuenta_id' => $request->input('cuenta_id'),
