@@ -14,8 +14,7 @@ class OrmController extends Controller
 
     protected string $routeName = '';
 
-    /** @var array<Resource>|Collection<Resource> */
-    protected $menuModulo = [];
+    protected array $menuModulo = [];
 
 
     public function __construct(Request $request)
@@ -25,7 +24,8 @@ class OrmController extends Controller
         }
 
         $this->menuModulo = collect($this->menuModulo)
-            ->map(fn($resource) => new $resource());
+            ->map(fn($resource) => new $resource())
+            ->all();
 
         $this->makeView($request);
     }

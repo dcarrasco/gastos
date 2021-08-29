@@ -18,8 +18,7 @@ class ConfigController extends OrmController
 {
     protected string $routeName = 'gastosConfig';
 
-    /** @var array<string>|Collection<Resource> */
-    protected $menuModulo = [
+    protected array $menuModulo = [
         Banco::class,
         TipoCuenta::class,
         Cuenta::class,

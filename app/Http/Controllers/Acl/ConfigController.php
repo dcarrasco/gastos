@@ -14,8 +14,7 @@ class ConfigController extends OrmController
 {
     protected string $routeName = 'aclConfig';
 
-    /** @var array<string>|Collection<Resource> */
-    protected $menuModulo = [
+    protected array $menuModulo = [
         Usuario::class,
         App::class,
         Rol::class,

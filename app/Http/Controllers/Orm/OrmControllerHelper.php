@@ -19,9 +19,9 @@ trait OrmControllerHelper
      */
     protected function getResource(string $resourceName = '', $resourceId = null): Resource
     {
-        $resource = $this->menuModulo
+        $resource = collect($this->menuModulo)
             ->first(fn($resource) => $resource->getName() === $resourceName)
-            ?? $this->menuModulo->first();
+            ?? collect($this->menuModulo)->first();
 
         if ($resourceId) {
             return $resource->findOrFail($resourceId);
@@ -66,7 +66,7 @@ trait OrmControllerHelper
      */
     public function makeMenuModuloURL(string $selectedResource): Collection
     {
-        return $this->menuModulo
+        return collect($this->menuModulo)
             ->map(fn($resource) => (object) [
                 'nombre' => $resource->getLabelPlural(),
                 'url' => route("{$this->routeName}.index", $resource->getName()),
@@ -81,7 +81,7 @@ trait OrmControllerHelper
     protected function makeView(Request $request): void
     {
         $selectedResource = $request->route()
-            ? ($request->route('modelName') ?? $this->menuModulo->first()->getName())
+            ? ($request->route('modelName') ?? collect($this->menuModulo)->first()->getName())
             : '';
 
         view()->share('perPageFilter', new PerPage());
@@ -113,7 +113,7 @@ trait OrmControllerHelper
      */
     protected function cards(Request $request): array
     {
-        return $this->menuModulo
+        return collect($this->menuModulo)
             ->flatMap->cards($request)
             ->all();
     }
