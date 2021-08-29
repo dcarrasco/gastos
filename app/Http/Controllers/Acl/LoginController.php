@@ -12,7 +12,7 @@ class LoginController extends Controller
 {
     public function showCambiaPassword(Usuario $usuario)
     {
-        return view('acl.cambio_password', [
+        return view('ACL.cambio_password', [
             'msg_alerta' => '',
             'userHasPassword' => $usuario->hasPassword(),
         ]);
