@@ -8,9 +8,9 @@ if (!function_exists('fmtCantidad')) {
     /**
      * Formatea cantidades numéricas con separador decimal y de miles
      *
-     * @param  integer $valor        Valor a formatear
-     * @param  integer $decimales    Cantidad de decimales a mostrar
-     * @return string                Valor formateado
+     * @param  int|float  $valor        Valor a formatear
+     * @param  int        $decimales    Cantidad de decimales a mostrar
+     * @return string                   Valor formateado
      */
     function fmtCantidad($valor = 0, $decimales = 0): string
     {

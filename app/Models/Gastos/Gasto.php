@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $glosa
  * @property string $serie
  * @property int $monto
- * @property Carbon $fecha
+ * @property Carbon|null $fecha
  * @property TipoMovimiento $tipoMovimiento
  * @property int $saldo_inicial
  * @property int $saldo_final
