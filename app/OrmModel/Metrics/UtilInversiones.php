@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class UtilInversiones extends Value
 {
+    /** @var array<int> */
     protected array $cuentasInversiones = [3, 6];
 
     public function calculate(Request $request): array
@@ -19,6 +20,13 @@ class UtilInversiones extends Value
         ];
     }
 
+    /**
+     * Calcula la utilidad de una inversión para un periodo de tiempos
+     *
+     * @param Request $request
+     * @param array<mixed> $range
+     * @return integer
+     */
     protected function calculateUtil(Request $request, array $range): int
     {
         [$fechaDesde, $fechaHasta] = $range;

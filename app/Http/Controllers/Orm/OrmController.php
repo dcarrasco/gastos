@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\Eloquent\Model;
 
 class OrmController extends Controller
 {
@@ -16,6 +17,7 @@ class OrmController extends Controller
 
     protected string $routeName = '';
 
+    /** @var array<string> */
     protected array $menuModulo = [];
 
 

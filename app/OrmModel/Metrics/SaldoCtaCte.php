@@ -18,6 +18,13 @@ class SaldoCtaCte extends Value
         ];
     }
 
+    /**
+     * Calcula saldo de la cuenta corriente para un perido de tiempo
+     *
+     * @param Request      $request
+     * @param array<mixed> $range
+     * @return integer
+     */
     protected function calculateSaldo(Request $request, array $range): int
     {
         $gastos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)

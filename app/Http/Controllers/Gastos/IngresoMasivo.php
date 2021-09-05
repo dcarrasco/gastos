@@ -9,8 +9,8 @@ use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Gastos\GlosaTipoGasto;
 use Illuminate\Http\RedirectResponse;
-use App\Models\Gastos\ParserMasivo\GastosParser;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
+use App\Models\Gastos\ParserMasivo\GastosParser;
 use App\Models\Gastos\ParserMasivo\VisaPdfParser;
 use App\Models\Gastos\ParserMasivo\VisaExcelParser;
 
@@ -21,7 +21,7 @@ class IngresoMasivo extends Controller
     /** @var Collection */
     protected $cuentas;
 
-    /** @var array|Collection */
+    /** @var array<string>|Collection<GastosParser> */
     protected $parsers = [
         VisaExcelParser::class,
         VisaPdfParser::class,

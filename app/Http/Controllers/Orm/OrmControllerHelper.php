@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Orm;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\Collection;
+use App\OrmModel\src\Metrics\Metric;
 use App\OrmModel\src\Filters\PerPage;
 use Illuminate\Support\Facades\Route;
 
@@ -109,7 +110,7 @@ trait OrmControllerHelper
      * Recupera las cards de todos los modelos del controlador Orm
      *
      * @param  Request $request
-     * @return array
+     * @return array<Metric>
      */
     protected function cards(Request $request): array
     {

@@ -24,6 +24,7 @@ class RestoreDatabase extends Command
      */
     protected $description = 'Restore Database';
 
+    /** @var Process<mixed> */
     protected Process $process;
 
     protected string $backupPath = 'database_backup';
@@ -42,6 +43,7 @@ class RestoreDatabase extends Command
         }
     }
 
+    /** @return array<string> */
     protected function getBackupFiles(): array
     {
         return collect(scandir(storage_path($this->backupPath)))

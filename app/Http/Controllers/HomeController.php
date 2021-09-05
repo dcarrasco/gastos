@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\OrmModel\Metrics\GastoVisa;
 use Illuminate\Contracts\View\View;
+use App\OrmModel\src\Metrics\Metric;
 use App\Http\Controllers\Orm\OrmCard;
 use App\OrmModel\Metrics\ResumenVisa;
 use App\OrmModel\Metrics\SaldoCtaCte;
@@ -27,6 +28,12 @@ class HomeController extends Controller
         ]);
     }
 
+    /**
+     * Devuelve metricas a ser desplegadas
+     *
+     * @param Request $request
+     * @return array<Metric>
+     */
     protected function cards(Request $request): array
     {
         return [
