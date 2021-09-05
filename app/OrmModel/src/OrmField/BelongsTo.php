@@ -13,7 +13,7 @@ class BelongsTo extends Relation
     /**
      * Indica si debe cargar activamente todos los registros de la relacion
      *
-     * @var boolean
+     * @var bool
      */
     protected bool $eagerLoadsRelation = true;
 
