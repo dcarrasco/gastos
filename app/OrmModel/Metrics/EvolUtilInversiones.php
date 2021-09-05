@@ -13,7 +13,9 @@ class EvolUtilInversiones extends Trend
 {
     protected bool $filtraValoresEnCero = true;
 
+    /** @var array<int> */
     protected array $cuentasInversiones = [3, 6, 7];
+
     protected int $movimientoSaldo = 4;
 
     public function calculate(Request $request): Collection

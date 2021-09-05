@@ -10,6 +10,7 @@ use App\OrmModel\src\OrmField\Field;
 class BooleanOptions extends Field
 {
 
+    /** @var array<string> */
     protected array $options = [];
     protected string $relationName = '';
     protected string $modelId = '';
@@ -17,7 +18,7 @@ class BooleanOptions extends Field
     /**
      * Fija opciones para tipo de campo Select
      *
-     * @param  array  $options
+     * @param  array<string>  $options
      * @return BooleanOptions
      */
     public function options(array $options = []): BooleanOptions
@@ -27,6 +28,11 @@ class BooleanOptions extends Field
         return $this;
     }
 
+    /**
+     * Devuelve arreglo de opciones
+     *
+     * @return array<string>
+     */
     public function getOptions(): array
     {
         return $this->options;
@@ -72,6 +78,14 @@ class BooleanOptions extends Field
         return new HtmlString($formattedValue);
     }
 
+    /**
+     * Devuelve elemento de formulario para el campo
+     *
+     * @param  Request  $request
+     * @param  Resource $resource
+     * @param  array<string> $extraParam
+     * @return HtmlString
+     */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         $formValue = collect($this->options)

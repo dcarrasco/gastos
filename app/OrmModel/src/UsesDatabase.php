@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait UsesDatabase
 {
-    /** @var string|array */
+    /** @var string|array<string> */
     public $orderBy = [];
 
     /** @var Builder */
@@ -59,7 +59,7 @@ trait UsesDatabase
     /**
      * Devuelve orden del modelo
      *
-     * @return array
+     * @return array<string>
      */
     public function getOrderBy(): array
     {

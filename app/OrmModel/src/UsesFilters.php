@@ -3,6 +3,7 @@
 namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
+use App\OrmModel\src\Filters\Filter;
 
 trait UsesFilters
 {
@@ -10,7 +11,7 @@ trait UsesFilters
      * Filtros del recurso
      *
      * @param  Request $request
-     * @return array
+     * @return array<Filter>
      */
     public function filters(Request $request): array
     {

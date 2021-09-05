@@ -30,7 +30,7 @@ abstract class Resource
     /** @var string */
     public $title = 'id';
 
-    /** @var array */
+    /** @var array<string> */
     public $search = ['id'];
 
     /** @var Model */
@@ -208,7 +208,7 @@ abstract class Resource
      * Devuelve arreglo de validacion del recurso
      *
      * @param  Request $request
-     * @return array
+     * @return array<array>
      */
     public function getValidation(Request $request): array
     {
@@ -277,7 +277,7 @@ abstract class Resource
     /**
      * Devuelve arreglo con nombre del modelo e id del modelo
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getRouteControllerId(): array
     {

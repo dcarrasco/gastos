@@ -15,9 +15,9 @@ class Textarea extends Field
     /**
      * Devuelve elemento de formulario para el campo
      *
-     * @param  Request  $request
-     * @param  Resource $resource
-     * @param  array    $extraParam
+     * @param  Request       $request
+     * @param  Resource      $resource
+     * @param  array<string> $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

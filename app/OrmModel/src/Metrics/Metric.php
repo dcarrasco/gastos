@@ -38,7 +38,7 @@ abstract class Metric
      * Genera rango de fechas para realizar consultas
      *
      * @param  Request $request
-     * @return Array
+     * @return array<mixed>
      */
     protected function currentRange(Request $request): array
     {
@@ -66,7 +66,7 @@ abstract class Metric
      * Devuelve el intervalo de fechas del periodo anterior
      *
      * @param  Request $request
-     * @return array
+     * @return array<mixed>
      */
     protected function previousRange(Request $request): array
     {
@@ -101,7 +101,7 @@ abstract class Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @param  array   $dateInterval
+     * @param  array<mixed>   $dateInterval
      * @return Builder
      */
     protected function rangedQuery(Request $request, string $resource, string $timeColumn, array $dateInterval): Builder
@@ -180,7 +180,7 @@ abstract class Metric
      * Devuelve arreglo para actualizar metrica
      *
      * @param  Request $request
-     * @return array
+     * @return array<string>
      */
     public function ajaxRequest(Request $request): array
     {
@@ -201,7 +201,7 @@ abstract class Metric
     /**
      * Devuelve arreglo con rangos a mostrar en card
      *
-     * @return array
+     * @return array<mixed>
      */
     public function ranges(): array
     {

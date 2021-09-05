@@ -15,10 +15,14 @@ trait UsesSorting
     protected string $sortDirectionKey = 'sort-direction';
 
     protected string $sortIconDefault = 'fa fa-sort text-gray-400';
+
+    /** @var array<string> */
     protected array $sortIcons = [
         'asc' => 'fa fa-caret-up',
         'desc' => 'fa fa-caret-down',
     ];
+
+    /** @var array<string> */
     protected array $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
     /** @var HtmlString */

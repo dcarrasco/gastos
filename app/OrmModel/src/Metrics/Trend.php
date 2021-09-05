@@ -4,6 +4,7 @@ namespace App\OrmModel\src\Metrics;
 
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
@@ -184,7 +185,7 @@ abstract class Trend extends Metric
     /**
      * Inicializa arreglo de fechas con valores en cero
      *
-     * @param  array  $dateInterval
+     * @param  array<Carbon>  $dateInterval
      * @param  string $unit
      * @return Collection
      */
@@ -310,7 +311,7 @@ abstract class Trend extends Metric
      * Devuelve arreglo para actualizar metrica
      *
      * @param  Request $request
-     * @return array
+     * @return array<string>
      */
     public function contentAjaxRequest(Request $request): array
     {

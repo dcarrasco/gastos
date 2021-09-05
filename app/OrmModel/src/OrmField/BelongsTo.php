@@ -42,7 +42,7 @@ class BelongsTo extends Relation
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array    $extraParam
+     * @param  array<string> $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

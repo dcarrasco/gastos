@@ -11,6 +11,7 @@ trait DisplayAsCard
 {
     public string $width = '1/3';
 
+    /** @var array<string> */
     protected array $bootstrapWidths = [
         '1/2' => 'col-span-6',
         '1/3' => 'col-span-4',

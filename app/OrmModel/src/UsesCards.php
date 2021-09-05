@@ -4,6 +4,7 @@ namespace App\OrmModel\src;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\OrmModel\src\Metrics\Metric;
 
 trait UsesCards
 {
@@ -11,7 +12,7 @@ trait UsesCards
      * Cards del recurso
      *
      * @param  Request $request
-     * @return array
+     * @return array<Metric>
      */
     public function cards(Request $request): array
     {

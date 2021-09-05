@@ -10,12 +10,13 @@ use App\OrmModel\src\OrmField\Field;
 
 class Select extends Field
 {
+    /** @var array<string> */
     protected array $choices = [];
 
     /**
      * Fija opciones para tipo de campo Select
      *
-     * @param  array  $options
+     * @param  array<string>  $options
      * @return Select
      */
     public function options(array $options = []): Select
@@ -54,7 +55,7 @@ class Select extends Field
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array    $extraParam
+     * @param  array<string> $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

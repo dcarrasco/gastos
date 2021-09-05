@@ -34,7 +34,10 @@ abstract class Field
     protected string $onChange = '';
     protected Model $parentModel;
     protected Model $relationModel;
+
+    /** @var array<string> */
     protected array $relationConditions = [];
+
     protected bool $eagerLoadsRelation = false;
 
     protected string $placeholder = '';
@@ -281,7 +284,7 @@ abstract class Field
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array    $extraParam
+     * @param  array<string> $extraParam
      * @return Field
      */
     public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
@@ -334,7 +337,7 @@ abstract class Field
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array    $extraParam
+     * @param  array<string> $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

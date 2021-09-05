@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 class Relation extends Field
 {
     protected string $relatedResource = '';
+
+    /** @var array<string> */
     protected array $relationConditions = [];
 
     /**
@@ -32,7 +34,7 @@ class Relation extends Field
     /**
      * Fija las condiciones de la relacion
      *
-     * @param  array $relationConditions
+     * @param  array<string> $relationConditions
      * @return self
      */
     public function relationConditions(array $relationConditions = []): self
@@ -71,7 +73,7 @@ class Relation extends Field
      *
      * @param  Request   $request
      * @param  Resource  $resource
-     * @param  array     $conditions
+     * @param  array<string> $conditions
      * @return Collection
      */
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
@@ -85,7 +87,7 @@ class Relation extends Field
      *
      * @param  Request   $request
      * @param  Resource  $resource
-     * @param  array     $conditions
+     * @param  array<string> $conditions
      * @return Collection
      */
     protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
@@ -101,8 +103,8 @@ class Relation extends Field
      * Devuelve arreglo con las condiciones de la relacion
      *
      * @param  Resource $resource
-     * @param  array    $conditions
-     * @return array
+     * @param  array<string> $conditions
+     * @return array<string>
      */
     protected function getRelationFilter(Resource $resource, array $conditions = []): array
     {
