@@ -9,15 +9,25 @@ use App\OrmModel\src\Metrics\Metric;
 
 trait DisplayAsCard
 {
+    /**
+     * Ancho de la tarjeta
+     *
+     * @var string
+     */
     public string $width = '1/3';
 
-    /** @var array<string> */
+    /**
+     * Clases para fijar anchos
+     *
+     * @var array<string>
+     */
     protected array $bootstrapWidths = [
         '1/2' => 'col-span-6',
         '1/3' => 'col-span-4',
         '2/3' => 'col-span-8',
         'full' => 'col-span-12',
     ];
+
 
     /**
      * Genera la vista de la tarjeta
@@ -78,6 +88,12 @@ trait DisplayAsCard
         return Str::camel($this->title());
     }
 
+    /**
+     * Genera la ruta de la tarjeta
+     *
+     * @param Request $request
+     * @return string
+     */
     public function urlRoute(Request $request): string
     {
         [$prefixRouteName, $routeName] = explode('.', $request->route()->getName());

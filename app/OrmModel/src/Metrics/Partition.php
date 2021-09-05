@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Partition extends Metric
 {
+    /**
+     * Devuelve el calculo de la metrica
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function calculate(Request $request): Collection
     {
         return collect([]);

@@ -10,7 +10,13 @@ use App\OrmModel\src\OrmField\Relation;
 
 class BelongsTo extends Relation
 {
+    /**
+     * Indica si debe cargar activamente todos los registros de la relacion
+     *
+     * @var boolean
+     */
     protected bool $eagerLoadsRelation = true;
+
 
     /**
      * Devuelve valor del campo formateado
@@ -70,13 +76,6 @@ class BelongsTo extends Relation
     protected function makeOnChange(Request $request, string $field): HtmlString
     {
         list($routeName, $routeAction) = explode('.', $request->route()->getName());
-
-        // if (!is_array($this->onChange)) {
-        //     $this->onChange = [
-        //         'resource' => ucfirst($this->onChange),
-        //         'elem' => strtolower($this->onChange),
-        //     ];
-        // }
 
         $resourceDest = ucfirst($this->onChange);
         $elemDest = strtolower($this->onChange);

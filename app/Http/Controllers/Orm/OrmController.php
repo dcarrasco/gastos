@@ -15,9 +15,18 @@ class OrmController extends Controller
     use OrmCard;
     use OrmControllerHelper;
 
+    /**
+     * Nombre de la ruta del controlador
+     *
+     * @var string
+     */
     protected string $routeName = '';
 
-    /** @var array<string> */
+    /**
+     * Listado de modulos del controlador
+     *
+     * @var array<string>
+     */
     protected array $menuModulo = [];
 
 
@@ -111,6 +120,13 @@ class OrmController extends Controller
             ->with('alert_message', $this->alertMessage('orm.msg_delete_ok', $resource, $request));
     }
 
+    /**
+     * Recupera opciones select cuando un campo cambia
+     *
+     * @param Request $request
+     * @param string $resourceClass
+     * @return string
+     */
     public function ajaxOnChange(Request $request, string $resourceClass = ''): string
     {
         return $this->getResource($resourceClass)

@@ -98,10 +98,10 @@ abstract class Metric
     /**
      * Inicializa query y agrega condiciones de rango fechas
      *
-     * @param  Request $request
-     * @param  string  $resource
-     * @param  string  $timeColumn
-     * @param  array<mixed>   $dateInterval
+     * @param  Request       $request
+     * @param  string        $resource
+     * @param  string        $timeColumn
+     * @param  array<mixed>  $dateInterval
      * @return Builder
      */
     protected function rangedQuery(Request $request, string $resource, string $timeColumn, array $dateInterval): Builder

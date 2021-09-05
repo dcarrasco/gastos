@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
 {
+    /**
+     * Prefijo a usar en la URL para el filtro
+     *
+     * @var string
+     */
     protected string $parameterPrefix = 'filter_';
+
 
     /**
      * Aplica filtro en la query

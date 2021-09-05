@@ -15,7 +15,7 @@ abstract class Value extends Metric
 
 
     /**
-     * Devuelve el valor computado
+     * Devuelve el valor computado de la metrica
      *
      * @param Request $request
      * @return array<mixed>
@@ -124,8 +124,8 @@ abstract class Value extends Metric
     /**
      * Genera mensaje de cambio de valor periodo actual respecto periodo anterior
      *
-     * @param  int|integer $currentValue
-     * @param  int|integer $previousValue
+     * @param  int  $currentValue
+     * @param  int  $previousValue
      * @return string
      */
     protected function previousMessage(int $currentValue, int $previousValue): string

@@ -63,7 +63,7 @@ trait OrmControllerHelper
     /**
      * Genera menu
      *
-     * @return Collection
+     * @return Collection<mixed>
      */
     public function makeMenuModuloURL(string $selectedResource): Collection
     {

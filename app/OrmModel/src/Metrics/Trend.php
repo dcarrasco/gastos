@@ -16,9 +16,20 @@ abstract class Trend extends Metric
     protected const BY_YEARS = 'by_years';
     protected const BY_WEEKS = 'by_weeks';
 
+    /**
+     * Indica si la metrica mostrara valores en cero
+     *
+     * @var boolean
+     */
     protected bool $filtraValoresEnCero = false;
 
 
+    /**
+     * Devuelve el calculo de la metrica
+     *
+     * @param Request $request
+     * @return Collection
+     */
     public function calculate(Request $request): Collection
     {
         return collect([]);
@@ -274,10 +285,13 @@ abstract class Trend extends Metric
         string $timeColumn
     ): Collection {
         $dateInterval = $this->currentRange($request);
+
         $timeColumn = empty($timeColumn) ? $this->getModel($resource)->getCreatedAtColumn() : $timeColumn;
+
         $aggregateColumn = empty($aggregateColumn)
             ? $this->getModel($resource)->getKeyName()
             : $aggregateColumn;
+
         $selectDateExpression = $this->selectDateExpression($resource, $unit, $timeColumn);
 
         $results = $this->rangedQuery($request, $resource, $timeColumn, $dateInterval)
