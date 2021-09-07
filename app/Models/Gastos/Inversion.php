@@ -92,19 +92,24 @@ class Inversion
 
     public function getJSONRentabilidadesAnual(): string
     {
-        return $this->saldos->count() == 0
-            ? ''
-            : json_encode([
-                    'label' => $this->saldos
-                        ->pluck('fecha')
-                        ->map->format('Y-m-d')
-                        ->toArray(),
-                    'rentabilidad' => $this->saldos
-                        ->map(fn($saldo) => $this->rentabilidadAnual($saldo))
-                        ->toArray(),
-                    'saldo' => $this->saldos
-                        ->pluck('monto')
-                        ->toArray(),
-                ]);
+        if ($this->saldos->count() == 0) {
+            return '';
+        }
+
+        $jsonRentabilidades = json_encode([
+            'label' => $this->saldos->pluck('fecha')
+                ->map->format('Y-m-d')
+                ->toArray(),
+            'rentabilidad' => $this->saldos->map(fn($saldo) => $this->rentabilidadAnual($saldo))
+                ->toArray(),
+            'saldo' => $this->saldos->pluck('monto')
+                ->toArray(),
+        ]);
+
+        if ($jsonRentabilidades == false) {
+            return '';
+        }
+
+        return $jsonRentabilidades;
     }
 }
