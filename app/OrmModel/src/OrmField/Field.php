@@ -311,7 +311,7 @@ abstract class Field
      */
     public function getFormattedValue(): HtmlString
     {
-        return new HtmlString($this->value);
+        return new HtmlString($this->value ?? '');
     }
 
     /**
