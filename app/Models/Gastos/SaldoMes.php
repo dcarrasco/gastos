@@ -7,6 +7,14 @@ use App\Models\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * App\Models\SaldoMes
+ * @property int $cuenta_id
+ * @property int $anno
+ * @property int $mes
+ * @property int $saldo_inicial
+ * @property int $saldo_final
+ */
 class SaldoMes extends Model
 {
     protected $table = 'cta_saldos_mes';
@@ -24,7 +32,7 @@ class SaldoMes extends Model
     {
         $fechaAnterior = Carbon::create($anno, $mes, 1)->subMonth();
 
-        return static::firstOrNew([
+        return (int) static::firstOrNew([
             'cuenta_id' => $cuentaId,
             'anno' => $fechaAnterior->year,
             'mes' => $fechaAnterior->month,

@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property TipoMovimiento $tipoMovimiento
  * @property int $saldo_inicial
  * @property int $saldo_final
+ * @property int $valor_monto
  */
 class Gasto extends Model
 {
@@ -106,8 +107,8 @@ class Gasto extends Model
 
         return $movimientos->map(function ($gasto) use (&$saldoMes) {
             $saldoMes = $saldoMes - $gasto->valor_monto;
-            $gasto->saldo_inicial = $saldoMes;
-            $gasto->saldo_final = $saldoMes + $gasto->valor_monto;
+            $gasto->saldo_inicial = (int) $saldoMes;
+            $gasto->saldo_final = (int) $saldoMes + $gasto->valor_monto;
 
             return $gasto;
         });
