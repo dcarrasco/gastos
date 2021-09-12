@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * App\Models\SaldoMes
+ * App\Models\Gastos\SaldoMes
+ * @property int $id
  * @property int $cuenta_id
  * @property int $anno
  * @property int $mes

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Gastos\TipoMovimiento
+ * @property int $id
  * @property string $tipoMovimiento
  * @property int $signo
  * @property int $orden

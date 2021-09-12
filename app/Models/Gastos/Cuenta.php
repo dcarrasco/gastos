@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * App\Models\Gastos\Cuenta
+ * @property int $id
+ * @property int $banco_id
+ * @property int $tipo_cuenta_id
+ * @property string $cuenta
+ */
 class Cuenta extends Model
 {
     use HasFactory;

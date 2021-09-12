@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * App\Models\Gastos\GlosaTipoGasto
+ * @property int $id
+ * @property int $cuenta_id
+ * @property int $tipo_gasto_id
  * @property string $glosa
  */
 class GlosaTipoGasto extends Model
