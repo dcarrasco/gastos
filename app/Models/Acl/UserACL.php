@@ -126,5 +126,4 @@ abstract class UserACL extends Model implements
     {
         return $this->getAclAbilities()->contains($ability);
     }
-
 }
