@@ -3,12 +3,9 @@
 namespace App\Models\Gastos;
 
 use App\Models\Acl\Usuario;
-use App\Models\Gastos\Cuenta;
 use Illuminate\Support\Carbon;
-use App\Models\Gastos\TipoGasto;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Models\Gastos\TipoMovimiento;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

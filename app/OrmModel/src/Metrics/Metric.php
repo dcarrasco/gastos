@@ -92,7 +92,7 @@ abstract class Metric
             return $ranges->get($range);
         }
 
-        return [now()->subDays($range * 2), now()->subDays($range)];
+        return [now()->subDays((int) $range * 2), now()->subDays($range)];
     }
 
     /**

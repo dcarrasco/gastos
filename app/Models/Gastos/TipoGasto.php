@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gastos\TipoGasto
- * @property int $id
- * @property int $tipo_movimiento_id
- * @property string $tipoGasto
- * @property tipoMovimiento $tipoMovimiento
+ * @property int     $id
+ * @property string  $tipoGasto
+ * @property TipoMovimiento $tipoMovimiento
+ * @property int     $tipo_movimiento_id
  */
 class TipoGasto extends Model
 {

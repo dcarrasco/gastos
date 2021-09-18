@@ -71,7 +71,7 @@ abstract class Reporte
 
     public function promedioReporte(): int
     {
-        return $this->totalReporte() / $this->reporte->map->keys()->max()->max();
+        return (int) ($this->totalReporte() / $this->reporte->map->keys()->max()->max());
     }
 
     public function getReporte(): Collection

@@ -25,7 +25,7 @@ class OrmController extends Controller
     /**
      * Listado de modulos del controlador
      *
-     * @var array<string>
+     * @var array<class-string>
      */
     protected array $menuModulo = [];
 

@@ -36,7 +36,7 @@ class SaldoCtaCte extends Value
             ->where('mes', $gastos->min('mes'))
             ->first();
 
-        return (optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto');
+        return (int) ((optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto'));
     }
 
     protected function filter(Request $request, Builder $query): Builder
