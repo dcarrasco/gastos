@@ -28,7 +28,7 @@ class HasMany extends Relation
      * @param string $field       Campo
      * @param string $relatedOrm  Nombre del recurso relacionado
      */
-    public function __construct(string $name = '', string $field = '', string $relatedOrm = '')
+    public function __construct(string $name, string $field = '', string $relatedOrm = '')
     {
         $this->showOnList = false;
         parent::__construct($name, $field, $relatedOrm);
