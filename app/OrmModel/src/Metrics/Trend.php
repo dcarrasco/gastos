@@ -196,8 +196,8 @@ abstract class Trend extends Metric
     /**
      * Inicializa arreglo de fechas con valores en cero
      *
-     * @param  array<Carbon>  $dateInterval
-     * @param  string $unit
+     * @param  Carbon[]  $dateInterval
+     * @param  string    $unit
      * @return Collection
      */
     protected function initRangedData(array $dateInterval, string $unit): Collection
@@ -325,7 +325,7 @@ abstract class Trend extends Metric
      * Devuelve arreglo para actualizar metrica
      *
      * @param  Request $request
-     * @return array<string>
+     * @return string[]
      */
     public function contentAjaxRequest(Request $request): array
     {

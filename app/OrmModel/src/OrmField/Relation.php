@@ -13,7 +13,7 @@ class Relation extends Field
 {
     protected string $relatedResource = '';
 
-    /** @var array<string> */
+    /** @var string[] */
     protected array $relationConditions = [];
 
     /**
@@ -34,7 +34,7 @@ class Relation extends Field
     /**
      * Fija las condiciones de la relacion
      *
-     * @param  array<string> $relationConditions
+     * @param  string[] $relationConditions
      * @return self
      */
     public function relationConditions(array $relationConditions = []): self
@@ -73,7 +73,7 @@ class Relation extends Field
      *
      * @param  Request   $request
      * @param  Resource  $resource
-     * @param  array<string> $conditions
+     * @param  string[]  $conditions
      * @return Collection
      */
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
@@ -87,7 +87,7 @@ class Relation extends Field
      *
      * @param  Request   $request
      * @param  Resource  $resource
-     * @param  array<string> $conditions
+     * @param  string[]  $conditions
      * @return Collection
      */
     protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
@@ -103,8 +103,8 @@ class Relation extends Field
      * Devuelve arreglo con las condiciones de la relacion
      *
      * @param  Resource $resource
-     * @param  array<string> $conditions
-     * @return array<string>
+     * @param  string[] $conditions
+     * @return string[]
      */
     protected function getRelationFilter(Resource $resource, array $conditions = []): array
     {

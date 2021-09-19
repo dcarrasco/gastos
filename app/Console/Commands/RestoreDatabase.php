@@ -43,7 +43,7 @@ class RestoreDatabase extends Command
         }
     }
 
-    /** @return array<string> */
+    /** @return string[] */
     protected function getBackupFiles(): array
     {
         return collect(scandir(storage_path($this->backupPath)))

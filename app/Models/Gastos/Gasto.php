@@ -36,7 +36,7 @@ class Gasto extends Model
         'monto', 'tipo_movimiento_id', 'usuario_id',
     ];
 
-    /** @var array<string> */
+    /** @var string[] */
     protected $casts = [
         'fecha' => 'datetime'
     ];
@@ -164,7 +164,7 @@ class Gasto extends Model
             ->get();
     }
 
-    /** @param array<mixed> $inversion */
+    /** @param mixed[] $inversion */
     public static function createInversion(array $inversion): Gasto
     {
         return static::create(array_merge($inversion, [
@@ -174,7 +174,7 @@ class Gasto extends Model
         ]));
     }
 
-    /** @param array<mixed> $gasto */
+    /** @param mixed[] $gasto */
     public static function createGasto(array $gasto): Gasto
     {
         return static::create(array_merge($gasto, [

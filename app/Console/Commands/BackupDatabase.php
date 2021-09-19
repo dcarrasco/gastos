@@ -27,7 +27,7 @@ class BackupDatabase extends Command
 
     protected string $backupPath = 'database_backup';
 
-    /** @var array<string> */
+    /** @var string[] */
     protected array $ignoreTables = [
         'gastos.acl_app',
         'gastos.acl_modulo',

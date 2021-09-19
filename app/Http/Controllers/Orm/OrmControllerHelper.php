@@ -110,7 +110,7 @@ trait OrmControllerHelper
      * Recupera las cards de todos los modelos del controlador Orm
      *
      * @param  Request $request
-     * @return array<Metric>
+     * @return Metric[]
      */
     protected function cards(Request $request): array
     {

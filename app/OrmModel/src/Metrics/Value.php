@@ -18,7 +18,7 @@ abstract class Value extends Metric
      * Devuelve el valor computado de la metrica
      *
      * @param Request $request
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function calculate(Request $request): array
     {
@@ -32,7 +32,7 @@ abstract class Value extends Metric
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function sum(Request $request, string $resource, string $column, string $timeColumn = ''): array
     {
@@ -46,7 +46,7 @@ abstract class Value extends Metric
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function min(Request $request, string $resource, string $column, string $timeColumn = ''): array
     {
@@ -60,7 +60,7 @@ abstract class Value extends Metric
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function max(Request $request, string $resource, string $column, $timeColumn = ''): array
     {
@@ -74,7 +74,7 @@ abstract class Value extends Metric
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function average(Request $request, string $resource, string $column, $timeColumn = ''): array
     {
@@ -87,7 +87,7 @@ abstract class Value extends Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function count(Request $request, string $resource, string $timeColumn = ''): array
     {
@@ -102,7 +102,7 @@ abstract class Value extends Metric
      * @param  string  $sumColumn
      * @param  string  $timeColumn
      * @param  string  $function
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function aggregate(
         Request $request,
@@ -143,8 +143,8 @@ abstract class Value extends Metric
     /**
      * Genera arreglo con formato de datos de valor
      *
-     * @param  array<mixed>  $data
-     * @return array<mixed>
+     * @param  mixed[]  $data
+     * @return mixed[]
      */
     protected function formattedData(array $data): array
     {
@@ -212,7 +212,7 @@ abstract class Value extends Metric
      * Devuelve arreglo para actualizar metrica
      *
      * @param  Request $request
-     * @return array<string>
+     * @return string[]
      */
     public function contentAjaxRequest(Request $request): array
     {

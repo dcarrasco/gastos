@@ -21,7 +21,7 @@ class IngresoMasivo extends Controller
     /** @var Collection */
     protected $cuentas;
 
-    /** @var array<string>|Collection<GastosParser> */
+    /** @var string[]|Collection<GastosParser> */
     protected $parsers = [
         VisaExcelParser::class,
         VisaPdfParser::class,

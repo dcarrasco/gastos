@@ -6,7 +6,7 @@ use App\OrmModel\src\Resource;
 
 trait UsesValidation
 {
-    /** @var array<string> */
+    /** @var string[] */
     protected array $rules = [];
 
     /**
@@ -25,7 +25,7 @@ trait UsesValidation
      * Devuelve validación del campo
      *
      * @param  Resource $resource
-     * @return array<string>
+     * @return string[]
      */
     public function getValidation(Resource $resource): array
     {

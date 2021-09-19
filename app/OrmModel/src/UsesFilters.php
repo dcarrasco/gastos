@@ -11,7 +11,7 @@ trait UsesFilters
      * Filtros del recurso
      *
      * @param  Request $request
-     * @return array<Filter>
+     * @return Filter[]
      */
     public function filters(Request $request): array
     {

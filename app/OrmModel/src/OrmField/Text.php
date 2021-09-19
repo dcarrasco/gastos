@@ -17,7 +17,7 @@ class Text extends Field
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array<string> $extraParam
+     * @param  string[] $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

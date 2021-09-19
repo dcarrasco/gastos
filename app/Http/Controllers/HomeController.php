@@ -32,7 +32,7 @@ class HomeController extends Controller
      * Devuelve metricas a ser desplegadas
      *
      * @param Request $request
-     * @return array<Metric>
+     * @return Metric[]
      */
     protected function cards(Request $request): array
     {

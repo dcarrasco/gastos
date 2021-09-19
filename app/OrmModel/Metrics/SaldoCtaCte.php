@@ -21,8 +21,8 @@ class SaldoCtaCte extends Value
     /**
      * Calcula saldo de la cuenta corriente para un perido de tiempo
      *
-     * @param Request      $request
-     * @param array<mixed> $range
+     * @param Request   $request
+     * @param mixed[]   $range
      * @return integer
      */
     protected function calculateSaldo(Request $request, array $range): int

@@ -19,7 +19,7 @@ trait DisplayAsCard
     /**
      * Clases para fijar anchos
      *
-     * @var array<string>
+     * @var string[]
      */
     protected array $bootstrapWidths = [
         '1/2' => 'col-span-6',

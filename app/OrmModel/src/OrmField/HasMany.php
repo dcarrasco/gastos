@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 /** @method self relationConditions(array $relationConditions = []) */
 class HasMany extends Relation
 {
-    /** @var array<mixed> */
+    /** @var mixed[] */
     protected array $relationFields = [];
 
     protected bool $hasRelationFields = false;
@@ -59,7 +59,7 @@ class HasMany extends Relation
     /**
      * Genera un elemento Field para almacenar el atributo de la relacion
      * @param  string $nombre
-     * @param  array<mixed>  $relacion
+     * @param  mixed[]  $relacion
      * @param  Model  $model
      * @return Field
      */
@@ -204,7 +204,7 @@ class HasMany extends Relation
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array<string>  $extraParam
+     * @param  string[] $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -229,7 +229,7 @@ class HasMany extends Relation
      *
      * @param  Request  $request
      * @param  Resource $resource
-     * @param  array<string> $extraParam
+     * @param  string[] $extraParam
      * @return HtmlString
      */
     public function getAttributesForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -249,7 +249,7 @@ class HasMany extends Relation
      * Genera select para agregar nuevos elementos a la relacion HasMany cuando tiene atributos
      *
      * @param  Collection $availableResources
-     * @param  array<string> $extraParam
+     * @param  string[] $extraParam
      * @return string
      */
     protected function availableResourcesForm(Collection $availableResources, array $extraParam = []): string
@@ -314,7 +314,7 @@ class HasMany extends Relation
     /**
      * Recupera las caracteristicas de la relacion cuando tiene atributos
      *
-     * @return array<string>
+     * @return string[]
      */
     public function getRelationFields(): array
     {

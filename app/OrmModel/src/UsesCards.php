@@ -12,7 +12,7 @@ trait UsesCards
      * Cards del recurso
      *
      * @param  Request $request
-     * @return array<Metric>
+     * @return Metric[]
      */
     public function cards(Request $request): array
     {

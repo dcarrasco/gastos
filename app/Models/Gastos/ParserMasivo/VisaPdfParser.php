@@ -14,7 +14,7 @@ class VisaPdfParser extends GastosParser
 
     protected string $separadorCampos = ' ';
 
-    /** @var array<array> */
+    /** @var array[] */
     protected array $campos = [
         'fecha' => [2, 2],
         'serie' => [3, 4],
@@ -62,8 +62,8 @@ class VisaPdfParser extends GastosParser
      * Devuelve rango para recuperar campo
      *
      * @param Collection $linea
-     * @param array<int> $limites
-     * @return array<int>
+     * @param int[] $limites
+     * @return int[]
      */
     protected function getRangeCamposLinea(Collection $linea, array $limites): array
     {

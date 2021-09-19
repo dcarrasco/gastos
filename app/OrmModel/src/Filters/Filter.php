@@ -32,7 +32,7 @@ abstract class Filter
     /**
      * Opciones a mostrar para el filtro
      *
-     * @return array<mixed>
+     * @return mixed[]
      */
     public function options(): array
     {

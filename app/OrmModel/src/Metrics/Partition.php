@@ -125,7 +125,7 @@ abstract class Partition extends Metric
      * Devuelve arreglo para actualizar metrica
      *
      * @param  Request $request
-     * @return array<string>
+     * @return string[]
      */
     public function contentAjaxRequest(Request $request): array
     {

@@ -20,7 +20,7 @@ class DeleteGastoRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string>
+     * @return string[]
      */
     public function rules()
     {
