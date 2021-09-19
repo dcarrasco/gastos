@@ -78,7 +78,7 @@ trait UsesDatabase
      */
     public function resourceSetPerPage(Request $request): Resource
     {
-        $this->modelInstance->setPerPage($request->input('PerPage') ?: $this->perPage);
+        $this->modelInstance->setPerPage($request->input('PerPage') ?? $this->perPage);
 
         return $this;
     }

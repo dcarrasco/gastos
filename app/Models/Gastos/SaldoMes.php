@@ -37,7 +37,7 @@ class SaldoMes extends Model
             'cuenta_id' => $cuentaId,
             'anno' => $fechaAnterior->year,
             'mes' => $fechaAnterior->month,
-        ])->saldo_final ?: 0;
+        ])->saldo_final ?? 0;
     }
 
     public static function recalculaSaldoMes(int $cuentaId, int $anno, int $mes): bool

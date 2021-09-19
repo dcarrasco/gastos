@@ -51,7 +51,7 @@ abstract class Resource
             throw new \Exception('Modelo no definido en recurso OrmModel!');
         }
 
-        $this->modelInstance = $modelInstance ?: $this->makeModelInstance();
+        $this->modelInstance = $modelInstance ?? $this->makeModelInstance();
         $this->modelQueryBuilder = $this->modelInstance->newQuery();
     }
 
