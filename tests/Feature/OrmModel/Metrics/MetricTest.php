@@ -33,6 +33,11 @@ class MetricTest extends TestCase
         };
     }
 
+    public function testMake()
+    {
+        $this->assertStringContainsString('MetricTest.php:', class_basename($this->metric->make()));
+    }
+
     public function testCurrentRange()
     {
         $request = $this->createMock(Request::class);

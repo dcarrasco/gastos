@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\MessageBag;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Database\Eloquent\Model;
@@ -153,6 +154,18 @@ class FieldTest extends TestCase
         $this->assertEquals('', $this->field->value());
     }
 
+    public function testSetPlaceholder()
+    {
+        $request = $this->createMock(Request::class);
+        $resource = $this->createMock(Resource::class);
+
+        $this->assertStringContainsString(
+            'placeholder="newPlaceholder"',
+            $this->field->placeholder('newPlaceholder')->getForm($request, $resource)
+        );
+    }
+
+
     public function testEagerLoadsRelation()
     {
         $this->assertFalse($this->field->eagerLoadsRelation());
@@ -243,4 +256,25 @@ class FieldTest extends TestCase
             $this->field->rules('required', 'unique', 'max:10')->getValidation($resource)
         );
     }
+
+    public function testHasErrors()
+    {
+        $errors_true = collect(['nombre_campo' => 'Error campo1']);
+        $errors_false = collect(['otro_nombre_campo' => 'Error campo1']);
+        $resource = $this->createMock(Resource::class);
+
+        $this->assertTrue($this->field->hasErrors($errors_true, $resource));
+        $this->assertFalse($this->field->hasErrors($errors_false, $resource));
+    }
+
+    public function testGetErrors()
+    {
+        $resource = $this->createMock(Resource::class);
+
+        $errors = $this->createMock(MessageBag::class);
+        $errors->expects($this->any())->method('first')->willReturn('Error campo 1');
+
+        $this->assertEquals('Error campo 1', $this->field->getErrors($errors, $resource));
+    }
+
 }

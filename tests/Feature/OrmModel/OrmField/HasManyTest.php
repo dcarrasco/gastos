@@ -4,6 +4,7 @@ namespace Tests\Feature\OrmModel\OrmField;
 
 use Tests\TestCase;
 use App\Models\Acl\Rol;
+use App\Models\Acl\Modulo;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\ViewErrorBag;
@@ -45,16 +46,21 @@ class HasManyTest extends TestCase
     public function testGetFormattedValueWithAttributes()
     {
         $request = $this->createMock(Request::class);
-        $roles = Rol::factory(5)->create();
-        $user = Usuario::factory()->create();
-        $user->rol()->sync($roles);
+        $modulos = Modulo::factory(5)->create();
+        $rol = Rol::factory()->create();
+        $rol->modulo()->sync($modulos);
 
-        $this->field->relationField(
+        $field = new class ('nombreCampo', 'modulo', \App\OrmModel\Acl\Modulo::class) extends HasMany {
+        };
+        $field->relationField(
             'abilities',
             '{"booleanOptions":["view", "view-any", "create", "update", "delete"]}'
         );
 
-        $this->assertStringContainsString('<table', $this->field->resolveValue($user, $request)->getFormattedValue());
+        $rol->modulo[0]->pivot->abilities = collect(['view-any']);
+
+        $this->assertStringContainsString('<table', $field->resolveValue($rol, $request)->getFormattedValue());
+        $this->assertStringContainsString('checked', $field->getFormattedValue());
     }
 
     public function testGetFormattedValueEmpty()

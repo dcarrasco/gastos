@@ -19,9 +19,9 @@ class Gravatar extends Field
      * @param string $name  Nombre o label de la clase
      * @param string $field Campo
      */
-    public function __construct($name = '', $field = null)
+    public function __construct($name = '', $field = '')
     {
-        $field = $field ?? 'email';
+        $field = empty($field) ? 'email' : $field;
         parent::__construct($name, $field);
 
         $this->name = 'Avatar';

@@ -97,9 +97,7 @@ class BooleanOptions extends Field
 
     protected function getFormattedOptionValue(string $option, bool $edit = false): string
     {
-        $selected = $this->hasOption($option)
-            ? 'checked'
-            : '';
+        $selected = $this->hasOption($option) ? 'checked' : '';
 
         $editable = $edit ? '' : 'disabled';
 

@@ -446,4 +446,19 @@ class ResourceTest extends TestCase
     {
         $this->assertFalse($this->resource->paginationLinksDetail());
     }
+
+    public function testGetRouteControllerId()
+    {
+        [$resourceName, $resourceId] = $this->resource->getRouteControllerId();
+
+        $this->assertTrue(str_starts_with($resourceName, 'ResourceTest.php:'));
+        $this->assertEquals(1, $resourceId);
+    }
+
+    public function testDeleteMessage()
+    {
+        $this->assertStringContainsString('ResourceLabel', $this->resource->deleteMessage());
+        $this->assertStringContainsString($this->model->nombre, $this->resource->deleteMessage());
+    }
+
 }
