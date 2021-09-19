@@ -33,19 +33,17 @@ abstract class Resource
     /** @var array<string> */
     public $search = ['id'];
 
-    /** @var Model */
-    protected $modelInstance = null;
+    protected Model $modelInstance;
 
     protected int $perPage = 25;
 
-    /** @var Collection */
-    protected $fields;
+    protected Collection $fields;
 
 
     /**
      * Constructor del recurso
      *
-     * @param Model $modelInstance
+     * @param Model|null $modelInstance
      */
     final public function __construct(Model $modelInstance = null)
     {
@@ -146,10 +144,7 @@ abstract class Resource
      */
     protected function resolveFieldValues(Model $model, Request $request): Resource
     {
-        /** @var Collection<Field> */
-        $fields = collect($this->fields($request));
-
-        $this->fields = $fields
+        $this->fields = collect($this->fields($request))
             ->map->resolveValue($this->modelInstance, $request);
 
         return $this;

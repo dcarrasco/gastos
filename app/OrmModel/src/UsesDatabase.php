@@ -11,13 +11,13 @@ trait UsesDatabase
     /** @var string|array<string> */
     public $orderBy = [];
 
-    /** @var Builder */
-    protected $modelQueryBuilder;
+    protected Builder $modelQueryBuilder;
 
     protected string $sortByKey = 'sort-by';
     protected string $sortDirectionKey = 'sort-direction';
 
     protected string $searchKey = 'search';
+
 
     /**
      * Devuelve nombre del parametro url
