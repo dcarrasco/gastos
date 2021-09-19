@@ -276,5 +276,4 @@ class FieldTest extends TestCase
 
         $this->assertEquals('Error campo 1', $this->field->getErrors($errors, $resource));
     }
-
 }

@@ -460,5 +460,4 @@ class ResourceTest extends TestCase
         $this->assertStringContainsString('ResourceLabel', $this->resource->deleteMessage());
         $this->assertStringContainsString($this->model->nombre, $this->resource->deleteMessage());
     }
-
 }
