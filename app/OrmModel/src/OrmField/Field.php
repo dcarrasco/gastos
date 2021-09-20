@@ -301,7 +301,7 @@ abstract class Field
      */
     public function formItem(): HtmlString
     {
-        return $this->formItem ?: new HtmlString();
+        return $this->formItem ?? new HtmlString();
     }
 
     /**
