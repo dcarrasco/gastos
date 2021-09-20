@@ -1,6 +1,6 @@
 parameters:
-    level: 5
-    checkMissingIterableValueType: false
+    level: 7
+    #checkMissingIterableValueType: false
     paths:
         - app
     ignoreErrors:
@@ -8,4 +8,4 @@ parameters:
 
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
-
+    - phpstan-baseline.neon
