@@ -119,7 +119,7 @@ abstract class UserACL extends Model implements
             return collect([]);
         }
 
-        return collect(json_decode($modulo->pivot->abilities) ?? []);
+        return collect(json_decode($modulo->pivot->abilities) ?: []);
     }
 
     public function hasAbility(string $ability): bool

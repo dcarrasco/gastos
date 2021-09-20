@@ -5,7 +5,7 @@
         <x-button color="light" @click="openFilter=true" id="button-filters" class="flex border items-center">
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
-            {{ $resource->countAppliedFilters(request()) ?? '' }}
+            {{ $resource->countAppliedFilters(request()) ?: '' }}
         </x-button>
 
          <div

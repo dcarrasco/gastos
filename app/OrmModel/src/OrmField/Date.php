@@ -19,7 +19,7 @@ class Date extends Field
      */
     public function getFormattedValue(): HtmlString
     {
-        return new HtmlString(optional($this->value)->format($this->outputDateFormat) ?? '');
+        return new HtmlString(optional($this->value)->format($this->outputDateFormat) ?: '');
     }
 
     /**
