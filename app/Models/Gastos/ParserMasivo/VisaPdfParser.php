@@ -17,8 +17,12 @@ class VisaPdfParser extends GastosParser
     /** @var array[] */
     protected array $campos = [
         'fecha' => [2, 2],
-        'serie' => [3, 4],
-        'descripcion' => [5, -5],
+
+        // 'serie' => [3, 4],
+        // 'descripcion' => [5, -5],
+        'serie' => [3, 3],
+        'descripcion' => [4, -8],
+
         'monto' => [-1, -1],
     ];
 
