@@ -16,14 +16,18 @@ class VisaPdfParser extends GastosParser
 
     /** @var array[] */
     protected array $campos = [
-        'fecha' => [2, 2],
-
-        // 'serie' => [3, 4],
-        // 'descripcion' => [5, -5],
-        'serie' => [3, 3],
-        'descripcion' => [4, -8],
-
-        'monto' => [-1, -1],
+        'sin_signo' => [
+            'fecha' => [2, 2],
+            'serie' => [3, 3],
+            'descripcion' => [4, -8],
+            'monto' => [-1, -1],
+        ],
+        'con_signo' => [
+            'fecha' => [2, 2],
+            'serie' => [3, 4],
+            'descripcion' => [5, -5],
+            'monto' => [-1, -1],
+        ],
     ];
 
     protected function filtrarLineasValidas(Request $request): VisaPdfParser
@@ -58,7 +62,9 @@ class VisaPdfParser extends GastosParser
 
     protected function getCampo(string $campo, Collection $linea): string
     {
-        return $linea->only($this->getRangeCamposLinea($linea, $this->campos[$campo]))
+        $tipoLinea = str_contains($linea->last(), '$') ? 'con_signo' : 'sin_signo';
+
+        return $linea->only($this->getRangeCamposLinea($linea, $this->campos[$tipoLinea][$campo]))
             ->implode(' ');
     }
 
