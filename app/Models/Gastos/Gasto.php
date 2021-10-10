@@ -186,7 +186,7 @@ class Gasto extends Model
     public static function getDataReporteGastosTotales(int $anno): Collection
     {
         return Gasto::whereAnno($anno)
-            ->whereIn('cuenta_id', [1,2])
+            ->whereIn('cuenta_id', [1, 2])
             ->where('tipo_gasto_id', '<>', 3)
             ->whereTipoMovimientoId(1)
             ->with('tipoGasto')
