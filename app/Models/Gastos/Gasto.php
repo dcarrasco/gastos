@@ -201,6 +201,6 @@ class Gasto extends Model
             'gasto' => optional($this->fecha)->format('d-m-Y')
                 . ' ' . $this->glosa
                 . " " . fmtMonto($this->monto)
-            ]);
+        ]);
     }
 }

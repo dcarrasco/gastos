@@ -33,10 +33,13 @@ abstract class Resource
     /** @var string[] */
     public $search = ['id'];
 
+    /** @var Model */
     protected Model $modelInstance;
 
+    /** @var int */
     protected int $perPage = 25;
 
+    /** @var Collection */
     protected Collection $fields;
 
 
@@ -272,6 +275,6 @@ abstract class Resource
      */
     public function deleteMessage(): string
     {
-        return trans('orm.delete_confirm', ['model' => $this->getLabel(), 'item' => $this->title() ]);
+        return trans('orm.delete_confirm', ['model' => $this->getLabel(), 'item' => $this->title()]);
     }
 }

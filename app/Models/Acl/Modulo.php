@@ -29,4 +29,10 @@ class Modulo extends Model
     {
         return $this->belongsTo(App::class);
     }
+
+    public function getUrlAttribute($value): string
+    {
+        return route($value);
+    }
+
 }

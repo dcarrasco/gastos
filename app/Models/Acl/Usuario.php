@@ -2,7 +2,6 @@
 
 namespace App\Models\Acl;
 
-use App\Models\Acl\Rol;
 use App\Models\Acl\UserACL;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

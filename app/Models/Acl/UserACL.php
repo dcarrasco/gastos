@@ -74,12 +74,12 @@ abstract class UserACL extends Model implements
 
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
-        $currentRoute = config(
+        $currentUrl = route(config(
             'invfija.' . str_replace('.', '_', $request->route()->getName()),
             $request->route()->getName()
-        );
+        ));
 
-        return $menuApp->map(fn($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentRoute));
+        return $menuApp->map(fn($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentUrl));
     }
 
     public function moduloAppName(Request $request): HtmlString
@@ -110,7 +110,7 @@ abstract class UserACL extends Model implements
     {
         return $this->rol
             ->flatMap->modulo
-            ->first(fn($modulo) => Str::contains($url, route($modulo->url)));
+            ->first(fn($modulo) => Str::contains($url, $modulo->url));
     }
 
     protected function getAclAbilities(): Collection
