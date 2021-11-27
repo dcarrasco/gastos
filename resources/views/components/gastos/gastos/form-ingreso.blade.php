@@ -1,6 +1,6 @@
 @props(['selectCuentas', 'selectTiposGastos'])
 
-<tr class="hover:bg-blue-100">
+<tr class="hover:{{ themeColor('tr_hover') }}">
     <form method="POST">
         @csrf
         <input type="hidden" name="cuenta_id" value="{{ request('cuenta_id', $selectCuentas->keys()->first()) }}">

@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between border-t px-3 py-3 text-gray-500 bg-blue-100 rounded-b-lg">
+<div class="flex items-center justify-between border-t px-3 py-3 text-gray-500 rounded-b-lg {{ themeColor('tr_hover') }}">
     <div class="font-bold">
         @if($resource->getPaginator()->onFirstPage())
             <span class="cursor-not-allowed">Anterior</span>

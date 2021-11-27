@@ -1,6 +1,6 @@
 @props(['movimiento'])
 
-<tr class="hover:bg-blue-100">
+<tr class="hover:{{ themeColor('tr_hover') }}">
     <td class="py-2 text-center">{{ optional($movimiento->fecha)->format('d-m-Y') }}</td>
     <td>{{ $movimiento->glosa }}</td>
     <td>{{ $movimiento->serie }}</td>

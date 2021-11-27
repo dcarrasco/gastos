@@ -4,7 +4,9 @@
     'link' => '#',
     'class' => '',
     'colorClass' => [
-        'primary' => 'bg-blue-500 hover:bg-blue-600 text-white',
+        'primary' => themeColor('button_primary')
+            .' hover:' . themeColor('button_primary_hover')
+            . ' text-white',
         'secondary' => 'bg-gray-300 hover:bg-gray-400 text-gray-700',
         'green' => 'bg-green-500 hover:bg-green-600 text-white',
         'light' => 'bg-gray-100 hover:bg-gray-200 text-gray-700',

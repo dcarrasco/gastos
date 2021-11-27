@@ -1,6 +1,6 @@
 @props(['inversion', 'saldo'])
 
-<tr class="hover:bg-blue-100">
+<tr class="hover:{{ themeColor('tr_hover') }}">
     <td class="text-center py-2">{{ $inversion->anno }}</td>
     <td class="text-center">{{ $inversion->mes }}</td>
     <td class="text-center">{{ optional($inversion->fecha)->format('d-m-Y') }}</td>

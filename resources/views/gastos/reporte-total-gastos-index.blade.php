@@ -18,7 +18,7 @@
 
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($reporte->titulosFilas() as $idTipoGasto => $tipoGasto)
-                        <tr class="hover:bg-blue-100">
+                        <tr class="hover:{{ themeColor('tr_hover') }}">
                             <th class="text-left py-2">{{ $tipoGasto }}</th>
 
                             @foreach ($reporte->titulosColumnas() as $numMes => $mes)

@@ -17,7 +17,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
             @endif
 
-            <tr class="hover:bg-blue-100">
+            <tr class="hover:{{ themeColor('tr_hover') }}">
                 <td class="py-2">{{ $mov->anno }}</td>
                 <td>{{ $mov->mes }}</td>
                 <td>{{ optional($mov->fecha)->format('d-m-Y') }}</td>

@@ -1,4 +1,4 @@
-<div class="flex justify-between border-t rounded-b-lg bg-blue-100">
+<div class="flex justify-between border-t rounded-b-lg {{ themeColor('tr_hover') }}">
     <div class="">
         {{ $resource->getPaginator()->appends(request()->all())->links() }}
     </div>

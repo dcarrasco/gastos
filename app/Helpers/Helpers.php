@@ -48,3 +48,18 @@ if (!function_exists('fmtMonto')) {
         return new HtmlString($currencySymbol . '&nbsp;' . fmtCantidad($monto, 0));
     }
 }
+
+// --------------------------------------------------------------------
+
+if (! function_exists('themeColor')) {
+    /**
+     * Devuelve el color del elemento
+     *
+     * @param string $elemento
+     * @return string
+     */
+    function themeColor(string $elemento): string
+    {
+        return config('invfija.colors.' . config('invfija.theme') . '.' . $elemento) ?: '';
+    }
+}
