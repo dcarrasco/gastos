@@ -80,7 +80,12 @@ class BelongsTo extends Relation
         $elemDest = strtolower($this->onChange);
         $url = route("{$routeName}.ajaxOnChange", ['modelName' => $resourceDest]);
 
-        return new HtmlString("$('#{$elemDest}').html('');"
-            . "$.get('{$url}?{$field}='+$('#{$field}').val(), function (data) { $('#{$elemDest}').html(data); });");
+        return new HtmlString(
+            "document.getElementById('{$elemDest}').innerHTML = '';"
+            ."fetch('{$url}?{$field}=' + document.getElementById('{$field}').value)"
+            .".then(response => response.text())"
+            .".then(data => document.getElementById('{$elemDest}').innerHTML = data)"
+            .".catch(error => console.log(error));"
+        );
     }
 }
