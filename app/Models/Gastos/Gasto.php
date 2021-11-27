@@ -14,13 +14,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gasto
+ * @property int $id
+ * @property int $cuenta_id
  * @property int $anno
  * @property int $mes
+ * @property Carbon|null $fecha
  * @property string $glosa
  * @property string $serie
- * @property int $monto
- * @property Carbon|null $fecha
+ * @property int $tipo_gasto_id
+ * @property int $tipo_movimiento_id
  * @property TipoMovimiento $tipoMovimiento
+ * @property int $monto
+ * @property int $usuario_id
  * @property int $saldo_inicial
  * @property int $saldo_final
  * @property int $valor_monto

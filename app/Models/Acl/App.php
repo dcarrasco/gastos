@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Acl\App
+ * @property int $id
  * @property string $app
  * @property string $descripcion
  * @property string $url

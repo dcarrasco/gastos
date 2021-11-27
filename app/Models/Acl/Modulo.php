@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Acl\Modulo
+ * @property int $id
+ * @property int $app_id
  * @property string $modulo
  * @property string $descripcion
  * @property string $llaveModulo

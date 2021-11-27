@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * App\Models\Acl\Rol
+ * @property int $id
+ * @property int $app_id
+ * @property string $rol
+ * @property string $descripcion
+ */
 class Rol extends Model
 {
     use HasFactory;

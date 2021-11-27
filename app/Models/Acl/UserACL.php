@@ -18,7 +18,9 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 /**
  * App\Model\UserACL
+ * @property int $id
  * @property string $nombre
+ * @property int $activo
  * @property string $username
  * @property string $password
  * @property string $email
