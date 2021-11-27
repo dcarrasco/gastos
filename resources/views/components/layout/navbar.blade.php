@@ -11,7 +11,7 @@
         </div>
 
         <div class="">
-            <a class="flex items-center" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            <a class="flex items-center hover:text-blue-500 border border-white hover:border-gray-300 hover:bg-gray-200 rounded-lg px-4 py-1" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 <span class="fa fa-power-off fa-fw"></span>
                 <div class="px-2">
                     Logout {{ auth()->user()->getFirstName() }}
