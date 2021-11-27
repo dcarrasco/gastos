@@ -10,17 +10,40 @@
             {{ auth()->user()->moduloAppName(request()) }}
         </div>
 
-        <div class="">
-            <a class="flex items-center hover:text-blue-500 border border-white hover:border-gray-300 hover:bg-gray-200 rounded-lg px-4 py-1" href="#" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                <span class="fa fa-power-off fa-fw"></span>
-                <div class="px-2">
-                    Logout {{ auth()->user()->getFirstName() }}
-                </div>
+        <div x-data="{ openMenu: false }">
+            <button
+                x-on:click="openMenu = !openMenu"
+                class="flex items-center rounded-md border border-white hover:bg-gray-100 hover:border-gray-400 px-2 py-1"
+            >
                 <img src="{{ auth()->user()->avatarLink() }}" class="block rounded-full border" />
-            </a>
-            <form method="POST" action=" {{ route('logout') }}" id="logout-form">
-                @csrf
-            </form>
+                <x-heroicon.chevron-down />
+            </button>
+
+            <ul
+                class="absolute right-0 mr-6 bg-white py-2 border rounded-lg shadow-lg"
+                style="display:none"
+                x-show="openMenu"
+                x-transition
+                @click.outside="openMenu = false"
+            >
+                <li class="px-4 py-1">
+                    Signed in as {{ auth()->user()->getfirstname() }}
+                </li>
+                <li class="px-4 py-1">
+                    <hr>
+                </li>
+                <li class="px-4 py-1 hover:bg-gray-100">
+                    <a class="flex items-center" href="#" @click.prevent="$refs.logoutform.submit()">
+                        <span class="fa fa-power-off fa-fw"></span>
+                        <div class="px-2">
+                            Logout
+                        </div>
+                    </a>
+                    <form method="POST" action=" {{ route('logout') }}" x-ref="logoutform">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </div>
     </div>
 </header>

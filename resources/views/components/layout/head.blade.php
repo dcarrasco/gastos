@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/tailwind.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" />
 
-    <script type="text/javascript" src="{{ asset('js/alpine.min.js') }}"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
 
     <script type="text/javascript">
