@@ -8,6 +8,7 @@ use App\Models\Acl\Rol;
 use App\Models\Acl\Modulo;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -20,7 +21,7 @@ class AclTest extends TestCase
      *
      * @return void
      */
-    public function testMenuApp()
+    public function __testMenuApp()
     {
         $usuario = Usuario::factory()->create();
         $app = App::factory()->create();
@@ -35,6 +36,11 @@ class AclTest extends TestCase
 
         $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('route')->willReturn($route);
+
+        $urlGenerator = $this->createMock(UrlGenerator::class);
+        $urlGenerator->expects($this->any())->method('route')->willReturn('aaa');
+        // dump($urlGenerator->route('ss'));
+        // dump(app('url'));
 
         $menuApp = $usuario->getMenuApp($request);
 
