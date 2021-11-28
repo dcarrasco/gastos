@@ -4,7 +4,7 @@
     <table class="w-full">
         @foreach ($resource->resourceList() as $resourceItem)
             @if ($loop->first)
-                <thead class="bg-gray-200 border-b-2">
+                <thead class="{{ themeColor('thead_bg') }} border-b-2">
                     <tr>
                         @foreach($resourceItem->getFields() as $field)
                             <th class="py-3 px-3 text-gray-600 text-xs uppercase font-bold {{ $field->alignOnList() }}">

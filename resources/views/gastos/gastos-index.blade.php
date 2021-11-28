@@ -5,7 +5,7 @@
     @can('view-any', 'App\Models\Gastos\Gasto')
         <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
             <table class="table-auto text-sm w-full">
-                <thead class="bg-gray-100 border-b border-gray-400 uppercase text-xs font-normal">
+                <thead class="{{ themeColor('thead_bg') }} border-b border-gray-400 uppercase text-xs font-normal">
                     <tr>
                         <th class="py-2">Fecha</th>
                         <th>Glosa</th>
@@ -29,7 +29,7 @@
                         <x-gastos.gastos.table-item :movimiento="$movimiento" />
                     @endforeach
 
-                    <tr class="hover:bg-blue-100">
+                    <tr class="hover:{{ themeColor('tr_hover')}}">
                         <td></td>
                         <td></td>
                         <td></td>

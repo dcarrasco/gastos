@@ -21,12 +21,14 @@ return [
             'button_primary_hover' => 'bg-blue-600',
             'menu_bg' => 'bg-gray-700',
             'tr_hover' => 'bg-blue-100',
+            'thead_bg' => 'bg-gray-300',
         ],
         'indigo' => [
             'button_primary' => 'bg-indigo-700',
             'button_primary_hover' => 'bg-indigo-800',
             'menu_bg' => 'bg-indigo-900',
             'tr_hover' => 'bg-indigo-100',
+            'thead_bg' => 'bg-gray-300',
         ],
     ],
 ];

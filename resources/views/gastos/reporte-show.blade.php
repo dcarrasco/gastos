@@ -3,7 +3,7 @@
     <table class="table-auto text-sm w-full">
         @foreach ($movimientosMes as $mov)
             @if ($loop->first)
-                <thead class="bg-gray-300 border-b-2 border-gray-400">
+                <thead class="{{ themeColor('thead_bg') }} border-b-2 border-gray-400">
                     <tr>
                         <th class="py-2">Año</th>
                         <th>Mes</th>

@@ -1,7 +1,7 @@
 @props(['datosMasivos', 'selectTiposGastos'])
 
 <table class="w-full table-auto text-sm">
-    <thead class="bg-gray-300 border-b-2 border-gray-400">
+    <thead class="{{ themeColor('thead_bg') }} border-b-2 border-gray-400">
         <tr>
             <th class="py-2">Fecha</th>
             <th>Glosa</th>
