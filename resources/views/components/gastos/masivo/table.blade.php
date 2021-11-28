@@ -42,7 +42,7 @@
         @endforeach
     </tbody>
 
-    <tfoot class="bg-gray-300 font-bold border-t-2 border-gray-400">
+    <tfoot class="{{ themeColor('thead_bg') }} font-bold border-t-2 border-gray-400">
         <tr>
             <td class="py-2">Total {{ $datosMasivos->count() }}</td>
             <td></td>

@@ -166,7 +166,7 @@ class HasMany extends Relation
      */
     protected function getAttributesTableHeader(bool $edit): string
     {
-        return '<tr class="border bg-gray-100 px-2">'
+        return '<tr class="border ' . themeColor("thead_bg") . ' px-2">'
             . "<th class=\"text-left px-2 py-1\">{$this->name}</th>"
             . collect($this->relationFields)
                 ->first()

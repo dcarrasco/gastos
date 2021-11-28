@@ -1,7 +1,7 @@
 @props(['inversion'])
 
 @if($inversion->saldoFinal())
-    <tr class="hover:bg-blue-100 border-t-2">
+    <tr class="hover:{{ themeColor('tr_hover') }} border-t-2">
         <td class="text-center py-2">{{ optional($inversion->saldoFinal())->anno }}</td>
         <td class="text-center">{{ optional($inversion->saldoFinal())->mes }}</td>
         <td class="text-center">{{ optional(optional($inversion->saldoFinal())->fecha)->format('d-m-Y') }}</td>
@@ -15,7 +15,8 @@
         <td></td>
         <td></td>
     </tr>
-    <tr class="bg-gray-300 font-bold border-t-2 border-gray-400">
+
+    <tr class="{{ themeColor('thead_bg') }} font-bold border-t-2 border-gray-400">
         <td></td>
         <td></td>
         <td></td>
