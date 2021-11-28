@@ -10,7 +10,8 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
 
             <div
-                x-show.transition.opacity.duration.300ms="openDeleteModal"
+                x-show="openDeleteModal"
+                x-transition
                 class="p-4 inline-block align-bottom bg-white rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
                 role="dialog"
                 aria-modal="true"
