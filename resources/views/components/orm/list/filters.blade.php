@@ -2,7 +2,7 @@
 
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
-        <x-button color="light" @click="openFilter=true" id="button-filters" class="flex border items-center">
+        <x-button color="light" x-on:click="openFilter=true" id="button-filters" class="flex border items-center">
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}
@@ -10,7 +10,7 @@
 
          <div
             x-show="openFilter"
-            @click.away="openFilter=false"
+            x-on:click.outside="openFilter=false"
             class="absolute right-0 bg-white border rounded-md shadow"
             aria-labelledby="button-filters"
             style="min-width: 20em; display: none;"

@@ -22,8 +22,8 @@
     <a
         class="inline-block hover:text-blue-500"
         href="#"
-        @click="openDeleteModal=true"
         x-on:click="
+            openDeleteModal=true;
             deleteMessage='{!! $resource->deleteMessage() !!}',
             urlDelete='{!! route("{$routeName}.destroy", $resource->getRouteControllerId()) !!}'"
     >

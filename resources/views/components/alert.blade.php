@@ -10,7 +10,7 @@
                 <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
                 <strong>ERROR</strong>
             </div>
-            <button type="button" class="font-bold" @click="open = false">
+            <button type="button" class="font-bold" x-on:click="open = false">
                 <span class="fa fa-close"></span>
             </button>
         </div>
