@@ -21,16 +21,19 @@
                     @if ($gasto->tipoGasto)
                         {{ optional($gasto->tipoGasto)->tipo_gasto }}
                     @else
-                        <x-form-input type="select" name="tipo_gasto_id" class="w-48" :options="$selectTiposGastos" placeholder="&mdash;" />
-                        <div
-                            class="inline-block cursor-pointer"
-                            x-on:click.prevent="
-                                $refs.glosa_tipo_gasto.value='{{ $gasto->glosa }}';
-                                $refs.form.action='{{ route('gastos.ingresoMasivoAddTipoGasto') }}';
-                                $refs.form.submit();
-                            "
-                        >
-                            <x-heroicon.add class="inline-block"/>
+                        <div class="flex flex-nowrap items-center">
+                            <x-form-input type="select" name="tipo_gasto_id" class="w-48" :options="$selectTiposGastos" placeholder="&mdash;" />
+                            &nbsp;
+                            <div
+                                class="inline-block cursor-pointer"
+                                x-on:click.prevent="
+                                    $refs.glosa_tipo_gasto.value='{{ $gasto->glosa }}';
+                                    $refs.form.action='{{ route('gastos.ingresoMasivoAddTipoGasto') }}';
+                                    $refs.form.submit();
+                                "
+                            >
+                                <x-heroicon.add class="inline-block"/>
+                            </div>
                         </div>
                     @endif
                 </td>
