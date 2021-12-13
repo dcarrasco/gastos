@@ -22,7 +22,13 @@
                         {{ optional($gasto->tipoGasto)->tipo_gasto }}
                     @else
                         <div class="flex flex-nowrap items-center">
-                            <x-form-input type="select" name="tipo_gasto_id" class="w-48" :options="$selectTiposGastos" placeholder="&mdash;" />
+                            <x-form-input
+                                type="select"
+                                name="tipo_gasto_id"
+                                class="w-48"
+                                :options="$selectTiposGastos"
+                                placeholder="&mdash;"
+                            />
                             &nbsp;
                             <div
                                 class="inline-block cursor-pointer"
