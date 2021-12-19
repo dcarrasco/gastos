@@ -7,7 +7,7 @@
             class="{{ themeColor('thead_bg') }} py-2 rounded-lg"
         >
             <table class="table-auto text-sm w-full">
-                <thead class="{{ themeColor('thead_bg') }} border-b-2 border-gray-400">
+                <thead class="{{ themeColor('thead_bg') }} border-b-2 border-gray-400 uppercase text-xs text-normal text-gray-600">
                     <tr>
                         <th class="py-2">Año</th>
                         <th>Mes</th>

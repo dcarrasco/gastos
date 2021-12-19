@@ -8,7 +8,7 @@
             class="py-2 rounded-lg {{ themeColor('thead_bg') }} border shadow-sm"
         >
             <table class="table-auto text-sm w-full">
-                <thead class="{{ themeColor('thead_bg') }} border-b border-gray-400 uppercase text-xs font-normal">
+                <thead class="{{ themeColor('thead_bg') }} border-b border-gray-400 uppercase text-xs text-gray-600 font-normal">
                     <tr>
                         <th class="py-2">Fecha</th>
                         <th>Glosa</th>
