@@ -1,3 +1,5 @@
+@props(['formCuenta', 'formParser'])
+
 <div class="flex justify-center items-center pb-6">
     <label class="mr-2">Cuenta</label>
     <x-form-input type="select" name="cuenta_id" :options="$formCuenta" />
@@ -12,9 +14,9 @@
     <x-form-input type="select" name="parser" :options="$formParser" />
 </div>
 
-<div class="grid grid-cols-10">
-    <div class="col-start-2">Datos</div>
-    <x-form-input type="textarea" name="datos" class="col-start-2 col-span-8" cols="50" rows="10" />
+<div class="mb-4">
+    Datos
+    <x-form-input type="textarea" name="datos" class="col-start-2 col-span-8 w-full" cols="50" rows="8" />
     <div class="col-start-2 col-span-8 flex justify-end py-4">
         <x-button type="submit">
             Procesar

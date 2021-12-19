@@ -1,3 +1,5 @@
+@props(['datosInversion'])
+
 <div id="chartInversion" class="col-md-10 offset-md-1 my-5 bg-white border rounded" style="height: 400px">
     <canvas id="canvas-chartInversion"></canvas>
 </div>

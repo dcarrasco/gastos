@@ -1,3 +1,5 @@
+@props(['cuentas', 'tiposMovimientos'])
+
 <form method="GET" class="flex justify-center items-center pb-6" x-data="{}" x-ref="form">
     <div class="px-4">Cuenta</div>
     <x-form-input type="select" name="cuenta_id" :options="$cuentas" x-on:change="$refs.form.submit()" />
