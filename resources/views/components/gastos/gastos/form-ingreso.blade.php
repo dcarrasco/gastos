@@ -21,11 +21,10 @@
         <td class="px-1 py-2 text-right">
             <x-form-input name="monto" class="w-24" />
         </td>
-        <td class="px-1 py-2 text-right">
+        <td class="px-2 py-2 text-right">
             <x-button type="submit" name="submit">
                 Ingresar
             </x-button>
         </td>
-        <td></td>
     </form>
 </tr>

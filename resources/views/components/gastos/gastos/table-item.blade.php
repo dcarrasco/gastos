@@ -9,10 +9,10 @@
         {{ fmtMonto($movimiento->monto) }}
         <x-signo-movimiento :signo="optional($movimiento->tipoMovimiento)->signo" />
     </td>
-    <td class="text-right">{{ fmtMonto($movimiento->saldo_final) }}</td>
-    <td>
+    <td class="text-right whitespace-no-wrap px-2">
+        {{ fmtMonto($movimiento->saldo_final) }}
         @can('delete', $movimiento)
-            <a class="inline-block hover:text-blue-500 align-text-top py-0 cursor-pointer"
+            <a class="inline-block hover:text-blue-500 align-text-top pl-1 py-0 cursor-pointer"
                 x-on:click="openDeleteModal = true;
                     deleteMessage = '{!! $movimiento->deleteMessage() !!}';
                     urlDelete = '{!! route('gastos.borrarGasto', [$movimiento->getKey()]) !!}'"

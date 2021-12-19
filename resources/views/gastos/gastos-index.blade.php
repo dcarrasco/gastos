@@ -11,9 +11,8 @@
                         <th>Glosa</th>
                         <th>Serie</th>
                         <th>Tipo Gasto</th>
-                        <th class="text-right">Monto</th>
-                        <th class="text-right">Saldo</th>
-                        <th></th>
+                        <th>Monto</th>
+                        <th>Saldo</th>
                     </tr>
                 </thead>
 
@@ -40,7 +39,9 @@
                     </tr>
                 </tbody>
             </table>
+
             <x-orm.list.modal-delete />
+
         </div>
     @endcan
 
