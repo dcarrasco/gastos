@@ -3,7 +3,10 @@
     <x-gastos.gastos.form-filter :selectCuentas="$selectCuentas" />
 
     @can('view-any', 'App\Models\Gastos\Gasto')
-        <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
+        <div
+            x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}"
+            class="py-2 rounded-lg {{ themeColor('thead_bg') }} border shadow-sm"
+        >
             <table class="table-auto text-sm w-full">
                 <thead class="{{ themeColor('thead_bg') }} border-b border-gray-400 uppercase text-xs font-normal">
                     <tr>
@@ -28,14 +31,13 @@
                         <x-gastos.gastos.table-item :movimiento="$movimiento" />
                     @endforeach
 
-                    <tr class="hover:{{ themeColor('tr_hover')}}">
+                    <tr class="{{ themeColor('thead_bg') }}">
                         <td></td>
                         <td></td>
                         <td></td>
                         <td class="py-2">Saldo Inicial</td>
                         <td></td>
-                        <td class="text-right">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</td>
-                        <td></td>
+                        <td class="text-right px-2">{{ fmtMonto(optional($movimientosMes->last())->saldo_inicial) }}</td>
                     </tr>
                 </tbody>
             </table>

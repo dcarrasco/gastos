@@ -2,7 +2,10 @@
     <x-gastos.inversion.form-filter :cuentas="$cuentas" />
 
     @can('view-any', 'App\Models\Gastos\Gasto')
-        <div x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}">
+        <div
+            x-data="{openDeleteModal: false, urlDelete: '', deleteMessage: ''}"
+            class="{{ themeColor('thead_bg') }} py-2 rounded-lg"
+        >
             <table class="table-auto text-sm w-full">
                 <thead class="{{ themeColor('thead_bg') }} border-b-2 border-gray-400">
                     <tr>
