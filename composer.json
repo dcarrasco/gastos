@@ -23,7 +23,7 @@
         "nunomaduro/collision": "^5.0",
         "phpunit/phpunit": "^9.3",
         "barryvdh/laravel-debugbar": "^3.2",
-        "nunomaduro/larastan": "^0.7.12"
+        "nunomaduro/larastan": "^1.0"
     },
     "config": {
         "optimize-autoloader": true,
