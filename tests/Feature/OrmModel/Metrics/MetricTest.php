@@ -33,72 +33,62 @@ class MetricTest extends TestCase
         };
     }
 
-    public function testMake()
+    public function testMakeMetric()
     {
         $this->assertStringContainsString('MetricTest.php:', class_basename($this->metric->make()));
     }
 
-    public function testCurrentRange()
-    {
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('MTD');
-        $this->assertIsArray($this->metric->getCurrentRange($request));
-        $this->assertEquals(now()->startOfMonth()->day, $this->metric->getCurrentRange($request)[0]->day);
-        $this->assertEquals(now()->startOfMonth()->month, $this->metric->getCurrentRange($request)[0]->month);
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('QTD');
-        $this->assertIsArray($this->metric->getCurrentRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('YTD');
-        $this->assertIsArray($this->metric->getCurrentRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('CURR_MONTH');
-        $this->assertIsArray($this->metric->getCurrentRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('LAST_MONTH');
-        $this->assertIsArray($this->metric->getCurrentRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn(10);
-        $this->assertIsArray($this->metric->getCurrentRange($request));
+    public function currentRangeDataProvider() {
+        return [
+            ['MTD', now()->startOfMonth(), now()],
+            ['QTD', now()->startOfQuarter(), now()],
+            ['YTD', now()->startOfYear(), now()],
+            ['CURR_MONTH', now()->startOfMonth(), now()->endOfMonth()],
+            ['LAST_MONTH', now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
+            [10, now()->subDays(10-1), now()],
+        ];
     }
 
-    public function testPreviousRange()
+    /**
+     * @dataProvider currentRangeDataProvider
+     */
+    public function testGetCurrentRange($currentRange, $startDate, $endDate)
     {
         $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('MTD');
-        $this->assertIsArray($this->metric->getPreviousRange($request));
-        $this->assertEquals(now()->startOfMonth()->day, $this->metric->getPreviousRange($request)[0]->day);
+        $request->expects($this->any())->method('input')->willReturn($currentRange);
+
         $this->assertEquals(
-            now()->subMonth()->startOfMonth()->month,
-            $this->metric->getPreviousRange($request)[0]->month
+            [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
+            [$this->metric->getCurrentRange($request)[0]->format('Y-m-d'), $this->metric->getCurrentRange($request)[1]->format('Y-m-d')]
         );
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('QTD');
-        $this->assertIsArray($this->metric->getPreviousRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('YTD');
-        $this->assertIsArray($this->metric->getPreviousRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('CURR_MONTH');
-        $this->assertIsArray($this->metric->getPreviousRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn('LAST_MONTH');
-        $this->assertIsArray($this->metric->getPreviousRange($request));
-
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn(10);
-        $this->assertIsArray($this->metric->getPreviousRange($request));
     }
-    public function testContent()
+
+    public function previousRangeDataProvider() {
+        return [
+            ['MTD', now()->subMonth()->startOfMonth(), now()->subMonth()],
+            ['QTD', now()->subMonth()->startOfQuarter(), now()->subQuarter()],
+            ['YTD', now()->subMonth()->startOfYear(), now()->subYear()],
+            ['CURR_MONTH', now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
+            ['LAST_MONTH', now()->subMonth()->subMonth()->startOfMonth(), now()->subMonth()->subMonth()->endOfMonth()],
+            [10, now()->subDays(20-1), now()->subDays(10)],
+        ];
+    }
+
+    /**
+     * @dataProvider previousRangeDataProvider
+     */
+    public function testGetPreviousRange($previousRange, $startDate, $endDate)
+    {
+        $request = $this->createMock(Request::class);
+        $request->expects($this->any())->method('input')->willReturn($previousRange);
+
+        $this->assertEquals(
+            [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
+            [$this->metric->getPreviousRange($request)[0]->format('Y-m-d'), $this->metric->getPreviousRange($request)[1]->format('Y-m-d')]
+        );
+    }
+
+    public function testMetricContent()
     {
         $request = $this->createMock(Request::class);
 
@@ -141,7 +131,7 @@ class MetricTest extends TestCase
     // -------------------------------------------------------------------------
     // trait DisplayAsCard
     // -------------------------------------------------------------------------
-    public function testAttributes()
+    public function testDisplayAsCardAttributes()
     {
         $this->assertObjectHasAttribute('width', $this->metric);
         $this->assertObjectHasAttribute('bootstrapWidths', $this->metric);
