@@ -22,16 +22,16 @@
                         @foreach ($reporte->titulosColumnas() as $numMes => $mes)
                             <td class="text-center">
                                 @if (! empty($reporte->getDato($idTipoGasto, $numMes, 0)))
-                                    {{ fmtMonto($reporte->getDato($idTipoGasto, $numMes)) }}
+                                    {{ $reporte->formattedDato($idTipoGasto, $numMes) }}
                                 @endif
                             </td>
                         @endforeach
 
                         <td class="text-center bg-gray-300 font-bold">
-                            {{ fmtMonto($reporte->totalFila($idTipoGasto)) }}
+                            {{ $reporte->formattedTotalFila($idTipoGasto) }}
                         </td>
                         <td class="text-center bg-gray-300 font-bold">
-                            {{ fmtMonto($reporte->totalFila($idTipoGasto)/$reporte->countFila($idTipoGasto)) }}
+                            {{ $reporte->formattedPromedioFila($idTipoGasto) }}
                         </td>
                     </tr>
                 @endforeach
@@ -43,15 +43,15 @@
 
                     @foreach($reporte->titulosColumnas() as $numMes => $mes)
                         <td class="text-center py-2">
-                            {{ fmtMonto($reporte->totalColumna($numMes)) }}
+                            {{ $reporte->formattedTotalColumna($numMes) }}
                         </td>
                     @endforeach
 
                     <td class="text-center">
-                        {{ fmtMonto($reporte->totalReporte()) }}
+                        {{ $reporte->formattedTotalReporte() }}
                     </td>
                     <td class="text-center">
-                        {{ fmtMonto($reporte->promedioReporte()) }}
+                        {{ $reporte->formattedPromedioReporte() }}
                     </td>
                 </tr>
             </tfoot>
