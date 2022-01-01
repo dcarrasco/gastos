@@ -40,6 +40,7 @@ class NavigationTest extends TestCase
     public function urlDataProvider()
     {
         return [
+            ['/home'],
             ['/gastos/ingresar'],
             ['/gastos/reporte'],
             ['/gastos/reporte-total-gastos'],
