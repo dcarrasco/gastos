@@ -28,10 +28,10 @@
         </td>
         <td></td>
         <td class="text-center">
-            {{ fmtCantidad($inversion->rentabilidad($inversion->saldoFinal()), 2) }}%
+            {{ $inversion->fmtRentabilidad($inversion->saldoFinal()) }}
         </td>
         <td class="text-center">
-            {{ fmtCantidad($inversion->rentabilidadAnual($inversion->saldoFinal()), 2) }}%
+            {{ $inversion->fmtRentabilidadAnual($inversion->saldoFinal()) }}
         </td>
     </tr>
 @endif
