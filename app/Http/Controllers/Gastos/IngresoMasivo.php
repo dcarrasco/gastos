@@ -35,12 +35,7 @@ class IngresoMasivo extends Controller
             ->pluck('cuenta', 'id');
 
         $this->parser = $this->getParsers()
-            ->first(fn($parser) =>
-                (string) $parser == $request->input(
-                    'parser',
-                    (string) $this->getParsers()
-                        ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()))
-                ));
+            ->first(fn($parser) => (string) $parser == $request->input('parser', (string) $this->getParsers()->first()));
     }
 
     /**

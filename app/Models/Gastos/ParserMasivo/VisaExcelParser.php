@@ -12,7 +12,6 @@ class VisaExcelParser extends GastosParser
 
     protected int $cuentaAsociada = 2;
 
-    /** @var non-empty-string */
     protected string $separadorCampos = "\t";
 
     protected function filtrarLineasValidas(Request $request): VisaExcelParser
