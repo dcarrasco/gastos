@@ -36,10 +36,6 @@ class OrmController extends Controller
             throw new \Exception("El parametro routeName no esta definido");
         }
 
-        $this->menuModulo = collect($this->menuModulo)
-            ->map(fn($resource) => new $resource())
-            ->all();
-
         $this->makeView($request);
     }
 

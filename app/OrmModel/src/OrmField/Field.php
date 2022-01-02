@@ -21,7 +21,7 @@ abstract class Field
     protected $value;
     protected string $formattedValue;
 
-    /** @var HtmlString */
+    /** @var null|HtmlString */
     protected $formItem;
 
     protected bool $showOnList = true;

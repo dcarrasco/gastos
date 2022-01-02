@@ -65,7 +65,10 @@ class Relation extends Field
      */
     public function makeRelatedResource($model = null): Resource
     {
-        return new $this->relatedResource($model);
+        /** @var Resource */
+        $newRelatedResource = new $this->relatedResource($model);
+
+        return $newRelatedResource;
     }
 
     /**

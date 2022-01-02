@@ -133,7 +133,10 @@ abstract class Metric
      */
     protected function newResource(string $resource): Resource
     {
-        return new $resource();
+        /** @var Resource */
+        $newResource = new $resource();
+
+        return $newResource;
     }
 
     /**

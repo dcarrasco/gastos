@@ -14,7 +14,7 @@ class VisaPdfParser extends GastosParser
 
     protected string $separadorCampos = ' ';
 
-    /** @var array[] */
+    /** @var int[][][] */
     protected array $campos = [
         'sin_signo' => [
             'fecha' => [2, 2],

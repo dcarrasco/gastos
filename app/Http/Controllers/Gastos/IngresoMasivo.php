@@ -21,7 +21,7 @@ class IngresoMasivo extends Controller
     /** @var Collection */
     protected $cuentas;
 
-    /** @var string[]|Collection<GastosParser> */
+    /** @var class-string[] */
     protected $parsers = [
         VisaExcelParser::class,
         VisaPdfParser::class,
@@ -30,28 +30,42 @@ class IngresoMasivo extends Controller
 
     public function __construct(Request $request)
     {
-        $this->parsers = collect($this->parsers)
-            ->map(fn($parser) => new $parser());
-
-        $this->parsers = $this->parsers->combine($this->parsers);
-
-        $this->cuentas = $this->parsers
+        $this->cuentas = $this->getParsers()
             ->map->getCuenta()
             ->pluck('cuenta', 'id');
 
-        $this->parser = $this->parsers->first(fn($parser) =>
-            (string) $parser == $request->input(
-                'parser',
-                (string) $this->parsers
-                    ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()))
-            ));
+        $this->parser = $this->getParsers()
+            ->first(fn($parser) =>
+                (string) $parser == $request->input(
+                    'parser',
+                    (string) $this->getParsers()
+                        ->first->hasCuenta($request->input('cuenta_id', $this->cuentas->keys()->first()))
+                ));
+    }
+
+    /**
+     * Devuelve instancia de los parsers disponibles
+     *
+     * @return Collection<GastosParser>
+     */
+    protected function getParsers(): Collection
+    {
+        $parsers = collect($this->parsers)
+            ->map(function ($parser) {
+                /** @var GastosParser */
+                $newParser = new $parser();
+
+                return $newParser;
+            });
+
+        return $parsers->combine($parsers);
     }
 
     public function index(Request $request): View
     {
         return view('gastos.masivo-index', [
             'formCuenta' => $this->cuentas,
-            'formParser' => $this->parsers,
+            'formParser' => $this->getParsers(),
             'datosMasivos' => $datosMasivos = $this->parser->procesaMasivo($request),
             'agregarDatosMasivos' => $this->parser->agregarDatosMasivos($request),
             'selectTiposGastos' => count($datosMasivos) ? TipoGasto::selectOptions() : [],

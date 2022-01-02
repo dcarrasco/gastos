@@ -20,15 +20,31 @@ trait OrmControllerHelper
      */
     protected function getResource(string $resourceName = '', $resourceId = null): Resource
     {
-        $resource = collect($this->menuModulo)
-            ->first(fn($resource) => $resource->getName() === $resourceName)
-            ?? collect($this->menuModulo)->first();
+        $resource = $this->getMenuModulo()
+            ->first(fn($resourceItem) => $resourceItem->getName() === $resourceName)
+            ?? $this->getMenuModulo()->first();
 
         if ($resourceId) {
             return $resource->findOrFail($resourceId);
         }
 
         return $resource;
+    }
+
+    /**
+     * Devuelve instancias de menuModulo
+     *
+     * @return Collection<Resource>
+     */
+    protected function getMenuModulo(): Collection
+    {
+        return collect($this->menuModulo)
+            ->map(function ($resourceName) {
+                /** @var Resource */
+                $newResource = new $resourceName();
+
+                return $newResource;
+            });
     }
 
     /**
@@ -63,11 +79,11 @@ trait OrmControllerHelper
     /**
      * Genera menu
      *
-     * @return Collection<mixed>
+     * @return Collection<object>
      */
     public function makeMenuModuloURL(string $selectedResource): Collection
     {
-        return collect($this->menuModulo)
+        return $this->getMenuModulo()
             ->map(fn($resource) => (object) [
                 'nombre' => $resource->getLabelPlural(),
                 'url' => route("{$this->routeName}.index", $resource->getName()),
@@ -82,7 +98,7 @@ trait OrmControllerHelper
     protected function makeView(Request $request): void
     {
         $selectedResource = $request->route()
-            ? ($request->route('modelName') ?? collect($this->menuModulo)->first()->getName())
+            ? (string) ($request->route('modelName') ?? $this->getMenuModulo()->first()->getName())
             : '';
 
         view()->share('perPageFilter', new PerPage());
@@ -114,7 +130,7 @@ trait OrmControllerHelper
      */
     protected function cards(Request $request): array
     {
-        return collect($this->menuModulo)
+        return $this->getMenuModulo()
             ->flatMap->cards($request)
             ->all();
     }

@@ -24,6 +24,7 @@ abstract class Reporte
     protected string $campoFila = '';
     protected string $campoDato = '';
 
+    /** @var Callable[] */
     protected array $valueFormats = [];
 
 

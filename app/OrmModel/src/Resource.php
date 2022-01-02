@@ -126,7 +126,10 @@ abstract class Resource
      */
     public function makeModelInstance(): Model
     {
-        return new ($this->model)();
+        /** @var Model */
+        $newModel = new ($this->model)();
+
+        return $newModel;
     }
 
     /**
@@ -192,7 +195,7 @@ abstract class Resource
      * Devuelve arreglo de validacion del recurso
      *
      * @param  Request $request
-     * @return array[]
+     * @return string[][]
      */
     public function getValidation(Request $request): array
     {

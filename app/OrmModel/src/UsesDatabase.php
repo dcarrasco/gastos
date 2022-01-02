@@ -141,6 +141,7 @@ trait UsesDatabase
             ->filter(fn($field) => get_class($field) === HasMany::class)
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
+                /** @var HasMany $field */
                 $syncAttributes = $field->hasRelationFields()
                     ? collect($request->input($field->getAttribute()))
                         ->diff($request->input($field->getDeleteModelField()))

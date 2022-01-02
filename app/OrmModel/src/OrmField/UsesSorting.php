@@ -25,7 +25,7 @@ trait UsesSorting
     /** @var string[] */
     protected array $newSortOrder = ['asc' => 'desc', 'desc' => 'asc'];
 
-    /** @var HtmlString */
+    /** @var null|HtmlString */
     protected $sortingIcon;
 
     /**

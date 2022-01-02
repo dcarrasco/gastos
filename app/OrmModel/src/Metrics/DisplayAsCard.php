@@ -100,4 +100,15 @@ trait DisplayAsCard
 
         return route("{$prefixRouteName}.ajaxCard");
     }
+
+    /**
+     * Devuelve arreglo para actualizar metrica
+     *
+     * @param  Request $request
+     * @return string[]
+     */
+    public function contentAjaxRequest(Request $request): array
+    {
+        return [];
+    }
 }

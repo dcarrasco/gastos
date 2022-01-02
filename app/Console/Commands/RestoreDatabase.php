@@ -46,7 +46,11 @@ class RestoreDatabase extends Command
     /** @return string[] */
     protected function getBackupFiles(): array
     {
-        return collect(scandir(storage_path($this->backupPath)))
+        if (! $files = scandir(storage_path($this->backupPath))) {
+            $files = [];
+        }
+
+        return collect($files)
             ->diff(['.', '..', '.gitignore'])
             ->map(fn($file) => Str::before($file, '.'))
             ->values()
@@ -71,7 +75,11 @@ class RestoreDatabase extends Command
         }
 
         try {
-            $file = collect(file($sqlFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES))
+            if (! $file = file($sqlFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)) {
+                $file = [];
+            }
+
+            $file = collect($file)
                 ->map(fn($linea) => DB::unprepared($linea));
 
             Log::info('Database restore exitoso');
