@@ -116,7 +116,7 @@ class ResourceTest extends TestCase
     {
         $this->assertEquals('', $this->resource->makeModelInstance()->nombre);
         $this->assertNotEquals($this->model, $this->resource->makeModelInstance());
-        $this->assertEquals('App\Models\Acl\Usuario', get_class($this->resource->makeModelInstance()));
+        $this->assertInstanceOf('App\Models\Acl\Usuario', $this->resource->makeModelInstance());
     }
 
     public function testGetFields()

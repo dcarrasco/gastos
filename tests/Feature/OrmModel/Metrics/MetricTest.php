@@ -103,7 +103,7 @@ class MetricTest extends TestCase
     {
         $request = $this->createMock(Request::class);
 
-        $this->assertEquals(HtmlString::class, get_class($this->metric->content($request)));
+        $this->assertInstanceOf(HtmlString::class, $this->metric->content($request));
         $this->assertStringContainsString('<div class', $this->metric->content($request)->__toString());
         $this->assertStringContainsString('</div>', $this->metric->content($request)->__toString());
     }
@@ -112,7 +112,7 @@ class MetricTest extends TestCase
     {
         $request = $this->createMock(Request::class);
 
-        $this->assertEquals(HtmlString::class, get_class($this->metric->contentScript($request)));
+        $this->assertInstanceOf(HtmlString::class, $this->metric->contentScript($request));
         $this->assertEquals('<script>test</script>', $this->metric->contentScript($request));
     }
 
@@ -169,7 +169,7 @@ class MetricTest extends TestCase
                 Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
-        $this->assertEquals(HtmlString::class, get_class($this->metric->render($request)));
+        $this->assertInstanceOf(HtmlString::class, $this->metric->render($request));
     }
 
     public function testBootstrapCardWidth()

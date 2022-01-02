@@ -69,7 +69,7 @@ class BelongsToTest extends TestCase
         $resource = new \App\OrmModel\Acl\Modulo($modulo);
 
         $this->assertIsObject($this->field->getForm($request, $resource));
-        $this->assertEquals(HtmlString::class, get_class($this->field->getForm($request, $resource)));
+        $this->assertInstanceOf(HtmlString::class, $this->field->getForm($request, $resource));
         $this->assertStringContainsString($apps[0]->app, $this->field->getForm($request, $resource));
         $this->assertStringContainsString($apps[1]->app, $this->field->getForm($request, $resource));
         $this->assertStringContainsString($apps[2]->app, $this->field->getForm($request, $resource));
