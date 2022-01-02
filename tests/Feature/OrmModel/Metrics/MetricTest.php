@@ -13,8 +13,8 @@ class MetricTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** @var Metric */
     protected $metric;
-    protected $resource;
 
     protected function setUp(): void
     {
@@ -30,12 +30,12 @@ class MetricTest extends TestCase
             {
                 return $this->previousRange($request);
             }
-        };
-    }
 
-    public function testMakeMetric()
-    {
-        $this->assertStringContainsString('MetricTest.php:', class_basename($this->metric->make()));
+            public function contentScript(Request $request): HtmlString
+            {
+                return new HtmlString('<script>test</script>');
+            }
+        };
     }
 
     public function currentRangeDataProvider() {
@@ -49,20 +49,6 @@ class MetricTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider currentRangeDataProvider
-     */
-    public function testGetCurrentRange($currentRange, $startDate, $endDate)
-    {
-        $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('input')->willReturn($currentRange);
-
-        $this->assertEquals(
-            [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
-            [$this->metric->getCurrentRange($request)[0]->format('Y-m-d'), $this->metric->getCurrentRange($request)[1]->format('Y-m-d')]
-        );
-    }
-
     public function previousRangeDataProvider() {
         return [
             ['MTD', now()->subMonth()->startOfMonth(), now()->subMonth()],
@@ -74,6 +60,28 @@ class MetricTest extends TestCase
         ];
     }
 
+    public function testMakeMetric()
+    {
+        $this->assertStringContainsString('MetricTest.php:', class_basename($this->metric->make()));
+    }
+
+    /**
+     * @dataProvider currentRangeDataProvider
+     */
+    public function testGetCurrentRange($currentRange, $startDate, $endDate)
+    {
+        $request = $this->createMock(Request::class);
+        $request->expects($this->any())->method('input')->willReturn($currentRange);
+
+        $this->assertEquals(
+            [$startDate->toDateString(), $endDate->toDateString()],
+            [
+                $this->metric->getCurrentRange($request)[0]->toDateString(),
+                $this->metric->getCurrentRange($request)[1]->toDateString()
+            ]
+        );
+    }
+
     /**
      * @dataProvider previousRangeDataProvider
      */
@@ -83,8 +91,11 @@ class MetricTest extends TestCase
         $request->expects($this->any())->method('input')->willReturn($previousRange);
 
         $this->assertEquals(
-            [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')],
-            [$this->metric->getPreviousRange($request)[0]->format('Y-m-d'), $this->metric->getPreviousRange($request)[1]->format('Y-m-d')]
+            [$startDate->toDateString(), $endDate->toDateString()],
+            [
+                $this->metric->getPreviousRange($request)[0]->toDateString(),
+                $this->metric->getPreviousRange($request)[1]->toDateString()
+            ]
         );
     }
 
@@ -93,6 +104,8 @@ class MetricTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->assertEquals(HtmlString::class, get_class($this->metric->content($request)));
+        $this->assertStringContainsString('<div class', $this->metric->content($request)->__toString());
+        $this->assertStringContainsString('</div>', $this->metric->content($request)->__toString());
     }
 
     public function testContentScript()
@@ -100,6 +113,7 @@ class MetricTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $this->assertEquals(HtmlString::class, get_class($this->metric->contentScript($request)));
+        $this->assertEquals('<script>test</script>', $this->metric->contentScript($request));
     }
 
     public function testRanges()
