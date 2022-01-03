@@ -149,6 +149,25 @@ class FieldTest extends TestCase
         $this->assertEquals(new HtmlString('valor'), $this->field->resolveValue($model, $request)->getFormattedValue());
     }
 
+    public function testGetForm()
+    {
+        $request = $this->createMock(Request::class);
+
+        $model = $this->createMock(Model::class);
+        $model->expects($this->any())->method('getAttribute')->willReturn(12345);
+
+        $resource = $this->createMock(Resource::class);
+        $resource->expects($this->any())->method('model')->willReturn($model);
+
+        $this->assertInstanceOf(HtmlString::class, $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('type="text"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('name="nombre_campo"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('value="12345"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('id="nombre_campo"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('placeholder=""', $this->field->getForm($request, $resource));
+    }
+
     public function testValue()
     {
         $this->assertEquals('', $this->field->value());

@@ -342,14 +342,33 @@ abstract class Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'text',
             'name' => $this->attribute,
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'placeholder' => $this->placeholder,
-        ])->render());
+        ], $extraParam);
     }
+
+    /**
+     * Devuelve el render del elemento form con los atributos
+     *
+     * @param array $formAttributes
+     * @return HtmlString
+     */
+    protected function renderForm(array $formAttributes = [], array $extraParam = []): HtmlString
+    {
+        $extraParamString = collect($extraParam)
+            ->map(function ($value, $key) {
+                return "{$key}=\"{$value}\"";
+            })->implode(' ');
+
+        return new HtmlString(
+            view('orm.form-input', collect($formAttributes)->merge(['extraParam' => $extraParamString])->all())->render()
+        );
+    }
+
 
     /**
      * Inidca si el campo es tipo relacion y eagerLoads su contenido

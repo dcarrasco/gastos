@@ -22,14 +22,14 @@ class Text extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'text',
             'name' => $this->attribute,
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'maxlength' => $this->getFieldLength(),
             'placeholder' => $this->placeholder,
-        ])->render());
+        ], $extraParam);
     }
 
     /**

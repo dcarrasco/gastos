@@ -213,7 +213,7 @@ class HasMany extends Relation
             return $this->getAttributesForm($request, $resource, $extraParam);
         }
 
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'select',
             'name' => "{$this->name}[]",
             'id' => $this->attribute,
@@ -221,7 +221,7 @@ class HasMany extends Relation
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'multiple' => 'multiple',
             'size' => '7'
-        ])->render());
+        ], $extraParam);
     }
 
     /**
@@ -258,14 +258,14 @@ class HasMany extends Relation
             . '<span class="mr-2 p-2 whitespace-no-wrap">'
             . trans('orm.add_attribute_has_many') . ' ' . $this->name
             . "</span>"
-            . view('orm.form-input', [
+            . $this->renderForm([
                 'type' => 'select',
                 'name' => "{$this->name}[]",
                 'value' => '',
                 'id' => $this->attribute,
                 'options' => $availableResources,
                 'placeholder' => '&mdash;',
-            ])->render()
+            ], $extraParam)->toHtml()
             . '</div>';
     }
 

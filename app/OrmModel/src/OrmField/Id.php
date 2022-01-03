@@ -54,20 +54,20 @@ class Id extends Field
         if ($this->esIncrementing) {
             return new HtmlString(
                 "<p class=\"form-control-static\">{$value}</p>"
-                . view('orm.form-input', [
+                . $this->renderForm([
                     'type' => 'hidden',
                     'name' => $this->attribute,
                     'value' => $value,
                     'id' => $this->attribute,
-                ])->render()
+                ], $extraParam)->toHtml()
             );
         }
 
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'text',
             'name' => $this->attribute,
             'value' => $value,
             'id' => $this->attribute,
-        ])->render());
+        ], $extraParam);
     }
 }

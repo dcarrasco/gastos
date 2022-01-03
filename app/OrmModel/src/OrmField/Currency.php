@@ -34,11 +34,11 @@ class Currency extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'number',
             'name' => $this->attribute,
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
-        ])->render());
+        ], $extraParam);
     }
 }

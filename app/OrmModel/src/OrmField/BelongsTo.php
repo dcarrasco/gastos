@@ -54,7 +54,7 @@ class BelongsTo extends Relation
     {
         $foreignKeyName = $this->getModelAttribute($resource);
 
-        return new HtmlString(view('orm.form-input', [
+        return $this->renderForm([
             'type' => 'select',
             'name' => $foreignKeyName,
             'value' => $resource->model()->getAttribute($foreignKeyName),
@@ -62,7 +62,7 @@ class BelongsTo extends Relation
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'placeholder' => '&mdash;',
             'onchange' => $this->hasOnChange() ? $this->makeOnChange($request, $foreignKeyName) : '',
-        ])->render());
+        ], $extraParam);
     }
 
     /**
