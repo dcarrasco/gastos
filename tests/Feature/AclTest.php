@@ -8,7 +8,6 @@ use App\Models\Acl\Rol;
 use App\Models\Acl\Modulo;
 use App\Models\Acl\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,38 +15,50 @@ class AclTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function __testMenuApp()
+    protected function creaUsuarioConMenu(): Usuario
     {
         $usuario = Usuario::factory()->create();
+
         $app = App::factory()->create();
-        $rol = Rol::factory()->create(['app_id' => 1]);
-        $modulos = Modulo::factory(5)->create(['app_id' => 1]);
+        $rol = Rol::factory()->create();
+        $modulo1 = Modulo::factory()->create(['url' => 'modulo-url1']);
+        $modulo2 = Modulo::factory()->create(['url' => 'modulo-url2']);
 
-        $usuario->rol()->attach([1]);
-        $rol->modulo()->attach([1,2,3,4,5]);
+        $rol->app()->associate($app);
+        $rol->save();
 
-        $route = $this->createMock(\Illuminate\Routing\Route::class);
-        $route->expects($this->any())->method('getName')->willReturn('name');
+        $modulo1->app()->associate($app);
+        $modulo1->save();
+
+        $modulo2->app()->associate($app);
+        $modulo2->save();
+
+        $rol->modulo()->attach($modulo1, ['abilities' => "[\"view\", \"create\"]"]);
+        $rol->modulo()->attach($modulo2, ['abilities' => "[\"delete\"]"]);
+
+        $usuario->rol()->attach($rol);
+
+        return $usuario;
+    }
+
+
+    public function testMenuApp()
+    {
+        $usuario = $this->creaUsuarioConMenu();
 
         $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('route')->willReturn($route);
-
-        $urlGenerator = $this->createMock(UrlGenerator::class);
-        $urlGenerator->expects($this->any())->method('route')->willReturn('aaa');
-        // dump($urlGenerator->route('ss'));
-        // dump(app('url'));
+        $request->expects($this->any())->method('route')->willReturn(new class {
+            public function getName()
+            {
+                return 'modulo-url1';
+            }
+        });
 
         $menuApp = $usuario->getMenuApp($request);
 
-        $this->assertEquals(
-            $menuApp->pluck('llave_modulo')->sort()->values(),
-            $modulos->pluck('llave_modulo')->sort()->values()
-        );
+        $this->assertEquals(2, $menuApp->count());
+        $this->assertEquals(['modulo-url1', 'modulo-url2'], $menuApp->pluck('url')->sort()->values()->all());
+        $this->assertEquals(1, $menuApp->filter(fn($modulo) => $modulo->selected)->count());
     }
 
     public function testUsuarioHasPassword()
@@ -76,5 +87,34 @@ class AclTest extends TestCase
         $passwordNueva = $usuario->password;
 
         $this->assertNotEquals($passwordOriginal, $passwordNueva);
+    }
+
+    public function testUsuarioHasAbilities()
+    {
+        $usuario = $this->creaUsuarioConMenu();
+
+        $request = $this->createMock(Request::class);
+        $request->expects($this->any())->method('route')->willReturn(new class {
+            public function getName()
+            {
+                return 'modulo-url1';
+            }
+        });
+
+        $this->assertTrue($usuario->hasAbility('view', $request));
+        $this->assertTrue($usuario->hasAbility('create', $request));
+        $this->assertFalse($usuario->hasAbility('delete', $request));
+
+        $request2 = $this->createMock(Request::class);
+        $request2->expects($this->any())->method('route')->willReturn(new class {
+            public function getName()
+            {
+                return 'modulo-url2';
+            }
+        });
+
+        $this->assertFalse($usuario->hasAbility('view', $request2));
+        $this->assertFalse($usuario->hasAbility('create', $request2));
+        $this->assertTrue($usuario->hasAbility('delete', $request2));
     }
 }

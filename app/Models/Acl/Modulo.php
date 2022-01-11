@@ -33,8 +33,8 @@ class Modulo extends Model
     }
 
     /** @param mixed $value */
-    public function getUrlAttribute($value): string
-    {
-        return route($value);
-    }
+    // public function getUrlAttribute($value): string
+    // {
+    //     return route($value);
+    // }
 }

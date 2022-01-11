@@ -68,7 +68,8 @@ abstract class UserACL extends Model implements
     {
         return $this->rol
             ->flatMap->modulo
-            ->map(fn($modulo) => $modulo->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
+            ->map(fn($modulo) => $modulo
+                    ->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
                     ->setAttribute('selected', false))
             ->sortBy('orden')
             ->values();
@@ -76,10 +77,10 @@ abstract class UserACL extends Model implements
 
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
-        $currentUrl = route(config(
+        $currentUrl = config(
             'invfija.' . str_replace('.', '_', $request->route()->getName()),
             $request->route()->getName()
-        ));
+        );
 
         return $menuApp->map(fn($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentUrl));
     }
@@ -108,24 +109,23 @@ abstract class UserACL extends Model implements
         return ! empty($this->password);
     }
 
-    protected function getCurrentModulo(string $url): Modulo
+    protected function getCurrentModulo(Request $request): Modulo
     {
-        return $this->rol
-            ->flatMap->modulo
-            ->first(fn($modulo) => Str::contains($url, $modulo->url));
+        return $this->getMenuApp($request)
+            ->first(fn($modulo) => $modulo->selected);
     }
 
-    protected function getAclAbilities(): Collection
+    protected function getAclAbilities(Request $request): Collection
     {
-        if (is_null($modulo = $this->getCurrentModulo(request()->url()))) {
+        if (is_null($modulo = $this->getCurrentModulo($request))) {
             return collect([]);
         }
 
         return collect(json_decode($modulo->pivot->abilities) ?: []);
     }
 
-    public function hasAbility(string $ability): bool
+    public function hasAbility(string $ability, Request $request): bool
     {
-        return $this->getAclAbilities()->contains($ability);
+        return $this->getAclAbilities($request)->contains($ability);
     }
 }

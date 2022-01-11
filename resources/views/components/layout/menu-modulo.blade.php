@@ -5,7 +5,7 @@
 @foreach($modulos as $modulo)
     <li class="px-6 py-3 text-white text-decoration-none">
         <a
-            href="{{ $modulo->url }}"
+            href="{{ route($modulo->url) }}"
             class="hover:text-gray-500 {{$modulo->selected ? 'font-semibold text-white' : 'text-gray-300'}}"
         >
             <span class="fa fa-{{ $modulo->icono }} fa-fw"></span>
