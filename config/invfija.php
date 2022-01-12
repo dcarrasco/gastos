@@ -7,10 +7,15 @@ return [
     'gastosConfig_create' => 'gastosConfig.index',
     'gastosConfig_show' => 'gastosConfig.index',
     'gastosConfig_edit' => 'gastosConfig.index',
+    'gastosConfig_update' => 'gastosConfig.index',
 
     'aclConfig_create' => 'aclConfig.index',
     'aclConfig_show' => 'aclConfig.index',
     'aclConfig_edit' => 'aclConfig.index',
+
+    'gastos_addGasto' => 'gastos.showMes',
+    'gastos_ingresoMasivoAdd' => 'gastos.ingresoMasivo',
+    'gastos_addInversion' => 'gastos.ingresoInversion',
 
     'theme' => 'indigo',
     // 'theme' => 'default',
