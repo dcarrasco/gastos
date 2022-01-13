@@ -14,6 +14,7 @@ return [
     'aclConfig_edit' => 'aclConfig.index',
 
     'gastos_addGasto' => 'gastos.showMes',
+    'gastos_borrarGasto' => 'gastos.showMes',
     'gastos_ingresoMasivoAdd' => 'gastos.ingresoMasivo',
     'gastos_addInversion' => 'gastos.ingresoInversion',
 
