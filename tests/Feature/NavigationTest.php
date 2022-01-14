@@ -51,6 +51,8 @@ class NavigationTest extends TestCase
             'reporte total' => ['get', '/gastos/reporte-total-gastos'],
             'inversion' => ['get', '/gastos/inversion'],
             'ingreso masivo' => ['get', '/gastos/ingreso-masivo'],
+            'config gastos' => ['get', '/gastos-config'],
+            'config acl' => ['get', '/acl-config'],
         ];
     }
 
