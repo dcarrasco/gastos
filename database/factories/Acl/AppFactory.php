@@ -25,9 +25,9 @@ class AppFactory extends Factory
         return [
             'app' => $this->faker->words(3, true),
             'descripcion' => $this->faker->sentence(),
-            'url' => $this->faker->url,
-            'icono' => $this->faker->word,
-            'orden' => $this->faker->randomDigit,
+            'url' => $this->faker->url(),
+            'icono' => $this->faker->word(),
+            'orden' => $this->faker->randomDigit(),
         ];
     }
 }

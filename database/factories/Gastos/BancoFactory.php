@@ -23,7 +23,7 @@ class BancoFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->company,
+            'nombre' => $this->faker->company(),
         ];
     }
 }
