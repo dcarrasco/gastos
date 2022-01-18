@@ -354,7 +354,8 @@ abstract class Field
     /**
      * Devuelve el render del elemento form con los atributos
      *
-     * @param array $formAttributes
+     * @param  mixed[] $formAttributes
+     * @param  string[] $extraParam
      * @return HtmlString
      */
     protected function renderForm(array $formAttributes = [], array $extraParam = []): HtmlString
