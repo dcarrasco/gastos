@@ -16,13 +16,12 @@ abstract class Field
     protected string $name = '';
     protected string $attribute = '';
     protected string $helpText = '';
+    protected string $placeholder = '';
 
     /** @var mixed */
     protected $value;
     protected string $formattedValue;
-
-    /** @var null|HtmlString */
-    protected $formItem;
+    protected Htmlstring $formItem;
 
     protected bool $showOnList = true;
     protected bool $showOnDetail = true;
@@ -32,15 +31,12 @@ abstract class Field
     protected string $showValue = '';
 
     protected string $onChange = '';
-    protected Model $parentModel;
-    protected Model $relationModel;
 
     /** @var string[] */
     protected array $relationConditions = [];
 
     protected bool $eagerLoadsRelation = false;
 
-    protected string $placeholder = '';
 
     /**
      * Constructor de la clase
@@ -52,6 +48,7 @@ abstract class Field
     {
         $this->name = $name;
         $this->attribute = empty($field) ? Str::snake($name) : $field;
+        $this->formItem = new HtmlString();
     }
 
     /**
@@ -301,7 +298,7 @@ abstract class Field
      */
     public function formItem(): HtmlString
     {
-        return $this->formItem ?? new HtmlString();
+        return $this->formItem;
     }
 
     /**
