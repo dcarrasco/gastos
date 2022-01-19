@@ -21,10 +21,10 @@ use App\OrmModel\Metrics\RegistrosPorDia;
 
 class Gasto extends Resource
 {
-    public $model = \App\Models\Gastos\Gasto::class;
-    public $icono = 'dollar';
-    public $title = 'id';
-    public $search = [
+    public string $model = \App\Models\Gastos\Gasto::class;
+    public string $icono = 'dollar';
+    public string $title = 'id';
+    public array $search = [
         'id', 'monto', 'glosa', 'serie', 'anno', 'mes'
     ];
 

@@ -11,11 +11,11 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class Rol extends Resource
 {
-    public $model = \App\Models\Acl\Rol::class;
-    public $labelPlural = 'Roles';
-    public $icono = 'server';
-    public $title = 'rol';
-    public $search = [
+    public string $model = \App\Models\Acl\Rol::class;
+    public string $labelPlural = 'Roles';
+    public string $icono = 'server';
+    public string $title = 'rol';
+    public array $search = [
         'id', 'rol', 'descripcion'
     ];
     public $orderBy = [

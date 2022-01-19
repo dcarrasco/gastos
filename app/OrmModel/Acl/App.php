@@ -10,12 +10,12 @@ use App\OrmModel\src\OrmField\Number;
 
 class App extends Resource
 {
-    public $model = \App\Models\Acl\App::class;
-    public $label = 'Aplicacion';
-    public $labelPlural = 'Aplicaciones';
-    public $icono = 'folder-o';
-    public $title = 'app';
-    public $search = [
+    public string $model = \App\Models\Acl\App::class;
+    public string $label = 'Aplicacion';
+    public string $labelPlural = 'Aplicaciones';
+    public string $icono = 'folder-o';
+    public string $title = 'app';
+    public array $search = [
         'id', 'app', 'descripcion', 'url', 'icono'
     ];
     public $orderBy = 'app';

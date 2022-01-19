@@ -11,10 +11,10 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class Modulo extends Resource
 {
-    public $model = \App\Models\Acl\Modulo::class;
-    public $title = 'modulo';
-    public $icono = 'list-alt';
-    public $search = [
+    public string $model = \App\Models\Acl\Modulo::class;
+    public string $title = 'modulo';
+    public string $icono = 'list-alt';
+    public array $search = [
         'id', 'modulo', 'descripcion', 'url', 'icono'
     ];
     public $orderBy = [

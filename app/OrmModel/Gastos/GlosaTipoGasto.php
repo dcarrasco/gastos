@@ -10,12 +10,12 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class GlosaTipoGasto extends Resource
 {
-    public $model = \App\Models\Gastos\GlosaTipoGasto::class;
-    public $label = 'Glosa Tipo de Gasto';
-    public $labelPlural = 'Glosas Tipos de Gasto';
-    public $icono = 'sitemap';
-    public $title = 'glosa';
-    public $search = [
+    public string $model = \App\Models\Gastos\GlosaTipoGasto::class;
+    public string $label = 'Glosa Tipo de Gasto';
+    public string $labelPlural = 'Glosas Tipos de Gasto';
+    public string $icono = 'sitemap';
+    public string $title = 'glosa';
+    public array $search = [
         'id', 'glosa',
     ];
 

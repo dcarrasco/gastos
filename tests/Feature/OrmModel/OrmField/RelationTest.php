@@ -60,11 +60,11 @@ class RelationTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $rol = new class (Rol::factory()->create()) extends Resource {
-            public $model = 'App\Models\Acl\Rol';
-            public $labelPlural = 'Roles';
-            public $icono = 'server';
-            public $title = 'rol';
-            public $search = [
+            public string $model = 'App\Models\Acl\Rol';
+            public string $labelPlural = 'Roles';
+            public string $icono = 'server';
+            public string $title = 'rol';
+            public array $search = [
                 'id', 'rol', 'descripcion'
             ];
             public $orderBy = [

@@ -12,12 +12,12 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class SaldoMes extends Resource
 {
-    public $model = \App\Models\Gastos\SaldoMes::class;
-    public $label = 'Saldo Mes';
-    public $labelPlural = 'Saldos Mes';
-    public $icono = 'calculator';
-    public $title = 'id';
-    public $search = [
+    public string $model = \App\Models\Gastos\SaldoMes::class;
+    public string $label = 'Saldo Mes';
+    public string $labelPlural = 'Saldos Mes';
+    public string $icono = 'calculator';
+    public string $title = 'id';
+    public array $search = [
         'id', 'anno', 'mes'
     ];
 

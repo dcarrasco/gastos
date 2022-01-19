@@ -9,10 +9,10 @@ use App\OrmModel\src\OrmField\Text;
 
 class Banco extends Resource
 {
-    public $model = \App\Models\Gastos\Banco::class;
-    public $icono = 'university';
-    public $title = 'nombre';
-    public $search = [
+    public string $model = \App\Models\Gastos\Banco::class;
+    public string $icono = 'university';
+    public string $title = 'nombre';
+    public array $search = [
         'id', 'nombre'
     ];
 

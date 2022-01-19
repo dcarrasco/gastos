@@ -33,10 +33,10 @@ class ResourceTest extends TestCase
         $this->model = Usuario::factory()->create();
 
         $this->resource = new class ($this->model) extends Resource {
-            public $model = 'App\Models\Acl\Usuario';
-            public $label = 'ResourceLabel';
-            public $title = 'nombre';
-            public $search = ['nombre', 'username'];
+            public string $model = 'App\Models\Acl\Usuario';
+            public string $label = 'ResourceLabel';
+            public string $title = 'nombre';
+            public array $search = ['nombre', 'username'];
             public $orderBy = 'campo';
 
             public function fields(Request $request): array
@@ -63,7 +63,7 @@ class ResourceTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $resource = new class ($this->model) extends Resource {
-            public $model = 'App\Models\Acl\Usuario';
+            public string $model = 'App\Models\Acl\Usuario';
         };
 
         $this->assertIsArray($resource->fields($request));
@@ -306,10 +306,10 @@ class ResourceTest extends TestCase
         $roles = Rol::factory(4)->create();
 
         $resource = new class ($this->model) extends Resource {
-            public $model = 'App\Models\Acl\Usuario';
-            public $label = 'ResourceLabel';
-            public $title = 'nombre';
-            public $search = ['nombre', 'username'];
+            public string $model = 'App\Models\Acl\Usuario';
+            public string $label = 'ResourceLabel';
+            public string $title = 'nombre';
+            public array $search = ['nombre', 'username'];
             public $orderBy = 'campo';
 
             public function fields(Request $request): array
@@ -378,7 +378,7 @@ class ResourceTest extends TestCase
         $this->model = Usuario::factory()->create();
 
         $this->resource = new class ($this->model) extends Resource {
-            public $model = 'App\Models\Acl\Usuario';
+            public string $model = 'App\Models\Acl\Usuario';
             public function filters(Request $request): array
             {
                 return [

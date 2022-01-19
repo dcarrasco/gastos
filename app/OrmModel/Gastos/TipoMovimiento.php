@@ -11,12 +11,12 @@ use App\OrmModel\src\OrmField\Select;
 
 class TipoMovimiento extends Resource
 {
-    public $model = \App\Models\Gastos\TipoMovimiento::class;
-    public $label = 'Tipo de Movimiento';
-    public $labelPlural = 'Tipos de Movimiento';
-    public $icono = 'sitemap';
-    public $title = 'tipo_movimiento';
-    public $search = [
+    public string $model = \App\Models\Gastos\TipoMovimiento::class;
+    public string $label = 'Tipo de Movimiento';
+    public string $labelPlural = 'Tipos de Movimiento';
+    public string $icono = 'sitemap';
+    public string $title = 'tipo_movimiento';
+    public array $search = [
         'id', 'tipo_movimiento'
     ];
 

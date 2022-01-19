@@ -11,12 +11,12 @@ use App\Models\Gastos\TipoCuenta as ModelTipoCuenta;
 
 class TipoCuenta extends Resource
 {
-    public $model = \App\Models\Gastos\TipoCuenta::class;
-    public $label = 'Tipo de Cuenta';
-    public $labelPlural = 'Tipos de Cuenta';
-    public $icono = 'sitemap';
-    public $title = 'tipo_cuenta';
-    public $search = [
+    public string $model = \App\Models\Gastos\TipoCuenta::class;
+    public string $label = 'Tipo de Cuenta';
+    public string $labelPlural = 'Tipos de Cuenta';
+    public string $icono = 'sitemap';
+    public string $title = 'tipo_cuenta';
+    public array $search = [
         'id', 'tipo_cuenta'
     ];
 

@@ -13,10 +13,10 @@ use App\OrmModel\Filters\UsuariosActivos;
 
 class Usuario extends Resource
 {
-    public $model = \App\Models\Acl\Usuario::class;
-    public $icono = 'user';
-    public $title = 'nombre';
-    public $search = [
+    public string $model = \App\Models\Acl\Usuario::class;
+    public string $icono = 'user';
+    public string $title = 'nombre';
+    public array $search = [
         'id', 'nombre', 'username', 'email'
     ];
     public $orderBy = 'nombre';

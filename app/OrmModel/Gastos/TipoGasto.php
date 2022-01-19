@@ -10,12 +10,12 @@ use App\OrmModel\src\OrmField\BelongsTo;
 
 class TipoGasto extends Resource
 {
-    public $model = \App\Models\Gastos\TipoGasto::class;
-    public $label = 'Tipo de Gasto';
-    public $labelPlural = 'Tipos de Gasto';
-    public $icono = 'sitemap';
-    public $title = 'tipo_gasto';
-    public $search = [
+    public string $model = \App\Models\Gastos\TipoGasto::class;
+    public string $label = 'Tipo de Gasto';
+    public string $labelPlural = 'Tipos de Gasto';
+    public string $icono = 'sitemap';
+    public string $title = 'tipo_gasto';
+    public array $search = [
         'id', 'tipo_gasto'
     ];
 

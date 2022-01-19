@@ -16,22 +16,22 @@ abstract class Resource
     use PaginatesResources;
 
     /** @var string */
-    public $model = '';
+    public string $model = '';
 
     /** @var string */
-    public $label = '';
+    public string $label = '';
 
     /** @var string */
-    public $labelPlural = '';
+    public string $labelPlural = '';
 
     /** @var string */
-    public $icono = 'table';
+    public string $icono = 'table';
 
     /** @var string */
-    public $title = 'id';
+    public string $title = 'id';
 
     /** @var string[] */
-    public $search = ['id'];
+    public array $search = ['id'];
 
     /** @var Model */
     protected Model $modelInstance;
