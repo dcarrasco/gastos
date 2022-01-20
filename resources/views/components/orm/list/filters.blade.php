@@ -23,9 +23,9 @@
                 <div class="grid grid-cols-7">
                 @foreach($filter->options() as $option => $value)
                     <div class="text-right py-2">
-                    <span class="{{ $filter->isActive(request(), $value) ? 'fa fa-check' : '' }}"></span>
+                        <span class="{{ $filter->isActive(request(), $value) ? 'fa fa-check' : '' }}"></span>
                     </div>
-                    <a class="col-span-6 block py-2 px-5 hover:bg-gray-100" href="{{ $filter->getOptionUrl(request(), $value) }}">
+                    <a class="col-span-6 block py-2 px-5 hover:bg-gray-100" href="{{ $filter->getFilterUrl(request(), $value) }}">
                         {{ $option }}
                     </a>
                 @endforeach

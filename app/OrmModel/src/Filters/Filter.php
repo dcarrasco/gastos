@@ -66,7 +66,7 @@ abstract class Filter
      * @param  string  $value
      * @return string
      */
-    public function getOptionUrl(Request $request, string $value): string
+    public function getFilterUrl(Request $request, string $value): string
     {
         $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
             ? [$this->getUrlParameter() => '']

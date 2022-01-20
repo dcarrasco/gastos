@@ -48,7 +48,7 @@ class FilterTest extends TestCase
         $this->assertStringContainsString('filter test', $this->filter->getLabel());
     }
 
-    public function testGetOptionUrl()
+    public function testGetFilterUrl()
     {
         $request = $this->createMock(Request::class);
         $request->expects($this->any())->method('has')->willReturn(true);
@@ -56,7 +56,7 @@ class FilterTest extends TestCase
         $request->expects($this->any())->method('all')->willReturn([]);
         $request->expects($this->any())->method('fullUrlWithQuery')->willReturn('');
 
-        $this->assertEquals('', $this->filter->getOptionUrl($request, 'valor'));
+        $this->assertEquals('', $this->filter->getFilterUrl($request, 'valor'));
 
         $request2 = $this->createMock(Request::class);
         $request2->expects($this->any())->method('has')->willReturn(false);
@@ -64,7 +64,7 @@ class FilterTest extends TestCase
         $request2->expects($this->any())->method('all')->willReturn([]);
         $request2->expects($this->any())->method('fullUrlWithQuery')->willReturn('');
 
-        $this->assertEquals('', $this->filter->getOptionUrl($request2, 'valor'));
+        $this->assertEquals('', $this->filter->getFilterUrl($request2, 'valor'));
     }
 
     public function testGetUrlParameter()
