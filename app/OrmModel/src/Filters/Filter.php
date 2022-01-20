@@ -69,8 +69,8 @@ abstract class Filter
     public function getFilterUrl(Request $request, string $value): string
     {
         $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
-            ? [$this->getUrlParameter() => '']
-            : [$this->getUrlParameter() => $value];
+            ? [$this->getUrlParameterName() => '']
+            : [$this->getUrlParameterName() => $value];
 
         $urlParameters = array_merge($request->all(), $parameters);
 
@@ -82,7 +82,7 @@ abstract class Filter
      *
      * @return string
      */
-    public function getUrlParameter(): string
+    public function getUrlParameterName(): string
     {
         return $this->parameterPrefix . $this->getName();
     }
@@ -107,13 +107,7 @@ abstract class Filter
      */
     public function getValue(Request $request): string
     {
-        $value = $request->get($this->getUrlParameter());
-
-        if (is_null($value) or $value === '') {
-            return '';
-        }
-
-        return $value;
+        return $request->get($this->getUrlParameterName()) ?? '';
     }
 
     /**
@@ -124,6 +118,6 @@ abstract class Filter
      */
     public function isSet(Request $request): bool
     {
-        return $request->has($this->getUrlParameter()) and $this->getValue($request) != '';
+        return $request->has($this->getUrlParameterName()) and $this->getValue($request) != '';
     }
 }
