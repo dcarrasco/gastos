@@ -30,7 +30,8 @@ class NavigationTest extends TestCase
         $tipoCuenta = TipoCuenta::factory()->create();
         $tipoCuentaInversion = TipoCuenta::factory()->create(['tipo' => TipoCuenta::CUENTA_INVERSION]);
         $cuenta = Cuenta::factory()->create(['banco_id' => $banco->id, 'tipo_cuenta_id' => $tipoCuenta->id]);
-        $cuentaInversion = Cuenta::factory()->create(['banco_id' => $banco->id, 'tipo_cuenta_id' => $tipoCuentaInversion->id]);
+        $cuentaInversion = Cuenta::factory()
+            ->create(['banco_id' => $banco->id, 'tipo_cuenta_id' => $tipoCuentaInversion->id]);
         $tiposMovimientos = TipoMovimiento::factory(5)->create();
         $tipoGasto = TipoGasto::factory()->create(['tipo_movimiento_id' => '1']);
         $gasto = Gasto::factory()->create([

@@ -38,7 +38,8 @@ class MetricTest extends TestCase
         };
     }
 
-    public function currentRangeDataProvider() {
+    public function currentRangeDataProvider()
+    {
         return [
             ['MTD', now()->startOfMonth(), now()],
             ['QTD', now()->startOfQuarter(), now()],
@@ -49,7 +50,8 @@ class MetricTest extends TestCase
         ];
     }
 
-    public function previousRangeDataProvider() {
+    public function previousRangeDataProvider()
+    {
         return [
             ['MTD', now()->subMonth()->startOfMonth(), now()->subMonth()],
             ['QTD', now()->subMonth()->startOfQuarter(), now()->subQuarter()],

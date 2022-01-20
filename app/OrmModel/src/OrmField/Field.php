@@ -32,9 +32,6 @@ abstract class Field
 
     protected string $onChange = '';
 
-    /** @var string[] */
-    protected array $relationConditions = [];
-
     protected bool $eagerLoadsRelation = false;
 
 
@@ -363,7 +360,8 @@ abstract class Field
             })->implode(' ');
 
         return new HtmlString(
-            view('orm.form-input', collect($formAttributes)->merge(['extraParam' => $extraParamString])->all())->render()
+            view('orm.form-input', collect($formAttributes)->merge(['extraParam' => $extraParamString])->all())
+                ->render()
         );
     }
 
