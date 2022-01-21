@@ -68,11 +68,10 @@ abstract class Filter
      */
     public function getFilterUrl(Request $request, string $value): string
     {
-        $parameters = ($this->isSet($request) and $this->getValue($request) == $value)
+        $urlParameters = array_merge($request->all(), ($this->isSet($request) and $this->getValue($request) == $value)
             ? [$this->getUrlParameterName() => '']
-            : [$this->getUrlParameterName() => $value];
-
-        $urlParameters = array_merge($request->all(), $parameters);
+            : [$this->getUrlParameterName() => $value]
+        );
 
         return $request->fullUrlWithQuery($urlParameters);
     }
