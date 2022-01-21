@@ -27,6 +27,7 @@ trait UsesCards
      */
     public function renderCards(Request $request): Collection
     {
-        return collect($this->cards($request))->map->render($request);
+        return collect($this->cards($request))
+            ->map->render($request);
     }
 }

@@ -48,10 +48,12 @@ trait UsesDatabase
     public function applySearchFilter(Request $request): Resource
     {
         $this->modelQueryBuilder = $this->modelQueryBuilder
-            ->when($request->input($this->searchKey) ?: false, fn($query, $search) =>
-                $query->where(fn($query) =>
-                    collect($this->search)->each(fn($field) =>
-                        $query->orWhere($field, 'like', "%{$search}%"))));
+            ->when($request->input($this->searchKey) ?: false,
+                fn($query, $search) => $query
+                    ->where(fn($query) => collect($this->search)
+                        ->each(fn($field) => $query->orWhere($field, 'like', "%{$search}%"))
+                    )
+            );
 
         return $this;
     }

@@ -56,6 +56,7 @@ abstract class Resource
 
         $this->modelInstance = $modelInstance ?: $this->makeModelInstance();
         $this->modelQueryBuilder = $this->modelInstance->newQuery();
+        $this->fields = collect();
     }
 
     /**
@@ -139,7 +140,7 @@ abstract class Resource
      */
     public function getFields(): Collection
     {
-        return $this->fields ?? collect([]);
+        return $this->fields;
     }
 
     /**
@@ -212,12 +213,12 @@ abstract class Resource
      */
     public function eagerLoadsRelations(Request $request): Resource
     {
-        $this->modelQueryBuilder = $this->modelQueryBuilder->with(
-            collect($this->fields($request))
+        $this->modelQueryBuilder = $this->modelQueryBuilder
+            ->with(collect($this->fields($request))
                 ->filter->eagerLoadsRelation()
                 ->map->getAttribute()
                 ->all()
-        );
+            );
 
         return $this;
     }
