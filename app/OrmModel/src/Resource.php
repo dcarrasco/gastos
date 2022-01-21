@@ -15,31 +15,23 @@ abstract class Resource
     use UsesDatabase;
     use PaginatesResources;
 
-    /** @var string */
     public string $model = '';
 
-    /** @var string */
     public string $label = '';
 
-    /** @var string */
     public string $labelPlural = '';
 
-    /** @var string */
     public string $icono = 'table';
 
-    /** @var string */
     public string $title = 'id';
 
     /** @var string[] */
     public array $search = ['id'];
 
-    /** @var Model */
     protected Model $modelInstance;
 
-    /** @var int */
     protected int $perPage = 25;
 
-    /** @var Collection */
     protected Collection $fields;
 
 
