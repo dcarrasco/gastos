@@ -41,7 +41,7 @@ class Boolean extends Field
         $checkedAttribute = $checked ? 'checked' : '';
 
         $id = "id_{$name}_{$radioValue}";
-        $form = "<input type=\"radio\" name=\"{$name}\" value=\"{$radioValue}\" {$checkedAttribute} id=\"{$id}\">";
+        $form = "<input type=\"radio\" name=\"{$name}\" id=\"{$id}\" value=\"{$radioValue}\" {$checkedAttribute}>";
 
         $classDiv = '';
         $classLabel = 'px-2';

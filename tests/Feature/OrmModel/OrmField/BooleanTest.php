@@ -44,10 +44,16 @@ class BooleanTest extends TestCase
         $request = $this->createMock(Request::class);
 
         $model = $this->createMock(Model::class);
-        $model->expects($this->any())->method('__get')->willReturn(1);
+        $model->expects($this->any())->method('getAttribute')->willReturn('1');
 
         $resource = $this->createMock(Resource::class);
         $resource->expects($this->any())->method('model')->willReturn($model);
+
+        $model2 = $this->createMock(Model::class);
+        $model2->expects($this->any())->method('getAttribute')->willReturn('0');
+
+        $resource2 = $this->createMock(Resource::class);
+        $resource2->expects($this->any())->method('model')->willReturn($model2);
 
         // form type
         $this->assertStringContainsString('<input', $this->field->getForm($request, $resource));
@@ -57,7 +63,8 @@ class BooleanTest extends TestCase
         $this->assertStringContainsString('name="nombre_campo"', $this->field->getForm($request, $resource));
 
         // form value
-        $this->assertStringContainsString('value="1"', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('value="1" checked', $this->field->getForm($request, $resource));
+        $this->assertStringContainsString('value="0" checked', $this->field->getForm($request, $resource2));
 
         // form extra-param
         // $this->assertStringContainsString(

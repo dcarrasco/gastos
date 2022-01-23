@@ -50,6 +50,12 @@ class BooleanOptions extends Field
             ->contains($option);
     }
 
+    /**
+     * Fija el nombre de la relacion
+     *
+     * @param string $relationName
+     * @return BooleanOptions
+     */
     public function setRelationName(string $relationName): BooleanOptions
     {
         $this->relationName = $relationName;
@@ -57,6 +63,12 @@ class BooleanOptions extends Field
         return $this;
     }
 
+    /**
+     * Fija el id del modelo padre
+     *
+     * @param string $modelId
+     * @return BooleanOptions
+     */
     public function setModelId(string $modelId): BooleanOptions
     {
         $this->modelId = $modelId;
@@ -71,11 +83,7 @@ class BooleanOptions extends Field
      */
     public function getFormattedValue(): HtmlString
     {
-        $formattedValue = collect($this->options)
-            ->map(fn($option) => $this->getFormattedOptionValue($option))
-            ->implode('');
-
-        return new HtmlString($formattedValue);
+        return new HtmlString($this->getOptionsValues());
     }
 
     /**
@@ -88,18 +96,34 @@ class BooleanOptions extends Field
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
-        $formValue = collect($this->options)
-            ->map(fn($option) => $this->getFormattedOptionValue($option, true))
-            ->implode('');
-
-        return new HtmlString($formValue);
+        return new HtmlString($this->getOptionsValues(true));
     }
 
-    protected function getFormattedOptionValue(string $option, bool $edit = false): string
+    /**
+     * Devuelve texto de representacion de todas las opciones
+     *
+     * @param boolean $isEditable
+     * @return string
+     */
+    protected function getOptionsValues(bool $isEditable = false): string
+    {
+        return collect($this->options)
+            ->map(fn($option) => $this->getFormattedOptionValue($option, $isEditable))
+            ->implode('');
+    }
+
+    /**
+     * Devuelve texto de representacion de una opcion
+     *
+     * @param string $option
+     * @param boolean $isEditable
+     * @return string
+     */
+    protected function getFormattedOptionValue(string $option, bool $isEditable = false): string
     {
         $selected = $this->hasOption($option) ? 'checked' : '';
 
-        $editable = $edit ? '' : 'disabled';
+        $editable = $isEditable ? '' : 'disabled';
 
         $input = "<input type=\"checkbox\" "
             . "name=\"attributes:{$this->relationName}:{$this->modelId}[]\" "
