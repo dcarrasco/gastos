@@ -14,3 +14,4 @@ yarn-error.log
 *.sublime-project
 *.sublime-workspace
 phpstan-baseline.neon
+tags
