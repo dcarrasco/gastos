@@ -11,6 +11,16 @@
     </td>
     <td class="text-right whitespace-no-wrap px-2">
         {{ fmtMonto($movimiento->saldo_final) }}
+
+        @can('update', $movimiento)
+            <a
+                class="inline-block hover:text-blue-500 align-text-top pl-1 py-0 cursor-pointer"
+                href="{{ route('gastosConfig.edit', [class_basename($movimiento), $movimiento->getKey()]) }}"
+            >
+                <x-heroicon.edit width="14" height="14" class="mb-1 py-0"/>
+            </a>
+        @endcan
+
         @can('delete', $movimiento)
             <a class="inline-block hover:text-blue-500 align-text-top pl-1 py-0 cursor-pointer"
                 x-on:click="openDeleteModal = true;

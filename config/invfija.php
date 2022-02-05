@@ -12,6 +12,7 @@ return [
     'aclConfig_create' => 'aclConfig.index',
     'aclConfig_show' => 'aclConfig.index',
     'aclConfig_edit' => 'aclConfig.index',
+    'aclConfig_update' => 'aclConfig.index',
 
     'gastos_addGasto' => 'gastos.showMes',
     'gastos_borrarGasto' => 'gastos.showMes',
