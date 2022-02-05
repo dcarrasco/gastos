@@ -17,6 +17,7 @@ class TablaACLRolModuloSeeder extends Seeder
         // ---------------------------------------------------------------------
         // GASTOS
         // ---------------------------------------------------------------------
+        // 1 Config Gastos
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 1,
@@ -24,13 +25,15 @@ class TablaACLRolModuloSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        // 2 Ingreso Gastos
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 2,
-            'abilities' => '["view-any", "create", "delete"]',
+            'abilities' => '["view-any", "create", "update", "delete"]',
             'created_at' => now(),
         ]);
 
+        // 3 Reporte Gastos
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 3,
@@ -38,6 +41,7 @@ class TablaACLRolModuloSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        // 4 Ingreso Masivo
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 4,
@@ -45,6 +49,7 @@ class TablaACLRolModuloSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        // 5 Ingreso Inversiones
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 5,
@@ -52,6 +57,7 @@ class TablaACLRolModuloSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        // 7 Gastos totales
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 1,
             'modulo_id' => 7,
@@ -59,6 +65,7 @@ class TablaACLRolModuloSeeder extends Seeder
             'created_at' => now(),
         ]);
 
+        // 6 Config ACL
         DB::table('acl_rol_modulo')->insert([
             'rol_id' => 2,
             'modulo_id' => 6,
