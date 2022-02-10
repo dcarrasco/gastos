@@ -54,8 +54,8 @@ class MetricTest extends TestCase
     {
         return [
             ['MTD', now()->subMonth()->startOfMonth(), now()->subMonth()],
-            ['QTD', now()->subMonth()->startOfQuarter(), now()->subQuarter()],
-            ['YTD', now()->subMonth()->startOfYear(), now()->subYear()],
+            ['QTD', now()->subQuarter()->subMonth()->startOfQuarter(), now()->subQuarter()],
+            ['YTD', now()->subYear()->subMonth()->startOfYear(), now()->subYear()],
             ['CURR_MONTH', now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
             ['LAST_MONTH', now()->subMonth()->subMonth()->startOfMonth(), now()->subMonth()->subMonth()->endOfMonth()],
             [10, now()->subDays(20-1), now()->subDays(10)],
