@@ -38,35 +38,42 @@ OrmController::routes('gastos', GastosConfigController::class);
 // Gastos
 Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], function () {
     // Digitacion
-    Route::get('ingresar', [Ingreso::class, 'index'])->name('showMes');
-    Route::post('ingresar', [Ingreso::class, 'store'])->name('addGasto');
-    Route::delete('ingresar/{gasto}', [Ingreso::class, 'destroy'])->name('borrarGasto');
+    Route::controller(Ingreso::class)->group(function () {
+        Route::get('ingresar', 'index')->name('showMes');
+        Route::post('ingresar', 'store')->name('addGasto');
+        Route::delete('ingresar/{gasto}', 'destroy')->name('borrarGasto');
+    });
 
     Route::get('reporte', [Reporte::class, 'index'])->name('reporte');
     Route::get('reporte/detalle', [Reporte::class, 'show'])->name('detalle');
     Route::get('reporte-total-gastos', [ReporteTotalGastos::class, 'index'])->name('reporteTotalGastos');
 
-    Route::match(['get', 'post'], 'ingreso-masivo', [IngresoMasivo::class, 'index'])->name('ingresoMasivo');
-    Route::post('ingreso-masivo-add', [IngresoMasivo::class, 'store'])->name('ingresoMasivoAdd');
-    Route::post('ingreso-masivo-add-tipo-gasto', [IngresoMasivo::class, 'storeTipoGasto'])
-        ->name('ingresoMasivoAddTipoGasto');
+    Route::controller(IngresoMasivo::class)->group(function () {
+        Route::match(['get', 'post'], 'ingreso-masivo', 'index')->name('ingresoMasivo');
+        Route::post('ingreso-masivo-add', 'store')->name('ingresoMasivoAdd');
+        Route::post('ingreso-masivo-add-tipo-gasto', 'storeTipoGasto')->name('ingresoMasivoAddTipoGasto');
+    });
 
-    Route::get('inversion', [IngresoInversion::class, 'index'])->name('ingresoInversion');
-    Route::post('inversion', [IngresoInversion::class, 'store'])->name('addInversion');
-    Route::delete('inversion/{gasto}', [IngresoInversion::class, 'destroy'])->name('borrarInversion');
+    Route::controller(IngresoInversion::class)->group(function () {
+        Route::get('inversion', 'index')->name('ingresoInversion');
+        Route::post('inversion', 'store')->name('addInversion');
+        Route::delete('inversion/{gasto}', 'destroy')->name('borrarInversion');
+    });
 });
 
 // ACL
 Route::group(['prefix' => 'acl', 'as' => 'acl.'], function () {
-    Route::get('cambia-password/{usuario:username}', [LoginController::class, 'showCambiaPassword'])
-        ->name('showCambiaPassword');
-    Route::post('cambia-password/{usuario:username}', [LoginController::class, 'cambiaPassword'])
-        ->name('cambiaPassword');
+    Route::controller(LoginController::class)->group(function () {
+        Route::get('cambia-password/{usuario:username}', 'showCambiaPassword')->name('showCambiaPassword');
+        Route::post('cambia-password/{usuario:username}', 'cambiaPassword')->name('cambiaPassword');
+    });
 });
 
 Route::group(['prefix' => 'home', 'as' => 'home.', 'middleware' => 'auth'], function () {
-    Route::get('', [HomeController::class, 'index'])->name('index');
-    Route::get('ajaxCard', [HomeController::class, 'ajaxCard'])->name('ajaxCard');
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::get('ajaxCard', 'ajaxCard')->name('ajaxCard');
+    });
 });
 
 // DB::listen(function ($query) {

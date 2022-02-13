@@ -61,17 +61,18 @@ trait OrmControllerHelper
         $as = "{$modulo}Config.";
 
         Route::group(
-            ['prefix' => $prefix, 'as' => $as, 'middleware' => 'auth'],
-            function () use ($controllerClass) {
-                Route::get('ajaxCard', [$controllerClass, 'ajaxCard'])->name('ajaxCard');
-                Route::get('{modelName?}', [$controllerClass, 'index'])->name('index');
-                Route::get('{modelName}/create', [$controllerClass, 'create'])->name('create');
-                Route::post('{modelName}', [$controllerClass, 'store'])->name('store');
-                Route::get('{modelName}/{modelID}/show', [$controllerClass, 'show'])->name('show');
-                Route::get('{modelName}/{modelID}/edit', [$controllerClass, 'edit'])->name('edit');
-                Route::put('{modelName}/{modelID}', [$controllerClass, 'update'])->name('update');
-                Route::delete('{modelName}/{modelID}', [$controllerClass, 'destroy'])->name('destroy');
-                Route::get('{modelName}/ajax-form', [$controllerClass, 'ajaxOnChange'])->name('ajaxOnChange');
+            ['prefix' => $prefix, 'as' => $as, 'middleware' => 'auth'], function () use ($controllerClass) {
+                Route::controller($controllerClass)->group(function () {
+                    Route::get('ajaxCard', 'ajaxCard')->name('ajaxCard');
+                    Route::get('{modelName?}', 'index')->name('index');
+                    Route::get('{modelName}/create', 'create')->name('create');
+                    Route::post('{modelName}', 'store')->name('store');
+                    Route::get('{modelName}/{modelID}/show', 'show')->name('show');
+                    Route::get('{modelName}/{modelID}/edit', 'edit')->name('edit');
+                    Route::put('{modelName}/{modelID}', 'update')->name('update');
+                    Route::delete('{modelName}/{modelID}', 'destroy')->name('destroy');
+                    Route::get('{modelName}/ajax-form', 'ajaxOnChange')->name('ajaxOnChange');
+                });
             }
         );
     }
