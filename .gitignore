@@ -15,3 +15,4 @@ yarn-error.log
 *.sublime-workspace
 phpstan-baseline.neon
 tags
+tags.vendor
