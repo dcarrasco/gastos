@@ -57,11 +57,10 @@ trait OrmControllerHelper
     public static function routes(string $modulo, string $controllerClass): void
     {
         $modulo = strtolower($modulo);
-        $prefix = "{$modulo}-config";
-        $as = "{$modulo}Config.";
 
         Route::group(
-            ['prefix' => $prefix, 'as' => $as, 'middleware' => 'auth'], function () use ($controllerClass) {
+            ['prefix' => "{$modulo}-config", 'as' => "{$modulo}Config.", 'middleware' => 'auth'],
+            function () use ($controllerClass) {
                 Route::controller($controllerClass)->group(function () {
                     Route::get('ajaxCard', 'ajaxCard')->name('ajaxCard');
                     Route::get('{modelName?}', 'index')->name('index');
