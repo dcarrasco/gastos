@@ -10,7 +10,7 @@
     'cols' => 0,
     'rows' => 0,
     'maxlength' => '',
-    'defaultClass' => 'border border-gray-400 shadow-sm rounded-md px-3 py-1 outline-none focus:shadow-outline',
+    'defaultClass' => 'border border-gray-400 bg-white shadow-sm rounded-md px-3 py-1 outline-none focus:shadow-outline',
     'fromYear' => today()->year,
     'toYear' => 2015,
 ])
