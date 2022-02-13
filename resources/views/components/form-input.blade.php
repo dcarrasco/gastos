@@ -47,28 +47,27 @@
         {{ empty($size) ? '' : "size={$size}" }}
         {{ $attributes }}
     >
-
-    @if (!empty($placeholder))
-        <option value="" disabled="disabled" {{ empty($value) ? 'selected' : '' }}>
-            {!! $placeholder !!}
-        </option>
-    @endif
-
-    @foreach ($options as $groupName => $groupOptions)
-        @if (!empty($groupName))
-            <optgroup label="{{ $groupName }}">
-        @endif
-
-        @foreach ($groupOptions as $optionValue => $optionText)
-            <option value="{{ $optionValue }}" {{ in_array($optionValue, $value) ? 'selected' : '' }}>
-                {{ $optionText }}
+        @if (!empty($placeholder))
+            <option value="" disabled="disabled" @selected(empty($value))>
+                {!! $placeholder !!}
             </option>
-        @endforeach
-
-        @if (!empty($groupName))
-            </optgroup>
         @endif
-    @endforeach
+
+        @foreach ($options as $groupName => $groupOptions)
+            @if (!empty($groupName))
+                <optgroup label="{{ $groupName }}">
+            @endif
+
+            @foreach ($groupOptions as $optionValue => $optionText)
+                <option value="{{ $optionValue }}" @selected(in_array($optionValue, $value))>
+                    {{ $optionText }}
+                </option>
+            @endforeach
+
+            @if (!empty($groupName))
+                </optgroup>
+            @endif
+        @endforeach
     </select>
 
 @elseif($type == 'textarea')
@@ -80,6 +79,16 @@
         {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
         {{ $attributes }}
     >{{ $value }}</textarea>
+
+@elseif($type == 'boolean')
+    <div class="">
+        <input type="radio" name="{{ $name }}" id="{{ 'id_'.$name.'_1' }}" value="1" @checked($value)>
+        <label class="px-2" for="{$id}">{{ __('orm.radio_yes') }}</label>
+    </div>
+    <div class="">
+        <input type="radio" name="{{ $name }}" id="{{ 'id_'.$name.'_0' }}" value="0" @checked(!$value)>
+        <label class="px-2" for="{$id}">{{ __('orm.radio_no') }}</label>
+    </div>
 
 @else
     <input
