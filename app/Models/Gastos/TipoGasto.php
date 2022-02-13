@@ -33,7 +33,7 @@ class TipoGasto extends Model
         return TipoMovimiento::with('tiposGastos')->get()
             ->mapWithKeys(fn($elem) => [$elem->tipo_movimiento => $elem])
             ->map->tiposGastos
-            ->filter(fn($elem) => $elem->count() > 0)
+            ->filter(fn($tipoGasto) => $tipoGasto->isNotEmpty())
             ->map->pluck('tipo_gasto', 'id')
             ->map->sort()
             ->map->all();

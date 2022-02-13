@@ -102,7 +102,7 @@ class Inversion
 
     public function getJSONRentabilidadesAnual(): string
     {
-        if ($this->saldos->count() == 0) {
+        if ($this->saldos->isEmpty()) {
             return '';
         }
 
