@@ -25,16 +25,25 @@ class Cuenta extends Model
     protected $fillable = ['banco_id', 'tipo_cuenta_id', 'cuenta'];
 
 
+    /**
+     * @return BelongsTo<Banco, Cuenta>
+     */
     public function banco(): BelongsTo
     {
         return $this->belongsTo(Banco::class);
     }
 
+    /**
+     * @return BelongsTo<TipoCuenta, Cuenta>
+     */
     public function tipoCuenta(): BelongsTo
     {
         return $this->belongsTo(TipoCuenta::class);
     }
 
+    /**
+     * @return Collection<int, string>
+     */
     protected static function selectOptions(int $tipo = 0): Collection
     {
         return TipoCuenta::where('tipo', $tipo)->with('cuentas')
@@ -44,11 +53,17 @@ class Cuenta extends Model
             ->pluck('cuenta', 'id');
     }
 
+    /**
+     * @return Collection<int, string>
+     */
     public static function selectCuentasGastos(): Collection
     {
         return static::selectOptions(TipoCuenta::CUENTA_GASTO);
     }
 
+    /**
+     * @return Collection<int, string>
+     */
     public static function selectCuentasInversiones(): Collection
     {
         return static::selectOptions(TipoCuenta::CUENTA_INVERSION);

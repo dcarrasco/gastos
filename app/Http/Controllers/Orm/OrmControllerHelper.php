@@ -34,7 +34,7 @@ trait OrmControllerHelper
     /**
      * Devuelve instancias de menuModulo
      *
-     * @return Collection<Resource>
+     * @return Collection<int, Resource>
      */
     protected function getMenuModulo(): Collection
     {
@@ -79,7 +79,7 @@ trait OrmControllerHelper
     /**
      * Genera menu
      *
-     * @return Collection<object>
+     * @return Collection<int, \stdClass>
      */
     public function makeMenuModuloURL(string $selectedResource): Collection
     {

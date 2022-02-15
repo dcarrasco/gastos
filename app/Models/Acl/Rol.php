@@ -23,11 +23,18 @@ class Rol extends Model
 
     protected $fillable = ['app_id', 'rol', 'descripcion'];
 
+
+    /**
+     * @return BelongsTo<App, Rol>
+     */
     public function app(): BelongsTo
     {
         return $this->belongsTo(App::class);
     }
 
+    /**
+     * @return BelongsToMany<Modulo>
+     */
     public function modulo(): BelongsToMany
     {
         return $this->belongsToMany(Modulo::class, 'acl_rol_modulo')

@@ -2,7 +2,6 @@
 
 namespace App\Models\Acl;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
@@ -35,6 +34,10 @@ abstract class UserACL extends Model implements
     use Authorizable;
     use CanResetPassword;
 
+
+    /**
+     * @return BelongsToMany<Rol>
+     */
     public function rol(): BelongsToMany
     {
         return $this->belongsToMany(Rol::class, 'acl_usuario_rol')->withTimestamps();
@@ -50,11 +53,18 @@ abstract class UserACL extends Model implements
         return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
     }
 
+    /**
+     * @param Builder<UserACL> $query
+     * @return Builder<UserACL>
+     */
     public static function scopeUsuario(Builder $query, string $username): Builder
     {
         return $query->where('username', $username);
     }
 
+    /**
+     * @return Collection<int, Modulo>
+     */
     public function getMenuApp(Request $request): Collection
     {
         if (!session()->has('menuapp')) {
@@ -64,6 +74,11 @@ abstract class UserACL extends Model implements
         return $this->setSelectedMenu($request, session('menuapp'));
     }
 
+    /**
+     * General menuApp desde datos de la BD
+     *
+     * @return Collection<int, Modulo>
+     */
     protected function getMenuAppFromDB(): Collection
     {
         return $this->rol
@@ -75,6 +90,13 @@ abstract class UserACL extends Model implements
             ->values();
     }
 
+    /**
+     * Determina el modulo seleccionado en menuApp
+     * @param Request                 $request
+     * @param Collection<int, Modulo> $menuApp
+     *
+     * @return Collection<int, Modulo>
+     */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
         $currentUrl = config(
@@ -115,10 +137,16 @@ abstract class UserACL extends Model implements
             ->first(fn($modulo) => $modulo->selected);
     }
 
+    /**
+     * Devuelve las abilities de pagina actual
+     *
+     * @param Request $request
+     * @return Collection<int, string>
+     */
     protected function getAclAbilities(Request $request): Collection
     {
         if (is_null($modulo = $this->getCurrentModulo($request))) {
-            return collect([]);
+            return collect();
         }
 
         return collect(json_decode($modulo->pivot->abilities) ?: []);

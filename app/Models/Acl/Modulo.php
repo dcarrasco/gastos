@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $url
  * @property int $orden
  * @property Illuminate\Database\Eloquent\Relations\Pivot $pivot
+ * @property boolean $selected
  */
 class Modulo extends Model
 {
@@ -26,15 +27,11 @@ class Modulo extends Model
     protected $fillable = ['app_id', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
 
 
-    /** @return \Illuminate\Database\Eloquent\Relations\BelongsTo */
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<App, Modulo>
+     */
     public function app()
     {
         return $this->belongsTo(App::class);
     }
-
-    /** @param mixed $value */
-    // public function getUrlAttribute($value): string
-    // {
-    //     return route($value);
-    // }
 }
