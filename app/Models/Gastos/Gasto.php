@@ -47,21 +47,33 @@ class Gasto extends Model
     ];
 
 
+    /**
+     * @return BelongsTo<Cuenta, Gasto>
+     */
     public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
     }
 
+    /**
+     * @return BelongsTo<TipoGasto, Gasto>
+     */
     public function tipoGasto(): BelongsTo
     {
         return $this->belongsTo(TipoGasto::class);
     }
 
+    /**
+     * @return BelongsTo<TipoMovimiento, Gasto>
+     */
     public function tipoMovimiento(): BelongsTo
     {
         return $this->belongsTo(TipoMovimiento::class);
     }
 
+    /**
+     * @return BelongsTo<Usuario, Gasto>
+     */
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(Usuario::class);
@@ -77,6 +89,10 @@ class Gasto extends Model
         return $this->monto * $this->tipoMovimiento->signo;
     }
 
+    /**
+     * @param Builder<Gasto>  $query
+     * @return Builder<Gasto>
+     */
     public function scopeCuentaAnnoMes(Builder $query, int $cuentaId, int $anno, int $mes): Builder
     {
         return $query->where('cuenta_id', $cuentaId)
@@ -84,6 +100,10 @@ class Gasto extends Model
             ->where('mes', $mes);
     }
 
+    /**
+     * @param Builder<Gasto>  $query
+     * @return Builder<Gasto>
+     */
     public function scopeCuentaAnnoTipMov(Builder $query, int $cuentaId, int $anno, int $tipoMovimientoId): Builder
     {
         return $query->where('cuenta_id', $cuentaId)
@@ -91,6 +111,10 @@ class Gasto extends Model
             ->where('tipo_movimiento_id', $tipoMovimientoId);
     }
 
+    /**
+     * @param Builder<Gasto>  $query
+     * @return Builder<Gasto>
+     */
     public function scopeNoSaldos(Builder $query): Builder
     {
         $tipoMovimientoSaldo = 4;
@@ -98,6 +122,9 @@ class Gasto extends Model
         return $query->where('tipo_movimiento_id', '<>', $tipoMovimientoSaldo); // excluye movimientos de saldos
     }
 
+    /**
+     * @return Collection<int, Gasto>
+     */
     public static function movimientosMes(int $cuentaId, int $anno, int $mes): Collection
     {
         $movimientos = static::with('tipoGasto', 'tipoMovimiento')
@@ -121,6 +148,9 @@ class Gasto extends Model
         return $this->getAttribute($dateField) <= $date;
     }
 
+    /**
+     * @return EloquentCollection<int, Gasto>
+     */
     public static function detalleMovimientosMes(
         int $cuentaId,
         int $anno,
@@ -134,6 +164,9 @@ class Gasto extends Model
             ->get();
     }
 
+    /**
+     * @return EloquentCollection<int, Gasto>
+     */
     public static function movimientosAnno(int $cuentaId, int $anno): EloquentCollection
     {
         return static::with('tipoMovimiento')
@@ -144,6 +177,9 @@ class Gasto extends Model
             ->get();
     }
 
+    /**
+     * @return EloquentCollection<int, Gasto>
+     */
     public static function saldos(int $cuentaId, int $anno): EloquentCollection
     {
         $tipoMovimientoSaldo = 4;
@@ -160,6 +196,9 @@ class Gasto extends Model
             ->sum();
     }
 
+    /**
+     * @return EloquentCollection<int, Gasto>
+     */
     public static function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
@@ -183,11 +222,14 @@ class Gasto extends Model
     public static function createGasto(array $gasto): Gasto
     {
         return static::create(array_merge($gasto, [
-            'tipo_movimiento_id' => TipoGasto::find($gasto['tipo_gasto_id'])->tipo_movimiento_id,
+            'tipo_movimiento_id' => TipoGasto::first($gasto['tipo_gasto_id'])->tipo_movimiento_id,
             'usuario_id' => auth()->id(),
         ]));
     }
 
+    /**
+     * @return Collection<int, Gasto>
+     */
     public static function getDataReporteGastosTotales(int $anno): Collection
     {
         return Gasto::whereAnno($anno)

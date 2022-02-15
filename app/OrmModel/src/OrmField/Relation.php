@@ -77,7 +77,7 @@ class Relation extends Field
      * @param  Request   $request
      * @param  Resource  $resource
      * @param  string[]  $conditions
-     * @return Collection
+     * @return Collection<int|string, string>
      */
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
     {
@@ -91,7 +91,7 @@ class Relation extends Field
      * @param  Request   $request
      * @param  Resource  $resource
      * @param  string[]  $conditions
-     * @return Collection
+     * @return Collection<int, Model>
      */
     protected function getRelatedListModels(Request $request, Resource $resource, array $conditions = []): Collection
     {

@@ -11,6 +11,7 @@ trait UsesDatabase
     /** @var string|string[] */
     public $orderBy = [];
 
+    /** @var Builder<Model> */
     protected Builder $modelQueryBuilder;
 
     protected string $sortByKey = 'sort-by';
