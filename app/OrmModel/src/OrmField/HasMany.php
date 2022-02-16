@@ -75,7 +75,7 @@ class HasMany extends Relation
     /**
      * Devuelve colletion con los recursos asociados a la relacion
      *
-     * @return Collection<int, Resource>
+     * @return Collection<array-key, Resource>
      */
     public function getRelatedResources(): Collection
     {
@@ -104,7 +104,7 @@ class HasMany extends Relation
     /**
      * Devuelve valor del campo formateado cuando las asociacion HasMany no tiene atributos adicionales
      *
-     * @param  Collection<int, Resource> $relatedResources
+     * @param  Collection<array-key, Resource> $relatedResources
      * @return HtmlString
      */
     protected function getSimpleFormattedValue(Collection $relatedResources): HtmlString
@@ -115,7 +115,7 @@ class HasMany extends Relation
     /**
      * Devuelve valor del campo formateado cuando la asociacion HasMany tiene atributos adicionales
      *
-     * @param  Collection<int, Resource> $relatedResources
+     * @param  Collection<array-key, Resource> $relatedResources
      * @return HtmlString
      */
     protected function getFormattedValueWithAttributes(Collection $relatedResources): HtmlString
@@ -179,7 +179,7 @@ class HasMany extends Relation
     /**
      * Devuelve tabla para desplegar asociacion HasMany con atributos adicionales
      *
-     * @param  Collection<int, Resource>   $relatedResources
+     * @param  Collection<array-key, Resource>   $relatedResources
      * @param  bool         $edit
      * @return string
      */
@@ -248,7 +248,7 @@ class HasMany extends Relation
     /**
      * Genera select para agregar nuevos elementos a la relacion HasMany cuando tiene atributos
      *
-     * @param  Collection<int|string, string> $availableResources
+     * @param  Collection<array-key, string> $availableResources
      * @param  string[] $extraParam
      * @return string
      */

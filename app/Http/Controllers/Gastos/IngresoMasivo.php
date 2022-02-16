@@ -18,7 +18,7 @@ class IngresoMasivo extends Controller
 {
     protected GastosParser $parser;
 
-    /** @var Collection<int, string> */
+    /** @var Collection<array-key, string> */
     protected $cuentas;
 
     /** @var class-string[] */
@@ -43,7 +43,7 @@ class IngresoMasivo extends Controller
     /**
      * Devuelve instancia de los parsers disponibles
      *
-     * @return Collection<string, GastosParser>
+     * @return Collection<array-key, GastosParser>
      */
     protected function getParsers(): Collection
     {

@@ -29,7 +29,7 @@ class TipoGasto extends Model
         return $this->belongsTo(TipoMovimiento::class);
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     public static function selectOptions(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()

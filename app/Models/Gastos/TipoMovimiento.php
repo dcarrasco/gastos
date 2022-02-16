@@ -30,7 +30,7 @@ class TipoMovimiento extends Model
         return $this->hasMany(TipoGasto::class);
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     public static function selectOptions(): Collection
     {
         return static::orderBy('orden')

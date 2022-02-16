@@ -8,16 +8,16 @@ use Illuminate\Support\HtmlString;
 
 abstract class Reporte
 {
-    /** @var Collection<int, Gasto> */
+    /** @var Collection<array-key, Gasto> */
     protected $data;
 
-    /** @var Collection<int|string, Collection<(int|string), mixed>> */
+    /** @var Collection<array-key, Collection<(int|string), mixed>> */
     protected $reporte;
 
-    /** @var Collection<int, string> */
+    /** @var Collection<array-key, string> */
     protected $titulosColumnas;
 
-    /** @var Collection<int, string> */
+    /** @var Collection<array-key, string> */
     protected $titulosFilas;
 
     protected string $campoColumna = '';
@@ -125,25 +125,25 @@ abstract class Reporte
         return (int) ($this->totalReporte() / $this->reporte->map->keys()->max()->max());
     }
 
-    /** @return Collection<int|string, Collection<(int|string), mixed>> */
+    /** @return Collection<array-key, Collection<(int|string), mixed>> */
     public function getReporte(): Collection
     {
         return $this->reporte;
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     public function titulosColumnas(): Collection
     {
         return $this->titulosColumnas;
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     public function titulosFilas(): Collection
     {
         return $this->titulosFilas;
     }
 
-    /** @return Collection<int|string, Collection<(int|string), mixed>> */
+    /** @return Collection<array-key, Collection<(int|string), mixed>> */
     protected function makeReporte(): Collection
     {
         $reporte = [];
@@ -156,9 +156,9 @@ abstract class Reporte
             ->map(fn($fila) => collect($fila));
     }
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     abstract protected function makeTitulosColumnas(): Collection;
 
-    /** @return Collection<int, string> */
+    /** @return Collection<array-key, string> */
     abstract protected function makeTitulosFilas(): Collection;
 }

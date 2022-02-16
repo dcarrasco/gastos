@@ -28,7 +28,7 @@ abstract class Trend extends Metric
      * Devuelve el calculo de la metrica
      * @param Request $request
      *
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function calculate(Request $request): Collection
     {
@@ -43,7 +43,7 @@ abstract class Trend extends Metric
      * @param  string  $unit
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     protected function sum(
         Request $request,
@@ -62,7 +62,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function sumByDays(
         Request $request,
@@ -80,7 +80,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function sumByWeeks(
         Request $request,
@@ -98,7 +98,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function sumByMonths(
         Request $request,
@@ -116,7 +116,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function sumByYears(
         Request $request,
@@ -134,7 +134,7 @@ abstract class Trend extends Metric
      * @param  string  $resource
      * @param  string  $unit
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     protected function count(Request $request, string $resource, string $unit, string $timeColumn): Collection
     {
@@ -147,7 +147,7 @@ abstract class Trend extends Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function countByDays(Request $request, string $resource, string $timeColumn = ''): Collection
     {
@@ -160,7 +160,7 @@ abstract class Trend extends Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function countByWeeks(Request $request, string $resource, string $timeColumn = ''): Collection
     {
@@ -173,7 +173,7 @@ abstract class Trend extends Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function countByMonths(Request $request, string $resource, string $timeColumn = ''): Collection
     {
@@ -186,7 +186,7 @@ abstract class Trend extends Metric
      * @param  Request $request
      * @param  string  $resource
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function countByYears(Request $request, string $resource, string $timeColumn = ''): Collection
     {
@@ -198,7 +198,7 @@ abstract class Trend extends Metric
      *
      * @param  Carbon[]  $dateInterval
      * @param  string    $unit
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     protected function initRangedData(array $dateInterval, string $unit): Collection
     {
@@ -272,7 +272,7 @@ abstract class Trend extends Metric
      * @param  string  $function
      * @param  string  $aggregateColumn
      * @param  string  $timeColumn
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     protected function aggregate(
         Request $request,

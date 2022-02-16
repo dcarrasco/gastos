@@ -14,13 +14,13 @@ abstract class GastosParser
 {
     protected string $descripcion = '';
 
-    /** @var Collection<int, GlosaTipoGasto> */
+    /** @var Collection<array-key, GlosaTipoGasto> */
     protected $glosasTipoGasto;
 
-    /** @var Collection<int, string> */
+    /** @var Collection<array-key, string> */
     protected $datosMasivos;
 
-    /** @var Collection<int, Gasto>  */
+    /** @var Collection<array-key, Gasto>  */
     protected $datosMasivosProcesados;
 
     protected int $cuentaAsociada = 0;
@@ -29,7 +29,7 @@ abstract class GastosParser
     protected string $separadorCampos = ' ';
 
 
-    /** @return Collection<int, Gasto>  */
+    /** @return Collection<array-key, Gasto>  */
     public function procesaMasivo(Request $request): Collection
     {
         if (is_null($request->input('cuenta_id'))) {
@@ -90,7 +90,7 @@ abstract class GastosParser
             ->count();
     }
 
-    /** @return Collection<int, Gasto>  */
+    /** @return Collection<array-key, Gasto>  */
     public function getDatosMasivos(): Collection
     {
         return $this->datosMasivosProcesados;
@@ -130,7 +130,7 @@ abstract class GastosParser
         ]);
     }
 
-    /** @param Collection<int, string>  $linea */
+    /** @param Collection<array-key, string>  $linea */
     protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
     {
         return $this->glosasTipoGasto
@@ -139,25 +139,25 @@ abstract class GastosParser
             ?? new TipoGasto();
     }
 
-    /** @param Collection<int, string>  $linea */
+    /** @param Collection<array-key, string>  $linea */
     protected function getFecha(Collection $linea): Carbon
     {
         return new Carbon();
     }
 
-    /** @param Collection<int, string>  $linea */
+    /** @param Collection<array-key, string>  $linea */
     protected function getSerie(Collection $linea): string
     {
         return '';
     }
 
-    /** @param Collection<int, string>  $linea */
+    /** @param Collection<array-key, string>  $linea */
     protected function getGlosa(Collection $linea): string
     {
         return '';
     }
 
-    /** @param Collection<int, string>  $linea */
+    /** @param Collection<array-key, string>  $linea */
     protected function getMonto(Collection $linea): int
     {
         return 0;

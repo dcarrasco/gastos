@@ -8,10 +8,10 @@ use Illuminate\Support\Collection;
 
 class Inversion
 {
-    /** @var Collection<int, Gasto> */
+    /** @var Collection<array-key, Gasto> */
     protected $movimientos;
 
-    /** @var Collection<int, Gasto> */
+    /** @var Collection<array-key, Gasto> */
     protected $saldos;
 
 
@@ -21,13 +21,13 @@ class Inversion
         $this->saldos = Gasto::saldos($cuenta, $anno);
     }
 
-    /** @return Collection<int, Gasto> */
+    /** @return Collection<array-key, Gasto> */
     public function saldos(): Collection
     {
         return $this->saldos;
     }
 
-    /** @return Collection<int, Gasto> */
+    /** @return Collection<array-key, Gasto> */
     public function getMovimientos(): Collection
     {
         return $this->movimientos;
@@ -67,7 +67,7 @@ class Inversion
             ->last() ?? new Gasto();
     }
 
-    /** @return Collection<string, int> */
+    /** @return Collection<array-key, int> */
     public function evolUtil(): Collection
     {
         return $this->saldos

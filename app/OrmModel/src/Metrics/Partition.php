@@ -15,7 +15,7 @@ abstract class Partition extends Metric
      * Devuelve el calculo de la metrica
      *
      * @param Request $request
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function calculate(Request $request): Collection
     {
@@ -29,7 +29,7 @@ abstract class Partition extends Metric
      * @param  string  $resource
      * @param  string  $groupColumn
      * @param  string  $relation
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function count(Request $request, string $resource, string $groupColumn, string $relation = ''): Collection
     {
@@ -44,7 +44,7 @@ abstract class Partition extends Metric
      * @param  string  $groupColumn
      * @param  string  $sumColumn
      * @param  string  $relation
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     public function sum(
         Request $request,
@@ -65,7 +65,7 @@ abstract class Partition extends Metric
      * @param  string  $function
      * @param  string  $sumColumn
      * @param  string  $relation
-     * @return Collection<string, int>
+     * @return Collection<array-key, int>
      */
     protected function aggregate(
         Request $request,

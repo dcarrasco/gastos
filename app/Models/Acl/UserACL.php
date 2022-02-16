@@ -63,7 +63,7 @@ abstract class UserACL extends Model implements
     }
 
     /**
-     * @return Collection<int, Modulo>
+     * @return Collection<array-key, Modulo>
      */
     public function getMenuApp(Request $request): Collection
     {
@@ -77,7 +77,7 @@ abstract class UserACL extends Model implements
     /**
      * General menuApp desde datos de la BD
      *
-     * @return Collection<int, Modulo>
+     * @return Collection<array-key, Modulo>
      */
     protected function getMenuAppFromDB(): Collection
     {
@@ -93,9 +93,9 @@ abstract class UserACL extends Model implements
     /**
      * Determina el modulo seleccionado en menuApp
      * @param Request                 $request
-     * @param Collection<int, Modulo> $menuApp
+     * @param Collection<array-key, Modulo> $menuApp
      *
-     * @return Collection<int, Modulo>
+     * @return Collection<array-key, Modulo>
      */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
@@ -141,7 +141,7 @@ abstract class UserACL extends Model implements
      * Devuelve las abilities de pagina actual
      *
      * @param Request $request
-     * @return Collection<int, string>
+     * @return Collection<array-key, string>
      */
     protected function getAclAbilities(Request $request): Collection
     {

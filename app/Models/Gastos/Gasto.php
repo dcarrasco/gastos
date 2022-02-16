@@ -123,7 +123,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return Collection<int, Gasto>
+     * @return Collection<array-key, Gasto>
      */
     public static function movimientosMes(int $cuentaId, int $anno, int $mes): Collection
     {
@@ -149,7 +149,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return EloquentCollection<int, Gasto>
+     * @return EloquentCollection<array-key, Gasto>
      */
     public static function detalleMovimientosMes(
         int $cuentaId,
@@ -165,7 +165,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return Collection<int, Gasto>
+     * @return Collection<array-key, Gasto>
      */
     public static function movimientosAnno(int $cuentaId, int $anno): Collection
     {
@@ -178,7 +178,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return Collection<int, Gasto>
+     * @return Collection<array-key, Gasto>
      */
     public static function saldos(int $cuentaId, int $anno): Collection
     {
@@ -197,7 +197,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return EloquentCollection<int, Gasto>
+     * @return EloquentCollection<array-key, Gasto>
      */
     public static function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
     {
@@ -228,7 +228,7 @@ class Gasto extends Model
     }
 
     /**
-     * @return Collection<int, Gasto>
+     * @return Collection<array-key, Gasto>
      */
     public static function getDataReporteGastosTotales(int $anno): Collection
     {

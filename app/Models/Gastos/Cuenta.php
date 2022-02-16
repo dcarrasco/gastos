@@ -42,7 +42,7 @@ class Cuenta extends Model
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<array-key, string>
      */
     protected static function selectOptions(int $tipo = 0): Collection
     {
@@ -54,7 +54,7 @@ class Cuenta extends Model
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<array-key, string>
      */
     public static function selectCuentasGastos(): Collection
     {
@@ -62,7 +62,7 @@ class Cuenta extends Model
     }
 
     /**
-     * @return Collection<int, string>
+     * @return Collection<array-key, string>
      */
     public static function selectCuentasInversiones(): Collection
     {
