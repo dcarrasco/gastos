@@ -26,6 +26,8 @@ class TipoCuenta extends Model
     public const CUENTA_GASTO = 1;
     public const CUENTA_INVERSION = 2;
 
+
+    /** @return HasMany<Cuenta> */
     public function cuentas(): HasMany
     {
         return $this->hasMany(Cuenta::class);

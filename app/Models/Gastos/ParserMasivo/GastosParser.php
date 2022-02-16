@@ -14,26 +14,31 @@ abstract class GastosParser
 {
     protected string $descripcion = '';
 
-    /** @var Collection */
+    /** @var Collection<int, GlosaTipoGasto> */
     protected $glosasTipoGasto;
 
-    /** @var Collection|null */
-    protected $datosMasivos = null;
+    /** @var Collection<int, string> */
+    protected $datosMasivos;
+
+    /** @var Collection<int, Gasto>  */
+    protected $datosMasivosProcesados;
 
     protected int $cuentaAsociada = 0;
 
     /** @var non-empty-string */
     protected string $separadorCampos = ' ';
 
+
+    /** @return Collection<int, Gasto>  */
     public function procesaMasivo(Request $request): Collection
     {
         if (is_null($request->input('cuenta_id'))) {
-            return collect([]);
+            return collect();
         }
 
         $this->glosasTipoGasto = GlosaTipoGasto::getCuenta($request->input('cuenta_id'));
 
-        $this->datosMasivos = $this->requestDatosMasivos($request)
+        $this->datosMasivosProcesados = $this->requestDatosMasivos($request)
             ->filtrarLineasValidas($request)
             ->procesaLineas($request)
             ->filtraLineasExistentes($request)
@@ -58,7 +63,7 @@ abstract class GastosParser
     {
         $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
 
-        $this->datosMasivos = $this->datosMasivos
+        $this->datosMasivosProcesados = $this->datosMasivosProcesados
             ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->count() == 0);
 
         return $this;
@@ -76,18 +81,19 @@ abstract class GastosParser
 
     public function agregarDatosMasivos(Request $request): bool
     {
-        if (is_null($this->datosMasivos)) {
+        if ($this->datosMasivosProcesados->isEmpty()) {
             return false;
         }
 
-        return $this->datosMasivos->count() == $this->datosMasivos
+        return $this->datosMasivosProcesados->count() == $this->datosMasivosProcesados
             ->filter->hasTipoGasto()
             ->count();
     }
 
+    /** @return Collection<int, Gasto>  */
     public function getDatosMasivos(): Collection
     {
-        return $this->datosMasivos;
+        return $this->datosMasivosProcesados;
     }
 
     public function __toString(): string
@@ -97,7 +103,7 @@ abstract class GastosParser
 
     protected function procesaLineas(Request $request): GastosParser
     {
-        $this->datosMasivos = $this->datosMasivos
+        $this->datosMasivosProcesados = $this->datosMasivos
             ->map(fn($linea) => $this->procesaLineaMasivo($request, $linea));
 
         return $this;
@@ -124,6 +130,7 @@ abstract class GastosParser
         ]);
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
     {
         return $this->glosasTipoGasto
@@ -132,21 +139,25 @@ abstract class GastosParser
             ?? new TipoGasto();
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getFecha(Collection $linea): Carbon
     {
         return new Carbon();
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getSerie(Collection $linea): string
     {
         return '';
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getGlosa(Collection $linea): string
     {
         return '';
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getMonto(Collection $linea): int
     {
         return 0;

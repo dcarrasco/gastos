@@ -11,6 +11,7 @@ class ReporteGastosTotales extends Reporte
     protected string $campoFila = 'tipo_gasto_id';
     protected string $campoDato = 'monto';
 
+
     public function __construct(int $anno)
     {
         $this->data = Gasto::getDataReporteGastosTotales($anno);
@@ -18,6 +19,7 @@ class ReporteGastosTotales extends Reporte
         parent::__construct();
     }
 
+    /** @return Collection<int, string> */
     protected function makeTitulosColumnas(): Collection
     {
         return collect(range(1, 12))
@@ -25,6 +27,7 @@ class ReporteGastosTotales extends Reporte
             ->map(fn($mes) => trans('fechas.' . Carbon::create(2000, $mes, 1)->format('F')));
     }
 
+    /** @return Collection<int, string> */
     protected function makeTitulosFilas(): Collection
     {
         return $this->data

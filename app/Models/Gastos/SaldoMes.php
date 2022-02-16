@@ -24,6 +24,8 @@ class SaldoMes extends Model
         'cuenta_id', 'anno', 'mes', 'saldo_inicial', 'saldo_final',
     ];
 
+
+    /** @return BelongsTo<Cuenta, SaldoMes> */
     public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);

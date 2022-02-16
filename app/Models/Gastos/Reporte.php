@@ -8,16 +8,16 @@ use Illuminate\Support\HtmlString;
 
 abstract class Reporte
 {
-    /** @var Collection */
+    /** @var Collection<int, Gasto> */
     protected $data;
 
-    /** @var Collection */
+    /** @var Collection<int|string, Collection<(int|string), mixed>> */
     protected $reporte;
 
-    /** @var Collection */
+    /** @var Collection<int, string> */
     protected $titulosColumnas;
 
-    /** @var Collection */
+    /** @var Collection<int, string> */
     protected $titulosFilas;
 
     protected string $campoColumna = '';
@@ -125,21 +125,25 @@ abstract class Reporte
         return (int) ($this->totalReporte() / $this->reporte->map->keys()->max()->max());
     }
 
+    /** @return Collection<int|string, Collection<(int|string), mixed>> */
     public function getReporte(): Collection
     {
         return $this->reporte;
     }
 
+    /** @return Collection<int, string> */
     public function titulosColumnas(): Collection
     {
         return $this->titulosColumnas;
     }
 
+    /** @return Collection<int, string> */
     public function titulosFilas(): Collection
     {
         return $this->titulosFilas;
     }
 
+    /** @return Collection<int|string, Collection<(int|string), mixed>> */
     protected function makeReporte(): Collection
     {
         $reporte = [];
@@ -152,7 +156,9 @@ abstract class Reporte
             ->map(fn($fila) => collect($fila));
     }
 
+    /** @return Collection<int, string> */
     abstract protected function makeTitulosColumnas(): Collection;
 
+    /** @return Collection<int, string> */
     abstract protected function makeTitulosFilas(): Collection;
 }

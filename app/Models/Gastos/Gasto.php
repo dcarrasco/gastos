@@ -165,9 +165,9 @@ class Gasto extends Model
     }
 
     /**
-     * @return EloquentCollection<int, Gasto>
+     * @return Collection<int, Gasto>
      */
-    public static function movimientosAnno(int $cuentaId, int $anno): EloquentCollection
+    public static function movimientosAnno(int $cuentaId, int $anno): Collection
     {
         return static::with('tipoMovimiento')
             ->where('cuenta_id', $cuentaId)
@@ -178,9 +178,9 @@ class Gasto extends Model
     }
 
     /**
-     * @return EloquentCollection<int, Gasto>
+     * @return Collection<int, Gasto>
      */
-    public static function saldos(int $cuentaId, int $anno): EloquentCollection
+    public static function saldos(int $cuentaId, int $anno): Collection
     {
         $tipoMovimientoSaldo = 4;
 

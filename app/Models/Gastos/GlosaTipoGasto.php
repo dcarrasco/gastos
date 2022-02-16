@@ -2,10 +2,10 @@
 
 namespace App\Models\Gastos;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Gastos\GlosaTipoGasto
@@ -23,16 +23,19 @@ class GlosaTipoGasto extends Model
     ];
 
 
+    /** @return BelongsTo<Cuenta, GlosaTipoGasto> */
     public function cuenta(): BelongsTo
     {
         return $this->belongsTo(Cuenta::class);
     }
 
+    /** @return BelongsTo<TipoGasto, GlosaTipoGasto> */
     public function tipoGasto(): BelongsTo
     {
         return $this->belongsTo(TipoGasto::class);
     }
 
+    /** @return Collection<int, GlosaTipoGasto> */
     public static function getCuenta(int $cuentaId): Collection
     {
         return static::with('tipoGasto', 'tipoGasto.tipoMovimiento')

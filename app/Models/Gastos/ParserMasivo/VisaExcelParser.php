@@ -23,21 +23,25 @@ class VisaExcelParser extends GastosParser
         return $this;
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getFecha(Collection $linea): Carbon
     {
         return Carbon::createFromFormat("d-m-Y H:i:s", trim($linea[2]) . ' 00:00:00');
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getSerie(Collection $linea): string
     {
         return $linea[0];
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getGlosa(Collection $linea): string
     {
         return $linea[3];
     }
 
+    /** @param Collection<int, string>  $linea */
     protected function getMonto(Collection $linea): int
     {
         return (int) str_replace(['.', '$'], '', $linea[4]);

@@ -23,11 +23,13 @@ class TipoGasto extends Model
     protected $fillable = ['tipo_movimiento_id', 'tipo_gasto'];
 
 
+    /** @return BelongsTo<TipoMovimiento, TipoGasto> */
     public function tipoMovimiento(): BelongsTo
     {
         return $this->belongsTo(TipoMovimiento::class);
     }
 
+    /** @return Collection<int, string> */
     public static function selectOptions(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()

@@ -12,6 +12,7 @@ class SaldoPrefAhorro extends Trend
 {
     protected bool $filtraValoresEnCero = true;
 
+
     public function calculate(Request $request): Collection
     {
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha');

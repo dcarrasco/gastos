@@ -12,7 +12,9 @@ class BooleanOptions extends Field
 
     /** @var string[] */
     protected array $options = [];
+
     protected string $relationName = '';
+
     protected string $modelId = '';
 
     /**
@@ -102,7 +104,7 @@ class BooleanOptions extends Field
     /**
      * Devuelve texto de representacion de todas las opciones
      *
-     * @param boolean $isEditable
+     * @param bool $isEditable
      * @return string
      */
     protected function getOptionsValues(bool $isEditable = false): string
@@ -116,7 +118,7 @@ class BooleanOptions extends Field
      * Devuelve texto de representacion de una opcion
      *
      * @param string $option
-     * @param boolean $isEditable
+     * @param bool $isEditable
      * @return string
      */
     protected function getFormattedOptionValue(string $option, bool $isEditable = false): string

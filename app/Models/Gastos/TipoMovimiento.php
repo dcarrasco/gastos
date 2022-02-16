@@ -24,11 +24,13 @@ class TipoMovimiento extends Model
     protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
 
 
+    /** @return HasMany<TipoGasto> */
     public function tiposGastos(): HasMany
     {
         return $this->hasMany(TipoGasto::class);
     }
 
+    /** @return Collection<int, string> */
     public static function selectOptions(): Collection
     {
         return static::orderBy('orden')

@@ -4,6 +4,7 @@ namespace App\OrmModel\src\Filters;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 abstract class Filter
@@ -19,10 +20,11 @@ abstract class Filter
     /**
      * Aplica filtro en la query
      *
-     * @param  Request $request
-     * @param  Builder $query
-     * @param  mixed  $value
-     * @return Builder
+     * @param  Request        $request
+     * @param  Builder<Model> $query
+     * @param  mixed          $value
+     *
+     * @return Builder<Model>
      */
     public function apply(Request $request, Builder $query, $value): Builder
     {

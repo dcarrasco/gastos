@@ -102,7 +102,7 @@ abstract class Metric
      * @param  string        $resource
      * @param  string        $timeColumn
      * @param  mixed[]  $dateInterval
-     * @return Builder
+     * @return Builder<Model>
      */
     protected function rangedQuery(Request $request, string $resource, string $timeColumn, array $dateInterval): Builder
     {
@@ -114,7 +114,7 @@ abstract class Metric
      *
      * @param  Request $request
      * @param  string  $resource
-     * @return Builder
+     * @return Builder<Model>
      */
     protected function newQuery(Request $request, string $resource): Builder
     {
@@ -152,9 +152,10 @@ abstract class Metric
 
     /**
      * Filtros adicionales para la query de la metrica
-     * @param  Request $request
-     * @param  Builder $query
-     * @return Builder
+     * @param  Request        $request
+     * @param  Builder<Model> $query
+     *
+     * @return Builder<Model>
      */
     protected function filter(Request $request, Builder $query): Builder
     {
