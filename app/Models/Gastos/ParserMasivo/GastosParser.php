@@ -81,7 +81,7 @@ abstract class GastosParser
 
     public function agregarDatosMasivos(Request $request): bool
     {
-        if ($this->datosMasivosProcesados->isEmpty()) {
+        if (is_null($this->datosMasivosProcesados) or $this->datosMasivosProcesados->isEmpty()) {
             return false;
         }
 

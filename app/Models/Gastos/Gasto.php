@@ -222,7 +222,7 @@ class Gasto extends Model
     public static function createGasto(array $gasto): Gasto
     {
         return static::create(array_merge($gasto, [
-            'tipo_movimiento_id' => TipoGasto::first($gasto['tipo_gasto_id'])->tipo_movimiento_id,
+            'tipo_movimiento_id' => TipoGasto::find($gasto['tipo_gasto_id'])->tipo_movimiento_id,
             'usuario_id' => auth()->id(),
         ]));
     }
