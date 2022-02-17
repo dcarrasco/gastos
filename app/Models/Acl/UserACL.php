@@ -92,9 +92,9 @@ abstract class UserACL extends Model implements
 
     /**
      * Determina el modulo seleccionado en menuApp
+     *
      * @param Request                 $request
      * @param Collection<array-key, Modulo> $menuApp
-     *
      * @return Collection<array-key, Modulo>
      */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
