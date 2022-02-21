@@ -25,7 +25,9 @@ class EvolUtilInversiones extends Trend
             ->map(fn($cuenta) => new Inversion($cuenta, now()->year));
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->map(fn($saldo, $fechaSaldo) => $inversiones->map->utilHasta(now()->createFromFormat('Y-m-d', $fechaSaldo))->sum());
+            ->map(fn($saldo, $fechaSaldo) => $inversiones
+                ->map->utilHasta(now()->createFromFormat('Y-m-d', $fechaSaldo))
+                ->sum());
     }
 
     protected function filter(Request $request, Builder $query): Builder

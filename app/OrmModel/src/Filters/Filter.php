@@ -72,8 +72,7 @@ abstract class Filter
     {
         $urlParameters = array_merge($request->all(), ($this->isSet($request) and $this->getValue($request) == $value)
             ? [$this->getUrlParameterName() => '']
-            : [$this->getUrlParameterName() => $value]
-        );
+            : [$this->getUrlParameterName() => $value]);
 
         return $request->fullUrlWithQuery($urlParameters);
     }

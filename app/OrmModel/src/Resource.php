@@ -209,8 +209,7 @@ abstract class Resource
             ->with(collect($this->fields($request))
                 ->filter->eagerLoadsRelation()
                 ->map->getAttribute()
-                ->all()
-            );
+                ->all());
 
         return $this;
     }
