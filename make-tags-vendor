@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ctags -f tags.vendor vendor
