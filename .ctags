@@ -4,8 +4,8 @@
 --PHP-kinds=cdfi
 --fields=+aimS
 --extra=+q
---exclude=*.js
---exclude=.git/*
+--exclude=.git
 --exclude=*.phar
+--exclude=storage/framework/views
 --tag-relative=yes
 --regex-php=/^[ \t]*trait[ \t]+([a-zA-Z0-9_]+)/\1/t,traits/i
