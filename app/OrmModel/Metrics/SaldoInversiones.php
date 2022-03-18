@@ -4,31 +4,44 @@ namespace App\OrmModel\Metrics;
 
 use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
+use App\Models\Gastos\Inversion;
 use Illuminate\Support\Collection;
-use App\OrmModel\src\Metrics\Trend;
+use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
 
-class SaldoInversiones extends Trend
+class SaldoInversiones extends Value
 {
-    protected bool $filtraValoresEnCero = true;
+    protected array $cuentasInversiones = [3, 6, 7];
 
-    public function calculate(Request $request): Collection
+
+    public function calculate(Request $request): array
     {
-        return $this->sumByDays($request, Gasto::class, 'monto', 'fecha');
+        return [
+            'currentValue' => $this->calculateSaldo($request, $this->currentRange($request)),
+            'previousValue' => $this->calculateSaldo($request, $this->previousRange($request)),
+        ];
     }
 
-    protected function filter(Request $request, Builder $query): Builder
+    /**
+     * Calcula el saldo de una inversión para un periodo de tiempos
+     *
+     * @param Request $request
+     * @param mixed[] $range
+     * @return integer
+     */
+    protected function calculateSaldo(Request $request, array $range): int
     {
-        return $query->whereIn('cuenta_id', [3, 6, 7])
-            ->where('tipo_movimiento_id', 4);
+        [$fechaDesde, $fechaHasta] = $range;
+
+        return collect($this->cuentasInversiones)
+            ->map(fn($cuenta) => (new Inversion($cuenta, $fechaHasta->year))->saldos()->last()?->monto)
+            ->sum();
     }
 
     public function ranges(): array
     {
         return [
             'YTD' => 'Year To Date',
-            'QTD' => 'Quarter To Date',
-            'MTD' => 'Month To Date',
         ];
     }
 }

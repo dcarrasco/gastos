@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 class UtilInversiones extends Value
 {
     /** @var int[] */
-    protected array $cuentasInversiones = [3, 6];
+    protected array $cuentasInversiones = [3, 6, 7];
 
     public function calculate(Request $request): array
     {

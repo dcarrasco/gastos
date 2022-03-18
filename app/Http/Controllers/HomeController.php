@@ -14,6 +14,7 @@ use App\OrmModel\Metrics\SaldoGranValor;
 use App\OrmModel\Metrics\SaldoPrefAhorro;
 use App\OrmModel\Metrics\UtilInversiones;
 use App\OrmModel\Metrics\SaldoInversiones;
+use App\OrmModel\Metrics\EvolSaldoInversiones;
 use App\OrmModel\Metrics\EvolUtilInversiones;
 
 class HomeController extends Controller
@@ -41,11 +42,12 @@ class HomeController extends Controller
             ResumenGastos::make()->prefix('$'),
             ResumenVisa::make()->prefix('$'),
             GastoVisa::make(),
-            SaldoInversiones::make(),
             UtilInversiones::make()->prefix('$'),
+            SaldoInversiones::make()->prefix('$'),
+            EvolSaldoInversiones::make(),
             EvolUtilInversiones::make(),
-            SaldoGranValor::make(),
-            SaldoPrefAhorro::make(),
+            // SaldoGranValor::make(),
+            // SaldoPrefAhorro::make(),
         ];
     }
 }
