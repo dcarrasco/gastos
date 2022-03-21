@@ -44,8 +44,8 @@ class HomeController extends Controller
             GastoVisa::make(),
             UtilInversiones::make()->prefix('$'),
             SaldoInversiones::make()->prefix('$'),
-            EvolSaldoInversiones::make(),
-            EvolUtilInversiones::make(),
+            EvolSaldoInversiones::make()->setTitle('Evol Saldo Inv'),
+            EvolUtilInversiones::make()->setTitle('Evol Util Inv'),
             // SaldoGranValor::make(),
             // SaldoPrefAhorro::make(),
         ];

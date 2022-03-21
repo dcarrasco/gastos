@@ -9,6 +9,9 @@ use App\OrmModel\src\Metrics\Metric;
 
 trait DisplayAsCard
 {
+    protected string $title = '';
+
+
     /**
      * Ancho de la tarjeta
      *
@@ -62,7 +65,16 @@ trait DisplayAsCard
      */
     public function title(): string
     {
-        return Str::of(class_basename($this))->snake()->replace('_', ' ')->title();
+        return empty($this->title)
+            ? Str::of(class_basename($this))->snake()->replace('_', ' ')->title()
+            : $this->title;
+    }
+
+    public function setTitle(string $newTitle): static
+    {
+        $this->title = $newTitle;
+
+        return $this;
     }
 
     /**
