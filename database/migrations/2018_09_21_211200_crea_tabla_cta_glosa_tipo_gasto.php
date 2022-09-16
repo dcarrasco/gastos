@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreaTablaCtaGlosaTipoGasto extends Migration
 {
@@ -22,7 +22,8 @@ class CreaTablaCtaGlosaTipoGasto extends Migration
 
             $table->foreign('cuenta_id')->references('id')->on('cta_cuentas');
             $table->foreign('tipo_gasto_id')->references('id')->on('cta_tipos_gastos');
-        });    }
+        });
+    }
 
     /**
      * Reverse the migrations.
