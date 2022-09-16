@@ -2,20 +2,21 @@
 
 namespace Tests\Feature\OrmModel\Metrics;
 
-use Tests\TestCase;
 use App\Models\Acl\App;
 use App\Models\Acl\Modulo;
 use App\Models\Acl\Usuario;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Partition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
 
 class PartitionTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $partition;
+
     protected $request;
 
     protected function setUp(): void
@@ -24,7 +25,8 @@ class PartitionTest extends TestCase
 
         $this->request = $this->createMock(Request::class);
 
-        $this->partition = new class () extends Partition {
+        $this->partition = new class() extends Partition
+        {
             public function calculate(Request $request): Collection
             {
                 return collect([1 => 100, 2 => 50, 3 => 20]);
@@ -36,7 +38,8 @@ class PartitionTest extends TestCase
     {
         $this->assertCount(3, $this->partition->calculate($this->request));
 
-        $partition = new class () extends Partition {
+        $partition = new class() extends Partition
+        {
         };
         $this->assertEmpty($partition->calculate($this->request));
     }

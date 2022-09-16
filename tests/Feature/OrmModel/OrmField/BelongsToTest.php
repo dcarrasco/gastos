@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
 use App\Models\Acl\App;
 use App\Models\Acl\Modulo;
+use App\OrmModel\src\OrmField\BelongsTo;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ViewErrorBag;
-use App\OrmModel\src\OrmField\BelongsTo;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class BelongsToTest extends TestCase
 {
@@ -23,7 +23,8 @@ class BelongsToTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class ('nombreCampo', 'app', \App\OrmModel\Acl\App::class) extends BelongsTo {
+        $this->field = new class('nombreCampo', 'app', \App\OrmModel\Acl\App::class) extends BelongsTo
+        {
         };
     }
 

@@ -2,30 +2,32 @@
 
 namespace Tests\Feature\OrmModel\Metrics;
 
-use Tests\TestCase;
 use App\Models\Acl\Usuario;
-use Illuminate\Http\Request;
 use App\Models\Gastos\Banco;
-use App\Models\Gastos\Gasto;
 use App\Models\Gastos\Cuenta;
-use App\Models\Gastos\TipoGasto;
+use App\Models\Gastos\Gasto;
 use App\Models\Gastos\TipoCuenta;
-use App\OrmModel\src\Metrics\Value;
+use App\Models\Gastos\TipoGasto;
 use App\Models\Gastos\TipoMovimiento;
+use App\OrmModel\src\Metrics\Value;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 class ValueTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $value;
+
     protected $resource;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->value = new class () extends Value {
+        $this->value = new class() extends Value
+        {
         };
     }
 
@@ -42,7 +44,6 @@ class ValueTest extends TestCase
 
         $this->assertIsArray($this->value->calculate($request));
     }
-
 
     public function testAggregators()
     {
@@ -117,7 +118,8 @@ class ValueTest extends TestCase
     {
         $request = $this->createMock(Request::class);
 
-        $this->value = new class () extends Value {
+        $this->value = new class() extends Value
+        {
             public function calculate(Request $request): array
             {
                 return [
@@ -131,7 +133,8 @@ class ValueTest extends TestCase
         $this->assertStringContainsString('100% de aumento', $this->value->content($request)->toHtml());
         $this->assertStringContainsString('fill: #38c172', $this->value->content($request)->toHtml());
 
-        $value2 = new class () extends Value {
+        $value2 = new class() extends Value
+        {
             public function calculate(Request $request): array
             {
                 return [
@@ -145,7 +148,8 @@ class ValueTest extends TestCase
         $this->assertStringContainsString('-50% de disminucion', $value2->content($request)->toHtml());
         $this->assertStringContainsString('fill: #e3342f', $value2->content($request)->toHtml());
 
-        $value3 = new class () extends Value {
+        $value3 = new class() extends Value
+        {
             public function calculate(Request $request): array
             {
                 return [
@@ -160,7 +164,8 @@ class ValueTest extends TestCase
         $this->assertStringContainsString('0% de aumento', $value3->content($request)->toHtml());
         $this->assertStringContainsString('fill: #38c172', $value3->content($request)->toHtml());
 
-        $value4 = new class () extends Value {
+        $value4 = new class() extends Value
+        {
             public function calculate(Request $request): array
             {
                 return [

@@ -2,21 +2,21 @@
 
 namespace Tests\Unit\OrmModel\Filters;
 
-use Illuminate\Http\Request;
-use PHPUnit\Framework\TestCase;
 use App\OrmModel\src\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
 
 class FilterTest extends TestCase
 {
-
     protected $filter;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->filter = new class () extends Filter {
+        $this->filter = new class() extends Filter
+        {
         };
     }
 

@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
 use App\OrmModel\src\OrmField\Gravatar;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 class GravatarTest extends TestCase
 {
@@ -19,7 +18,8 @@ class GravatarTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class ('nombreCampo') extends Gravatar {
+        $this->field = new class('nombreCampo') extends Gravatar
+        {
         };
     }
 

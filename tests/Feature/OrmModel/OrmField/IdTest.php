@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
-use Illuminate\Support\ViewErrorBag;
+use App\OrmModel\src\Resource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\ViewErrorBag;
+use Tests\TestCase;
 
 class IdTest extends TestCase
 {
@@ -23,7 +22,8 @@ class IdTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class () extends Id {
+        $this->field = new class() extends Id
+        {
         };
     }
 
@@ -31,7 +31,8 @@ class IdTest extends TestCase
     {
         $this->assertEquals('id', $this->field->getName());
 
-        $field2 = new class ('nombreCampo') extends Id {
+        $field2 = new class('nombreCampo') extends Id
+        {
         };
 
         $this->assertEquals('nombreCampo', $field2->getName());

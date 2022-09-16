@@ -2,15 +2,14 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
+use App\OrmModel\src\OrmField\Select;
 use App\OrmModel\src\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ViewErrorBag;
-use App\OrmModel\src\OrmField\Select;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class SelectTest extends TestCase
 {
@@ -24,7 +23,8 @@ class SelectTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class ('nombreCampo') extends Select {
+        $this->field = new class('nombreCampo') extends Select
+        {
         };
     }
 

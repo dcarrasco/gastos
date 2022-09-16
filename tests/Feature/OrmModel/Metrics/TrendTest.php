@@ -2,22 +2,19 @@
 
 namespace Tests\Feature\OrmModel\Metrics;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\OrmModel\Acl\App;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Support\HtmlString;
 use App\Models\Acl\App as AppModel;
+use App\OrmModel\Acl\App;
 use App\OrmModel\src\Metrics\Trend;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 class TrendTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $trend;
+
     protected $request;
 
     protected function setUp(): void
@@ -26,7 +23,8 @@ class TrendTest extends TestCase
 
         $this->request = $this->createMock(Request::class);
 
-        $this->trend = new class () extends Trend {
+        $this->trend = new class() extends Trend
+        {
         };
     }
 

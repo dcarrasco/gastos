@@ -2,21 +2,21 @@
 
 namespace Tests\Unit\OrmModel\Filters;
 
-use Illuminate\Http\Request;
-use PHPUnit\Framework\TestCase;
 use App\OrmModel\src\Filters\PerPage;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use PHPUnit\Framework\TestCase;
 
 class PerPageTest extends TestCase
 {
-
     protected $perPage;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->perPage = new class () extends PerPage {
+        $this->perPage = new class() extends PerPage
+        {
         };
     }
 

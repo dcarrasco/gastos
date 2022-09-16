@@ -2,15 +2,14 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
 use App\Models\Acl\App;
 use App\Models\Acl\Rol;
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Relation;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\OrmModel\src\Resource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\ViewErrorBag;
+use Tests\TestCase;
 
 class RelationTest extends TestCase
 {
@@ -22,7 +21,8 @@ class RelationTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class ('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation {
+        $this->field = new class('nombreCampo', 'nombre_campo', \App\OrmModel\Acl\App::class) extends Relation
+        {
         };
     }
 
@@ -59,23 +59,29 @@ class RelationTest extends TestCase
     {
         $request = $this->createMock(Request::class);
 
-        $rol = new class (Rol::factory()->create()) extends Resource {
+        $rol = new class(Rol::factory()->create()) extends Resource
+        {
             public string $model = 'App\Models\Acl\Rol';
+
             public string $labelPlural = 'Roles';
+
             public string $icono = 'server';
+
             public string $title = 'rol';
+
             public array $search = [
-                'id', 'rol', 'descripcion'
+                'id', 'rol', 'descripcion',
             ];
+
             public $orderBy = [
-                'app_id' => 'asc', 'rol' => 'asc'
+                'app_id' => 'asc', 'rol' => 'asc',
             ];
 
             public function fields(Request $request): array
             {
                 return [
                     \App\OrmModel\src\OrmField\HasMany::make('modulo', 'modulo', \App\OrmModel\Acl\Modulo::class)
-                        ->relationConditions(['app_id' => '@field_value:app_id:NULL'])
+                        ->relationConditions(['app_id' => '@field_value:app_id:NULL']),
                 ];
             }
         };

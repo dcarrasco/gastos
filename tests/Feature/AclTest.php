@@ -2,14 +2,13 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Acl\App;
-use App\Models\Acl\Rol;
 use App\Models\Acl\Modulo;
+use App\Models\Acl\Rol;
 use App\Models\Acl\Usuario;
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 class AclTest extends TestCase
 {
@@ -33,21 +32,21 @@ class AclTest extends TestCase
         $modulo2->app()->associate($app);
         $modulo2->save();
 
-        $rol->modulo()->attach($modulo1, ['abilities' => "[\"view\", \"create\"]"]);
-        $rol->modulo()->attach($modulo2, ['abilities' => "[\"delete\"]"]);
+        $rol->modulo()->attach($modulo1, ['abilities' => '["view", "create"]']);
+        $rol->modulo()->attach($modulo2, ['abilities' => '["delete"]']);
 
         $usuario->rol()->attach($rol);
 
         return $usuario;
     }
 
-
     public function testMenuApp()
     {
         $usuario = $this->creaUsuarioConMenu();
 
         $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('route')->willReturn(new class {
+        $request->expects($this->any())->method('route')->willReturn(new class
+        {
             public function getName()
             {
                 return 'modulo-url1';
@@ -58,7 +57,7 @@ class AclTest extends TestCase
 
         $this->assertEquals(2, $menuApp->count());
         $this->assertEquals(['modulo-url1', 'modulo-url2'], $menuApp->pluck('url')->sort()->values()->all());
-        $this->assertEquals(1, $menuApp->filter(fn($modulo) => $modulo->selected)->count());
+        $this->assertEquals(1, $menuApp->filter(fn ($modulo) => $modulo->selected)->count());
     }
 
     public function testUsuarioHasPassword()
@@ -94,7 +93,8 @@ class AclTest extends TestCase
         $usuario = $this->creaUsuarioConMenu();
 
         $request = $this->createMock(Request::class);
-        $request->expects($this->any())->method('route')->willReturn(new class {
+        $request->expects($this->any())->method('route')->willReturn(new class
+        {
             public function getName()
             {
                 return 'modulo-url1';
@@ -106,7 +106,8 @@ class AclTest extends TestCase
         $this->assertFalse($usuario->hasAbility('delete', $request));
 
         $request2 = $this->createMock(Request::class);
-        $request2->expects($this->any())->method('route')->willReturn(new class {
+        $request2->expects($this->any())->method('route')->willReturn(new class
+        {
             public function getName()
             {
                 return 'modulo-url2';

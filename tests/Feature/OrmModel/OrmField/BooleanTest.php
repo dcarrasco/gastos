@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Boolean;
+use App\OrmModel\src\Resource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Tests\TestCase;
 
 class BooleanTest extends TestCase
 {
@@ -20,7 +19,8 @@ class BooleanTest extends TestCase
     {
         parent::setUp();
 
-        $this->field = new class ('nombreCampo') extends Boolean {
+        $this->field = new class('nombreCampo') extends Boolean
+        {
         };
     }
 

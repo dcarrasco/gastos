@@ -2,16 +2,15 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
+use App\OrmModel\src\OrmField\Date;
 use App\OrmModel\src\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Date;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DateTest extends TestCase
 {
@@ -25,7 +24,8 @@ class DateTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class ('nombreCampo') extends Date {
+        $this->field = new class('nombreCampo') extends Date
+        {
         };
     }
 

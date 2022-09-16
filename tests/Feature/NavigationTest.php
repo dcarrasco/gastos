@@ -2,16 +2,15 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Acl\Usuario;
 use App\Models\Gastos\Banco;
-use App\Models\Gastos\Gasto;
 use App\Models\Gastos\Cuenta;
-use App\Models\Gastos\TipoGasto;
+use App\Models\Gastos\Gasto;
 use App\Models\Gastos\TipoCuenta;
+use App\Models\Gastos\TipoGasto;
 use App\Models\Gastos\TipoMovimiento;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class NavigationTest extends TestCase
 {
@@ -62,16 +61,15 @@ class NavigationTest extends TestCase
         return [
             'ingreso gasto' => ['post', '/gastos/ingresar', [
                 'cuenta_id' => '1', 'anno' => 2020, 'mes' => 1, 'fecha' => '2020-01-01', 'glosa' => 'aa',
-                'serie' => '123', 'tipo_gasto_id' => 1, 'monto' => 123
+                'serie' => '123', 'tipo_gasto_id' => 1, 'monto' => 123,
             ]],
             'ingreso inversion' => ['post', '/gastos/inversion', [
                 'cuenta_id' => '1', 'anno' => 2020, 'mes' => 1, 'fecha' => '2020-01-01', 'glosa' => 'aa',
-                'serie' => '123', 'tipo_gasto_id' => 1, 'monto' => 123
+                'serie' => '123', 'tipo_gasto_id' => 1, 'monto' => 123,
             ]],
             'borrar gasto' => ['delete', '/gastos/ingresar/1', []],
         ];
     }
-
 
     /**
      * @dataProvider urlGetDataProvider

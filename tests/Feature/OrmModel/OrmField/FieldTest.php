@@ -2,16 +2,15 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
+use App\OrmModel\src\OrmField\Field;
 use App\OrmModel\src\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\MessageBag;
-use App\OrmModel\src\OrmField\Field;
 use Illuminate\Support\ViewErrorBag;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class FieldTest extends TestCase
 {
@@ -25,7 +24,8 @@ class FieldTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class ('nombreCampo') extends Field {
+        $this->field = new class('nombreCampo') extends Field
+        {
         };
     }
 
@@ -183,7 +183,6 @@ class FieldTest extends TestCase
             $this->field->placeholder('newPlaceholder')->getForm($request, $resource)
         );
     }
-
 
     public function testEagerLoadsRelation()
     {

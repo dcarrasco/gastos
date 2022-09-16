@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\OrmModel\Metrics;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Metrics\Metric;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\HtmlString;
+use Tests\TestCase;
 
 class MetricTest extends TestCase
 {
@@ -20,7 +20,8 @@ class MetricTest extends TestCase
     {
         parent::setUp();
 
-        $this->metric = new class () extends Metric {
+        $this->metric = new class() extends Metric
+        {
             public function getCurrentRange(Request $request): array
             {
                 return $this->currentRange($request);
@@ -46,7 +47,7 @@ class MetricTest extends TestCase
             ['YTD', now()->startOfYear(), now()],
             ['CURR_MONTH', now()->startOfMonth(), now()->endOfMonth()],
             ['LAST_MONTH', now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
-            [10, now()->subDays(10-1), now()],
+            [10, now()->subDays(10 - 1), now()],
         ];
     }
 
@@ -58,7 +59,7 @@ class MetricTest extends TestCase
             ['YTD', now()->subYear()->subMonth()->startOfYear(), now()->subYear()],
             ['CURR_MONTH', now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
             ['LAST_MONTH', now()->subMonth()->subMonth()->startOfMonth(), now()->subMonth()->subMonth()->endOfMonth()],
-            [10, now()->subDays(20-1), now()->subDays(10)],
+            [10, now()->subDays(20 - 1), now()->subDays(10)],
         ];
     }
 
@@ -79,7 +80,7 @@ class MetricTest extends TestCase
             [$startDate->toDateString(), $endDate->toDateString()],
             [
                 $this->metric->getCurrentRange($request)[0]->toDateString(),
-                $this->metric->getCurrentRange($request)[1]->toDateString()
+                $this->metric->getCurrentRange($request)[1]->toDateString(),
             ]
         );
     }
@@ -96,7 +97,7 @@ class MetricTest extends TestCase
             [$startDate->toDateString(), $endDate->toDateString()],
             [
                 $this->metric->getPreviousRange($request)[0]->toDateString(),
-                $this->metric->getPreviousRange($request)[1]->toDateString()
+                $this->metric->getPreviousRange($request)[1]->toDateString(),
             ]
         );
     }
@@ -143,7 +144,6 @@ class MetricTest extends TestCase
         $this->assertIsArray($this->metric->ajaxRequest($request));
     }
 
-
     // -------------------------------------------------------------------------
     // trait DisplayAsCard
     // -------------------------------------------------------------------------
@@ -166,9 +166,9 @@ class MetricTest extends TestCase
             'prefix' => 'prefix',
             'as' => 'prefix.ajaxCard',
             'namespace' => 'Test',
-            'middleware' => 'auth'
+            'middleware' => 'auth',
         ], function () {
-                Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
+            Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
         $this->assertInstanceOf(HtmlString::class, $this->metric->render($request));
@@ -207,11 +207,11 @@ class MetricTest extends TestCase
             'prefix' => 'prefix',
             'as' => 'prefix.ajaxCard',
             'namespace' => 'Test',
-            'middleware' => 'auth'
+            'middleware' => 'auth',
         ], function () {
             Route::get('ajaxCard', 'Ingreso@index')->name('ajaxCard');
         });
 
-        $this->assertEquals(config('app.url') . '/prefix/ajaxCard', $this->metric->urlRoute($request));
+        $this->assertEquals(config('app.url').'/prefix/ajaxCard', $this->metric->urlRoute($request));
     }
 }

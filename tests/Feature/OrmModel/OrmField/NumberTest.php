@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\OrmModel\OrmField;
 
-use Tests\TestCase;
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\Number;
+use App\OrmModel\src\Resource;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\ViewErrorBag;
+use Tests\TestCase;
 
 class NumberTest extends TestCase
 {
@@ -23,7 +22,8 @@ class NumberTest extends TestCase
 
         view()->share('errors', new ViewErrorBag());
 
-        $this->field = new class ('nombreCampo') extends Number {
+        $this->field = new class('nombreCampo') extends Number
+        {
         };
     }
 

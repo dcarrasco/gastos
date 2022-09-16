@@ -2,26 +2,26 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Acl\Rol;
 use App\Models\Acl\Usuario;
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use App\OrmModel\src\OrmField\Id;
-use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\Filters\Filter;
-use Illuminate\Support\ViewErrorBag;
 use App\OrmModel\src\OrmField\HasMany;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\ViewErrorBag;
+use Tests\TestCase;
 
 class ResourceTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $resource;
+
     protected $model;
 
     protected function setUp(): void
@@ -32,11 +32,16 @@ class ResourceTest extends TestCase
 
         $this->model = Usuario::factory()->create();
 
-        $this->resource = new class ($this->model) extends Resource {
+        $this->resource = new class($this->model) extends Resource
+        {
             public string $model = 'App\Models\Acl\Usuario';
+
             public string $label = 'ResourceLabel';
+
             public string $title = 'nombre';
+
             public array $search = ['nombre', 'username'];
+
             public $orderBy = 'campo';
 
             public function fields(Request $request): array
@@ -54,7 +59,8 @@ class ResourceTest extends TestCase
     {
         $this->expectException(\Exception::class);
 
-        $this->classSinModelo = new class extends Resource {
+        $this->classSinModelo = new class extends Resource
+        {
         };
     }
 
@@ -62,14 +68,14 @@ class ResourceTest extends TestCase
     {
         $request = $this->createMock(Request::class);
 
-        $resource = new class ($this->model) extends Resource {
+        $resource = new class($this->model) extends Resource
+        {
             public string $model = 'App\Models\Acl\Usuario';
         };
 
         $this->assertIsArray($resource->fields($request));
         $this->assertEmpty($resource->fields($request));
     }
-
 
     public function testGetName()
     {
@@ -137,7 +143,7 @@ class ResourceTest extends TestCase
             $this->resource
                 ->resolveIndexFields($request)
                 ->getFields()
-                ->map(fn($field) => $field->getFormattedValue())
+                ->map(fn ($field) => $field->getFormattedValue())
         );
     }
 
@@ -155,7 +161,7 @@ class ResourceTest extends TestCase
             $this->resource
                 ->resolveDetailFields($request)
                 ->getFields()
-                ->map(fn($field) => $field->getFormattedValue())
+                ->map(fn ($field) => $field->getFormattedValue())
         );
     }
 
@@ -305,11 +311,16 @@ class ResourceTest extends TestCase
     {
         $roles = Rol::factory(4)->create();
 
-        $resource = new class ($this->model) extends Resource {
+        $resource = new class($this->model) extends Resource
+        {
             public string $model = 'App\Models\Acl\Usuario';
+
             public string $label = 'ResourceLabel';
+
             public string $title = 'nombre';
+
             public array $search = ['nombre', 'username'];
+
             public $orderBy = 'campo';
 
             public function fields(Request $request): array
@@ -377,13 +388,16 @@ class ResourceTest extends TestCase
     {
         $this->model = Usuario::factory()->create();
 
-        $this->resource = new class ($this->model) extends Resource {
+        $this->resource = new class($this->model) extends Resource
+        {
             public string $model = 'App\Models\Acl\Usuario';
+
             public function filters(Request $request): array
             {
                 return [
-                    new class () extends Filter {
-                    }
+                    new class() extends Filter
+                    {
+                    },
                 ];
             }
         };
