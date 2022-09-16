@@ -16,13 +16,15 @@
         "laravel/ui": "^3.0"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^1.0",
+        "barryvdh/laravel-debugbar": "^3.2",
+        "doctrine/dbal": "^3.4",
         "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.2",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.0",
+        "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^9.5.10",
-        "barryvdh/laravel-debugbar": "^3.2",
-        "nunomaduro/larastan": "^2.0"
+        "spatie/laravel-ignition": "^1.0"
     },
     "config": {
         "optimize-autoloader": true,
