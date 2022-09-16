@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 
 class RestoreDatabase extends Command
@@ -38,7 +38,7 @@ class RestoreDatabase extends Command
     {
         parent::__construct();
 
-        if (!is_dir(storage_path($this->backupPath))) {
+        if (! is_dir(storage_path($this->backupPath))) {
             mkdir(storage_path($this->backupPath));
         }
     }
@@ -52,7 +52,7 @@ class RestoreDatabase extends Command
 
         return collect($files)
             ->diff(['.', '..', '.gitignore'])
-            ->map(fn($file) => Str::before($file, '.'))
+            ->map(fn ($file) => Str::before($file, '.'))
             ->values()
             ->all();
     }
@@ -71,7 +71,7 @@ class RestoreDatabase extends Command
         $sqlFile = storage_path("{$this->backupPath}/{$archivo}.sql");
 
         if (! file_exists($sqlFile)) {
-            die("Archivo a restaurar no existe ($sqlFile)");
+            exit("Archivo a restaurar no existe ($sqlFile)");
         }
 
         try {
@@ -80,13 +80,13 @@ class RestoreDatabase extends Command
             }
 
             $file = collect($file)
-                ->map(fn($linea) => DB::unprepared($linea));
+                ->map(fn ($linea) => DB::unprepared($linea));
 
             Log::info('Database restore exitoso');
 
-            $this->info('Database restore exitoso (' . $file->count() . ' lineas procesadas).');
+            $this->info('Database restore exitoso ('.$file->count().' lineas procesadas).');
         } catch (\Exception $exception) {
-            Log::error('Database restore con errores: ' . $exception);
+            Log::error('Database restore con errores: '.$exception);
         }
     }
 }

@@ -39,7 +39,6 @@ class BackupDatabase extends Command
         'gastos.sessions',
     ];
 
-
     /**
      * Create a new command instance.
      *
@@ -49,7 +48,7 @@ class BackupDatabase extends Command
     {
         parent::__construct();
 
-        if (!is_dir(storage_path($this->backupPath))) {
+        if (! is_dir(storage_path($this->backupPath))) {
             mkdir(storage_path($this->backupPath));
         }
 
@@ -61,14 +60,14 @@ class BackupDatabase extends Command
         $today = now()->format('Y-m-d');
 
         $ignoreTablesCommand = collect($this->ignoreTables)
-            ->map(fn($table) => "--ignore-table={$table}")
+            ->map(fn ($table) => "--ignore-table={$table}")
             ->implode(' ');
 
         $processCommand = sprintf(
             'mysqldump'
-                . ' --skip-add-drop-table --skip-add-locks --no-create-info %s'
-                . ' --user=%s --password=%s --host=%s --port=%s %s'
-                . ' > %s',
+                .' --skip-add-drop-table --skip-add-locks --no-create-info %s'
+                .' --user=%s --password=%s --host=%s --port=%s %s'
+                .' > %s',
             $ignoreTablesCommand,
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
@@ -81,7 +80,6 @@ class BackupDatabase extends Command
         return $processCommand;
     }
 
-
     /**
      * Execute the console command.
      *
@@ -93,7 +91,7 @@ class BackupDatabase extends Command
             $this->process->mustRun();
             Log::info('Database backup exitoso');
         } catch (\Exception $exception) {
-            Log::error('Database backup con errores: '. $exception);
+            Log::error('Database backup con errores: '.$exception);
         }
     }
 }

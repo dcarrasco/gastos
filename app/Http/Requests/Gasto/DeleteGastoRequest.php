@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Gasto;
 
-use App\Models\Gastos\Gasto;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteGastoRequest extends FormRequest

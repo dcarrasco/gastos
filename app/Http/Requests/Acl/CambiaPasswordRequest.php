@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Acl;
 
-use App\Models\Acl\UserACL;
 use App\Models\Acl\Usuario;
 use Illuminate\Foundation\Http\FormRequest;
 

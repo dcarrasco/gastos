@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Acl\ConfigController as AclConfigController;
+use App\Http\Controllers\Acl\LoginController;
+use App\Http\Controllers\Gastos\ConfigController as GastosConfigController;
 use App\Http\Controllers\Gastos\Ingreso;
+use App\Http\Controllers\Gastos\IngresoInversion;
+use App\Http\Controllers\Gastos\IngresoMasivo;
 use App\Http\Controllers\Gastos\Reporte;
+use App\Http\Controllers\Gastos\ReporteTotalGastos;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Orm\OrmController;
-use App\Http\Controllers\Acl\LoginController;
-use App\Http\Controllers\Gastos\IngresoMasivo;
-use App\Http\Controllers\Gastos\IngresoInversion;
-use App\Http\Controllers\Gastos\ReporteTotalGastos;
-use App\Http\Controllers\Acl\ConfigController as AclConfigController;
-use App\Http\Controllers\Gastos\ConfigController as GastosConfigController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
