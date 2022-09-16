@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Orm;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class OrmController extends Controller
 {
@@ -29,11 +26,10 @@ class OrmController extends Controller
      */
     protected array $menuModulo = [];
 
-
     public function __construct(Request $request)
     {
         if (empty($this->routeName)) {
-            throw new \Exception("El parametro routeName no esta definido");
+            throw new \Exception('El parametro routeName no esta definido');
         }
 
         $this->makeView($request);
@@ -67,7 +63,7 @@ class OrmController extends Controller
         $nextRoute = $request->redirect_to === 'next' ? '.index' : '.create';
 
         return redirect()
-            ->route($this->routeName . $nextRoute, [$resource->getName()])
+            ->route($this->routeName.$nextRoute, [$resource->getName()])
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
@@ -99,7 +95,7 @@ class OrmController extends Controller
         $nextRoute = $request->redirect_to === 'next' ? '.show' : '.edit';
 
         return redirect()
-            ->route($this->routeName . $nextRoute, $resource->getRouteControllerId())
+            ->route($this->routeName.$nextRoute, $resource->getRouteControllerId())
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
@@ -119,8 +115,8 @@ class OrmController extends Controller
     /**
      * Recupera opciones select cuando un campo cambia
      *
-     * @param Request $request
-     * @param string $resourceClass
+     * @param  Request  $request
+     * @param  string  $resourceClass
      * @return string
      */
     public function ajaxOnChange(Request $request, string $resourceClass = ''): string

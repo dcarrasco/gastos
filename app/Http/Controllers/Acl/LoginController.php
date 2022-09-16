@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Acl;
 
-use App\Models\Acl\UserACL;
-use App\Models\Acl\Usuario;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Acl\CambiaPasswordRequest;
+use App\Models\Acl\Usuario;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
@@ -22,7 +20,7 @@ class LoginController extends Controller
 
     public function cambiaPassword(CambiaPasswordRequest $request, Usuario $usuario): RedirectResponse
     {
-        if (!$usuario->hasPassword() or $usuario->checkPassword($request->input('clave_anterior'))) {
+        if (! $usuario->hasPassword() or $usuario->checkPassword($request->input('clave_anterior'))) {
             $usuario->storePassword($request->input('nueva_clave'));
 
             return redirect()->route('login');

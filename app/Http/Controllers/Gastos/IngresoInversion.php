@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use App\Models\Gastos\Gasto;
-use Illuminate\Http\Request;
-use App\Models\Gastos\Cuenta;
-use App\Models\Gastos\Inversion;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use App\Models\Gastos\TipoMovimiento;
 use App\Http\Requests\Gasto\AddInversionRequest;
+use App\Models\Gastos\Cuenta;
+use App\Models\Gastos\Gasto;
+use App\Models\Gastos\Inversion;
+use App\Models\Gastos\TipoMovimiento;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class IngresoInversion extends Controller
 {

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Gastos;
 
-use Illuminate\Http\Request;
-use App\Models\Gastos\TipoGasto;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use App\Models\Gastos\GlosaTipoGasto;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Gasto\IngresoMasivoRequest;
+use App\Models\Gastos\GlosaTipoGasto;
 use App\Models\Gastos\ParserMasivo\GastosParser;
-use App\Models\Gastos\ParserMasivo\VisaPdfParser;
 use App\Models\Gastos\ParserMasivo\VisaExcelParser;
+use App\Models\Gastos\ParserMasivo\VisaPdfParser;
+use App\Models\Gastos\TipoGasto;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class IngresoMasivo extends Controller
 {
@@ -27,7 +27,6 @@ class IngresoMasivo extends Controller
         VisaPdfParser::class,
     ];
 
-
     public function __construct(Request $request)
     {
         $this->cuentas = $this->getParsers()
@@ -36,7 +35,7 @@ class IngresoMasivo extends Controller
 
         $this->parser = $this->getParsers()
             ->first(
-                fn($parser) => (string) $parser == $request->input('parser', (string) $this->getParsers()->first())
+                fn ($parser) => (string) $parser == $request->input('parser', (string) $this->getParsers()->first())
             );
     }
 

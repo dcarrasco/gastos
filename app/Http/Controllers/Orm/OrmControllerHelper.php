@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Orm;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
-use App\OrmModel\src\Metrics\Metric;
 use App\OrmModel\src\Filters\PerPage;
+use App\OrmModel\src\Metrics\Metric;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 trait OrmControllerHelper
@@ -16,12 +16,12 @@ trait OrmControllerHelper
      *
      * @param  string  $resourceName Nombre del recurso a recuperar
      * @param  string  $resourceId   Id del recurso a recuperar
-     * @return Resource
+     * @return resource
      */
     protected function getResource(string $resourceName = '', $resourceId = null): Resource
     {
         $resource = $this->getMenuModulo()
-            ->first(fn($resourceItem) => $resourceItem->getName() === $resourceName)
+            ->first(fn ($resourceItem) => $resourceItem->getName() === $resourceName)
             ?? $this->getMenuModulo()->first();
 
         if ($resourceId) {
@@ -34,13 +34,13 @@ trait OrmControllerHelper
     /**
      * Devuelve instancias de menuModulo
      *
-     * @return Collection<array-key, Resource>
+     * @return Collection<array-key, resource>
      */
     protected function getMenuModulo(): Collection
     {
         return collect($this->menuModulo)
             ->map(function ($resourceName) {
-                /** @var Resource */
+                /** @var resource */
                 $newResource = new $resourceName();
 
                 return $newResource;
@@ -50,8 +50,8 @@ trait OrmControllerHelper
     /**
      * Genera las rutas web del configuración del módulo
      *
-     * @param  string $modulo
-     * @param  string $controllerClass
+     * @param  string  $modulo
+     * @param  string  $controllerClass
      * @return void
      */
     public static function routes(string $modulo, string $controllerClass): void
@@ -84,15 +84,16 @@ trait OrmControllerHelper
     public function makeMenuModuloURL(string $selectedResource): Collection
     {
         return $this->getMenuModulo()
-            ->map(fn($resource) => (object) [
+            ->map(fn ($resource) => (object) [
                 'nombre' => $resource->getLabelPlural(),
                 'url' => route("{$this->routeName}.index", $resource->getName()),
-                'selected' => $resource->getName() === $selectedResource ,
+                'selected' => $resource->getName() === $selectedResource,
             ]);
     }
 
     /**
      * Agrega variables a desplegar en vistas
+     *
      * @return void
      */
     protected function makeView(Request $request): void
@@ -109,8 +110,9 @@ trait OrmControllerHelper
 
     /**
      * Devuelve mensaje de alerta para desplegar al realizar una accion
-     * @param  string   $message
-     * @param  Resource $resource
+     *
+     * @param  string  $message
+     * @param  resource  $resource
      * @param  Request  $request
      * @return string
      */
@@ -125,7 +127,7 @@ trait OrmControllerHelper
     /**
      * Recupera las cards de todos los modelos del controlador Orm
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Metric[]
      */
     protected function cards(Request $request): array
