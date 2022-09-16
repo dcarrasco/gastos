@@ -2,11 +2,12 @@
 
 namespace App\Models\Acl;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Acl\Modulo
+ *
  * @property int $id
  * @property int $app_id
  * @property string $modulo
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $url
  * @property int $orden
  * @property Illuminate\Database\Eloquent\Relations\Pivot $pivot
- * @property boolean $selected
+ * @property bool $selected
  */
 class Modulo extends Model
 {
@@ -25,7 +26,6 @@ class Modulo extends Model
     protected $table = 'acl_modulo';
 
     protected $fillable = ['app_id', 'modulo', 'descripcion', 'llave_modulo', 'icono', 'url', 'orden'];
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<App, Modulo>

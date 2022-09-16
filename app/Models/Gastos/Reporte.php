@@ -21,12 +21,13 @@ abstract class Reporte
     protected $titulosFilas;
 
     protected string $campoColumna = '';
+
     protected string $campoFila = '';
+
     protected string $campoDato = '';
 
-    /** @var Callable[] */
+    /** @var callable[] */
     protected array $valueFormats = [];
-
 
     public function __construct()
     {
@@ -35,7 +36,7 @@ abstract class Reporte
         $this->titulosFilas = $this->makeTitulosFilas();
 
         $this->valueFormats = [
-            'dato' => fn($valor) => fmtMonto($valor),
+            'dato' => fn ($valor) => fmtMonto($valor),
         ];
     }
 
@@ -46,7 +47,7 @@ abstract class Reporte
 
     public function getFormatted(string $format, mixed $value): HtmlString
     {
-        $formatFunction = Arr::get($this->valueFormats, $format, fn($value) => $value);
+        $formatFunction = Arr::get($this->valueFormats, $format, fn ($value) => $value);
 
         return new HtmlString($formatFunction($value));
     }
@@ -105,7 +106,6 @@ abstract class Reporte
         return $this->totalFila($fila) / $this->countFila($fila);
     }
 
-
     public function totalColumna(string $columna): int
     {
         return $this->reporte
@@ -153,7 +153,7 @@ abstract class Reporte
         });
 
         return collect($reporte)
-            ->map(fn($fila) => collect($fila));
+            ->map(fn ($fila) => collect($fila));
     }
 
     /** @return Collection<array-key, string> */

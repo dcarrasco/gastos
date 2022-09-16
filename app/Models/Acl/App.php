@@ -2,11 +2,12 @@
 
 namespace App\Models\Acl;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Acl\App
+ *
  * @property int $id
  * @property string $app
  * @property string $descripcion

@@ -2,7 +2,6 @@
 
 namespace App\Models\Gastos;
 
-use App\Models\Gastos\Gasto;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -13,7 +12,6 @@ class Inversion
 
     /** @var Collection<array-key, Gasto> */
     protected $saldos;
-
 
     public function __construct(int $cuenta, int $anno)
     {
@@ -71,7 +69,7 @@ class Inversion
     public function evolUtil(): Collection
     {
         return $this->saldos
-            ->mapWithKeys(fn($saldo) => [(string) $saldo->fecha->format('Y-m-d') => $this->util($saldo)]);
+            ->mapWithKeys(fn ($saldo) => [(string) $saldo->fecha->format('Y-m-d') => $this->util($saldo)]);
     }
 
     public function rentabilidad(Gasto $saldo): float
@@ -83,7 +81,7 @@ class Inversion
 
     public function fmtRentabilidad(Gasto $saldo): string
     {
-        return fmtCantidad($this->rentabilidad($saldo), 2) . '%';
+        return fmtCantidad($this->rentabilidad($saldo), 2).'%';
     }
 
     public function rentabilidadAnual(Gasto $saldoFinal): float
@@ -100,7 +98,7 @@ class Inversion
 
     public function fmtRentabilidadAnual(Gasto $saldo): string
     {
-        return fmtCantidad($this->rentabilidadAnual($saldo), 2) . '%';
+        return fmtCantidad($this->rentabilidadAnual($saldo), 2).'%';
     }
 
     public function getJSONRentabilidadesAnual(): string
@@ -113,7 +111,7 @@ class Inversion
             'label' => $this->saldos->pluck('fecha')
                 ->map->format('Y-m-d')
                 ->toArray(),
-            'rentabilidad' => $this->saldos->map(fn($saldo) => $this->rentabilidadAnual($saldo))
+            'rentabilidad' => $this->saldos->map(fn ($saldo) => $this->rentabilidadAnual($saldo))
                 ->toArray(),
             'saldo' => $this->saldos->pluck('monto')
                 ->toArray(),

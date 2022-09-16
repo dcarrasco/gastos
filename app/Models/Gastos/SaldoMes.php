@@ -3,12 +3,12 @@
 namespace App\Models\Gastos;
 
 use Carbon\Carbon;
-use App\Models\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gastos\SaldoMes
+ *
  * @property int $id
  * @property int $cuenta_id
  * @property int $anno
@@ -23,7 +23,6 @@ class SaldoMes extends Model
     protected $fillable = [
         'cuenta_id', 'anno', 'mes', 'saldo_inicial', 'saldo_final',
     ];
-
 
     /** @return BelongsTo<Cuenta, SaldoMes> */
     public function cuenta(): BelongsTo

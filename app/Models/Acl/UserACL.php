@@ -2,21 +2,22 @@
 
 namespace App\Models\Acl;
 
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 /**
  * App\Model\UserACL
+ *
  * @property int $id
  * @property string $nombre
  * @property int $activo
@@ -25,15 +26,11 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @property string $email
  * @property Collection $rol
  */
-abstract class UserACL extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract
+abstract class UserACL extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     use Authenticatable;
     use Authorizable;
     use CanResetPassword;
-
 
     /**
      * @return BelongsToMany<Rol>
@@ -50,11 +47,11 @@ abstract class UserACL extends Model implements
 
     public function avatarLink(): string
     {
-        return 'https://secure.gravatar.com/avatar/' . md5($this->email) . '?size=24';
+        return 'https://secure.gravatar.com/avatar/'.md5($this->email).'?size=24';
     }
 
     /**
-     * @param Builder<UserACL> $query
+     * @param  Builder<UserACL>  $query
      * @return Builder<UserACL>
      */
     public static function scopeUsuario(Builder $query, string $username): Builder
@@ -67,7 +64,7 @@ abstract class UserACL extends Model implements
      */
     public function getMenuApp(Request $request): Collection
     {
-        if (!session()->has('menuapp')) {
+        if (! session()->has('menuapp')) {
             session(['menuapp' => $this->getMenuAppFromDB()]);
         }
 
@@ -83,7 +80,7 @@ abstract class UserACL extends Model implements
     {
         return $this->rol
             ->flatMap->modulo
-            ->map(fn($modulo) => $modulo
+            ->map(fn ($modulo) => $modulo
                     ->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
                     ->setAttribute('selected', false))
             ->sortBy('orden')
@@ -93,18 +90,18 @@ abstract class UserACL extends Model implements
     /**
      * Determina el modulo seleccionado en menuApp
      *
-     * @param Request                 $request
-     * @param Collection<array-key, Modulo> $menuApp
+     * @param  Request  $request
+     * @param  Collection<array-key, Modulo>  $menuApp
      * @return Collection<array-key, Modulo>
      */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
         $currentUrl = config(
-            'invfija.' . str_replace('.', '_', $request->route()->getName()),
+            'invfija.'.str_replace('.', '_', $request->route()->getName()),
             $request->route()->getName()
         );
 
-        return $menuApp->map(fn($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentUrl));
+        return $menuApp->map(fn ($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentUrl));
     }
 
     public function moduloAppName(Request $request): HtmlString
@@ -134,13 +131,13 @@ abstract class UserACL extends Model implements
     protected function getCurrentModulo(Request $request): Modulo
     {
         return $this->getMenuApp($request)
-            ->first(fn($modulo) => $modulo->selected);
+            ->first(fn ($modulo) => $modulo->selected);
     }
 
     /**
      * Devuelve las abilities de pagina actual
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Collection<array-key, string>
      */
     protected function getAclAbilities(Request $request): Collection

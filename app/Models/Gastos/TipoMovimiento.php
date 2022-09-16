@@ -2,13 +2,14 @@
 
 namespace App\Models\Gastos;
 
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Gastos\TipoMovimiento
+ *
  * @property int $id
  * @property string $tipoMovimiento
  * @property int $signo
@@ -22,7 +23,6 @@ class TipoMovimiento extends Model
     protected $table = 'cta_tipos_movimientos';
 
     protected $fillable = ['tipo_movimiento', 'signo', 'orden'];
-
 
     /** @return HasMany<TipoGasto> */
     public function tiposGastos(): HasMany

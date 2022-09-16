@@ -2,11 +2,12 @@
 
 namespace App\Models\Gastos;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Gastos\Banco
+ *
  * @property int $id
  * @property string $nombre
  */

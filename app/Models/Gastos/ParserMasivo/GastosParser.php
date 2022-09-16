@@ -2,13 +2,13 @@
 
 namespace App\Models\Gastos\ParserMasivo;
 
-use App\Models\Gastos\Gasto;
-use Illuminate\Http\Request;
 use App\Models\Gastos\Cuenta;
-use Illuminate\Support\Carbon;
-use App\Models\Gastos\TipoGasto;
-use Illuminate\Support\Collection;
+use App\Models\Gastos\Gasto;
 use App\Models\Gastos\GlosaTipoGasto;
+use App\Models\Gastos\TipoGasto;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 abstract class GastosParser
 {
@@ -20,14 +20,13 @@ abstract class GastosParser
     /** @var Collection<array-key, string> */
     protected $datosMasivos;
 
-    /** @var Collection<array-key, Gasto>  */
+    /** @var Collection<array-key, Gasto> */
     protected $datosMasivosProcesados;
 
     protected int $cuentaAsociada = 0;
 
     /** @var non-empty-string */
     protected string $separadorCampos = ' ';
-
 
     /** @return Collection<array-key, Gasto>  */
     public function procesaMasivo(Request $request): Collection
@@ -64,7 +63,7 @@ abstract class GastosParser
         $camposFiltro = ['cuenta_id', 'anno', 'fecha', 'serie', 'monto'];
 
         $this->datosMasivosProcesados = $this->datosMasivosProcesados
-            ->filter(fn($gasto) => Gasto::where($gasto->only($camposFiltro))->count() == 0);
+            ->filter(fn ($gasto) => Gasto::where($gasto->only($camposFiltro))->count() == 0);
 
         return $this;
     }
@@ -104,7 +103,7 @@ abstract class GastosParser
     protected function procesaLineas(Request $request): GastosParser
     {
         $this->datosMasivosProcesados = $this->datosMasivos
-            ->map(fn($linea) => $this->procesaLineaMasivo($request, $linea));
+            ->map(fn ($linea) => $this->procesaLineaMasivo($request, $linea));
 
         return $this;
     }
@@ -112,7 +111,7 @@ abstract class GastosParser
     protected function procesaLineaMasivo(Request $request, string $linea): Gasto
     {
         $linea = collect(explode($this->separadorCampos, $linea))
-            ->map(fn($linea) => trim($linea));
+            ->map(fn ($linea) => trim($linea));
 
         $tipoGasto = $this->getTipoGasto($request, $linea);
 
@@ -130,7 +129,7 @@ abstract class GastosParser
         ]);
     }
 
-    /** @param Collection<array-key, string>  $linea */
+    /** @param  Collection<array-key, string>  $linea */
     protected function getTipoGasto(Request $request, Collection $linea): TipoGasto
     {
         return $this->glosasTipoGasto
@@ -139,25 +138,25 @@ abstract class GastosParser
             ?? new TipoGasto();
     }
 
-    /** @param Collection<array-key, string>  $linea */
+    /** @param  Collection<array-key, string>  $linea */
     protected function getFecha(Collection $linea): Carbon
     {
         return new Carbon();
     }
 
-    /** @param Collection<array-key, string>  $linea */
+    /** @param  Collection<array-key, string>  $linea */
     protected function getSerie(Collection $linea): string
     {
         return '';
     }
 
-    /** @param Collection<array-key, string>  $linea */
+    /** @param  Collection<array-key, string>  $linea */
     protected function getGlosa(Collection $linea): string
     {
         return '';
     }
 
-    /** @param Collection<array-key, string>  $linea */
+    /** @param  Collection<array-key, string>  $linea */
     protected function getMonto(Collection $linea): int
     {
         return 0;

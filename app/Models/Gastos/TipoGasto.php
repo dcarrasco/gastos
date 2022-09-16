@@ -2,13 +2,14 @@
 
 namespace App\Models\Gastos;
 
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Gastos\TipoGasto
+ *
  * @property int     $id
  * @property string  $tipoGasto
  * @property TipoMovimiento $tipoMovimiento
@@ -22,7 +23,6 @@ class TipoGasto extends Model
 
     protected $fillable = ['tipo_movimiento_id', 'tipo_gasto'];
 
-
     /** @return BelongsTo<TipoMovimiento, TipoGasto> */
     public function tipoMovimiento(): BelongsTo
     {
@@ -33,9 +33,9 @@ class TipoGasto extends Model
     public static function selectOptions(): Collection
     {
         return TipoMovimiento::with('tiposGastos')->get()
-            ->mapWithKeys(fn($elem) => [$elem->tipo_movimiento => $elem])
+            ->mapWithKeys(fn ($elem) => [$elem->tipo_movimiento => $elem])
             ->map->tiposGastos
-            ->filter(fn($tipoGasto) => $tipoGasto->isNotEmpty())
+            ->filter(fn ($tipoGasto) => $tipoGasto->isNotEmpty())
             ->map->pluck('tipo_gasto', 'id')
             ->map->sort()
             ->map->all();

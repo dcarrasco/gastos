@@ -2,14 +2,14 @@
 
 namespace App\Models\Acl;
 
-use App\Models\Acl\Modulo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Acl\Rol
+ *
  * @property int $id
  * @property int $app_id
  * @property string $rol
@@ -22,7 +22,6 @@ class Rol extends Model
     protected $table = 'acl_rol';
 
     protected $fillable = ['app_id', 'rol', 'descripcion'];
-
 
     /**
      * @return BelongsTo<App, Rol>

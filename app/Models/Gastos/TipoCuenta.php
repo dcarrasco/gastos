@@ -2,14 +2,14 @@
 
 namespace App\Models\Gastos;
 
-use App\Models\Gastos\Cuenta;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Collection;
 
 /**
  * App\Model\Gastos\TipoCuenta
+ *
  * @property int $id
  * @property string $tipoCuenta
  * @property int $tipo
@@ -24,8 +24,8 @@ class TipoCuenta extends Model
     protected $fillable = ['tipo_movimiento_id', 'tipo_cuenta', 'tipo'];
 
     public const CUENTA_GASTO = 1;
-    public const CUENTA_INVERSION = 2;
 
+    public const CUENTA_INVERSION = 2;
 
     /** @return HasMany<Cuenta> */
     public function cuentas(): HasMany

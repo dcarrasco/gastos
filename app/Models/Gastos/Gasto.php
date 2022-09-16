@@ -3,17 +3,18 @@
 namespace App\Models\Gastos;
 
 use App\Models\Acl\Usuario;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Gasto
+ *
  * @property int $id
  * @property int $cuenta_id
  * @property int $anno
@@ -43,9 +44,8 @@ class Gasto extends Model
 
     /** @var string[] */
     protected $casts = [
-        'fecha' => 'datetime'
+        'fecha' => 'datetime',
     ];
-
 
     /**
      * @return BelongsTo<Cuenta, Gasto>
@@ -90,7 +90,7 @@ class Gasto extends Model
     }
 
     /**
-     * @param Builder<Gasto>  $query
+     * @param  Builder<Gasto>  $query
      * @return Builder<Gasto>
      */
     public function scopeCuentaAnnoMes(Builder $query, int $cuentaId, int $anno, int $mes): Builder
@@ -101,7 +101,7 @@ class Gasto extends Model
     }
 
     /**
-     * @param Builder<Gasto>  $query
+     * @param  Builder<Gasto>  $query
      * @return Builder<Gasto>
      */
     public function scopeCuentaAnnoTipMov(Builder $query, int $cuentaId, int $anno, int $tipoMovimientoId): Builder
@@ -112,7 +112,7 @@ class Gasto extends Model
     }
 
     /**
-     * @param Builder<Gasto>  $query
+     * @param  Builder<Gasto>  $query
      * @return Builder<Gasto>
      */
     public function scopeNoSaldos(Builder $query): Builder
@@ -208,7 +208,7 @@ class Gasto extends Model
             ->get();
     }
 
-    /** @param mixed[] $inversion */
+    /** @param  mixed[]  $inversion */
     public static function createInversion(array $inversion): Gasto
     {
         return static::create(array_merge($inversion, [
@@ -218,7 +218,7 @@ class Gasto extends Model
         ]));
     }
 
-    /** @param mixed[] $gasto */
+    /** @param  mixed[]  $gasto */
     public static function createGasto(array $gasto): Gasto
     {
         return static::create(array_merge($gasto, [
@@ -246,8 +246,8 @@ class Gasto extends Model
     {
         return trans('gastos.delete', [
             'gasto' => optional($this->fecha)->format('d-m-Y')
-                . ' ' . $this->glosa
-                . " " . fmtMonto($this->monto)
+                .' '.$this->glosa
+                .' '.fmtMonto($this->monto),
         ]);
     }
 }

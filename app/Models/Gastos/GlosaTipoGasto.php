@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 
 /**
  * App\Models\Gastos\GlosaTipoGasto
+ *
  * @property int $id
  * @property int $cuenta_id
  * @property int $tipo_gasto_id
@@ -21,7 +22,6 @@ class GlosaTipoGasto extends Model
     protected $fillable = [
         'cuenta_id', 'glosa', 'tipo_gasto_id',
     ];
-
 
     /** @return BelongsTo<Cuenta, GlosaTipoGasto> */
     public function cuenta(): BelongsTo

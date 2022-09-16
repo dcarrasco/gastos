@@ -2,15 +2,14 @@
 
 namespace App\Models\Gastos;
 
-use App\Models\Gastos\Banco;
-use App\Models\Gastos\TipoCuenta;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Gastos\Cuenta
+ *
  * @property int $id
  * @property int $banco_id
  * @property int $tipo_cuenta_id
@@ -23,7 +22,6 @@ class Cuenta extends Model
     protected $table = 'cta_cuentas';
 
     protected $fillable = ['banco_id', 'tipo_cuenta_id', 'cuenta'];
-
 
     /**
      * @return BelongsTo<Banco, Cuenta>
