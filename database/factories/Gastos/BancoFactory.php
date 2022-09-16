@@ -4,7 +4,6 @@ namespace Database\Factories\Gastos;
 
 use App\Models\Gastos\Banco;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class BancoFactory extends Factory
 {

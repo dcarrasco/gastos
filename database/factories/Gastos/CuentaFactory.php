@@ -4,7 +4,6 @@ namespace Database\Factories\Gastos;
 
 use App\Models\Gastos\Cuenta;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class CuentaFactory extends Factory
 {

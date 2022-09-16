@@ -4,7 +4,6 @@ namespace Database\Factories\Acl;
 
 use App\Models\Acl\App;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class AppFactory extends Factory
 {

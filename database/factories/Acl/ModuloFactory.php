@@ -4,8 +4,8 @@ namespace Database\Factories\Acl;
 
 use App\Models\Acl\App;
 use App\Models\Acl\Modulo;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ModuloFactory extends Factory
 {

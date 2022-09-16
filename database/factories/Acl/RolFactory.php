@@ -4,7 +4,6 @@ namespace Database\Factories\Acl;
 
 use App\Models\Acl\App;
 use App\Models\Acl\Rol;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RolFactory extends Factory

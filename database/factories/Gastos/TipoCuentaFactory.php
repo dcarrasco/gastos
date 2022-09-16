@@ -4,7 +4,6 @@ namespace Database\Factories\Gastos;
 
 use App\Models\Gastos\TipoCuenta;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class TipoCuentaFactory extends Factory
 {
