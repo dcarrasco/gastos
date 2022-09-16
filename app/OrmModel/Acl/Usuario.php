@@ -2,23 +2,27 @@
 
 namespace App\OrmModel\Acl;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
+use App\OrmModel\Filters\UsuariosActivos;
+use App\OrmModel\src\OrmField\Boolean;
+use App\OrmModel\src\OrmField\Gravatar;
+use App\OrmModel\src\OrmField\HasMany;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Text;
-use App\OrmModel\src\OrmField\Boolean;
-use App\OrmModel\src\OrmField\HasMany;
-use App\OrmModel\src\OrmField\Gravatar;
-use App\OrmModel\Filters\UsuariosActivos;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class Usuario extends Resource
 {
     public string $model = \App\Models\Acl\Usuario::class;
+
     public string $icono = 'user';
+
     public string $title = 'nombre';
+
     public array $search = [
-        'id', 'nombre', 'username', 'email'
+        'id', 'nombre', 'username', 'email',
     ];
+
     public $orderBy = 'nombre';
 
     public function fields(Request $request): array

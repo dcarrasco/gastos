@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\HtmlString;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 abstract class Field
 {
@@ -14,18 +14,26 @@ abstract class Field
     use UsesValidation;
 
     protected string $name = '';
+
     protected string $attribute = '';
+
     protected string $helpText = '';
+
     protected string $placeholder = '';
 
     /** @var mixed */
     protected $value;
+
     protected string $formattedValue;
+
     protected Htmlstring $formItem;
 
     protected bool $showOnList = true;
+
     protected bool $showOnDetail = true;
+
     protected bool $showOnForm = true;
+
     protected string $alignOnList = 'text-left';
 
     protected string $showValue = '';
@@ -34,12 +42,11 @@ abstract class Field
 
     protected bool $eagerLoadsRelation = false;
 
-
     /**
      * Constructor de la clase
      *
-     * @param string $name  Nombre o label de la clase
-     * @param string $field Campo
+     * @param  string  $name  Nombre o label de la clase
+     * @param  string  $field Campo
      */
     public function __construct(string $name, string $field = '')
     {
@@ -51,8 +58,8 @@ abstract class Field
     /**
      * Genera una nueva instancia de la clase
      *
-     * @param  string $name  Nombre o label de la clase
-     * @param  string $field Campo
+     * @param  string  $name  Nombre o label de la clase
+     * @param  string  $field Campo
      * @return static
      */
     public static function make(string $name = '', string $field = ''): static
@@ -149,7 +156,7 @@ abstract class Field
     /**
      * Fija nombre/label del campo
      *
-     * @param string $name
+     * @param  string  $name
      * @return Field
      */
     public function setName(string $name = ''): Field
@@ -172,7 +179,7 @@ abstract class Field
     /**
      * Devuelve el atributo del modelo
      *
-     * @param Resource $resource
+     * @param  resource  $resource
      * @return string
      */
     public function getModelAttribute(Resource $resource): string
@@ -203,7 +210,7 @@ abstract class Field
     /**
      * Fija la glosa onchange
      *
-     * @param string $onChange
+     * @param  string  $onChange
      * @return Field
      */
     public function onChange(string $onChange): Field
@@ -220,13 +227,13 @@ abstract class Field
      */
     public function hasOnChange(): bool
     {
-        return !empty($this->onChange);
+        return ! empty($this->onChange);
     }
 
     /**
      * Resuelve el valor del campo a partir del modelo y del request
      *
-     * @param  Model    $model
+     * @param  Model  $model
      * @param  Request  $request
      * @return Field
      */
@@ -239,7 +246,8 @@ abstract class Field
 
     /**
      * Devuelve valor del campo
-     * @param  Model    $model
+     *
+     * @param  Model  $model
      * @param  Request  $request
      * @return mixed
      */
@@ -251,7 +259,7 @@ abstract class Field
     /**
      * Setea el valor del campo
      *
-     * @param mixed $value
+     * @param  mixed  $value
      * @return Field
      */
     public function setValue($value): Field
@@ -277,8 +285,8 @@ abstract class Field
      * Genera elemento de formulario a mostrar a partir de request y resource
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return Field
      */
     public function resolveFormItem(Request $request, Resource $resource, array $extraParam = []): Field
@@ -325,13 +333,12 @@ abstract class Field
         return $this;
     }
 
-
     /**
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -348,8 +355,8 @@ abstract class Field
     /**
      * Devuelve el render del elemento form con los atributos
      *
-     * @param  mixed[] $formAttributes
-     * @param  string[] $extraParam
+     * @param  mixed[]  $formAttributes
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     protected function renderForm(array $formAttributes = [], array $extraParam = []): HtmlString
@@ -365,10 +372,10 @@ abstract class Field
         );
     }
 
-
     /**
      * Inidca si el campo es tipo relacion y eagerLoads su contenido
 
+     *
      * @return bool
      */
     public function eagerLoadsRelation(): bool

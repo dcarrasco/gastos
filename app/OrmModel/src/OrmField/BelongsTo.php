@@ -2,10 +2,9 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Relation;
 
 class BelongsTo extends Relation
 {
@@ -15,7 +14,6 @@ class BelongsTo extends Relation
      * @var bool
      */
     protected bool $eagerLoadsRelation = true;
-
 
     /**
      * Devuelve valor del campo formateado
@@ -32,7 +30,7 @@ class BelongsTo extends Relation
     /**
      * Recupera nombre del atributo (foreign key)
      *
-     * @param Resource $resource
+     * @param  resource  $resource
      * @return string
      */
     public function getModelAttribute(Resource $resource): string
@@ -46,8 +44,8 @@ class BelongsTo extends Relation
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -68,13 +66,13 @@ class BelongsTo extends Relation
     /**
      * Genera HTML para script onchange
      *
-     * @param Request $request
-     * @param string  $field
+     * @param  Request  $request
+     * @param  string  $field
      * @return HtmlString
      */
     protected function makeOnChange(Request $request, string $field): HtmlString
     {
-        list($routeName, $routeAction) = explode('.', $request->route()->getName());
+        [$routeName, $routeAction] = explode('.', $request->route()->getName());
 
         $resourceDest = ucfirst($this->onChange);
         $elemDest = strtolower($this->onChange);
@@ -83,9 +81,9 @@ class BelongsTo extends Relation
         return new HtmlString(
             "document.getElementById('{$elemDest}').innerHTML = '';"
             ."fetch('{$url}?{$field}=' + document.getElementById('{$field}').value)"
-            .".then(response => response.text())"
+            .'.then(response => response.text())'
             .".then(data => document.getElementById('{$elemDest}').innerHTML = data)"
-            .".catch(error => console.log(error));"
+            .'.catch(error => console.log(error));'
         );
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\OrmModel\src;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Filters\Filter;
+use Illuminate\Http\Request;
 
 trait UsesFilters
 {
     /**
      * Filtros del recurso
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Filter[]
      */
     public function filters(Request $request): array
@@ -21,8 +21,8 @@ trait UsesFilters
     /**
      * Aplica filtros al modelo del recurso
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function applyFilters(Request $request): Resource
     {
@@ -39,8 +39,8 @@ trait UsesFilters
     /**
      * Devuelve la cantidad de filtros aplicados en el request
      *
-     * @param Request $request
-     * @return integer
+     * @param  Request  $request
+     * @return int
      */
     public function countAppliedFilters(Request $request): int
     {

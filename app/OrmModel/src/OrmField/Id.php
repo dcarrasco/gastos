@@ -2,10 +2,9 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
 
 class Id extends Field
 {
@@ -14,8 +13,8 @@ class Id extends Field
     /**
      * Constructor de la clase
      *
-     * @param string $name  Nombre o label de la clase
-     * @param string $field Campo
+     * @param  string  $name  Nombre o label de la clase
+     * @param  string  $field Campo
      */
     public function __construct(string $name = '', string $field = '')
     {
@@ -28,7 +27,7 @@ class Id extends Field
     /**
      * Fija si el campo id es autoincrement
      *
-     * @param bool  $esIncrementing
+     * @param  bool  $esIncrementing
      * @return Id
      */
     public function esIncrementing(bool $esIncrementing = true): Id
@@ -38,13 +37,12 @@ class Id extends Field
         return $this;
     }
 
-
     /**
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -54,7 +52,7 @@ class Id extends Field
         if ($this->esIncrementing) {
             return new HtmlString(
                 "<p class=\"form-control-static\">{$value}</p>"
-                . $this->renderForm([
+                .$this->renderForm([
                     'type' => 'hidden',
                     'name' => $this->attribute,
                     'value' => $value,

@@ -2,30 +2,30 @@
 
 namespace App\OrmModel\Gastos;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\OrmModel\Acl\Usuario;
-use App\OrmModel\Gastos\Cuenta;
-use App\OrmModel\src\OrmField\Id;
-use App\OrmModel\Gastos\TipoGasto;
-use App\OrmModel\src\OrmField\Date;
-use App\OrmModel\src\OrmField\Text;
-use App\OrmModel\src\OrmField\Number;
-use App\OrmModel\Metrics\GastosPerDay;
 use App\OrmModel\Filters\CuentasGastos;
-use App\OrmModel\src\OrmField\Currency;
-use App\OrmModel\Gastos\TipoMovimiento;
-use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\Metrics\GastosPerDay;
 use App\OrmModel\Metrics\MontoRegistros;
 use App\OrmModel\Metrics\RegistrosPorDia;
+use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Currency;
+use App\OrmModel\src\OrmField\Date;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Number;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class Gasto extends Resource
 {
     public string $model = \App\Models\Gastos\Gasto::class;
+
     public string $icono = 'dollar';
+
     public string $title = 'id';
+
     public array $search = [
-        'id', 'monto', 'glosa', 'serie', 'anno', 'mes'
+        'id', 'monto', 'glosa', 'serie', 'anno', 'mes',
     ];
 
     public $orderBy = 'id';
@@ -77,7 +77,7 @@ class Gasto extends Resource
     public function filters(Request $request): array
     {
         return [
-            new CuentasGastos()
+            new CuentasGastos(),
         ];
     }
 }

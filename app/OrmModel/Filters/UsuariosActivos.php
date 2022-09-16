@@ -2,9 +2,9 @@
 
 namespace App\OrmModel\Filters;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class UsuariosActivos extends Filter
 {

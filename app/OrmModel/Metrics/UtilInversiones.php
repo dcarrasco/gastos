@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
 use App\Models\Gastos\Inversion;
 use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class UtilInversiones extends Value
 {
@@ -23,16 +23,16 @@ class UtilInversiones extends Value
     /**
      * Calcula la utilidad de una inversión para un periodo de tiempos
      *
-     * @param Request $request
-     * @param mixed[] $range
-     * @return integer
+     * @param  Request  $request
+     * @param  mixed[]  $range
+     * @return int
      */
     protected function calculateUtil(Request $request, array $range): int
     {
         [$fechaDesde, $fechaHasta] = $range;
 
         return collect($this->cuentasInversiones)
-            ->map(fn($cuenta) => (new Inversion($cuenta, $fechaHasta->year))->utilHasta($fechaHasta))
+            ->map(fn ($cuenta) => (new Inversion($cuenta, $fechaHasta->year))->utilHasta($fechaHasta))
             ->sum();
     }
 

@@ -2,22 +2,27 @@
 
 namespace App\OrmModel\Gastos;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use App\OrmModel\src\OrmField\Id;
-use App\OrmModel\src\OrmField\Text;
-use App\OrmModel\src\OrmField\Select;
 use App\Models\Gastos\TipoCuenta as ModelTipoCuenta;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Select;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class TipoCuenta extends Resource
 {
     public string $model = \App\Models\Gastos\TipoCuenta::class;
+
     public string $label = 'Tipo de Cuenta';
+
     public string $labelPlural = 'Tipos de Cuenta';
+
     public string $icono = 'sitemap';
+
     public string $title = 'tipo_cuenta';
+
     public array $search = [
-        'id', 'tipo_cuenta'
+        'id', 'tipo_cuenta',
     ];
 
     public $orderBy = 'tipo_cuenta';
@@ -37,7 +42,7 @@ class TipoCuenta extends Resource
                     ModelTipoCuenta::CUENTA_INVERSION => 'Inversion',
                 ])
                 ->sortable()
-                ->rules('required')
+                ->rules('required'),
         ];
     }
 }

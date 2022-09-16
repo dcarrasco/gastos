@@ -2,22 +2,27 @@
 
 namespace App\OrmModel\Gastos;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
 use App\OrmModel\src\OrmField\Id;
-use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\Number;
 use App\OrmModel\src\OrmField\Select;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class TipoMovimiento extends Resource
 {
     public string $model = \App\Models\Gastos\TipoMovimiento::class;
+
     public string $label = 'Tipo de Movimiento';
+
     public string $labelPlural = 'Tipos de Movimiento';
+
     public string $icono = 'sitemap';
+
     public string $title = 'tipo_movimiento';
+
     public array $search = [
-        'id', 'tipo_movimiento'
+        'id', 'tipo_movimiento',
     ];
 
     public $orderBy = 'tipo_movimiento';

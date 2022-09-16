@@ -12,22 +12,24 @@ use Illuminate\Support\HtmlString;
 abstract class Trend extends Metric
 {
     protected const BY_DAYS = 'by_days';
+
     protected const BY_MONTHS = 'by_months';
+
     protected const BY_YEARS = 'by_years';
+
     protected const BY_WEEKS = 'by_weeks';
 
     /**
      * Indica si la metrica mostrara valores en cero
      *
-     * @var boolean
+     * @var bool
      */
     protected bool $filtraValoresEnCero = false;
 
-
     /**
      * Devuelve el calculo de la metrica
-     * @param Request $request
      *
+     * @param  Request  $request
      * @return Collection<array-key, int>
      */
     public function calculate(Request $request): Collection
@@ -38,7 +40,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, sumando una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $unit
      * @param  string  $sumColumn
@@ -58,7 +60,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, sumando una columna por dias
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
@@ -76,7 +78,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, sumando una columna por semanas
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
@@ -94,7 +96,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, sumando una columna por meses
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
@@ -112,7 +114,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, sumando una columna por años
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
@@ -130,7 +132,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, contando registros
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $unit
      * @param  string  $timeColumn
@@ -144,7 +146,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, contando registros por dias
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection<array-key, int>
@@ -157,7 +159,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, contando registros por semanas
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection<array-key, int>
@@ -170,7 +172,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, contando registros por meses
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection<array-key, int>
@@ -183,7 +185,7 @@ abstract class Trend extends Metric
     /**
      * Recupera datos de tendencia, contando registros por años
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @return Collection<array-key, int>
@@ -197,7 +199,7 @@ abstract class Trend extends Metric
      * Inicializa arreglo de fechas con valores en cero
      *
      * @param  Carbon[]  $dateInterval
-     * @param  string    $unit
+     * @param  string  $unit
      * @return Collection<array-key, int>
      */
     protected function initRangedData(array $dateInterval, string $unit): Collection
@@ -205,13 +207,13 @@ abstract class Trend extends Metric
         return collect(CarbonPeriod::create(...$dateInterval)->toArray())
             ->map->format($this->dateFormatExpression($unit))
             ->flip()
-            ->map(fn($value) => 0);
+            ->map(fn ($value) => 0);
     }
 
     /**
      * Devuelve expresion para formatear fecha Carbon
      *
-     * @param  string $unit
+     * @param  string  $unit
      * @return string
      */
     protected function dateFormatExpression(string $unit): string
@@ -229,8 +231,8 @@ abstract class Trend extends Metric
     /**
      * Devuelve expresion para formatear fecha en una consulta
      *
+     * @param  string  $unit
      * @return string
-     * @param  string $unit
      */
     protected function databaseFormatExpression(string $unit): string
     {
@@ -247,8 +249,8 @@ abstract class Trend extends Metric
     /**
      * Genera expresion para formatear fecha en una consulta
      *
-     * @param  string $unit
-     * @param  string $timeColumn
+     * @param  string  $unit
+     * @param  string  $timeColumn
      * @return string
      */
     protected function selectDateExpression(string $resource, string $unit, string $timeColumn): string
@@ -266,7 +268,7 @@ abstract class Trend extends Metric
     /**
      * Recupera conjunto de datos para utilizar en tendencia
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $unit
      * @param  string  $function
@@ -301,13 +303,13 @@ abstract class Trend extends Metric
 
         return $this->initRangedData($dateInterval, $unit)
             ->merge($results)
-            ->filter(fn($valor) => ! $this->filtraValoresEnCero or $valor != 0);
+            ->filter(fn ($valor) => ! $this->filtraValoresEnCero or $valor != 0);
     }
 
     /**
      * Devuelve HTML con contenido de la metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function content(Request $request): HtmlString
@@ -322,7 +324,7 @@ abstract class Trend extends Metric
     /**
      * Devuelve arreglo para actualizar metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[]
      */
     public function contentAjaxRequest(Request $request): array
@@ -340,7 +342,7 @@ abstract class Trend extends Metric
     /**
      * Devuelve script para dibujar grafico de tendencia
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function contentScript(Request $request): HtmlString

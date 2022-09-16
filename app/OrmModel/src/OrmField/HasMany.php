@@ -2,13 +2,11 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
-use App\OrmModel\src\OrmField\Relation;
-use Illuminate\Database\Eloquent\Model;
 
 /** @method self relationConditions(array $relationConditions = []) */
 class HasMany extends Relation
@@ -20,13 +18,12 @@ class HasMany extends Relation
 
     protected string $deleteModelField = '__delete-model__';
 
-
     /**
      * Constructor de la clase
      *
-     * @param string $name        Nombre o label de la clase
-     * @param string $field       Campo
-     * @param string $relatedOrm  Nombre del recurso relacionado
+     * @param  string  $name        Nombre o label de la clase
+     * @param  string  $field       Campo
+     * @param  string  $relatedOrm  Nombre del recurso relacionado
      */
     public function __construct(string $name, string $field = '', string $relatedOrm = '')
     {
@@ -37,7 +34,7 @@ class HasMany extends Relation
     /**
      * Resuelve el valor del campo a partir del modelo y del request
      *
-     * @param  Model    $model
+     * @param  Model  $model
      * @param  Request  $request
      * @return HasMany
      */
@@ -47,8 +44,8 @@ class HasMany extends Relation
 
         if ($this->hasRelationFields()) {
             $this->relationFields = $this->value
-                ->mapWithKeys(fn($model) => [$model->getKey() => collect($this->relationFields)
-                    ->map(fn($relation, $relationName) => $this->makeAttributeField($relationName, $relation, $model))
+                ->mapWithKeys(fn ($model) => [$model->getKey() => collect($this->relationFields)
+                    ->map(fn ($relation, $relationName) => $this->makeAttributeField($relationName, $relation, $model)),
                 ])
                 ->all();
         }
@@ -58,7 +55,8 @@ class HasMany extends Relation
 
     /**
      * Genera un elemento Field para almacenar el atributo de la relacion
-     * @param  string $nombre
+     *
+     * @param  string  $nombre
      * @param  mixed[]  $relacion
      * @param  Model  $model
      * @return Field
@@ -75,7 +73,7 @@ class HasMany extends Relation
     /**
      * Devuelve colletion con los recursos asociados a la relacion
      *
-     * @return Collection<array-key, Resource>
+     * @return Collection<array-key, resource>
      */
     public function getRelatedResources(): Collection
     {
@@ -104,18 +102,18 @@ class HasMany extends Relation
     /**
      * Devuelve valor del campo formateado cuando las asociacion HasMany no tiene atributos adicionales
      *
-     * @param  Collection<array-key, Resource> $relatedResources
+     * @param  Collection<array-key, resource>  $relatedResources
      * @return HtmlString
      */
     protected function getSimpleFormattedValue(Collection $relatedResources): HtmlString
     {
-        return new HtmlString("<ul><li>" . $relatedResources->map->title()->implode('</li><li>') . "</li></ul>");
+        return new HtmlString('<ul><li>'.$relatedResources->map->title()->implode('</li><li>').'</li></ul>');
     }
 
     /**
      * Devuelve valor del campo formateado cuando la asociacion HasMany tiene atributos adicionales
      *
-     * @param  Collection<array-key, Resource> $relatedResources
+     * @param  Collection<array-key, resource>  $relatedResources
      * @return HtmlString
      */
     protected function getFormattedValueWithAttributes(Collection $relatedResources): HtmlString
@@ -126,15 +124,15 @@ class HasMany extends Relation
     /**
      * Genera linea de opciones para un elemento HasMany con attributos
      *
-     * @param  Resource $resource
-     * @param  bool     $edit
+     * @param  resource  $resource
+     * @param  bool  $edit
      * @return string
      */
     protected function getAttributesTableRow(Resource $resource, bool $edit): string
     {
         return collect($this->relationFields)
             ->get($resource->model()->getKey())
-            ->map(fn($field) => $edit
+            ->map(fn ($field) => $edit
                 ? $field->getForm(request(), $resource)->toHtml()
                 : $field->getFormattedValue()->toHtml())
             ->implode('');
@@ -143,58 +141,59 @@ class HasMany extends Relation
     /**
      * Genera columna de edición del atributo
      *
-     * @param  Resource $resource
-     * @param  bool     $edit
+     * @param  resource  $resource
+     * @param  bool  $edit
      * @return string
      */
     protected function getAttributsTableEditColumn(Resource $resource, bool $edit): string
     {
         return $edit
-            ? "<td class=\"text-center\">"
-                . "<input type=\"checkbox\""
-                . " name=\"{$this->getDeleteModelField()}[]\""
-                . " value=\"{$resource->model()->getKey()}\">"
-                . "<input type=\"hidden\" name=\"{$this->name}[]\" value=\"{$resource->model()->getKey()}\">"
-                . "</td>"
+            ? '<td class="text-center">'
+                .'<input type="checkbox"'
+                ." name=\"{$this->getDeleteModelField()}[]\""
+                ." value=\"{$resource->model()->getKey()}\">"
+                ."<input type=\"hidden\" name=\"{$this->name}[]\" value=\"{$resource->model()->getKey()}\">"
+                .'</td>'
             : '';
     }
 
     /**
      * Genera encabezado de tabla de atributos
-     * @param  bool   $edit
+     *
+     * @param  bool  $edit
      * @return string
      */
     protected function getAttributesTableHeader(bool $edit): string
     {
-        return '<tr class="border ' . themeColor("thead_bg") . ' px-2">'
-            . "<th class=\"text-left px-2 py-1\">{$this->name}</th>"
-            . collect($this->relationFields)
+        return '<tr class="border '.themeColor('thead_bg').' px-2">'
+            ."<th class=\"text-left px-2 py-1\">{$this->name}</th>"
+            .collect($this->relationFields)
                 ->first()
-                ->map(fn($field) => '<th>' . collect($field->getOptions())->implode('</th><th>') . '</th>')
+                ->map(fn ($field) => '<th>'.collect($field->getOptions())->implode('</th><th>').'</th>')
                 ->implode('')
-            . ($edit ? '<th>Desasociar</th>' : '')
-            . '</tr>';
+            .($edit ? '<th>Desasociar</th>' : '')
+            .'</tr>';
     }
 
     /**
      * Devuelve tabla para desplegar asociacion HasMany con atributos adicionales
      *
-     * @param  Collection<array-key, Resource>   $relatedResources
-     * @param  bool         $edit
+     * @param  Collection<array-key, resource>  $relatedResources
+     * @param  bool  $edit
      * @return string
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
     {
         $header = $this->getAttributesTableHeader($edit);
 
-        $body = '<tbody>' . $relatedResources
-            ->map(fn($resource) => '<tr class="border">'
-                . "<td class=\"px-2 py-1\">{$resource->title()}</td>"
-                . $this->getAttributesTableRow($resource, $edit)
-                . $this->getAttributsTableEditColumn($resource, $edit)
-                . '</tr>')
+        $body = '<tbody>'.$relatedResources
+            ->map(fn ($resource) => '<tr class="border">'
+                ."<td class=\"px-2 py-1\">{$resource->title()}</td>"
+                .$this->getAttributesTableRow($resource, $edit)
+                .$this->getAttributsTableEditColumn($resource, $edit)
+                .'</tr>')
             ->implode('')
-            . '</body>';
+            .'</body>';
 
         return "<table class=\"w-full border text-sm\">{$header}{$body}</table>";
     }
@@ -203,8 +202,8 @@ class HasMany extends Relation
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -220,7 +219,7 @@ class HasMany extends Relation
             'value' => $resource->model()->getAttribute($this->attribute)->modelKeys(),
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
             'multiple' => 'multiple',
-            'size' => '7'
+            'size' => '7',
         ], $extraParam);
     }
 
@@ -228,8 +227,8 @@ class HasMany extends Relation
      * Devuelve elemento de formulario para el campo cuando la relacion HasMany tiene atributos
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getAttributesForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -241,24 +240,24 @@ class HasMany extends Relation
 
         return new HtmlString(
             $this->getAttributesTable($relatedResources, true)
-            . $this->availableResourcesForm($availableResources, $extraParam)
+            .$this->availableResourcesForm($availableResources, $extraParam)
         );
     }
 
     /**
      * Genera select para agregar nuevos elementos a la relacion HasMany cuando tiene atributos
      *
-     * @param  Collection<array-key, string> $availableResources
-     * @param  string[] $extraParam
+     * @param  Collection<array-key, string>  $availableResources
+     * @param  string[]  $extraParam
      * @return string
      */
     protected function availableResourcesForm(Collection $availableResources, array $extraParam = []): string
     {
         return '<div class="py-2 flex flex-between">'
-            . '<span class="mr-2 p-2 whitespace-no-wrap">'
-            . trans('orm.add_attribute_has_many') . ' ' . $this->name
-            . "</span>"
-            . $this->renderForm([
+            .'<span class="mr-2 p-2 whitespace-no-wrap">'
+            .trans('orm.add_attribute_has_many').' '.$this->name
+            .'</span>'
+            .$this->renderForm([
                 'type' => 'select',
                 'name' => "{$this->name}[]",
                 'value' => '',
@@ -266,14 +265,14 @@ class HasMany extends Relation
                 'options' => $availableResources,
                 'placeholder' => '&mdash;',
             ], $extraParam)->toHtml()
-            . '</div>';
+            .'</div>';
     }
 
     /**
      * Establece que el campo HasMany tiene atributos en la relacion
      *
-     * @param  string $field
-     * @param  string $type
+     * @param  string  $field
+     * @param  string  $type
      * @return HasMany
      */
     public function relationField(string $field, string $type): HasMany
@@ -283,7 +282,7 @@ class HasMany extends Relation
 
         $this->relationFields[$field] = [
             'type' => $fieldType,
-            'options' => $type[$fieldType]
+            'options' => $type[$fieldType],
         ];
 
         $this->hasRelationFields = true;

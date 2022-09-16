@@ -2,11 +2,10 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
+use Illuminate\Support\Str;
 
 class Text extends Field
 {
@@ -16,8 +15,8 @@ class Text extends Field
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -40,7 +39,7 @@ class Text extends Field
     protected function getFieldLength(): int
     {
         $maxRule = collect($this->rules)
-            ->first(fn($rule) => strpos($rule, 'max:') !== false);
+            ->first(fn ($rule) => strpos($rule, 'max:') !== false);
 
         return is_null($maxRule) ? $this->defaultMaxLength : (int) Str::after($maxRule, ':');
     }

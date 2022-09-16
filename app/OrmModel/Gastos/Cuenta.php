@@ -2,21 +2,22 @@
 
 namespace App\OrmModel\Gastos;
 
-use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Banco;
-use App\OrmModel\src\Resource;
-use App\OrmModel\src\OrmField\Id;
-use App\OrmModel\Gastos\TipoCuenta;
-use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class Cuenta extends Resource
 {
     public string $model = \App\Models\Gastos\Cuenta::class;
+
     public string $icono = 'credit-card';
+
     public string $title = 'cuenta';
+
     public array $search = [
-        'id', 'cuenta'
+        'id', 'cuenta',
     ];
 
     public $orderBy = 'cuenta';

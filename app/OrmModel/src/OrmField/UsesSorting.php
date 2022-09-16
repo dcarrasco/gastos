@@ -2,9 +2,9 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
 
 trait UsesSorting
@@ -12,6 +12,7 @@ trait UsesSorting
     protected bool $isSortable = false;
 
     protected string $sortByKey = 'sort-by';
+
     protected string $sortDirectionKey = 'sort-direction';
 
     protected string $sortIconDefault = 'fa fa-sort text-gray-400';
@@ -54,7 +55,7 @@ trait UsesSorting
      * Genera iconos para ordenar por campo en listado Index
      *
      * @param  Request  $request
-     * @param  Resource $resource
+     * @param  resource  $resource
      * @return Field
      */
     public function makeSortingIcon(Request $request, Resource $resource): Field
@@ -104,7 +105,7 @@ trait UsesSorting
     /**
      * Devuelve URL de ordenamiento
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $sortOrder
      * @return string
      */

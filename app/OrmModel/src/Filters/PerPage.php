@@ -2,14 +2,9 @@
 
 namespace App\OrmModel\src\Filters;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Filters\Filter;
-use Illuminate\Database\Eloquent\Builder;
-
 class PerPage extends Filter
 {
     protected string $parameterPrefix = '';
-
 
     public function options(): array
     {

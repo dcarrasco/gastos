@@ -2,9 +2,9 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Value;
+use Illuminate\Http\Request;
 
 class NuevosRegistros extends Value
 {

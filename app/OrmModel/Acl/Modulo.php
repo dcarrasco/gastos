@@ -2,24 +2,28 @@
 
 namespace App\OrmModel\Acl;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use App\OrmModel\src\OrmField\Id;
-use App\OrmModel\src\OrmField\Text;
-use App\OrmModel\src\OrmField\Number;
 use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Id;
+use App\OrmModel\src\OrmField\Number;
+use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class Modulo extends Resource
 {
     public string $model = \App\Models\Acl\Modulo::class;
+
     public string $title = 'modulo';
+
     public string $icono = 'list-alt';
+
     public array $search = [
-        'id', 'modulo', 'descripcion', 'url', 'icono'
+        'id', 'modulo', 'descripcion', 'url', 'icono',
     ];
+
     public $orderBy = [
         'app_id' => 'asc',
-        'modulo' => 'asc'
+        'modulo' => 'asc',
     ];
 
     public function fields(Request $request): array

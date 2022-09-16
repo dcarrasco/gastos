@@ -5,7 +5,6 @@ namespace App\OrmModel\src\OrmField;
 use App\OrmModel\src\Resource;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
 
 class Boolean extends Field
 {
@@ -19,8 +18,8 @@ class Boolean extends Field
     public function getFormattedValue(): HtmlString
     {
         $statusStyle = $this->value
-            ? "text-green-500"
-            : "text-red-500";
+            ? 'text-green-500'
+            : 'text-red-500';
 
         return new HtmlString("<small><span class=\"fa fa-circle {$statusStyle}\"></span></small>");
     }
@@ -29,8 +28,8 @@ class Boolean extends Field
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

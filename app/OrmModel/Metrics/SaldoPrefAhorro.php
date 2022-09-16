@@ -2,16 +2,15 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
-use Illuminate\Support\Collection;
 use App\OrmModel\src\Metrics\Trend;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class SaldoPrefAhorro extends Trend
 {
     protected bool $filtraValoresEnCero = true;
-
 
     public function calculate(Request $request): Collection
     {

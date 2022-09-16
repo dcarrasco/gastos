@@ -2,9 +2,9 @@
 
 namespace App\OrmModel\src;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 trait PaginatesResources
 {
@@ -40,7 +40,7 @@ trait PaginatesResources
     /**
      * Genera listado de modelos ordenados y filtrados
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return LengthAwarePaginator
      */
     public function paginator(Request $request): LengthAwarePaginator
@@ -56,8 +56,8 @@ trait PaginatesResources
     /**
      * Genera paginador del recurso y listado de recursos de la pagina
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function makePaginatedResources(Request $request): Resource
     {

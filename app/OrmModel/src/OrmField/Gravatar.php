@@ -2,22 +2,22 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Gravatar extends Field
 {
     protected int $avatarListSize = 24;
+
     protected int $avatarShowSize = 240;
 
     /**
      * Constructor de la clase
      *
-     * @param string $name  Nombre o label de la clase
-     * @param string $field Campo
+     * @param  string  $name  Nombre o label de la clase
+     * @param  string  $field Campo
      */
     public function __construct(string $name, string $field = '')
     {
@@ -31,8 +31,8 @@ class Gravatar extends Field
     /**
      * Devuelve el url del gravatar
      *
-     * @param string $email
-     * @param integer $size
+     * @param  string  $email
+     * @param  int  $size
      * @return string
      */
     protected function getGravatarUrl(string $email = '', int $size = 256): string
@@ -45,7 +45,7 @@ class Gravatar extends Field
     /**
      * Devuelve valor del campo formateado
      *
-     * @param  Model    $model
+     * @param  Model  $model
      * @param  Request  $request
      * @return string
      */

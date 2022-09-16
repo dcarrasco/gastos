@@ -2,12 +2,11 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\Collection;
-use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class Relation extends Field
 {
@@ -19,9 +18,9 @@ class Relation extends Field
     /**
      * Constructor de la clase
      *
-     * @param string $name            Nombre o label de la clase
-     * @param string $field           Campo
-     * @param string $relatedResource Nombre del recurso relacionado
+     * @param  string  $name            Nombre o label de la clase
+     * @param  string  $field           Campo
+     * @param  string  $relatedResource Nombre del recurso relacionado
      */
     public function __construct(string $name, string $field = '', string $relatedResource = '')
     {
@@ -34,7 +33,7 @@ class Relation extends Field
     /**
      * Fija las condiciones de la relacion
      *
-     * @param  string[] $relationConditions
+     * @param  string[]  $relationConditions
      * @return self
      */
     public function relationConditions(array $relationConditions = []): self
@@ -47,9 +46,9 @@ class Relation extends Field
     /**
      * Genera una nueva instancia de la clase
      *
-     * @param  string $name            Nombre o label de la clase
-     * @param  string $field           Campo
-     * @param  string $relatedResource Nombre del recurso relacionado
+     * @param  string  $name            Nombre o label de la clase
+     * @param  string  $field           Campo
+     * @param  string  $relatedResource Nombre del recurso relacionado
      * @return static
      */
     public static function make(string $name = '', string $field = '', string $relatedResource = ''): static
@@ -60,12 +59,12 @@ class Relation extends Field
     /**
      * Genera una instancia nueva de un recurso relacionado
      *
-     * @param  Model|null $model
-     * @return Resource
+     * @param  Model|null  $model
+     * @return resource
      */
     public function makeRelatedResource($model = null): Resource
     {
-        /** @var Resource */
+        /** @var resource */
         $newRelatedResource = new $this->relatedResource($model);
 
         return $newRelatedResource;
@@ -74,22 +73,22 @@ class Relation extends Field
     /**
      * Recupera elementos del recurso relacionado
      *
-     * @param  Request   $request
-     * @param  Resource  $resource
+     * @param  Request  $request
+     * @param  resource  $resource
      * @param  string[]  $conditions
      * @return Collection<array-key, string>
      */
     public function getRelationOptions(Request $request, Resource $resource, array $conditions = []): Collection
     {
         return $this->getRelatedListModels($request, $resource, $conditions)
-            ->mapWithKeys(fn($model) => [$model->getKey() => $this->makeRelatedResource($model)->title()]);
+            ->mapWithKeys(fn ($model) => [$model->getKey() => $this->makeRelatedResource($model)->title()]);
     }
 
     /**
      * Recupera objetos del recurso relacionado
      *
-     * @param  Request   $request
-     * @param  Resource  $resource
+     * @param  Request  $request
+     * @param  resource  $resource
      * @param  string[]  $conditions
      * @return Collection<array-key, Model>
      */
@@ -105,15 +104,15 @@ class Relation extends Field
     /**
      * Devuelve arreglo con las condiciones de la relacion
      *
-     * @param  Resource $resource
-     * @param  string[] $conditions
+     * @param  resource  $resource
+     * @param  string[]  $conditions
      * @return string[]
      */
     protected function getRelationFilter(Resource $resource, array $conditions = []): array
     {
         return collect($conditions)
-            ->filter(fn($condition) => strpos($condition, '@field_value:') !== false)
-            ->map(fn($condition) => $resource->model()
+            ->filter(fn ($condition) => strpos($condition, '@field_value:') !== false)
+            ->map(fn ($condition) => $resource->model()
                 ->getAttribute(Str::between($condition, ':', ':')))
             ->all();
     }

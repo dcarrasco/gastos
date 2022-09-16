@@ -2,12 +2,12 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Gasto;
 use App\Models\Gastos\Inversion;
-use Illuminate\Support\Collection;
+use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Trend;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class EvolUtilInversiones extends Trend
 {
@@ -18,14 +18,13 @@ class EvolUtilInversiones extends Trend
 
     protected int $movimientoSaldo = 4;
 
-
     public function calculate(Request $request): Collection
     {
         $inversiones = collect($this->cuentasInversiones)
-            ->map(fn($cuenta) => new Inversion($cuenta, now()->year));
+            ->map(fn ($cuenta) => new Inversion($cuenta, now()->year));
 
         return $this->sumByDays($request, Gasto::class, 'monto', 'fecha')
-            ->map(fn($saldo, $fechaSaldo) => $inversiones
+            ->map(fn ($saldo, $fechaSaldo) => $inversiones
                 ->map->utilHasta(now()->createFromFormat('Y-m-d', $fechaSaldo))
                 ->sum());
     }

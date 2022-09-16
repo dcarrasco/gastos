@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\src;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\OrmModel\src\OrmField\Field;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 abstract class Resource
 {
@@ -34,11 +34,10 @@ abstract class Resource
 
     protected Collection $fields;
 
-
     /**
      * Constructor del recurso
      *
-     * @param Model|null $modelInstance
+     * @param  Model|null  $modelInstance
      */
     final public function __construct(Model $modelInstance = null)
     {
@@ -54,7 +53,7 @@ abstract class Resource
     /**
      * Campos del recurso
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Field[]
      */
     public function fields(Request $request): array
@@ -138,8 +137,8 @@ abstract class Resource
     /**
      * Devuelve campos a mostrar en listado
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function resolveIndexFields(Request $request): Resource
     {
@@ -155,8 +154,8 @@ abstract class Resource
     /**
      * Devuelve campos a mostrar en detalle
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function resolveDetailFields(Request $request): Resource
     {
@@ -171,8 +170,8 @@ abstract class Resource
     /**
      * Devuelve campos a mostrar en formularios
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function resolveFormFields(Request $request): Resource
     {
@@ -187,21 +186,21 @@ abstract class Resource
     /**
      * Devuelve arreglo de validacion del recurso
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[][]
      */
     public function getValidation(Request $request): array
     {
         return collect($this->fields($request))
-            ->mapWithKeys(fn($field) => [$field->getModelAttribute($this) => $field->getValidation($this)])
+            ->mapWithKeys(fn ($field) => [$field->getModelAttribute($this) => $field->getValidation($this)])
             ->all();
     }
 
     /**
      * Agrega a la query los nombres de las relaciones para traer campos relacionados
      *
-     * @param Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function eagerLoadsRelations(Request $request): Resource
     {
@@ -217,20 +216,20 @@ abstract class Resource
     /**
      * Devuelve recurso como opciones de un formulario en llamadas ajax
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string
      */
     public function getModelAjaxFormOptions(Request $request): string
     {
         return $this->getModelFormOptions($request)
-            ->map(fn($value, $key) => "<option value=\"{$key}\">" . e($value) . "</option>")
+            ->map(fn ($value, $key) => "<option value=\"{$key}\">".e($value).'</option>')
             ->implode('');
     }
 
     /**
      * Devuelve recurso como Collection para formulario
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Collection
      */
     public function getModelFormOptions(Request $request): Collection
@@ -238,10 +237,10 @@ abstract class Resource
         $this->applyOrderBy($request);
 
         $whereIn = collect($request->all())
-            ->filter(fn($elem, $key) => !is_integer($key) and is_array($elem));
+            ->filter(fn ($elem, $key) => ! is_int($key) and is_array($elem));
 
         $whereValue = collect($request->all())
-            ->filter(fn($elem, $key) => is_integer($key) or !is_array($elem))
+            ->filter(fn ($elem, $key) => is_int($key) or ! is_array($elem))
             ->all();
 
         $query = $this->modelQueryBuilder->where($whereValue);
@@ -250,7 +249,7 @@ abstract class Resource
         });
 
         return $query->get()
-            ->mapWithKeys(fn($model) => [$model->getKey() => (new static($model))->title()]);
+            ->mapWithKeys(fn ($model) => [$model->getKey() => (new static($model))->title()]);
     }
 
     /**

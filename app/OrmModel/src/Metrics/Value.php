@@ -13,11 +13,10 @@ abstract class Value extends Metric
 
     protected string $suffix = '';
 
-
     /**
      * Devuelve el valor computado de la metrica
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return mixed[]
      */
     public function calculate(Request $request): array
@@ -28,7 +27,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, sumando una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
@@ -42,7 +41,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, minimo de una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
@@ -56,7 +55,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, maximo de una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
@@ -70,7 +69,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, promedio de una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $column
      * @param  string  $timeColumn
@@ -84,7 +83,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, contando registros
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $timeColumn
      * @return mixed[]
@@ -97,7 +96,7 @@ abstract class Value extends Metric
     /**
      * Recupera datos de valor, sumando una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $sumColumn
      * @param  string  $timeColumn
@@ -131,7 +130,7 @@ abstract class Value extends Metric
     protected function previousMessage(int $currentValue, int $previousValue): string
     {
         if (empty($previousValue)) {
-            return "Sin datos anteriores";
+            return 'Sin datos anteriores';
         }
 
         $percentChange = (int) (($currentValue / $previousValue - 1) * 100);
@@ -164,7 +163,7 @@ abstract class Value extends Metric
     /**
      * Fija el prefijo del valor a desplegar
      *
-     * @param  string $prefix
+     * @param  string  $prefix
      * @return Value
      */
     public function prefix(string $prefix = ''): Value
@@ -177,7 +176,7 @@ abstract class Value extends Metric
     /**
      * Fija el prefijo del valor a desplegar
      *
-     * @param  string $suffix
+     * @param  string  $suffix
      * @return Value
      */
     public function suffix(string $suffix = ''): Value
@@ -190,7 +189,7 @@ abstract class Value extends Metric
     /**
      * Devuelve HTML con contenido de la metrica valor
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function content(Request $request): HtmlString
@@ -211,7 +210,7 @@ abstract class Value extends Metric
     /**
      * Devuelve arreglo para actualizar metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[]
      */
     public function contentAjaxRequest(Request $request): array

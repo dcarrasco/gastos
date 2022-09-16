@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
 use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class MontoRegistros extends Value
 {

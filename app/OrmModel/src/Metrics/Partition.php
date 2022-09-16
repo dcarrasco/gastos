@@ -14,7 +14,7 @@ abstract class Partition extends Metric
     /**
      * Devuelve el calculo de la metrica
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Collection<array-key, int>
      */
     public function calculate(Request $request): Collection
@@ -25,7 +25,7 @@ abstract class Partition extends Metric
     /**
      * Recupera datos de la particion, contando los registros
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $groupColumn
      * @param  string  $relation
@@ -39,7 +39,7 @@ abstract class Partition extends Metric
     /**
      * Recupera datos de la particion, sumando una columna
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $groupColumn
      * @param  string  $sumColumn
@@ -59,7 +59,7 @@ abstract class Partition extends Metric
     /**
      * Recupera datos de la particion
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @param  string  $groupColumn
      * @param  string  $function
@@ -85,9 +85,9 @@ abstract class Partition extends Metric
     /**
      * Devuelve una nueva query para Partition
      *
-     * @param Request $request
-     * @param string  $resource
-     * @param string  $relation
+     * @param  Request  $request
+     * @param  string  $resource
+     * @param  string  $relation
      * @return Builder<Model>
      */
     protected function newPartitionQuery(Request $request, string $resource, string $relation): Builder
@@ -110,7 +110,7 @@ abstract class Partition extends Metric
     /**
      * Devuelve HTML con contenido de la metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function content(Request $request): HtmlString
@@ -125,7 +125,7 @@ abstract class Partition extends Metric
     /**
      * Devuelve arreglo para actualizar metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[]
      */
     public function contentAjaxRequest(Request $request): array
@@ -143,7 +143,7 @@ abstract class Partition extends Metric
     /**
      * Devuelve script para dibujar grafico de particion
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function contentScript(Request $request): HtmlString

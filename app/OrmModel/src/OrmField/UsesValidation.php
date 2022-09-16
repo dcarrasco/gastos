@@ -12,7 +12,7 @@ trait UsesValidation
     /**
      * Fija las reglas de validacion del campo
      *
-     * @param  mixed $rules
+     * @param  mixed  $rules
      * @return Field
      */
     public function rules(...$rules): Field
@@ -21,17 +21,18 @@ trait UsesValidation
 
         return $this;
     }
+
     /**
      * Devuelve validación del campo
      *
-     * @param  Resource $resource
+     * @param  resource  $resource
      * @return string[]
      */
     public function getValidation(Resource $resource): array
     {
         return collect($this->rules)
-            ->map(fn($rule) => ($rule === 'unique')
-                ? 'unique:' . $this->getUniqueRuleParameters($resource)
+            ->map(fn ($rule) => ($rule === 'unique')
+                ? 'unique:'.$this->getUniqueRuleParameters($resource)
                 : $rule)
             ->all();
     }
@@ -39,7 +40,7 @@ trait UsesValidation
     /**
      * Recupera los parametros de regla validacion unique
      *
-     * @param  Resource $resource
+     * @param  resource  $resource
      * @return string
      */
     protected function getUniqueRuleParameters(Resource $resource): string
@@ -48,15 +49,15 @@ trait UsesValidation
             $resource->model()->getTable(),
             $this->attribute,
             $resource->model()->getKey(),
-            $resource->model()->getKeyName()
+            $resource->model()->getKeyName(),
         ]);
     }
 
     /**
      * Indica si el campo tiene error en bolsa de errores
      *
-     * @param mixed    $errors
-     * @param Resource $resource
+     * @param  mixed  $errors
+     * @param  resource  $resource
      * @return bool
      */
     public function hasErrors($errors, Resource $resource): bool
@@ -67,8 +68,8 @@ trait UsesValidation
     /**
      * Recupera el texto de error del campo desde la bolsa de errores
      *
-     * @param mixed    $errors
-     * @param Resource $resource
+     * @param  mixed  $errors
+     * @param  resource  $resource
      * @return string
      */
     public function getErrors($errors, Resource $resource): string

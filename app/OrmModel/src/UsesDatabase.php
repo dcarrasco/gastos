@@ -2,9 +2,9 @@
 
 namespace App\OrmModel\src;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\OrmField\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 trait UsesDatabase
 {
@@ -15,10 +15,10 @@ trait UsesDatabase
     protected Builder $modelQueryBuilder;
 
     protected string $sortByKey = 'sort-by';
+
     protected string $sortDirectionKey = 'sort-direction';
 
     protected string $searchKey = 'search';
-
 
     /**
      * Devuelve nombre del parametro url
@@ -43,15 +43,15 @@ trait UsesDatabase
     /**
      * Agrega condiciones de filtro a objecto modelo
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function applySearchFilter(Request $request): Resource
     {
         $this->modelQueryBuilder = $this->modelQueryBuilder->when(
             $request->input($this->searchKey) ?: false,
-            fn($query, $search) => $query->where(fn($query) => collect($this->search)
-                ->each(fn($field) => $query->orWhere($field, 'like', "%{$search}%")))
+            fn ($query, $search) => $query->where(fn ($query) => collect($this->search)
+                ->each(fn ($field) => $query->orWhere($field, 'like', "%{$search}%")))
         );
 
         return $this;
@@ -64,7 +64,7 @@ trait UsesDatabase
      */
     public function getOrderBy(): array
     {
-        if (!is_array($this->orderBy)) {
+        if (! is_array($this->orderBy)) {
             $this->orderBy = [(string) $this->orderBy => 'asc'];
         }
 
@@ -74,8 +74,8 @@ trait UsesDatabase
     /**
      * Agrega limite de despliegue en listado
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function resourceSetPerPage(Request $request): Resource
     {
@@ -87,8 +87,8 @@ trait UsesDatabase
     /**
      * Agrega condiciones order-by a objeto del modelo
      *
-     * @param  Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function applyOrderBy(Request $request): Resource
     {
@@ -106,8 +106,8 @@ trait UsesDatabase
     /**
      * Recupera modelo a partir de un ID, o falla
      *
-     * @param string $modelId
-     * @return Resource
+     * @param  string  $modelId
+     * @return resource
      */
     public function findOrFail(string $modelId): Resource
     {
@@ -117,8 +117,8 @@ trait UsesDatabase
     /**
      * Recupera modelo a partir de un ID, o genera uno en blanco
      *
-     * @param string $modelId
-     * @return Resource
+     * @param  string  $modelId
+     * @return resource
      */
     public function findOrNew(string $modelId): Resource
     {
@@ -128,8 +128,8 @@ trait UsesDatabase
     /**
      * Actualiza el modelo
      *
-     * @param Request $request
-     * @return Resource
+     * @param  Request  $request
+     * @return resource
      */
     public function update(Request $request): Resource
     {
@@ -139,7 +139,7 @@ trait UsesDatabase
         // actualiza las tablas relacionadas
         collect($this->fields($request))
             // filtra los campos de TIPO_HAS_MANY
-            ->filter(fn($field) => get_class($field) === HasMany::class)
+            ->filter(fn ($field) => get_class($field) === HasMany::class)
             // Sincroniza la tabla relacionada
             ->each(function ($field) use ($request) {
                 /** @var HasMany $field */

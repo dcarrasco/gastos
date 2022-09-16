@@ -2,15 +2,13 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
 
 class Number extends Field
 {
     protected string $alignOnList = 'text-center';
-
 
     /**
      * Devuelve valor del campo formateado
@@ -26,8 +24,8 @@ class Number extends Field
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString

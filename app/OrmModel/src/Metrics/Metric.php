@@ -2,23 +2,26 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
-use Illuminate\Support\HtmlString;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 abstract class Metric
 {
     use DisplayAsCard;
 
     protected const MONTH_TO_DATE = 'MTD';
-    protected const QUARTER_TO_DATE = 'QTD';
-    protected const YEAR_TO_DATE = 'YTD';
-    protected const CURRENT_MONTH = 'CURR_MONTH';
-    protected const LAST_MONTH = 'LAST_MONTH';
 
+    protected const QUARTER_TO_DATE = 'QTD';
+
+    protected const YEAR_TO_DATE = 'YTD';
+
+    protected const CURRENT_MONTH = 'CURR_MONTH';
+
+    protected const LAST_MONTH = 'LAST_MONTH';
 
     final public function __construct()
     {
@@ -37,7 +40,7 @@ abstract class Metric
     /**
      * Genera rango de fechas para realizar consultas
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return mixed[]
      */
     protected function currentRange(Request $request): array
@@ -45,13 +48,13 @@ abstract class Metric
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
         $ranges = collect([
-            Metric::MONTH_TO_DATE   => [now()->startOfMonth(), now()],
+            Metric::MONTH_TO_DATE => [now()->startOfMonth(), now()],
             Metric::QUARTER_TO_DATE => [now()->firstOfQuarter(), now()],
-            Metric::YEAR_TO_DATE    => [now()->startOfYear(), now()],
-            Metric::CURRENT_MONTH   => [now()->startOfMonth(), now()->endOfMonth()],
-            Metric::LAST_MONTH      => [
+            Metric::YEAR_TO_DATE => [now()->startOfYear(), now()],
+            Metric::CURRENT_MONTH => [now()->startOfMonth(), now()->endOfMonth()],
+            Metric::LAST_MONTH => [
                 now()->modify('first day of last month')->startOfMonth(),
-                now()->modify('first day of last month')->endOfMonth()
+                now()->modify('first day of last month')->endOfMonth(),
             ],
         ]);
 
@@ -65,7 +68,7 @@ abstract class Metric
     /**
      * Devuelve el intervalo de fechas del periodo anterior
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return mixed[]
      */
     protected function previousRange(Request $request): array
@@ -73,18 +76,18 @@ abstract class Metric
         $range = $request->input('range', collect($this->ranges())->keys()->first());
 
         $ranges = collect([
-            Metric::MONTH_TO_DATE   => [
+            Metric::MONTH_TO_DATE => [
                 now()->modify('first day of last month')->startOfMonth(),
                 now()->modify('first day of last month')->month == now()->subMonth()->month
                     ? now()->subMonth()
-                    : now()->modify('first day of last month')->endOfMonth()
+                    : now()->modify('first day of last month')->endOfMonth(),
             ],
             Metric::QUARTER_TO_DATE => [now()->subQuarter()->firstOfQuarter(), now()->subQuarter()],
-            Metric::YEAR_TO_DATE    => [now()->subYear()->startOfYear(), now()->subYear()],
-            Metric::CURRENT_MONTH   => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
-            Metric::LAST_MONTH      => [
+            Metric::YEAR_TO_DATE => [now()->subYear()->startOfYear(), now()->subYear()],
+            Metric::CURRENT_MONTH => [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()],
+            Metric::LAST_MONTH => [
                 now()->modify('first day of last month')->subMonth()->startOfMonth(),
-                now()->modify('first day of last month')->subMonth()->endOfMonth()
+                now()->modify('first day of last month')->subMonth()->endOfMonth(),
             ],
         ]);
 
@@ -98,9 +101,9 @@ abstract class Metric
     /**
      * Inicializa query y agrega condiciones de rango fechas
      *
-     * @param  Request       $request
-     * @param  string        $resource
-     * @param  string        $timeColumn
+     * @param  Request  $request
+     * @param  string  $resource
+     * @param  string  $timeColumn
      * @param  mixed[]  $dateInterval
      * @return Builder<Model>
      */
@@ -112,7 +115,7 @@ abstract class Metric
     /**
      * Devuelve una nueva query con todos los filtros iniciales aplicados
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $resource
      * @return Builder<Model>
      */
@@ -128,12 +131,12 @@ abstract class Metric
     /**
      * Crea nuevo objeto Resource
      *
-     * @param  string $resource
-     * @return Resource
+     * @param  string  $resource
+     * @return resource
      */
     protected function newResource(string $resource): Resource
     {
-        /** @var Resource */
+        /** @var resource */
         $newResource = new $resource();
 
         return $newResource;
@@ -142,7 +145,7 @@ abstract class Metric
     /**
      * Crea objeto Model
      *
-     * @param string $resource
+     * @param  string  $resource
      * @return Model
      */
     protected function getModel(string $resource): Model
@@ -152,9 +155,9 @@ abstract class Metric
 
     /**
      * Filtros adicionales para la query de la metrica
-     * @param  Request        $request
-     * @param  Builder<Model> $query
      *
+     * @param  Request  $request
+     * @param  Builder<Model>  $query
      * @return Builder<Model>
      */
     protected function filter(Request $request, Builder $query): Builder
@@ -165,7 +168,7 @@ abstract class Metric
     /**
      * Devuelve HTML con contenido de la metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function content(Request $request): HtmlString
@@ -183,7 +186,7 @@ abstract class Metric
     /**
      * Devuelve arreglo para actualizar metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[]
      */
     public function ajaxRequest(Request $request): array
@@ -194,7 +197,7 @@ abstract class Metric
     /**
      * Devuelve script para dibujar valores
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function contentScript(Request $request): HtmlString
@@ -225,8 +228,8 @@ abstract class Metric
     /**
      * Compara identificador URI con string
      *
-     * @param  string $uriKey
-     * @return boolean
+     * @param  string  $uriKey
+     * @return bool
      */
     public function hasUriKey(string $uriKey): bool
     {

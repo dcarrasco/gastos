@@ -2,11 +2,11 @@
 
 namespace App\OrmModel\Metrics;
 
-use Illuminate\Http\Request;
-use App\OrmModel\Gastos\Gasto;
 use App\Models\Gastos\SaldoMes;
+use App\OrmModel\Gastos\Gasto;
 use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class SaldoCtaCte extends Value
 {
@@ -21,9 +21,9 @@ class SaldoCtaCte extends Value
     /**
      * Calcula saldo de la cuenta corriente para un perido de tiempo
      *
-     * @param Request   $request
-     * @param mixed[]   $range
-     * @return integer
+     * @param  Request  $request
+     * @param  mixed[]  $range
+     * @return int
      */
     protected function calculateSaldo(Request $request, array $range): int
     {

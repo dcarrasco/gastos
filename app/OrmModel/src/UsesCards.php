@@ -2,16 +2,16 @@
 
 namespace App\OrmModel\src;
 
+use App\OrmModel\src\Metrics\Metric;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use App\OrmModel\src\Metrics\Metric;
 
 trait UsesCards
 {
     /**
      * Cards del recurso
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return Metric[]
      */
     public function cards(Request $request): array
@@ -22,7 +22,7 @@ trait UsesCards
     /**
      * Genera vistas para cada una de las cards del recurso
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return Collection
      */
     public function renderCards(Request $request): Collection

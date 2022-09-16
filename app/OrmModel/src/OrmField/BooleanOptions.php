@@ -2,14 +2,12 @@
 
 namespace App\OrmModel\src\OrmField;
 
-use Illuminate\Http\Request;
 use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\OrmField\Field;
 
 class BooleanOptions extends Field
 {
-
     /** @var string[] */
     protected array $options = [];
 
@@ -43,7 +41,7 @@ class BooleanOptions extends Field
     /**
      * Indica si la relacion contiene el atributo indicado
      *
-     * @param  string   $option
+     * @param  string  $option
      * @return bool
      */
     protected function hasOption(string $option): bool
@@ -55,7 +53,7 @@ class BooleanOptions extends Field
     /**
      * Fija el nombre de la relacion
      *
-     * @param string $relationName
+     * @param  string  $relationName
      * @return BooleanOptions
      */
     public function setRelationName(string $relationName): BooleanOptions
@@ -68,7 +66,7 @@ class BooleanOptions extends Field
     /**
      * Fija el id del modelo padre
      *
-     * @param string $modelId
+     * @param  string  $modelId
      * @return BooleanOptions
      */
     public function setModelId(string $modelId): BooleanOptions
@@ -92,8 +90,8 @@ class BooleanOptions extends Field
      * Devuelve elemento de formulario para el campo
      *
      * @param  Request  $request
-     * @param  Resource $resource
-     * @param  string[] $extraParam
+     * @param  resource  $resource
+     * @param  string[]  $extraParam
      * @return HtmlString
      */
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
@@ -104,21 +102,21 @@ class BooleanOptions extends Field
     /**
      * Devuelve texto de representacion de todas las opciones
      *
-     * @param bool $isEditable
+     * @param  bool  $isEditable
      * @return string
      */
     protected function getOptionsValues(bool $isEditable = false): string
     {
         return collect($this->options)
-            ->map(fn($option) => $this->getFormattedOptionValue($option, $isEditable))
+            ->map(fn ($option) => $this->getFormattedOptionValue($option, $isEditable))
             ->implode('');
     }
 
     /**
      * Devuelve texto de representacion de una opcion
      *
-     * @param string $option
-     * @param bool $isEditable
+     * @param  string  $option
+     * @param  bool  $isEditable
      * @return string
      */
     protected function getFormattedOptionValue(string $option, bool $isEditable = false): string
@@ -127,11 +125,11 @@ class BooleanOptions extends Field
 
         $editable = $isEditable ? '' : 'disabled';
 
-        $input = "<input type=\"checkbox\" "
-            . "name=\"attributes:{$this->relationName}:{$this->modelId}[]\" "
-            . "value=\"{$option}\" "
-            . "{$selected} {$editable}"
-            . ">";
+        $input = '<input type="checkbox" '
+            ."name=\"attributes:{$this->relationName}:{$this->modelId}[]\" "
+            ."value=\"{$option}\" "
+            ."{$selected} {$editable}"
+            .'>';
 
         return "<td class=\"text-center\">{$input}</td>";
     }

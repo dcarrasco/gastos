@@ -2,15 +2,13 @@
 
 namespace App\OrmModel\src\Metrics;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use App\OrmModel\src\Metrics\Metric;
+use Illuminate\Support\Str;
 
 trait DisplayAsCard
 {
     protected string $title = '';
-
 
     /**
      * Ancho de la tarjeta
@@ -31,11 +29,10 @@ trait DisplayAsCard
         'full' => 'col-span-12',
     ];
 
-
     /**
      * Genera la vista de la tarjeta
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return HtmlString
      */
     public function render(Request $request): HtmlString
@@ -80,7 +77,7 @@ trait DisplayAsCard
     /**
      * Fija el ancho de la tarjeta
      *
-     * @param  string $width
+     * @param  string  $width
      * @return Metric
      */
     public function width(string $width = ''): Metric
@@ -103,7 +100,7 @@ trait DisplayAsCard
     /**
      * Genera la ruta de la tarjeta
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return string
      */
     public function urlRoute(Request $request): string
@@ -116,7 +113,7 @@ trait DisplayAsCard
     /**
      * Devuelve arreglo para actualizar metrica
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string[]
      */
     public function contentAjaxRequest(Request $request): array

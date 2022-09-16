@@ -2,10 +2,10 @@
 
 namespace App\OrmModel\src\Filters;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 abstract class Filter
 {
@@ -16,14 +16,12 @@ abstract class Filter
      */
     protected string $parameterPrefix = 'filter_';
 
-
     /**
      * Aplica filtro en la query
      *
-     * @param  Request        $request
-     * @param  Builder<Model> $query
-     * @param  mixed          $value
-     *
+     * @param  Request  $request
+     * @param  Builder<Model>  $query
+     * @param  mixed  $value
      * @return Builder<Model>
      */
     public function apply(Request $request, Builder $query, $value): Builder
@@ -64,7 +62,7 @@ abstract class Filter
     /**
      * Devuelve link para activar el filtro
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $value
      * @return string
      */
@@ -84,13 +82,13 @@ abstract class Filter
      */
     public function getUrlParameterName(): string
     {
-        return $this->parameterPrefix . $this->getName();
+        return $this->parameterPrefix.$this->getName();
     }
 
     /**
      * Indica si la opcion de filtro esta activa
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  string  $value
      * @return bool
      */
@@ -102,7 +100,7 @@ abstract class Filter
     /**
      * Devuelve el valor del filtro en el stringquery
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return string
      */
     public function getValue(Request $request): string
@@ -113,8 +111,8 @@ abstract class Filter
     /**
      * Determina si un filtro esta activo
      *
-     * @param  Request $request
-     * @return boolean
+     * @param  Request  $request
+     * @return bool
      */
     public function isSet(Request $request): bool
     {

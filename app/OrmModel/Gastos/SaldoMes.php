@@ -2,23 +2,27 @@
 
 namespace App\OrmModel\Gastos;
 
-use Illuminate\Http\Request;
-use App\OrmModel\src\Resource;
-use App\OrmModel\Gastos\Cuenta;
+use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\src\OrmField\Currency;
 use App\OrmModel\src\OrmField\Id;
 use App\OrmModel\src\OrmField\Number;
-use App\OrmModel\src\OrmField\Currency;
-use App\OrmModel\src\OrmField\BelongsTo;
+use App\OrmModel\src\Resource;
+use Illuminate\Http\Request;
 
 class SaldoMes extends Resource
 {
     public string $model = \App\Models\Gastos\SaldoMes::class;
+
     public string $label = 'Saldo Mes';
+
     public string $labelPlural = 'Saldos Mes';
+
     public string $icono = 'calculator';
+
     public string $title = 'id';
+
     public array $search = [
-        'id', 'anno', 'mes'
+        'id', 'anno', 'mes',
     ];
 
     public $orderBy = [
