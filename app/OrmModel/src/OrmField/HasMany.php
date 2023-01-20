@@ -184,6 +184,10 @@ class HasMany extends Relation
      */
     protected function getAttributesTable(Collection $relatedResources, bool $edit = false): string
     {
+        if ($relatedResources->isEmpty()) {
+            return "";
+        }
+
         $header = $this->getAttributesTableHeader($edit);
 
         $body = '<tbody>'.$relatedResources
@@ -235,8 +239,12 @@ class HasMany extends Relation
     {
         $relatedResources = $this->getRelatedResources();
 
-        $availableResources = $this->getRelationOptions($request, $resource, $this->relationConditions)
+        if ($relatedResources->isEmpty()) {
+            $availableResources = $this->getRelationOptions($request, $resource, $this->relationConditions);
+        } else {
+            $availableResources = $this->getRelationOptions($request, $resource, $this->relationConditions)
             ->except($relatedResources->map->model()->map->id);
+        }
 
         return new HtmlString(
             $this->getAttributesTable($relatedResources, true)
