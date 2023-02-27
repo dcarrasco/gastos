@@ -8,7 +8,7 @@ use App\OrmModel\src\Metrics\Value;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class SaldoCtaCte extends Value
+class SaldoCtaBci extends Value
 {
     public function calculate(Request $request): array
     {

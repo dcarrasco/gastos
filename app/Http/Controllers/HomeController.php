@@ -8,7 +8,9 @@ use App\OrmModel\Metrics\EvolUtilInversiones;
 use App\OrmModel\Metrics\GastoVisa;
 use App\OrmModel\Metrics\ResumenGastos;
 use App\OrmModel\Metrics\ResumenVisa;
-use App\OrmModel\Metrics\SaldoCtaCte;
+use App\OrmModel\Metrics\SaldoCtaBci;
+use App\OrmModel\Metrics\SaldoCtaSantander;
+use App\OrmModel\Metrics\SaldoCtaItau;
 use App\OrmModel\Metrics\SaldoGranValor;
 use App\OrmModel\Metrics\SaldoInversiones;
 use App\OrmModel\Metrics\SaldoPrefAhorro;
@@ -37,7 +39,9 @@ class HomeController extends Controller
     protected function cards(Request $request): array
     {
         return [
-            SaldoCtaCte::make()->prefix('$'),
+            SaldoCtaBci::make()->prefix('$'),
+            SaldoCtaSantander::make()->prefix('$'),
+            SaldoCtaItau::make()->prefix('$'),
             ResumenGastos::make()->prefix('$'),
             ResumenVisa::make()->prefix('$'),
             GastoVisa::make(),
