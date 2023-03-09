@@ -31,9 +31,22 @@ class ReporteGastos extends Reporte
     /** @return Collection<array-key, string> */
     protected function makeTitulosFilas(): Collection
     {
+        $cantTiposMovimiento = $this->data
+            ->map->tipoGasto
+            ->map->tipoMovimiento
+            ->unique()
+            ->count();
+
         return $this->data
             ->map->tipoGasto
             ->unique()
+            ->when($cantTiposMovimiento > 1, function($tiposGasto) {
+                return $tiposGasto->map(function($tipoGasto) {
+                    return $tipoGasto->setAttribute('tipo_gasto',
+                        strtoupper($tipoGasto->tipoMovimiento->tipo_movimiento) . ' - ' . $tipoGasto->tipo_gasto
+                    );
+                });
+            })
             ->sortBy('tipo_gasto')
             ->pluck('tipo_gasto', 'id');
     }

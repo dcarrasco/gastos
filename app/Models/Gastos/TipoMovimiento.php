@@ -33,7 +33,9 @@ class TipoMovimiento extends Model
     /** @return Collection<array-key, string> */
     public static function selectOptions(): Collection
     {
-        return static::orderBy('orden')
-            ->pluck('tipo_movimiento', 'id');
+        return collect([0 => 'Todos'])
+            ->merge(static::orderBy('orden')
+                ->pluck('tipo_movimiento', 'id')
+            );
     }
 }

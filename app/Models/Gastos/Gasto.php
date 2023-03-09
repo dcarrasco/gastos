@@ -108,7 +108,9 @@ class Gasto extends Model
     {
         return $query->where('cuenta_id', $cuentaId)
             ->where('anno', $anno)
-            ->where('tipo_movimiento_id', $tipoMovimientoId);
+            ->when($tipoMovimientoId <> 0, function ($query) use ($tipoMovimientoId) {
+                return $query->where('tipo_movimiento_id', $tipoMovimientoId);
+            });
     }
 
     /**
@@ -202,9 +204,14 @@ class Gasto extends Model
     public static function getDataReporte(int $cuentaId, int $anno, int $tipoMovimientoId): EloquentCollection
     {
         return static::cuentaAnnoTipMov($cuentaId, $anno, $tipoMovimientoId)
-            ->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'))
+            ->when($tipoMovimientoId == 0, function ($query) {
+                return $query->join('cta_tipos_movimientos', 'tipo_movimiento_id', '=', 'cta_tipos_movimientos.id')
+                    ->select(DB::raw('mes, tipo_gasto_id, sum(monto*cta_tipos_movimientos.signo) as sum_monto'));
+            }, function ($query) {
+                return $query->select(DB::raw('mes, tipo_gasto_id, sum(monto) as sum_monto'));
+            })
             ->groupBy(['mes', 'tipo_gasto_id'])
-            ->with('tipoGasto')
+            ->with('tipoGasto.tipoMovimiento')
             ->get();
     }
 
