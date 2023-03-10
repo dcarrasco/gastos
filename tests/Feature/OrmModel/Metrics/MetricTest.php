@@ -149,8 +149,9 @@ class MetricTest extends TestCase
     // -------------------------------------------------------------------------
     public function testDisplayAsCardAttributes()
     {
-        $this->assertObjectHasAttribute('width', $this->metric);
-        $this->assertObjectHasAttribute('bootstrapWidths', $this->metric);
+        $this->assertIsObject($this->metric);
+        $this->assertTrue(property_exists($this->metric, 'width'));
+        $this->assertTrue(property_exists($this->metric, 'bootstrapWidths'));
     }
 
     public function testRender()

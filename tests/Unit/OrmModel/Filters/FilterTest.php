@@ -22,7 +22,8 @@ class FilterTest extends TestCase
 
     public function testFilterHasParameterPrefix()
     {
-        $this->assertClassHasAttribute('parameterPrefix', get_class($this->filter));
+        $this->assertIsObject($this->filter);
+        $this->assertTrue(property_exists($this->filter, 'parameterPrefix'));
     }
 
     public function testApply()

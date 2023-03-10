@@ -33,9 +33,10 @@ class ValueTest extends TestCase
 
     public function testAttributes()
     {
-        $this->assertObjectHasAttribute('dateFormat', $this->value);
-        $this->assertObjectHasAttribute('prefix', $this->value);
-        $this->assertObjectHasAttribute('suffix', $this->value);
+        $this->assertIsObject($this->value);
+        $this->assertTrue(property_exists($this->value, 'dateFormat'));
+        $this->assertTrue(property_exists($this->value, 'prefix'));
+        $this->assertTrue(property_exists($this->value, 'suffix'));
     }
 
     public function testCalculate()
