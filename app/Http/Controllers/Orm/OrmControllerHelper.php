@@ -34,7 +34,7 @@ trait OrmControllerHelper
     /**
      * Devuelve instancias de menuModulo
      *
-     * @return Collection<array-key, resource>
+     * @return Collection<array-key, Resource>
      */
     protected function getMenuModulo(): Collection
     {

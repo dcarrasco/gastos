@@ -128,7 +128,7 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
         return ! empty($this->password);
     }
 
-    protected function getCurrentModulo(Request $request): Modulo
+    protected function getCurrentModulo(Request $request): Modulo|null
     {
         return $this->getMenuApp($request)
             ->first(fn ($modulo) => $modulo->selected);
