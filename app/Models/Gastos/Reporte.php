@@ -103,7 +103,7 @@ abstract class Reporte
 
     public function promedioFila(string $fila): int
     {
-        return $this->totalFila($fila) / $this->countFila($fila);
+        return (int) ($this->totalFila($fila) / $this->countFila($fila));
     }
 
     public function totalColumna(string $columna): int
