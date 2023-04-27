@@ -11,6 +11,7 @@ use App\OrmModel\Metrics\ResumenVisa;
 use App\OrmModel\Metrics\SaldoCtaBci;
 use App\OrmModel\Metrics\SaldoCtaSantander;
 use App\OrmModel\Metrics\SaldoCtaItau;
+use App\OrmModel\Metrics\SaldoCtaChile;
 use App\OrmModel\Metrics\SaldoGranValor;
 use App\OrmModel\Metrics\SaldoInversiones;
 use App\OrmModel\Metrics\SaldoPrefAhorro;
@@ -42,6 +43,7 @@ class HomeController extends Controller
             SaldoCtaBci::make()->prefix('$'),
             SaldoCtaSantander::make()->prefix('$'),
             SaldoCtaItau::make()->prefix('$'),
+            SaldoCtaChile::make()->prefix('$'),
             ResumenGastos::make()->prefix('$'),
             ResumenVisa::make()->prefix('$'),
             GastoVisa::make(),
