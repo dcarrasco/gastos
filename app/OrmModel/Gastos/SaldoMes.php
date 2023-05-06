@@ -31,6 +31,8 @@ class SaldoMes extends Resource
         'mes' => 'asc',
     ];
 
+    protected $paginationLinksDetail = true;
+
     public function fields(Request $request): array
     {
         return [
