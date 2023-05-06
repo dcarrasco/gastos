@@ -31,12 +31,24 @@ class SaldoCta extends Value
             ->with('tipoMovimiento')
             ->get();
 
-        $saldoInicial = SaldoMes::where('cuenta_id', static::ID_CUENTA)
-            ->where('anno', $gastos->min('anno'))
-            ->where('mes', $gastos->min('mes'))
-            ->first();
+        if ($gastos->count() > 0) {
+            $saldoInicial = SaldoMes::where('cuenta_id', static::ID_CUENTA)
+                ->where('anno', $range[0]->year)
+                ->where('mes', $range[0]->month)
+                ->first();
 
-        return (int) ((optional($saldoInicial)->saldo_inicial ?: 0) + $gastos->sum('valor_monto'));
+            $saldoInicial = (int) (optional($saldoInicial)->saldo_inicial ?: 0);
+        } else {
+            $saldoInicial = SaldoMes::where('cuenta_id', static::ID_CUENTA)
+                ->where('anno', $range[1]->copy()->subMonth()->year)
+                ->where('mes', $range[1]->copy()->subMonth()->month)
+                ->first();
+
+            $saldoInicial = (int) (optional($saldoInicial)->saldo_final ?: 0);
+
+        }
+
+        return $saldoInicial + $gastos->sum('valor_monto');
     }
 
     protected function filter(Request $request, Builder $query): Builder
