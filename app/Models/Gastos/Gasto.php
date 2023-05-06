@@ -42,7 +42,6 @@ class Gasto extends Model
         'monto', 'tipo_movimiento_id', 'usuario_id',
     ];
 
-    /** @var string[] */
     protected $casts = [
         'fecha' => 'datetime',
     ];
