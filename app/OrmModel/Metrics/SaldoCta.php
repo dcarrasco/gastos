@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class SaldoCta extends Value
 {
+    const ID_CUENTA = -1;
+
+
     public function calculate(Request $request): array
     {
         return [
@@ -27,26 +30,11 @@ class SaldoCta extends Value
      */
     protected function calculateSaldo(Request $request, array $range): int
     {
+        $saldoInicial = SaldoMes::getSaldoMesAnterior(static::ID_CUENTA, $range[1]->year, $range[1]->month);
+
         $gastos = $this->rangedQuery($request, Gasto::class, 'fecha', $range)
             ->with('tipoMovimiento')
             ->get();
-
-        if ($gastos->count() > 0) {
-            $saldoInicial = SaldoMes::where('cuenta_id', static::ID_CUENTA)
-                ->where('anno', $range[0]->year)
-                ->where('mes', $range[0]->month)
-                ->first();
-
-            $saldoInicial = (int) (optional($saldoInicial)->saldo_inicial ?: 0);
-        } else {
-            $saldoInicial = SaldoMes::where('cuenta_id', static::ID_CUENTA)
-                ->where('anno', $range[1]->copy()->subMonth()->year)
-                ->where('mes', $range[1]->copy()->subMonth()->month)
-                ->first();
-
-            $saldoInicial = (int) (optional($saldoInicial)->saldo_final ?: 0);
-
-        }
 
         return $saldoInicial + $gastos->sum('valor_monto');
     }
