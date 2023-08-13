@@ -17,11 +17,12 @@ class Boolean extends Field
      */
     public function getFormattedValue(): HtmlString
     {
-        $statusSymbol = $this->value
-            ? view("components.heroicon.check-circle", ['class' => 'text-green-500 inline-block'])->render()
-            : view("components.heroicon.x-circle", ['class' => 'text-red-500 inline-block'])->render();
+        $icon = $this->value ? 'check-circle' : 'x-circle';
+        $color = $this->value ? 'text-green-500' : 'text-red-500';
 
-        return new HtmlString($statusSymbol);
+        return new HtmlString(
+            view("components.heroicon.{$icon}", ['class' => "{$color} inline-block"])->render()
+        );
     }
 
     /**
