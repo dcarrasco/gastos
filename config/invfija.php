@@ -24,6 +24,8 @@ return [
     'theme' => 'indigo',
     // 'theme' => 'default',
 
+    'use_breadcrumbs' => true,
+
     'colors' => [
         'default' => [
             'button_primary' => 'bg-blue-500',

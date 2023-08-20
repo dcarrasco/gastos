@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout.app :resource="$resource">
 
     <!-- ------------------------- CARDS ------------------------- -->
     <x-orm.cards-container :cards="$resource->renderCards(request())" />

@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
+use App\OrmModel\src\Resource;
 
 /**
  * App\Model\UserACL
@@ -87,6 +88,14 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
             ->values();
     }
 
+    protected function getCurrentUrl(Request $request): string
+    {
+        return config(
+            'invfija.'.str_replace('.', '_', $request->route()->getName()),
+            $request->route()->getName()
+        );
+    }
+
     /**
      * Determina el modulo seleccionado en menuApp
      *
@@ -96,12 +105,9 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
      */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
-        $currentUrl = config(
-            'invfija.'.str_replace('.', '_', $request->route()->getName()),
-            $request->route()->getName()
+        return $menuApp->map(fn ($modulo) => $modulo
+            ->setAttribute('selected', $modulo->url === $this->getCurrentUrl($request))
         );
-
-        return $menuApp->map(fn ($modulo) => $modulo->setAttribute('selected', $modulo->url === $currentUrl));
     }
 
     public function moduloAppName(Request $request): HtmlString
@@ -152,5 +158,31 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
     public function hasAbility(string $ability, Request $request): bool
     {
         return $this->getAclAbilities($request)->contains($ability);
+    }
+
+    public function getBreadcrumbs(?Resource $resource, ?string $accion): string {
+        $breadcrumbs = collect([['texto' => config('invfija.app_nombre'), 'url' => '']]);
+        $modulo = session('menuapp')
+            ->first(fn($modulo) => $modulo->url == $this->getCurrentUrl(request()));
+
+        if ($modulo) {
+            $breadcrumbs = $breadcrumbs->push(['texto' => $modulo->modulo, 'url' => route($modulo->url)]);
+        }
+
+        if ($resource) {
+            $breadcrumbs->push(['texto' => $resource->getLabelPlural(), 'url' => route($modulo->url) . '/' . class_basename($resource)]);
+        }
+
+        if ($accion) {
+            $breadcrumbs->push(['texto' => $accion, 'url' => '']);
+        }
+
+        return $breadcrumbs
+            ->map(function($item) {
+                return empty($item['url'])
+                    ? $item['texto']
+                    : "<a href=\"{$item['url']}\">{$item['texto']}</a>";
+            })->join('&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;');
+
     }
 }

@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout.app :resource=$resource :accion="$resource->title()">
     <x-orm.title>
         {{ trans('orm.title_show') }}
         {!! $resource->getLabel() !!}

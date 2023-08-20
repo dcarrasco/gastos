@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layout.app :resource="$resource" :accion="trans('orm.title_edit').': '.$resource->title()">
 
     <x-orm.title>
         {{ trans('orm.title_edit') }}
