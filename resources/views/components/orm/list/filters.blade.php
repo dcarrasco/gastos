@@ -2,7 +2,12 @@
 
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
-        <x-button color="light" x-on:click="openFilter=true" id="button-filters" class="flex border items-center">
+        <x-button
+            color="no-color"
+            x-on:click="openFilter=true"
+            id="button-filters"
+            class="flex items-center border border-transparent hover:border-gray-400"
+        >
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}

@@ -11,6 +11,7 @@
         'green' => 'bg-green-500 hover:bg-green-600 text-white',
         'light' => 'bg-gray-100 hover:bg-gray-200 text-gray-700',
         'danger' => 'bg-red-500 hover:bg-red-600 text-white',
+        'no-color' => 'hover:bg-gray-100 text-gray-700',
     ],
 ])
 @if ($type === 'link')
