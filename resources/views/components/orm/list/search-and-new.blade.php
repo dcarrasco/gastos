@@ -12,8 +12,9 @@
             type="text"
             name="{{ $resource->urlSearchKey() }}"
             value="{{ Request::input($resource->urlSearchKey()) }}"
-            class="{{ $activeSearchClass }} pl-10 py-2 rounded-md outline-none focus:shadow-outline"
+            class="{{ $activeSearchClass }} pl-10 py-2 rounded-full shadow outline-none focus:shadow-outline"
             id="{{ $resource->urlSearchKey() }}"
+            size="30"
             maxlength="30"
             placeholder="{{ trans('orm.filter') }}"
         >
