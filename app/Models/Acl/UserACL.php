@@ -161,58 +161,32 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
     }
 
 
-    public function getBreadcrumbs(?Resource $resource, ?string $accion): HtmlString
+    /**
+     * Recupera breadcumbs
+     *
+     * @return Collection<array-key, array<array-key, string>>
+     */
+    public function getBreadcrumbs(?Resource $resource, ?string $accion): Collection
     {
-        $breadcrumbs = $this->addBreadCrumb(collect(), config('invfija.app_nombre'));
+        $breadcrumbs = collect()->push(['texto' => config('invfija.app_nombre'), 'url' => '']);
 
         $modulo = session('menuapp')
             ->first(fn($modulo) => $modulo->url == $this->getCurrentUrl(request()));
         if ($modulo) {
-            $breadcrumbs = $this->addBreadCrumb($breadcrumbs, $modulo->modulo, route($modulo->url));
+            $breadcrumbs->push(['texto' => $modulo->modulo, 'url' => route($modulo->url)]);
         }
 
         if ($resource) {
-            $breadcrumbs = $this->addBreadCrumb($breadcrumbs, $resource->getLabelPlural(), route($modulo->url) . '/' . class_basename($resource));
+            $breadcrumbs->push([
+                'texto' => $resource->getLabelPlural(),
+                'url' => route($modulo->url) . '/' . class_basename($resource)
+            ]);
         }
 
         if ($accion) {
-            $breadcrumbs = $this->addBreadCrumb($breadcrumbs, $accion);
+            $breadcrumbs->push(['texto' => $accion, 'url' => '']);
         }
 
-        return $this->displayBreadcrums($breadcrumbs);
-    }
-
-    /**
-     * Agrega nuevo nivel en breadcumbs
-     *
-     * @param  Collection<array-key, array<array-key, string>>  $breadcrumbs
-     * @param  string  $texto
-     * @param  string  $url
-     * @return Collection<array-key, array<array-key, string>>
-     */
-    protected function addBreadCrumb(Collection $breadcrumbs, string $texto = '', string $url = ''): Collection
-    {
-        return $breadcrumbs->push(['texto' => $texto, 'url' => $url]);
-    }
-
-    /**
-     * Devuelve las abilities de pagina actual
-     *
-     * @param  Collection<array-key, array<array-key, string>>  $breadcrumbs
-     * @return HtmlString
-     */
-    protected function displayBreadcrums(Collection $breadcrumbs): HtmlString
-    {
-        $linkColor = themeColor('link_primary');
-        $linkHoverColor = themeColor('link_primary_hover');
-        $linkClass = " class=\"font-bold {$linkColor} hover:{$linkHoverColor}\"";
-        $separator = '&nbsp;&nbsp;&nbsp;<span class="text-gray-600">&gt;</span>&nbsp;&nbsp;&nbsp;';
-
-        return new HtmlString($breadcrumbs
-            ->map(function($item) use($linkClass) {
-                return empty($item['url'])
-                    ? "<span class=\"font-bold text-gray-600\">{$item['texto']}</span>"
-                    : "<a href=\"{$item['url']}\" {$linkClass}>{$item['texto']}</a>";
-            })->join($separator));
+        return $breadcrumbs;
     }
 }
