@@ -35,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         // ORM Cash classes
         \App\Models\Cash\Cuenta::class => AclPolicy::class,
         \App\Models\Cash\TipoCuenta::class => AclPolicy::class,
+        \App\Models\Cash\Movimiento::class => AclPolicy::class,
     ];
 
     /**
