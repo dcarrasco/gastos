@@ -31,6 +31,9 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Gastos\GlosaTipoGasto::class => AclPolicy::class,
         \App\Models\Gastos\SaldoMes::class => AclPolicy::class,
         \App\Models\Gastos\Gasto::class => AclPolicy::class,
+
+        // ORM Cash classes
+        \App\Models\Cash\Cuenta::class => AclPolicy::class,
     ];
 
     /**

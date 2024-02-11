@@ -16,6 +16,12 @@ return [
     'aclConfig_edit' => 'aclConfig.index',
     'aclConfig_update' => 'aclConfig.index',
 
+    'cashConfig_create' => 'cashConfig.index',
+    'cashConfig_store' => 'cashConfig.index',
+    'cashConfig_show' => 'cashConfig.index',
+    'cashConfig_edit' => 'cashConfig.index',
+    'cashConfig_update' => 'cashConfig.index',
+
     'gastos_addGasto' => 'gastos.showMes',
     'gastos_borrarGasto' => 'gastos.showMes',
     'gastos_ingresoMasivoAdd' => 'gastos.ingresoMasivo',

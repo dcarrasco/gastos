@@ -33,5 +33,15 @@ class TablaACLAppSeeder extends Seeder
             'icono' => 'users',
             'created_at' => now(),
         ]);
+
+        // 3
+        DB::table('acl_app')->insert([
+            'app' => 'Cash',
+            'descripcion' => 'Cash App',
+            'orden' => 60,
+            'url' => '',
+            'icono' => 'credit-card',
+            'created_at' => now(),
+        ]);
     }
 }

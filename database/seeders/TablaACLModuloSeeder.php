@@ -100,5 +100,17 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 21,
             'created_at' => now(),
         ]);
+
+        // 8
+        DB::table('acl_modulo')->insert([
+            'app_id' => 3,
+            'modulo' => 'Config Cash',
+            'descripcion' => 'Configuración cash',
+            'llave_modulo' => 'jsai2238odsd__qw',
+            'icono' => 'cogs',
+            'url' => 'cashConfig.index',
+            'orden' => 90,
+            'created_at' => now(),
+        ]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Cash\ConfigController as CashConfigController;
 use App\Http\Controllers\Acl\ConfigController as AclConfigController;
 use App\Http\Controllers\Acl\LoginController;
 use App\Http\Controllers\Gastos\ConfigController as GastosConfigController;
@@ -34,6 +35,9 @@ OrmController::routes('acl', AclConfigController::class);
 
 // Gastos Config
 OrmController::routes('gastos', GastosConfigController::class);
+
+// Cash Config
+OrmController::routes('cash', CashConfigController::class);
 
 // Gastos
 Route::group(['prefix' => 'gastos', 'as' => 'gastos.', 'middleware' => 'auth'], function () {

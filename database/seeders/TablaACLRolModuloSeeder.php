@@ -72,5 +72,13 @@ class TablaACLRolModuloSeeder extends Seeder
             'abilities' => '["view", "view-any", "create", "update", "delete"]',
             'created_at' => now(),
         ]);
+
+        // 8 Config ACL
+        DB::table('acl_rol_modulo')->insert([
+            'rol_id' => 3,
+            'modulo_id' => 8,
+            'abilities' => '["view", "view-any", "create", "update", "delete"]',
+            'created_at' => now(),
+        ]);
     }
 }
