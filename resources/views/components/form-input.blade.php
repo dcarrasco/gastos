@@ -15,6 +15,10 @@
     'toYear' => 2015,
 ])
 @php
+    setlocale(LC_ALL, 'es_MX', 'es', 'ES');
+    /* \Carbon::setUTF8(true); */
+    /* \Carbon::setLocale(config('app.locale')); */
+
     $value = old($name, request(str_replace(' ', '_', $name), $value));
 
     if ($type == 'selectYear') {
@@ -25,7 +29,8 @@
     else if ($type == 'selectMonth') {
         $type = 'select';
         $options = collect(range(1,12))->mapWithKeys(fn($mes) => [
-            $mes => trans('fechas.' . now()->create(2020, $mes, 01)->formatLocalized('%B'))
+            /* $mes => trans('fechas.' . now()->create(2020, $mes, 01)->format('%B')) */
+            $mes => now()->create(2020, $mes, 01)->month
         ]);
         $value = empty($value) ? today()->month : $value;
     }
