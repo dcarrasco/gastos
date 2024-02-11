@@ -34,6 +34,14 @@ class Cuenta extends Model
     ];
 
     /**
+     * @return BelongsTo<TipoCuenta, Cuenta>
+     */
+    public function tipoCuenta(): BelongsTo
+    {
+        return $this->belongsTo(TipoCuenta::class, "tipo_cuenta");
+    }
+
+    /**
      * @return BelongsTo<Cuenta, Cuenta>
      */
     public function cuentaSuperior(): BelongsTo

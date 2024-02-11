@@ -32,7 +32,9 @@ class Cuenta extends Resource
             Text::make('Codigo')->sortable()->rules('max:250'),
             Text::make('Nombre')->sortable()->rules('max:250', 'required', 'unique'),
             Text::make('Descripcion')->sortable()->rules('max:250'),
-            Text::make('Tipo Cuenta')->sortable()->rules('max:250', 'required'),
+
+            BelongsTo::make('Tipo Cuenta', 'tipoCuenta', TipoCuenta::class)
+                ->rules('required'),
 
             Text::make('Moneda')->sortable()->rules('max:250', 'required')->hideFromIndex(),
             Text::make('Color')->sortable()->rules('max:250')->hideFromIndex(),

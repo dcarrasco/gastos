@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TablaACLUsuarioRolSeeder::class);
 
         $this->call(TablaCashCuentasSeeder::class);
+        $this->call(TablaCashTipoCuentasSeeder::class);
     }
 }
