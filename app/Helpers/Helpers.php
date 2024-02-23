@@ -42,7 +42,10 @@ if (! function_exists('fmtMonto')) {
 
         $currencySymbol = empty($locale['currency_symbol']) ? '$' : $locale['currency_symbol'];
 
-        return new HtmlString($currencySymbol.'&nbsp;'.fmtCantidad($monto, 0));
+        $redColor = "text-red-600";
+        return $monto < 0
+            ? new HtmlString("<span class=\"{$redColor}\">{$currencySymbol}&nbsp;" . fmtCantidad($monto, 0) . '</span>')
+            : new HtmlString($currencySymbol.'&nbsp;'.fmtCantidad($monto, 0));
     }
 }
 

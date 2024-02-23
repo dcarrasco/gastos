@@ -27,6 +27,11 @@ return [
     'gastos_ingresoMasivoAdd' => 'gastos.ingresoMasivo',
     'gastos_addInversion' => 'gastos.ingresoInversion',
 
+    'cash_show' => 'cash.index',
+    'cash_showMovimiento' => 'cash.index',
+    'cash_store' => 'cash.index',
+    'cash_update' => 'cash.index',
+
     'theme' => 'indigo',
     // 'theme' => 'default',
 

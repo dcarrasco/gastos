@@ -20,6 +20,8 @@ class TipoCuenta extends Model
     protected $primaryKey = "tipo_cuenta";
     protected $keyType = 'string';
 
-    protected $fillable = ['tipo_cuenta', 'nombre', 'tipo'];
+    protected $fillable = ['tipo_cuenta', 'nombre', 'tipo',
+        'nombre_cargo', 'signo_cargo', 'nombre_abono', 'signo_abono'
+    ];
 
 }

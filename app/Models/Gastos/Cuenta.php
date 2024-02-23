@@ -2,6 +2,8 @@
 
 namespace App\Models\Gastos;
 
+use App\Models\Gastos\TipoCuenta;
+use App\OrmModel\Gastos\TipoCuenta as AppTipoCuenta;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

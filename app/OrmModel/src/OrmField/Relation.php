@@ -15,6 +15,8 @@ class Relation extends Field
     /** @var string[] */
     protected array $relationConditions = [];
 
+    protected $formOptions = null;
+
     /**
      * Constructor de la clase
      *
@@ -22,10 +24,11 @@ class Relation extends Field
      * @param  string  $field           Campo
      * @param  string  $relatedResource Nombre del recurso relacionado
      */
-    public function __construct(string $name, string $field = '', string $relatedResource = '')
+    public function __construct(string $name, string $field = '', string $relatedResource = '', $formOptions = [])
     {
         $field = empty($field) ? $name : $field;
         $this->relatedResource = empty($relatedResource) ? $field : $relatedResource;
+        $this->formOptions = $formOptions;
 
         parent::__construct($name, $field);
     }
@@ -51,9 +54,9 @@ class Relation extends Field
      * @param  string  $relatedResource Nombre del recurso relacionado
      * @return static
      */
-    public static function make(string $name = '', string $field = '', string $relatedResource = ''): static
+    public static function make(string $name = '', string $field = '', string $relatedResource = '', $formOptions = null): static
     {
-        return new static($name, $field, $relatedResource);
+        return new static($name, $field, $relatedResource, $formOptions);
     }
 
     /**

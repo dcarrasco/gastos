@@ -2,9 +2,11 @@
 
 namespace App\Models\Cash;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Cash\Cuenta
@@ -35,6 +37,7 @@ class Movimiento extends Model
         'fecha' => 'datetime',
     ];
 
+
     /**
      * @return BelongsTo<Cuenta, Movimiento>
      */
@@ -51,4 +54,56 @@ class Movimiento extends Model
         return $this->belongsTo(Cuenta::class, "contracuenta_id");
     }
 
+    public static function showCuenta(Cuenta $cuenta): Collection
+    {
+        $movimientos = static::where('cuenta_id', $cuenta->id)
+            ->orderBy('fecha', 'asc')
+            ->orderBy('id', 'asc')
+            ->with('cuenta', 'cuenta.tipoCuenta')
+            ->get();
+
+        $total = 0;
+        foreach ($movimientos as $mov) {
+            $signo = $mov->tipo_cargo == "C"
+                ? $mov->cuenta->tipoCuenta->signo_cargo
+                : $mov->cuenta->tipoCuenta->signo_abono;
+
+            $total += $mov->monto * $signo;
+            $mov->balance = $total;
+        }
+        return $movimientos;
+    }
+
+    public static function getUUID(): string
+    {
+        return Str::uuid();
+    }
+
+    public function contraMovimiento(): Movimiento
+    {
+        return Movimiento::where('movimiento_id', $this->movimiento_id)
+            ->where('id', '<>', $this->id)
+            ->first();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public static function selectTiposCargo(Cuenta $cuenta): array
+    {
+        return [
+            'C' => $cuenta->tipoCuenta->nombre_cargo,
+            'A' => $cuenta->tipoCuenta->nombre_abono,
+        ];
+    }
+
+    public function getCargo(): string
+    {
+        return $this->tipo_cargo == "C" ? $this->monto : "";
+    }
+
+    public function getIngreso(): string
+    {
+        return $this->tipo_cargo == "A" ? $this->monto : "";
+    }
 }

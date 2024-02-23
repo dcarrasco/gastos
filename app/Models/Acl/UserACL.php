@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use App\OrmModel\src\Resource;
+use stdClass;
 
 /**
  * App\Model\UserACL
@@ -75,16 +76,27 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
     /**
      * General menuApp desde datos de la BD
      *
-     * @return Collection<array-key, Modulo>
+     * @return Collection<array-key, stdClass>
      */
     protected function getMenuAppFromDB(): Collection
     {
         return $this->rol
             ->flatMap->modulo
-            ->map(fn ($modulo) => $modulo
+            ->map(function ($modulo) {
+                $modulo = $modulo
                     ->setAttribute('orden', "{$modulo->app->orden}-{$modulo->orden}")
-                    ->setAttribute('selected', false))
-            ->sortBy('orden')
+                    ->setAttribute('selected', false)
+                    ->toArray();
+
+                unset($modulo['id']);
+                unset($modulo['app_id']);
+                unset($modulo['descripcion']);
+                unset($modulo['created_at']);
+                unset($modulo['updated_at']);
+                unset($modulo['app']);
+
+                return (object) $modulo;
+            })->sortBy('orden')
             ->values();
     }
 
@@ -105,9 +117,11 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
      */
     protected function setSelectedMenu(Request $request, Collection $menuApp): Collection
     {
-        return $menuApp->map(fn ($modulo) => $modulo
-            ->setAttribute('selected', $modulo->url === $this->getCurrentUrl($request))
-        );
+        return $menuApp->map(function($modulo) use($request) {
+            $modulo->selected = $modulo->url === $this->getCurrentUrl($request);
+
+            return $modulo;
+        });
     }
 
     public function moduloAppName(Request $request): HtmlString
@@ -134,7 +148,7 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
         return ! empty($this->password);
     }
 
-    protected function getCurrentModulo(Request $request): Modulo|null
+    protected function getCurrentModulo(Request $request): stdClass|null
     {
         return $this->getMenuApp($request)
             ->first(fn ($modulo) => $modulo->selected);
@@ -152,7 +166,7 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
             return collect();
         }
 
-        return collect(json_decode($modulo->pivot->abilities) ?: []);
+        return collect(json_decode($modulo->pivot['abilities']) ?: []);
     }
 
     public function hasAbility(string $ability, Request $request): bool

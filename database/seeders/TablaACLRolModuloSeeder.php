@@ -80,5 +80,14 @@ class TablaACLRolModuloSeeder extends Seeder
             'abilities' => '["view", "view-any", "create", "update", "delete"]',
             'created_at' => now(),
         ]);
+
+        // 9 Ingreso Cash
+        DB::table('acl_rol_modulo')->insert([
+            'rol_id' => 3,
+            'modulo_id' => 9,
+            'abilities' => '["view-any", "create", "update", "delete"]',
+            'created_at' => now(),
+        ]);
+
     }
 }

@@ -3,6 +3,7 @@
 namespace App\OrmModel\Cash;
 
 use App\OrmModel\src\OrmField\Text;
+use App\OrmModel\src\OrmField\Number;
 use App\OrmModel\src\Resource;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,10 @@ class TipoCuenta extends Resource
             Text::make('Tipo Cuenta')->sortable()->rules('max:250', 'required', 'unique'),
             Text::make('Nombre')->sortable()->rules('max:250', 'required', 'unique'),
             Text::make('Tipo')->sortable()->rules('max:250', 'required'),
+            Text::make('Nombre cargo')->rules('max:250', 'required'),
+            Number::make('Signo cargo')->rules('required')->hideFromIndex(),
+            Text::make('Nombre abono')->rules('max:250', 'required'),
+            Number::make('Signo abono')->rules('required')->hideFromIndex(),
         ];
     }
 }

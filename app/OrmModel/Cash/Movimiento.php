@@ -22,7 +22,7 @@ class Movimiento extends Resource
         'id', 'nombre',
     ];
 
-    public $orderBy = 'fecha';
+    public $orderBy = 'id';
 
     public function fields(Request $request): array
     {
@@ -37,7 +37,7 @@ class Movimiento extends Resource
             Text::make('Numero')->sortable()->rules('max:250'),
             Text::make('Descripcion')->sortable()->rules('max:250', 'required'),
 
-            BelongsTo::make('Contracuenta', 'contracuenta', Cuenta::class)->rules('required'),
+            BelongsTo::make('Contracuenta', 'contracuenta', Cuenta::class)->rules('required')->hideFromIndex(),
 
             Text::make('Conciliado')->sortable()->rules('max:250', 'required')->hideFromIndex(),
             Text::make('Tipo cargo')->sortable()->rules('max:250'),

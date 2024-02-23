@@ -112,5 +112,18 @@ class TablaACLModuloSeeder extends Seeder
             'orden' => 90,
             'created_at' => now(),
         ]);
+
+        // 9
+        DB::table('acl_modulo')->insert([
+            'app_id' => 3,
+            'modulo' => 'Ingreso Movimientos',
+            'descripcion' => 'Ingreso movimientos',
+            'llave_modulo' => 'jiso938_js!!uw',
+            'icono' => 'money',
+            'url' => 'cash.show',
+            'orden' => 10,
+            'created_at' => now(),
+        ]);
+
     }
 }

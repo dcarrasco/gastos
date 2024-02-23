@@ -9,6 +9,7 @@ use App\OrmModel\src\OrmField\Text;
 use App\OrmModel\src\OrmField\Boolean;
 use App\OrmModel\src\Resource;
 use Illuminate\Http\Request;
+use App\Models\Cash\Cuenta as CuentaModel;
 
 class Cuenta extends Resource
 {
@@ -23,6 +24,7 @@ class Cuenta extends Resource
     ];
 
     public $orderBy = 'codigo';
+
 
     public function fields(Request $request): array
     {
@@ -45,7 +47,10 @@ class Cuenta extends Resource
             Boolean::make('Contenedor')->rules('required'),
             Boolean::make('Oculto')->rules('required'),
 
-            BelongsTo::make('Cuenta superior', 'cuentaSuperior', Cuenta::class)
+            /* BelongsTo::make('Cuenta superior', 'cuentaSuperior', self::class) */
+            /*     ->rules('required')->hideFromIndex(), */
+
+            BelongsTo::make('Cuenta superior', 'cuentaSuperior', self::class, function() { return CuentaModel::selectCuentas(true)->all(); })
                 ->rules('required')->hideFromIndex(),
         ];
     }

@@ -1,0 +1,8 @@
+Cuenta             Abono               Cargo
+======================================================
+Patrimonio         Tot Decremento      Tot Incremento
+Banco              Deposito            Reducción
+Activos            Incremento          Decremento
+Pasivo             Remuneración        Cargo
+Ingresos           Cargo               Ingreso
+Gastos             Gasto               Descuento
