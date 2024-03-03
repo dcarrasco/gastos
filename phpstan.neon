@@ -6,5 +6,5 @@ parameters:
         - '#Unsafe usage of new static#'
 
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
     - phpstan-baseline.neon
