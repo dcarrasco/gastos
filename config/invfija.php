@@ -27,7 +27,12 @@ return [
     'gastos_ingresoMasivoAdd' => 'gastos.ingresoMasivo',
     'gastos_addInversion' => 'gastos.ingresoInversion',
 
-    'cash_show' => 'cash.index',
+    'cashMovimientos_index' => 'cashCuentas.index',
+    'cashMovimientos_show' => 'cashCuentas.index',
+    'cashMovimientos_create' => 'cashCuentas.index',
+    'cashMovimientos_store' => 'cashCuentas.index',
+    'cashMovimientos_update' => 'cashCuentas.index',
+
     'cash_showMovimiento' => 'cash.index',
     'cash_store' => 'cash.index',
     'cash_update' => 'cash.index',

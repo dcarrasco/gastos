@@ -1,4 +1,4 @@
-@props(['class' => ''])
+@props(['class' => '', 'height' => null, 'width' => null])
 
 <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -50,8 +50,9 @@ class Cuenta extends Resource
             /* BelongsTo::make('Cuenta superior', 'cuentaSuperior', self::class) */
             /*     ->rules('required')->hideFromIndex(), */
 
-            BelongsTo::make('Cuenta superior', 'cuentaSuperior', self::class, function() { return CuentaModel::selectCuentas(true)->all(); })
-                ->rules('required')->hideFromIndex(),
+            BelongsTo::make('Cuenta superior', 'cuentaSuperior', self::class,
+                function() { return CuentaModel::selectCuentas(true)->all(); }
+            )->rules('required')->hideFromIndex(),
         ];
     }
 }

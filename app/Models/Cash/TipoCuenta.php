@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $tipo
  * @property string $nombre
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder<TipoCuenta>
  */
 class TipoCuenta extends Model
 {

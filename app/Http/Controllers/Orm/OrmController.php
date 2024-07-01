@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrmController extends Controller
 {
     use OrmCard;
     use OrmControllerHelper;
+    use AuthorizesRequests;
 
     /**
      * Nombre de la ruta del controlador
@@ -26,6 +28,7 @@ class OrmController extends Controller
      */
     protected array $menuModulo = [];
 
+
     public function __construct(Request $request)
     {
         if (empty($this->routeName)) {
@@ -35,6 +38,7 @@ class OrmController extends Controller
         $this->makeView($request);
     }
 
+
     public function index(Request $request, string $resourceClass = ''): View
     {
         $resource = $this->getResource($resourceClass)
@@ -42,6 +46,7 @@ class OrmController extends Controller
 
         return view('orm.list', compact('resource'));
     }
+
 
     public function create(Request $request, string $resourceClass = ''): View
     {
@@ -51,12 +56,13 @@ class OrmController extends Controller
         return view('orm.create', compact('resource'));
     }
 
+
     public function store(Request $request, string $resourceClass = ''): RedirectResponse
     {
         $resource = $this->getResource($resourceClass);
 
         $this->authorize('create', $resource->model());
-        $validated = $this->validate($request, $resource->getValidation($request));
+        $validated = $request->validate($resource->getValidation($request));
 
         $resource->model()->create($validated);
 
@@ -67,6 +73,7 @@ class OrmController extends Controller
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
 
+
     public function show(Request $request, string $resourceClass = '', string $modelId = ''): View
     {
         $resource = $this->getResource($resourceClass, $modelId)
@@ -74,6 +81,7 @@ class OrmController extends Controller
 
         return view('orm.show', compact('resource'));
     }
+
 
     public function edit(Request $request, string $resourceClass = '', string $modelId = ''): View
     {
@@ -83,12 +91,13 @@ class OrmController extends Controller
         return view('orm.edit', compact('resource'));
     }
 
+
     public function update(Request $request, string $resourceClass = '', string $modelId = ''): RedirectResponse
     {
         $resource = $this->getResource($resourceClass, $modelId);
 
         $this->authorize('update', $resource->model());
-        $this->validate($request, $resource->getValidation($request));
+        $request->validate($resource->getValidation($request));
 
         $resource->update($request);
 
@@ -98,6 +107,7 @@ class OrmController extends Controller
             ->route($this->routeName.$nextRoute, $resource->getRouteControllerId())
             ->with('alert_message', $this->alertMessage('orm.msg_save_ok', $resource, $request));
     }
+
 
     public function destroy(Request $request, string $resourceClass = '', string $modelId = ''): RedirectResponse
     {
@@ -111,6 +121,7 @@ class OrmController extends Controller
             ->route("{$this->routeName}.index", [$resource->getName()])
             ->with('alert_message', $this->alertMessage('orm.msg_delete_ok', $resource, $request));
     }
+
 
     /**
      * Recupera opciones select cuando un campo cambia

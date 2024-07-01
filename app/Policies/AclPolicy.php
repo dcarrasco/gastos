@@ -12,10 +12,8 @@ class AclPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @return mixed
      */
-    public function viewAny(Usuario $usuario)
+    public function viewAny(Usuario $usuario): bool
     {
         return $usuario->hasAbility('view-any', request());
     }
@@ -23,11 +21,8 @@ class AclPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @param  \App\Models\Acl\Modulo  $model
-     * @return mixed
      */
-    public function view(Usuario $usuario, $model)
+    public function view(Usuario $usuario, $model): bool
     {
         return $usuario->hasAbility('view', request());
     }
@@ -35,10 +30,8 @@ class AclPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @return mixed
      */
-    public function create(Usuario $usuario)
+    public function create(Usuario $usuario): bool
     {
         return $usuario->hasAbility('create', request());
     }
@@ -46,11 +39,8 @@ class AclPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @param  \App\Models\Acl\Modulo  $model
-     * @return mixed
      */
-    public function update(Usuario $usuario, $model)
+    public function update(Usuario $usuario, $model): bool
     {
         return $usuario->hasAbility('update', request());
     }
@@ -58,11 +48,8 @@ class AclPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @param  \App\Models\Acl\Modulo  $model
-     * @return mixed
      */
-    public function delete(Usuario $usuario, $model)
+    public function delete(Usuario $usuario, $model): bool
     {
         return $usuario->hasAbility('delete', request());
     }
@@ -70,11 +57,8 @@ class AclPolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @param  \App\Models\Acl\Modulo  $model
-     * @return mixed
      */
-    public function restore(Usuario $usuario, $model)
+    public function restore(Usuario $usuario, $model): bool
     {
         //
     }
@@ -82,11 +66,8 @@ class AclPolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\Acl\Usuario  $usuario
-     * @param  \App\Models\Acl\Modulo  $model
-     * @return mixed
      */
-    public function forceDelete(Usuario $usuario, $model)
+    public function forceDelete(Usuario $usuario, $model): bool
     {
         //
     }

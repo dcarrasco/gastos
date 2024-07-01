@@ -52,9 +52,10 @@ class Relation extends Field
      * @param  string  $name            Nombre o label de la clase
      * @param  string  $field           Campo
      * @param  string  $relatedResource Nombre del recurso relacionado
+     * @param  array  $formOptions     Opciones del formulario
      * @return static
      */
-    public static function make(string $name = '', string $field = '', string $relatedResource = '', $formOptions = null): static
+    public static function make(string $name = '', string $field = '', string $relatedResource = '', \Closure|null $formOptions = null): static
     {
         return new static($name, $field, $relatedResource, $formOptions);
     }

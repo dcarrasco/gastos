@@ -25,6 +25,8 @@ use Illuminate\Support\Str;
  * @property bool $cuenta_superior
  * @property int $level
  * @property int $saldo
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder<Cuenta>
  */
 class Cuenta extends Model
 {
@@ -65,20 +67,16 @@ class Cuenta extends Model
     {
         $result = collect();
 
-        $subcuentas = $cuentas
-            ->filter(fn ($cuenta) => $cuenta->tipo_cuenta != 'root')
+        $cuentas->filter(fn ($cuenta) => $cuenta->tipo_cuenta != 'root')
             ->filter(fn ($cuenta) => $cuenta->cuenta_superior_id == $cuenta_superior)
-            ->sortBy("codigo");
+            ->sortBy("codigo")
+            ->each(function($cuenta) use ($result, $level, $cuentas) {
+                $cuenta->level = $level;
+                $subcuentas = static::getSubCuentas($cuentas, $cuenta->id, $level + 1);
 
-        foreach ($subcuentas as $cuenta) {
-            $cuenta->level = $level;
-            $subsubcuentas = static::getSubCuentas($cuentas, $cuenta->id, $level + 1);
-
-            $result->add($cuenta);
-            foreach($subsubcuentas as $sub) {
-                $result->add($sub);
-            }
-        }
+                $result->add($cuenta);
+                $subcuentas->each(fn($sub) => $result->add($sub));
+            });
 
         return $result;
     }
@@ -118,9 +116,11 @@ class Cuenta extends Model
         $id_root = 1;
         $formattedCuentas = collect($showRoot ? [$id_root => 'root'] : []);
 
-        $cuentas = static::getSubCuentas(static::all(), $id_root, 1)->each(fn($cuenta) =>
-            $formattedCuentas->put($cuenta->id, Str::repeat("--", $cuenta->level - 1) . " " . $cuenta->codigo . " " . $cuenta->nombre)
-        );
+        $cuentas = static::getSubCuentas(static::all(), $id_root, 1)
+            ->each(fn($cuenta) => $formattedCuentas->put(
+                $cuenta->id,
+                Str::repeat("--", $cuenta->level - 1) . " " . $cuenta->codigo . " " . $cuenta->nombre
+            ));
 
         return $formattedCuentas;
     }

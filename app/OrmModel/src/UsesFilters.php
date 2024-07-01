@@ -26,14 +26,12 @@ trait UsesFilters
      */
     public function applyFilters(Request $request): Resource
     {
-        collect($this->filters($request))
+        return tap($this, fn($resource) => collect($resource->filters($request))
             ->filter->isSet($request)
-            ->each(function ($filter) use ($request) {
-                $this->modelQueryBuilder = $filter
-                    ->apply($request, $this->modelQueryBuilder, $filter->getValue($request));
-            });
-
-        return $this;
+            ->each(fn($filter) => $resource->modelQueryBuilder = $filter
+                ->apply($request, $resource->modelQueryBuilder, $filter->getValue($request))
+            )
+        );
     }
 
     /**

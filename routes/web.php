@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Cash\ConfigController as CashConfigController;
 use App\Http\Controllers\Cash\Ingreso as CashIngreso;
+use App\Http\Controllers\Cash\Cuentas as CashCuentas;
 use App\Http\Controllers\Acl\ConfigController as AclConfigController;
 use App\Http\Controllers\Acl\LoginController;
 use App\Http\Controllers\Gastos\ConfigController as GastosConfigController;
@@ -75,17 +76,20 @@ Route::group(['prefix' => 'acl', 'as' => 'acl.'], function () {
 });
 
 // Cash
-Route::group(['prefix' => 'cash', 'as' => 'cash.', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'cash-cuentas', 'as' => 'cashCuentas.', 'middleware' => 'auth'], function () {
+    Route::controller(CashCuentas::class)->group(function () {
+        Route::get('', 'index')->name('index');
+    });
+});
+// Cash
+Route::group(['prefix' => 'cash-movimientos', 'as' => 'cashMovimientos.', 'middleware' => 'auth'], function () {
     // Digitacion
     Route::controller(CashIngreso::class)->group(function () {
-        Route::get('', 'index')->name('index');
-        Route::get('show/{cuenta}', 'show')->name('show');
-        Route::post('show/{cuenta}', 'store')->name('store');
-        Route::get('show-movimiento/{cuenta}/{movimiento}', 'showMovimiento')->name('showMovimiento');
-        Route::put('show-movimiento/{cuenta}/{movimiento}', 'update')->name('update');
-
-        Route::post('ingresar', 'store')->name('addGasto');
-        Route::delete('ingresar/{gasto}', 'destroy')->name('borrarGasto');
+        Route::get('{cuenta}', 'index')->name('index');
+        Route::get('create/{cuenta}', 'create')->name('create');
+        Route::post('create/{cuenta}', 'store')->name('store');
+        Route::get('show/{cuenta}/{movimiento}', 'show')->name('show');
+        Route::post('show/{cuenta}/{movimiento}', 'update')->name('update');
     });
 });
 

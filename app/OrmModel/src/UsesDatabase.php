@@ -48,13 +48,16 @@ trait UsesDatabase
      */
     public function applySearchFilter(Request $request): Resource
     {
-        $this->modelQueryBuilder = $this->modelQueryBuilder->when(
-            $request->input($this->searchKey) ?: false,
-            fn ($query, $search) => $query->where(fn ($query) => collect($this->search)
-                ->each(fn ($field) => $query->orWhere($field, 'like', "%{$search}%")))
+        return tap($this, fn($resource) =>
+            $resource->modelQueryBuilder->when($this->getSearchText($request),
+                fn($query, $search) => $query->whereAny($this->search, 'LIKE', "%{$search}%")
+            )
         );
+    }
 
-        return $this;
+    protected function getSearchText(Request $request): string|bool
+    {
+        return $request->input($this->searchKey) ?: false;
     }
 
     /**
@@ -96,11 +99,11 @@ trait UsesDatabase
             ? [$request->input($this->sortByKey) => $request->input($this->sortDirectionKey, 'asc')]
             : $this->getOrderBy();
 
-        collect($orderBy)->each(function ($order, $field) {
-            $this->modelQueryBuilder->orderBy($field, $order);
-        });
-
-        return $this;
+        return tap($this, fn($resource) => collect($orderBy)
+            ->each(function ($order, $field) use ($resource) {
+                $resource->modelQueryBuilder->orderBy($field, $order);
+            })
+        );
     }
 
     /**
