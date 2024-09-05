@@ -8,7 +8,7 @@
     <td class="text-center">{{ $inversion->tipoMovimiento->tipo_movimiento }}</td>
     <td class="text-right">
         {{ fmtMonto($inversion->monto) }}
-        <x-signo-movimiento :signo="optional($inversion->tipoMovimiento)->signo" />
+        <x-gastos.signo-movimiento :signo="optional($inversion->tipoMovimiento)->signo" />
     </td>
     <td class="text-right">{{ fmtMonto($saldo) }}</td>
     <td>

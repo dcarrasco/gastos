@@ -20,7 +20,7 @@
                         <x-orm.breadcrumbs :resource=$resource :accion=$accion/>
 
                         <!-- ------------------------ ERRORS ------------------------- -->
-                        <x-alert :errors=$errors />
+                        <x-form.alert :errors=$errors />
 
                         <!-- ------------------------ CONTENT ------------------------ -->
                         {{ $slot }}

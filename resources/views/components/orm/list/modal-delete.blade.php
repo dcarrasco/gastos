@@ -2,7 +2,7 @@
     'resource' => null,
 ])
 
-<x-modal>
+<x-layout.modal>
     <x-slot name="title">
         <h5 class="text-xl font-bold">
             Borrar {{ optional($resource)->getLabel() }}
@@ -10,16 +10,16 @@
     </x-slot>
 
     <x-slot name="buttons">
-        <x-button color="secondary" class="mx-2" x-on:click="openDeleteModal=false">
+        <x-form.button color="secondary" class="mx-2" x-on:click="openDeleteModal=false">
             {{ trans('orm.button_cancel') }}
-        </x-button>
+        </x-form.button>
         <form method="POST" x-bind:action="urlDelete" action="">
             @csrf
             @method('DELETE')
-            <x-button type="submit" color="danger">
+            <x-form.button type="submit" color="danger">
                 <span class="fa fa-trash-o"></span>
                 {{ trans('orm.button_delete') }}
-            </x-button>
+            </x-form.button>
         </form>
     </x-slot>
 

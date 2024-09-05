@@ -29,7 +29,7 @@
         </div>
 
         @if(count($card->ranges()))
-            <x-form-input
+            <x-form.input
                 type="select"
                 name="range"
                 value=""

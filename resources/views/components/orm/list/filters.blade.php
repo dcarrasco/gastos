@@ -2,7 +2,7 @@
 
 <div class="bg-white rounded-t-lg py-3 px-3 flex justify-end">
     <div x-data="{openFilter: false}" class="relative">
-        <x-button
+        <x-form.button
             color="no-color"
             x-on:click="openFilter=true"
             id="button-filters"
@@ -11,7 +11,7 @@
             <x-heroicon.filter />
             <span class="px-1 fa fa-icon fa-caret-down"></span>
             {{ $resource->countAppliedFilters(request()) ?: '' }}
-        </x-button>
+        </x-form.button>
 
          <div
             x-show="openFilter"
