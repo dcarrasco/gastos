@@ -271,7 +271,8 @@ class HasMany extends Relation
                 'value' => '',
                 'id' => $this->attribute,
                 'options' => $availableResources,
-                'placeholder' => '&mdash;',
+                /* 'placeholder' => '&mdash;', */
+                'placeholder' => '---',
             ], $extraParam)->toHtml()
             .'</div>';
     }

@@ -65,7 +65,8 @@ class Select extends Field
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
             'options' => $this->choices,
-            'placeholder' => '&mdash;',
+            /* 'placeholder' => '&mdash;', */
+            'placeholder' => '---',
         ], $extraParam);
     }
 }

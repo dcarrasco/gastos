@@ -58,7 +58,9 @@ class BelongsTo extends Relation
             'value' => $resource->model()->getAttribute($foreignKeyName),
             'id' => $foreignKeyName,
             'options' => $this->getRelationOptions($request, $resource, $this->relationConditions),
-            'placeholder' => '&mdash;',
+            /* 'placeholder' => '&mdash;', */
+            /* 'placeholder' => "\u2013", */
+            'placeholder' => "---",
             'onchange' => $this->hasOnChange() ? $this->makeOnChange($request, $foreignKeyName) : '',
         ], $extraParam);
     }

@@ -28,7 +28,7 @@
                                     name="tipo_gasto_id"
                                     class="w-48"
                                     :options="$selectTiposGastos"
-                                    placeholder="&mdash;"
+                                    placeholder="---"
                                 />
                                 &nbsp;
                                 <div
