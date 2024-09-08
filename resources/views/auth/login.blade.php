@@ -10,7 +10,7 @@
                     <h2 class="text-center text-3xl p-2">{{ trans('login.form_title') }}</h2>
                     <hr>
                     <div class="col-md-12">
-                        <x-alert :errors=$errors />
+                        <x-form.alert :errors=$errors />
                     </div>
 
                     <form method="POST" id="form_login">
@@ -60,9 +60,9 @@
 
                         <hr>
 
-                        <x-button color="green" type="submit" name="btn_submit" class="text-lg w-full my-4">
+                        <x-form.button color="green" type="submit" name="btn_submit" class="text-lg w-full my-4">
                             {{ trans('login.button_login') }} &nbsp; <span class="fa fa-sign-in"></span>
-                        </x-button>
+                        </x-form.button>
                     </form>
                 </div>
             </div>

@@ -23,7 +23,7 @@
                             {{ optional($gasto->tipoGasto)->tipo_gasto }}
                         @else
                             <div class="flex flex-nowrap items-center">
-                                <x-form-input
+                                <x-form.input
                                     type="select"
                                     name="tipo_gasto_id"
                                     class="w-48"
