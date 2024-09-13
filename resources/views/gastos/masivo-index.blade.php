@@ -10,11 +10,11 @@
         @if ($agregarDatosMasivos)
             @can('create', 'App\Models\Gastos\Gasto')
                 <div class="flex justify-end py-4">
-                    <x-button type="submit" name="agregar" value="agregar"
+                    <x-form.button type="submit" name="agregar" value="agregar"
                         x-on:click.prevent="$refs.form.action='{{ route('gastos.ingresoMasivoAdd') }}'; $refs.form.submit();"
                     >
                         Agregar
-                    </x-button>
+                    </x-form.button>
                 </div>
             @endcan
         @endif

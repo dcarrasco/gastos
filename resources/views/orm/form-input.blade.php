@@ -1,4 +1,4 @@
-<x-form-input
+<x-form.input
     :type="$type"
     :name="$name"
     :value="$value"

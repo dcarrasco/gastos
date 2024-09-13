@@ -198,7 +198,7 @@ abstract class UserACL extends Model implements AuthenticatableContract, Authori
         }
 
         if ($accion) {
-            $breadcrumbs->push(['texto' => $accion, 'url' => '']);
+            /* $breadcrumbs->push(['texto' => $accion, 'url' => '']); */
         }
 
         return $breadcrumbs;

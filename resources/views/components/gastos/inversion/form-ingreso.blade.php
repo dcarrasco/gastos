@@ -7,14 +7,14 @@
         <input type="hidden" name="anno" value="{{ request('anno', today()->year) }}">
         <td></td>
         <td></td>
-        <td class="py-2"><x-form-input type="date" name="fecha" /></td>
-        <td><x-form-input name="glosa" class="w-32" /></td>
-        <td><x-form-input type="select" name="tipo_movimiento_id" :options="$tiposMovimientos" /></td>
-        <td><x-form-input name="monto" class="w-32" /></td>
+        <td class="py-2"><x-form.input type="date" name="fecha" /></td>
+        <td><x-form.input name="glosa" class="w-32" /></td>
+        <td><x-form.input type="select" name="tipo_movimiento_id" :options="$tiposMovimientos" /></td>
+        <td><x-form.input name="monto" class="w-32" /></td>
         <td>
-            <x-button type="submit">
+            <x-form.button type="submit">
                 Ingresar
-            </x-button>
+            </x-form.button>
         </td>
         <td></td>
         <td></td>

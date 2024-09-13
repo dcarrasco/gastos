@@ -25,7 +25,8 @@
     else if ($type == 'selectMonth') {
         $type = 'select';
         $options = collect(range(1,12))->mapWithKeys(fn($mes) => [
-            $mes => trans('fechas.' . now()->create(2020, $mes, 01)->format('%B'))
+            $mes => trans('fechas.' . now()->create(2020, $mes, 01)->format('F'))
+            // $mes => now()->create(2020, $mes, 01)->month
         ]);
         $value = empty($value) ? today()->month : $value;
     }
@@ -90,6 +91,20 @@
         <label class="px-2" for="{$id}">{{ __('orm.radio_no') }}</label>
     </div>
 
+@elseif($type == 'currency')
+    <div class="relative items-center flex">
+        <span class="absolute py-1 px-3 font-bold bg-gray-400 rounded-l-md">$</span>
+        <input
+            type="number"
+            name="{{ $name }}"
+            value="{{ $value }}"
+            class="{{ $defaultClass }} {{ $class }} pl-12 @error($name) border-red-400 @enderror"
+            placeholder="{{ $placeholder }}"
+            {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
+            {{ $attributes }}
+        />
+    </div>
+
 @else
     <input
         type="{{ $type }}"
@@ -99,5 +114,5 @@
         placeholder="{{ $placeholder }}"
         {{ empty($maxlength) ? '' : "maxlength={$maxlength}"}}
         {{ $attributes }}
-    >
+    />
 @endif

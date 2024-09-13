@@ -21,13 +21,13 @@
 
             <!-- -----------------------------  BOTONES  --------------------------- -->
             <x-orm.panel-bottom-buttons>
-                <x-button class="mx-2" x-on:click="$refs.redirect.value='same'; $refs.form.submit();">
+                <x-form.button class="mx-2" x-on:click="$refs.redirect.value='same'; $refs.form.submit();">
                     {{ trans('orm.button_create_continue') }}
-                </x-button>
+                </x-form.button>
 
-                <x-button class="mx-2" type="submit">
+                <x-form.button class="mx-2" type="submit">
                     {{ trans('orm.button_create') }} {{ $resource->getLabel() }}
-                </x-button>
+                </x-form.button>
             </x-orm.panel-bottom-buttons>
         </x-orm.field-panel>
 
