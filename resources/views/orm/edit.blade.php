@@ -3,8 +3,7 @@
     :accion="trans('orm.title_edit').' '.$resource->getLabel().': '.$resource->title()"
 >
     <x-orm.title>
-        {{ trans('orm.title_edit') }}
-        {!! $resource->getLabel() !!}
+        {{ trans('orm.title_edit') }} {!! $resource->getLabel() !!}: {{ $resource->title() }}
     </x-orm.title>
 
     <form

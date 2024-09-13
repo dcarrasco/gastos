@@ -35,7 +35,7 @@ class Date extends Field
         return $this->renderForm([
             'type' => 'date',
             'name' => $this->attribute,
-            'value' => $resource->model()->getAttribute($this->attribute)->format($this->inputDateFormat),
+            'value' => $resource->model()->getAttribute($this->attribute)?->format($this->inputDateFormat),
             'id' => $this->attribute,
         ], $extraParam);
     }
