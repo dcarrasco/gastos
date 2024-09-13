@@ -33,7 +33,7 @@ class Currency extends Field
     public function getForm(Request $request, Resource $resource, array $extraParam = []): HtmlString
     {
         return $this->renderForm([
-            'type' => 'number',
+            'type' => 'currency',
             'name' => $this->attribute,
             'value' => $resource->model()->getAttribute($this->attribute),
             'id' => $this->attribute,
